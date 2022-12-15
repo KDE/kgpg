@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils/kgpg.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 01:01+0000\n"
+"POT-Creation-Date: 2022-12-15 00:51+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -47,14 +47,14 @@ msgstr "Ríomhphost:"
 msgid "Comment (optional):"
 msgstr "Ainm (roghnach):"
 
-#: caff.cpp:88
+#: caff.cpp:84
 #, kde-format
 msgid ""
 "This function is not available on this system. The symbolic link to the "
 "private GnuPG keys cannot be created."
 msgstr ""
 
-#: caff.cpp:159 caff.cpp:177
+#: caff.cpp:155 caff.cpp:173
 #, fuzzy, kde-format
 #| msgctxt "Name: ID"
 #| msgid "%1: %2"
@@ -62,7 +62,7 @@ msgctxt "%1 is the key id, %2 is the name and comment of the key or uid"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: caff.cpp:162 caff.cpp:180
+#: caff.cpp:158 caff.cpp:176
 #, fuzzy, kde-format
 #| msgctxt "ID: Name <Email>"
 #| msgid "%1: %2 &lt;%3&gt;"
@@ -72,7 +72,7 @@ msgctxt ""
 msgid "%1: %2 &lt;%3&gt;"
 msgstr "%1: %2 &lt;%3&gt;"
 
-#: caff.cpp:165
+#: caff.cpp:161
 #, kde-format
 msgid ""
 "No mail was sent for the following user id because it belongs to a key "
@@ -86,7 +86,7 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: caff.cpp:183
+#: caff.cpp:179
 #, kde-format
 msgid ""
 "No mail was sent for the following user id because it was already signed:"
@@ -98,19 +98,19 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: caff.cpp:316
+#: caff.cpp:312
 #, kde-format
 msgctxt "Email template placeholder for key id"
 msgid "KEYID"
 msgstr ""
 
-#: caff.cpp:317
+#: caff.cpp:313
 #, kde-format
 msgctxt "Email template placeholder for key id"
 msgid "UIDNAME"
 msgstr ""
 
-#: caff.cpp:350
+#: caff.cpp:346
 #, fuzzy, kde-format
 #| msgid "Your default key is: %1"
 msgctxt "%1 is 64 bit key id (in hex), text is used as email subject"
@@ -479,7 +479,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:311
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:310
 #, kde-format
 msgid "Disable"
 msgstr "Díchumasaigh"
@@ -953,7 +953,7 @@ msgctxt "size of signing key / size of encryption key"
 msgid "%1 / %2"
 msgstr "%1 / %2"
 
-#: core/KGpgKeyNode.cpp:156 core/KGpgSignableNode.cpp:35
+#: core/KGpgKeyNode.cpp:156 core/KGpgSignableNode.cpp:31
 #, kde-format
 msgid "1 signature"
 msgid_plural "%1 signatures"
@@ -980,7 +980,7 @@ msgid "%1 [local signature]"
 msgstr "%1 [síniú logánta]"
 
 # argument is the algorithm
-#: core/KGpgSubkeyNode.cpp:73
+#: core/KGpgSubkeyNode.cpp:70
 #, kde-format
 msgid "%1 subkey"
 msgstr "Fo-eochair %1"
@@ -1131,7 +1131,7 @@ msgstr "Oscail Comhad le Síniú"
 msgid "Open File to Verify"
 msgstr "Oscail Comhad le Fíorú"
 
-#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:341
+#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:337
 #, kde-format
 msgid ""
 "<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to "
@@ -1198,7 +1198,7 @@ msgstr ""
 msgid "<b>Wrong checksum, <em>file corrupted</em></b>"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:88
+#: editor/kgpgtextedit.cpp:84
 #, kde-format
 msgid ""
 "<qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a "
@@ -1206,78 +1206,78 @@ msgid ""
 "deleted after operation.</qt>"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:97
+#: editor/kgpgtextedit.cpp:93
 #, kde-format
 msgid "Could not download file."
 msgstr "Ní féidir an comhad a íosluchtú."
 
-#: editor/kgpgtextedit.cpp:133
+#: editor/kgpgtextedit.cpp:129
 #, kde-format
 msgid ""
 "<qt>This file is a <b>public</b> key.<br />Do you want to import it instead "
 "of opening it in editor?</qt>"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:136
+#: editor/kgpgtextedit.cpp:132
 #, kde-format
 msgid ""
 "<qt>This file is a <b>private</b> key.<br />Do you want to import it instead "
 "of opening it in editor?</qt>"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:141
+#: editor/kgpgtextedit.cpp:137
 #, kde-format
 msgid "Key file dropped on Editor"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:264 kgpgexternalactions.cpp:402
+#: editor/kgpgtextedit.cpp:260 kgpgexternalactions.cpp:402
 #, kde-format
 msgid "Decryption failed."
 msgstr "Theip ar díchriptiú."
 
-#: editor/kgpgtextedit.cpp:279 foldercompressjob.cpp:132
+#: editor/kgpgtextedit.cpp:275 foldercompressjob.cpp:132
 #, kde-format
 msgid "The encryption failed with error code %1"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:280 foldercompressjob.cpp:133
+#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:133
 #, kde-format
 msgid "Encryption failed."
 msgstr "Theip ar chriptiú."
 
-#: editor/kgpgtextedit.cpp:293
+#: editor/kgpgtextedit.cpp:289
 #, kde-format
 msgid "Signing not possible: bad passphrase or missing key"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:328 kgpgexternalactions.cpp:281
+#: editor/kgpgtextedit.cpp:324 kgpgexternalactions.cpp:281
 #, kde-format
 msgctxt "Caption of message box"
 msgid "Verification Finished"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonimport)
-#: editor/kgpgtextedit.cpp:334 keyserver.ui:145 keyservers.cpp:201
+#: editor/kgpgtextedit.cpp:330 keyserver.ui:145 keyservers.cpp:201
 #, kde-format
 msgid "&Import"
 msgstr "&Iompórtáil"
 
-#: editor/kgpgtextedit.cpp:335
+#: editor/kgpgtextedit.cpp:331
 #, kde-format
 msgid "Import key in your list"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:338
+#: editor/kgpgtextedit.cpp:334
 #, kde-format
 msgid "Do &Not Import"
 msgstr "&Ná hIompórtáil"
 
-#: editor/kgpgtextedit.cpp:339
+#: editor/kgpgtextedit.cpp:335
 #, kde-format
 msgid "Will not import this key in your list"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:341
+#: editor/kgpgtextedit.cpp:337
 #, kde-format
 msgid "Missing Key"
 msgstr "Eochair ar iarraidh"
@@ -1305,13 +1305,13 @@ msgstr "Tosach"
 msgid "Unable to create temporary file"
 msgstr "Ní féidir comhad sealadach a chruthú"
 
-#: foldercompressjob.cpp:115 transactions/kgpgencrypt.cpp:96
+#: foldercompressjob.cpp:115 transactions/kgpgencrypt.cpp:92
 #, kde-format
 msgctxt "Status message 'Encrypting <filename>' (operation starts)"
 msgid "Encrypting %1"
 msgstr "%1 á chriptiú"
 
-#: foldercompressjob.cpp:136 transactions/kgpgencrypt.cpp:99
+#: foldercompressjob.cpp:136 transactions/kgpgencrypt.cpp:95
 #, kde-format
 msgctxt "Status message 'Encrypted <filename>' (operation was completed)"
 msgid "Encrypted %1"
@@ -1354,7 +1354,7 @@ msgstr "Eochracha Iontaofa ar fáil"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:433 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:432 searchres.ui:29
 #, kde-format
 msgid "Search:"
 msgstr "Cuardaigh:"
@@ -1702,241 +1702,241 @@ msgstr "Aimsíodh eochair chomhoiriúnach amháin"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "Aimsíodh eochair chomhoiriúnach amháin"
 
-#: keysmanager.cpp:133
+#: keysmanager.cpp:132
 #, kde-format
 msgid "Key Management"
 msgstr "Bainisteoireacht na nEochracha"
 
-#: keysmanager.cpp:140
+#: keysmanager.cpp:139
 #, kde-format
 msgid "&Open Editor"
 msgstr "&Oscail Eagarthóir"
 
-#: keysmanager.cpp:143
+#: keysmanager.cpp:142
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "Dialóg Fhreastalaí &Eochrach"
 
-#: keysmanager.cpp:148 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:147 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "Téigh &go dtí an eochair réamhshocraithe"
 
-#: keysmanager.cpp:165
+#: keysmanager.cpp:164
 #, kde-format
 msgid "Tip of the &Day"
 msgstr "Leid an &Lae"
 
-#: keysmanager.cpp:168
+#: keysmanager.cpp:167
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "Féach ar an lámhleabhar GnuPG"
 
-#: keysmanager.cpp:173
+#: keysmanager.cpp:172
 #, kde-format
 msgid "&Refresh List"
 msgstr "Nuashon&raigh an Liosta"
 
-#: keysmanager.cpp:177
+#: keysmanager.cpp:176
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr "Taispeáin &Aitheantas Fada Eochrach"
 
-#: keysmanager.cpp:182
+#: keysmanager.cpp:181
 #, kde-format
 msgid "K&ey Properties"
 msgstr "Airíonna na h&Eochrach"
 
-#: keysmanager.cpp:186
+#: keysmanager.cpp:185
 #, kde-format
 msgid "&Open Key URL"
 msgstr ""
 
-#: keysmanager.cpp:190
+#: keysmanager.cpp:189
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "Cuir an Eochair in Eagar i d&Teirminéal"
 
-#: keysmanager.cpp:195
+#: keysmanager.cpp:194
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "&Gin Péire Eochracha..."
 
-#: keysmanager.cpp:204
+#: keysmanager.cpp:203
 #, kde-format
 msgid "&Import Key..."
 msgstr "&Iompórtáil Eochair..."
 
-#: keysmanager.cpp:209
+#: keysmanager.cpp:208
 #, kde-format
 msgid "Send Ema&il"
 msgstr ""
 
-#: keysmanager.cpp:213
+#: keysmanager.cpp:212
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "&Cruthaigh Teagmháil Nua sa Leabhar Seoltaí"
 
-#: keysmanager.cpp:219
+#: keysmanager.cpp:218
 #, kde-format
 msgid "&Edit Group..."
 msgstr "Cuir Grúpa in &Eagar..."
 
-#: keysmanager.cpp:222
+#: keysmanager.cpp:221
 #, kde-format
 msgid "&Delete Group"
 msgstr "&Scrios Grúpa"
 
-#: keysmanager.cpp:226
+#: keysmanager.cpp:225
 #, kde-format
 msgid "&Rename Group"
 msgstr "&Athainmnigh Grúpa"
 
-#: keysmanager.cpp:235
+#: keysmanager.cpp:234
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "Socraigh mar Eochair &Réamhshocraithe"
 
-#: keysmanager.cpp:238
+#: keysmanager.cpp:237
 #, kde-format
 msgid "&Add Photo..."
 msgstr "&Cuir Grianghraf Leis..."
 
-#: keysmanager.cpp:241
+#: keysmanager.cpp:240
 #, kde-format
 msgid "&Add User Id..."
 msgstr "Cuir &Aitheantas Úsáideora Leis..."
 
-#: keysmanager.cpp:244
+#: keysmanager.cpp:243
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "Easpórtáil Eochair Rúnda..."
 
-#: keysmanager.cpp:247
+#: keysmanager.cpp:246
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "Scrios Péire Eochracha"
 
-#: keysmanager.cpp:251
+#: keysmanager.cpp:250
 #, kde-format
 msgid "Revoke Key..."
 msgstr "Cúlghair Eochair..."
 
-#: keysmanager.cpp:254
+#: keysmanager.cpp:253
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "&Athghin Eochair Phoiblí"
 
-#: keysmanager.cpp:260
+#: keysmanager.cpp:259
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr "Socraigh mar &Phríomhaitheantas Úsáideora"
 
-#: keysmanager.cpp:264
+#: keysmanager.cpp:263
 #, kde-format
 msgid "&Open Photo"
 msgstr "&Oscail Grianghraf"
 
-#: keysmanager.cpp:268
+#: keysmanager.cpp:267
 #, kde-format
 msgid "&Delete Photo"
 msgstr "&Scrios Grianghraf"
 
-#: keysmanager.cpp:276
+#: keysmanager.cpp:275
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "Iompórtáil Sínithe &Ar Iarraidh Ó Fhreastalaí Eochrach"
 
-#: keysmanager.cpp:294 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "Iontaoibh"
 
-#: keysmanager.cpp:297 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "Méid"
 
-#: keysmanager.cpp:300 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:299 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "Cruthú"
 
-#: keysmanager.cpp:303 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:302 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "Dul as feidhm"
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:306
 #, kde-format
 msgid "&Photo ID's"
 msgstr "Aitheantais &ghrianghraif."
 
-#: keysmanager.cpp:312
+#: keysmanager.cpp:311
 #, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "Beag"
 
-#: keysmanager.cpp:313
+#: keysmanager.cpp:312
 #, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "Measartha Mór"
 
-#: keysmanager.cpp:314
+#: keysmanager.cpp:313
 #, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "Mór"
 
-#: keysmanager.cpp:318
+#: keysmanager.cpp:317
 #, kde-format
 msgid "Minimum &Trust"
 msgstr "Ion&taoibh is lú"
 
-#: keysmanager.cpp:321
+#: keysmanager.cpp:320
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "&Gan scagadh"
 
-#: keysmanager.cpp:322
+#: keysmanager.cpp:321
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr "&Gníomhach"
 
-#: keysmanager.cpp:323
+#: keysmanager.cpp:322
 #, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "I&meallach"
 
-#: keysmanager.cpp:324
+#: keysmanager.cpp:323
 #, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "&Iomlán"
 
-#: keysmanager.cpp:325
+#: keysmanager.cpp:324
 #, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr ""
 
-#: keysmanager.cpp:350
+#: keysmanager.cpp:349
 #, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "Ná Tai&speáin ach Eochracha Rúnda"
 
-#: keysmanager.cpp:450
+#: keysmanager.cpp:449
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "Cuir an Fócas sa Líne Chuardaigh"
 
-#: keysmanager.cpp:497
+#: keysmanager.cpp:492
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
@@ -1945,68 +1945,68 @@ msgstr ""
 "Tá oibríocht giniúna eochrach ar siúl fós.\n"
 "Fan go dtí go bhfuil an oibríocht seo críochnaithe."
 
-#: keysmanager.cpp:498 keysmanager.cpp:536 keysmanager.cpp:584
+#: keysmanager.cpp:493 keysmanager.cpp:531 keysmanager.cpp:579
 #, kde-format
 msgid "Generating new key pair"
 msgstr "Péire nua eochracha á ghiniúint"
 
-#: keysmanager.cpp:537
+#: keysmanager.cpp:532
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr ""
 "Ní féidir feidhmchlár \"konsole\" a thosú le haghaidh an mhóid saineolaí."
 
-#: keysmanager.cpp:576 keysmanager.cpp:2618 keysmanager.cpp:2620
+#: keysmanager.cpp:571 keysmanager.cpp:2610 keysmanager.cpp:2612
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "Réidh"
 
-#: keysmanager.cpp:588 transactions/kgpggeneratekey.cpp:198
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:194
 #, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "Frása faire mícheart. Ní féidir péire nua eochracha a ghiniúint."
 
-#: keysmanager.cpp:591 transactions/kgpggeneratekey.cpp:201
+#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr "Tobscortha ag an úsáideoir. Ní féidir péire nua eochracha a ghiniúint."
 
-#: keysmanager.cpp:594 transactions/kgpggeneratekey.cpp:204
+#: keysmanager.cpp:589 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr ""
 "Níl an seoladh ríomhphoist bailí. Ní féidir péire nua eochracha a ghiniúint."
 
-#: keysmanager.cpp:597 transactions/kgpggeneratekey.cpp:207
+#: keysmanager.cpp:592 transactions/kgpggeneratekey.cpp:203
 #, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr ""
 "Ní ghlacann gpg leis an ainm. Ní féidir péire nua eochracha a ghiniúint."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:603 newkey.ui:14
+#: keysmanager.cpp:598 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "Cruthaíodh Péire Nua Eochracha"
 
-#: keysmanager.cpp:642
+#: keysmanager.cpp:637
 #, kde-format
 msgid "backup copy"
 msgstr "cóip chúltaca"
 
-#: keysmanager.cpp:656 transactions/kgpggeneratekey.cpp:219
+#: keysmanager.cpp:651 transactions/kgpggeneratekey.cpp:215
 #, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr ""
 "Níor chríochnaigh an próiseas gpg. Ní féidir péire nua eochracha a ghiniúint."
 
-#: keysmanager.cpp:760
+#: keysmanager.cpp:755
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr "Ní féidir ach príomheochracha a athnuachan. Seiceáil do rogha."
 
-#: keysmanager.cpp:884
+#: keysmanager.cpp:879
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
@@ -2015,12 +2015,12 @@ msgstr ""
 "Tá oibríocht eile ar siúl fós.\n"
 "Fan go dtí go bhfuil an oibríocht seo críochnaithe."
 
-#: keysmanager.cpp:885 keysmanager.cpp:890
+#: keysmanager.cpp:880 keysmanager.cpp:885
 #, kde-format
 msgid "Add New User Id"
 msgstr "Cuir Aitheantas Nua Úsáideora Leis"
 
-#: keysmanager.cpp:930
+#: keysmanager.cpp:925
 #, kde-format
 msgid ""
 "The image must be a JPEG file. Remember that the image is stored within your "
@@ -2029,7 +2029,7 @@ msgid ""
 "240x288 is a good size to use."
 msgstr ""
 
-#: keysmanager.cpp:962
+#: keysmanager.cpp:957
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2038,58 +2038,58 @@ msgstr ""
 "<qt>An bhfuil tú cinnte go dteastaíonn uait aitheantas griangraif <b>%1</"
 "b><br/>a scriosadh ó eochair <b>%2 &lt;%3&gt;</b>?</qt>"
 
-#: keysmanager.cpp:1105
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Public Key"
 msgstr "Eochair Phoiblí"
 
-#: keysmanager.cpp:1108
+#: keysmanager.cpp:1103
 #, kde-format
 msgid "Sub Key"
 msgstr "Fo-eochair"
 
-#: keysmanager.cpp:1111
+#: keysmanager.cpp:1106
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "Péire Eochracha Rúnda"
 
-#: keysmanager.cpp:1114
+#: keysmanager.cpp:1109
 #, kde-format
 msgid "Key Group"
 msgstr "Grúpa Eochracha"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1117 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1112 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "Síniú"
 
-#: keysmanager.cpp:1120
+#: keysmanager.cpp:1115
 #, kde-format
 msgid "User ID"
 msgstr "Aitheantas an Úsáideora"
 
-#: keysmanager.cpp:1123
+#: keysmanager.cpp:1118
 #, kde-format
 msgid "Revocation Signature"
 msgstr "Síniú Cúlghairme"
 
-#: keysmanager.cpp:1126
+#: keysmanager.cpp:1121
 #, kde-format
 msgid "Photo ID"
 msgstr "Aitheantas Grianghraif"
 
-#: keysmanager.cpp:1129
+#: keysmanager.cpp:1124
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "Eochair Rúnda Dílleachtaithe"
 
-#: keysmanager.cpp:1134
+#: keysmanager.cpp:1129
 #, kde-format
 msgid "Group member"
 msgstr "Ball den ghrúpa"
 
-#: keysmanager.cpp:1239
+#: keysmanager.cpp:1234
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
@@ -2099,7 +2099,7 @@ msgstr[2] "&Sínigh Aitheantais Úsáideora..."
 msgstr[3] "&Sínigh Aitheantais Úsáideora..."
 msgstr[4] "&Sínigh Aitheantais Úsáideora..."
 
-#: keysmanager.cpp:1240
+#: keysmanager.cpp:1235
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
@@ -2109,7 +2109,7 @@ msgstr[2] "&Sínigh agus Seol Aitheantais Úsáideora..."
 msgstr[3] "&Sínigh agus Seol Aitheantais Úsáideora..."
 msgstr[4] "&Sínigh agus Seol Aitheantais Úsáideora..."
 
-#: keysmanager.cpp:1241
+#: keysmanager.cpp:1236
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
@@ -2119,7 +2119,7 @@ msgstr[2] "Ea&spórtáil Eochracha Poiblí..."
 msgstr[3] "Ea&spórtáil Eochracha Poiblí..."
 msgstr[4] "Ea&spórtáil Eochracha Poiblí..."
 
-#: keysmanager.cpp:1242
+#: keysmanager.cpp:1237
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
@@ -2129,7 +2129,7 @@ msgstr[2] "Ath&nuaigh Eochracha ó Fhreastalaí Eochrach"
 msgstr[3] "Ath&nuaigh Eochracha ó Fhreastalaí Eochrach"
 msgstr[4] "Ath&nuaigh Eochracha ó Fhreastalaí Eochrach"
 
-#: keysmanager.cpp:1243
+#: keysmanager.cpp:1238
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
@@ -2139,7 +2139,7 @@ msgstr[2] "&Cruthaigh Grúpa leis na hEochracha Roghnaithe..."
 msgstr[3] "&Cruthaigh Grúpa leis na hEochracha Roghnaithe..."
 msgstr[4] "&Cruthaigh Grúpa leis na hEochracha Roghnaithe..."
 
-#: keysmanager.cpp:1244
+#: keysmanager.cpp:1239
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
@@ -2149,7 +2149,7 @@ msgstr[2] "&Sínigh Eochracha..."
 msgstr[3] "&Sínigh Eochracha..."
 msgstr[4] "&Sínigh Eochracha..."
 
-#: keysmanager.cpp:1245
+#: keysmanager.cpp:1240
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
@@ -2159,7 +2159,7 @@ msgstr[2] "&Scrios Aitheantais Úsáideora"
 msgstr[3] "&Scrios Aitheantais Úsáideora"
 msgstr[4] "&Scrios Aitheantais Úsáideora"
 
-#: keysmanager.cpp:1246
+#: keysmanager.cpp:1241
 #, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
@@ -2169,7 +2169,7 @@ msgstr[2] "Scrios Sí&nithe"
 msgstr[3] "Scrios Sí&nithe"
 msgstr[4] "Scrios Sí&nithe"
 
-#: keysmanager.cpp:1247
+#: keysmanager.cpp:1242
 #, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
@@ -2179,7 +2179,7 @@ msgstr[2] "Iompórtáil Eochracha ó Fhreastalaí Eochrach"
 msgstr[3] "Iompórtáil Eochracha ó Fhreastalaí Eochrach"
 msgstr[4] "Iompórtáil Eochracha ó Fhreastalaí Eochrach"
 
-#: keysmanager.cpp:1248
+#: keysmanager.cpp:1243
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
@@ -2189,12 +2189,12 @@ msgstr[2] "&Scrios Eochracha"
 msgstr[3] "&Scrios Eochracha"
 msgstr[4] "&Scrios Eochracha"
 
-#: keysmanager.cpp:1371
+#: keysmanager.cpp:1366
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr ""
 
-#: keysmanager.cpp:1386
+#: keysmanager.cpp:1381
 #, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2206,17 +2206,17 @@ msgstr ""
 "leis an eochair seo i gcontúirt.<br/>An bhfuil fonn ort an eochair a "
 "easpórtáil mar sin féin?</qt>"
 
-#: keysmanager.cpp:1398
+#: keysmanager.cpp:1393
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "Easpórtáil EOCHAIR RÚNDA Mar"
 
-#: keysmanager.cpp:1398
+#: keysmanager.cpp:1393
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr ""
 
-#: keysmanager.cpp:1416
+#: keysmanager.cpp:1411
 #, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
@@ -2225,7 +2225,7 @@ msgstr ""
 "<qt>Bhí d'eochair <b>phríobháideach</b> \"%1\" easpórtáilte go<br/>%2.<br/"
 "><b>Ná</b> fág é in áit neamhshlán.</qt>"
 
-#: keysmanager.cpp:1419
+#: keysmanager.cpp:1414
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2234,7 +2234,7 @@ msgstr ""
 "Níorbh fhéidir d'eochair rúnda a easpórtáil.\n"
 "Seiceáil an eochair."
 
-#: keysmanager.cpp:1521
+#: keysmanager.cpp:1516
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
@@ -2244,7 +2244,7 @@ msgstr[2] "<qt>D'éirigh le heaspórtáil na %1 eochair phoiblí go<br/>%2</qt>"
 msgstr[3] "<qt>D'éirigh le heaspórtáil na %1 n-eochair phoiblí go<br/>%2</qt>"
 msgstr[4] "<qt>D'éirigh le heaspórtáil na %1 eochair phoiblí go<br/>%2</qt>"
 
-#: keysmanager.cpp:1525 keysmanager.cpp:1540 keysmanager.cpp:1554
+#: keysmanager.cpp:1520 keysmanager.cpp:1535 keysmanager.cpp:1549
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2253,7 +2253,7 @@ msgstr ""
 "Níorbh fhéidir d'eochair phoiblí a easpórtáil\n"
 "Seiceáil an eochair."
 
-#: keysmanager.cpp:1663
+#: keysmanager.cpp:1658
 #, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
@@ -2263,29 +2263,29 @@ msgstr ""
 "eochair phoiblí.)  Ní féidir é a úsáid faoi láthair.</p><p>An bhfuil fonn "
 "ort an eochair phoiblí a ghiniúint arís?</p>"
 
-#: keysmanager.cpp:1665
+#: keysmanager.cpp:1660
 #, kde-format
 msgid "Generate"
 msgstr "Gin"
 
-#: keysmanager.cpp:1665
+#: keysmanager.cpp:1660
 #, kde-format
 msgid "Do Not Generate"
 msgstr "Ná Gin"
 
-#: keysmanager.cpp:1695
+#: keysmanager.cpp:1690
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr ""
 "<qt>An bhfuil tú cinnte go dteastaíonn uait an grúpa <b>%1</b> a scriosadh ?"
 "</qt>"
 
-#: keysmanager.cpp:1696 keysmanager.cpp:2369
+#: keysmanager.cpp:1691 keysmanager.cpp:2361
 #, kde-format
 msgid "Delete"
 msgstr "Scrios"
 
-#: keysmanager.cpp:1726
+#: keysmanager.cpp:1721
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2294,49 +2294,49 @@ msgstr ""
 "<qt>Ní cheadaítear duit grúpa a chruthú ina bhfuil sínithe, fo-eochracha, nó "
 "grúpaí eile.</qt>"
 
-#: keysmanager.cpp:1741 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1736 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr "%1 (%2) Aitheantas: %3"
 
-#: keysmanager.cpp:1746
+#: keysmanager.cpp:1741
 #, kde-format
 msgid "Create New Group"
 msgstr "Cruthaigh Grúpa Nua"
 
 # looks ok here - different sense in amarok
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1742
 #, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "Iontráil ainm an ghrúpa nua:"
 
-#: keysmanager.cpp:1752
+#: keysmanager.cpp:1747
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
 "group:"
 msgstr ""
 
-#: keysmanager.cpp:1758
+#: keysmanager.cpp:1753
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
 "created.</qt>"
 msgstr ""
 
-#: keysmanager.cpp:1770
+#: keysmanager.cpp:1765
 #, kde-format
 msgid "Group Properties"
 msgstr "Airíonna Grúpa"
 
-#: keysmanager.cpp:1806
+#: keysmanager.cpp:1801
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "Ní féidir leat ach príomheochracha a shíniú. Seiceáil do rogha."
 
-#: keysmanager.cpp:1815
+#: keysmanager.cpp:1810
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2350,7 +2350,7 @@ msgstr ""
 "trí bhualadh leis, sa chaoi go mbeidh tú cinnte nach bhfuil duine éigin ag "
 "iarraidh do chumarsáid a ghoideadh.</qt>"
 
-#: keysmanager.cpp:1820
+#: keysmanager.cpp:1815
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2364,20 +2364,20 @@ msgstr ""
 "trí bhualadh leis, sa chaoi go mbeidh tú cinnte nach bhfuil duine éigin ag "
 "iarraidh do chumarsáid a ghoideadh.</qt>"
 
-#: keysmanager.cpp:1835 keysmanager.cpp:1919 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1830 keysmanager.cpp:1914 kgpgfirstassistant.cpp:271
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1837 keysmanager.cpp:1922 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1832 keysmanager.cpp:1917 kgpgfirstassistant.cpp:273
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr "%1 (%2): %3"
 
-#: keysmanager.cpp:1843
+#: keysmanager.cpp:1838
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2385,12 +2385,12 @@ msgid ""
 "may be compromised.</b></qt>"
 msgstr ""
 
-#: keysmanager.cpp:1885 keysmanager.cpp:2032
+#: keysmanager.cpp:1880 keysmanager.cpp:2027
 #, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr ""
 
-#: keysmanager.cpp:1899
+#: keysmanager.cpp:1894
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2404,7 +2404,7 @@ msgstr ""
 "heochrach, nó trí bhualadh leis, sa chaoi go mbeidh tú cinnte nach bhfuil "
 "duine éigin ag iarraidh do chumarsáid a ghoideadh.</qt>"
 
-#: keysmanager.cpp:1903
+#: keysmanager.cpp:1898
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2418,7 +2418,7 @@ msgstr ""
 "heochrach, nó trí bhualadh leis, sa chaoi go mbeidh tú cinnte nach bhfuil "
 "duine éigin ag iarraidh do chumarsáid a ghoideadh.</qt>"
 
-#: keysmanager.cpp:1929
+#: keysmanager.cpp:1924
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2426,24 +2426,24 @@ msgid ""
 "communications may be compromised.</b></qt>"
 msgstr ""
 
-#: keysmanager.cpp:1998
+#: keysmanager.cpp:1993
 #, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>Frása faire mícheart, níl eochair <b>%1 (%2)</b> sínithe.</qt>"
 
-#: keysmanager.cpp:2002
+#: keysmanager.cpp:1997
 #, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>Tá eochair <b>%1 (%2)</b> sínithe cheana.</qt>"
 
-#: keysmanager.cpp:2007
+#: keysmanager.cpp:2002
 #, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
 "signing the key in console mode?</qt>"
 msgstr ""
 
-#: keysmanager.cpp:2125
+#: keysmanager.cpp:2120
 #, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
@@ -2453,12 +2453,12 @@ msgstr[2] "Tá gach síniú ar na heochracha seo i d'fháinne eochracha cheana"
 msgstr[3] "Tá gach síniú ar na heochracha seo i d'fháinne eochracha cheana"
 msgstr[4] "Tá gach síniú ar na heochracha seo i d'fháinne eochracha cheana"
 
-#: keysmanager.cpp:2215
+#: keysmanager.cpp:2207
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "Cuir an eochair in eagar de láimh chun féinsíniú a scriosadh."
 
-#: keysmanager.cpp:2219
+#: keysmanager.cpp:2211
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
@@ -2467,12 +2467,12 @@ msgstr ""
 "<qt>An bhfuil tú cinnte go dteastaíonn uait síniú<br /><b>%1</b><br />a "
 "scriosadh ó aitheantas úsáideora <b>%2</b><br />d'eochair: <b>%3</b>?</qt>"
 
-#: keysmanager.cpp:2241
+#: keysmanager.cpp:2233
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "Theip ar an oibríocht iarrtha, cuir an eochair in eagar de láimh."
 
-#: keysmanager.cpp:2325
+#: keysmanager.cpp:2317
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2496,28 +2496,28 @@ msgstr[4] ""
 "<qt>Tá an eochair atá tú ag scriosadh ina ball de na grúpaí eochracha seo a "
 "leanas. An bhfuil fonn ort í a bhaint as na grúpaí seo?</qt>"
 
-#: keysmanager.cpp:2329 keysmanager.cpp:2343 keysmanager.cpp:2378
-#: keysmanager.cpp:2393 keysmanager.cpp:2396 keysmanager.cpp:2407
-#: keysmanager.cpp:2421 keysmanager.cpp:2462
+#: keysmanager.cpp:2321 keysmanager.cpp:2335 keysmanager.cpp:2370
+#: keysmanager.cpp:2385 keysmanager.cpp:2388 keysmanager.cpp:2399
+#: keysmanager.cpp:2413 keysmanager.cpp:2454
 #, kde-format
 msgid "Delete key"
 msgstr "Scrios eochair"
 
-#: keysmanager.cpp:2342
+#: keysmanager.cpp:2334
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
 
-#: keysmanager.cpp:2366
+#: keysmanager.cpp:2358
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
 "you will never be able to decrypt files encrypted with this key again."
 msgstr ""
 
-#: keysmanager.cpp:2377 keysmanager.cpp:2406
+#: keysmanager.cpp:2369 keysmanager.cpp:2398
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2526,37 +2526,37 @@ msgstr ""
 "Tá oibríocht scriosta eochrach ar siúl fós.\n"
 "Fan go dtí go bhfuil an oibríocht seo críochnaithe."
 
-#: keysmanager.cpp:2393
+#: keysmanager.cpp:2385
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "Scriosadh eochair <b>%1</b>."
 
-#: keysmanager.cpp:2396
+#: keysmanager.cpp:2388
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "Níorbh fhéidir eochair <b>%1</b> a scriosadh."
 
-#: keysmanager.cpp:2420
+#: keysmanager.cpp:2412
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 "Ní féidir eochair <b>%1</b> a scriosadh agus é curtha in eagar i dteirminéal."
 
-#: keysmanager.cpp:2461
+#: keysmanager.cpp:2453
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr ""
 
-#: keysmanager.cpp:2486
+#: keysmanager.cpp:2478
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
 "deleted.</qt>"
 msgstr ""
 
-#: keysmanager.cpp:2496
+#: keysmanager.cpp:2488
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
@@ -2566,71 +2566,71 @@ msgstr[2] "<qt><b>Scrios na %1 eochair phoiblí seo a leanas?</b></qt>"
 msgstr[3] "<qt><b>Scrios na %1 n-eochair phoiblí seo a leanas?</b></qt>"
 msgstr[4] "<qt><b>Scrios na %1 eochair phoiblí seo a leanas?</b></qt>"
 
-#: keysmanager.cpp:2527 keysmanager.cpp:2603 keysmanager.cpp:2614
+#: keysmanager.cpp:2519 keysmanager.cpp:2595 keysmanager.cpp:2606
 #, kde-format
 msgid "Key Import"
 msgstr "Iompórtáil Eochrach"
 
-#: keysmanager.cpp:2535
+#: keysmanager.cpp:2527
 #, kde-format
 msgid "Open File"
 msgstr "Oscail Comhad"
 
-#: keysmanager.cpp:2568
+#: keysmanager.cpp:2560
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
 
-#: keysmanager.cpp:2570
+#: keysmanager.cpp:2562
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "Iompórtáil ón Ghearrthaisce"
 
-#: keysmanager.cpp:2590
+#: keysmanager.cpp:2582
 #, kde-format
 msgid "Importing..."
 msgstr "Á Iompórtáil..."
 
-#: keysmanager.cpp:2602
+#: keysmanager.cpp:2594
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr ""
 "Theip ar iompórtáil na heochrach. Féach ar an logchomhad mionsonraithe chun "
 "tuilleadh eolais a fháil."
 
-#: keysmanager.cpp:2655
+#: keysmanager.cpp:2647
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - uirlis chriptithe"
 
-#: keysmanager.cpp:2676
+#: keysmanager.cpp:2668
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "&Bainisteoir na nEochracha"
 
-#: keysmanager.cpp:2679
+#: keysmanager.cpp:2671
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "&Criptigh an Ghearrthaisce"
 
-#: keysmanager.cpp:2682
+#: keysmanager.cpp:2674
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&Díchriptigh an Ghearrthaisce"
 
-#: keysmanager.cpp:2685
+#: keysmanager.cpp:2677
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&Sínigh/Fíoraigh an Ghearrthaisce"
 
-#: keysmanager.cpp:2722 keysmanager.cpp:2825 keysmanager.cpp:2843
+#: keysmanager.cpp:2714 keysmanager.cpp:2817 keysmanager.cpp:2835
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Tá an ghearrthaisce folamh."
 
-#: keysmanager.cpp:2767
+#: keysmanager.cpp:2759
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr ""
@@ -3749,7 +3749,7 @@ msgctxt "@info:credit"
 msgid "KF5 port"
 msgstr "Iompórtáil Eochrach"
 
-#: model/gpgservermodel.cpp:77
+#: model/gpgservermodel.cpp:73
 #, kde-format
 msgctxt "Mark default keyserver in GUI"
 msgid "%1 (Default)"
@@ -3814,12 +3814,12 @@ msgctxt "%1 = something like 7 keys, %2 = something like 2 groups"
 msgid "%1, %2"
 msgstr "%1, %2"
 
-#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:422
+#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:418
 #, kde-format
 msgid "Name"
 msgstr "Ainm"
 
-#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:424
+#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:420
 #, kde-format
 msgctxt "@title:column Title of a column of emails"
 msgid "Email"
@@ -3842,7 +3842,7 @@ msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009"
 msgid "ID %1, %2-bit %3 key, created %4"
 msgstr "Aitheantas %1, eochair %3 (%2-giotán), cruthaithe %4"
 
-#: model/kgpgsearchresultmodel.cpp:289
+#: model/kgpgsearchresultmodel.cpp:285
 #, kde-format
 msgid "One Photo ID"
 msgid_plural "%1 Photo IDs"
@@ -4208,90 +4208,90 @@ msgid ""
 "work.</p>\n"
 msgstr ""
 
-#: transactions/kgpgaddphoto.cpp:42
+#: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "This image is very large. Use it anyway?"
 msgstr "Tá an íomhá seo an-mhór. Úsáid í mar sin féin?"
 
-#: transactions/kgpgaddphoto.cpp:42
+#: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "Use Anyway"
 msgstr "Úsáid Mar Sin Féin"
 
-#: transactions/kgpgaddphoto.cpp:42
+#: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "Do Not Use"
 msgstr "Ná hÚsáid"
 
-#: transactions/kgpgchangepass.cpp:59
+#: transactions/kgpgchangepass.cpp:55
 #, kde-format
 msgid "Enter old passphrase for <b>%1</b>"
 msgstr "Iontráil seanfhrása faire do <b>%1</b>"
 
-#: transactions/kgpgchangepass.cpp:61
+#: transactions/kgpgchangepass.cpp:57
 #, kde-format
 msgid ""
 "<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase "
 "all your encrypted files and messages will be inaccessible.</qt>"
 msgstr ""
 
-#: transactions/kgpgdecrypt.cpp:114
+#: transactions/kgpgdecrypt.cpp:110
 #, kde-format
 msgctxt "Status message 'Decrypting <filename>' (operation starts)"
 msgid "Decrypting %1"
 msgstr "%1 á dhíchriptiú"
 
-#: transactions/kgpgdecrypt.cpp:117
+#: transactions/kgpgdecrypt.cpp:113
 #, kde-format
 msgctxt "Status message 'Decrypted <filename>' (operation was completed)"
 msgid "Decrypted %1"
 msgstr "%1 díchriptithe"
 
-#: transactions/kgpggeneratekey.cpp:56
+#: transactions/kgpggeneratekey.cpp:52
 #, kde-format
 msgid "Generating New Key for %1"
 msgstr "Eochair Nua á Déanamh le haghaidh %1"
 
-#: transactions/kgpggeneratekey.cpp:129
+#: transactions/kgpggeneratekey.cpp:125
 #, kde-format
 msgid ""
 "<p><b>Enter passphrase for %1 &lt;%2&gt;</b>:<br />Passphrase should include "
 "non alphanumeric characters and random sequences.</p>"
 msgstr ""
 
-#: transactions/kgpggeneratekey.cpp:132
+#: transactions/kgpggeneratekey.cpp:128
 #, kde-format
 msgid ""
 "<p><b>Enter passphrase for %1</b>:<br />Passphrase should include non "
 "alphanumeric characters and random sequences.</p>"
 msgstr ""
 
-#: transactions/kgpggeneratekey.cpp:143
+#: transactions/kgpggeneratekey.cpp:139
 #, kde-format
 msgid "Generating Key"
 msgstr "Eochair Nua á Giniúint"
 
-#: transactions/kgpggeneratekey.cpp:156
+#: transactions/kgpggeneratekey.cpp:152
 #, kde-format
 msgid "Generating prime numbers"
 msgstr ""
 
-#: transactions/kgpggeneratekey.cpp:158
+#: transactions/kgpggeneratekey.cpp:154
 #, kde-format
 msgid "Generating DSA key"
 msgstr "Eochair DSA á Giniúint"
 
-#: transactions/kgpggeneratekey.cpp:160
+#: transactions/kgpggeneratekey.cpp:156
 #, kde-format
 msgid "Generating ElGamal key"
 msgstr "Eochair ElGamal á Giniúint"
 
-#: transactions/kgpggeneratekey.cpp:162
+#: transactions/kgpggeneratekey.cpp:158
 #, kde-format
 msgid "Waiting for entropy"
 msgstr ""
 
-#: transactions/kgpggeneratekey.cpp:167
+#: transactions/kgpggeneratekey.cpp:163
 #, kde-format
 msgid ""
 "The entropy pool ran empty. The key generation process is stalled until "
@@ -4300,17 +4300,17 @@ msgid ""
 "until the key generation continues."
 msgstr ""
 
-#: transactions/kgpggeneratekey.cpp:210
+#: transactions/kgpggeneratekey.cpp:206
 #, kde-format
 msgid "Key %1 generated"
 msgstr "Eochair %1 cruthaithe"
 
-#: transactions/kgpggeneraterevoke.cpp:42
+#: transactions/kgpggeneraterevoke.cpp:38
 #, kde-format
 msgid "Generating Revocation Certificate for key %1"
 msgstr "Teastas Cúlghairthe le haghaidh eochair %1 á ghiniúint"
 
-#: transactions/kgpgimport.cpp:121
+#: transactions/kgpgimport.cpp:117
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "Key importing failed. Please see the detailed log for more information."
@@ -4322,14 +4322,14 @@ msgstr ""
 "Theip ar iompórtáil na heochrach. Féach ar an logchomhad mionsonraithe chun "
 "tuilleadh eolais a fháil."
 
-#: transactions/kgpgimport.cpp:125
+#: transactions/kgpgimport.cpp:121
 #, kde-format
 msgid "No key imported.<br />Please see the detailed log for more information."
 msgstr ""
 "Níor iompórtáladh aon eochair.<br />Féach ar an logchomhad mionsonraithe "
 "chun tuilleadh eolais a fháil."
 
-#: transactions/kgpgimport.cpp:127
+#: transactions/kgpgimport.cpp:123
 #, fuzzy, kde-kuit-format
 #| msgid "<qt>%1 key processed.</qt>"
 #| msgid_plural "<qt>%1 keys processed.</qt>"
@@ -4342,7 +4342,7 @@ msgstr[2] "<qt>Próiseáladh %1 eochair.</qt>"
 msgstr[3] "<qt>Próiseáladh %1 n-eochair.</qt>"
 msgstr[4] "<qt>Próiseáladh %1 eochair.</qt>"
 
-#: transactions/kgpgimport.cpp:130
+#: transactions/kgpgimport.cpp:126
 #, fuzzy, kde-kuit-format
 #| msgid "<qt><br />One key without ID.</qt>"
 #| msgid_plural "<qt><br />%1 keys without ID.</qt>"
@@ -4355,7 +4355,7 @@ msgstr[2] "<qt><br />%1 eochair gan aitheantas.</qt>"
 msgstr[3] "<qt><br />%1 n-eochair gan aitheantas.</qt>"
 msgstr[4] "<qt><br />%1 eochair gan aitheantas.</qt>"
 
-#: transactions/kgpgimport.cpp:132
+#: transactions/kgpgimport.cpp:128
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para><emphasis strong='true'>One key imported:</emphasis></para>"
@@ -4367,7 +4367,7 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: transactions/kgpgimport.cpp:134
+#: transactions/kgpgimport.cpp:130
 #, fuzzy, kde-kuit-format
 #| msgid "<qt><br />One RSA key imported.</qt>"
 #| msgid_plural "<qt><br />%1 RSA keys imported.</qt>"
@@ -4380,7 +4380,7 @@ msgstr[2] "<qt><br />Iompórtáladh %1 eochair RSA.</qt>"
 msgstr[3] "<qt><br />Iompórtáladh %1 n-eochair RSA.</qt>"
 msgstr[4] "<qt><br />Iompórtáladh %1 eochair RSA.</qt>"
 
-#: transactions/kgpgimport.cpp:136
+#: transactions/kgpgimport.cpp:132
 #, fuzzy, kde-kuit-format
 #| msgid "<qt><br />One key unchanged.</qt>"
 #| msgid_plural "<qt><br />%1 keys unchanged.</qt>"
@@ -4393,7 +4393,7 @@ msgstr[2] "<qt><br />%1 eochair gan athrú.</qt>"
 msgstr[3] "<qt><br />%1 n-eochair gan athrú.</qt>"
 msgstr[4] "<qt><br />%1 eochair gan athrú.</qt>"
 
-#: transactions/kgpgimport.cpp:138
+#: transactions/kgpgimport.cpp:134
 #, fuzzy, kde-kuit-format
 #| msgid "<qt><br />One user ID imported.</qt>"
 #| msgid_plural "<qt><br />%1 user IDs imported.</qt>"
@@ -4406,7 +4406,7 @@ msgstr[2] "<qt><br />Iompórtáladh %1 aitheantas úsáideora.</qt>"
 msgstr[3] "<qt><br />Iompórtáladh %1 n-aitheantas úsáideora.</qt>"
 msgstr[4] "<qt><br />Iompórtáladh %1 aitheantas úsáideora.</qt>"
 
-#: transactions/kgpgimport.cpp:140
+#: transactions/kgpgimport.cpp:136
 #, fuzzy, kde-kuit-format
 #| msgid "<qt><br />One subkey imported.</qt>"
 #| msgid_plural "<qt><br />%1 subkeys imported.</qt>"
@@ -4419,7 +4419,7 @@ msgstr[2] "<qt><br />Iompórtáladh %1 fho-eochair.</qt>"
 msgstr[3] "<qt><br />Iompórtáladh %1 bhfo-eochair.</qt>"
 msgstr[4] "<qt><br />Iompórtáladh %1 fo-eochair.</qt>"
 
-#: transactions/kgpgimport.cpp:142
+#: transactions/kgpgimport.cpp:138
 #, fuzzy, kde-kuit-format
 #| msgid "<qt><br />One signature imported.</qt>"
 #| msgid_plural "<qt><br />%1 signatures imported.</qt>"
@@ -4432,7 +4432,7 @@ msgstr[2] "<qt><br />Iompórtáladh %1 shíniú.</qt>"
 msgstr[3] "<qt><br />Iompórtáladh %1 síniú.</qt>"
 msgstr[4] "<qt><br />Iompórtáladh %1 síniú.</qt>"
 
-#: transactions/kgpgimport.cpp:144
+#: transactions/kgpgimport.cpp:140
 #, fuzzy, kde-kuit-format
 #| msgid "<qt>%1 revocation certificate imported.<br/></qt>"
 #| msgid_plural "<qt>%1 revocation certificates imported.<br/></qt>"
@@ -4445,7 +4445,7 @@ msgstr[2] "<qt>%1 eochair rúnda gan iompórtáil.<br/></qt>"
 msgstr[3] "<qt>%1 n-eochair rúnda gan iompórtáil.<br/></qt>"
 msgstr[4] "<qt>%1 eochair rúnda gan iompórtáil.<br/></qt>"
 
-#: transactions/kgpgimport.cpp:146
+#: transactions/kgpgimport.cpp:142
 #, fuzzy, kde-kuit-format
 #| msgid "<qt><br />One secret key processed.</qt>"
 #| msgid_plural "<qt><br />%1 secret keys processed.</qt>"
@@ -4458,7 +4458,7 @@ msgstr[2] "<qt><br />Próiseáladh %1 eochair rúnda.</qt>"
 msgstr[3] "<qt><br />Próiseáladh %1 n-eochair rúnda.</qt>"
 msgstr[4] "<qt><br />Próiseáladh %1 eochair rúnda.</qt>"
 
-#: transactions/kgpgimport.cpp:148
+#: transactions/kgpgimport.cpp:144
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -4471,7 +4471,7 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: transactions/kgpgimport.cpp:150
+#: transactions/kgpgimport.cpp:146
 #, fuzzy, kde-kuit-format
 #| msgid "<qt><br />One secret key unchanged.</qt>"
 #| msgid_plural "<qt><br />%1 secret keys unchanged.</qt>"
@@ -4484,7 +4484,7 @@ msgstr[2] "<qt><br />%1 eochair rúnda gan athrú.</qt>"
 msgstr[3] "<qt><br />%1 n-eochair rúnda gan athrú.</qt>"
 msgstr[4] "<qt><br />%1 eochair rúnda gan athrú.</qt>"
 
-#: transactions/kgpgimport.cpp:152
+#: transactions/kgpgimport.cpp:148
 #, fuzzy, kde-kuit-format
 #| msgid "<qt><br />One secret key not imported.</qt>"
 #| msgid_plural "<qt><br />%1 secret keys not imported.</qt>"
@@ -4497,7 +4497,7 @@ msgstr[2] "<qt><br />%1 eochair rúnda gan iompórtáil.</qt>"
 msgstr[3] "<qt><br />%1 n-eochair rúnda gan iompórtáil.</qt>"
 msgstr[4] "<qt><br />%1 eochair rúnda gan iompórtáil.</qt>"
 
-#: transactions/kgpgimport.cpp:155
+#: transactions/kgpgimport.cpp:151
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -4507,7 +4507,7 @@ msgid ""
 "(double click on it) and set its trust to Full or Ultimate.</para>"
 msgstr ""
 
-#: transactions/kgpgimport.cpp:179
+#: transactions/kgpgimport.cpp:175
 #, fuzzy, kde-kuit-format
 #| msgctxt "Name: ID"
 #| msgid "%1: %2"
@@ -4515,13 +4515,13 @@ msgctxt "@item ID: Name"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: transactions/kgpgimport.cpp:181
+#: transactions/kgpgimport.cpp:177
 #, kde-kuit-format
 msgctxt "@item ID: Name <Email>"
 msgid "%1: %2 <email>%3</email>"
 msgstr ""
 
-#: transactions/kgpgimport.cpp:225
+#: transactions/kgpgimport.cpp:221
 #, kde-format
 msgid "New Key"
 msgid_plural "New Keys"
@@ -4531,7 +4531,7 @@ msgstr[2] "Eochracha Nua"
 msgstr[3] "Eochracha Nua"
 msgstr[4] "Eochracha Nua"
 
-#: transactions/kgpgimport.cpp:228
+#: transactions/kgpgimport.cpp:224
 #, kde-format
 msgid "Key with new User Id"
 msgid_plural "Keys with new User Ids"
@@ -4541,7 +4541,7 @@ msgstr[2] "Eochracha le hAitheantais Nua Úsáideora"
 msgstr[3] "Eochracha le hAitheantais Nua Úsáideora"
 msgstr[4] "Eochracha le hAitheantais Nua Úsáideora"
 
-#: transactions/kgpgimport.cpp:231
+#: transactions/kgpgimport.cpp:227
 #, kde-format
 msgid "Key with new Signatures"
 msgid_plural "Keys with new Signatures"
@@ -4551,7 +4551,7 @@ msgstr[2] "Eochracha le Sínithe nua"
 msgstr[3] "Eochracha le Sínithe nua"
 msgstr[4] "Eochracha le Sínithe nua"
 
-#: transactions/kgpgimport.cpp:234
+#: transactions/kgpgimport.cpp:230
 #, kde-format
 msgid "Key with new Subkeys"
 msgid_plural "Keys with new Subkeys"
@@ -4561,7 +4561,7 @@ msgstr[2] "Eochracha le Fo-eochracha nua"
 msgstr[3] "Eochracha le Fo-eochracha nua"
 msgstr[4] "Eochracha le Fo-eochracha nua"
 
-#: transactions/kgpgimport.cpp:237
+#: transactions/kgpgimport.cpp:233
 #, kde-format
 msgid "New Private Key"
 msgid_plural "New Private Keys"
@@ -4571,7 +4571,7 @@ msgstr[2] "Eochracha Nua Príobháideacha"
 msgstr[3] "Eochracha Nua Príobháideacha"
 msgstr[4] "Eochracha Nua Príobháideacha"
 
-#: transactions/kgpgimport.cpp:253
+#: transactions/kgpgimport.cpp:249
 #, kde-format
 msgid "Unchanged Key"
 msgid_plural "Unchanged Keys"
@@ -4626,14 +4626,14 @@ msgstr[4] ""
 msgid "Got Passphrase"
 msgstr ""
 
-#: transactions/kgpgverify.cpp:90
+#: transactions/kgpgverify.cpp:86
 #, kde-kuit-format
 msgctxt ""
 "@info first argument is formatted date, second argument is formatted time"
 msgid "<para>The signature was created at %1 %2</para>"
 msgstr ""
 
-#: transactions/kgpgverify.cpp:126
+#: transactions/kgpgverify.cpp:122
 #, kde-kuit-format
 msgctxt "@info Good signature from: NAME , Key ID: HEXID"
 msgid ""
@@ -4641,7 +4641,7 @@ msgid ""
 "ID: %2<nl/></para>"
 msgstr ""
 
-#: transactions/kgpgverify.cpp:130
+#: transactions/kgpgverify.cpp:126
 #, kde-kuit-format
 msgctxt "@info Good signature from: NAME <EMAIL>, Key ID: HEXID"
 msgid ""
@@ -4649,14 +4649,14 @@ msgid ""
 "emphasis><nl/>Key ID: %3</para>"
 msgstr ""
 
-#: transactions/kgpgverify.cpp:143
+#: transactions/kgpgverify.cpp:139
 #, fuzzy, kde-kuit-format
 #| msgid "No signature found."
 msgctxt "@info"
 msgid "No signature found."
 msgstr "Níor aimsíodh aon síniú."
 
-#: transactions/kgpgverify.cpp:160
+#: transactions/kgpgverify.cpp:156
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -4664,7 +4664,7 @@ msgid ""
 "ID: %2<nl/></para>"
 msgstr ""
 
-#: transactions/kgpgverify.cpp:164
+#: transactions/kgpgverify.cpp:160
 #, kde-kuit-format
 msgctxt "@info Good signature from: NAME <EMAIL>, Key ID: HEXID"
 msgid ""
@@ -4672,7 +4672,7 @@ msgid ""
 "emphasis><nl/>Key ID: %3<nl/></para>"
 msgstr ""
 
-#: transactions/kgpgverify.cpp:176
+#: transactions/kgpgverify.cpp:172
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -4681,14 +4681,14 @@ msgid ""
 "para>"
 msgstr ""
 
-#: transactions/kgpgverify.cpp:179
+#: transactions/kgpgverify.cpp:175
 #, fuzzy, kde-kuit-format
 #| msgid "<qt>The signature is valid, but the key is untrusted<br /></qt>"
 msgctxt "@info"
 msgid "<para>The signature is valid, but the key is untrusted</para>"
 msgstr "<qt>Tá an síniú bailí, ach níl an eochair iontaofa<br /></qt>"
 
-#: transactions/kgpgverify.cpp:181
+#: transactions/kgpgverify.cpp:177
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<qt>The signature is valid, and the key is ultimately trusted<br /></qt>"

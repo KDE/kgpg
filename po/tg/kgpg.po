@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 01:01+0000\n"
+"POT-Creation-Date: 2022-12-15 00:51+0000\n"
 "PO-Revision-Date: 2019-09-29 12:28+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -56,20 +56,20 @@ msgstr "Пости Электронӣ:"
 msgid "Comment (optional):"
 msgstr "Тавсифот (интихобӣ):"
 
-#: caff.cpp:88
+#: caff.cpp:84
 #, kde-format
 msgid ""
 "This function is not available on this system. The symbolic link to the "
 "private GnuPG keys cannot be created."
 msgstr ""
 
-#: caff.cpp:159 caff.cpp:177
+#: caff.cpp:155 caff.cpp:173
 #, kde-format
 msgctxt "%1 is the key id, %2 is the name and comment of the key or uid"
 msgid "%1: %2"
 msgstr ""
 
-#: caff.cpp:162 caff.cpp:180
+#: caff.cpp:158 caff.cpp:176
 #, kde-format
 msgctxt ""
 "%1 is the key id, %2 is the name and comment of the key or uid, %3 is the "
@@ -77,7 +77,7 @@ msgctxt ""
 msgid "%1: %2 &lt;%3&gt;"
 msgstr ""
 
-#: caff.cpp:165
+#: caff.cpp:161
 #, kde-format
 msgid ""
 "No mail was sent for the following user id because it belongs to a key "
@@ -88,7 +88,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: caff.cpp:183
+#: caff.cpp:179
 #, kde-format
 msgid ""
 "No mail was sent for the following user id because it was already signed:"
@@ -97,19 +97,19 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: caff.cpp:316
+#: caff.cpp:312
 #, kde-format
 msgctxt "Email template placeholder for key id"
 msgid "KEYID"
 msgstr ""
 
-#: caff.cpp:317
+#: caff.cpp:313
 #, kde-format
 msgctxt "Email template placeholder for key id"
 msgid "UIDNAME"
 msgstr ""
 
-#: caff.cpp:350
+#: caff.cpp:346
 #, fuzzy, kde-format
 #| msgid "Your default key:"
 msgctxt "%1 is 64 bit key id (in hex), text is used as email subject"
@@ -581,7 +581,7 @@ msgstr "Менюи хидматрасонии файлро имзо кунед:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:311
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:310
 #, kde-format
 msgid "Disable"
 msgstr "Хомӯш кардан"
@@ -1079,7 +1079,7 @@ msgctxt "size of signing key / size of encryption key"
 msgid "%1 / %2"
 msgstr ""
 
-#: core/KGpgKeyNode.cpp:156 core/KGpgSignableNode.cpp:35
+#: core/KGpgKeyNode.cpp:156 core/KGpgSignableNode.cpp:31
 #, fuzzy, kde-format
 #| msgid "Signature"
 msgid "1 signature"
@@ -1104,7 +1104,7 @@ msgstr "[Шиносаи корванд пайдо нагардид]"
 msgid "%1 [local signature]"
 msgstr " [Имзокунии бозхонӣ]"
 
-#: core/KGpgSubkeyNode.cpp:73
+#: core/KGpgSubkeyNode.cpp:70
 #, kde-format
 msgid "%1 subkey"
 msgstr "%1 зеркалид"
@@ -1264,7 +1264,7 @@ msgstr "Кушодани Файл барои Имзо"
 msgid "Open File to Verify"
 msgstr "Кушодани Файл барои Санҷидан"
 
-#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:341
+#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:337
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>Missing signature:</b><br>Key id: %1<br><br>Do you want to import "
@@ -1334,7 +1334,7 @@ msgstr "<b>Ҳосили ҷамъ санҷишӣ дуруст аст</b>, фай�
 msgid "<b>Wrong checksum, <em>file corrupted</em></b>"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:88
+#: editor/kgpgtextedit.cpp:84
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to "
@@ -1349,12 +1349,12 @@ msgstr ""
 "файли муқаррарӣ нусха бардошта намешавад, барои иҷрои амалиёти талабшуда. Ин "
 "файли муқаррарӣ баъди ба охиррасии амалиёт нобуд карда мешавад.</qt>"
 
-#: editor/kgpgtextedit.cpp:97
+#: editor/kgpgtextedit.cpp:93
 #, kde-format
 msgid "Could not download file."
 msgstr "Боркунии файл ғайри имкон аст."
 
-#: editor/kgpgtextedit.cpp:133
+#: editor/kgpgtextedit.cpp:129
 #, fuzzy, kde-format
 #| msgid ""
 #| "<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>"
@@ -1364,7 +1364,7 @@ msgid ""
 msgstr ""
 "<p>Файли <b>%1</b> - ин файли оммавӣ аст.<br>Мехоҳед онро ворид кунед ?</p>"
 
-#: editor/kgpgtextedit.cpp:136
+#: editor/kgpgtextedit.cpp:132
 #, fuzzy, kde-format
 #| msgid ""
 #| "This file is a private key.\n"
@@ -1376,60 +1376,60 @@ msgstr ""
 "Ин файл калиди шахсӣ аст.\n"
 "Марҳамат карда идоракунии калиди kgpg-ро борои воридкунӣ истифода баред."
 
-#: editor/kgpgtextedit.cpp:141
+#: editor/kgpgtextedit.cpp:137
 #, fuzzy, kde-format
 #| msgid "Decrypt & Open in Editor"
 msgid "Key file dropped on Editor"
 msgstr "Рамзкушодан & Кушодан дар Муҳаррир"
 
-#: editor/kgpgtextedit.cpp:264 kgpgexternalactions.cpp:402
+#: editor/kgpgtextedit.cpp:260 kgpgexternalactions.cpp:402
 #, kde-format
 msgid "Decryption failed."
 msgstr "Рамзкушоӣ бо нокомӣ анҷомид."
 
-#: editor/kgpgtextedit.cpp:279 foldercompressjob.cpp:132
+#: editor/kgpgtextedit.cpp:275 foldercompressjob.cpp:132
 #, kde-format
 msgid "The encryption failed with error code %1"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:280 foldercompressjob.cpp:133
+#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:133
 #, kde-format
 msgid "Encryption failed."
 msgstr "Рамзкунонӣ бо нокомӣ анҷомид."
 
-#: editor/kgpgtextedit.cpp:293
+#: editor/kgpgtextedit.cpp:289
 #, kde-format
 msgid "Signing not possible: bad passphrase or missing key"
 msgstr "Имзонамоӣ ғайри имкон аст: гузарвожаи бад ё калид партофта шудааст"
 
-#: editor/kgpgtextedit.cpp:328 kgpgexternalactions.cpp:281
+#: editor/kgpgtextedit.cpp:324 kgpgexternalactions.cpp:281
 #, kde-format
 msgctxt "Caption of message box"
 msgid "Verification Finished"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonimport)
-#: editor/kgpgtextedit.cpp:334 keyserver.ui:145 keyservers.cpp:201
+#: editor/kgpgtextedit.cpp:330 keyserver.ui:145 keyservers.cpp:201
 #, kde-format
 msgid "&Import"
 msgstr "&Воридот"
 
-#: editor/kgpgtextedit.cpp:335
+#: editor/kgpgtextedit.cpp:331
 #, fuzzy, kde-format
 msgid "Import key in your list"
 msgstr "Воридто ба ҳалқаи калидҳо"
 
-#: editor/kgpgtextedit.cpp:338
+#: editor/kgpgtextedit.cpp:334
 #, fuzzy, kde-format
 msgid "Do &Not Import"
 msgstr "Вориди Калид"
 
-#: editor/kgpgtextedit.cpp:339
+#: editor/kgpgtextedit.cpp:335
 #, kde-format
 msgid "Will not import this key in your list"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:341
+#: editor/kgpgtextedit.cpp:337
 #, kde-format
 msgid "Missing Key"
 msgstr "Калиди Партофташуда"
@@ -1458,14 +1458,14 @@ msgstr ""
 msgid "Unable to create temporary file"
 msgstr "Офаридани файли муваққатӣ ғайри имкон аст"
 
-#: foldercompressjob.cpp:115 transactions/kgpgencrypt.cpp:96
+#: foldercompressjob.cpp:115 transactions/kgpgencrypt.cpp:92
 #, fuzzy, kde-format
 #| msgid "Decrypting %1"
 msgctxt "Status message 'Encrypting <filename>' (operation starts)"
 msgid "Encrypting %1"
 msgstr "Рамзкунӣ %1"
 
-#: foldercompressjob.cpp:136 transactions/kgpgencrypt.cpp:99
+#: foldercompressjob.cpp:136 transactions/kgpgencrypt.cpp:95
 #, fuzzy, kde-format
 #| msgid "Decrypting %1"
 msgctxt "Status message 'Encrypted <filename>' (operation was completed)"
@@ -1512,7 +1512,7 @@ msgstr "Калидҳои Дастрасии Боваринок"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:433 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:432 searchres.ui:29
 #, fuzzy, kde-format
 #| msgid "Search: "
 msgid "Search:"
@@ -1900,334 +1900,334 @@ msgstr "%1 калидҳои мувофиқ пайдо гардиданд"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "%1 калидҳои мувофиқ пайдо гардиданд"
 
-#: keysmanager.cpp:133
+#: keysmanager.cpp:132
 #, kde-format
 msgid "Key Management"
 msgstr "Идоракунии Калидҳо"
 
-#: keysmanager.cpp:140
+#: keysmanager.cpp:139
 #, kde-format
 msgid "&Open Editor"
 msgstr "&Кушодани Муҳаррир"
 
-#: keysmanager.cpp:143
+#: keysmanager.cpp:142
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "Муколамаи Хидматрасони &Калид"
 
-#: keysmanager.cpp:148 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:147 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "&Гузариш ба Калидҳо Бо Нобаёнӣ"
 
-#: keysmanager.cpp:165
+#: keysmanager.cpp:164
 #, kde-format
 msgid "Tip of the &Day"
 msgstr "Маслиҳати &Рӯз"
 
-#: keysmanager.cpp:168
+#: keysmanager.cpp:167
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "Азназаргузаронии Дастии GnuPG"
 
-#: keysmanager.cpp:173
+#: keysmanager.cpp:172
 #, kde-format
 msgid "&Refresh List"
 msgstr "&Навсозии Рӯйхат"
 
-#: keysmanager.cpp:177
+#: keysmanager.cpp:176
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr ""
 
-#: keysmanager.cpp:182
+#: keysmanager.cpp:181
 #, fuzzy, kde-format
 #| msgid "Key Properties"
 msgid "K&ey Properties"
 msgstr "Хусусиятҳои Калид"
 
-#: keysmanager.cpp:186
+#: keysmanager.cpp:185
 #, fuzzy, kde-format
 #| msgid "&Open Key Manager"
 msgid "&Open Key URL"
 msgstr "&Кушодани мудири калид"
 
-#: keysmanager.cpp:190
+#: keysmanager.cpp:189
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "Таҳрири Калид дар &Поёна"
 
-#: keysmanager.cpp:195
+#: keysmanager.cpp:194
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "&Тавлиди Ҷуфти Калидҳо..."
 
-#: keysmanager.cpp:204
+#: keysmanager.cpp:203
 #, kde-format
 msgid "&Import Key..."
 msgstr "&Воридоти Калид..."
 
-#: keysmanager.cpp:209
+#: keysmanager.cpp:208
 #, kde-format
 msgid "Send Ema&il"
 msgstr ""
 
-#: keysmanager.cpp:213
+#: keysmanager.cpp:212
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "&Офаридани Алоқаҳои Нав дар Китоби Суроға"
 
-#: keysmanager.cpp:219
+#: keysmanager.cpp:218
 #, fuzzy, kde-format
 #| msgid "&Edit Group"
 msgid "&Edit Group..."
 msgstr "&Таҳрири Гурӯҳ"
 
-#: keysmanager.cpp:222
+#: keysmanager.cpp:221
 #, kde-format
 msgid "&Delete Group"
 msgstr "&Нобудкунии Гурӯҳ"
 
-#: keysmanager.cpp:226
+#: keysmanager.cpp:225
 #, fuzzy, kde-format
 #| msgid "&Delete Group"
 msgid "&Rename Group"
 msgstr "&Нобудкунии Гурӯҳ"
 
-#: keysmanager.cpp:235
+#: keysmanager.cpp:234
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "Барпосозӣ ҳамчун Калид ба &Нобаёнӣ"
 
-#: keysmanager.cpp:238
+#: keysmanager.cpp:237
 #, fuzzy, kde-format
 #| msgid "&Add Photo"
 msgid "&Add Photo..."
 msgstr "&Иловакунии Сурат"
 
-#: keysmanager.cpp:241
+#: keysmanager.cpp:240
 #, fuzzy, kde-format
 #| msgid "&Add User Id"
 msgid "&Add User Id..."
 msgstr "&Иловакунии Шиносаи Корванд"
 
-#: keysmanager.cpp:244
+#: keysmanager.cpp:243
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "Содироти Калиди Махфӣ..."
 
-#: keysmanager.cpp:247
+#: keysmanager.cpp:246
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "Нобудкунии Ҷуфти Калидҳо"
 
-#: keysmanager.cpp:251
+#: keysmanager.cpp:250
 #, kde-format
 msgid "Revoke Key..."
 msgstr "Лағви Калид..."
 
-#: keysmanager.cpp:254
+#: keysmanager.cpp:253
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "&Калиди Оммавиро аз нав ташкил диҳед"
 
-#: keysmanager.cpp:260
+#: keysmanager.cpp:259
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr ""
 
-#: keysmanager.cpp:264
+#: keysmanager.cpp:263
 #, kde-format
 msgid "&Open Photo"
 msgstr "&Кушодани Сурат"
 
-#: keysmanager.cpp:268
+#: keysmanager.cpp:267
 #, kde-format
 msgid "&Delete Photo"
 msgstr "&Нобудкунии Сурат"
 
-#: keysmanager.cpp:276
+#: keysmanager.cpp:275
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "Воридоти &Имзоҳои ғоибуда аз Хидматрасони Калидҳо"
 
-#: keysmanager.cpp:294 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "Боварӣ"
 
-#: keysmanager.cpp:297 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "Андоза"
 
-#: keysmanager.cpp:300 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:299 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "Офариниш"
 
-#: keysmanager.cpp:303 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:302 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "Мӯҳлати Истифода"
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:306
 #, kde-format
 msgid "&Photo ID's"
 msgstr "&Сурати Шиноса"
 
-#: keysmanager.cpp:312
+#: keysmanager.cpp:311
 #, fuzzy, kde-format
 #| msgid "Small"
 msgctxt "small picture"
 msgid "Small"
 msgstr "Хурд"
 
-#: keysmanager.cpp:313
+#: keysmanager.cpp:312
 #, fuzzy, kde-format
 #| msgid "Medium"
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "Миёна"
 
-#: keysmanager.cpp:314
+#: keysmanager.cpp:313
 #, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "large picture"
 msgid "Large"
 msgstr "Калон"
 
-#: keysmanager.cpp:318
+#: keysmanager.cpp:317
 #, kde-format
 msgid "Minimum &Trust"
 msgstr ""
 
-#: keysmanager.cpp:321
+#: keysmanager.cpp:320
 #, fuzzy, kde-format
 #| msgid "None"
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "Нест"
 
-#: keysmanager.cpp:322
+#: keysmanager.cpp:321
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr ""
 
-#: keysmanager.cpp:323
+#: keysmanager.cpp:322
 #, fuzzy, kde-format
 #| msgid "Marginal"
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "Ҳудудӣ"
 
-#: keysmanager.cpp:324
+#: keysmanager.cpp:323
 #, fuzzy, kde-format
 #| msgid "Full"
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "Пурра"
 
-#: keysmanager.cpp:325
+#: keysmanager.cpp:324
 #, fuzzy, kde-format
 #| msgid "Ultimate"
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "Ултимат"
 
-#: keysmanager.cpp:350
+#: keysmanager.cpp:349
 #, fuzzy, kde-format
 #| msgid "&Show only Secret Keys"
 msgid "&Show Only Secret Keys"
 msgstr "Танҳо Калидҳои Махфиро &Нишон диҳед"
 
-#: keysmanager.cpp:450
+#: keysmanager.cpp:449
 #, fuzzy, kde-format
 #| msgid "Search: "
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "Ҷустуҷӯ: "
 
-#: keysmanager.cpp:497
+#: keysmanager.cpp:492
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:498 keysmanager.cpp:536 keysmanager.cpp:584
+#: keysmanager.cpp:493 keysmanager.cpp:531 keysmanager.cpp:579
 #, fuzzy, kde-format
 msgid "Generating new key pair"
 msgstr "Ташкил кардани ҷуфти калиди нав."
 
-#: keysmanager.cpp:537
+#: keysmanager.cpp:532
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr ""
 
-#: keysmanager.cpp:576 keysmanager.cpp:2618 keysmanager.cpp:2620
+#: keysmanager.cpp:571 keysmanager.cpp:2610 keysmanager.cpp:2612
 #, fuzzy, kde-format
 #| msgid "Ready"
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "Тайёр"
 
-#: keysmanager.cpp:588 transactions/kgpggeneratekey.cpp:198
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:194
 #, fuzzy, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "Гузарвожаи нодуруст, имзо офарида нашудааст."
 
-#: keysmanager.cpp:591 transactions/kgpggeneratekey.cpp:201
+#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr ""
 
-#: keysmanager.cpp:594 transactions/kgpggeneratekey.cpp:204
+#: keysmanager.cpp:589 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr ""
 
-#: keysmanager.cpp:597 transactions/kgpggeneratekey.cpp:207
+#: keysmanager.cpp:592 transactions/kgpggeneratekey.cpp:203
 #, fuzzy, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "Гузарвожаи нодуруст, имзо офарида нашудааст."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:603 newkey.ui:14
+#: keysmanager.cpp:598 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "Ҷуфти Калидҳои Нав Офарида Шуд"
 
-#: keysmanager.cpp:642
+#: keysmanager.cpp:637
 #, kde-format
 msgid "backup copy"
 msgstr "нусхаи захиравӣ"
 
-#: keysmanager.cpp:656 transactions/kgpggeneratekey.cpp:219
+#: keysmanager.cpp:651 transactions/kgpggeneratekey.cpp:215
 #, fuzzy, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "Гузарвожаи нодуруст, имзо офарида нашудааст."
 
-#: keysmanager.cpp:760
+#: keysmanager.cpp:755
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr ""
 "Шумо танҳо калидҳои ибтидоиро аз нав кунед. Илтимос интихобро тафтиш кунед."
 
-#: keysmanager.cpp:884
+#: keysmanager.cpp:879
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:885 keysmanager.cpp:890
+#: keysmanager.cpp:880 keysmanager.cpp:885
 #, kde-format
 msgid "Add New User Id"
 msgstr "Иловакунии Шиносаи Нави Корванд"
 
-#: keysmanager.cpp:930
+#: keysmanager.cpp:925
 #, fuzzy, kde-format
 #| msgid ""
 #| "The image must be a JPEG file. Remember that the image is stored within "
@@ -2245,7 +2245,7 @@ msgstr ""
 "калиди шумо низ хеле калон мегардад! Андозаи беҳтарини симо 240x288 нуқта "
 "маслиҳат дода мешавад."
 
-#: keysmanager.cpp:962
+#: keysmanager.cpp:957
 #, fuzzy, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2254,86 +2254,86 @@ msgstr ""
 "<qt>Дар ҳақиқат мехоҳед, ки Сурати шиносаро <b>%1</b><br>аз калиди <b>%2 &lt;"
 "%3&gt;</b> нобуд кунед?</qt>"
 
-#: keysmanager.cpp:1105
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Public Key"
 msgstr "Калиди Оммавӣ"
 
-#: keysmanager.cpp:1108
+#: keysmanager.cpp:1103
 #, kde-format
 msgid "Sub Key"
 msgstr "Калиди хурд"
 
-#: keysmanager.cpp:1111
+#: keysmanager.cpp:1106
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "Ҷуфти калидҳои махфӣ"
 
-#: keysmanager.cpp:1114
+#: keysmanager.cpp:1109
 #, kde-format
 msgid "Key Group"
 msgstr "Калиди гурӯҳ"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1117 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1112 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "Имзо"
 
-#: keysmanager.cpp:1120
+#: keysmanager.cpp:1115
 #, kde-format
 msgid "User ID"
 msgstr "Истифодабарандаи шиноса"
 
-#: keysmanager.cpp:1123
+#: keysmanager.cpp:1118
 #, kde-format
 msgid "Revocation Signature"
 msgstr "Имзои бекор кардан"
 
-#: keysmanager.cpp:1126
+#: keysmanager.cpp:1121
 #, kde-format
 msgid "Photo ID"
 msgstr "Сурати Шиноса"
 
-#: keysmanager.cpp:1129
+#: keysmanager.cpp:1124
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "Калиди махфӣ бе ворид"
 
-#: keysmanager.cpp:1134
+#: keysmanager.cpp:1129
 #, kde-format
 msgid "Group member"
 msgstr ""
 
-#: keysmanager.cpp:1239
+#: keysmanager.cpp:1234
 #, fuzzy, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
 msgstr[0] "&Имзокунии Калид(ҳо)..."
 msgstr[1] "&Имзокунии Калид(ҳо)..."
 
-#: keysmanager.cpp:1240
+#: keysmanager.cpp:1235
 #, fuzzy, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "&Имзокунии Калид(ҳо)..."
 msgstr[1] "&Имзокунии Калид(ҳо)..."
 
-#: keysmanager.cpp:1241
+#: keysmanager.cpp:1236
 #, fuzzy, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
 msgstr[0] "&Содироти Калид(ҳо)и Оммавӣ..."
 msgstr[1] "&Содироти Калид(ҳо)и Оммавӣ..."
 
-#: keysmanager.cpp:1242
+#: keysmanager.cpp:1237
 #, fuzzy, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "&Аз нав кардани калид(ҳо) аз хидматрасони калидҳо"
 msgstr[1] "&Аз нав кардани калид(ҳо) аз хидматрасони калидҳо"
 
-#: keysmanager.cpp:1243
+#: keysmanager.cpp:1238
 #, fuzzy, kde-format
 #| msgid "&Create Group with Selected Keys..."
 msgid "&Create Group with Selected Key..."
@@ -2341,14 +2341,14 @@ msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "&Эҷод кардани гурӯҳ бо калидҳои интихобшуда..."
 msgstr[1] "&Эҷод кардани гурӯҳ бо калидҳои интихобшуда..."
 
-#: keysmanager.cpp:1244
+#: keysmanager.cpp:1239
 #, fuzzy, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
 msgstr[0] "&Имзокунии Калид(ҳо)..."
 msgstr[1] "&Имзокунии Калид(ҳо)..."
 
-#: keysmanager.cpp:1245
+#: keysmanager.cpp:1240
 #, fuzzy, kde-format
 #| msgid "&Delete User Id"
 msgid "&Delete User ID"
@@ -2356,7 +2356,7 @@ msgid_plural "&Delete User IDs"
 msgstr[0] "&Нобудкунии Шиносаи Корванд"
 msgstr[1] "&Нобудкунии Шиносаи Корванд"
 
-#: keysmanager.cpp:1246
+#: keysmanager.cpp:1241
 #, fuzzy, kde-format
 #| msgid "Delete Sign&ature"
 msgid "Delete Sign&ature"
@@ -2364,7 +2364,7 @@ msgid_plural "Delete Sign&atures"
 msgstr[0] "Нобудкунии &Имзо"
 msgstr[1] "Нобудкунии &Имзо"
 
-#: keysmanager.cpp:1247
+#: keysmanager.cpp:1242
 #, fuzzy, kde-format
 #| msgid "Import Key From Keyserver"
 msgid "Import Key From Keyserver"
@@ -2372,19 +2372,19 @@ msgid_plural "Import Keys From Keyserver"
 msgstr[0] "Воридоти Калид Аз Хидматрасони Калидҳо"
 msgstr[1] "Воридоти Калид Аз Хидматрасони Калидҳо"
 
-#: keysmanager.cpp:1248
+#: keysmanager.cpp:1243
 #, fuzzy, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
 msgstr[0] "&Нобудкунии Калид(ҳо)"
 msgstr[1] "&Нобудкунии Калид(ҳо)"
 
-#: keysmanager.cpp:1371
+#: keysmanager.cpp:1366
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "Эҷод кардани сертификати бозхонӣ бо нокомӣ анҷомид..."
 
-#: keysmanager.cpp:1386
+#: keysmanager.cpp:1381
 #, fuzzy, kde-format
 #| msgid ""
 #| "Secret keys SHOULD NOT be saved in an unsafe place.\n"
@@ -2401,17 +2401,17 @@ msgstr ""
 "кунонида, аён мегарданд!\n"
 "Содироти калидро давом диҳам?"
 
-#: keysmanager.cpp:1398
+#: keysmanager.cpp:1393
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "Содироти КАЛИДИ ШАХСӢ Ҳамчун"
 
-#: keysmanager.cpp:1398
+#: keysmanager.cpp:1393
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr ""
 
-#: keysmanager.cpp:1416
+#: keysmanager.cpp:1411
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your PRIVATE key \"%1\" was successfully exported.\n"
@@ -2423,7 +2423,7 @@ msgstr ""
 "Калиди ШАХСИИ шумо \"%1\" бо мувафақият содир карда шуд.\n"
 "Онро дар ҷои хатарнок НАГУЗОРЕД."
 
-#: keysmanager.cpp:1419
+#: keysmanager.cpp:1414
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2432,7 +2432,7 @@ msgstr ""
 "Калиди махфии шумо содир карда намешавад.\n"
 "Калидро тафтиш кунед."
 
-#: keysmanager.cpp:1521
+#: keysmanager.cpp:1516
 #, fuzzy, kde-format
 #| msgid "Your public key \"%1\" was successfully exported\n"
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
@@ -2440,7 +2440,7 @@ msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
 msgstr[0] "Калиди оммавии шумо \"%1\" бо мувафақият содир карда шуд\n"
 msgstr[1] "Калиди оммавии шумо \"%1\" бо мувафақият содир карда шуд\n"
 
-#: keysmanager.cpp:1525 keysmanager.cpp:1540 keysmanager.cpp:1554
+#: keysmanager.cpp:1520 keysmanager.cpp:1535 keysmanager.cpp:1549
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2449,7 +2449,7 @@ msgstr ""
 "Калиди оммавии шумо содир карда намешавад.\n"
 "Калидро санҷед."
 
-#: keysmanager.cpp:1663
+#: keysmanager.cpp:1658
 #, fuzzy, kde-format
 #| msgid ""
 #| "This key is an orphaned secret key (secret key without public key.) It is "
@@ -2465,27 +2465,27 @@ msgstr ""
 "\n"
 "Оё шумо мехоҳед, ки калиди оммавиро бори дигар ташкил кунед?"
 
-#: keysmanager.cpp:1665
+#: keysmanager.cpp:1660
 #, fuzzy, kde-format
 msgid "Generate"
 msgstr "Тавлиди Ҷуфти Калидҳо"
 
-#: keysmanager.cpp:1665
+#: keysmanager.cpp:1660
 #, kde-format
 msgid "Do Not Generate"
 msgstr ""
 
-#: keysmanager.cpp:1695
+#: keysmanager.cpp:1690
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Дар ҳақиқат мехоҳед, ки гурӯҳи <b>%1</b>-ро нобуд созед ?</qt>"
 
-#: keysmanager.cpp:1696 keysmanager.cpp:2369
+#: keysmanager.cpp:1691 keysmanager.cpp:2361
 #, fuzzy, kde-format
 msgid "Delete"
 msgstr "&Нобудкунии Калид(ҳо)"
 
-#: keysmanager.cpp:1726
+#: keysmanager.cpp:1721
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2494,25 +2494,25 @@ msgstr ""
 "<qt>Шумо гурӯҳроеро, ки имзоҳо, зеркалидҳо ё дигар гурӯҳҳоро дар бар "
 "мегирад, офарида наметавонед.</qt>"
 
-#: keysmanager.cpp:1741 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1736 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr ""
 
-#: keysmanager.cpp:1746
+#: keysmanager.cpp:1741
 #, kde-format
 msgid "Create New Group"
 msgstr "Офаридани Гурӯҳи Нав"
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1742
 #, fuzzy, kde-format
 #| msgid "Enter new group name:"
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "Номи гурӯҳи навро ворид кунед:"
 
-#: keysmanager.cpp:1752
+#: keysmanager.cpp:1747
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
@@ -2521,7 +2521,7 @@ msgstr ""
 "Калидҳои зерин нодурустанд ё нобоваринок мебошанд ва бинобар ин ба гурӯҳ "
 "илова карда намешаванд:"
 
-#: keysmanager.cpp:1758
+#: keysmanager.cpp:1753
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2530,19 +2530,19 @@ msgstr ""
 "<qt>Калидҳои дуруст ё боваринок интихоб нашудаанд. Гурӯҳи <b>%1</b> офарида "
 "намешавад.</qt>"
 
-#: keysmanager.cpp:1770
+#: keysmanager.cpp:1765
 #, kde-format
 msgid "Group Properties"
 msgstr "Имкониятҳои Гурӯҳ"
 
-#: keysmanager.cpp:1806
+#: keysmanager.cpp:1801
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr ""
 "Шумо танҳо калидҳои ибтидоиро имзо карда метавонед. Марҳамат карда интихоби "
 "худро санҷед."
 
-#: keysmanager.cpp:1815
+#: keysmanager.cpp:1810
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2560,7 +2560,7 @@ msgstr ""
 "соҳибаш ба воситаи телефон ё бо мусобиқаи шахси санҷед, барои он, ки ҳеҷ кас "
 "алоқаи шуморо нафаҳмад</qt>"
 
-#: keysmanager.cpp:1820
+#: keysmanager.cpp:1815
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2578,20 +2578,20 @@ msgstr ""
 "соҳибаш ба воситаи телефон ё бо мусобиқаи шахси санҷед, барои он, ки ҳеҷ кас "
 "алоқаи шуморо нафаҳмад</qt>"
 
-#: keysmanager.cpp:1835 keysmanager.cpp:1919 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1830 keysmanager.cpp:1914 kgpgfirstassistant.cpp:271
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr ""
 
-#: keysmanager.cpp:1837 keysmanager.cpp:1922 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1832 keysmanager.cpp:1917 kgpgfirstassistant.cpp:273
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr ""
 
-#: keysmanager.cpp:1843
+#: keysmanager.cpp:1838
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2602,7 +2602,7 @@ msgstr ""
 "шумо эҳтиёткорона ҳамаи суммаҳои назоратиро санҷед, бехатарии шумо вайрон "
 "карда мешавад !</b></qt>"
 
-#: keysmanager.cpp:1885 keysmanager.cpp:2032
+#: keysmanager.cpp:1880 keysmanager.cpp:2027
 #, fuzzy, kde-format
 #| msgid "You can only sign primary keys. Please check your selection."
 msgid "You can only sign user ids and photo ids. Please check your selection."
@@ -2610,7 +2610,7 @@ msgstr ""
 "Шумо танҳо калидҳои ибтидоиро имзо карда метавонед. Марҳамат карда интихоби "
 "худро санҷед."
 
-#: keysmanager.cpp:1899
+#: keysmanager.cpp:1894
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2628,7 +2628,7 @@ msgstr ""
 "соҳибаш ба воситаи телефон ё бо мусобиқаи шахси санҷед, барои он, ки ҳеҷ кас "
 "алоқаи шуморо нафаҳмад</qt>"
 
-#: keysmanager.cpp:1903
+#: keysmanager.cpp:1898
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2646,7 +2646,7 @@ msgstr ""
 "соҳибаш ба воситаи телефон ё бо мусобиқаи шахси санҷед, барои он, ки ҳеҷ кас "
 "алоқаи шуморо нафаҳмад</qt>"
 
-#: keysmanager.cpp:1929
+#: keysmanager.cpp:1924
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2657,18 +2657,18 @@ msgstr ""
 "шумо эҳтиёткорона ҳамаи суммаҳои назоратиро санҷед, бехатарии шумо вайрон "
 "карда мешавад !</b></qt>"
 
-#: keysmanager.cpp:1998
+#: keysmanager.cpp:1993
 #, fuzzy, kde-format
 #| msgid "<qt>Bad passphrase, key <b>%1</b> not signed.</qt>"
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>Гузарвожаи бад, калиди <b>%1</b> имзо нашудааст.</qt>"
 
-#: keysmanager.cpp:2002
+#: keysmanager.cpp:1997
 #, fuzzy, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>Гузарвожаи бад, калиди <b>%1</b> имзо нашудааст.</qt>"
 
-#: keysmanager.cpp:2007
+#: keysmanager.cpp:2002
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br>Do you want to "
@@ -2680,19 +2680,19 @@ msgstr ""
 "<qt>Имзокунии калиди <b>%1</b> бо калиди <b>%2</b> бо нокомӣ анҷомид."
 "<br>Мехоҳед, ки ин калидро дар усули нозиргоҳ имзо кунед?</qt>"
 
-#: keysmanager.cpp:2125
+#: keysmanager.cpp:2120
 #, fuzzy, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "Ҳамаи имзоҳо барои ин калид аллакай дар ҳалқаи калидҳо мавҷуданд"
 msgstr[1] "Ҳамаи имзоҳо барои ин калид аллакай дар ҳалқаи калидҳо мавҷуданд"
 
-#: keysmanager.cpp:2215
+#: keysmanager.cpp:2207
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "Таҳрири калид ба таври дастӣ барои нобудкунии имзои худ."
 
-#: keysmanager.cpp:2219
+#: keysmanager.cpp:2211
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>Are you sure you want to delete signature<br><b>%1</b> from key:"
@@ -2704,14 +2704,14 @@ msgstr ""
 "<qt>Дар ҳақиқат мехоҳед, ки имзоро <br><b>%1</b> аз калиди:<br><b>%2</"
 "b>нобуд созед?</qt>"
 
-#: keysmanager.cpp:2241
+#: keysmanager.cpp:2233
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr ""
 "Амалиёти талабшуда бо номуваффақият анҷомид, ба таври дастӣ калидро таҳрир "
 "кунед."
 
-#: keysmanager.cpp:2325
+#: keysmanager.cpp:2317
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2722,21 +2722,21 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: keysmanager.cpp:2329 keysmanager.cpp:2343 keysmanager.cpp:2378
-#: keysmanager.cpp:2393 keysmanager.cpp:2396 keysmanager.cpp:2407
-#: keysmanager.cpp:2421 keysmanager.cpp:2462
+#: keysmanager.cpp:2321 keysmanager.cpp:2335 keysmanager.cpp:2370
+#: keysmanager.cpp:2385 keysmanager.cpp:2388 keysmanager.cpp:2399
+#: keysmanager.cpp:2413 keysmanager.cpp:2454
 #, fuzzy, kde-format
 msgid "Delete key"
 msgstr "&Нобудкунии Калид(ҳо)"
 
-#: keysmanager.cpp:2342
+#: keysmanager.cpp:2334
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
 
-#: keysmanager.cpp:2366
+#: keysmanager.cpp:2358
 #, fuzzy, kde-format
 #| msgid ""
 #| "<p>Delete <b>SECRET KEY</b> pair <b>%1</b>?</p>Deleting this key pair "
@@ -2750,36 +2750,36 @@ msgstr ""
 "ҷуфти калидҳо маънои онро дорад, ки шумо ҳеҷ гоҳ файлҳоро, ки ба ин калид "
 "рамз кунонида мешаванд, рамзкунонӣ карда наметавонед."
 
-#: keysmanager.cpp:2377 keysmanager.cpp:2406
+#: keysmanager.cpp:2369 keysmanager.cpp:2398
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:2393
+#: keysmanager.cpp:2385
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr ""
 
-#: keysmanager.cpp:2396
+#: keysmanager.cpp:2388
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr ""
 
-#: keysmanager.cpp:2420
+#: keysmanager.cpp:2412
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 
-#: keysmanager.cpp:2461
+#: keysmanager.cpp:2453
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr ""
 
-#: keysmanager.cpp:2486
+#: keysmanager.cpp:2478
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>The following are secret key pairs:<br><b>%1</b>They will not be "
@@ -2791,42 +2791,42 @@ msgstr ""
 "<qt>Ҷуфти калидҳи зерин махфианд:<br><b>%1</b>Онҳо нобуд карда намешаванд."
 "<br></qt>"
 
-#: keysmanager.cpp:2496
+#: keysmanager.cpp:2488
 #, fuzzy, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>Калид(ҳо)и зерини оммавиро нобуд кунам  ?</b></qt>"
 msgstr[1] ""
 
-#: keysmanager.cpp:2527 keysmanager.cpp:2603 keysmanager.cpp:2614
+#: keysmanager.cpp:2519 keysmanager.cpp:2595 keysmanager.cpp:2606
 #, kde-format
 msgid "Key Import"
 msgstr "Вориди Калид"
 
-#: keysmanager.cpp:2535
+#: keysmanager.cpp:2527
 #, kde-format
 msgid "Open File"
 msgstr "Кушодани Файл"
 
-#: keysmanager.cpp:2568
+#: keysmanager.cpp:2560
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
 
-#: keysmanager.cpp:2570
+#: keysmanager.cpp:2562
 #, fuzzy, kde-format
 #| msgid "&Encrypt Clipboard"
 msgid "Import from Clipboard"
 msgstr "&Рамзкунонии Силули Мухобиротӣ"
 
-#: keysmanager.cpp:2590
+#: keysmanager.cpp:2582
 #, kde-format
 msgid "Importing..."
 msgstr "Воридоткунӣ..."
 
-#: keysmanager.cpp:2602
+#: keysmanager.cpp:2594
 #, fuzzy, kde-format
 #| msgid ""
 #| "No key imported... \n"
@@ -2836,38 +2836,38 @@ msgstr ""
 "Ягон калид ворид карда нашудааст... \n"
 "Барои маълумоти иловагӣ феҳристи тавсифотро санҷед"
 
-#: keysmanager.cpp:2655
+#: keysmanager.cpp:2647
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - асбоб барои рамз нависӣ"
 
-#: keysmanager.cpp:2676
+#: keysmanager.cpp:2668
 #, fuzzy, kde-format
 #| msgid "Key Manager"
 msgid "Ke&y Manager"
 msgstr "Идораи Калид"
 
-#: keysmanager.cpp:2679
+#: keysmanager.cpp:2671
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "&Рамзкунонии Силули Мухобиротӣ"
 
-#: keysmanager.cpp:2682
+#: keysmanager.cpp:2674
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&Рамзкушоии Силули Мухобиротӣ"
 
-#: keysmanager.cpp:2685
+#: keysmanager.cpp:2677
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&Имзогузорӣ/Муқаррар кардани Силули Мухобиротӣ"
 
-#: keysmanager.cpp:2722 keysmanager.cpp:2825 keysmanager.cpp:2843
+#: keysmanager.cpp:2714 keysmanager.cpp:2817 keysmanager.cpp:2835
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Силули Мухобиротӣ холӣ аст."
 
-#: keysmanager.cpp:2767
+#: keysmanager.cpp:2759
 #, fuzzy, kde-format
 #| msgid "The signature file %1 was successfully created."
 msgid "Text successfully encrypted."
@@ -4047,7 +4047,7 @@ msgctxt "@info:credit"
 msgid "KF5 port"
 msgstr "Вориди Калид"
 
-#: model/gpgservermodel.cpp:77
+#: model/gpgservermodel.cpp:73
 #, fuzzy, kde-format
 #| msgid "(Default)"
 msgctxt "Mark default keyserver in GUI"
@@ -4104,12 +4104,12 @@ msgctxt "%1 = something like 7 keys, %2 = something like 2 groups"
 msgid "%1, %2"
 msgstr ""
 
-#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:422
+#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:418
 #, kde-format
 msgid "Name"
 msgstr "Ном"
 
-#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:424
+#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:420
 #, fuzzy, kde-format
 #| msgid "Email"
 msgctxt "@title:column Title of a column of emails"
@@ -4133,7 +4133,7 @@ msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009"
 msgid "ID %1, %2-bit %3 key, created %4"
 msgstr ""
 
-#: model/kgpgsearchresultmodel.cpp:289
+#: model/kgpgsearchresultmodel.cpp:285
 #, fuzzy, kde-format
 #| msgid "Photo ID"
 msgid "One Photo ID"
@@ -4562,27 +4562,27 @@ msgid ""
 "work.</p>\n"
 msgstr ""
 
-#: transactions/kgpgaddphoto.cpp:42
+#: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "This image is very large. Use it anyway?"
 msgstr "Ин расм хеле калон аст. Истифода кардан?"
 
-#: transactions/kgpgaddphoto.cpp:42
+#: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "Use Anyway"
 msgstr ""
 
-#: transactions/kgpgaddphoto.cpp:42
+#: transactions/kgpgaddphoto.cpp:38
 #, fuzzy, kde-format
 msgid "Do Not Use"
 msgstr "Эҷод кардан"
 
-#: transactions/kgpgchangepass.cpp:59
+#: transactions/kgpgchangepass.cpp:55
 #, fuzzy, kde-format
 msgid "Enter old passphrase for <b>%1</b>"
 msgstr "Гузарвожаро барои <b>%1</b> ворид намоед"
 
-#: transactions/kgpgchangepass.cpp:61
+#: transactions/kgpgchangepass.cpp:57
 #, fuzzy, kde-format
 msgid ""
 "<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase "
@@ -4592,27 +4592,27 @@ msgstr ""
 "гузарвожаро аз хотир бароварда бошед, ҳамаи файлҳо ва паёмҳои шумо гум "
 "мешаванд!<br></qt>"
 
-#: transactions/kgpgdecrypt.cpp:114
+#: transactions/kgpgdecrypt.cpp:110
 #, fuzzy, kde-format
 #| msgid "Decrypting %1"
 msgctxt "Status message 'Decrypting <filename>' (operation starts)"
 msgid "Decrypting %1"
 msgstr "Рамзкунӣ %1"
 
-#: transactions/kgpgdecrypt.cpp:117
+#: transactions/kgpgdecrypt.cpp:113
 #, fuzzy, kde-format
 #| msgid "Decrypting %1"
 msgctxt "Status message 'Decrypted <filename>' (operation was completed)"
 msgid "Decrypted %1"
 msgstr "Рамзкунӣ %1"
 
-#: transactions/kgpggeneratekey.cpp:56
+#: transactions/kgpggeneratekey.cpp:52
 #, fuzzy, kde-format
 #| msgid "Generating New Key..."
 msgid "Generating New Key for %1"
 msgstr "Ташкил кардани калиди нав..."
 
-#: transactions/kgpggeneratekey.cpp:129
+#: transactions/kgpggeneratekey.cpp:125
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Enter passphrase for %1</b>:<br>Passphrase should include non "
@@ -4624,7 +4624,7 @@ msgstr ""
 "<b>Гузарвожаро барои %1 ворид кунед</b>:<br>Гузарвожа бояд мушкил бошад ва "
 "бояд на танҳо аз ҳарфу рақамҳо иборат бошад"
 
-#: transactions/kgpggeneratekey.cpp:132
+#: transactions/kgpggeneratekey.cpp:128
 #, fuzzy, kde-format
 #| msgid ""
 #| "<b>Enter passphrase for %1</b>:<br>Passphrase should include non "
@@ -4636,33 +4636,33 @@ msgstr ""
 "<b>Гузарвожаро барои %1 ворид кунед</b>:<br>Гузарвожа бояд мушкил бошад ва "
 "бояд на танҳо аз ҳарфу рақамҳо иборат бошад"
 
-#: transactions/kgpggeneratekey.cpp:143
+#: transactions/kgpggeneratekey.cpp:139
 #, fuzzy, kde-format
 #| msgid "Generating New Key..."
 msgid "Generating Key"
 msgstr "Ташкил кардани калиди нав..."
 
-#: transactions/kgpggeneratekey.cpp:156
+#: transactions/kgpggeneratekey.cpp:152
 #, fuzzy, kde-format
 msgid "Generating prime numbers"
 msgstr "Ташкил кардани ҷуфти калиди нав."
 
-#: transactions/kgpggeneratekey.cpp:158
+#: transactions/kgpggeneratekey.cpp:154
 #, fuzzy, kde-format
 msgid "Generating DSA key"
 msgstr "Ташкил кардани ҷуфти калиди нав."
 
-#: transactions/kgpggeneratekey.cpp:160
+#: transactions/kgpggeneratekey.cpp:156
 #, fuzzy, kde-format
 msgid "Generating ElGamal key"
 msgstr "Ташкил кардани ҷуфти калиди нав."
 
-#: transactions/kgpggeneratekey.cpp:162
+#: transactions/kgpggeneratekey.cpp:158
 #, kde-format
 msgid "Waiting for entropy"
 msgstr ""
 
-#: transactions/kgpggeneratekey.cpp:167
+#: transactions/kgpggeneratekey.cpp:163
 #, kde-format
 msgid ""
 "The entropy pool ran empty. The key generation process is stalled until "
@@ -4671,19 +4671,19 @@ msgid ""
 "until the key generation continues."
 msgstr ""
 
-#: transactions/kgpggeneratekey.cpp:210
+#: transactions/kgpggeneratekey.cpp:206
 #, fuzzy, kde-format
 #| msgid "Key Generation"
 msgid "Key %1 generated"
 msgstr "Тавлиди Калид"
 
-#: transactions/kgpggeneraterevoke.cpp:42
+#: transactions/kgpggeneraterevoke.cpp:38
 #, fuzzy, kde-format
 #| msgid "Create revocation certificate for"
 msgid "Generating Revocation Certificate for key %1"
 msgstr "Офаридани сетификати бозхонӣ барои"
 
-#: transactions/kgpgimport.cpp:121
+#: transactions/kgpgimport.cpp:117
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "No key imported... \n"
@@ -4696,7 +4696,7 @@ msgstr ""
 "Ягон калид ворид карда нашудааст... \n"
 "Барои маълумоти иловагӣ феҳристи тавсифотро санҷед"
 
-#: transactions/kgpgimport.cpp:125
+#: transactions/kgpgimport.cpp:121
 #, fuzzy, kde-format
 #| msgid ""
 #| "No key imported... \n"
@@ -4706,7 +4706,7 @@ msgstr ""
 "Ягон калид ворид карда нашудааст... \n"
 "Барои маълумоти иловагӣ феҳристи тавсифотро санҷед"
 
-#: transactions/kgpgimport.cpp:127
+#: transactions/kgpgimport.cpp:123
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<para>%1 key processed.</para>"
@@ -4714,7 +4714,7 @@ msgid_plural "<para>%1 keys processed.</para>"
 msgstr[0] "<qt>%2 калид(ҳо)и махфӣ пардохта шудаанд.<br></qt>"
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:130
+#: transactions/kgpgimport.cpp:126
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key without ID.</para>"
@@ -4722,7 +4722,7 @@ msgid_plural "<para>%1 keys without ID.</para>"
 msgstr[0] "<qt>%2 калид(ҳо) бе Шиноса мебошанд.<br></qt>"
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:132
+#: transactions/kgpgimport.cpp:128
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para><emphasis strong='true'>One key imported:</emphasis></para>"
@@ -4731,7 +4731,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:134
+#: transactions/kgpgimport.cpp:130
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One RSA key imported.</para>"
@@ -4739,7 +4739,7 @@ msgid_plural "<para>%1 RSA keys imported.</para>"
 msgstr[0] "<qt>%2 RSA калид(ҳо) ворид карда шудаанд.<br></qt>"
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:136
+#: transactions/kgpgimport.cpp:132
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key unchanged.</para>"
@@ -4747,7 +4747,7 @@ msgid_plural "<para>%1 keys unchanged.</para>"
 msgstr[0] "<qt>%2 калид(ҳо)и махфӣ иваз карда шудаанд.<br></qt>"
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:138
+#: transactions/kgpgimport.cpp:134
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One user ID imported.</para>"
@@ -4755,7 +4755,7 @@ msgid_plural "<para>%1 user IDs imported.</para>"
 msgstr[0] "<qt>%2 Шиноса(ҳо)и корванд ворид карда шудаанд.<br></qt>"
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:140
+#: transactions/kgpgimport.cpp:136
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One subkey imported.</para>"
@@ -4763,7 +4763,7 @@ msgid_plural "<para>%1 subkeys imported.</para>"
 msgstr[0] "<qt>%2 зеркалид(ҳо) ворид карда шудаанд.<br></qt>"
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:142
+#: transactions/kgpgimport.cpp:138
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One signature imported.</para>"
@@ -4771,7 +4771,7 @@ msgid_plural "<para>%1 signatures imported.</para>"
 msgstr[0] "<qt>%2 имзо(ҳо) ворид карда шудаанд.<br></qt>"
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:144
+#: transactions/kgpgimport.cpp:140
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One revocation certificate imported.</para>"
@@ -4779,7 +4779,7 @@ msgid_plural "<para>%1 revocation certificates imported.</para>"
 msgstr[0] "<qt>%2 сертификат(ҳо)и бозхонӣ ворид карда шудаанд.<br></qt>"
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:146
+#: transactions/kgpgimport.cpp:142
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key processed.</para>"
@@ -4787,7 +4787,7 @@ msgid_plural "<para>%1 secret keys processed.</para>"
 msgstr[0] "<qt>%2 калид(ҳо)и махфӣ пардохта шудаанд.<br></qt>"
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:148
+#: transactions/kgpgimport.cpp:144
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -4797,7 +4797,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:150
+#: transactions/kgpgimport.cpp:146
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key unchanged.</para>"
@@ -4805,7 +4805,7 @@ msgid_plural "<para>%1 secret keys unchanged.</para>"
 msgstr[0] "<qt>%2 калид(ҳо)и махфӣ иваз карда шудаанд.<br></qt>"
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:152
+#: transactions/kgpgimport.cpp:148
 #, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key not imported.</para>"
@@ -4813,7 +4813,7 @@ msgid_plural "<para>%1 secret keys not imported.</para>"
 msgstr[0] "<qt>%2 калид(ҳо)и махфӣ ворид карда нашудаанд.<br></qt>"
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:155
+#: transactions/kgpgimport.cpp:151
 #, fuzzy, kde-kuit-format
 #| msgid ""
 #| "<qt><br><b>You have imported a secret key.</b> <br>Please note that "
@@ -4833,26 +4833,26 @@ msgstr ""
 "бояд калидро таҳрир кунед (пахши дуборп дар он) ва боварии онро ба Пурра ё "
 "қатъӣ барқарор кунед.</qt>"
 
-#: transactions/kgpgimport.cpp:179
+#: transactions/kgpgimport.cpp:175
 #, kde-kuit-format
 msgctxt "@item ID: Name"
 msgid "%1: %2"
 msgstr ""
 
-#: transactions/kgpgimport.cpp:181
+#: transactions/kgpgimport.cpp:177
 #, kde-kuit-format
 msgctxt "@item ID: Name <Email>"
 msgid "%1: %2 <email>%3</email>"
 msgstr ""
 
-#: transactions/kgpgimport.cpp:225
+#: transactions/kgpgimport.cpp:221
 #, fuzzy, kde-format
 msgid "New Key"
 msgid_plural "New Keys"
 msgstr[0] "&Калидҳо"
 msgstr[1] "&Калидҳо"
 
-#: transactions/kgpgimport.cpp:228
+#: transactions/kgpgimport.cpp:224
 #, fuzzy, kde-format
 #| msgid "Key is No Longer Used"
 msgid "Key with new User Id"
@@ -4860,7 +4860,7 @@ msgid_plural "Keys with new User Ids"
 msgstr[0] "Калид дигар Истифода Намешавад"
 msgstr[1] "Калид дигар Истифода Намешавад"
 
-#: transactions/kgpgimport.cpp:231
+#: transactions/kgpgimport.cpp:227
 #, fuzzy, kde-format
 #| msgid "Delete Sign&ature"
 msgid "Key with new Signatures"
@@ -4868,14 +4868,14 @@ msgid_plural "Keys with new Signatures"
 msgstr[0] "Нобудкунии &Имзо"
 msgstr[1] "Нобудкунии &Имзо"
 
-#: transactions/kgpgimport.cpp:234
+#: transactions/kgpgimport.cpp:230
 #, kde-format
 msgid "Key with new Subkeys"
 msgid_plural "Keys with new Subkeys"
 msgstr[0] ""
 msgstr[1] ""
 
-#: transactions/kgpgimport.cpp:237
+#: transactions/kgpgimport.cpp:233
 #, fuzzy, kde-format
 #| msgid "Private Key List"
 msgid "New Private Key"
@@ -4883,7 +4883,7 @@ msgid_plural "New Private Keys"
 msgstr[0] "Рӯйхати Калидҳои Шахсӣ"
 msgstr[1] "Рӯйхати Калидҳои Шахсӣ"
 
-#: transactions/kgpgimport.cpp:253
+#: transactions/kgpgimport.cpp:249
 #, kde-format
 msgid "Unchanged Key"
 msgid_plural "Unchanged Keys"
@@ -4931,7 +4931,7 @@ msgstr[1] "<b>Гузарвожаи бад</b>. Танҳо %1 кӯшиш боқӣ
 msgid "Got Passphrase"
 msgstr "Гузарвожаи нодуруст"
 
-#: transactions/kgpgverify.cpp:90
+#: transactions/kgpgverify.cpp:86
 #, fuzzy, kde-kuit-format
 #| msgid "Bad passphrase, signature was not created."
 msgctxt ""
@@ -4939,7 +4939,7 @@ msgctxt ""
 msgid "<para>The signature was created at %1 %2</para>"
 msgstr "Гузарвожаи нодуруст, имзо офарида нашудааст."
 
-#: transactions/kgpgverify.cpp:126
+#: transactions/kgpgverify.cpp:122
 #, fuzzy, kde-kuit-format
 #| msgid "<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>"
 msgctxt "@info Good signature from: NAME , Key ID: HEXID"
@@ -4948,7 +4948,7 @@ msgid ""
 "ID: %2<nl/></para>"
 msgstr "<qt>Имзои хуб аз:<br><b>%1</b><br>Шиносаи Калид: %2</qt>"
 
-#: transactions/kgpgverify.cpp:130
+#: transactions/kgpgverify.cpp:126
 #, kde-kuit-format
 msgctxt "@info Good signature from: NAME <EMAIL>, Key ID: HEXID"
 msgid ""
@@ -4956,14 +4956,14 @@ msgid ""
 "emphasis><nl/>Key ID: %3</para>"
 msgstr ""
 
-#: transactions/kgpgverify.cpp:143
+#: transactions/kgpgverify.cpp:139
 #, fuzzy, kde-kuit-format
 #| msgid "No signature found."
 msgctxt "@info"
 msgid "No signature found."
 msgstr "Имзо пайдо нагардид."
 
-#: transactions/kgpgverify.cpp:160
+#: transactions/kgpgverify.cpp:156
 #, fuzzy, kde-kuit-format
 #| msgid "<qt>Good signature from:<br><b>%1</b><br>Key ID: %2</qt>"
 msgctxt "@info"
@@ -4972,7 +4972,7 @@ msgid ""
 "ID: %2<nl/></para>"
 msgstr "<qt>Имзои хуб аз:<br><b>%1</b><br>Шиносаи Калид: %2</qt>"
 
-#: transactions/kgpgverify.cpp:164
+#: transactions/kgpgverify.cpp:160
 #, kde-kuit-format
 msgctxt "@info Good signature from: NAME <EMAIL>, Key ID: HEXID"
 msgid ""
@@ -4980,7 +4980,7 @@ msgid ""
 "emphasis><nl/>Key ID: %3<nl/></para>"
 msgstr ""
 
-#: transactions/kgpgverify.cpp:176
+#: transactions/kgpgverify.cpp:172
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -4989,14 +4989,14 @@ msgid ""
 "para>"
 msgstr ""
 
-#: transactions/kgpgverify.cpp:179
+#: transactions/kgpgverify.cpp:175
 #, fuzzy, kde-kuit-format
 #| msgid "The signature is valid, but the key is untrusted"
 msgctxt "@info"
 msgid "<para>The signature is valid, but the key is untrusted</para>"
 msgstr "Имзо дастрас аст аммо калид нодуруст аст"
 
-#: transactions/kgpgverify.cpp:181
+#: transactions/kgpgverify.cpp:177
 #, fuzzy, kde-kuit-format
 #| msgid "The signature is valid, and the key is ultimately trusted"
 msgctxt "@info"

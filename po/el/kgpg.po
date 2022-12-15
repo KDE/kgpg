@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 01:01+0000\n"
+"POT-Creation-Date: 2022-12-15 00:51+0000\n"
 "PO-Revision-Date: 2021-06-14 16:48+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -61,7 +61,7 @@ msgstr "Ηλ. διεύθυνση:"
 msgid "Comment (optional):"
 msgstr "Σχόλιο (προαιρετικό):"
 
-#: caff.cpp:88
+#: caff.cpp:84
 #, kde-format
 msgid ""
 "This function is not available on this system. The symbolic link to the "
@@ -70,13 +70,13 @@ msgstr ""
 "Η λειτουργία αυτή δεν είναι διαθέσιμη σε αυτό το σύστημα. Αδυναμία "
 "δημιουργίας συμβολικού συνδέσμου για τα ιδιωτικά κλειδιά GnuPG."
 
-#: caff.cpp:159 caff.cpp:177
+#: caff.cpp:155 caff.cpp:173
 #, kde-format
 msgctxt "%1 is the key id, %2 is the name and comment of the key or uid"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: caff.cpp:162 caff.cpp:180
+#: caff.cpp:158 caff.cpp:176
 #, kde-format
 msgctxt ""
 "%1 is the key id, %2 is the name and comment of the key or uid, %3 is the "
@@ -84,7 +84,7 @@ msgctxt ""
 msgid "%1: %2 &lt;%3&gt;"
 msgstr "%1: %2 &lt;%3&gt;"
 
-#: caff.cpp:165
+#: caff.cpp:161
 #, kde-format
 msgid ""
 "No mail was sent for the following user id because it belongs to a key "
@@ -99,7 +99,7 @@ msgstr[1] ""
 "Δεν εστάλη μήνυμα για τις ακόλουθες ταυτότητες χρηστών επειδή ανήκουν σε "
 "κλειδιά χωρίς δυνατότητα κρυπτογράφησης:"
 
-#: caff.cpp:183
+#: caff.cpp:179
 #, kde-format
 msgid ""
 "No mail was sent for the following user id because it was already signed:"
@@ -112,19 +112,19 @@ msgstr[1] ""
 "Δεν εστάλη μήνυμα για τις ακόλουθες ταυτότητες χρηστών επειδή περιείχαν ήδη "
 "υπογραφή:"
 
-#: caff.cpp:316
+#: caff.cpp:312
 #, kde-format
 msgctxt "Email template placeholder for key id"
 msgid "KEYID"
 msgstr "KEYID"
 
-#: caff.cpp:317
+#: caff.cpp:313
 #, kde-format
 msgctxt "Email template placeholder for key id"
 msgid "UIDNAME"
 msgstr "UIDNAME"
 
-#: caff.cpp:350
+#: caff.cpp:346
 #, kde-format
 msgctxt "%1 is 64 bit key id (in hex), text is used as email subject"
 msgid "Your key %1"
@@ -559,7 +559,7 @@ msgstr "Επιλογή υπογραφής αρχείου στο μενού υπ�
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:311
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:310
 #, kde-format
 msgid "Disable"
 msgstr "Απενεργοποίηση"
@@ -1035,7 +1035,7 @@ msgctxt "size of signing key / size of encryption key"
 msgid "%1 / %2"
 msgstr "%1 / %2"
 
-#: core/KGpgKeyNode.cpp:156 core/KGpgSignableNode.cpp:35
+#: core/KGpgKeyNode.cpp:156 core/KGpgSignableNode.cpp:31
 #, kde-format
 msgid "1 signature"
 msgid_plural "%1 signatures"
@@ -1058,7 +1058,7 @@ msgstr "[Δε βρέθηκε ταυτότητα χρήστη]"
 msgid "%1 [local signature]"
 msgstr "%1 [τοπική υπογραφή]"
 
-#: core/KGpgSubkeyNode.cpp:73
+#: core/KGpgSubkeyNode.cpp:70
 #, kde-format
 msgid "%1 subkey"
 msgstr "%1 δευτερεύον κλειδί"
@@ -1217,7 +1217,7 @@ msgstr "Άνοιγμα αρχείου για υπογραφή"
 msgid "Open File to Verify"
 msgstr "Άνοιγμα αρχείου για επαλήθευση"
 
-#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:341
+#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:337
 #, kde-format
 msgid ""
 "<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to "
@@ -1284,7 +1284,7 @@ msgstr "<b>Σωστό άθροισμα ελέγχου</b>, το αρχείο ε�
 msgid "<b>Wrong checksum, <em>file corrupted</em></b>"
 msgstr "<b>Λάθος άθροισμα ελέγχου, <em>κατεστραμμένο αρχείο</em></b>"
 
-#: editor/kgpgtextedit.cpp:88
+#: editor/kgpgtextedit.cpp:84
 #, kde-format
 msgid ""
 "<qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a "
@@ -1296,12 +1296,12 @@ msgstr ""
 "ζητούμενη λειτουργία. Το προσωρινό αρχείο θα διαγραφεί μετά την ολοκλήρωσή "
 "της.</qt>"
 
-#: editor/kgpgtextedit.cpp:97
+#: editor/kgpgtextedit.cpp:93
 #, kde-format
 msgid "Could not download file."
 msgstr "Αδυναμία λήψης του αρχείου."
 
-#: editor/kgpgtextedit.cpp:133
+#: editor/kgpgtextedit.cpp:129
 #, kde-format
 msgid ""
 "<qt>This file is a <b>public</b> key.<br />Do you want to import it instead "
@@ -1310,7 +1310,7 @@ msgstr ""
 "<qt>Αυτό το αρχείο είναι ένα <b>δημόσιο</b> κλειδί.<br />Θέλετε να το "
 "εισάγετε αντί να το ανοίξετε στον επεξεργαστή;</qt>"
 
-#: editor/kgpgtextedit.cpp:136
+#: editor/kgpgtextedit.cpp:132
 #, kde-format
 msgid ""
 "<qt>This file is a <b>private</b> key.<br />Do you want to import it instead "
@@ -1319,59 +1319,59 @@ msgstr ""
 "<qt>Αυτό το αρχείο είναι ένα <b>ιδιωτικό</b> κλειδί.<br /> Θέλετε να το "
 "εισάγετε αντί να το ανοίξετε στον επεξεργαστή;</qt>"
 
-#: editor/kgpgtextedit.cpp:141
+#: editor/kgpgtextedit.cpp:137
 #, kde-format
 msgid "Key file dropped on Editor"
 msgstr "Το αρχείου κλειδιού εναποτέθηκε στον επεξεργαστή"
 
-#: editor/kgpgtextedit.cpp:264 kgpgexternalactions.cpp:402
+#: editor/kgpgtextedit.cpp:260 kgpgexternalactions.cpp:402
 #, kde-format
 msgid "Decryption failed."
 msgstr "Η αποκρυπτογράφηση απέτυχε."
 
-#: editor/kgpgtextedit.cpp:279 foldercompressjob.cpp:132
+#: editor/kgpgtextedit.cpp:275 foldercompressjob.cpp:132
 #, kde-format
 msgid "The encryption failed with error code %1"
 msgstr "Η κρυπτογράφηση απέτυχε με κωδικό σφάλματος %1"
 
-#: editor/kgpgtextedit.cpp:280 foldercompressjob.cpp:133
+#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:133
 #, kde-format
 msgid "Encryption failed."
 msgstr "Η κρυπτογράφηση απέτυχε."
 
-#: editor/kgpgtextedit.cpp:293
+#: editor/kgpgtextedit.cpp:289
 #, kde-format
 msgid "Signing not possible: bad passphrase or missing key"
 msgstr "Αδύνατη η υπογραφή: λάθος συνθηματικό ή το κλειδί λείπει"
 
-#: editor/kgpgtextedit.cpp:328 kgpgexternalactions.cpp:281
+#: editor/kgpgtextedit.cpp:324 kgpgexternalactions.cpp:281
 #, kde-format
 msgctxt "Caption of message box"
 msgid "Verification Finished"
 msgstr "Η επαλήθευση ολοκληρώθηκε"
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonimport)
-#: editor/kgpgtextedit.cpp:334 keyserver.ui:145 keyservers.cpp:201
+#: editor/kgpgtextedit.cpp:330 keyserver.ui:145 keyservers.cpp:201
 #, kde-format
 msgid "&Import"
 msgstr "Ε&ισαγωγή"
 
-#: editor/kgpgtextedit.cpp:335
+#: editor/kgpgtextedit.cpp:331
 #, kde-format
 msgid "Import key in your list"
 msgstr "Εισαγωγή του κλειδιού στη λίστα σας"
 
-#: editor/kgpgtextedit.cpp:338
+#: editor/kgpgtextedit.cpp:334
 #, kde-format
 msgid "Do &Not Import"
 msgstr "Να μην ε&ισαχθεί"
 
-#: editor/kgpgtextedit.cpp:339
+#: editor/kgpgtextedit.cpp:335
 #, kde-format
 msgid "Will not import this key in your list"
 msgstr "Το κλειδί δε θα εισαχθεί στη λίστα σας"
 
-#: editor/kgpgtextedit.cpp:341
+#: editor/kgpgtextedit.cpp:337
 #, kde-format
 msgid "Missing Key"
 msgstr "Το κλειδί λείπει"
@@ -1399,13 +1399,13 @@ msgstr "Έναρξη"
 msgid "Unable to create temporary file"
 msgstr "Δεν ήταν δυνατή η δημιουργία προσωρινού αρχείου"
 
-#: foldercompressjob.cpp:115 transactions/kgpgencrypt.cpp:96
+#: foldercompressjob.cpp:115 transactions/kgpgencrypt.cpp:92
 #, kde-format
 msgctxt "Status message 'Encrypting <filename>' (operation starts)"
 msgid "Encrypting %1"
 msgstr "Κρυπτογράφηση του %1"
 
-#: foldercompressjob.cpp:136 transactions/kgpgencrypt.cpp:99
+#: foldercompressjob.cpp:136 transactions/kgpgencrypt.cpp:95
 #, kde-format
 msgctxt "Status message 'Encrypted <filename>' (operation was completed)"
 msgid "Encrypted %1"
@@ -1448,7 +1448,7 @@ msgstr "Διαθέσιμα έμπιστα κλειδιά"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:433 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:432 searchres.ui:29
 #, kde-format
 msgid "Search:"
 msgstr "Αναζήτηση:"
@@ -1812,241 +1812,241 @@ msgstr "Βρέθηκε 1 κλειδί που ταιριάζει(δεν εμφα�
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "Βρέθηκε %1 κλειδί που ταιριάζει (%2 εμφανές)"
 
-#: keysmanager.cpp:133
+#: keysmanager.cpp:132
 #, kde-format
 msgid "Key Management"
 msgstr "Διαχείριση κλειδιών"
 
-#: keysmanager.cpp:140
+#: keysmanager.cpp:139
 #, kde-format
 msgid "&Open Editor"
 msgstr "Άν&οιγμα επεξεργαστή"
 
-#: keysmanager.cpp:143
+#: keysmanager.cpp:142
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "Διάλογος εξυπηρετητή &κλειδιών"
 
-#: keysmanager.cpp:148 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:147 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "&Μετάβαση στο προκαθορισμένο κλειδί"
 
-#: keysmanager.cpp:165
+#: keysmanager.cpp:164
 #, kde-format
 msgid "Tip of the &Day"
 msgstr "Συμβουλή της &ημέρας"
 
-#: keysmanager.cpp:168
+#: keysmanager.cpp:167
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "Προβολή του εγχειριδίου του GnuPG"
 
-#: keysmanager.cpp:173
+#: keysmanager.cpp:172
 #, kde-format
 msgid "&Refresh List"
 msgstr "&Ανανέωση λίστας"
 
-#: keysmanager.cpp:177
+#: keysmanager.cpp:176
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr "Εμφάνιση ταυτότητας κλειδιού μεγά&λου μήκους"
 
-#: keysmanager.cpp:182
+#: keysmanager.cpp:181
 #, kde-format
 msgid "K&ey Properties"
 msgstr "Ιδιότητες κλ&ειδιού"
 
-#: keysmanager.cpp:186
+#: keysmanager.cpp:185
 #, kde-format
 msgid "&Open Key URL"
 msgstr "&Άνοιγμα URL κλειδιού"
 
-#: keysmanager.cpp:190
+#: keysmanager.cpp:189
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "Επεξεργασία κλειδιού στο &Τερματικό"
 
-#: keysmanager.cpp:195
+#: keysmanager.cpp:194
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "&Δημιουργία ζεύγους κλειδιών..."
 
-#: keysmanager.cpp:204
+#: keysmanager.cpp:203
 #, kde-format
 msgid "&Import Key..."
 msgstr "Ε&ισαγωγή κλειδιού..."
 
-#: keysmanager.cpp:209
+#: keysmanager.cpp:208
 #, kde-format
 msgid "Send Ema&il"
 msgstr "Αποστολή ηλ. αλ&ληλογραφίας"
 
-#: keysmanager.cpp:213
+#: keysmanager.cpp:212
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "&Δημιουργία νέας επαφής στο βιβλίο διευθύνσεων"
 
-#: keysmanager.cpp:219
+#: keysmanager.cpp:218
 #, kde-format
 msgid "&Edit Group..."
 msgstr "&Επεξεργασία ομάδας..."
 
-#: keysmanager.cpp:222
+#: keysmanager.cpp:221
 #, kde-format
 msgid "&Delete Group"
 msgstr "&Διαγραφή ομάδας"
 
-#: keysmanager.cpp:226
+#: keysmanager.cpp:225
 #, kde-format
 msgid "&Rename Group"
 msgstr "&Μετονομασία ομάδας"
 
-#: keysmanager.cpp:235
+#: keysmanager.cpp:234
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "Ορισμός ως &προκαθορισμένο κλειδί"
 
-#: keysmanager.cpp:238
+#: keysmanager.cpp:237
 #, kde-format
 msgid "&Add Photo..."
 msgstr "Προσθήκη φωτογρ&αφίας..."
 
-#: keysmanager.cpp:241
+#: keysmanager.cpp:240
 #, kde-format
 msgid "&Add User Id..."
 msgstr "Προσθήκη τ&αυτότητας χρήστη..."
 
-#: keysmanager.cpp:244
+#: keysmanager.cpp:243
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "Εξαγωγή ιδιωτικού κλειδιού..."
 
-#: keysmanager.cpp:247
+#: keysmanager.cpp:246
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "Διαγραφή ζεύγους κλειδιών"
 
-#: keysmanager.cpp:251
+#: keysmanager.cpp:250
 #, kde-format
 msgid "Revoke Key..."
 msgstr "Ακύρωση κλειδιού..."
 
-#: keysmanager.cpp:254
+#: keysmanager.cpp:253
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "Αναδημιουργία δημοσίου κλειδιού"
 
-#: keysmanager.cpp:260
+#: keysmanager.cpp:259
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr "Ορισμός ταυτότητας χρήστη ως &πρωταρχική"
 
-#: keysmanager.cpp:264
+#: keysmanager.cpp:263
 #, kde-format
 msgid "&Open Photo"
 msgstr "Άν&οιγμα φωτογραφίας"
 
-#: keysmanager.cpp:268
+#: keysmanager.cpp:267
 #, kde-format
 msgid "&Delete Photo"
 msgstr "&Διαγραφή φωτογραφίας"
 
-#: keysmanager.cpp:276
+#: keysmanager.cpp:275
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "Εισαγωγή &υπογραφών που λείπουν από τον εξυπηρετητή κλειδιών"
 
-#: keysmanager.cpp:294 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "Εμπιστοσύνη"
 
-#: keysmanager.cpp:297 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: keysmanager.cpp:300 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:299 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "Δημιουργία"
 
-#: keysmanager.cpp:303 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:302 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "Λήξη"
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:306
 #, kde-format
 msgid "&Photo ID's"
 msgstr "&Φωτογραφίες ταυτοτήτων"
 
-#: keysmanager.cpp:312
+#: keysmanager.cpp:311
 #, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "Μικρή"
 
-#: keysmanager.cpp:313
+#: keysmanager.cpp:312
 #, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "Μεσαία"
 
-#: keysmanager.cpp:314
+#: keysmanager.cpp:313
 #, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "Μεγάλη"
 
-#: keysmanager.cpp:318
+#: keysmanager.cpp:317
 #, kde-format
 msgid "Minimum &Trust"
 msgstr "Ελάχιστη εμπισ&τοσύνη"
 
-#: keysmanager.cpp:321
+#: keysmanager.cpp:320
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "&Κανένα"
 
-#: keysmanager.cpp:322
+#: keysmanager.cpp:321
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr "&Ενεργό"
 
-#: keysmanager.cpp:323
+#: keysmanager.cpp:322
 #, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "&Οριακή"
 
-#: keysmanager.cpp:324
+#: keysmanager.cpp:323
 #, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "&Πλήρης"
 
-#: keysmanager.cpp:325
+#: keysmanager.cpp:324
 #, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "&Απόλυτη"
 
-#: keysmanager.cpp:350
+#: keysmanager.cpp:349
 #, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "Εμφάνι&ση μόνο των ιδιωτικών κλειδιών"
 
-#: keysmanager.cpp:450
+#: keysmanager.cpp:449
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "Εστίαση γραμμής αναζήτησης"
 
-#: keysmanager.cpp:497
+#: keysmanager.cpp:492
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
@@ -2055,40 +2055,40 @@ msgstr ""
 "Μια άλλη διεργασία δημιουργίας κλειδιού βρίσκεται σε εξέλιξη.\n"
 "Παρακαλώ περιμένετε λίγο μέχρι να ολοκληρωθεί."
 
-#: keysmanager.cpp:498 keysmanager.cpp:536 keysmanager.cpp:584
+#: keysmanager.cpp:493 keysmanager.cpp:531 keysmanager.cpp:579
 #, kde-format
 msgid "Generating new key pair"
 msgstr "Δημιουργία νέου ζεύγους κλειδιών"
 
-#: keysmanager.cpp:537
+#: keysmanager.cpp:532
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr ""
 "Αδυναμία εκκίνησης εφαρμογής «konsole» για τη λειτουργία για προχωρημένους."
 
-#: keysmanager.cpp:576 keysmanager.cpp:2618 keysmanager.cpp:2620
+#: keysmanager.cpp:571 keysmanager.cpp:2610 keysmanager.cpp:2612
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "Έτοιμο"
 
-#: keysmanager.cpp:588 transactions/kgpggeneratekey.cpp:198
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:194
 #, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "Λάθος συνθηματικό. Αδύνατη η δημιουργία νέου ζεύγους κλειδιών."
 
-#: keysmanager.cpp:591 transactions/kgpggeneratekey.cpp:201
+#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr "Ακυρώθηκε από το χρήστη. Αδύνατη η δημιουργία νέου ζεύγους κλειδιών."
 
-#: keysmanager.cpp:594 transactions/kgpggeneratekey.cpp:204
+#: keysmanager.cpp:589 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr ""
 "Η ηλ. διεύθυνση δεν είναι έγκυρη. Αδύνατη η δημιουργία νέου ζεύγους κλειδιών."
 
-#: keysmanager.cpp:597 transactions/kgpggeneratekey.cpp:207
+#: keysmanager.cpp:592 transactions/kgpggeneratekey.cpp:203
 #, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr ""
@@ -2096,30 +2096,30 @@ msgstr ""
 "κλειδιών."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:603 newkey.ui:14
+#: keysmanager.cpp:598 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "Νέο ζεύγος κλειδιών δημιουργήθηκε"
 
-#: keysmanager.cpp:642
+#: keysmanager.cpp:637
 #, kde-format
 msgid "backup copy"
 msgstr "αντίγραφο ασφαλείας"
 
-#: keysmanager.cpp:656 transactions/kgpggeneratekey.cpp:219
+#: keysmanager.cpp:651 transactions/kgpggeneratekey.cpp:215
 #, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr ""
 "Η διεργασία gpg δεν ολοκληρώθηκε. Αδύνατη η δημιουργία νέου ζεύγους κλειδιών."
 
-#: keysmanager.cpp:760
+#: keysmanager.cpp:755
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr ""
 "Μπορείτε να ανανεώσετε μόνο πρωτεύοντα κλειδιά. Παρακαλώ ελέγξτε την επιλογή "
 "σας."
 
-#: keysmanager.cpp:884
+#: keysmanager.cpp:879
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
@@ -2128,12 +2128,12 @@ msgstr ""
 "Μια άλλη εργασία είναι σε εξέλιξη.\n"
 "Παρακαλώ περιμένετε λίγο μέχρι να ολοκληρωθεί."
 
-#: keysmanager.cpp:885 keysmanager.cpp:890
+#: keysmanager.cpp:880 keysmanager.cpp:885
 #, kde-format
 msgid "Add New User Id"
 msgstr "Προσθήκη νέας ταυτότητας χρήστη"
 
-#: keysmanager.cpp:930
+#: keysmanager.cpp:925
 #, kde-format
 msgid ""
 "The image must be a JPEG file. Remember that the image is stored within your "
@@ -2146,7 +2146,7 @@ msgstr ""
 "μεγάλη εικόνα, θα μεγαλώσει πολύ και το μέγεθος του κλειδιού σας. Ένα καλό "
 "μέγεθος εικόνας είναι γύρω στα 240x288."
 
-#: keysmanager.cpp:962
+#: keysmanager.cpp:957
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2155,65 +2155,65 @@ msgstr ""
 "<qt>Είστε σίγουροι ότι επιθυμείτε να διαγράψετε τη φωτογραφία ταυτότητας <b>"
 "%1</b><br/>από το κλειδί <b>%2 &lt;%3&gt;</b>?</qt>"
 
-#: keysmanager.cpp:1105
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Public Key"
 msgstr "Δημόσιο κλειδί"
 
-#: keysmanager.cpp:1108
+#: keysmanager.cpp:1103
 #, kde-format
 msgid "Sub Key"
 msgstr "Δευτερεύον κλειδί"
 
-#: keysmanager.cpp:1111
+#: keysmanager.cpp:1106
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "Ζεύγος ιδιωτικών κλειδιών"
 
-#: keysmanager.cpp:1114
+#: keysmanager.cpp:1109
 #, kde-format
 msgid "Key Group"
 msgstr "Ομάδα κλειδιών"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1117 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1112 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "Υπογραφή"
 
-#: keysmanager.cpp:1120
+#: keysmanager.cpp:1115
 #, kde-format
 msgid "User ID"
 msgstr "Ταυτότητα χρήστη"
 
-#: keysmanager.cpp:1123
+#: keysmanager.cpp:1118
 #, kde-format
 msgid "Revocation Signature"
 msgstr "Υπογραφή ανάκλησης"
 
-#: keysmanager.cpp:1126
+#: keysmanager.cpp:1121
 #, kde-format
 msgid "Photo ID"
 msgstr "Φωτογραφία ταυτότητας"
 
-#: keysmanager.cpp:1129
+#: keysmanager.cpp:1124
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "Ορφανό ιδιωτικό κλειδί"
 
-#: keysmanager.cpp:1134
+#: keysmanager.cpp:1129
 #, kde-format
 msgid "Group member"
 msgstr "Μέλος ομάδας"
 
-#: keysmanager.cpp:1239
+#: keysmanager.cpp:1234
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
 msgstr[0] "&Υπογράψτε τη ταυτότητα του χρήστη..."
 msgstr[1] "&Υπογράψτε τις ταυτότητες των χρηστών..."
 
-#: keysmanager.cpp:1240
+#: keysmanager.cpp:1235
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
@@ -2221,68 +2221,68 @@ msgstr[0] "Υπογραφή ταυτότητας χρήστη και &αποστ
 msgstr[1] ""
 "Υπογραφή ταυτότητας χρηστών και &αποστολή στην ηλ. διεύθυνσή τους..."
 
-#: keysmanager.cpp:1241
+#: keysmanager.cpp:1236
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
 msgstr[0] "Ε&ξαγωγή δημοσίου κλειδιού..."
 msgstr[1] "Ε&ξαγωγή δημοσίων κλειδιών..."
 
-#: keysmanager.cpp:1242
+#: keysmanager.cpp:1237
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "&Ανανέωση κλειδιού από τον εξυπηρετητή κλειδιών"
 msgstr[1] "&Ανανέωση κλειδιών από τον εξυπηρετητή κλειδιών"
 
-#: keysmanager.cpp:1243
+#: keysmanager.cpp:1238
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "&Δημιουργία ομάδας με το επιλεγμένο κλειδί..."
 msgstr[1] "&Δημιουργία ομάδας με τα επιλεγμένα κλειδιά..."
 
-#: keysmanager.cpp:1244
+#: keysmanager.cpp:1239
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
 msgstr[0] "&Υπογράψτε το κλειδί..."
 msgstr[1] "&Υπογράψτε τα κλειδιά..."
 
-#: keysmanager.cpp:1245
+#: keysmanager.cpp:1240
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
 msgstr[0] "&Διαγραφή ταυτότητας χρήστη"
 msgstr[1] "&Διαγραφή ταυτότητας χρηστών"
 
-#: keysmanager.cpp:1246
+#: keysmanager.cpp:1241
 #, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
 msgstr[0] "Διαγραφή &υπογραφής"
 msgstr[1] "Διαγραφή &υπογραφών"
 
-#: keysmanager.cpp:1247
+#: keysmanager.cpp:1242
 #, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
 msgstr[0] "Εισαγωγή κλειδιού από τον εξυπηρετητή κλειδιών"
 msgstr[1] "Εισαγωγή κλειδιών από τον εξυπηρετητή κλειδιών"
 
-#: keysmanager.cpp:1248
+#: keysmanager.cpp:1243
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
 msgstr[0] "&Διαγραφή κλειδιού"
 msgstr[1] "&Διαγραφή κλειδιών"
 
-#: keysmanager.cpp:1371
+#: keysmanager.cpp:1366
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "Η δημιουργία του πιστοποιητικού ακύρωσης απέτυχε..."
 
-#: keysmanager.cpp:1386
+#: keysmanager.cpp:1381
 #, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2294,17 +2294,17 @@ msgstr ""
 "κρυπτογράφηση με αυτό το κλειδί θα είναι εκτεθειμένη<br/>Να συνεχιστεί η "
 "εξαγωγή του κλειδιού;</qt>"
 
-#: keysmanager.cpp:1398
+#: keysmanager.cpp:1393
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "Εξαγωγή ΙΔΙΩΤΙΚΟΥ ΚΛΕΙΔΙΟΥ ως"
 
-#: keysmanager.cpp:1398
+#: keysmanager.cpp:1393
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr "Αρχεία *.asc|*.asc"
 
-#: keysmanager.cpp:1416
+#: keysmanager.cpp:1411
 #, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
@@ -2313,7 +2313,7 @@ msgstr ""
 "<qt>Το <b>ιδιωτικό</b> σας κλειδί \"%1\" εξήχθη με επιτυχία στο<br/>%2.<br/"
 "><b>Μην</b> το αφήσετε σε μη ασφαλές μέρος.</qt>"
 
-#: keysmanager.cpp:1419
+#: keysmanager.cpp:1414
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2322,7 +2322,7 @@ msgstr ""
 "Η εξαγωγή του μυστικού σας κλειδιού δεν ήταν δυνατό να γίνει.\n"
 "Ελέγξτε το κλειδί."
 
-#: keysmanager.cpp:1521
+#: keysmanager.cpp:1516
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
@@ -2331,7 +2331,7 @@ msgstr[0] ""
 msgstr[1] ""
 "<qt>Η εξαγωγή των %1 δημοσίων κλειδιών έγινε με επιτυχία στο <br/>%2</qt>"
 
-#: keysmanager.cpp:1525 keysmanager.cpp:1540 keysmanager.cpp:1554
+#: keysmanager.cpp:1520 keysmanager.cpp:1535 keysmanager.cpp:1549
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2340,7 +2340,7 @@ msgstr ""
 "Η εξαγωγή του δημοσίου κλειδιού σας δεν ήταν δυνατό να γίνει.\n"
 "Ελέγξτε το κλειδί."
 
-#: keysmanager.cpp:1663
+#: keysmanager.cpp:1658
 #, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
@@ -2350,27 +2350,27 @@ msgstr ""
 "δημόσιο κλειδί) και δεν μπορεί να χρησιμοποιηθεί.</p><p>Θέλετε να "
 "δημιουργήσετε ξανά το δημόσιο κλειδί;</p>"
 
-#: keysmanager.cpp:1665
+#: keysmanager.cpp:1660
 #, kde-format
 msgid "Generate"
 msgstr "Δημιουργία"
 
-#: keysmanager.cpp:1665
+#: keysmanager.cpp:1660
 #, kde-format
 msgid "Do Not Generate"
 msgstr "Να μη δημιουργηθεί"
 
-#: keysmanager.cpp:1695
+#: keysmanager.cpp:1690
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Είστε σίγουροι ότι θέλετε να διαγράψετε την ομάδα <b>%1</b> ;</qt>"
 
-#: keysmanager.cpp:1696 keysmanager.cpp:2369
+#: keysmanager.cpp:1691 keysmanager.cpp:2361
 #, kde-format
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: keysmanager.cpp:1726
+#: keysmanager.cpp:1721
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2379,24 +2379,24 @@ msgstr ""
 "<qt>Δεν μπορείτε να δημιουργήσετε μια ομάδα που να περιέχει υπογραφές, "
 "δευτερεύοντα κλειδιά ή άλλες ομάδες.</qt>"
 
-#: keysmanager.cpp:1741 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1736 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr "%1 (%2) ID: %3"
 
-#: keysmanager.cpp:1746
+#: keysmanager.cpp:1741
 #, kde-format
 msgid "Create New Group"
 msgstr "Δημιουργία νέας ομάδας"
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1742
 #, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "Εισάγετε το νέο όνομα της ομάδας:"
 
-#: keysmanager.cpp:1752
+#: keysmanager.cpp:1747
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
@@ -2405,7 +2405,7 @@ msgstr ""
 "Τα ακόλουθα κλειδιά δεν είναι έγκυρα ή έμπιστα και δε θα προστεθούν στην "
 "ομάδα:"
 
-#: keysmanager.cpp:1758
+#: keysmanager.cpp:1753
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2414,19 +2414,19 @@ msgstr ""
 "<qt>Δεν επιλέχθηκε κανένα έγκυρο ή έμπιστο κλειδί. Η ομάδα <b>%1</b> δε θα "
 "δημιουργηθεί.</qt>"
 
-#: keysmanager.cpp:1770
+#: keysmanager.cpp:1765
 #, kde-format
 msgid "Group Properties"
 msgstr "Ιδιότητες ομάδας"
 
-#: keysmanager.cpp:1806
+#: keysmanager.cpp:1801
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr ""
 "Μπορείτε να υπογράψετε μόνο πρωτεύοντα κλειδιά. Παρακαλώ ελέγξτε την επιλογή "
 "σας."
 
-#: keysmanager.cpp:1815
+#: keysmanager.cpp:1810
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2440,7 +2440,7 @@ msgstr ""
 "είστε σίγουροι ότι δεν προσπαθεί κάποιος να υποκλέψει την επικοινωνία σας.</"
 "qt>"
 
-#: keysmanager.cpp:1820
+#: keysmanager.cpp:1815
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2454,20 +2454,20 @@ msgstr ""
 "για να είστε σίγουροι ότι δεν προσπαθεί κάποιος να υποκλέψει την επικοινωνία "
 "σας.</qt>"
 
-#: keysmanager.cpp:1835 keysmanager.cpp:1919 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1830 keysmanager.cpp:1914 kgpgfirstassistant.cpp:271
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1837 keysmanager.cpp:1922 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1832 keysmanager.cpp:1917 kgpgfirstassistant.cpp:273
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr "%1 (%2): %3"
 
-#: keysmanager.cpp:1843
+#: keysmanager.cpp:1838
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2478,14 +2478,14 @@ msgstr ""
 "δεν έχετε ελέγξει με προσοχή όλα τα αποτυπώματα, η ασφάλεια των επικοινωνιών "
 "σας ίσως εκτεθεί σε κίνδυνο.</b></qt>"
 
-#: keysmanager.cpp:1885 keysmanager.cpp:2032
+#: keysmanager.cpp:1880 keysmanager.cpp:2027
 #, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr ""
 "Μπορείτε να υπογράψετε μόνο ταυτότητες χρηστών και φωτογραφίες ταυτοτήτων. "
 "Παρακαλώ ελέγξτε την επιλογή σας."
 
-#: keysmanager.cpp:1899
+#: keysmanager.cpp:1894
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2499,7 +2499,7 @@ msgstr ""
 "του κλειδιού για να είστε σίγουροι ότι δεν προσπαθεί κάποιος να υποκλέψει "
 "την επικοινωνία σας.</qt>"
 
-#: keysmanager.cpp:1903
+#: keysmanager.cpp:1898
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2513,7 +2513,7 @@ msgstr ""
 "του κλειδιού για να είστε σίγουροι ότι δεν προσπαθεί κάποιος να υποκλέψει "
 "την επικοινωνία σας.</qt>"
 
-#: keysmanager.cpp:1929
+#: keysmanager.cpp:1924
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2524,17 +2524,17 @@ msgstr ""
 "<br/><b>Αν δεν έχετε ελέγξει με προσοχή όλα τα αποτυπώματα, η ασφάλεια των "
 "επικοινωνιών σας ίσως εκτεθεί σε κίνδυνο.</b></qt>"
 
-#: keysmanager.cpp:1998
+#: keysmanager.cpp:1993
 #, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>Λάθος συνθηματικό, το κλειδί <b>%1 (%2)</b> δεν υπογράφτηκε.</qt>"
 
-#: keysmanager.cpp:2002
+#: keysmanager.cpp:1997
 #, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>Το κλειδί <b>%1 (%2)</b> είναι είδη υπογεγραμμένο.</qt>"
 
-#: keysmanager.cpp:2007
+#: keysmanager.cpp:2002
 #, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
@@ -2544,7 +2544,7 @@ msgstr ""
 ">Επιθυμείτε να δοκιμάσετε να υπογράψετε το κλειδί σε λειτουργία κονσόλας;</"
 "qt>"
 
-#: keysmanager.cpp:2125
+#: keysmanager.cpp:2120
 #, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
@@ -2553,13 +2553,13 @@ msgstr[0] ""
 msgstr[1] ""
 "Όλες οι υπογραφές για αυτά τα κλειδιά βρίσκονται ήδη στη λίστα κλειδιών σας"
 
-#: keysmanager.cpp:2215
+#: keysmanager.cpp:2207
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr ""
 "Επεξεργαστείτε το κλειδί χειροκίνητα για να διαγράψετε μία αυτο-υπογραφή."
 
-#: keysmanager.cpp:2219
+#: keysmanager.cpp:2211
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
@@ -2568,14 +2568,14 @@ msgstr ""
 "<qt>Επιθυμείτε σίγουρα τη διαγραφή της υπογραφής<br /><b>%1</b><br />από τη "
 "ταυτότητα χρήστη <b>%2</b><br />του κλειδιού: <b>%3</b>;</qt>"
 
-#: keysmanager.cpp:2241
+#: keysmanager.cpp:2233
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr ""
 "Η ζητούμενη ενέργεια δεν ήταν επιτυχής, παρακαλώ επεξεργαστείτε το κλειδί με "
 "το χέρι."
 
-#: keysmanager.cpp:2325
+#: keysmanager.cpp:2317
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2590,14 +2590,14 @@ msgstr[1] ""
 "<qt>Το κλειδί που διαγράφετε είναι μέλος των παρακάτω ομάδων κλειδιών. "
 "Επιθυμείτε τη διαγραφή του από τις ομάδες αυτές;</qt>"
 
-#: keysmanager.cpp:2329 keysmanager.cpp:2343 keysmanager.cpp:2378
-#: keysmanager.cpp:2393 keysmanager.cpp:2396 keysmanager.cpp:2407
-#: keysmanager.cpp:2421 keysmanager.cpp:2462
+#: keysmanager.cpp:2321 keysmanager.cpp:2335 keysmanager.cpp:2370
+#: keysmanager.cpp:2385 keysmanager.cpp:2388 keysmanager.cpp:2399
+#: keysmanager.cpp:2413 keysmanager.cpp:2454
 #, kde-format
 msgid "Delete key"
 msgstr "Διαγραφή κλειδιού"
 
-#: keysmanager.cpp:2342
+#: keysmanager.cpp:2334
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
@@ -2606,7 +2606,7 @@ msgstr ""
 "Αφαιρείτε το τελευταίο κλειδί από την ομάδα κλειδιών %1.<br/>Θέλετε να "
 "διαγράψετε και την ομάδα;"
 
-#: keysmanager.cpp:2366
+#: keysmanager.cpp:2358
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2616,7 +2616,7 @@ msgstr ""
 "του ζεύγους κλειδιών σημαίνει ότι δεν θα μπορείτε ποτέ πια να "
 "αποκρυπτογραφείτε αρχεία που κρυπτογραφήθηκαν με αυτό το κλειδί."
 
-#: keysmanager.cpp:2377 keysmanager.cpp:2406
+#: keysmanager.cpp:2369 keysmanager.cpp:2398
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2625,24 +2625,24 @@ msgstr ""
 "Μια άλλη διεργασία διαγραφής κλειδιού βρίσκεται σε εξέλιξη. \n"
 "Παρακαλώ περιμένετε λίγο μέχρι να ολοκληρωθεί."
 
-#: keysmanager.cpp:2393
+#: keysmanager.cpp:2385
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "Το κλειδί <b>%1</b> διαγράφηκε."
 
-#: keysmanager.cpp:2396
+#: keysmanager.cpp:2388
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "Αποτυχία διαγραφής του κλειδιού <b>%1</b>."
 
-#: keysmanager.cpp:2420
+#: keysmanager.cpp:2412
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 "Αδυναμία διαγραφής του κλειδιού <b>%1</b> ενώ γίνεται επεξεργασία του στο "
 "τερματικό."
 
-#: keysmanager.cpp:2461
+#: keysmanager.cpp:2453
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
@@ -2651,7 +2651,7 @@ msgstr ""
 "Τα αντικείμενα που επιλέξατε δεν είναι κλειδιά. Δεν μπορούν να διαγραφούν με "
 "αυτήν την επιλογή από το μενού."
 
-#: keysmanager.cpp:2486
+#: keysmanager.cpp:2478
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2660,24 +2660,24 @@ msgstr ""
 "<qt>Τα ακόλουθα είναι ζεύγη ιδιωτικών κλειδιών:<br/><b>%1</b><br/>Δεν θα "
 "διαγραφούν.</qt>"
 
-#: keysmanager.cpp:2496
+#: keysmanager.cpp:2488
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>Διαγραφή του ακόλουθου δημοσίου κλειδιού;</b></qt>"
 msgstr[1] "<qt><b>Διαγραφή των ακολούθων %1 δημοσίων κλειδιών;</b></qt>"
 
-#: keysmanager.cpp:2527 keysmanager.cpp:2603 keysmanager.cpp:2614
+#: keysmanager.cpp:2519 keysmanager.cpp:2595 keysmanager.cpp:2606
 #, kde-format
 msgid "Key Import"
 msgstr "Εισαγωγή κλειδιού"
 
-#: keysmanager.cpp:2535
+#: keysmanager.cpp:2527
 #, kde-format
 msgid "Open File"
 msgstr "Άνοιγμα αρχείου"
 
-#: keysmanager.cpp:2568
+#: keysmanager.cpp:2560
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2687,54 +2687,54 @@ msgstr ""
 "αρχείο.<br />Θέλετε να το αποκρυπτογραφήσετε πρώτα και μετά να προσπαθήσετε "
 "να το εισάγετε;</qt>"
 
-#: keysmanager.cpp:2570
+#: keysmanager.cpp:2562
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "Εισαγωγή από το πρόχειρο"
 
-#: keysmanager.cpp:2590
+#: keysmanager.cpp:2582
 #, kde-format
 msgid "Importing..."
 msgstr "Εισαγωγή..."
 
-#: keysmanager.cpp:2602
+#: keysmanager.cpp:2594
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr ""
 "Η εισαγωγή του κλειδιού απέτυχε. Παρακαλώ ελέγξτε το αρχείο καταγραφής για "
 "περισσότερες πληροφορίες."
 
-#: keysmanager.cpp:2655
+#: keysmanager.cpp:2647
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - εργαλείο κρυπτογράφησης"
 
-#: keysmanager.cpp:2676
+#: keysmanager.cpp:2668
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "Διαχειριστής κ&λειδιών"
 
-#: keysmanager.cpp:2679
+#: keysmanager.cpp:2671
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "&Κρυπτογράφηση προχείρου"
 
-#: keysmanager.cpp:2682
+#: keysmanager.cpp:2674
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&Αποκρυπτογράφηση προχείρου"
 
-#: keysmanager.cpp:2685
+#: keysmanager.cpp:2677
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&Υπογραφή/Επαλήθευση προχείρου"
 
-#: keysmanager.cpp:2722 keysmanager.cpp:2825 keysmanager.cpp:2843
+#: keysmanager.cpp:2714 keysmanager.cpp:2817 keysmanager.cpp:2835
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Το πρόχειρο είναι άδειο."
 
-#: keysmanager.cpp:2767
+#: keysmanager.cpp:2759
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "Το κείμενο κρυπτογραφήθηκε με επιτυχία."
@@ -3896,7 +3896,7 @@ msgctxt "@info:credit"
 msgid "KF5 port"
 msgstr "Μεταφορά στο KF5"
 
-#: model/gpgservermodel.cpp:77
+#: model/gpgservermodel.cpp:73
 #, kde-format
 msgctxt "Mark default keyserver in GUI"
 msgid "%1 (Default)"
@@ -3950,12 +3950,12 @@ msgctxt "%1 = something like 7 keys, %2 = something like 2 groups"
 msgid "%1, %2"
 msgstr "%1, %2"
 
-#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:422
+#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:418
 #, kde-format
 msgid "Name"
 msgstr "Όνομα"
 
-#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:424
+#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:420
 #, kde-format
 msgctxt "@title:column Title of a column of emails"
 msgid "Email"
@@ -3978,7 +3978,7 @@ msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009"
 msgid "ID %1, %2-bit %3 key, created %4"
 msgstr "Ταυτότητα %1, %2-bit %3 κλειδί, δημιουργήθηκε %4"
 
-#: model/kgpgsearchresultmodel.cpp:289
+#: model/kgpgsearchresultmodel.cpp:285
 #, kde-format
 msgid "One Photo ID"
 msgid_plural "%1 Photo IDs"
@@ -4391,27 +4391,27 @@ msgstr ""
 "ποντίκι στη στήλη μεγέθους στο διαχειριστή κλειδιών. Τα κλειδί θα πρέπει να "
 "έχει αναπτυχθεί μια φορά για να λειτουργήσει κάτι τέτοιο.</p>\n"
 
-#: transactions/kgpgaddphoto.cpp:42
+#: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "This image is very large. Use it anyway?"
 msgstr "Η εικόνα είναι πολύ μεγάλη. Να χρησιμοποιηθεί έτσι κι αλλιώς;"
 
-#: transactions/kgpgaddphoto.cpp:42
+#: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "Use Anyway"
 msgstr "Χρήση έτσι κι αλλιώς"
 
-#: transactions/kgpgaddphoto.cpp:42
+#: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "Do Not Use"
 msgstr "Να μη χρησιμοποιηθεί"
 
-#: transactions/kgpgchangepass.cpp:59
+#: transactions/kgpgchangepass.cpp:55
 #, kde-format
 msgid "Enter old passphrase for <b>%1</b>"
 msgstr "Δώστε το παλαιό συνθηματικό για το <b>%1</b>"
 
-#: transactions/kgpgchangepass.cpp:61
+#: transactions/kgpgchangepass.cpp:57
 #, kde-format
 msgid ""
 "<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase "
@@ -4421,24 +4421,24 @@ msgstr ""
 "συνθηματικό τα κρυπτογραφημένα αρχεία και μηνύματα δεν θα είναι προσβάσιμα.</"
 "qt>"
 
-#: transactions/kgpgdecrypt.cpp:114
+#: transactions/kgpgdecrypt.cpp:110
 #, kde-format
 msgctxt "Status message 'Decrypting <filename>' (operation starts)"
 msgid "Decrypting %1"
 msgstr "Αποκρυπτογράφηση του %1"
 
-#: transactions/kgpgdecrypt.cpp:117
+#: transactions/kgpgdecrypt.cpp:113
 #, kde-format
 msgctxt "Status message 'Decrypted <filename>' (operation was completed)"
 msgid "Decrypted %1"
 msgstr "Αποκρυπτογραφημένο %1"
 
-#: transactions/kgpggeneratekey.cpp:56
+#: transactions/kgpggeneratekey.cpp:52
 #, kde-format
 msgid "Generating New Key for %1"
 msgstr "Δημιουργία νέου κλειδιού για το %1"
 
-#: transactions/kgpggeneratekey.cpp:129
+#: transactions/kgpggeneratekey.cpp:125
 #, kde-format
 msgid ""
 "<p><b>Enter passphrase for %1 &lt;%2&gt;</b>:<br />Passphrase should include "
@@ -4447,7 +4447,7 @@ msgstr ""
 "<p><b>Εισάγετε συνθηματικό για το %1 &lt;%2&gt;</b>:<br />Το συνθηματικό θα "
 "πρέπει να περιέχει μη αλφαριθμητικούς χαρακτήρες και τυχαίες ακολουθίες.</p>"
 
-#: transactions/kgpggeneratekey.cpp:132
+#: transactions/kgpggeneratekey.cpp:128
 #, kde-format
 msgid ""
 "<p><b>Enter passphrase for %1</b>:<br />Passphrase should include non "
@@ -4456,32 +4456,32 @@ msgstr ""
 "<p><b>Εισάγετε συνθηματικό για το %1</b>:<br />Το συνθηματικό θα πρέπει να "
 "περιέχει μη αλφαριθμητικούς χαρακτήρες και τυχαίες ακολουθίες.</p>"
 
-#: transactions/kgpggeneratekey.cpp:143
+#: transactions/kgpggeneratekey.cpp:139
 #, kde-format
 msgid "Generating Key"
 msgstr "Δημιουργία κλειδιού"
 
-#: transactions/kgpggeneratekey.cpp:156
+#: transactions/kgpggeneratekey.cpp:152
 #, kde-format
 msgid "Generating prime numbers"
 msgstr "Δημιουργία πρώτων αριθμών"
 
-#: transactions/kgpggeneratekey.cpp:158
+#: transactions/kgpggeneratekey.cpp:154
 #, kde-format
 msgid "Generating DSA key"
 msgstr "Δημιουργία κλειδιού DSA"
 
-#: transactions/kgpggeneratekey.cpp:160
+#: transactions/kgpggeneratekey.cpp:156
 #, kde-format
 msgid "Generating ElGamal key"
 msgstr "Δημιουργία κλειδιού ElGamal"
 
-#: transactions/kgpggeneratekey.cpp:162
+#: transactions/kgpggeneratekey.cpp:158
 #, kde-format
 msgid "Waiting for entropy"
 msgstr "Αναμονή εντροπίας"
 
-#: transactions/kgpggeneratekey.cpp:167
+#: transactions/kgpggeneratekey.cpp:163
 #, kde-format
 msgid ""
 "The entropy pool ran empty. The key generation process is stalled until "
@@ -4495,17 +4495,17 @@ msgstr ""
 "τρόπος είναι να χρησιμοποιήσετε μία άλλη εφαρμογή μέχρι η δημιουργία του "
 "κλειδιού συνεχιστεί."
 
-#: transactions/kgpggeneratekey.cpp:210
+#: transactions/kgpggeneratekey.cpp:206
 #, kde-format
 msgid "Key %1 generated"
 msgstr "Το κλειδί %1 δημιουργήθηκε"
 
-#: transactions/kgpggeneraterevoke.cpp:42
+#: transactions/kgpggeneraterevoke.cpp:38
 #, kde-format
 msgid "Generating Revocation Certificate for key %1"
 msgstr "Δημιουργία πιστοποιητικού ακύρωσης για το κλειδί %1"
 
-#: transactions/kgpgimport.cpp:121
+#: transactions/kgpgimport.cpp:117
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -4516,14 +4516,14 @@ msgstr ""
 "μορφή στη γραμμή %1.<nl/>Παρακαλώ δείτε το αρχείο καταγραφής για "
 "περισσότερες πληροφορίες."
 
-#: transactions/kgpgimport.cpp:125
+#: transactions/kgpgimport.cpp:121
 #, kde-format
 msgid "No key imported.<br />Please see the detailed log for more information."
 msgstr ""
 "Δεν εισήχθη κανένα κλειδί.<br />Ελέγξτε το αρχείο καταγραφής για "
 "περισσότερες πληροφορίες."
 
-#: transactions/kgpgimport.cpp:127
+#: transactions/kgpgimport.cpp:123
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>%1 key processed.</para>"
@@ -4531,7 +4531,7 @@ msgid_plural "<para>%1 keys processed.</para>"
 msgstr[0] "<para>Έγινε επεξεργασία %1 κλειδιού.</para>"
 msgstr[1] "<para>Έγινε επεξεργασία %1 κλειδιών.</para>"
 
-#: transactions/kgpgimport.cpp:130
+#: transactions/kgpgimport.cpp:126
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key without ID.</para>"
@@ -4539,7 +4539,7 @@ msgid_plural "<para>%1 keys without ID.</para>"
 msgstr[0] "<para>Ένα κλειδί χωρίς ταυτότητα.</para>"
 msgstr[1] "<para>%1 κλειδιά χωρίς ταυτότητα.</para>"
 
-#: transactions/kgpgimport.cpp:132
+#: transactions/kgpgimport.cpp:128
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para><emphasis strong='true'>One key imported:</emphasis></para>"
@@ -4550,7 +4550,7 @@ msgstr[0] ""
 msgstr[1] ""
 "<para><emphasis strong='true'>Έγινε εισαγωγή %1 κλειδιών:</emphasis></para>"
 
-#: transactions/kgpgimport.cpp:134
+#: transactions/kgpgimport.cpp:130
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One RSA key imported.</para>"
@@ -4558,7 +4558,7 @@ msgid_plural "<para>%1 RSA keys imported.</para>"
 msgstr[0] "<para>Εισήχθη ένα κλειδί RSA.</para>"
 msgstr[1] "<para>Εισήχθησαν %1 κλειδιά RSA.</para>"
 
-#: transactions/kgpgimport.cpp:136
+#: transactions/kgpgimport.cpp:132
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key unchanged.</para>"
@@ -4566,7 +4566,7 @@ msgid_plural "<para>%1 keys unchanged.</para>"
 msgstr[0] "<para>Ένα μη τροποποιημένο κλειδί.</para>"
 msgstr[1] "<para>%1 μη τροποποιημένα κλειδιά.</para>"
 
-#: transactions/kgpgimport.cpp:138
+#: transactions/kgpgimport.cpp:134
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One user ID imported.</para>"
@@ -4574,7 +4574,7 @@ msgid_plural "<para>%1 user IDs imported.</para>"
 msgstr[0] "<para>Εισήχθη μία ταυτότητα χρήστη.</para>"
 msgstr[1] "<para>Εισήχθησαν %1 ταυτότητες χρήστη.</para>"
 
-#: transactions/kgpgimport.cpp:140
+#: transactions/kgpgimport.cpp:136
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One subkey imported.</para>"
@@ -4582,7 +4582,7 @@ msgid_plural "<para>%1 subkeys imported.</para>"
 msgstr[0] "<para>Εισήχθη ένα δευτερεύον κλειδί.</para>"
 msgstr[1] "<para>Εισήχθησαν %1 δευτερεύοντα κλειδιά.</para>"
 
-#: transactions/kgpgimport.cpp:142
+#: transactions/kgpgimport.cpp:138
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One signature imported.</para>"
@@ -4590,7 +4590,7 @@ msgid_plural "<para>%1 signatures imported.</para>"
 msgstr[0] "<para>Εισήχθη μία υπογραφή.</para>"
 msgstr[1] "<para>Εισήχθησαν %1 υπογραφές.</para>"
 
-#: transactions/kgpgimport.cpp:144
+#: transactions/kgpgimport.cpp:140
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One revocation certificate imported.</para>"
@@ -4598,7 +4598,7 @@ msgid_plural "<para>%1 revocation certificates imported.</para>"
 msgstr[0] "<para>Εισήχθη ένα πιστοποιητικό ακύρωσης.</para>"
 msgstr[1] "<para>Εισήχθησαν %1 πιστοποιητικά ακύρωσης.</para>"
 
-#: transactions/kgpgimport.cpp:146
+#: transactions/kgpgimport.cpp:142
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key processed.</para>"
@@ -4606,7 +4606,7 @@ msgid_plural "<para>%1 secret keys processed.</para>"
 msgstr[0] "<para>Έγινε επεξεργασία σε ένα κρυφό κλειδί.</para>"
 msgstr[1] "<para>Έγινε επεξεργασία σε %1 κρυφά κλειδιά.</para>"
 
-#: transactions/kgpgimport.cpp:148
+#: transactions/kgpgimport.cpp:144
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -4618,7 +4618,7 @@ msgstr[0] ""
 msgstr[1] ""
 "<para><emphasis strong='true'>Εισήχθησαν %1 κρυφά κλειδιά.</emphasis></para>"
 
-#: transactions/kgpgimport.cpp:150
+#: transactions/kgpgimport.cpp:146
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key unchanged.</para>"
@@ -4626,7 +4626,7 @@ msgid_plural "<para>%1 secret keys unchanged.</para>"
 msgstr[0] "<para>Δεν τροποποιήθηκε ένα ιδιωτικό κλειδί</para>"
 msgstr[1] "<para>Δεν τροποποιήθηκαν %1 ιδιωτικά κλειδιά.</para>"
 
-#: transactions/kgpgimport.cpp:152
+#: transactions/kgpgimport.cpp:148
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key not imported.</para>"
@@ -4634,7 +4634,7 @@ msgid_plural "<para>%1 secret keys not imported.</para>"
 msgstr[0] "<para>Δεν εισήχθη ένα κρυφό κλειδί.</para>"
 msgstr[1] "<para>Δεν εισήχθησαν %1 κρυφά κλειδιά.</para>"
 
-#: transactions/kgpgimport.cpp:155
+#: transactions/kgpgimport.cpp:151
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -4649,54 +4649,54 @@ msgstr ""
 "κρυπτογράφηση, πρέπει να επεξεργαστείτε το κλειδί (κάνοντας διπλό κλικ πάνω "
 "του) και να δηλώσετε πλήρη ή απόλυτη εμπιστοσύνη σε αυτό.</para>"
 
-#: transactions/kgpgimport.cpp:179
+#: transactions/kgpgimport.cpp:175
 #, kde-kuit-format
 msgctxt "@item ID: Name"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: transactions/kgpgimport.cpp:181
+#: transactions/kgpgimport.cpp:177
 #, kde-kuit-format
 msgctxt "@item ID: Name <Email>"
 msgid "%1: %2 <email>%3</email>"
 msgstr "%1: %2 <email>%3</email>"
 
-#: transactions/kgpgimport.cpp:225
+#: transactions/kgpgimport.cpp:221
 #, kde-format
 msgid "New Key"
 msgid_plural "New Keys"
 msgstr[0] "Νέο κλειδί"
 msgstr[1] "Νέα κλειδιά"
 
-#: transactions/kgpgimport.cpp:228
+#: transactions/kgpgimport.cpp:224
 #, kde-format
 msgid "Key with new User Id"
 msgid_plural "Keys with new User Ids"
 msgstr[0] "Κλειδί με νέα ταυτότητα χρήστη"
 msgstr[1] "Κλειδιά με νέες ταυτότητες χρηστών"
 
-#: transactions/kgpgimport.cpp:231
+#: transactions/kgpgimport.cpp:227
 #, kde-format
 msgid "Key with new Signatures"
 msgid_plural "Keys with new Signatures"
 msgstr[0] "Κλειδί με νέες υπογραφές"
 msgstr[1] "Κλειδιά με νέες υπογραφές"
 
-#: transactions/kgpgimport.cpp:234
+#: transactions/kgpgimport.cpp:230
 #, kde-format
 msgid "Key with new Subkeys"
 msgid_plural "Keys with new Subkeys"
 msgstr[0] "Κλειδί με νέα δευτερεύοντα κλειδιά"
 msgstr[1] "Κλειδιά με νέα δευτερεύοντα κλειδιά"
 
-#: transactions/kgpgimport.cpp:237
+#: transactions/kgpgimport.cpp:233
 #, kde-format
 msgid "New Private Key"
 msgid_plural "New Private Keys"
 msgstr[0] "Νέο ιδιωτικό κλειδί"
 msgstr[1] "Νέα ιδιωτικά κλειδιά"
 
-#: transactions/kgpgimport.cpp:253
+#: transactions/kgpgimport.cpp:249
 #, kde-format
 msgid "Unchanged Key"
 msgid_plural "Unchanged Keys"
@@ -4740,14 +4740,14 @@ msgstr[1] "<p><b>Λάθος συνθηματικό</b>. Έχετε %1 προσπ
 msgid "Got Passphrase"
 msgstr "Παραλαβή συνθηματικού"
 
-#: transactions/kgpgverify.cpp:90
+#: transactions/kgpgverify.cpp:86
 #, kde-kuit-format
 msgctxt ""
 "@info first argument is formatted date, second argument is formatted time"
 msgid "<para>The signature was created at %1 %2</para>"
 msgstr "<para>Η υπογραφή δημιουργήθηκε %1 %2</para>"
 
-#: transactions/kgpgverify.cpp:126
+#: transactions/kgpgverify.cpp:122
 #, kde-kuit-format
 msgctxt "@info Good signature from: NAME , Key ID: HEXID"
 msgid ""
@@ -4757,7 +4757,7 @@ msgstr ""
 "<para>Καλή υπογραφή από:<nl/><emphasis strong='true'>%1</emphasis><nl/"
 ">ταυτότητα κλειδιού: %2<nl/></para>"
 
-#: transactions/kgpgverify.cpp:130
+#: transactions/kgpgverify.cpp:126
 #, kde-kuit-format
 msgctxt "@info Good signature from: NAME <EMAIL>, Key ID: HEXID"
 msgid ""
@@ -4767,13 +4767,13 @@ msgstr ""
 "<para>Καλή υπογραφή από:<nl/><emphasis strong='true'>%1 <email>%2</email></"
 "emphasis><nl/>ταυτότητα κλειδιού: %3</para>"
 
-#: transactions/kgpgverify.cpp:143
+#: transactions/kgpgverify.cpp:139
 #, kde-kuit-format
 msgctxt "@info"
 msgid "No signature found."
 msgstr "Δε βρέθηκε υπογραφή."
 
-#: transactions/kgpgverify.cpp:160
+#: transactions/kgpgverify.cpp:156
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -4783,7 +4783,7 @@ msgstr ""
 "<para>Καλή υπογραφή από:<nl/><emphasis strong='true'>%1</emphasis><nl/"
 ">ταυτότητα κλειδιού: %2<nl/></para>"
 
-#: transactions/kgpgverify.cpp:164
+#: transactions/kgpgverify.cpp:160
 #, kde-kuit-format
 msgctxt "@info Good signature from: NAME <EMAIL>, Key ID: HEXID"
 msgid ""
@@ -4793,7 +4793,7 @@ msgstr ""
 "<para>Καλή υπογραφή από:<nl/><emphasis strong='true'>%1 <email>%2</email></"
 "emphasis><nl/>ταυτότητα κλειδιού: %3<nl/></para>"
 
-#: transactions/kgpgverify.cpp:176
+#: transactions/kgpgverify.cpp:172
 #, kde-kuit-format
 msgctxt "@info"
 msgid ""
@@ -4805,13 +4805,13 @@ msgstr ""
 ">ταυτότητα κλειδιού: %2<nl/><nl/><emphasis strong='true'>Το αρχείο είναι "
 "κατεστραμμένο</emphasis></para>"
 
-#: transactions/kgpgverify.cpp:179
+#: transactions/kgpgverify.cpp:175
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>The signature is valid, but the key is untrusted</para>"
 msgstr "<para>Η υπογραφή είναι έγκυρη, αλλά το κλειδί δεν είναι έμπιστο</para>"
 
-#: transactions/kgpgverify.cpp:181
+#: transactions/kgpgverify.cpp:177
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
