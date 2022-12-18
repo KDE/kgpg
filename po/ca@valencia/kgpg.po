@@ -4216,8 +4216,8 @@ msgid ""
 "import it if you want.</p>\n"
 msgstr ""
 "<p>Si voleu desencriptar un fitxer de text, sols haureu d'arrossegar-lo i "
-"amollar-lo a la finestra de l'editor. KGpg farà la resta. Fins i tot podeu "
-"amollar fitxers remots.</p>\n"
+"deixar-lo a dins de la finestra de l'editor. KGpg farà la resta. Fins i tot "
+"podeu deixar fitxers remots.</p>\n"
 "<p>Arrossegueu una clau pública a dins de l'editor, i si així ho voleu, KGpg "
 "la importarà automàticament.</p>\n"
 
@@ -4333,8 +4333,8 @@ msgid ""
 "<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the "
 "key manager.</p>\n"
 msgstr ""
-"<p>Podeu arribar fins a la vostra clau predeterminada prement &quot;Ctrl"
-"+Inici&quot; en el gestor de claus.</p>\n"
+"<p>Podeu arribar fins a la vostra clau predeterminada prement &quot;"
+"Ctrl+Inici&quot; en el gestor de claus.</p>\n"
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:57
