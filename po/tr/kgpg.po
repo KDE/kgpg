@@ -1463,8 +1463,7 @@ msgid ""
 "You must define at least one keyserver in settings before you can export to "
 "one."
 msgstr ""
-"Dışa aktarabilmek için ayarlarda en az bir anahtar sunucusu "
-"tanımlamalısınız."
+"Dışa aktarabilmek için ayarlarda en az bir anahtar sunucusu tanımlamalısınız."
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkServer)
 #: keyexport.ui:61

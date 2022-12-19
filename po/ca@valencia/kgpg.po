@@ -4333,8 +4333,8 @@ msgid ""
 "<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the "
 "key manager.</p>\n"
 msgstr ""
-"<p>Podeu arribar fins a la vostra clau predeterminada prement &quot;"
-"Ctrl+Inici&quot; en el gestor de claus.</p>\n"
+"<p>Podeu arribar fins a la vostra clau predeterminada prement &quot;Ctrl"
+"+Inici&quot; en el gestor de claus.</p>\n"
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:57
