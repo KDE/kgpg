@@ -27,6 +27,8 @@
 # Any changes here likely apply there, too.
 #
 
+find_package(PkgConfig)
+
 #if this is built-in, please replace, if it isn't, export into a MacroToBool.cmake of it's own
 macro( macro_bool_to_bool FOUND_VAR )
   foreach( _current_VAR ${ARGN} )
@@ -49,8 +51,14 @@ MACRO(MACRO_BOOL_TO_01 FOUND_VAR )
    ENDFOREACH(_current_VAR)
 ENDMACRO(MACRO_BOOL_TO_01)
 
+pkg_search_module(PC_GPGME gpgme)
 
-if ( WIN32 )
+if (PC_GPGME_FOUND)
+  set(GPGME_INCLUDES ${PC_GPGME_INCLUDE_DIRS})
+  set(GPGME_LIBRARIES ${PC_GPGME_LINK_LIBRARIES})
+  set(GPGME_VERSION ${PC_GPGME_VERSION})
+  set(GPGME_LIBRARY_DIR ${PC_GPGME_LIBRARY_DIR})
+elseif ( WIN32 )
 
   # On Windows, we don't have a gpgme-config script, so we need to
   # look for the stuff ourselves:
@@ -353,20 +361,11 @@ foreach(_currentFlavour vanilla glib qt pth pthread)
    endif()
 endforeach()
 
-if ( NOT Gpgme_FIND_QUIETLY )
-
-  if ( GPGME_FOUND )
-    message( STATUS "Usable gpgme flavors found: ${_gpgme_flavours}" )
-  else()
-    message( STATUS "No usable gpgme flavors found." )
-  endif()
-
-endif()
-
-if ( Gpgme_FIND_REQUIRED AND NOT GPGME_FOUND )
-  message( FATAL_ERROR "Did not find GPGME" )
-endif()
-
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(Gpgme
+                                  REQUIRED_VARS GPGME_LIBRARIES
+                                  VERSION_VAR GPGME_VERSION
+                                  )
 
 if ( WIN32 )
   set( _gpgme_homepage "https://www.gpg4win.org" )
