@@ -2022,7 +2022,7 @@ msgstr "&Mostra només les claus secretes"
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
-msgstr "Establix el focus a la línia de busca"
+msgstr "Establix el focus en la línia de busca"
 
 #: keysmanager.cpp:492
 #, kde-format
