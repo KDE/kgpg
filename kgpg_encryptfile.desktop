@@ -78,4 +78,3 @@ Name[zh_CN]=加密文件
 Name[zh_TW]=加密檔案
 Icon=document-encrypt
 Exec=kgpg -e %F
-
