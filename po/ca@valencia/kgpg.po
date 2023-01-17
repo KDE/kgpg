@@ -1756,7 +1756,7 @@ msgstr "Ha fallat la pujada al servidor de claus"
 #, kde-format
 msgctxt "Window title"
 msgid "Import Key From Keyserver"
-msgstr "Importació d'una clau des del servidor de claus"
+msgstr "Importeu una clau des del servidor de claus"
 
 #: keyservers.cpp:206
 #, kde-format
@@ -3165,7 +3165,7 @@ msgstr ""
 #: kgpgexternalactions.cpp:126 kgpgexternalactions.cpp:133
 #, kde-format
 msgid "Temporary File Creation"
-msgstr "Creació del fitxer temporal"
+msgstr "Creeu el fitxer temporal"
 
 #: kgpgexternalactions.cpp:131
 #, kde-format
@@ -3727,7 +3727,7 @@ msgstr "Desencripta fitxer"
 #: kgpgrevokewidget.cpp:38
 #, kde-format
 msgid "Create Revocation Certificate"
-msgstr "Creació del certificat de revocació"
+msgstr "Creeu el certificat de revocació"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: kgpgrevokewidget.ui:18
@@ -3948,7 +3948,7 @@ msgstr[1] "%1 fotos identificadores"
 #: newkey.ui:20
 #, kde-format
 msgid "New Key Created"
-msgstr "Creació de la clau nova"
+msgstr "Creeu la clau nova"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: newkey.ui:26
