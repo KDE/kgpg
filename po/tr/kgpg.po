@@ -11,13 +11,13 @@
 # obsoleteman <tulliana@gmail.com>, 2010,2012.
 # Serkan Arıkuşu <kde-l10n-tr@kde.org>, 2004.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014.
-# Emir SARI <emir_sari@icloud.com>, 2022.
+# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:51+0000\n"
-"PO-Revision-Date: 2022-12-17 18:59+0300\n"
+"PO-Revision-Date: 2023-01-19 22:40+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -480,7 +480,7 @@ msgid ""
 msgstr ""
 "<qt><b>Pano yerine fare seçimini kullan:</b><br />\n"
 "<p> Seçili ise KGpg pano işlemlerinde seçili panoyu kullanacaktır. Bu "
-"kopyalamak için bir metnin seçilmesini, ve yapıştırmak için de orta düğmenin "
+"kopyalamak için bir metnin seçilmesini ve yapıştırmak için de orta düğmenin "
 "(veya sol ve sağ düğme beraber) kullanılmasını sağlar. Seçili değil ise pano "
 "kısayol düğmeleri (Ctrl-c, Ctrl-v ile birlikte çalışacaktır.</p></qt> "
 
