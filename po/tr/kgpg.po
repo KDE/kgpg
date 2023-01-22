@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:51+0000\n"
-"PO-Revision-Date: 2023-01-19 22:40+0300\n"
+"PO-Revision-Date: 2023-01-21 14:44+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3134,7 +3134,7 @@ msgstr ""
 #: kgpg.kcfg:259
 #, kde-format
 msgid "Use HTTP proxy when available."
-msgstr "Mümkün olduğunda HTTP vekili kullan."
+msgstr "Olanaklıysa HTTP vekili kullan."
 
 #. i18n: ectx: label, entry (EmailTemplate), group (Key Signing)
 #: kgpg.kcfg:266
