@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-21 00:49+0000\n"
-"PO-Revision-Date: 2022-09-12 19:54+0200\n"
+"PO-Revision-Date: 2023-02-13 17:59+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -499,7 +499,7 @@ msgstr ""
 #: conf_misc.ui:211
 #, kde-format
 msgid "Show system tray icon"
-msgstr ""
+msgstr "სისტემის კუთხეში ხატულის ჩვენება"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: conf_misc.ui:223
@@ -685,7 +685,7 @@ msgstr ""
 #: conf_ui2.ui:236
 #, kde-format
 msgid "Sort Order"
-msgstr ""
+msgstr "დალაგების წესი"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:253 kgpgoptions.cpp:98
@@ -841,7 +841,7 @@ msgstr "არაფერი"
 #, kde-format
 msgctxt "Marginal trust in key"
 msgid "Marginal"
-msgstr ""
+msgstr "საბოლოო"
 
 #: core/convert.cpp:105
 #, kde-format
@@ -853,7 +853,7 @@ msgstr "სრული"
 #, kde-format
 msgctxt "Ultimate trust in key"
 msgid "Ultimate"
-msgstr ""
+msgstr "უკანასკნელი"
 
 #: core/convert.cpp:110
 #, kde-format
@@ -986,12 +986,12 @@ msgstr ""
 #: editor/kgpgeditor.cpp:204
 #, kde-format
 msgid "En&crypt"
-msgstr ""
+msgstr "&დაშიფვრა"
 
 #: editor/kgpgeditor.cpp:208
 #, kde-format
 msgid "&Decrypt"
-msgstr ""
+msgstr "&გაშიფვრა"
 
 #: editor/kgpgeditor.cpp:212
 #, kde-format
@@ -1094,7 +1094,7 @@ msgstr "იმპორტი"
 #: editor/kgpgeditor.cpp:700 keytreeview.cpp:159
 #, kde-format
 msgid "Do Not Import"
-msgstr ""
+msgstr "არ შემოიტანო"
 
 #. i18n: ectx: Menu (view)
 #: editor/kgpgeditor.rc:13 keysmanager.rc:25
@@ -1178,7 +1178,7 @@ msgstr ""
 #: editor/kgpgtextedit.cpp:264 kgpgexternalactions.cpp:402
 #, kde-format
 msgid "Decryption failed."
-msgstr ""
+msgstr "გაშიფვრის შეცდომა."
 
 #: editor/kgpgtextedit.cpp:279 foldercompressjob.cpp:132
 #, kde-format
@@ -1188,7 +1188,7 @@ msgstr ""
 #: editor/kgpgtextedit.cpp:280 foldercompressjob.cpp:133
 #, kde-format
 msgid "Encryption failed."
-msgstr ""
+msgstr "დაშიფვრის შეცდომა."
 
 #: editor/kgpgtextedit.cpp:293
 #, kde-format
@@ -1290,7 +1290,7 @@ msgstr "Tar/XZ"
 #: groupedit.cpp:30
 #, kde-format
 msgid "Available Keys"
-msgstr ""
+msgstr "ხელმისაწვდომი გასაღებები"
 
 #: groupedit.cpp:33
 #, kde-format
@@ -1386,7 +1386,7 @@ msgstr ""
 #: keyinfodialog.cpp:175
 #, kde-format
 msgid "Key not found"
-msgstr ""
+msgstr "გასაღები არ მოიძებნა"
 
 #: keyinfodialog.cpp:189
 #, kde-format
@@ -1647,7 +1647,7 @@ msgstr ""
 #: keysmanager.cpp:163
 #, kde-format
 msgid "Tip of the &Day"
-msgstr ""
+msgstr "&დღის მინიშნება"
 
 #: keysmanager.cpp:166
 #, kde-format
@@ -1657,7 +1657,7 @@ msgstr ""
 #: keysmanager.cpp:171
 #, kde-format
 msgid "&Refresh List"
-msgstr ""
+msgstr "&სიის განახლება"
 
 #: keysmanager.cpp:175
 #, kde-format
@@ -2403,7 +2403,7 @@ msgstr ""
 #: keysmanager.cpp:2567
 #, kde-format
 msgid "Import from Clipboard"
-msgstr ""
+msgstr "გაცვლის ბუფერიდან შემოტანა"
 
 #: keysmanager.cpp:2587
 #, kde-format
@@ -2460,13 +2460,13 @@ msgstr "&გასაღებები"
 #: keysmanager.rc:30
 #, kde-format
 msgid "&Show Details"
-msgstr ""
+msgstr "&დეტალების ჩვენება"
 
 #. i18n: ectx: Menu (groups)
 #: keysmanager.rc:42
 #, kde-format
 msgid "&Groups"
-msgstr ""
+msgstr "&ჯგუფები"
 
 #: keytreeview.cpp:157
 #, kde-format
@@ -2525,7 +2525,7 @@ msgstr ""
 #: kgpg.cpp:189
 #, kde-format
 msgid "Encrypt file"
-msgstr ""
+msgstr "ფაილის დაშიფვრა"
 
 #: kgpg.cpp:190
 #, kde-format
@@ -2555,7 +2555,7 @@ msgstr ""
 #: kgpg.cpp:195
 #, kde-format
 msgid "File to open"
-msgstr ""
+msgstr "გასახსნელი ფაილი"
 
 #: kgpg.h:21
 #, kde-format
@@ -2959,7 +2959,7 @@ msgstr ""
 #: kgpgfirstassistant.cpp:158
 #, kde-format
 msgid "Configuration File"
-msgstr ""
+msgstr "კონფიგურაციის ფაილი"
 
 #: kgpgfirstassistant.cpp:168
 #, kde-format
@@ -2996,7 +2996,7 @@ msgstr "კონფიგურაციის შექმნა"
 #: kgpgfirstassistant.cpp:236
 #, kde-format
 msgid "Do Not Create"
-msgstr ""
+msgstr "არ შექმნა"
 
 #: kgpgfirstassistant.cpp:244
 #, kde-format
@@ -3236,7 +3236,7 @@ msgstr "შეიქმნა:"
 #: kgpgKeyInfo.ui:156
 #, kde-format
 msgid "Trust:"
-msgstr ""
+msgstr "ნდობა:"
 
 #. i18n: ectx: property (text), widget (QLabel, tl_owtrust)
 #: kgpgKeyInfo.ui:163
@@ -3276,7 +3276,7 @@ msgstr ""
 #: kgpgKeyInfo.ui:313
 #, kde-format
 msgid "No Photo"
-msgstr ""
+msgstr "სურათის გარეშე"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_disable)
 #: kgpgKeyInfo.ui:350
@@ -3315,7 +3315,7 @@ msgstr "გარემოს იერსახე"
 #: kgpgoptions.cpp:107
 #, kde-format
 msgid "GnuPG Settings"
-msgstr ""
+msgstr "GnuPG-ის მორგება"
 
 #: kgpgoptions.cpp:108
 #, kde-format
@@ -3392,7 +3392,7 @@ msgstr ""
 #: kgpgoptions.cpp:486
 #, kde-format
 msgid "Decrypt File"
-msgstr ""
+msgstr "ფაილის გაშიფვრა"
 
 #: kgpgrevokewidget.cpp:38
 #, kde-format
@@ -3505,7 +3505,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
-msgstr ""
+msgstr "ავტორი და ყოფილი ლიდერი"
 
 #: main.cpp:47
 #, kde-kuit-format
@@ -3787,7 +3787,7 @@ msgstr ""
 #: selectsecretkey.cpp:35
 #, kde-format
 msgid "Private Key List"
-msgstr ""
+msgstr "პირადი გასაღების სია"
 
 #: selectsecretkey.cpp:49
 #, kde-format
