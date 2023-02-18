@@ -2,22 +2,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012, 2013.
-# Vit Pelcak <vit@pelcak.org>, 2015, 2021.
+# Vit Pelcak <vit@pelcak.org>, 2015, 2021, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:51+0000\n"
-"PO-Revision-Date: 2021-03-22 15:54+0100\n"
-"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
+"PO-Revision-Date: 2023-02-16 09:05+0100\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 20.12.3\n"
+"X-Generator: Lokalize 22.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -513,7 +513,7 @@ msgstr "Povolit pro zašifrované soubory"
 #: conf_misc.ui:201
 #, kde-format
 msgid "System Tray Applet"
-msgstr "Applet pro systémovou lištu"
+msgstr "Applet pro systémový panel"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowSystray)
 #: conf_misc.ui:208
@@ -522,7 +522,7 @@ msgid ""
 "<qt><b>Show system tray icon:</b><br />\n"
 "<p>If checked KGpg will minimize to an icon in the system tray.</p></qt>"
 msgstr ""
-"<qt><b>Zobrazit ikonu v systémové liště:</b><br />\n"
+"<qt><b>Zobrazit ikonu v systémovém panelu:</b><br />\n"
 "<p>Pokud zaškrtnuto, KGpg se bude minimalizovat do systémového lišty.</p></"
 "qt>"
 
@@ -530,7 +530,7 @@ msgstr ""
 #: conf_misc.ui:211
 #, kde-format
 msgid "Show system tray icon"
-msgstr "Zobrazit ikonu v systémové liště"
+msgstr "Zobrazovat ikonu v systémovém panelu"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: conf_misc.ui:223
