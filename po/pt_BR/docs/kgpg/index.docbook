@@ -1,8 +1,5 @@
 <?xml version="1.0" ?>
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN"
-"dtd/kdedbx45.dtd" [
-  <!ENTITY package "kdeutils">
-  <!ENTITY kappname "&kgpg;">
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % Brazilian-Portuguese "INCLUDE">
 ]>
@@ -78,14 +75,14 @@
 >&FDLNotice;</legalnotice>
 
 <date
->25/05/2013</date>
+>10/10/2016</date>
 <releaseinfo
->2.9.50 (&kde; 4.11)</releaseinfo>
+>Applications 16.12</releaseinfo>
 
 <abstract>
 <para
->O &kgpg; é uma interface gráfica simples para o GnuPG (<ulink url="http://gnupg.org"
->http://gnupg.org</ulink
+>O &kgpg; é uma interface gráfica simples para o GnuPG (<ulink url="https://gnupg.org"
+>https://gnupg.org</ulink
 >). </para>
 </abstract>
 
@@ -112,13 +109,13 @@
 
 
 <para
->O &kgpg; é uma interface simples para o GnuPG, um utilitário poderoso de criptografia. O GnuPG (também conhecido por gpg) vem incluído na maioria das distribuições e deverá estar instalado no seu sistema. Você poderá obter a última versão em <ulink url="http://gnupg.org"
->http://gnupg.org</ulink
+>O &kgpg; é uma interface simples para o GnuPG, um utilitário poderoso de criptografia. O GnuPG (também conhecido por gpg) vem incluído na maioria das distribuições e deverá estar instalado no seu sistema. Você poderá obter a última versão em <ulink url="https://gnupg.org"
+>https://gnupg.org</ulink
 >.</para>
 
 <para
->Com o &kgpg; você será capaz de criptografar e descriptografar os seus arquivos e e-mails, o que lhe permitirá comunicações muito mais seguras. Está disponível um mini-tutorial sobre criptografia com o gpg na <ulink url="http://www.gnupg.org/documentation/howtos.en.html"
->página Web do GnuPG</ulink
+>Com o &kgpg; você será capaz de criptografar e descriptografar os seus arquivos e e-mails, o que lhe permitirá comunicações muito mais seguras. Está disponível um mini-tutorial sobre criptografia com o gpg no <ulink url="https://www.gnupg.org/documentation/howtos.en.html"
+>site do GnuPG</ulink
 >. </para>
 
 <para
@@ -205,7 +202,7 @@
 <listitem>
 
 <para
->O &kgpg; está integrado no &konqueror; e Dolphin. Isto significa que, quando clica num arquivo, pode optar por <menuchoice
+>O &kgpg; está integrado no &konqueror; e &dolphin;. Isto significa que, quando clica num arquivo, pode optar por <menuchoice
 ><guimenu
 >Ações</guimenu
 ><guimenuitem
@@ -231,7 +228,7 @@
 ></listitem>
 <listitem
 ><para
->Criptografia por chave: você primeiro terá de criar o seu par de chaves (pública e privada) e indicar uma frase-senha. Mantenha a sua chave privada num local seguro e troque a sua chave pública com os seus amigos. Aí, se quiser enviar uma mensagem criptografada para o Alex, terá de criptografar a mensagem com a chave pública do Alex. Para descriptografar a mensagem, o destinatário irá necessitar da chave privada e da frase-senha do Alex.</para
+>Criptografia por chave: você primeiro terá de criar o seu par de chaves (pública e privada) e indicar uma senha. Mantenha a sua chave privada num local seguro e troque a sua chave pública com os seus amigos. Aí, se quiser enviar uma mensagem criptografada para o Alex, terá de criptografar a mensagem com a chave pública do Alex. Para descriptografar a mensagem, o destinatário irá necessitar da chave privada e da senha do Alex.</para
 ></listitem>
 </itemizedlist>
 </para>
@@ -278,7 +275,7 @@
 >Revogando uma chave</title>
 
 <para
->Um par de chaves que expirou pode ser restaurado para um estado operacional caso você tenha acesso à chave privada e frase-senha. Para gerar com confiança uma chave inutilizável, você precisa revogá-la. A revogação é feita adicionando uma assinatura especial de revogação à chave.</para>
+>Um par de chaves que expirou pode ser restaurado para um estado operacional caso você tenha acesso à chave privada e senha. Para gerar com confiança uma chave inutilizável, você precisa revogá-la. A revogação é feita adicionando uma assinatura especial de revogação à chave.</para>
 
 <para
 >Esta assinatura de revogação pode ser criada juntamente com a chave. Neste caso ela é armazenada em um arquivo separado. Este arquivo pode depois ser importado para o chaveiro sendo então anexado à chave tornando-a inutilizável. Por favor, note que para importar esta assinatura à chave nenhuma senha é necessário. No entanto, você deve armazenar a assinatura de revogação em um local seguro, normalmente diferente do local do seu par de chaves. Uma boa dica é usar um local que possa ser desconectado de seu computador, copiando para um dispositivo de armazenamento externo como um pendrive USB ou imprimindo-a.</para>
@@ -392,11 +389,11 @@
 
 <sect2 id="konq-dec">
 <title
->Descriptografando um arquivo a partir do &konqueror; ou Dolphin</title>
+>Descriptografando um arquivo a partir do &konqueror; ou &dolphin;</title>
 <para
 >Clique com o botão <mousebutton
 >esquerdo</mousebutton
-> no arquivo que quer descriptografar. Indique a sua frase-senha e ele será descriptografado. Você também poderá arrastar um arquivo de texto criptografado e soltá-lo na janela do editor do &kgpg;. Será então pedida a frase-senha, e logo depois você poderá abrir o texto descriptografado no editor do &kgpg;. Poderá inclusive soltar aqui arquivos remotos! Você também poderá usar a opção <menuchoice
+> no arquivo que quer descriptografar. Indique a sua senha e ele será descriptografado. Você também poderá arrastar um arquivo de texto criptografado e soltá-lo na janela do editor do &kgpg;. Será então pedida a senha, e logo depois você poderá abrir o texto descriptografado no editor do &kgpg;. Poderá inclusive soltar aqui arquivos remotos! Você também poderá usar a opção <menuchoice
 ><guimenu
 >Arquivo</guimenu
 ><guimenuitem
@@ -412,7 +409,7 @@
 
 <para
 >Você poderá também decodificar o conteúdo da área de transferência, usando a opção do menu <guimenuitem
->descriptografar a área de transferência</guimenuitem
+>Descriptografar área de transferência</guimenuitem
 > da 'applet' do &kgpg;. Irá aparecer uma <link linkend="editor"
 >janela do editor</link
 > com o texto decodificado.</para>
@@ -426,7 +423,7 @@
 <para
 >Copie ou arraste e solte o texto que deseja descriptografar, e clique no botão <guibutton
 >Descriptografar</guibutton
->. Será pedida a frase-senha. </para>
+>. Será pedida a senha. </para>
 </sect2>
 
 </sect1>
@@ -439,6 +436,9 @@
 >Todas as opções básicas de gerenciamento de chaves poderão ser efetuadas através do &kgpg;. Para abrir a janela do gerenciador de chaves, clique com o &LMB; no miniaplicativo do &kgpg;. A maioria das opções estão disponíveis se clicar com o botão <mousebutton
 >direito</mousebutton
 > numa chave. Para importar/exportar as chaves públicas, você poderá arrastar e soltar os itens ou usar os atalhos de teclado Copiar/Colar.</para>
+
+<para
+>Você pode exportar uma chave pública por e-mail, para a área de transferência, para um servidor de chaves ou para um arquivo local. Use as opções na caixa de diálogo de exportação para exportar tudo, exportar sem atributos (identificações de fotos) ou exportar uma chave limpa, &ie;, a chave em si, incluindo suas subchaves, mas excluindo todas as assinaturas. </para>
 
 <sect2 id="keymanager">
 <title
@@ -475,7 +475,7 @@
 <para
 >Enquanto o gerenciador de chaves lhe permite fazer ações genéricas com uma ou várias chaves, grupos de chaves ou assinaturas, a janela de propriedades da chave dá-lhe acesso a uma única chave. Você poderá acessá-la pressionando Enter no gerenciador de chaves ou fazendo um duplo-clique na chave.</para>
 <para
->Nesta janela, você poderá modificar a frase-senha e o prazo de validade das suas chaves privadas. Também pode definir para todas as chaves o valor de confiança do dono.</para>
+>Nesta janela, você poderá modificar a senha e o prazo de validade das suas chaves privadas. Também pode definir para todas as chaves o valor de confiança do dono.</para>
 <para
 >Este valor indica o quanto confia no dono desta chave, para verificar corretamente a identidade das chaves que ele assina. Ao ter a confiança do dono em conta, o 'gpg' cria a sua própria cadeia de confiança. Você confia nas chaves que assinou. Se atribuir a confiança do dono a essas pessoas, irá confiar também nas chaves que eles assinaram, sem ter a necessidade de assinar também as chaves deles.</para>
 </sect2>
@@ -767,8 +767,7 @@
 >Tradução de Marcus Gama <email
 >marcus.gama@gmail.com</email
 ></para
-> 
-&underFDL; &underGPL; </chapter>
+> &underFDL; &underGPL; </chapter>
 
 &documentation.index;
 
