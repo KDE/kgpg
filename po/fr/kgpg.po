@@ -17,20 +17,21 @@
 # Vincent Pinon <vincent.pinon@laposte.net>, 2014, 2015, 2016, 2017.
 # Xavier Besnard <xavier.besnard@neuf.fr>, 2021.
 #
+# Xavier BESNARD <xavier.besnard]neuf.fr>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:51+0000\n"
-"PO-Revision-Date: 2021-03-05 21:13+0100\n"
-"Last-Translator: Xavier Besnard <xavier.besnard@neuf.fr>\n"
-"Language-Team: French <kde-francophone@kde.org>\n"
+"PO-Revision-Date: 2023-02-26 16:59+0100\n"
+"Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
+"Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 20.12.3\n"
+"X-Generator: Lokalize 22.12.2\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -844,7 +845,7 @@ msgstr "De gauche à droite, compte en premier"
 #: conf_ui2.ui:258 kgpgoptions.cpp:99
 #, kde-format
 msgid "Right to left, TLD first"
-msgstr "De droite à gauche, TLD en premier"
+msgstr "De droite à gauche, « TLD » en premier"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:263 kgpgoptions.cpp:100
