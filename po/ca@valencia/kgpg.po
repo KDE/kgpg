@@ -1,23 +1,23 @@
 # Translation of kgpg.po to Catalan (Valencian)
-# Copyright (C) 2003-2022 This_file_is_part_of_KDE
+# Copyright (C) 2003-2023 This_file_is_part_of_KDE
 #
 # Antoni Bella Pérez <antonibella5@yahoo.com>, 2003, 2012, 2014, 2016, 2017, 2020, 2021, 2022.
 # Albert Astals Cid <aacid@kde.org>, 2003, 2004, 2005, 2009.
-# Josep M. Ferrer <txemaq@gmail.com>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2020, 2021, 2022.
+# Josep M. Ferrer <txemaq@gmail.com>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023.
 # Joan Maspons <joanmaspons@gmail.com>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-21 00:49+0000\n"
-"PO-Revision-Date: 2022-07-11 17:01+0200\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"PO-Revision-Date: 2023-02-26 12:10+0100\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.04.3\n"
+"X-Generator: Lokalize 20.12.0\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -2818,6 +2818,7 @@ msgstr "Verifica la signatura"
 msgid "File to open"
 msgstr "Fitxer que s'ha d'obrir"
 
+# skip-rule: rst-link0italic,rst-italic2
 #: kgpg.h:21
 #, kde-format
 msgid ""
