@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-08-21 00:49+0000\n"
-"PO-Revision-Date: 2023-02-08 14:27+0300\n"
+"PO-Revision-Date: 2023-03-07 20:34+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1073,7 +1073,7 @@ msgstr "&Dosyanın Şifresini Aç..."
 #: editor/kgpgeditor.cpp:185
 #, kde-format
 msgid "&Open Key Manager"
-msgstr "&Anahtar Yöneticisini Aç"
+msgstr "Anahtar Yöneticisini &Aç"
 
 #: editor/kgpgeditor.cpp:188
 #, kde-format
@@ -1833,7 +1833,7 @@ msgstr "A&nahtar Özellikleri"
 #: keysmanager.cpp:184
 #, kde-format
 msgid "&Open Key URL"
-msgstr "&Ortak Anahtar Adresi"
+msgstr "Anahtar URL'sini &Aç"
 
 #: keysmanager.cpp:188
 #, kde-format
@@ -2782,7 +2782,7 @@ msgstr "Dosyayı şifrele"
 #: kgpg.cpp:190
 #, kde-format
 msgid "Open key manager"
-msgstr "Anahtar Yöneticisini Aç"
+msgstr "Anahtar yöneticisini aç"
 
 #: kgpg.cpp:191
 #, kde-format
@@ -3127,8 +3127,8 @@ msgid ""
 "List of URLs that show details and analysis of the given key. The first "
 "server in the list is the default server."
 msgstr ""
-"Belirtilen anahtarın analizini yapan ve ayrıntıları gösteren adres listesi. "
-"Listedeki ilk sunucu öntanımlı sunucudur."
+"Belirtilen anahtarın analizini yapan ve ayrıntıları gösteren URL'lerin "
+"listesi. Listedeki ilk sunucu öntanımlı sunucudur."
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
 #: kgpg.kcfg:259
@@ -3683,7 +3683,7 @@ msgstr ""
 #: kgpgoptions.cpp:197
 #, kde-format
 msgid "Key server URLs may not contain whitespace."
-msgstr "Anahtar sunucusunun adresi boşluklar içeremez."
+msgstr "Anahtar sunucusunun URL'si boşluklar içeremez."
 
 #: kgpgoptions.cpp:202
 #, kde-format
@@ -3698,7 +3698,7 @@ msgstr "Yeni Anahtar Sunucu Ekle"
 #: kgpgoptions.cpp:211
 #, kde-format
 msgid "Server URL:"
-msgstr "Sunucu Adresi:"
+msgstr "Sunucu URL'si:"
 
 #: kgpgoptions.cpp:464 kgpgoptions.cpp:466
 #, kde-format
