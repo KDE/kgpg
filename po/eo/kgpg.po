@@ -1,4 +1,5 @@
 # Translation of kgpg into esperanto.
+# Copyright (C) 2009 Free Software Foundation, Inc.
 # Axel Rousseau <axel@esperanto-jeunes.org>, 2009.
 #
 msgid ""
@@ -6,8 +7,8 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:51+0000\n"
-"PO-Revision-Date: 2015-03-25 22:00+0100\n"
-"Last-Translator: Axel Rousseau <axel.rousseau@esperanto-france.org>\n"
+"PO-Revision-Date: 2023-03-20 22:43+0100\n"
+"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +45,7 @@ msgstr "Retpoŝto:"
 #: adduid.ui:43
 #, kde-format
 msgid "Comment (optional):"
-msgstr ""
+msgstr "Komento (laŭvola):"
 
 #: caff.cpp:84
 #, kde-format
@@ -204,10 +205,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EncryptFilesTo)
 #: conf_encryption.ui:127
-#, fuzzy, kde-format
-#| msgid "Encryption"
+#, kde-format
 msgid "Encrypt files with:"
-msgstr "Ĉifrado"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowUntrustedKeys)
 #: conf_encryption.ui:135
@@ -476,10 +476,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
 #: conf_misc.ui:188
-#, fuzzy, kde-format
-#| msgid "Encryption"
+#, kde-format
 msgid "Enable with Encrypted Files"
-msgstr "Ĉifrado"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: conf_misc.ui:201
@@ -522,10 +521,9 @@ msgstr "Redaktilo"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: conf_misc.ui:280
-#, fuzzy, kde-format
-#| msgid "Encryption"
+#, kde-format
 msgid "Recent files"
-msgstr "Ĉifrado"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabSigning)
 #: conf_misc.ui:306
@@ -563,10 +561,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MailUats)
 #: conf_misc.ui:335
-#, fuzzy, kde-format
-#| msgid "Do Not Use"
+#, kde-format
 msgid "Do not send"
-msgstr "Ne uzi"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: conf_misc.ui:345
@@ -637,10 +634,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustTrusted)
 #: conf_ui2.ui:52
-#, fuzzy, kde-format
-#| msgid "Disable"
+#, kde-format
 msgid "Trusted keys:"
-msgstr "Malŝalti"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustMarginally)
 #: conf_ui2.ui:62
@@ -650,10 +646,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustExpired)
 #: conf_ui2.ui:72
-#, fuzzy, kde-format
-#| msgid "Disable"
+#, kde-format
 msgid "Expired keys:"
-msgstr "Malŝalti"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustRevoked)
 #: conf_ui2.ui:82
@@ -669,17 +664,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustDisabled)
 #: conf_ui2.ui:102
-#, fuzzy, kde-format
-#| msgid "Disable"
+#, kde-format
 msgid "Disabled keys:"
-msgstr "Malŝalti"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage)
 #: conf_ui2.ui:225
-#, fuzzy, kde-format
-#| msgid "Editor"
+#, kde-format
 msgid "Editor Font"
-msgstr "Redaktilo"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabKeyList)
 #: conf_ui2.ui:230
@@ -886,11 +879,10 @@ msgid "Authentication"
 msgstr "Aŭtentigo"
 
 #: core/convert.cpp:125
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgctxt "key capability"
 msgid "Certification"
-msgstr "Krei"
+msgstr ""
 
 #: core/convert.cpp:127
 #, kde-format
@@ -1111,10 +1103,9 @@ msgstr "&Rigardi"
 
 #. i18n: ectx: Menu (signature)
 #: editor/kgpgeditor.rc:18
-#, fuzzy, kde-format
-#| msgid "Signature"
+#, kde-format
 msgid "Si&gnature"
-msgstr "Subskribo"
+msgstr "Subskr&ibo"
 
 #: editor/kgpgmd5widget.cpp:29
 #, kde-format
@@ -1276,16 +1267,14 @@ msgid "Zip"
 msgstr ""
 
 #: foldercompressjob.cpp:168
-#, fuzzy, kde-format
-#| msgid "Gzip"
+#, kde-format
 msgid "Tar/Gzip"
-msgstr "Gzip"
+msgstr ""
 
 #: foldercompressjob.cpp:169
-#, fuzzy, kde-format
-#| msgid "Bzip2"
+#, kde-format
 msgid "Tar/Bzip2"
-msgstr "Bzip2"
+msgstr ""
 
 #: foldercompressjob.cpp:170
 #, kde-format
@@ -1316,10 +1305,9 @@ msgstr "Serĉi:"
 
 #. i18n: ectx: property (text), widget (QLabel, kActiveLabel1)
 #: groupedit.ui:84
-#, fuzzy, kde-format
-#| msgid "Create New Group"
+#, kde-format
 msgid "Keys in the Group"
-msgstr "Krei novan grupon"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, KeyExport)
 #: keyexport.ui:26
@@ -1329,18 +1317,16 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkMail)
 #: keyexport.ui:41
-#, fuzzy, kde-format
-#| msgctxt "Export a key via email"
-#| msgid "Email"
+#, kde-format
 msgctxt "Export a key via email"
 msgid "E&mail"
-msgstr "Retpoŝto"
+msgstr "Ret&poŝto"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkClipboard)
 #: keyexport.ui:48 sourceselect.ui:35
 #, kde-format
 msgid "C&lipboard"
-msgstr ""
+msgstr "T&ondujo"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, checkServer)
 #: keyexport.ui:58
@@ -1354,7 +1340,7 @@ msgstr ""
 #: keyexport.ui:61
 #, kde-format
 msgid "&Key server:"
-msgstr ""
+msgstr "Ŝlosi&la servilo:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkFile)
 #: keyexport.ui:75 sourceselect.ui:44
@@ -1364,17 +1350,15 @@ msgstr "Dosiero:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, buttonGroup3)
 #: keyexport.ui:95
-#, fuzzy, kde-format
-#| msgid "Global Settings"
+#, kde-format
 msgid "Export Settings"
-msgstr "Ĉiea agordo"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkAttrAll)
 #: keyexport.ui:101
-#, fuzzy, kde-format
-#| msgid "Global Settings"
+#, kde-format
 msgid "E&xport everything"
-msgstr "Ĉiea agordo"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkAttrPhoto)
 #: keyexport.ui:111
@@ -1725,10 +1709,9 @@ msgid "&Delete Group"
 msgstr ""
 
 #: keysmanager.cpp:225
-#, fuzzy, kde-format
-#| msgid "Create New Group"
+#, kde-format
 msgid "&Rename Group"
-msgstr "Krei novan grupon"
+msgstr ""
 
 #: keysmanager.cpp:234
 #, kde-format
@@ -2146,10 +2129,9 @@ msgid ""
 msgstr ""
 
 #: keysmanager.cpp:1660
-#, fuzzy, kde-format
-#| msgid "&Generate"
+#, kde-format
 msgid "Generate"
-msgstr "&Generi"
+msgstr "Generi"
 
 #: keysmanager.cpp:1660
 #, kde-format
@@ -2621,17 +2603,15 @@ msgstr ""
 
 #. i18n: ectx: label, entry (FileEncryptionKey), group (Encryption)
 #: kgpg.kcfg:26
-#, fuzzy, kde-format
-#| msgid "Encryption"
+#, kde-format
 msgid "File encryption key."
-msgstr "Ĉifrado"
+msgstr ""
 
 #. i18n: ectx: label, entry (EncryptFilesTo), group (Encryption)
 #: kgpg.kcfg:29
-#, fuzzy, kde-format
-#| msgid "Encryption"
+#, kde-format
 msgid "Encrypt files"
-msgstr "Ĉifrado"
+msgstr ""
 
 #. i18n: ectx: label, entry (AsciiArmor), group (Encryption)
 #: kgpg.kcfg:33
@@ -2787,10 +2767,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ShowSystray), group (User Interface)
 #: kgpg.kcfg:176
-#, fuzzy, kde-format
-#| msgid "Show system tray icon"
+#, kde-format
 msgid "Show the systray icon"
-msgstr "Montri sistempletan piktogramon"
+msgstr ""
 
 #. i18n: ectx: label, entry (RecentFiles), group (User Interface)
 #: kgpg.kcfg:180
@@ -2800,10 +2779,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ShowTipOfDay), group (TipOfDay)
 #: kgpg.kcfg:187
-#, fuzzy, kde-format
-#| msgid "Tip of the &Day"
+#, kde-format
 msgid "Show tip of the day."
-msgstr "Konsileto de la ta&go"
+msgstr ""
 
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
 #: kgpg.kcfg:194
@@ -3218,17 +3196,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, capCert)
 #: kgpgkeygenerate.ui:175
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Certification"
-msgstr "Krei"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, capAuth)
 #: kgpgkeygenerate.ui:195
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Authentication"
-msgstr "Krei"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, kgpgKeyInfo)
 #: kgpgKeyInfo.ui:14
@@ -3251,10 +3227,9 @@ msgstr "Komento:"
 
 #. i18n: ectx: property (text), widget (QLabel, tl_creation)
 #: kgpgKeyInfo.ui:122
-#, fuzzy, kde-format
-#| msgid "Create"
+#, kde-format
 msgid "Creation:"
-msgstr "Krei"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, tl_trust)
 #: kgpgKeyInfo.ui:156
@@ -3270,9 +3245,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, tl_algorithm)
 #: kgpgKeyInfo.ui:189
-#, fuzzy, kde-format
+#, kde-format
 msgid "Algorithm:"
-msgstr "Algoritmo"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, tl_length)
 #: kgpgKeyInfo.ui:206
@@ -3304,10 +3279,9 @@ msgstr "Neniu Foto"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_disable)
 #: kgpgKeyInfo.ui:350
-#, fuzzy, kde-format
-#| msgid "Disable"
+#, kde-format
 msgid "Disable key"
-msgstr "Malŝalti"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_expirationbtn)
 #: kgpgKeyInfo.ui:357
@@ -3509,36 +3483,31 @@ msgid "&copy; 2003-2016, The KGpg Developers"
 msgstr ""
 
 #: main.cpp:45
-#, fuzzy, kde-kuit-format
-#| msgid "Rolf Eike Beer"
+#, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Rolf Eike Beer"
 msgstr "Rolf Eike Beer"
 
 #: main.cpp:45
-#, fuzzy, kde-format
-#| msgid "Maintainer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
 msgstr "Prizorganto"
 
 #: main.cpp:46
-#, fuzzy, kde-kuit-format
-#| msgid "Jean-Baptiste Mardelle"
+#, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
 #: main.cpp:46
-#, fuzzy, kde-format
-#| msgid "Author and former maintainer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
 msgstr "Aŭtoro kaj antaŭa fleganto"
 
 #: main.cpp:47
-#, fuzzy, kde-kuit-format
-#| msgid "Jimmy Gilles"
+#, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jimmy Gilles"
 msgstr "Jimmy Gilles"
@@ -3568,20 +3537,16 @@ msgid "%1: %2"
 msgstr "%1: %2"
 
 #: model/keylistproxymodel.cpp:178
-#, fuzzy, kde-format
-#| msgctxt "%1 is the key id, %2 is the name and comment of the key or uid"
-#| msgid "%1: %2"
+#, kde-format
 msgctxt "ID: Name <Email>"
 msgid "%1: %2 <%3>"
-msgstr "%1: %2"
+msgstr ""
 
 #: model/keylistproxymodel.cpp:183
-#, fuzzy, kde-format
-#| msgctxt "Name (Email): ID"
-#| msgid "%1 (%2): %3"
+#, kde-format
 msgctxt "Name <Email>: ID"
 msgid "%1 <%2>: %3"
-msgstr "%1 (%2): %3"
+msgstr "%1 <%2>: %3"
 
 #: model/kgpgitemmodel.cpp:179
 #, kde-format
@@ -3601,12 +3566,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: model/kgpgitemmodel.cpp:284
-#, fuzzy, kde-format
-#| msgid "&Groups"
+#, kde-format
 msgid "1 Group"
 msgid_plural "%1 Groups"
-msgstr[0] "&Grupoj"
-msgstr[1] "&Grupoj"
+msgstr[0] ""
+msgstr[1] ""
 
 #: model/kgpgitemmodel.cpp:286
 #, kde-format
@@ -3738,10 +3702,9 @@ msgid "Unlimited"
 msgstr "Senlima"
 
 #: selectpublickeydialog.cpp:48 selectpublickeydialog.cpp:266
-#, fuzzy, kde-format
-#| msgid "O&ptions"
+#, kde-format
 msgid "&Options"
-msgstr "O&pcioj"
+msgstr "&Opcioj"
 
 #: selectpublickeydialog.cpp:61
 #, kde-format
@@ -4013,11 +3976,10 @@ msgid ""
 msgstr ""
 
 #: transactions/kgpgdecrypt.cpp:110
-#, fuzzy, kde-format
-#| msgid "Description:"
+#, kde-format
 msgctxt "Status message 'Decrypting <filename>' (operation starts)"
 msgid "Decrypting %1"
-msgstr "Priskribo:"
+msgstr ""
 
 #: transactions/kgpgdecrypt.cpp:113
 #, kde-format
@@ -4045,10 +4007,9 @@ msgid ""
 msgstr ""
 
 #: transactions/kgpggeneratekey.cpp:139
-#, fuzzy, kde-format
-#| msgid "&Generate"
+#, kde-format
 msgid "Generating Key"
-msgstr "&Generi"
+msgstr ""
 
 #: transactions/kgpggeneratekey.cpp:152
 #, kde-format
@@ -4056,10 +4017,9 @@ msgid "Generating prime numbers"
 msgstr ""
 
 #: transactions/kgpggeneratekey.cpp:154
-#, fuzzy, kde-format
-#| msgid "&Generate"
+#, kde-format
 msgid "Generating DSA key"
-msgstr "&Generi"
+msgstr ""
 
 #: transactions/kgpggeneratekey.cpp:156
 #, kde-format
@@ -4221,9 +4181,7 @@ msgid ""
 msgstr ""
 
 #: transactions/kgpgimport.cpp:175
-#, fuzzy, kde-kuit-format
-#| msgctxt "%1 is the key id, %2 is the name and comment of the key or uid"
-#| msgid "%1: %2"
+#, kde-kuit-format
 msgctxt "@item ID: Name"
 msgid "%1: %2"
 msgstr "%1: %2"
@@ -4378,20 +4336,3 @@ msgstr ""
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr ""
-
-#~ msgid "0"
-#~ msgstr "0"
-
-#~ msgid "Id"
-#~ msgstr "Id"
-
-#~ msgctxt "ID: Name <Email>"
-#~ msgid "%1: %2 &lt;%3&gt;"
-#~ msgstr "%1: %2 &lt;%3&gt;"
-
-#~ msgctxt "Name <Email>: ID"
-#~ msgid "%1 &lt;%2&gt;: %3"
-#~ msgstr "%1 &lt;%2&gt;: %3"
-
-#~ msgid "768"
-#~ msgstr "768"
