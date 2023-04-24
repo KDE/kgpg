@@ -6,20 +6,20 @@
 # Krzysztof Lichota <lichota@mimuw.edu.pl>, 2005, 2006.
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2008, 2009, 2010, 2013.
 # Michał Smoczyk <msmoczyk@wp.pl>, 2008, 2009, 2010, 2011.
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2020, 2021, 2022.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2012, 2013, 2014, 2015, 2016, 2017, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:51+0000\n"
-"PO-Revision-Date: 2022-04-10 08:58+0200\n"
+"PO-Revision-Date: 2023-04-23 12:07+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.03.70\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -486,10 +486,10 @@ msgid ""
 "will work with Key shortcuts (Ctrl-c, Ctrl-v).</p></qt> "
 msgstr ""
 "<qt><b>Używaj zaznaczania myszą zamiast schowka:</b> <br />\n"
-"<p>Zaznacznie tego pola spowoduje, że operacje na schowku KGpg będą "
+"<p>Zaznaczenie tego pola spowoduje, że działania na schowku KGpg będą "
 "wykonywane przez zaznaczenie tekstu myszą w celu skopiowania oraz kliknięcie "
 "środkowym przyciskiem myszy (lub lewym i prawym naraz) w celu wklejenia. "
-"Jeśli to pole nie jest zaznaczone, operacje na schowku będą wykonywane za "
+"Jeśli to pole nie jest zaznaczone, działania na schowku będą wykonywane za "
 "pomocą skrótów klawiszowych (Ctrl+C, Ctrl+V).</p></qt> "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseMouseSelection)
@@ -807,7 +807,7 @@ msgstr "Lista kluczy"
 #: conf_ui2.ui:236
 #, kde-format
 msgid "Sort Order"
-msgstr "Porządek sortowania"
+msgstr "Porządek szeregowania"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:253 kgpgoptions.cpp:98
@@ -2537,8 +2537,7 @@ msgstr[2] "Wszystkie podpisy dla tych kluczy są już w twoim zbiorze kluczy"
 #: keysmanager.cpp:2207
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
-msgstr ""
-"Aby usunąć podpis właściciela klucza, musisz zmodyfikować klucz ręcznie."
+msgstr "Aby usunąć podpis właściciela klucza, musisz zmienić klucz ręcznie."
 
 #: keysmanager.cpp:2211
 #, kde-format
@@ -2552,7 +2551,7 @@ msgstr ""
 #: keysmanager.cpp:2233
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
-msgstr "Żądana operacja nie powiodła się, zmodyfikuj klucz ręcznie."
+msgstr "Żądane działanie nie powiodło się, zmień klucz ręcznie."
 
 #: keysmanager.cpp:2317
 #, kde-format
@@ -2619,7 +2618,7 @@ msgstr "Nie udało się usunąć klucza <b>%1</b>."
 #: keysmanager.cpp:2412
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
-msgstr "Nie można usunąć klucza <b>%1</b> kiedy jest modyfikowany w terminalu."
+msgstr "Nie można usunąć klucza <b>%1</b> kiedy jest zmieniany w terminalu."
 
 #: keysmanager.cpp:2453
 #, kde-format
@@ -2898,13 +2897,13 @@ msgstr "Własne polecenie odszyfrowywania."
 #: kgpg.kcfg:19
 #, kde-format
 msgid "Custom encryption options"
-msgstr "Własne opcje szyfrowania"
+msgstr "Własne ustawienia szyfrowania"
 
 #. i18n: ectx: label, entry (AllowCustomEncryptionOptions), group (Encryption)
 #: kgpg.kcfg:22
 #, kde-format
 msgid "Allow custom encryption options"
-msgstr "Pozwolenie na własne opcje szyfrowania"
+msgstr "Pozwolenie na własne ustawienia szyfrowania"
 
 #. i18n: ectx: label, entry (FileEncryptionKey), group (Encryption)
 #: kgpg.kcfg:26
@@ -3055,13 +3054,13 @@ msgstr ""
 #: kgpg.kcfg:143
 #, kde-format
 msgid "Handle encrypted drops"
-msgstr "Operacja na upuszczonych zaszyfrowanych plikach"
+msgstr "Działanie na upuszczonych zaszyfrowanych plikach"
 
 #. i18n: ectx: label, entry (UnencryptedDropEvent), group (User Interface)
 #: kgpg.kcfg:151
 #, kde-format
 msgid "Handle unencrypted drops"
-msgstr "Operacja na upuszczonych niezaszyfrowanych plikach"
+msgstr "Działanie na upuszczonych niezaszyfrowanych plikach"
 
 #. i18n: ectx: label, entry (SignMenu), group (User Interface)
 #: kgpg.kcfg:159
@@ -4057,7 +4056,7 @@ msgstr "Nieograniczony"
 #: selectpublickeydialog.cpp:48 selectpublickeydialog.cpp:266
 #, kde-format
 msgid "&Options"
-msgstr "&Opcje"
+msgstr "U&stawienia"
 
 #: selectpublickeydialog.cpp:61
 #, kde-format
