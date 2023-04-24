@@ -1,19 +1,19 @@
 # translation of kgpg.po to galician
 # Copyright (C) 2003, 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
-#
 # Xabi García <xabigf@gmx.net>, 2003.
 # Xabi G. Feal <xabigf@gmx.net>, 2006.
 # mvillarino <mvillarino@users.sourceforge.net>, 2007, 2008, 2009.
 # Marce Villarino <mvillarino@kde-espana.es>, 2008.
 # Marce Villarino <mvillarino@kde-espana.es>, 2009, 2010, 2013, 2014.
 # Adrian Chaves Fernandez <adriyetichaves@gmail.com>, 2013, 2015, 2017.
-# Adrián Chaves <adrian@chaves.io>, 2017, 2018, 2019.
+# Adrián Chaves <adrian@chaves.io>, 2017, 2018, 2019, 2023.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:51+0000\n"
-"PO-Revision-Date: 2019-11-13 22:29+0100\n"
+"PO-Revision-Date: 2023-04-23 08:08+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.08.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -108,13 +108,13 @@ msgstr[1] ""
 #, kde-format
 msgctxt "Email template placeholder for key id"
 msgid "KEYID"
-msgstr "IDCHAVE"
+msgstr "KEYID"
 
 #: caff.cpp:313
 #, kde-format
 msgctxt "Email template placeholder for key id"
 msgid "UIDNAME"
-msgstr "NOMEUID"
+msgstr "UIDNAME"
 
 #: caff.cpp:346
 #, kde-format
@@ -332,7 +332,7 @@ msgstr ""
 "<qt><b>Compatibilidade con PGP 6:</b><br />\n"
 "<p>Marque esta opción para forzar a GnuPG a que xere paquetes cifrados que "
 "cumpran co estándar PGP 6, na medida do posíbel, de xeito que os usuarios de "
-"GnuPG poidan interoperar cos usuarios de PGP 6.</p></qt>"
+"GnuPG poidan operar cos usuarios de PGP 6.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PgpCompatibility)
 #: conf_encryption.ui:170
@@ -688,8 +688,7 @@ msgstr ""
 "identificador do usuario».\n"
 "\n"
 "As marcas de substitución, rodeadas por símbolos de porcentaxe (por exemplo, "
-"«%IDCHAVE%») substituiranse polo texto correspondente en cada mensaxe "
-"enviada."
+"«%KEYID%») substituiranse polo texto correspondente en cada mensaxe enviada."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
 #: conf_servers.ui:25
@@ -1498,7 +1497,8 @@ msgstr "E&xportalo todo"
 #: keyexport.ui:111
 #, kde-format
 msgid "Do &not export attributes (photo ids)"
-msgstr "&Non exportar os atributos (fotografías de documentos identificativos)"
+msgstr ""
+"&Non exportar os atributos (fotografías de documentos de identificación)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkAttrClean)
 #: keyexport.ui:118
@@ -1751,9 +1751,7 @@ msgid "Upload to keyserver failed"
 msgstr "Fallou o envío ao servidor de chaves"
 
 #: keyservers.cpp:195
-#, fuzzy, kde-format
-#| msgid "Import Key From Keyserver"
-#| msgid_plural "Import Keys From Keyserver"
+#, kde-format
 msgctxt "Window title"
 msgid "Import Key From Keyserver"
 msgstr "Importar a chave desde un servidor de chaves"
@@ -2403,7 +2401,7 @@ msgid ""
 msgstr ""
 "<qt>Está a piques de asinar a chave:<br /><br />%1<br />ID: %2<br />Pegada "
 "dixital:<br /><b>%3</b>.<br /><br />Debería comprobar a pegada dixital "
-"chamando ou reuníndose co proprietario da chave para comprobar que ninguén "
+"chamando ou reuníndose co propietario da chave para comprobar que ninguén "
 "está a intentar interceptar as súas comunicacións</qt>"
 
 #: keysmanager.cpp:1815
@@ -2416,7 +2414,7 @@ msgid ""
 msgstr ""
 "<qt>Está a piques de asinar a chave:<br /><br />%1 (%2)<br />ID: %3<br /"
 ">Pegada dixital: <br /><b>%4</b>.<br /><br />Debería comprobar a pegada "
-"dixital chamando ou reuníndose co proprietario da chave para comprobar que "
+"dixital chamando ou reuníndose co propietario da chave para comprobar que "
 "ninguén está a intentar interceptar as súas comunicacións.</qt>"
 
 #: keysmanager.cpp:1830 keysmanager.cpp:1914 kgpgfirstassistant.cpp:271
@@ -2460,8 +2458,8 @@ msgid ""
 msgstr ""
 "<qt>Está a piques de asinar a identidade de usuario:<br /><br />%1<br />ID: "
 "%2<br />Pegada dixital: <br /><b>%3</b>.<br /><br />Debería comprobar a "
-"pegada dixital chamando ou reuníndose co proprietario da chave para "
-"comprobar que ninguén está a intentar interceptar as súas comunicacións.</qt>"
+"pegada dixital chamando ou reuníndose co propietario da chave para comprobar "
+"que ninguén está a intentar interceptar as súas comunicacións.</qt>"
 
 #: keysmanager.cpp:1898
 #, kde-format
@@ -2473,8 +2471,8 @@ msgid ""
 msgstr ""
 "<qt>Está a piques de asinar a identidade de usuario:<br /><br />%1 (%2)<br /"
 ">ID: %3<br />Pegada dixital: <br /><b>%4</b>.<br /><br />Debería comprobar a "
-"pegada dixital chamando ou reuníndose co proprietario da chave para "
-"comprobar que ninguén está a intentar interceptar as súas comunicacións.</qt>"
+"pegada dixital chamando ou reuníndose co propietario da chave para comprobar "
+"que ninguén está a intentar interceptar as súas comunicacións.</qt>"
 
 #: keysmanager.cpp:1924
 #, kde-format
@@ -2517,7 +2515,7 @@ msgstr[1] "Todas as sinaturas para estas chave xa están no seu chaveiro"
 #: keysmanager.cpp:2207
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
-msgstr "Editar a chave manualmente para eliminar esta autosinatura."
+msgstr "Editar a chave manualmente para eliminar esta sinatura propia."
 
 #: keysmanager.cpp:2211
 #, kde-format
@@ -2838,7 +2836,7 @@ msgid ""
 msgstr ""
 "Ola,\n"
 "\n"
-"Atope anexo o identificador de usuario «%NOMEUID%» da súa chave, %KEYID%, "
+"Atope anexo o identificador de usuario «%UIDNAME%» da súa chave, %KEYID%, "
 "asinada por min. Este correo vai asinado con esa chave, para asegurarme de "
 "que ten no seu control tanto o enderezo de correo como a chave.\n"
 "\n"
@@ -2853,7 +2851,7 @@ msgstr ""
 "Teña en conta que non subín a súa chave a ningún servidor de chaves. Se "
 "quere que esta nova sinatura estea dispoñíbel para outras persoas, considere "
 "subila vostede mesmo. Pode facelo con GnuPG, executando «gpg --keyserver "
-"subkeys.pgp.net --send-key %IDCHAVE%.\n"
+"subkeys.pgp.net --send-key %KEYID%.\n"
 "\n"
 "Con KGpg pode facer clic dereito na chave, despois de importar todos os "
 "identificadores de usuario, e seleccionar «Exportar a chave pública…».\n"
@@ -3027,13 +3025,13 @@ msgstr "Escoller o comportamento predeterminado dos clics esquerdos"
 #: kgpg.kcfg:143
 #, kde-format
 msgid "Handle encrypted drops"
-msgstr "Xestionar soltaxes cifradas"
+msgstr "Xestionar descargas cifradas"
 
 #. i18n: ectx: label, entry (UnencryptedDropEvent), group (User Interface)
 #: kgpg.kcfg:151
 #, kde-format
 msgid "Handle unencrypted drops"
-msgstr "Xestionar soltaxes non cifradas"
+msgstr "Xestionar descargas non cifradas"
 
 #. i18n: ectx: label, entry (SignMenu), group (User Interface)
 #: kgpg.kcfg:159
@@ -4299,7 +4297,7 @@ msgid ""
 "<pre>kgpg -s filename</pre></p>\n"
 msgstr ""
 "<p>Para abrir un ficheiro co editor de KGpg e descifralo de inmediato "
-"escriba: <pre>kgpg -s nomeFicheiro</pre></p>\n"
+"escriba: <pre>kgpg -s ficheiro</pre></p>\n"
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:47
