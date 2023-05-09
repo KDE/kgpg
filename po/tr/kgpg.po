@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:51+0000\n"
-"PO-Revision-Date: 2023-03-29 21:01+0300\n"
+"PO-Revision-Date: 2023-05-08 11:23+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -63,8 +63,8 @@ msgid ""
 "This function is not available on this system. The symbolic link to the "
 "private GnuPG keys cannot be created."
 msgstr ""
-"Bu fonksiyon, bu sistemde mevcut değildir. Özel GnuPG anahtarlarının "
-"sembolik bağlantısı oluşturulamaz."
+"Bu sistemde, bu işlev kullanılamıyor. Özel GnuPG anahtarlarının sembolik "
+"bağlantısı oluşturulamaz."
 
 #: caff.cpp:155 caff.cpp:173
 #, kde-format
@@ -241,9 +241,9 @@ msgid ""
 "operation to use the selected key. KGpg will not query for a recipient and "
 "the default key will be bypassed.</p></qt>"
 msgstr ""
-"<qt><b>Dosyaları bununla şifrele:</b><br />\n"
+"<qt><b>Dosyaları şununla şifrele:</b><br />\n"
 "<p> Bu seçenek işaretlenip bir anahtar seçildiğinde, bütün dosya şifreleme "
-"işlemlerinin seçili anahtarı kullanması zorunlu hale getirilir. KGpg, bir "
+"işlemlerinin seçili anahtarı kullanması zorunlu hale getirilir. K GPG, bir "
 "alıcı adı sormayacak ve öntanımlı anahtar yok sayılacaktır.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EncryptFilesTo)
@@ -459,14 +459,15 @@ msgid ""
 "<p>If checked KGpg will start automatically each time that KDE starts up.</"
 "p></qt>"
 msgstr ""
-"<qt><b>KGpg'yi girişte otomatik olarak başlat:</b><br />\n"
-"<p>Seçilirse KGpg her KDe  açılışında otomatik olarak başlayacaktır.</p></qt>"
+"<qt><b>K GPG'yi KDE başlangıcında kendiliğinden başlat:</b><br />\n"
+"<p>İşaretliyse K GPG, her KDE açılışında kendiliğinden başlayacaktır.</p></"
+"qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoStart)
 #: conf_misc.ui:36
 #, kde-format
 msgid "Start KGpg automatically at login"
-msgstr "Oturum açıldıktan sonra KGpg otomatik olarak başlatılsın"
+msgstr "Oturum açılışında K GPG'yi kendiliğinden başlat"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseMouseSelection)
 #: conf_misc.ui:53
@@ -479,10 +480,11 @@ msgid ""
 "will work with Key shortcuts (Ctrl-c, Ctrl-v).</p></qt> "
 msgstr ""
 "<qt><b>Pano yerine fare seçimini kullan:</b><br />\n"
-"<p> Seçili ise KGpg pano işlemlerinde seçili panoyu kullanacaktır. Bu "
+"<p> İşaretliyse K GPG pano işlemlerinde seçili panoyu kullanacaktır. Bu "
 "kopyalamak için bir metnin seçilmesini ve yapıştırmak için de orta düğmenin "
-"(veya sol ve sağ düğme beraber) kullanılmasını sağlar. Seçili değil ise pano "
-"kısayol düğmeleri (Ctrl-c, Ctrl-v ile birlikte çalışacaktır.</p></qt> "
+"(veya sol ve sağ düğme beraber) kullanılmasını sağlar. Bu seçenek işaretli "
+"değilse pano kısayol düğmeleri (Kontrol-C, Kontrol-V ile birlikte "
+"çalışacaktır.</p></qt> "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseMouseSelection)
 #: conf_misc.ui:56
@@ -592,7 +594,7 @@ msgid ""
 "<p>If checked KGpg will minimize to an icon in the system tray.</p></qt>"
 msgstr ""
 "<qt><b>Sistem tepsisi simgesini göster:</b><br />\n"
-"<p>Seçilirse KGpg sistem tepsisine simge olarak küçültülür.</p></qt>"
+"<p>İşaretliyse K GPG sistem tepsisine simge olarak küçültülür.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSystray)
 #: conf_misc.ui:211
@@ -701,7 +703,7 @@ msgid ""
 msgstr ""
 "<b>AÇIKLAMA</b>:\n"
 "Yalnızca öntanımlı sunucu GnuPG yapılandırma dosyasına kaydedilecektir,\n"
-"diğerleri KGpg kullanımı için saklanacaktır."
+"diğerleri K GPG kullanımı için saklanacaktır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseProxy)
 #: conf_servers.ui:35
@@ -1567,7 +1569,7 @@ msgstr "Parola değiştirilemedi"
 #: keyinfodialog.cpp:319
 #, kde-format
 msgid "KGpg was unable to change the passphrase."
-msgstr "KGpg parolayı değiştiremedi."
+msgstr "K GPG parolayı değiştiremedi."
 
 #: keyinfodialog.cpp:368
 #, kde-format
@@ -2660,7 +2662,7 @@ msgstr ""
 #: keysmanager.cpp:2647
 #, kde-format
 msgid "KGpg - encryption tool"
-msgstr "KGpg - şifreleme aracı"
+msgstr "K GPG - şifreleme aracı"
 
 #: keysmanager.cpp:2668
 #, kde-format
@@ -2721,7 +2723,7 @@ msgid ""
 "GnuPG failed to start.<br />You must fix the GnuPG error first before "
 "running KGpg."
 msgstr ""
-"GnuPG başlatılamadı.<br />KGpg programını başlatmadan önce GnuPG hatasını "
+"GnuPG başlatılamadı.<br />K GPG programını başlatmadan önce GnuPG hatasını "
 "düzeltmelisiniz."
 
 #: kgpg.cpp:63
@@ -2740,8 +2742,8 @@ msgstr ""
 "<qt><b>GnuPG Yardımcısının</b> kullanımı GnuPG yapılandırma dosyasında (%1) "
 "etkinleştirilmiş .<br />Bununla birlikte, yardımcı uygulama çalışmıyor gibi "
 "görünüyor. Bu şifreleme işlemleri sırasında sorunlara yol açabilir.<br /"
-">Lütfen KGpg ayarlarında GnuPG yardımcısını pasifleştirin veya çalışmasını "
-"sağlayın.</qt>"
+">Lütfen K GPG ayarlarında GnuPG yardımcısını devre dışı bırakın veya "
+"çalışmasını sağlayın.</qt>"
 
 #: kgpg.cpp:123 kgpg.cpp:130 kgpg.cpp:137 kgpg.cpp:144
 #, kde-format
@@ -2846,7 +2848,7 @@ msgstr ""
 "`gpg --decrypt` kullanarak şifresini çözdükten sonra, `gpg --import` ile içe "
 "aktarabilirsiniz.\n"
 "\n"
-"Eğer KGpg kullanıyorsanız eki diske kaydet ve içe aktarın. Yalnızca "
+"Eğer K GPG kullanıyorsanız eki diske kaydet ve içe aktarın. Yalnızca "
 "`Anahtarlar` menüsünden `Anahtarı İçe Aktar...` seçin ve dosyayı açın.\n"
 "\n"
 "Anahtarını hiçbir anahtar sunucusuna göndermediğimi unutmayın. Eğer bu yeni "
@@ -2854,7 +2856,7 @@ msgstr ""
 "kendiniz yapman gerekiyor. GnuPG kullanarak bu işlem gpg --keyserver subkeys."
 "pgp.net --send-key %KEYID% komutu ile yapılabilir.\n"
 "\n"
-"KGpg ile, tüm kullanıcı kimlikleri içe aktarıldıktan sonra anahtara sağ "
+"K GPG ile, tüm kullanıcı kimlikleri içe aktarıldıktan sonra anahtara sağ "
 "tıklayarak `Açık Anahtarı Dışa Aktar...` seç.\n"
 "\n"
 "Eğer bir sorun varsa sormaktan çekinmeyin.\n"
@@ -2935,7 +2937,7 @@ msgstr "gpg yapılandırma dosyası."
 #: kgpg.kcfg:63
 #, kde-format
 msgid "The path of the gpg binary used by KGpg."
-msgstr "KGpg tarafından kullanılan gpg ikili dosyasının yolu."
+msgstr "K GPG tarafından kullanılan gpg ikili dosyasının yolu."
 
 #. i18n: ectx: label, entry (FirstRun), group (General Options)
 #: kgpg.kcfg:79
@@ -3003,7 +3005,7 @@ msgstr "Pano yerine fare ile seçmeyi kullan."
 #: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
-msgstr "Girişte KGpg otomatik başlasın."
+msgstr "Girişte K GPG'yi kendiliğinden başlatın."
 
 #. i18n: ectx: label, entry (RemoteFileWarn), group (User Interface)
 #: kgpg.kcfg:132
@@ -3117,7 +3119,7 @@ msgstr "Yazıtipi"
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
 msgstr ""
-"KGpg tarafından kullanılan anahtar sunucusu. Listedeki ilk sunucu öntanımlı "
+"K GPG tarafından kullanılan anahtar sunucusu. Listedeki ilk sunucu öntanımlı "
 "sunucudur."
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
@@ -3162,9 +3164,9 @@ msgid ""
 "the encryption. The file will be deleted after the encryption is finished.</"
 "qt>"
 msgstr ""
-"<qt>KGpg şifreleme işlemini gerçekleştirmek için şimdi geçici<br /><b>%1</b> "
-"arşiv dosyasını oluşturacaktır. Şifreleme bittiği zaman dosya silinecektir.</"
-"qt>"
+"<qt>K GPG şifreleme işlemini gerçekleştirmek için şimdi geçici<br /><b>%1</"
+"b> arşiv dosyasını oluşturacaktır. Şifreleme bittiği zaman dosya "
+"silinecektir.</qt>"
 
 #: kgpgexternalactions.cpp:147
 #, kde-format
@@ -3185,9 +3187,9 @@ msgid ""
 "some surprising results in KGpg's execution.<br />Would you like to start "
 "KGpg's assistant to fix this problem?</qt>"
 msgstr ""
-"<qt>GnuPG yapılandırma dosyanızın yolunu ayarlamamışsınız.<br />KGpg "
+"<qt>GnuPG yapılandırma dosyanızın yolunu ayarlamamışsınız.<br />K GPG "
 "programının yürütülmesinde hatalar oluşturabilir.<br />Bu sorunu düzeltmek "
-"için KGpg Yardımcısını başlatmak ister misiniz?</qt>"
+"için K GPG Yardımcısını başlatmak ister misiniz?</qt>"
 
 #: kgpgexternalactions.cpp:426
 #, kde-format
@@ -3202,7 +3204,7 @@ msgstr "Başlatma"
 #: kgpgfirstassistant.cpp:33
 #, kde-format
 msgid "KGpg Assistant"
-msgstr "KGpg Yardımcısı"
+msgstr "K GPG Yardımcısı"
 
 #: kgpgfirstassistant.cpp:57
 #, kde-format
@@ -3211,7 +3213,7 @@ msgid ""
 "for KGpg to work properly. Next, it will allow you to create your own key "
 "pair, enabling you to encrypt your files and emails."
 msgstr ""
-"Bu sihirbaz ilk önce KGpg'nin düzgün çalışması için gerekli temel "
+"Bu sihirbaz ilk önce K GPG'nin düzgün çalışması için gerekli temel "
 "yapılandırma seçeneklerini ayarlar. Daha sonra, dosyalarınızı ve e-"
 "postalarınızı şifrelerken kullanacağınız kendi anahtar çiftinizi "
 "oluşturmanızı sağlar."
@@ -3219,14 +3221,13 @@ msgstr ""
 #: kgpgfirstassistant.cpp:65
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
-msgstr "KGpg Yardımcısına Hoş Geldiniz"
+msgstr "K GPG Yardımcısına Hoş Geldiniz"
 
 #: kgpgfirstassistant.cpp:77
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr ""
-"KGpg uygulamasının GnuPG çalıştırılabilir dosyasının nerede olduğunu bilmesi "
-"gerekir."
+"K GPG uygulamasının GnuPG ikili dosyasının nerede olduğunu bilmesi gerekir."
 
 #: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
 #, kde-format
@@ -3250,7 +3251,7 @@ msgstr ""
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr ""
-"KGpg, GNUPG yapılandırma dosyasının nerede olduğunu bilmek durumundadır."
+"K GPG, GnuPG yapılandırma dosyasının nerede olduğunu bilmek durumundadır."
 
 #: kgpgfirstassistant.cpp:144
 #, kde-format
@@ -3288,7 +3289,7 @@ msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
 "create a config file ?</qt>"
 msgstr ""
-"<qt><b>GnuPG yapılandırma dosyası bulunamadı</b>.KGpg bir yapılandırma "
+"<qt><b>GnuPG yapılandırma dosyası bulunamadı</b>.K GPG bir yapılandırma "
 "dosyası oluşturmayı denesin mi?</qt>"
 
 #: kgpgfirstassistant.cpp:236
@@ -3518,7 +3519,7 @@ msgstr "Kimlik Doğrulama"
 #: kgpgKeyInfo.ui:14
 #, kde-format
 msgid "Kgpg"
-msgstr "Kgpg"
+msgstr "K GPG"
 
 #. i18n: ectx: property (text), widget (QLabel, tl_id)
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
@@ -3654,7 +3655,7 @@ msgstr ""
 "Seçilen konumda yapılandırma dosyası bulunamadı.\n"
 "Oluşturmak istiyor musunuz?\n"
 "\n"
-"Yapılandırma dosyası olmadan KGpg ve GnuPG düzgün çalışmaz."
+"Yapılandırma dosyası olmadan K GPG ve GnuPG düzgün çalışmaz."
 
 #: kgpgoptions.cpp:158
 #, kde-format
@@ -3786,19 +3787,19 @@ msgstr "Anahtar zinicirine  Al..."
 #, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
-msgstr "<application>KGpg</application>"
+msgstr "<application>K GPG</application>"
 
 #: main.cpp:41
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
-msgstr "KGpg - GnuPG için basit bir grafik kullanıcı arayüzü"
+msgstr "K GPG - GnuPG için basit bir grafik kullanıcı arayüzü"
 
 #: main.cpp:43
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
-msgstr "&copy; 2003-2016, KGpg Geliştiricileri"
+msgstr "&copy; 2003-2016, K GPG Geliştiricileri"
 
 #: main.cpp:45
 #, kde-kuit-format
@@ -4202,10 +4203,10 @@ msgid ""
 "import it if you want.</p>\n"
 msgstr ""
 "<p>Eğer bir metin dosyasının şifresini çözmek istiyorsanız düzenleyici "
-"penceresine sürükleyip bırakmanız yeterli olacaktır. Gerisini KGpg "
+"penceresine sürükleyip bırakmanız yeterli olacaktır. Gerisini K GPG "
 "halledecektir. Uzak sistemlerdeki dosyalar bile bu şekilde bırakılabilir.</"
 "p>\n"
-"<p>Düzenleyici penceresine açık anahtar sürüklediğinizde, KGpg isterseniz  "
+"<p>Düzenleyici penceresine açık anahtar sürüklediğinizde, K GPG isterseniz  "
 "otomatik olarak içe aktaracaktır.</p>\n"
 
 #. i18n: ectx: @info:tipoftheday
@@ -4229,8 +4230,8 @@ msgid ""
 "encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
 msgstr ""
 "<p>Bir iletiyi birden fazla kişi için şifrelemek isterseniz tek yapmanız "
-"gereken  &quot;Ctrl&quot;  düğmesine basarak birden fazla şifreleme anahtarı "
-"seçmektir.</p>\n"
+"gereken  &quot;Kontrol&quot;  düğmesine basarak birden fazla şifreleme "
+"anahtarı seçmektir.</p>\n"
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:18
@@ -4251,9 +4252,9 @@ msgstr ""
 "çifti oluşturun. Ardından, ortak anahtarınızı aktarın ve arkadaşlarınıza e-"
 "posta ile gönderin.<br>\n"
 "Onlardan da aynı şeyi yapmalarını ve ortak anahtarlarını almalarını isteyin. "
-"Son olarak, şifrelenmiş bir metin göndermek için, KGpg düzenleyicisinden "
+"Son olarak, şifrelenmiş bir metin göndermek için, K GPG düzenleyicisinden "
 "yazın ve &quot;şifrele&quot; seçeneğini seçin. Arkadaşınızın anahtarını\n"
-"seçin ve &quot;şifrele&quot; düğmesine tekrar basın. Mesaj e-posta ile "
+"seçin ve &quot;şifrele&quot; düğmesine tekrar basın. İleti, e-posta ile "
 "gönderilmek için şifrelenmiş olacaktır.</p>\n"
 
 #. i18n: ectx: @info:tipoftheday
@@ -4297,8 +4298,8 @@ msgid ""
 "<p>To open a file in the KGpg's editor and immediately decrypt it type: "
 "<pre>kgpg -s filename</pre></p>\n"
 msgstr ""
-"<p>KGpg'nin düzenleyicisinde bir dosya açmak ve anında deşifre etmek için şu "
-"komutu verin: <pre>kgpg -s filename</pre></p>\n"
+"<p>K GPG'nin düzenleyicisinde bir dosya açmak ve anında deşifre etmek için "
+"şu komutu verin: <pre>kgpg -s filename</pre></p>\n"
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:47
@@ -4317,8 +4318,8 @@ msgid ""
 "<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the "
 "key manager.</p>\n"
 msgstr ""
-"<p>Öntanımlı anahtarınıza ulaşmak için anahtar yöneticisinde &quot;Ctrl"
-"+Home&quot; düğmelerine basabilirsiniz..</p>\n"
+"<p>Öntanımlı anahtarınıza ulaşmak için anahtar yöneticisinde &quot;Kontrol"
+"+Baş&quot; düğmelerine basabilirsiniz.</p>\n"
 
 #. i18n: ectx: @info:tipoftheday
 #: tips:57
