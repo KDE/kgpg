@@ -43,7 +43,7 @@
   <name xml:lang="sr-ijekavian">КГПГ</name>
   <name xml:lang="sr-ijekavianlatin">KGPG</name>
   <name xml:lang="sv">Kgpg</name>
-  <name xml:lang="tr">KGpg</name>
+  <name xml:lang="tr">K GPG</name>
   <name xml:lang="uk">KGpg</name>
   <name xml:lang="x-test">xxKGpgxx</name>
   <name xml:lang="zh-CN">KGpg</name>
@@ -134,7 +134,7 @@
     <p xml:lang="sr-ijekavian">КГПГ је једноставно сучеље за ГнуПГ, моћну алатку за шифровање. Може вам помоћи да постављате кључеве, управљате њима, увозите их и извозите, као и да приказујете отиске, поузданост и датуме истицања кључева.</p>
     <p xml:lang="sr-ijekavianlatin">KGPG je jednostavno sučelje za GnuPG, moćnu alatku za šifrovanje. Može vam pomoći da postavljate ključeve, upravljate njima, uvozite ih i izvozite, kao i da prikazujete otiske, pouzdanost i datume isticanja ključeva.</p>
     <p xml:lang="sv">Kgpg är ett enkelt gränssnitt för GnuPG, ett kraftfullt krypteringsverktyg. Det kan hjälpa till att ställa in och hantera nycklar, importera och exportera nycklar, samt granska nyckelsignaturer, pålitlighetsstatus och utgångsdatum.</p>
-    <p xml:lang="tr">KGpg, güçlü bir şifreleme aracı olan GnuPG için basit bir arayüzdür. Anahtarlarınızı ayarlamanıza ve yönetmenize, anahtarları içe ve dışa aktarmanıza, anahtar imzalarını, güven düzeylerini ve geçerlilik tarihlerini görüntülemenize yardımcı olur.</p>
+    <p xml:lang="tr">K GPG, güçlü bir şifreleme aracı olan GnuPG için basit bir arayüzdür. Anahtarlarınızı ayarlamanıza ve yönetmenize, anahtarları içe ve dışa aktarmanıza, anahtar imzalarını, güven düzeylerini ve geçerlilik tarihlerini görüntülemenize yardımcı olur.</p>
     <p xml:lang="uk">KGpg — простий інтерфейс до GnuPG, потужного засобу шифрування. Програма допоможе вам у керуванні ключами, імпортуванні та експортуванні ключів, перегляді підписів ключів, станів довіри до ключів та даних щодо строку дії ключів.</p>
     <p xml:lang="x-test">xxKGpg is a simple interface for GnuPG, a powerful encryption utility. It can help you set up and manage your keys, import and export keys, view key signatures, trust status and expiry dates.xx</p>
     <p xml:lang="zh-CN">KGpg 是压缩工具 GnuPG 的简单界面，可以设置和管理密钥，导入导出密钥，查看密钥签名、信任状态和过期时间。</p>
@@ -178,7 +178,7 @@
       <caption xml:lang="sk">Správa kľúčov v KGpg</caption>
       <caption xml:lang="sl">Upravljanje ključev KGpg</caption>
       <caption xml:lang="sv">Nyckelhantering i Kgpg</caption>
-      <caption xml:lang="tr">KGgpg ile anahtar yönetimi</caption>
+      <caption xml:lang="tr">K GPG ile anahtar yönetimi</caption>
       <caption xml:lang="uk">Керування ключами у KGpg</caption>
       <caption xml:lang="x-test">xxKey management in KGpgxx</caption>
       <caption xml:lang="zh-CN">在 KGpg 中管理密钥</caption>
