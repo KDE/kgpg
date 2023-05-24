@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:51+0000\n"
-"PO-Revision-Date: 2023-05-08 11:23+0300\n"
+"PO-Revision-Date: 2023-05-24 01:21+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.03.70\n"
+"X-Generator: Lokalize 23.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -522,7 +522,7 @@ msgstr "Programcık ve Menüler"
 #: conf_misc.ui:103
 #, kde-format
 msgid "Konqueror Service Menus"
-msgstr "Konqueror Servis Menüleri"
+msgstr "Konqueror Hizmet Menüleri"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel1)
 #: conf_misc.ui:119
@@ -532,7 +532,7 @@ msgid ""
 "<p></p>\n"
 "</qt>"
 msgstr ""
-"<qt><b>Dosya imzalama servis menüsü:</b><br />\n"
+"<qt><b>Dosya imzalama hizmet menüsü:</b><br />\n"
 "<p></p>\n"
 "</qt>"
 
@@ -540,7 +540,7 @@ msgstr ""
 #: conf_misc.ui:122
 #, kde-format
 msgid "Sign file service menu:"
-msgstr "Dosya imzalama servis menüsü:"
+msgstr "Dosya imzalama hizmet menüsü:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
@@ -564,7 +564,7 @@ msgid ""
 "<p></p>\n"
 "</qt>"
 msgstr ""
-"<qt><b>Dosya şifreleme servis menüsü:</b><br />\n"
+"<qt><b>Dosya şifreleme hizmet menüsü:</b><br />\n"
 "<p></p>\n"
 "</qt>"
 
@@ -572,7 +572,7 @@ msgstr ""
 #: conf_misc.ui:167
 #, kde-format
 msgid "Decrypt file service menu:"
-msgstr "Dosya şifresi açma servis menüsü:"
+msgstr "Dosya şifresi açma hizmet menüsü:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
 #: conf_misc.ui:188
@@ -3039,13 +3039,13 @@ msgstr "Şifrelenmemiş bırakmaları karşıla"
 #: kgpg.kcfg:159
 #, kde-format
 msgid "Show the \"sign file\" service menu."
-msgstr "\"Dosya İmzala\" Servis Menüsünü göster."
+msgstr "\"Dosya İmzala\" hizmet menüsünü gösterin."
 
 #. i18n: ectx: label, entry (DecryptMenu), group (User Interface)
 #: kgpg.kcfg:167
 #, kde-format
 msgid "Show the \"decrypt file\" service menu."
-msgstr "\"Dosya Şifresi Aç\" Servis Menüsünü göster."
+msgstr "\"Dosya Şifresi Aç\" hizmet menüsünü gösterin."
 
 #. i18n: ectx: label, entry (ShowSystray), group (User Interface)
 #: kgpg.kcfg:176
