@@ -26,6 +26,14 @@ include(CMakeFindDependencyMacro)
 include(ECMQtDeclareLoggingCategory)
 include(ECMDeprecationSettings)
 
+if (QT_MAJOR_VERSION STREQUAL "6")
+    set(QT_REQUIRED_VERSION "6.4.0")
+    set(KF_MIN_VERSION "5.240.0")
+    set(KF_MAJOR_VERSION "6")
+else()
+    set(KF_MAJOR_VERSION "5")
+endif()
+
 find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
   Core
   DBus
@@ -34,8 +42,9 @@ find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
   Widgets
 )
 
+
 # Load the frameworks we need
-find_package(KF5 ${KF_MIN_VERSION} REQUIRED
+find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED
   Archive
   DocTools
   Codecs
@@ -51,13 +60,18 @@ find_package(KF5 ${KF_MIN_VERSION} REQUIRED
   XmlGui
   WidgetsAddons
   WindowSystem
-)
-
-# kdepimlibs
-find_package(KF5 REQUIRED
-  AkonadiContact
   Contacts
 )
+
+if (QT_MAJOR_VERSION STREQUAL "5")
+    # kdepimlibs
+    find_package(KF${KF_MAJOR_VERSION} REQUIRED
+        AkonadiContact
+    )
+else()
+    find_package(KPim6AkonadiContact REQUIRED)
+    find_package(Qt6Core5Compat)
+endif()
 
 # only headers are used
 find_package(Gpgme REQUIRED)
@@ -72,7 +86,11 @@ include_directories(  ${KDEPIMLIBS_INCLUDE_DIR} ${GPGME_INCLUDES} )
 
 option(KGPG_DEBUG_TRANSACTIONS "show commands and results of gpg calls in debug log" Off)
 
-set(CMAKE_REQUIRED_LIBRARIES KF5::AkonadiContact)
+if (QT_MAJOR_VERSION STREQUAL "5")
+    set(CMAKE_REQUIRED_LIBRARIES KF${KF_MAJOR_VERSION}::AkonadiContact)
+else()
+    set(CMAKE_REQUIRED_LIBRARIES KPim6::AkonadiContact)
+endif()
 check_include_file_cxx(Akonadi/Contact/ContactEditor HAS_AKONADI_CONTACT_SUBDIR)
 if (HAS_AKONADI_CONTACT_SUBDIR)
    set_property(SOURCE keysmanager.cpp APPEND PROPERTY COMPILE_DEFINITIONS "HAS_AKONADI_CONTACT_SUBDIR")
@@ -251,27 +269,34 @@ endif ()
 set_property(SOURCE main.cpp APPEND PROPERTY COMPILE_DEFINITIONS "KGPG_VERSION=\"${RELEASE_SERVICE_VERSION}\"")
 
 target_link_libraries(kgpg_lib
-    KF5::AkonadiContact
-    KF5::Archive
-    KF5::Codecs
-    KF5::Contacts
-    KF5::CoreAddons
-    KF5::Crash
-    KF5::DBusAddons
-    KF5::I18n
-    KF5::JobWidgets
-    KF5::KIOCore
-    KF5::KIOFileWidgets
-    KF5::KIOWidgets
-    KF5::Notifications
-    KF5::Service
-    KF5::TextWidgets
-    KF5::XmlGui
-    KF5::WidgetsAddons
-    KF5::WindowSystem
+    KF${KF_MAJOR_VERSION}::Archive
+    KF${KF_MAJOR_VERSION}::Codecs
+    KF${KF_MAJOR_VERSION}::Contacts
+    KF${KF_MAJOR_VERSION}::CoreAddons
+    KF${KF_MAJOR_VERSION}::Crash
+    KF${KF_MAJOR_VERSION}::DBusAddons
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::JobWidgets
+    KF${KF_MAJOR_VERSION}::KIOCore
+    KF${KF_MAJOR_VERSION}::KIOFileWidgets
+    KF${KF_MAJOR_VERSION}::KIOWidgets
+    KF${KF_MAJOR_VERSION}::Notifications
+    KF${KF_MAJOR_VERSION}::Service
+    KF${KF_MAJOR_VERSION}::TextWidgets
+    KF${KF_MAJOR_VERSION}::XmlGui
+    KF${KF_MAJOR_VERSION}::WidgetsAddons
+    KF${KF_MAJOR_VERSION}::WindowSystem
     Qt::PrintSupport
 )
-
+if (QT_MAJOR_VERSION STREQUAL "5")
+    target_link_libraries(kgpg_lib
+        KF${KF_MAJOR_VERSION}::AkonadiContact)
+else()
+    target_link_libraries(kgpg_lib
+        KPim6::AkonadiContact
+	Qt6::Core5Compat
+	)
+endif()
 if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
