@@ -1,4 +1,4 @@
-find_package(Qt5Test REQUIRED)
+find_package(Qt${QT_MAJOR_VERSION}Test REQUIRED)
 
 add_library(kgpg_tests_common STATIC
 	common.h common.cpp)
