@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-15 00:51+0000\n"
-"PO-Revision-Date: 2023-04-23 08:08+0200\n"
+"PO-Revision-Date: 2023-06-05 14:29+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2529,7 +2529,7 @@ msgstr ""
 #: keysmanager.cpp:2233
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
-msgstr "A operación pedida non tivo éxito, por favor edite a chave á mao."
+msgstr "A operación solicitada fallou, edite a chave a man."
 
 #: keysmanager.cpp:2317
 #, kde-format
@@ -3685,7 +3685,7 @@ msgstr ""
 #: kgpgoptions.cpp:197
 #, kde-format
 msgid "Key server URLs may not contain whitespace."
-msgstr "Os URLs dos servidores de chaves non poden conter espazos en branco."
+msgstr "Os URL dos servidores de chaves non poden conter espazos en branco."
 
 #: kgpgoptions.cpp:202
 #, kde-format
