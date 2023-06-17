@@ -13,6 +13,7 @@
   <name xml:lang="de">KGpg</name>
   <name xml:lang="el">KGpg</name>
   <name xml:lang="en-GB">KGpg</name>
+  <name xml:lang="eo">KGpg</name>
   <name xml:lang="es">KGpg</name>
   <name xml:lang="et">KGpg</name>
   <name xml:lang="eu">KGpg</name>
@@ -58,6 +59,7 @@
   <summary xml:lang="de">Verschlüsselungsprogramm</summary>
   <summary xml:lang="el">Εργαλείο κρυπτογράφησης</summary>
   <summary xml:lang="en-GB">Encryption Tool</summary>
+  <summary xml:lang="eo">Ĉifrilo</summary>
   <summary xml:lang="es">Herramienta de cifrado</summary>
   <summary xml:lang="et">Krüptimistööriist</summary>
   <summary xml:lang="eu">Zifratzeko tresna</summary>
@@ -156,6 +158,7 @@
       <caption xml:lang="de">Schlüsselverwaltung mit KGpg</caption>
       <caption xml:lang="el">Διαχείριση κλειδιών στο KGpg</caption>
       <caption xml:lang="en-GB">Key management in KGpg</caption>
+      <caption xml:lang="eo">Ŝlosiladministrado en KGpg</caption>
       <caption xml:lang="es">Gestión de claves en KGpg</caption>
       <caption xml:lang="et">Võtmehaldus KGpg-ga</caption>
       <caption xml:lang="eu">Gako kudeaketa KGpg-rekin</caption>
