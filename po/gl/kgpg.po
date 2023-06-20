@@ -178,7 +178,7 @@ msgid ""
 "instead of a .gpg extension. This option will maintain compatibility with "
 "users of PGP (Pretty Good Privacy) software.</p></qt>"
 msgstr ""
-"<qt><b>Empregar a extensión *.pgp para ficheiros cifrados:</b><br />\n"
+"<qt><b>Usar a extensión *.pgp para ficheiros cifrados:</b><br />\n"
 "<p>Marque esta opción para engadir unha extensión .pgp a todos os ficheiros "
 "cifrados no canto dunha extensión .gpg. Esta opción fornecerá certa "
 "compatibilidade cos usuarios do programa PGP.</p></qt>"
@@ -187,7 +187,7 @@ msgstr ""
 #: conf_encryption.ui:45
 #, kde-format
 msgid "Use *.pgp extension for encrypted files"
-msgstr "Empregar a extensión *.pgp para os ficheiros cifrados"
+msgstr "Usar a extensión *.pgp para os ficheiros cifrados"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowCustomEncryptionOptions)
 #: conf_encryption.ui:69
@@ -199,7 +199,7 @@ msgid ""
 "recommended for experienced users only.</p></qt>"
 msgstr ""
 "<qt><b>Orde personalizada de cifrado:</b> <br />\n"
-"<p>Cando se activa, mostrarase un campo de entrada no diálogo de escolla da "
+"<p>Cando se activa, amosarase un campo de entrada no diálogo de escolla da "
 "chave, activando a posibilidade de inserir unha orde personalizada para o "
 "cifrado. Esta opción recoméndase só para usuarios con experiencia.</p></qt>"
 
@@ -310,9 +310,9 @@ msgstr ""
 "de todos os paquetes cifrados. A vantaxe: as análises de tráfico dos "
 "paquetes cifrados non se poden realizar tan doadamente porque o destinatario "
 "non se coñece. A desvantaxe: o destinatario dos paquetes cifrados verase "
-"forzado a empregar todas as chaves secretas antes de ser quen de descifrar "
-"os paquetes. Isto podería ser un proceso longo dependendo do número de "
-"chaves secretas que posúa o usuario destinatario.</p></qt>"
+"forzado a usar todas as chaves secretas antes de ser quen de descifrar os "
+"paquetes. Isto podería ser un proceso longo dependendo do número de chaves "
+"secretas que posúa o usuario destinatario.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUserID)
 #: conf_encryption.ui:159 selectpublickeydialog.cpp:119
@@ -441,7 +441,7 @@ msgstr ""
 #: conf_gpg.ui:160
 #, kde-format
 msgid "Use GnuPG agent"
-msgstr "Empregar o axente de GnuPG"
+msgstr "Usar o axente de GnuPG"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabGlobal)
 #: conf_misc.ui:24
@@ -477,7 +477,7 @@ msgid ""
 "right+left together) to paste. If this option is not checked, the clipboard "
 "will work with Key shortcuts (Ctrl-c, Ctrl-v).</p></qt> "
 msgstr ""
-"<qt><b>Empregar a selección do rato no canto do portapapeis:</b> <br />\n"
+"<qt><b>Usar a selección do rato no canto do portapapeis:</b> <br />\n"
 "<p>Se a marca as operacións co portapapeis en KGpg usan o contido do "
 "portapapeis de selección, é dicir, o texto realzado copiarase e co botón "
 "central do rato (ou co botón dereito e esquerdo á vez) pegarase. Se non "
@@ -488,7 +488,7 @@ msgstr ""
 #: conf_misc.ui:56
 #, kde-format
 msgid "Use mouse selection instead of clipboard"
-msgstr "Empregar a selección do rato no canto do portapapeis"
+msgstr "Usar a selección do rato no canto do portapapeis"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_RemoteFileWarn)
 #: conf_misc.ui:70
@@ -497,7 +497,7 @@ msgid ""
 "<qt><b>Display warning before creating temporary files:</b><br />\n"
 "<p></p></qt>"
 msgstr ""
-"<qt><b>Mostrar un aviso antes de crear ficheiros temporais:</b><br />\n"
+"<qt><b>Amosar un aviso antes de crear ficheiros temporais:</b><br />\n"
 "<p></p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RemoteFileWarn)
@@ -591,14 +591,14 @@ msgid ""
 "<qt><b>Show system tray icon:</b><br />\n"
 "<p>If checked KGpg will minimize to an icon in the system tray.</p></qt>"
 msgstr ""
-"<qt><b>Mostrar a icona na bandexa do sistema:</b><br />\n"
+"<qt><b>Amosar a icona na bandexa do sistema:</b><br />\n"
 "<p>Se marca esta opción, KGpg minimizarase á bandexa do sistema.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSystray)
 #: conf_misc.ui:211
 #, kde-format
 msgid "Show system tray icon"
-msgstr "Mostrar a icona na bandexa do sistema"
+msgstr "Amosar a icona na bandexa do sistema"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: conf_misc.ui:223
@@ -1603,8 +1603,8 @@ msgstr ""
 "<qt><b>Servidor de chaves:</b><br /> <p>Un servidor de chaves é un almacén "
 "centralizado de chaves PGP/GnuPG conectado a Internet ao que se pode acceder "
 "para obter ou depositar chaves. Escolla na lista despregábel de abaixo para "
-"indicar o servidor que se vai empregar.</p> <p>A miúdo estas chaves son de "
-"xente que o usuario non coñece e en consecuencia a autenticidade é dubidosa. "
+"indicar o servidor que se vai usar.</p> <p>A miúdo estas chaves son de xente "
+"que o usuario non coñece e en consecuencia a autenticidade é dubidosa. "
 "Consulte a sección de «Autenticación por web» do manual de GnuPG para saber "
 "como afronta GnuPG o problema de verificar a autenticidade.</p> </qt>"
 
@@ -1640,12 +1640,12 @@ msgid ""
 "with that ID).</p></qt>"
 msgstr ""
 "<qt><b>Texto para buscar ou ID da chave para importar:</b><br />\n"
-"<p>Hai múltiplos xeitos de buscar unha chave, pode empregar unha busca dun "
-"texto parcial ou completo (por exemplo: se insire Phil ou Zimmerman "
-"buscaranse todas as chaves nas que apareza Phil ou Zimmerman) ou pode buscar "
-"pola ID dunha chave. A ID (Identidade) dunha chave é unha cadea de letras e "
-"números que identifican univocamente unha chave (por exemplo: se busca "
-"0xED7585F4 mostrarase a chave asociada con esa ID).</p></qt>"
+"<p>Hai múltiplos xeitos de buscar unha chave, pode usar unha busca dun texto "
+"parcial ou completo (por exemplo: se insire Phil ou Zimmerman buscaranse "
+"todas as chaves nas que apareza Phil ou Zimmerman) ou pode buscar pola ID "
+"dunha chave. A ID (Identidade) dunha chave é unha cadea de letras e números "
+"que identifican univocamente unha chave (por exemplo: se busca 0xED7585F4 "
+"amosarase a chave asociada con esa ID).</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: keyserver.ui:70
@@ -1786,7 +1786,7 @@ msgstr "Atopouse 1 chave coincidente (non se mostra)"
 #: keyservers.cpp:380
 #, kde-format
 msgid "Found %1 matching keys (%2 shown)"
-msgstr "Atopáronse %1 chaves coincidentes (móstranse %2)"
+msgstr "Atopáronse %1 chaves coincidentes (amósanse %2)"
 
 #: keysmanager.cpp:132
 #, kde-format
@@ -1826,7 +1826,7 @@ msgstr "&Anovar a lista"
 #: keysmanager.cpp:176
 #, kde-format
 msgid "Show &Long Key Id"
-msgstr "Mostrar o id &longo da chave"
+msgstr "Amosar o id &longo da chave"
 
 #: keysmanager.cpp:181
 #, kde-format
@@ -1881,7 +1881,7 @@ msgstr "&Renomear o grupo"
 #: keysmanager.cpp:234
 #, kde-format
 msgid "Set as De&fault Key"
-msgstr "Estabelecer como chave &predeterminada"
+msgstr "Definir como chave &predeterminada"
 
 #: keysmanager.cpp:237
 #, kde-format
@@ -2114,9 +2114,9 @@ msgid ""
 "240x288 is a good size to use."
 msgstr ""
 "A imaxe debe ser un ficheiro JPEG. Lembre que a imaxe almacénase dentro da "
-"súa chave pública, polo que se emprega unha imaxe moi grande, a chave "
-"aumentará de tamaño proporcionalmente. O tamaño non debería exceder os 6 "
-"KiB. Un bo tamaño podería ser arredor de 240×288 píxeles."
+"súa chave pública, polo que se usa unha imaxe moi grande, a chave aumentará "
+"de tamaño proporcionalmente. O tamaño non debería exceder os 6 KiB. Un bo "
+"tamaño podería ser arredor de 240×288 píxeles."
 
 #: keysmanager.cpp:957
 #, kde-format
@@ -2750,7 +2750,7 @@ msgstr "Non se indicou ningún ficheiro."
 #: kgpg.cpp:134
 #, kde-format
 msgid "Cannot decrypt and show folder."
-msgstr "Non se pode descifrar e mostrar o cartafol."
+msgstr "Non se pode descifrar e amosar o cartafol."
 
 #: kgpg.cpp:141
 #, kde-format
@@ -2791,7 +2791,7 @@ msgstr "Abrir o editor"
 #: kgpg.cpp:192
 #, kde-format
 msgid "Show encrypted file"
-msgstr "Mostrar o ficheiro cifrado"
+msgstr "Amosar o ficheiro cifrado"
 
 #: kgpg.cpp:193 kgpgoptions.cpp:503
 #, kde-format
@@ -2892,7 +2892,7 @@ msgstr "Cifrar ficheiros"
 #: kgpg.kcfg:33
 #, kde-format
 msgid "Use ASCII armored encryption."
-msgstr "Empregar cifrado ASCII armado."
+msgstr "Usar cifrado ASCII armado."
 
 #. i18n: ectx: label, entry (AllowUntrustedKeys), group (Encryption)
 #: kgpg.kcfg:37
@@ -2953,37 +2953,37 @@ msgstr "O tamaño da xanela do editor."
 #: kgpg.kcfg:86
 #, kde-format
 msgid "Show the trust value in key manager."
-msgstr "Mostrar o valor de confianza no xestor de chaves."
+msgstr "Amosar o valor de confianza no xestor de chaves."
 
 #. i18n: ectx: label, entry (ShowExpi), group (General Options)
 #: kgpg.kcfg:90
 #, kde-format
 msgid "Show the expiration value in key manager."
-msgstr "Mostrar o valor de caducidade no xestor de chaves."
+msgstr "Amosar o valor de caducidade no xestor de chaves."
 
 #. i18n: ectx: label, entry (ShowSize), group (General Options)
 #: kgpg.kcfg:94
 #, kde-format
 msgid "Show the size value in key manager."
-msgstr "Mostrar o tamaño no xestor de chaves."
+msgstr "Amosar o tamaño no xestor de chaves."
 
 #. i18n: ectx: label, entry (ShowCreat), group (General Options)
 #: kgpg.kcfg:98
 #, kde-format
 msgid "Show the creation value in key manager."
-msgstr "Mostrar a creación no xestor de chaves."
+msgstr "Amosar a creación no xestor de chaves."
 
 #. i18n: ectx: label, entry (ShowSecret), group (General Options)
 #: kgpg.kcfg:102
 #, kde-format
 msgid "Show only secret keys in key manager."
-msgstr "Mostrar só chaves secretas no xestor de chaves."
+msgstr "Amosar só chaves secretas no xestor de chaves."
 
 #. i18n: ectx: label, entry (ShowLongKeyId), group (General Options)
 #: kgpg.kcfg:106
 #, kde-format
 msgid "Show long key id in key manager."
-msgstr "Mostrar a id longa das chaves no xestor de chaves."
+msgstr "Amosar a id longa das chaves no xestor de chaves."
 
 #. i18n: ectx: label, entry (TrustLevel), group (General Options)
 #: kgpg.kcfg:110
@@ -2997,7 +2997,7 @@ msgstr ""
 #: kgpg.kcfg:124
 #, kde-format
 msgid "Use the mouse selection instead of the clipboard."
-msgstr "Empregar a selección do rato no canto do portapapeis."
+msgstr "Usar a selección do rato no canto do portapapeis."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
 #: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
@@ -3012,8 +3012,8 @@ msgid ""
 "Display a warning before creating temporary files during remote file "
 "operations."
 msgstr ""
-"Mostrar un aviso antes de crear ficheiros temporais durante as operacións "
-"con ficheiros remotos."
+"Amosar un aviso antes de crear ficheiros temporais durante as operacións con "
+"ficheiros remotos."
 
 #. i18n: ectx: label, entry (LeftClick), group (User Interface)
 #: kgpg.kcfg:136
@@ -3037,33 +3037,33 @@ msgstr "Xestionar descargas non cifradas"
 #: kgpg.kcfg:159
 #, kde-format
 msgid "Show the \"sign file\" service menu."
-msgstr "Mostrar o menú de servizo «asinar ficheiro»."
+msgstr "Amosar o menú de servizo «asinar ficheiro»."
 
 #. i18n: ectx: label, entry (DecryptMenu), group (User Interface)
 #: kgpg.kcfg:167
 #, kde-format
 msgid "Show the \"decrypt file\" service menu."
-msgstr "Mostrar o menú de servizo «descifrar ficheiro»."
+msgstr "Amosar o menú de servizo «descifrar ficheiro»."
 
 #. i18n: ectx: label, entry (ShowSystray), group (User Interface)
 #: kgpg.kcfg:176
 #, kde-format
 msgid "Show the systray icon"
-msgstr "Mostrar a icona na bandexa do sistema"
+msgstr "Amosar a icona na bandexa do sistema"
 
 #. i18n: ectx: label, entry (RecentFiles), group (User Interface)
 #: kgpg.kcfg:180
 #, kde-format
 msgid "The number of recently opened files shown in the editor menu."
 msgstr ""
-"A cantidade de ficheiros abertos recentemente que se mostran no editor do "
+"A cantidade de ficheiros abertos recentemente que se amosan no editor do "
 "menú."
 
 #. i18n: ectx: label, entry (ShowTipOfDay), group (TipOfDay)
 #: kgpg.kcfg:187
 #, kde-format
 msgid "Show tip of the day."
-msgstr "Mostrar o consello do día."
+msgstr "Amosar o consello do día."
 
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
 #: kgpg.kcfg:194
@@ -3225,7 +3225,7 @@ msgstr "Benvido ao asistente de KGpg"
 #: kgpgfirstassistant.cpp:77
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
-msgstr "KGpg precisa saber que binario de GnuPG debe empregar."
+msgstr "KGpg precisa saber que binario de GnuPG debe usar."
 
 #: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
 #, kde-format
@@ -3580,8 +3580,8 @@ msgid ""
 "authentication.</p></qt>"
 msgstr ""
 "<qt><b>Foto:</b><p>Pode incluírse unha foto na chave pública para dar unha "
-"seguridade adicional. Esta foto pode empregarse como un método a maiores "
-"para autenticar a chave. Porén, sen se debe empregar como único método de "
+"seguridade adicional. Esta foto pode usarse como un método a maiores para "
+"autenticar a chave. Porén, sen se debe usar como único método de "
 "autenticación.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, m_photo)
@@ -3758,7 +3758,7 @@ msgstr "A chave suplantouse"
 #: kgpgrevokewidget.ui:71
 #, kde-format
 msgid "Key is No Longer Used"
-msgstr "A chave non se volverá empregar"
+msgstr "A chave non se volverá usar"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: kgpgrevokewidget.ui:81
@@ -3965,15 +3965,15 @@ msgid ""
 "<p>Checking this option sets the newly created key pair as the default key "
 "pair.</p></qt>"
 msgstr ""
-"<qt><b>Estabelecer como a súa chave predeterminada:</b><br />\n"
-"<p>Marque esta opción para estabelecer o par de chaves que acaba de crear "
-"como par de chaves predeterminadas.</p></qt>"
+"<qt><b>Definir como a súa chave predeterminada:</b><br />\n"
+"<p>Marque esta opción para definir o par de chaves que acaba de crear como "
+"par de chaves predeterminadas.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CBdefault)
 #: newkey.ui:140
 #, kde-format
 msgid "Set as your default key"
-msgstr "Estabelecer como chave predeterminada"
+msgstr "Definir como chave predeterminada"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: newkey.ui:152
@@ -4007,7 +4007,7 @@ msgstr "Imprimir"
 #: searchres.ui:48
 #, kde-format
 msgid "Show only valid keys"
-msgstr "Mostrar só as chaves correctas"
+msgstr "Amosar só as chaves correctas"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: searchres.ui:73
@@ -4077,10 +4077,9 @@ msgid ""
 "even if it has not be signed."
 msgstr ""
 "<b>Permitir cifrado con chaves non autenticadas</b>: cando importa unha "
-"chave pública, normalmente márcase como non autenticada e non a pode "
-"empregar a non ser que a asine para «autenticala». Se sinal esta opción, "
-"actívase a posibilidade de empregar calquera chave, mesmo se non está "
-"asinada."
+"chave pública, normalmente márcase como non autenticada e non a pode usar a "
+"non ser que a asine para «autenticala». Se sinal esta opción, actívase a "
+"posibilidade de usar calquera chave, mesmo se non está asinada."
 
 #: selectpublickeydialog.cpp:122
 #, kde-format
@@ -4106,8 +4105,8 @@ msgid ""
 "<b>Symmetrical encryption</b>: encryption does not use keys. You just need "
 "to give a password to encrypt/decrypt the file"
 msgstr ""
-"<b>Cifrado simétrico</b>: o cifrado non emprega chaves. Só precisará "
-"fornecer un contrasinal para cifrar/descifrar o ficheiro"
+"<b>Cifrado simétrico</b>: o cifrado non usa chaves. Só precisará fornecer un "
+"contrasinal para cifrar/descifrar o ficheiro"
 
 #: selectpublickeydialog.cpp:142
 #, kde-format
@@ -4264,7 +4263,7 @@ msgid ""
 "</p>\n"
 msgstr ""
 "<p>Para realizar unha operación sobre unha chave, abra a xanela do xestor de "
-"chaves e faga clic dereito na chave. Mostrarase un menú emerxente con todas "
+"chaves e faga clic dereito na chave. Amosarase un menú emerxente con todas "
 "as opcións dispoñíbeis.</p>\n"
 
 #. i18n: ectx: @info:tipoftheday
@@ -4327,24 +4326,24 @@ msgid ""
 "the size column in key manager. A key has to be expanded once for this to "
 "work.</p>\n"
 msgstr ""
-"<p>O número de sinaturas móstrase como unha axuda se pon o rato na columna "
-"de tamaño no xestor de chaves. Debe expandir unha chave para que isto "
-"funcione.</p>\n"
+"<p>O número de sinaturas amósase como unha axuda se pon o rato na columna de "
+"tamaño no xestor de chaves. Debe expandir unha chave para que isto funcione."
+"</p>\n"
 
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "This image is very large. Use it anyway?"
-msgstr "Esta imaxe é moi grande. Desexa empregala aínda así?"
+msgstr "Esta imaxe é moi grande. Desexa usala aínda así?"
 
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "Use Anyway"
-msgstr "Empregala aínda así"
+msgstr "Usala aínda así"
 
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "Do Not Use"
-msgstr "Non empregala"
+msgstr "Non usala"
 
 #: transactions/kgpgchangepass.cpp:55
 #, kde-format
