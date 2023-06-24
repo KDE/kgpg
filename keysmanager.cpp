@@ -52,15 +52,9 @@
 #include "transactions/customstyleditemdelegate.h"
 
 #include <algorithm>
-#ifndef HAS_AKONADI_CONTACT_SUBDIR
 #include <Akonadi/ContactEditor>
 #include <Akonadi/ContactEditorDialog>
 #include <Akonadi/ContactSearchJob>
-#else
-#include <Akonadi/Contact/ContactEditor>
-#include <Akonadi/Contact/ContactEditorDialog>
-#include <Akonadi/Contact/ContactSearchJob>
-#endif
 #include <KActionCollection>
 #include <KContacts/AddresseeList>
 // #include <KContacts/Key> TODO
@@ -1029,20 +1023,20 @@ void KeysManager::slotAddressbookSearchResult(KJob *job)
 
 	m_addIds.take(job);
 
-	Akonadi::ContactEditorDialog *dlg;
+	ContactEditor::ContactEditorDialog *dlg;
 // 	KContacts::Key key; TODO
 	if (!addresseeList.isEmpty()) {
-		dlg = new Akonadi::ContactEditorDialog(Akonadi::ContactEditorDialog::EditMode, this);
+		dlg = new ContactEditor::ContactEditorDialog(ContactEditor::ContactEditorDialog::EditMode, this);
 		dlg->setContact(searchJob->items().at(0));
 	} else {
 		KContacts::Addressee addressee;
 		addressee.setNameFromString(nd->getName());
 		addressee.setEmails(QStringList(nd->getEmail()));
-		dlg = new Akonadi::ContactEditorDialog(Akonadi::ContactEditorDialog::CreateMode, this);
+		dlg = new ContactEditor::ContactEditorDialog(ContactEditor::ContactEditorDialog::CreateMode, this);
 		dlg->editor()->setContactTemplate(addressee);
 	}
 
-	connect(dlg, &Akonadi::ContactEditorDialog::finished, dlg, &Akonadi::ContactEditorDialog::deleteLater);
+	connect(dlg, &ContactEditor::ContactEditorDialog::finished, dlg, &ContactEditor::ContactEditorDialog::deleteLater);
 	dlg->show();
 }
 

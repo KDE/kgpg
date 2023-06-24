@@ -63,13 +63,10 @@ find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED
   Contacts
 )
 
-if (QT_MAJOR_VERSION STREQUAL "5")
-    # kdepimlibs
-    find_package(KF${KF_MAJOR_VERSION} REQUIRED
-        AkonadiContact
-    )
-else()
-    find_package(KPim6AkonadiContact REQUIRED)
+find_package(KPim${KF_MAJOR_VERSION}AkonadiContact REQUIRED)
+find_package(KPim${KF_MAJOR_VERSION}ContactEditor REQUIRED)
+
+if (QT_MAJOR_VERSION STREQUAL "6")
     find_package(Qt6Core5Compat)
 endif()
 
@@ -85,16 +82,6 @@ add_subdirectory( doc )
 include_directories(  ${KDEPIMLIBS_INCLUDE_DIR} ${GPGME_INCLUDES} )
 
 option(KGPG_DEBUG_TRANSACTIONS "show commands and results of gpg calls in debug log" Off)
-
-if (QT_MAJOR_VERSION STREQUAL "5")
-    set(CMAKE_REQUIRED_LIBRARIES KF${KF_MAJOR_VERSION}::AkonadiContact)
-else()
-    set(CMAKE_REQUIRED_LIBRARIES KPim6::AkonadiContact)
-endif()
-check_include_file_cxx(Akonadi/Contact/ContactEditor HAS_AKONADI_CONTACT_SUBDIR)
-if (HAS_AKONADI_CONTACT_SUBDIR)
-   set_property(SOURCE keysmanager.cpp APPEND PROPERTY COMPILE_DEFINITIONS "HAS_AKONADI_CONTACT_SUBDIR")
-endif ()
 
 set(core_SRCS
    core/convert.cpp
@@ -286,16 +273,14 @@ target_link_libraries(kgpg_lib
     KF${KF_MAJOR_VERSION}::XmlGui
     KF${KF_MAJOR_VERSION}::WidgetsAddons
     KF${KF_MAJOR_VERSION}::WindowSystem
+    KPim${KF_MAJOR_VERSION}::AkonadiContact
+    KPim${KF_MAJOR_VERSION}::ContactEditor
     Qt::PrintSupport
 )
-if (QT_MAJOR_VERSION STREQUAL "5")
+if (QT_MAJOR_VERSION STREQUAL "6")
     target_link_libraries(kgpg_lib
-        KF${KF_MAJOR_VERSION}::AkonadiContact)
-else()
-    target_link_libraries(kgpg_lib
-        KPim6::AkonadiContact
-	Qt6::Core5Compat
-	)
+        Qt6::Core5Compat
+    )
 endif()
 if(BUILD_TESTING)
   add_subdirectory(tests)
