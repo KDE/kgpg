@@ -96,7 +96,7 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 	gridLayout->addWidget(txtGpgVersion, 3, 1, 1, 1);
 
 	binURL = new KUrlRequester(page);
-	binURL->setFilter(i18nc("search filter for gpg binary", "gpg|GnuPG binary\n*|All files"));
+	binURL->setFilter(QLatin1String("gpg|") + i18nc("search filter name for gpg binary", "GnuPG binary") + QLatin1String("\n*|")+ i18n("All files"));
 	QString gpgBin = QStandardPaths::findExecutable(QLatin1String("gpg2"));
 	if (gpgBin.isEmpty())
 		gpgBin = QStandardPaths::findExecutable(QLatin1String("gpg"));
