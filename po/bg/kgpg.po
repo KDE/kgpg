@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-15 00:51+0000\n"
+"POT-Creation-Date: 2023-06-25 00:57+0000\n"
 "PO-Revision-Date: 2022-12-08 17:59+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -536,7 +536,7 @@ msgstr "Подписване на файл:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:310
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:304
 #, kde-format
 msgid "Disable"
 msgstr "Изключено"
@@ -1423,7 +1423,7 @@ msgstr "Налични надеждни ключове"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:432 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:426 searchres.ui:29
 #, kde-format
 msgid "Search:"
 msgstr "Търсене: "
@@ -1782,241 +1782,241 @@ msgstr "Открит е 1 съвпадащ ключ (не е показан)"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "Открити са %1 съвпадащи ключа (показани са %2)"
 
-#: keysmanager.cpp:132
+#: keysmanager.cpp:126
 #, kde-format
 msgid "Key Management"
 msgstr "Администриране на ключове"
 
-#: keysmanager.cpp:139
+#: keysmanager.cpp:133
 #, kde-format
 msgid "&Open Editor"
 msgstr "&Отваряне на редактора"
 
-#: keysmanager.cpp:142
+#: keysmanager.cpp:136
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "&Сървъри за ключове"
 
-#: keysmanager.cpp:147 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:141 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "Отиване до &подразбиращ се"
 
-#: keysmanager.cpp:164
+#: keysmanager.cpp:158
 #, kde-format
 msgid "Tip of the &Day"
 msgstr "Съвет за &деня"
 
-#: keysmanager.cpp:167
+#: keysmanager.cpp:161
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "Ръководство за GnuPG"
 
-#: keysmanager.cpp:172
+#: keysmanager.cpp:166
 #, kde-format
 msgid "&Refresh List"
 msgstr "Об&новяване"
 
-#: keysmanager.cpp:176
+#: keysmanager.cpp:170
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr "Показване на пълния идентиф. номер на  ключ"
 
-#: keysmanager.cpp:181
+#: keysmanager.cpp:175
 #, kde-format
 msgid "K&ey Properties"
 msgstr "Данни за &ключа"
 
-#: keysmanager.cpp:185
+#: keysmanager.cpp:179
 #, kde-format
 msgid "&Open Key URL"
 msgstr "&Отваряне на адрес (URL) на ключ"
 
-#: keysmanager.cpp:189
+#: keysmanager.cpp:183
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "&Редактиране на ключ в конзолата"
 
-#: keysmanager.cpp:194
+#: keysmanager.cpp:188
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "&Генериране на нова двойка ключове..."
 
-#: keysmanager.cpp:203
+#: keysmanager.cpp:197
 #, kde-format
 msgid "&Import Key..."
 msgstr "И&мпортиране на ключ..."
 
-#: keysmanager.cpp:208
+#: keysmanager.cpp:202
 #, kde-format
 msgid "Send Ema&il"
 msgstr "Изпращане на &имейл"
 
-#: keysmanager.cpp:212
+#: keysmanager.cpp:206
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "&Добавяне на нов контакт в адресника"
 
-#: keysmanager.cpp:218
+#: keysmanager.cpp:212
 #, kde-format
 msgid "&Edit Group..."
 msgstr "&Редактиране на група..."
 
-#: keysmanager.cpp:221
+#: keysmanager.cpp:215
 #, kde-format
 msgid "&Delete Group"
 msgstr "&Изтриване на група"
 
-#: keysmanager.cpp:225
+#: keysmanager.cpp:219
 #, kde-format
 msgid "&Rename Group"
 msgstr "Преимен&уване на група"
 
-#: keysmanager.cpp:234
+#: keysmanager.cpp:228
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "&Установяване по подразбиране"
 
-#: keysmanager.cpp:237
+#: keysmanager.cpp:231
 #, kde-format
 msgid "&Add Photo..."
 msgstr "До&бавяне на снимка..."
 
-#: keysmanager.cpp:240
+#: keysmanager.cpp:234
 #, kde-format
 msgid "&Add User Id..."
 msgstr "&Добавяне на идентификатор на потребител"
 
-#: keysmanager.cpp:243
+#: keysmanager.cpp:237
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "Експортиране на частен ключ..."
 
-#: keysmanager.cpp:246
+#: keysmanager.cpp:240
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "Изтриване на двойка ключове"
 
-#: keysmanager.cpp:250
+#: keysmanager.cpp:244
 #, kde-format
 msgid "Revoke Key..."
 msgstr "Анулиране на ключ..."
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:247
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "&Регенериране на публичен ключ"
 
-#: keysmanager.cpp:259
+#: keysmanager.cpp:253
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr "Задаване на  идентификатор на потребителя като &Основен"
 
-#: keysmanager.cpp:263
+#: keysmanager.cpp:257
 #, kde-format
 msgid "&Open Photo"
 msgstr "Отв&аряне на снимка"
 
-#: keysmanager.cpp:267
+#: keysmanager.cpp:261
 #, kde-format
 msgid "&Delete Photo"
 msgstr "Из&триване на снимка"
 
-#: keysmanager.cpp:275
+#: keysmanager.cpp:269
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "&Импортиране на липсващи подписи от Интернет"
 
-#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:287 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "Надеждност"
 
-#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:290 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "Дължина"
 
-#: keysmanager.cpp:299 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "Създаден на"
 
-#: keysmanager.cpp:302 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "Валиден до"
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:300
 #, kde-format
 msgid "&Photo ID's"
 msgstr "&Показване на снимки"
 
-#: keysmanager.cpp:311
+#: keysmanager.cpp:305
 #, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "Малки"
 
-#: keysmanager.cpp:312
+#: keysmanager.cpp:306
 #, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "Средни"
 
-#: keysmanager.cpp:313
+#: keysmanager.cpp:307
 #, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "Големи"
 
-#: keysmanager.cpp:317
+#: keysmanager.cpp:311
 #, kde-format
 msgid "Minimum &Trust"
 msgstr "Минимално доверие"
 
-#: keysmanager.cpp:320
+#: keysmanager.cpp:314
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "&Без"
 
-#: keysmanager.cpp:321
+#: keysmanager.cpp:315
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr "&Активни"
 
-#: keysmanager.cpp:322
+#: keysmanager.cpp:316
 #, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "&Ограничено"
 
-#: keysmanager.cpp:323
+#: keysmanager.cpp:317
 #, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "&Пълно"
 
-#: keysmanager.cpp:324
+#: keysmanager.cpp:318
 #, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "&Ултимативно"
 
-#: keysmanager.cpp:349
+#: keysmanager.cpp:343
 #, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "&Само на секретните ключове"
 
-#: keysmanager.cpp:449
+#: keysmanager.cpp:443
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "Фокусиране на реда на търсене"
 
-#: keysmanager.cpp:492
+#: keysmanager.cpp:486
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
@@ -2025,67 +2025,67 @@ msgstr ""
 "Друга операция за генериране на ключове все още е в ход.\n"
 "Моля, изчакайте малко, докато тази операция приключи."
 
-#: keysmanager.cpp:493 keysmanager.cpp:531 keysmanager.cpp:579
+#: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
 #, kde-format
 msgid "Generating new key pair"
 msgstr "Генериране на нова двойка ключове"
 
-#: keysmanager.cpp:532
+#: keysmanager.cpp:526
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "Не може да се стартира \" konsole \" за експертен режим."
 
-#: keysmanager.cpp:571 keysmanager.cpp:2610 keysmanager.cpp:2612
+#: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "Готово"
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:194
 #, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "Лоша парола. Не може да се генерират нова двойка ключове."
 
-#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr "Отменено от потребителя. Не може да се генерира нова ключова двойка."
 
-#: keysmanager.cpp:589 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr ""
 "Имейл адресът не е валиден. Не може да се генерира нова ключова двойка."
 
-#: keysmanager.cpp:592 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:203
 #, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "Името не се приема от gpg. Не може да се генерира нова ключова двойка."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:598 newkey.ui:14
+#: keysmanager.cpp:592 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "Новата двойка ключове е генерирана успешно"
 
-#: keysmanager.cpp:637
+#: keysmanager.cpp:631
 #, kde-format
 msgid "backup copy"
 msgstr "резервно копие"
 
-#: keysmanager.cpp:651 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:645 transactions/kgpggeneratekey.cpp:215
 #, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr ""
 "Процесът на gpg не завърши. Не може да се генерира нова двойка ключове."
 
-#: keysmanager.cpp:755
+#: keysmanager.cpp:749
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr ""
 "Само основни ключове могат да бъдат обновявани. Моля, изберете друг ключ."
 
-#: keysmanager.cpp:879
+#: keysmanager.cpp:873
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
@@ -2094,12 +2094,12 @@ msgstr ""
 "Друга операция все още е в ход. \n"
 "Моля, изчакайте малко, докато тази операция приключи."
 
-#: keysmanager.cpp:880 keysmanager.cpp:885
+#: keysmanager.cpp:874 keysmanager.cpp:879
 #, kde-format
 msgid "Add New User Id"
 msgstr "Добавяне на нов номер на потребител"
 
-#: keysmanager.cpp:925
+#: keysmanager.cpp:919
 #, kde-format
 msgid ""
 "The image must be a JPEG file. Remember that the image is stored within your "
@@ -2112,7 +2112,7 @@ msgstr ""
 "публичния ви ключ също ще е голям. Опитайте се да използвате снимки не по-"
 "големи от 240x288 пиксела."
 
-#: keysmanager.cpp:957
+#: keysmanager.cpp:951
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2121,133 +2121,133 @@ msgstr ""
 "<qt>Сигурни ли сте, че искате снимката <b>%1</b> <br>да бъде изтрита от ключ "
 "<b>%2 &lt;%3&gt;</b>?</qt>"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1094
 #, kde-format
 msgid "Public Key"
 msgstr "Публичен ключ"
 
-#: keysmanager.cpp:1103
+#: keysmanager.cpp:1097
 #, kde-format
 msgid "Sub Key"
 msgstr "Подключ"
 
-#: keysmanager.cpp:1106
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "Секретна двойка ключове"
 
-#: keysmanager.cpp:1109
+#: keysmanager.cpp:1103
 #, kde-format
 msgid "Key Group"
 msgstr "Група от ключове"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1112 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1106 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "Подпис"
 
-#: keysmanager.cpp:1115
+#: keysmanager.cpp:1109
 #, kde-format
 msgid "User ID"
 msgstr "Номер на потребител"
 
-#: keysmanager.cpp:1118
+#: keysmanager.cpp:1112
 #, kde-format
 msgid "Revocation Signature"
 msgstr "Подпис за анулиране"
 
-#: keysmanager.cpp:1121
+#: keysmanager.cpp:1115
 #, kde-format
 msgid "Photo ID"
 msgstr "Номер на снимка"
 
-#: keysmanager.cpp:1124
+#: keysmanager.cpp:1118
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "Единичен частен ключ"
 
-#: keysmanager.cpp:1129
+#: keysmanager.cpp:1123
 #, kde-format
 msgid "Group member"
 msgstr "Член на група"
 
-#: keysmanager.cpp:1234
+#: keysmanager.cpp:1228
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
 msgstr[0] "&Подписване на потребителски идентификатор ..."
 msgstr[1] "&Подписване на потребителски идентификатори ..."
 
-#: keysmanager.cpp:1235
+#: keysmanager.cpp:1229
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "Подписване на потребителски идентификатор и изпращане по по&ща..."
 msgstr[1] "Подписване на потребителски идентификатори и изпращане по по&ща..."
 
-#: keysmanager.cpp:1236
+#: keysmanager.cpp:1230
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
 msgstr[0] "&Експортиране на публичен ключ..."
 msgstr[1] "&Експортиране на публични ключове..."
 
-#: keysmanager.cpp:1237
+#: keysmanager.cpp:1231
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "&Обновяване на ключ от сървър за ключове"
 msgstr[1] "&Обновяване на ключове от сървър за ключове"
 
-#: keysmanager.cpp:1238
+#: keysmanager.cpp:1232
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "&Създаване на група с избрания ключ..."
 msgstr[1] "&Създаване на група с избраните ключове..."
 
-#: keysmanager.cpp:1239
+#: keysmanager.cpp:1233
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
 msgstr[0] "&Подписване на ключ..."
 msgstr[1] "&Подписване на ключове..."
 
-#: keysmanager.cpp:1240
+#: keysmanager.cpp:1234
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
 msgstr[0] "Из&триване на потребителски идентификатор"
 msgstr[1] "Из&триване на потребителски идентификатори"
 
-#: keysmanager.cpp:1241
+#: keysmanager.cpp:1235
 #, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
 msgstr[0] "Изтрив&ане на подпис"
 msgstr[1] "Изтрив&ане на подписи"
 
-#: keysmanager.cpp:1242
+#: keysmanager.cpp:1236
 #, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
 msgstr[0] "Импортиране на ключ от сървър за ключове"
 msgstr[1] "Импортиране на ключ от Интернет"
 
-#: keysmanager.cpp:1243
+#: keysmanager.cpp:1237
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
 msgstr[0] "&Изтриване на ключ"
 msgstr[1] "&Изтриване на ключове"
 
-#: keysmanager.cpp:1366
+#: keysmanager.cpp:1360
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "Грешка при създаването на удостоверение за анулиране..."
 
-#: keysmanager.cpp:1381
+#: keysmanager.cpp:1375
 #, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2258,17 +2258,17 @@ msgstr ""
 "място. <br/> Аконякой получи достъп до този файл, криптирането с този ключ "
 "ще бъдекомпрометирано. <br/> Да се продължи ли експортирането на ключа? </qt>"
 
-#: keysmanager.cpp:1393
+#: keysmanager.cpp:1387
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "Експортиране на частен ключ като"
 
-#: keysmanager.cpp:1393
+#: keysmanager.cpp:1387
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr "*.asc|Файлове *.asc"
 
-#: keysmanager.cpp:1411
+#: keysmanager.cpp:1405
 #, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
@@ -2277,7 +2277,7 @@ msgstr ""
 "<qt> Вашият <b>частен</b> ключ \"%1\" беше успешно експортиран в <br/>%2. "
 "<br/><b> Не </b> го оставяйте на несигурно място.</qt>"
 
-#: keysmanager.cpp:1414
+#: keysmanager.cpp:1408
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2286,14 +2286,14 @@ msgstr ""
 "Частният ключ не може да бъде експортиран.\n"
 "Проверете неговата цялост."
 
-#: keysmanager.cpp:1516
+#: keysmanager.cpp:1510
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
 msgstr[0] "<qt>Публичният ключ е успешно експортиран в <br/>%2</qt>"
 msgstr[1] "<qt>%1 публични ключове са успешно експортирани в <br/>%2</qt>"
 
-#: keysmanager.cpp:1520 keysmanager.cpp:1535 keysmanager.cpp:1549
+#: keysmanager.cpp:1514 keysmanager.cpp:1529 keysmanager.cpp:1543
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2302,7 +2302,7 @@ msgstr ""
 "Публичният ключ не може да бъде експортиран.\n"
 "Проверете неговата цялост."
 
-#: keysmanager.cpp:1658
+#: keysmanager.cpp:1652
 #, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
@@ -2312,27 +2312,27 @@ msgstr ""
 "ключ е неизползваем.</p><p>Искате ли публичният ключ да бъде генериран "
 "отново?</p>"
 
-#: keysmanager.cpp:1660
+#: keysmanager.cpp:1654
 #, kde-format
 msgid "Generate"
 msgstr "Генериране"
 
-#: keysmanager.cpp:1660
+#: keysmanager.cpp:1654
 #, kde-format
 msgid "Do Not Generate"
 msgstr "Без генериране"
 
-#: keysmanager.cpp:1690
+#: keysmanager.cpp:1684
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Сигурни ли сте, че искате групата <b>%1</b> да бъде изтрита?</qt>"
 
-#: keysmanager.cpp:1691 keysmanager.cpp:2361
+#: keysmanager.cpp:1685 keysmanager.cpp:2355
 #, kde-format
 msgid "Delete"
 msgstr "Изтриване"
 
-#: keysmanager.cpp:1721
+#: keysmanager.cpp:1715
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2341,24 +2341,24 @@ msgstr ""
 "<qt>Не може да бъде създадена група, която съдържа подписи, вторични ключове "
 "или други групи.</qt>"
 
-#: keysmanager.cpp:1736 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1730 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr "%1 (%2) ID: %3"
 
-#: keysmanager.cpp:1741
+#: keysmanager.cpp:1735
 #, kde-format
 msgid "Create New Group"
 msgstr "Създаване на нова група"
 
-#: keysmanager.cpp:1742
+#: keysmanager.cpp:1736
 #, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "Въведете ново име на група:"
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1741
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
@@ -2367,7 +2367,7 @@ msgstr ""
 "Следните ключове или не са валидни, или не са достатъчно надеждни и няма да "
 "бъдат добавени към групата:"
 
-#: keysmanager.cpp:1753
+#: keysmanager.cpp:1747
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2376,18 +2376,18 @@ msgstr ""
 "<qt>Няма избрани валидни и/или надеждни ключове. Групата <b>%1</b> няма да "
 "бъде създадена.</qt>"
 
-#: keysmanager.cpp:1765
+#: keysmanager.cpp:1759
 #, kde-format
 msgid "Group Properties"
 msgstr "Информация за групата"
 
-#: keysmanager.cpp:1801
+#: keysmanager.cpp:1795
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr ""
 "Само основни ключове могат да бъдат подписвани. Моля, изберете друг ключ."
 
-#: keysmanager.cpp:1810
+#: keysmanager.cpp:1804
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2400,7 +2400,7 @@ msgstr ""
 "автентичността на отпечатъка на ключа, като се свържете по телефона или се "
 "срещнете на живо с неговия собственик.</qt>"
 
-#: keysmanager.cpp:1815
+#: keysmanager.cpp:1809
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2413,20 +2413,20 @@ msgstr ""
 "автентичността на отпечатъка на ключа, като се свържете по телефона или се "
 "срещнете на живо с неговия собственик.</qt>"
 
-#: keysmanager.cpp:1830 keysmanager.cpp:1914 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1832 keysmanager.cpp:1917 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr "%1 (%2): %3"
 
-#: keysmanager.cpp:1838
+#: keysmanager.cpp:1832
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2437,14 +2437,14 @@ msgstr ""
 "проверили внимателно всички отпечатъци, много е възможно да изложите на "
 "сериозен риск комуникации си.</b></qt>"
 
-#: keysmanager.cpp:1880 keysmanager.cpp:2027
+#: keysmanager.cpp:1874 keysmanager.cpp:2021
 #, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr ""
 "Можете да подпишете само идентификационни номера на потребителите и "
 "идентификационни номера на снимките. Моля, проверете избора си."
 
-#: keysmanager.cpp:1894
+#: keysmanager.cpp:1888
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2457,7 +2457,7 @@ msgstr ""
 "проверите автентичността на отпечатъка на ключа, като се свържете по "
 "телефона или се срещнете на живо с неговия собственик.</qt>"
 
-#: keysmanager.cpp:1898
+#: keysmanager.cpp:1892
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2470,7 +2470,7 @@ msgstr ""
 ">Препоръчително е да проверите автентичността на отпечатъка на ключа, като "
 "се свържете по телефона или се срещнете на живо с неговия собственик.</qt>"
 
-#: keysmanager.cpp:1924
+#: keysmanager.cpp:1918
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2481,17 +2481,17 @@ msgstr ""
 "<br /><b>Ако не сте проверили внимателно всички отпечатъци, много е възможно "
 "да изложите на сериозен риск комуникации си.</b></qt>"
 
-#: keysmanager.cpp:1993
+#: keysmanager.cpp:1987
 #, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>Грешна парола. Ключът <b>%1 (%2)</b> не е подписан.</qt>"
 
-#: keysmanager.cpp:1997
+#: keysmanager.cpp:1991
 #, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>Ключът <b>%1 (%2)</b> не е подписан.</qt>"
 
-#: keysmanager.cpp:2002
+#: keysmanager.cpp:1996
 #, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
@@ -2500,21 +2500,21 @@ msgstr ""
 "<qt>Грешка при подписването на ключа <b>%1</b> с ключа <b>%2</b>.<br /"
 ">Искате ли да се опитате да подпишете ключа в конзолен режим?</qt>"
 
-#: keysmanager.cpp:2120
+#: keysmanager.cpp:2114
 #, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "Всички подписи на този ключ са вече във списъка с ключове"
 msgstr[1] "Всички подписи на тези ключове са вече във списъка с ключове"
 
-#: keysmanager.cpp:2207
+#: keysmanager.cpp:2201
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr ""
 "Редактирайте ключа с текстов редактор, за да изтриете подпис гарантиран от "
 "самия себе си."
 
-#: keysmanager.cpp:2211
+#: keysmanager.cpp:2205
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
@@ -2523,13 +2523,13 @@ msgstr ""
 "<qt>Сигурни ли сте, че искате да бъде изтрит подписа <br /><b>%1</b><br />от "
 "потреб,  идентификатор <b>%2</b><br />на ключ: <b>%3</b>?</qt>"
 
-#: keysmanager.cpp:2233
+#: keysmanager.cpp:2227
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr ""
 "Заявената операция не може да бъде изпълнена. Моля, редактирайте ръчно ключа."
 
-#: keysmanager.cpp:2317
+#: keysmanager.cpp:2311
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2544,14 +2544,14 @@ msgstr[1] ""
 "<qt> Ключът, който изтривате, е член на следните групи ключове. Искате ли да "
 "го премахнете от тези групи?</qt>"
 
-#: keysmanager.cpp:2321 keysmanager.cpp:2335 keysmanager.cpp:2370
-#: keysmanager.cpp:2385 keysmanager.cpp:2388 keysmanager.cpp:2399
-#: keysmanager.cpp:2413 keysmanager.cpp:2454
+#: keysmanager.cpp:2315 keysmanager.cpp:2329 keysmanager.cpp:2364
+#: keysmanager.cpp:2379 keysmanager.cpp:2382 keysmanager.cpp:2393
+#: keysmanager.cpp:2407 keysmanager.cpp:2448
 #, kde-format
 msgid "Delete key"
 msgstr "Изтриване на ключ"
 
-#: keysmanager.cpp:2334
+#: keysmanager.cpp:2328
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
@@ -2560,7 +2560,7 @@ msgstr ""
 "Премахвате последния ключ от група ключове %1. <br/> Искате ли да изтриете и "
 "групата?"
 
-#: keysmanager.cpp:2358
+#: keysmanager.cpp:2352
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2570,7 +2570,7 @@ msgstr ""
 "p>Ако тази двойка ключове бъде изтрита, никога повече няма да можете да "
 "разшифровате файлове, шифровани с нея!"
 
-#: keysmanager.cpp:2369 keysmanager.cpp:2398
+#: keysmanager.cpp:2363 keysmanager.cpp:2392
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2579,22 +2579,22 @@ msgstr ""
 "Друга операция за изтриване на ключове все още е в ход. \n"
 "Моля, изчакайте малко, докато тази операция приключи."
 
-#: keysmanager.cpp:2385
+#: keysmanager.cpp:2379
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "Ключът <b>%1</b> е изтрит."
 
-#: keysmanager.cpp:2388
+#: keysmanager.cpp:2382
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "Изтриване на ключ <b>%1 </b> не успя."
 
-#: keysmanager.cpp:2412
+#: keysmanager.cpp:2406
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr "Не може да се изтрие ключ <b>%1 </b>, докато се редактира в терминал."
 
-#: keysmanager.cpp:2453
+#: keysmanager.cpp:2447
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
@@ -2603,7 +2603,7 @@ msgstr ""
 "Избрали сте елементи, които не са ключове. Те не могат да бъдат изтрити с "
 "този елемент на менюто."
 
-#: keysmanager.cpp:2478
+#: keysmanager.cpp:2472
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2612,24 +2612,24 @@ msgstr ""
 "<qt>Следните ключове:<br/><b>%1</b><br/> са секретни двойки ключове. Те няма "
 "да бъдат изтрити.</qt>"
 
-#: keysmanager.cpp:2488
+#: keysmanager.cpp:2482
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>Да се изтрие ли следният публичен ключ?</b></qt>"
 msgstr[1] "<qt><b>Да се изтрият ли следните %1 публични ключа?</b></qt>"
 
-#: keysmanager.cpp:2519 keysmanager.cpp:2595 keysmanager.cpp:2606
+#: keysmanager.cpp:2513 keysmanager.cpp:2589 keysmanager.cpp:2600
 #, kde-format
 msgid "Key Import"
 msgstr "Импортиране на ключ"
 
-#: keysmanager.cpp:2527
+#: keysmanager.cpp:2521
 #, kde-format
 msgid "Open File"
 msgstr "Отваряне на файл"
 
-#: keysmanager.cpp:2560
+#: keysmanager.cpp:2554
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2639,54 +2639,54 @@ msgstr ""
 "> Искате ли първо да го дешифрирате и след това да опитате да го "
 "импортирате? </qt>"
 
-#: keysmanager.cpp:2562
+#: keysmanager.cpp:2556
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "Импортиране от системния буфер"
 
-#: keysmanager.cpp:2582
+#: keysmanager.cpp:2576
 #, kde-format
 msgid "Importing..."
 msgstr "Импортиране..."
 
-#: keysmanager.cpp:2594
+#: keysmanager.cpp:2588
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr ""
 "Импортирането на ключове е неуспешно. Проверете журналния файл за повече "
 "информация."
 
-#: keysmanager.cpp:2647
+#: keysmanager.cpp:2641
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "Програма за шифроване - KGpg"
 
-#: keysmanager.cpp:2668
+#: keysmanager.cpp:2662
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "Администриране на &ключове"
 
-#: keysmanager.cpp:2671
+#: keysmanager.cpp:2665
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "&Шифроване на системния буфер"
 
-#: keysmanager.cpp:2674
+#: keysmanager.cpp:2668
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&Разшифроване на системния буфер"
 
-#: keysmanager.cpp:2677
+#: keysmanager.cpp:2671
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&Подпис/проверка на системния буфер"
 
-#: keysmanager.cpp:2714 keysmanager.cpp:2817 keysmanager.cpp:2835
+#: keysmanager.cpp:2708 keysmanager.cpp:2811 keysmanager.cpp:2829
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Системният буфер е празен."
 
-#: keysmanager.cpp:2759
+#: keysmanager.cpp:2753
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "Текстът е успешно шифриран."

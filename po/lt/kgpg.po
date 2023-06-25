@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-15 00:51+0000\n"
+"POT-Creation-Date: 2023-06-25 00:57+0000\n"
 "PO-Revision-Date: 2016-11-04 11:09+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -528,7 +528,7 @@ msgstr "Failo pasirašymo tarnybos meniu:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:310
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:304
 #, kde-format
 msgid "Disable"
 msgstr "Išjungti"
@@ -1426,7 +1426,7 @@ msgstr "Prieinami patikimi raktai"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:432 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:426 searchres.ui:29
 #, kde-format
 msgid "Search:"
 msgstr "Paieška:"
@@ -1795,242 +1795,242 @@ msgstr "Rastas %1 atitinkantis raktas"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "Rastas %1 atitinkantis raktas"
 
-#: keysmanager.cpp:132
+#: keysmanager.cpp:126
 #, kde-format
 msgid "Key Management"
 msgstr "Raktų tvarkymas"
 
-#: keysmanager.cpp:139
+#: keysmanager.cpp:133
 #, kde-format
 msgid "&Open Editor"
 msgstr "&Atverti redaktorių"
 
-#: keysmanager.cpp:142
+#: keysmanager.cpp:136
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "&Raktų serverio dialogas"
 
-#: keysmanager.cpp:147 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:141 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "&Eiti į numatytąjį raktą"
 
-#: keysmanager.cpp:164
+#: keysmanager.cpp:158
 #, kde-format
 msgid "Tip of the &Day"
 msgstr "&Dienos patarimas"
 
-#: keysmanager.cpp:167
+#: keysmanager.cpp:161
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "Žiūrėti GnuPG žinyną"
 
-#: keysmanager.cpp:172
+#: keysmanager.cpp:166
 #, kde-format
 msgid "&Refresh List"
 msgstr "&Atnaujinti sąrašą"
 
-#: keysmanager.cpp:176
+#: keysmanager.cpp:170
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr "Rodyti il&gą rakto identifikatorių"
 
-#: keysmanager.cpp:181
+#: keysmanager.cpp:175
 #, kde-format
 msgid "K&ey Properties"
 msgstr "&Rakto savybės"
 
-#: keysmanager.cpp:185
+#: keysmanager.cpp:179
 #, kde-format
 msgid "&Open Key URL"
 msgstr "&Atverti rakto URL"
 
-#: keysmanager.cpp:189
+#: keysmanager.cpp:183
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "Taisyti raktą &terminale"
 
-#: keysmanager.cpp:194
+#: keysmanager.cpp:188
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "&Generuoti raktų porą..."
 
-#: keysmanager.cpp:203
+#: keysmanager.cpp:197
 #, kde-format
 msgid "&Import Key..."
 msgstr "&Importuoti raktą..."
 
-#: keysmanager.cpp:208
+#: keysmanager.cpp:202
 #, fuzzy, kde-format
 #| msgid "Send with every Email"
 msgid "Send Ema&il"
 msgstr "Siųsti su kiekvienu adresu"
 
-#: keysmanager.cpp:212
+#: keysmanager.cpp:206
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "&Sukurti naują kontaktą adresų knygutėje"
 
-#: keysmanager.cpp:218
+#: keysmanager.cpp:212
 #, kde-format
 msgid "&Edit Group..."
 msgstr "&Redaguoti grupę..."
 
-#: keysmanager.cpp:221
+#: keysmanager.cpp:215
 #, kde-format
 msgid "&Delete Group"
 msgstr "&Pašalinti grupę"
 
-#: keysmanager.cpp:225
+#: keysmanager.cpp:219
 #, kde-format
 msgid "&Rename Group"
 msgstr "&Pervadinti grupę"
 
-#: keysmanager.cpp:234
+#: keysmanager.cpp:228
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "Nustatyti raktą numa&tytuoju"
 
-#: keysmanager.cpp:237
+#: keysmanager.cpp:231
 #, kde-format
 msgid "&Add Photo..."
 msgstr "&Pridėti nuotrauką..."
 
-#: keysmanager.cpp:240
+#: keysmanager.cpp:234
 #, kde-format
 msgid "&Add User Id..."
 msgstr "&Pridėti naudotojo Id..."
 
-#: keysmanager.cpp:243
+#: keysmanager.cpp:237
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "Eksportuoti slaptą raktą..."
 
-#: keysmanager.cpp:246
+#: keysmanager.cpp:240
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "Pašalinti raktų porą"
 
-#: keysmanager.cpp:250
+#: keysmanager.cpp:244
 #, kde-format
 msgid "Revoke Key..."
 msgstr "Atšaukti raktą..."
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:247
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "&Regeneruoti viešąjį raktą"
 
-#: keysmanager.cpp:259
+#: keysmanager.cpp:253
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr "Nustatyti naudotojo id &pirminiu"
 
-#: keysmanager.cpp:263
+#: keysmanager.cpp:257
 #, kde-format
 msgid "&Open Photo"
 msgstr "&Atverti foto"
 
-#: keysmanager.cpp:267
+#: keysmanager.cpp:261
 #, kde-format
 msgid "&Delete Photo"
 msgstr "&Pašalinti foto"
 
-#: keysmanager.cpp:275
+#: keysmanager.cpp:269
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "Importuoti trū&kstamus parašus iš raktų serverio"
 
-#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:287 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "Pasitikėjimas"
 
-#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:290 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "Dydis"
 
-#: keysmanager.cpp:299 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "Sukurtas"
 
-#: keysmanager.cpp:302 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "Galiojimo laikas"
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:300
 #, kde-format
 msgid "&Photo ID's"
 msgstr "&Foto ID"
 
-#: keysmanager.cpp:311
+#: keysmanager.cpp:305
 #, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "Maža"
 
-#: keysmanager.cpp:312
+#: keysmanager.cpp:306
 #, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "Vidutinė"
 
-#: keysmanager.cpp:313
+#: keysmanager.cpp:307
 #, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "Didelė"
 
-#: keysmanager.cpp:317
+#: keysmanager.cpp:311
 #, kde-format
 msgid "Minimum &Trust"
 msgstr "&Minimalus pasitikėjimas"
 
-#: keysmanager.cpp:320
+#: keysmanager.cpp:314
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "&Joks"
 
-#: keysmanager.cpp:321
+#: keysmanager.cpp:315
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr "&Aktyvus"
 
-#: keysmanager.cpp:322
+#: keysmanager.cpp:316
 #, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "&Dalinai"
 
-#: keysmanager.cpp:323
+#: keysmanager.cpp:317
 #, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "&Pilnai"
 
-#: keysmanager.cpp:324
+#: keysmanager.cpp:318
 #, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "&Visiškai"
 
-#: keysmanager.cpp:349
+#: keysmanager.cpp:343
 #, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "&Rodyti tik slaptus raktus"
 
-#: keysmanager.cpp:449
+#: keysmanager.cpp:443
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "Židinio paieškos eilutė"
 
-#: keysmanager.cpp:492
+#: keysmanager.cpp:486
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
@@ -2039,65 +2039,65 @@ msgstr ""
 "Šiuo metu vyksta kita rakto generavimo operacija.\n"
 "Palaukite truputėlę, kol ta operacija bus baigta."
 
-#: keysmanager.cpp:493 keysmanager.cpp:531 keysmanager.cpp:579
+#: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
 #, kde-format
 msgid "Generating new key pair"
 msgstr "Generuojama nauja raktų pora"
 
-#: keysmanager.cpp:532
+#: keysmanager.cpp:526
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "Nepavyko paleisti „Konsolė“ programos ekspertiniam režimui."
 
-#: keysmanager.cpp:571 keysmanager.cpp:2610 keysmanager.cpp:2612
+#: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "Pasiruošęs"
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:194
 #, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "Netinkama slaptafrazė. Negalima sugeneruoti naujos raktų poros."
 
-#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr "Nutraukta naudotojo. Nepavyko sukurti raktų poros."
 
-#: keysmanager.cpp:589 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr "Netinkamas pašto adresas. Nepavyko sukurti raktų poros."
 
-#: keysmanager.cpp:592 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:203
 #, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "Gpg nepriima tokio vardo. Nepavyko sukurti raktų poros."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:598 newkey.ui:14
+#: keysmanager.cpp:592 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "Nauja raktų pora sukurta"
 
-#: keysmanager.cpp:637
+#: keysmanager.cpp:631
 #, kde-format
 msgid "backup copy"
 msgstr "atsargine kopija"
 
-#: keysmanager.cpp:651 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:645 transactions/kgpggeneratekey.cpp:215
 #, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "gpg procesas nebaigė darbo. Nepavyko sukurti raktų poros."
 
-#: keysmanager.cpp:755
+#: keysmanager.cpp:749
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr ""
 "Jūs galite atnaujinti tik pirminius raktus. Pasitikrinkite pasirinkimą."
 
-#: keysmanager.cpp:879
+#: keysmanager.cpp:873
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
@@ -2106,12 +2106,12 @@ msgstr ""
 "Kita operacija jau vykdoma.\n"
 "Palaukite minutėlę, kol ta operacija bus baigta."
 
-#: keysmanager.cpp:880 keysmanager.cpp:885
+#: keysmanager.cpp:874 keysmanager.cpp:879
 #, kde-format
 msgid "Add New User Id"
 msgstr "Pridėti nauja naudotojo Id"
 
-#: keysmanager.cpp:925
+#: keysmanager.cpp:919
 #, kde-format
 msgid ""
 "The image must be a JPEG file. Remember that the image is stored within your "
@@ -2124,7 +2124,7 @@ msgstr ""
 "taip pat bus labai didelis! Geras paveikslėlio dydis naudojimui – apie "
 "240x288."
 
-#: keysmanager.cpp:957
+#: keysmanager.cpp:951
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2133,58 +2133,58 @@ msgstr ""
 "<qt>Ar esate įsitikinę, kad norite pašalinti nuotrauką <b>%1</b><br/>iš "
 "rakto <b>%2 &lt;%3&gt;</b>?</qt>"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1094
 #, kde-format
 msgid "Public Key"
 msgstr "Viešas raktas"
 
-#: keysmanager.cpp:1103
+#: keysmanager.cpp:1097
 #, kde-format
 msgid "Sub Key"
 msgstr "Sub raktas"
 
-#: keysmanager.cpp:1106
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "Slapto rakto pora"
 
-#: keysmanager.cpp:1109
+#: keysmanager.cpp:1103
 #, kde-format
 msgid "Key Group"
 msgstr "Raktų grupė"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1112 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1106 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "Parašas"
 
-#: keysmanager.cpp:1115
+#: keysmanager.cpp:1109
 #, kde-format
 msgid "User ID"
 msgstr "Naudotojo ID"
 
-#: keysmanager.cpp:1118
+#: keysmanager.cpp:1112
 #, kde-format
 msgid "Revocation Signature"
 msgstr "Atšaukimo parašas"
 
-#: keysmanager.cpp:1121
+#: keysmanager.cpp:1115
 #, kde-format
 msgid "Photo ID"
 msgstr "Foto ID"
 
-#: keysmanager.cpp:1124
+#: keysmanager.cpp:1118
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "Slaptas raktas – našlaitis"
 
-#: keysmanager.cpp:1129
+#: keysmanager.cpp:1123
 #, kde-format
 msgid "Group member"
 msgstr "Grupės narys"
 
-#: keysmanager.cpp:1234
+#: keysmanager.cpp:1228
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
@@ -2193,7 +2193,7 @@ msgstr[1] "Pa&sirašyti naudotojo id..."
 msgstr[2] "Pa&sirašyti naudotojo id..."
 msgstr[3] "Pa&sirašyti naudotojo id..."
 
-#: keysmanager.cpp:1235
+#: keysmanager.cpp:1229
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
@@ -2202,7 +2202,7 @@ msgstr[1] "Pa&sirašyti ir išsiųsti naudotojų tapatybes..."
 msgstr[2] "Pa&sirašyti ir išsiųsti naudotojų tapatybes..."
 msgstr[3] "Pa&sirašyti ir išsiųsti naudotojų tapatybes..."
 
-#: keysmanager.cpp:1236
+#: keysmanager.cpp:1230
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
@@ -2211,7 +2211,7 @@ msgstr[1] "E&ksportuoti viešuosius raktus..."
 msgstr[2] "E&ksportuoti viešuosius raktus..."
 msgstr[3] "E&ksportuoti viešuosius raktus..."
 
-#: keysmanager.cpp:1237
+#: keysmanager.cpp:1231
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
@@ -2220,7 +2220,7 @@ msgstr[1] "&Atnaujinti raktus iš raktų serverio"
 msgstr[2] "&Atnaujinti raktus iš raktų serverio"
 msgstr[3] "&Atnaujinti raktus iš raktų serverio"
 
-#: keysmanager.cpp:1238
+#: keysmanager.cpp:1232
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
@@ -2229,7 +2229,7 @@ msgstr[1] "&Sukurti grupę su pasirinktais raktais..."
 msgstr[2] "&Sukurti grupę su pasirinktais raktais..."
 msgstr[3] "&Sukurti grupę su pasirinktais raktais..."
 
-#: keysmanager.cpp:1239
+#: keysmanager.cpp:1233
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
@@ -2238,7 +2238,7 @@ msgstr[1] "&Pasirašyti raktus..."
 msgstr[2] "&Pasirašyti raktus..."
 msgstr[3] "&Pasirašyti raktus..."
 
-#: keysmanager.cpp:1240
+#: keysmanager.cpp:1234
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
@@ -2247,7 +2247,7 @@ msgstr[1] "&Pašalinti naudotojo ID"
 msgstr[2] "&Pašalinti naudotojo ID"
 msgstr[3] "&Pašalinti naudotojo ID"
 
-#: keysmanager.cpp:1241
+#: keysmanager.cpp:1235
 #, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
@@ -2256,7 +2256,7 @@ msgstr[1] "Pašalinti p&arašus"
 msgstr[2] "Pašalinti p&arašus"
 msgstr[3] "Pašalinti p&arašus"
 
-#: keysmanager.cpp:1242
+#: keysmanager.cpp:1236
 #, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
@@ -2265,7 +2265,7 @@ msgstr[1] "Importuoti raktus iš raktų serverio"
 msgstr[2] "Importuoti raktus iš raktų serverio"
 msgstr[3] "Importuoti raktus iš raktų serverio"
 
-#: keysmanager.cpp:1243
+#: keysmanager.cpp:1237
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
@@ -2274,12 +2274,12 @@ msgstr[1] "&Pašalinti raktus"
 msgstr[2] "&Pašalinti raktus"
 msgstr[3] "&Pašalinti raktus"
 
-#: keysmanager.cpp:1366
+#: keysmanager.cpp:1360
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "Nepavyko sukurti atšaukimo liudijimą..."
 
-#: keysmanager.cpp:1381
+#: keysmanager.cpp:1375
 #, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2290,17 +2290,17 @@ msgstr ""
 "bet kuris kitas gali prieiti prie šio failo, šifravimas šiuo raktu bus "
 "sukompromituotas!<br/>Ar tęsti rakto eksportą?</qt>"
 
-#: keysmanager.cpp:1393
+#: keysmanager.cpp:1387
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "Eksportuoti PRIVATŲ RAKTĄ kaip"
 
-#: keysmanager.cpp:1393
+#: keysmanager.cpp:1387
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr "*.asc|*.asc failai"
 
-#: keysmanager.cpp:1411
+#: keysmanager.cpp:1405
 #, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
@@ -2309,7 +2309,7 @@ msgstr ""
 "<qt>Jūsų <b>privatus</b> raktas „%1“ sėkmingai eksportuotas į <br/>%2.<br/"
 "><b>Nepalikite</b> jo nesaugioje vietoje.</qt>"
 
-#: keysmanager.cpp:1414
+#: keysmanager.cpp:1408
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2318,7 +2318,7 @@ msgstr ""
 "Jūsų slaptas raktas negali būti eksportuotas.\n"
 "Patikrinkite raktą."
 
-#: keysmanager.cpp:1516
+#: keysmanager.cpp:1510
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
@@ -2327,7 +2327,7 @@ msgstr[1] "<qt>%1 vieši raktai buvo sėkmingai eksportuoti į <br/>%2</qt>"
 msgstr[2] "<qt>%1 viešų raktų buvo sėkmingai eksportuoti į <br/>%2</qt>"
 msgstr[3] "<qt>%1 viešas raktas buvo sėkmingai eksportuotas į <br/>%2</qt>"
 
-#: keysmanager.cpp:1520 keysmanager.cpp:1535 keysmanager.cpp:1549
+#: keysmanager.cpp:1514 keysmanager.cpp:1529 keysmanager.cpp:1543
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2336,7 +2336,7 @@ msgstr ""
 "Jūsų viešasis raktas negali būti eksportuotas.\n"
 "Patikrinkite raktą."
 
-#: keysmanager.cpp:1658
+#: keysmanager.cpp:1652
 #, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
@@ -2346,27 +2346,27 @@ msgstr ""
 "rakto.) Jis dabartiniu metu nenaudingas.</p><p>Ar norite regeneruoti viešąjį "
 "raktą?</p>"
 
-#: keysmanager.cpp:1660
+#: keysmanager.cpp:1654
 #, kde-format
 msgid "Generate"
 msgstr "Generuoti"
 
-#: keysmanager.cpp:1660
+#: keysmanager.cpp:1654
 #, kde-format
 msgid "Do Not Generate"
 msgstr "Negeneruoti"
 
-#: keysmanager.cpp:1690
+#: keysmanager.cpp:1684
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Ar tikrai norite pašalinti grupę <b>%1</b> ?</qt>"
 
-#: keysmanager.cpp:1691 keysmanager.cpp:2361
+#: keysmanager.cpp:1685 keysmanager.cpp:2355
 #, kde-format
 msgid "Delete"
 msgstr "Trinti"
 
-#: keysmanager.cpp:1721
+#: keysmanager.cpp:1715
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2375,24 +2375,24 @@ msgstr ""
 "<qt>Jūs negalite sukurti grupės, talpinančios parašus, subraktus ar kitas "
 "grupes.</qt>"
 
-#: keysmanager.cpp:1736 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1730 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr "%1 (%2) ID: %3"
 
-#: keysmanager.cpp:1741
+#: keysmanager.cpp:1735
 #, kde-format
 msgid "Create New Group"
 msgstr "Sukurti naują grupę"
 
-#: keysmanager.cpp:1742
+#: keysmanager.cpp:1736
 #, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "Įveskite naujos grupės vardą:"
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1741
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
@@ -2401,7 +2401,7 @@ msgstr ""
 "Žemiau patekti raktai yra neteisingi arba nepatikimi, ir nebus įjungti į "
 "grupę:"
 
-#: keysmanager.cpp:1753
+#: keysmanager.cpp:1747
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2410,18 +2410,18 @@ msgstr ""
 "<qt>Nnėra pasirinkta teisingų ar patikimų raktų. Grupė <b>%1</b> nebus "
 "sukurta.</qt>"
 
-#: keysmanager.cpp:1765
+#: keysmanager.cpp:1759
 #, kde-format
 msgid "Group Properties"
 msgstr "Grupės savybės"
 
-#: keysmanager.cpp:1801
+#: keysmanager.cpp:1795
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr ""
 "Jūs galite pasirašyti tik pirminius raktus. Patikrinkite savo pasirinkimą."
 
-#: keysmanager.cpp:1810
+#: keysmanager.cpp:1804
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2434,7 +2434,7 @@ msgstr ""
 "paskambinę telefonu ar susitikę asmeniškai su rakto savininku, tam kad "
 "įsitikintumėte jog kas nors nebando suklastoti šio rakto.</qt>"
 
-#: keysmanager.cpp:1815
+#: keysmanager.cpp:1809
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2447,20 +2447,20 @@ msgstr ""
 "paskambinę telefonu ar susitikę asmeniškai su rakto savininku, tam kad "
 "įsitikintumėte jog kas nors nebando suklastoti šio rakto</qt>"
 
-#: keysmanager.cpp:1830 keysmanager.cpp:1914 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1832 keysmanager.cpp:1917 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr "%1 (%2): %3"
 
-#: keysmanager.cpp:1838
+#: keysmanager.cpp:1832
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2471,14 +2471,14 @@ msgstr ""
 "nesate kruopščiai patikrinę visų šių raktų atspaudų, Jūsų ryšių saugumas "
 "gali būti kompromituotas.</b></qt>"
 
-#: keysmanager.cpp:1880 keysmanager.cpp:2027
+#: keysmanager.cpp:1874 keysmanager.cpp:2021
 #, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr ""
 "Jūs galite pasirašyti tik naudotojų ir nuotraukų identifikatorius. "
 "Patikrinkite savo pasirinkimą."
 
-#: keysmanager.cpp:1894
+#: keysmanager.cpp:1888
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2491,7 +2491,7 @@ msgstr ""
 "paskambinę telefonu ar susitikę asmeniškai su rakto savininku, tam kad "
 "įsitikintumėte jog kas nors nebando suklastoti šio rakto</qt>"
 
-#: keysmanager.cpp:1898
+#: keysmanager.cpp:1892
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2504,7 +2504,7 @@ msgstr ""
 "atspaudą paskambinę telefonu ar susitikę asmeniškai su rakto savininku, tam "
 "kad įsitikintumėte jog kas nors nebando suklastoti šio rakto</qt>"
 
-#: keysmanager.cpp:1924
+#: keysmanager.cpp:1918
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2515,17 +2515,17 @@ msgstr ""
 "><b>Jei nesate kruopščiai patikrinę visų šių raktų atspaudų, Jūsų ryšių "
 "saugumas gali būti kompromituotas.</b></qt>"
 
-#: keysmanager.cpp:1993
+#: keysmanager.cpp:1987
 #, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>Bloga slapta frazė, raktas <b>%1 (%2)</b> nepasirašytas.</qt>"
 
-#: keysmanager.cpp:1997
+#: keysmanager.cpp:1991
 #, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>Bloga slapta frazė, raktas <b>%1 (%2)</b> nepasirašytas.</qt>"
 
-#: keysmanager.cpp:2002
+#: keysmanager.cpp:1996
 #, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
@@ -2534,7 +2534,7 @@ msgstr ""
 "<qt>Nepavyko pasirašyti rakto <b>%1</b> naudojant raktą <b>%2</b>.<br />Ar "
 "norite pabandyti pasirašyti raktą konsolės režime?</qt>"
 
-#: keysmanager.cpp:2120
+#: keysmanager.cpp:2114
 #, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
@@ -2543,13 +2543,13 @@ msgstr[1] "Visi šių raktų parašai jau yra jūsų raktinėje"
 msgstr[2] "Visi šių raktų parašai jau yra jūsų raktinėje"
 msgstr[3] "Visi šių raktų parašai jau yra jūsų raktinėje"
 
-#: keysmanager.cpp:2207
+#: keysmanager.cpp:2201
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr ""
 "Redaguokite raktą rankiniu būdu, jei norite pašalinti savo paties pasirašymą."
 
-#: keysmanager.cpp:2211
+#: keysmanager.cpp:2205
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
@@ -2558,12 +2558,12 @@ msgstr ""
 "<qt>Ar tikrai norite pašalinti parašą <br /><b>%1</b> iš naudotojo id <b>%2</"
 "b><br /> rakto: <b>%3</b>?</qt>"
 
-#: keysmanager.cpp:2233
+#: keysmanager.cpp:2227
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "Pageidauta operacija yra nesėkminga, pataisykite raktą rankiniu būdu."
 
-#: keysmanager.cpp:2317
+#: keysmanager.cpp:2311
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2584,21 +2584,21 @@ msgstr[3] ""
 "<qt>Jūsų trinamas raktas yra šių raktų grupių narys. Ar norite pašalinti jį "
 "ir iš grupių?</qt>"
 
-#: keysmanager.cpp:2321 keysmanager.cpp:2335 keysmanager.cpp:2370
-#: keysmanager.cpp:2385 keysmanager.cpp:2388 keysmanager.cpp:2399
-#: keysmanager.cpp:2413 keysmanager.cpp:2454
+#: keysmanager.cpp:2315 keysmanager.cpp:2329 keysmanager.cpp:2364
+#: keysmanager.cpp:2379 keysmanager.cpp:2382 keysmanager.cpp:2393
+#: keysmanager.cpp:2407 keysmanager.cpp:2448
 #, kde-format
 msgid "Delete key"
 msgstr "Pašalinti raktą"
 
-#: keysmanager.cpp:2334
+#: keysmanager.cpp:2328
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
 
-#: keysmanager.cpp:2358
+#: keysmanager.cpp:2352
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2607,7 +2607,7 @@ msgstr ""
 "<p>Ar pašalinti <b>slaptą</b> raktų porą <b>%1</b>?</p>Pašalinus šią raktų "
 "porą niekada daugiau nebegalėsite iššifruoti failų, užšifruotų šiuo raktu."
 
-#: keysmanager.cpp:2369 keysmanager.cpp:2398
+#: keysmanager.cpp:2363 keysmanager.cpp:2392
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2616,22 +2616,22 @@ msgstr ""
 "Šiuo metu vis dar vyksta kita rakto naikinimo operacija.\n"
 "Palaukite minutėlę, kol ši operacija bus baigta."
 
-#: keysmanager.cpp:2385
+#: keysmanager.cpp:2379
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "Raktas <b>%1</b> ištrintas."
 
-#: keysmanager.cpp:2388
+#: keysmanager.cpp:2382
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "Nepavyko ištrinti rakto <b>%1</b>."
 
-#: keysmanager.cpp:2412
+#: keysmanager.cpp:2406
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr "Negalima ištrinti rakto <b>%1</b> kol jis redaguojamas terminale."
 
-#: keysmanager.cpp:2453
+#: keysmanager.cpp:2447
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
@@ -2640,7 +2640,7 @@ msgstr ""
 "Jūs parinkote elementus, kurie nėra raktai. Jie negali būti panaikinti "
 "naudojant šį meniu punktą."
 
-#: keysmanager.cpp:2478
+#: keysmanager.cpp:2472
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2648,7 +2648,7 @@ msgid ""
 msgstr ""
 "<qt>Čia yra slaptos raktų poros:<br/><b>%1</b><br/>Jos nebus ištrintos.</qt>"
 
-#: keysmanager.cpp:2488
+#: keysmanager.cpp:2482
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
@@ -2657,17 +2657,17 @@ msgstr[1] "<qt><b>Ištrinti šiuos %1 viešų raktų?</b></qt>"
 msgstr[2] "<qt><b>Ištrinti šiuos %1 viešų raktų?</b></qt>"
 msgstr[3] "<qt><b>Ištrinti šiuos %1 viešus raktus?</b></qt>"
 
-#: keysmanager.cpp:2519 keysmanager.cpp:2595 keysmanager.cpp:2606
+#: keysmanager.cpp:2513 keysmanager.cpp:2589 keysmanager.cpp:2600
 #, kde-format
 msgid "Key Import"
 msgstr "Rakto importas"
 
-#: keysmanager.cpp:2527
+#: keysmanager.cpp:2521
 #, kde-format
 msgid "Open File"
 msgstr "Atverti failą"
 
-#: keysmanager.cpp:2560
+#: keysmanager.cpp:2554
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2676,53 +2676,53 @@ msgstr ""
 "<qt>Iškarpinėje esantis tekstas panašus ne į raktą, bet į užšifruotą tekstą."
 "<br />Ar norite jį iš pradžių iššifruoti ir tada pabandyti importuoti?</qt>"
 
-#: keysmanager.cpp:2562
+#: keysmanager.cpp:2556
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "Importuoti iš iškarpinės"
 
-#: keysmanager.cpp:2582
+#: keysmanager.cpp:2576
 #, kde-format
 msgid "Importing..."
 msgstr "Importavimas..."
 
-#: keysmanager.cpp:2594
+#: keysmanager.cpp:2588
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr ""
 "Nepavyko importuoti rakto. Daugiau informacijos rasite detaliame įraše."
 
-#: keysmanager.cpp:2647
+#: keysmanager.cpp:2641
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg – šifravimo įrankis"
 
-#: keysmanager.cpp:2668
+#: keysmanager.cpp:2662
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "&Raktų tvarkyklė"
 
-#: keysmanager.cpp:2671
+#: keysmanager.cpp:2665
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "Ši&fruoti laikinąją talpyklę"
 
-#: keysmanager.cpp:2674
+#: keysmanager.cpp:2668
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&Iššifruoti laikinąją talpyklę"
 
-#: keysmanager.cpp:2677
+#: keysmanager.cpp:2671
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "Pa&sirašyti/Tikrinti laikinąją talpyklę"
 
-#: keysmanager.cpp:2714 keysmanager.cpp:2817 keysmanager.cpp:2835
+#: keysmanager.cpp:2708 keysmanager.cpp:2811 keysmanager.cpp:2829
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Laikina talpyklė tuščia."
 
-#: keysmanager.cpp:2759
+#: keysmanager.cpp:2753
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "Tekstas buvo sėkmingai užšifruotas."

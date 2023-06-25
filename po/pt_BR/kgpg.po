@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-15 00:51+0000\n"
+"POT-Creation-Date: 2023-06-25 00:57+0000\n"
 "PO-Revision-Date: 2021-03-19 09:36-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -546,7 +546,7 @@ msgstr "Menu de serviço para assinar arquivos:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:310
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:304
 #, kde-format
 msgid "Disable"
 msgstr "Desabilitar"
@@ -1434,7 +1434,7 @@ msgstr "Chaves confiáveis disponíveis"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:432 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:426 searchres.ui:29
 #, kde-format
 msgid "Search:"
 msgstr "Pesquisar:"
@@ -1792,241 +1792,241 @@ msgstr "Foi encontrada 1 chave correspondente (não mostrada)"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "Foram encontradas %1 chaves correspondentes (%2 mostradas)"
 
-#: keysmanager.cpp:132
+#: keysmanager.cpp:126
 #, kde-format
 msgid "Key Management"
 msgstr "Gerenciador de chaves"
 
-#: keysmanager.cpp:139
+#: keysmanager.cpp:133
 #, kde-format
 msgid "&Open Editor"
 msgstr "&Abrir editor"
 
-#: keysmanager.cpp:142
+#: keysmanager.cpp:136
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "Diálogo do servidor de &chaves"
 
-#: keysmanager.cpp:147 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:141 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "&Ir para a chave padrão"
 
-#: keysmanager.cpp:164
+#: keysmanager.cpp:158
 #, kde-format
 msgid "Tip of the &Day"
 msgstr "&Dica do dia"
 
-#: keysmanager.cpp:167
+#: keysmanager.cpp:161
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "Visualizar o Manual do GnuPG"
 
-#: keysmanager.cpp:172
+#: keysmanager.cpp:166
 #, kde-format
 msgid "&Refresh List"
 msgstr "A&tualizar lista"
 
-#: keysmanager.cpp:176
+#: keysmanager.cpp:170
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr "Mostrar ID &longo da chave"
 
-#: keysmanager.cpp:181
+#: keysmanager.cpp:175
 #, kde-format
 msgid "K&ey Properties"
 msgstr "Propri&edades da chave"
 
-#: keysmanager.cpp:185
+#: keysmanager.cpp:179
 #, kde-format
 msgid "&Open Key URL"
 msgstr "&Abrir URL da chave"
 
-#: keysmanager.cpp:189
+#: keysmanager.cpp:183
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "&Editar chave no terminal"
 
-#: keysmanager.cpp:194
+#: keysmanager.cpp:188
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "&Gerar um par de chaves..."
 
-#: keysmanager.cpp:203
+#: keysmanager.cpp:197
 #, kde-format
 msgid "&Import Key..."
 msgstr "&Importar chave..."
 
-#: keysmanager.cpp:208
+#: keysmanager.cpp:202
 #, kde-format
 msgid "Send Ema&il"
 msgstr "Env&iar e-mail"
 
-#: keysmanager.cpp:212
+#: keysmanager.cpp:206
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "&Criar novo contato no livro de endereços"
 
-#: keysmanager.cpp:218
+#: keysmanager.cpp:212
 #, kde-format
 msgid "&Edit Group..."
 msgstr "&Editar grupo..."
 
-#: keysmanager.cpp:221
+#: keysmanager.cpp:215
 #, kde-format
 msgid "&Delete Group"
 msgstr "&Excluir grupo"
 
-#: keysmanager.cpp:225
+#: keysmanager.cpp:219
 #, kde-format
 msgid "&Rename Group"
 msgstr "&Renomear grupo"
 
-#: keysmanager.cpp:234
+#: keysmanager.cpp:228
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "De&finir como chave padrão"
 
-#: keysmanager.cpp:237
+#: keysmanager.cpp:231
 #, kde-format
 msgid "&Add Photo..."
 msgstr "&Adicionar foto..."
 
-#: keysmanager.cpp:240
+#: keysmanager.cpp:234
 #, kde-format
 msgid "&Add User Id..."
 msgstr "&Adicionar ID de usuário..."
 
-#: keysmanager.cpp:243
+#: keysmanager.cpp:237
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "Exportar chave secreta..."
 
-#: keysmanager.cpp:246
+#: keysmanager.cpp:240
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "Excluir par de chaves"
 
-#: keysmanager.cpp:250
+#: keysmanager.cpp:244
 #, kde-format
 msgid "Revoke Key..."
 msgstr "Revogar chave..."
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:247
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "&Regerar chave pública"
 
-#: keysmanager.cpp:259
+#: keysmanager.cpp:253
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr "Definir ID do usuário como &primária"
 
-#: keysmanager.cpp:263
+#: keysmanager.cpp:257
 #, kde-format
 msgid "&Open Photo"
 msgstr "&Abrir foto"
 
-#: keysmanager.cpp:267
+#: keysmanager.cpp:261
 #, kde-format
 msgid "&Delete Photo"
 msgstr "&Excluir foto"
 
-#: keysmanager.cpp:275
+#: keysmanager.cpp:269
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "Importar assinaturas &perdidas do servidor de chaves"
 
-#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:287 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "Confiabilidade"
 
-#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:290 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "Tamanho"
 
-#: keysmanager.cpp:299 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "Criação"
 
-#: keysmanager.cpp:302 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "Validade"
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:300
 #, kde-format
 msgid "&Photo ID's"
 msgstr "IDs de &foto"
 
-#: keysmanager.cpp:311
+#: keysmanager.cpp:305
 #, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "Pequena"
 
-#: keysmanager.cpp:312
+#: keysmanager.cpp:306
 #, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "Média"
 
-#: keysmanager.cpp:313
+#: keysmanager.cpp:307
 #, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "Grande"
 
-#: keysmanager.cpp:317
+#: keysmanager.cpp:311
 #, kde-format
 msgid "Minimum &Trust"
 msgstr "Confiança &mínima"
 
-#: keysmanager.cpp:320
+#: keysmanager.cpp:314
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "&Nenhuma"
 
-#: keysmanager.cpp:321
+#: keysmanager.cpp:315
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr "&Ativo"
 
-#: keysmanager.cpp:322
+#: keysmanager.cpp:316
 #, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "&Relativa"
 
-#: keysmanager.cpp:323
+#: keysmanager.cpp:317
 #, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "&Completa"
 
-#: keysmanager.cpp:324
+#: keysmanager.cpp:318
 #, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "&Definitiva"
 
-#: keysmanager.cpp:349
+#: keysmanager.cpp:343
 #, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "Mo&strar somente chaves secretas"
 
-#: keysmanager.cpp:449
+#: keysmanager.cpp:443
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "Focar na linha de pesquisa"
 
-#: keysmanager.cpp:492
+#: keysmanager.cpp:486
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
@@ -2035,71 +2035,71 @@ msgstr ""
 "A operação de geração de outra chave está em andamento.\n"
 "Por favor, aguarde até a sua conclusão."
 
-#: keysmanager.cpp:493 keysmanager.cpp:531 keysmanager.cpp:579
+#: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
 #, kde-format
 msgid "Generating new key pair"
 msgstr "Gerando novo par de chaves"
 
-#: keysmanager.cpp:532
+#: keysmanager.cpp:526
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr ""
 "Não foi possível iniciar o aplicativo \"konsole\" para utilização no modo "
 "avançado."
 
-#: keysmanager.cpp:571 keysmanager.cpp:2610 keysmanager.cpp:2612
+#: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "Pronto"
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:194
 #, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "Senha incorreta. Não foi possível gerar um novo par de chaves."
 
-#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr ""
 "Interrompido pelo usuário. Não foi possível gerar o novo par de chaves."
 
-#: keysmanager.cpp:589 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr ""
 "O endereço de e-mail não é válido. Não foi possível gerar o novo par de "
 "chaves."
 
-#: keysmanager.cpp:592 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:203
 #, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr ""
 "O nome não foi aceito pelo gpg. Não foi possível gerar um novo par de chaves."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:598 newkey.ui:14
+#: keysmanager.cpp:592 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "Novo par de chaves criado"
 
-#: keysmanager.cpp:637
+#: keysmanager.cpp:631
 #, kde-format
 msgid "backup copy"
 msgstr "cópia de backup"
 
-#: keysmanager.cpp:651 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:645 transactions/kgpggeneratekey.cpp:215
 #, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr ""
 "O processo do gpg não terminou. Não foi possível gerar um novo par de chaves."
 
-#: keysmanager.cpp:755
+#: keysmanager.cpp:749
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr "Você pode somente atualizar chaves primárias. Verifique sua seleção."
 
-#: keysmanager.cpp:879
+#: keysmanager.cpp:873
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
@@ -2108,12 +2108,12 @@ msgstr ""
 "Outra operação está em andamento.\n"
 "Aguarde até a sua conclusão."
 
-#: keysmanager.cpp:880 keysmanager.cpp:885
+#: keysmanager.cpp:874 keysmanager.cpp:879
 #, kde-format
 msgid "Add New User Id"
 msgstr "Adicionar nova ID de usuário"
 
-#: keysmanager.cpp:925
+#: keysmanager.cpp:919
 #, kde-format
 msgid ""
 "The image must be a JPEG file. Remember that the image is stored within your "
@@ -2126,7 +2126,7 @@ msgstr ""
 "grande, sua chave também será muito grande. O tamanho não deve exceder a 6 "
 "KiB. Uma imagem de aproximadamente 240x288 é um bom tamanho para uso."
 
-#: keysmanager.cpp:957
+#: keysmanager.cpp:951
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2135,133 +2135,133 @@ msgstr ""
 "<qt>Tem certeza de que deseja excluir a ID de foto <b>%1</b><br/>da chave <b>"
 "%2 &lt;%3&gt;</b>?</qt>"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1094
 #, kde-format
 msgid "Public Key"
 msgstr "Chave pública"
 
-#: keysmanager.cpp:1103
+#: keysmanager.cpp:1097
 #, kde-format
 msgid "Sub Key"
 msgstr "Subchave"
 
-#: keysmanager.cpp:1106
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "Par de chaves secretas"
 
-#: keysmanager.cpp:1109
+#: keysmanager.cpp:1103
 #, kde-format
 msgid "Key Group"
 msgstr "Grupo da chave"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1112 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1106 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "Assinatura"
 
-#: keysmanager.cpp:1115
+#: keysmanager.cpp:1109
 #, kde-format
 msgid "User ID"
 msgstr "ID do usuário"
 
-#: keysmanager.cpp:1118
+#: keysmanager.cpp:1112
 #, kde-format
 msgid "Revocation Signature"
 msgstr "Assinatura de revogação"
 
-#: keysmanager.cpp:1121
+#: keysmanager.cpp:1115
 #, kde-format
 msgid "Photo ID"
 msgstr "ID da foto"
 
-#: keysmanager.cpp:1124
+#: keysmanager.cpp:1118
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "Chave secreta órfã"
 
-#: keysmanager.cpp:1129
+#: keysmanager.cpp:1123
 #, kde-format
 msgid "Group member"
 msgstr "Membro do grupo"
 
-#: keysmanager.cpp:1234
+#: keysmanager.cpp:1228
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
 msgstr[0] "A&ssinar ID do usuário..."
 msgstr[1] "A&ssinar IDs do usuário..."
 
-#: keysmanager.cpp:1235
+#: keysmanager.cpp:1229
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "Assinar e enviar por e-&mail o ID do usuário..."
 msgstr[1] "Assinar e enviar por e-&mail os IDs do usuário..."
 
-#: keysmanager.cpp:1236
+#: keysmanager.cpp:1230
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
 msgstr[0] "E&xportar chave pública..."
 msgstr[1] "E&xportar chaves públicas..."
 
-#: keysmanager.cpp:1237
+#: keysmanager.cpp:1231
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "Atualiza&r chave do servidor de chaves"
 msgstr[1] "Atualiza&r chaves do servidor de chaves"
 
-#: keysmanager.cpp:1238
+#: keysmanager.cpp:1232
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "&Criar grupo com a chave selecionada..."
 msgstr[1] "&Criar grupo com as chaves selecionadas..."
 
-#: keysmanager.cpp:1239
+#: keysmanager.cpp:1233
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
 msgstr[0] "A&ssinar chave..."
 msgstr[1] "A&ssinar chaves..."
 
-#: keysmanager.cpp:1240
+#: keysmanager.cpp:1234
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
 msgstr[0] "&Excluir ID de usuário"
 msgstr[1] "&Excluir IDs de usuário"
 
-#: keysmanager.cpp:1241
+#: keysmanager.cpp:1235
 #, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
 msgstr[0] "Excluir &assinatura"
 msgstr[1] "Excluir &assinaturas"
 
-#: keysmanager.cpp:1242
+#: keysmanager.cpp:1236
 #, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
 msgstr[0] "Importar chave do servidor de chaves"
 msgstr[1] "Importar chaves do servidor de chaves"
 
-#: keysmanager.cpp:1243
+#: keysmanager.cpp:1237
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
 msgstr[0] "&Excluir chave"
 msgstr[1] "&Excluir chaves"
 
-#: keysmanager.cpp:1366
+#: keysmanager.cpp:1360
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "A criação do certificado de revogação falhou..."
 
-#: keysmanager.cpp:1381
+#: keysmanager.cpp:1375
 #, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2272,17 +2272,17 @@ msgstr ""
 ">Se alguém acessar este arquivo, a criptografia com esta chave estará "
 "comprometida.<br/>Continuar com a exportação da chave?</qt>"
 
-#: keysmanager.cpp:1393
+#: keysmanager.cpp:1387
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "Exportar CHAVE PRIVADA como"
 
-#: keysmanager.cpp:1393
+#: keysmanager.cpp:1387
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr "*.asc|Arquivos *.asc"
 
-#: keysmanager.cpp:1411
+#: keysmanager.cpp:1405
 #, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
@@ -2291,7 +2291,7 @@ msgstr ""
 "<qt>Sua chave <b>privada</b> \"%1\" foi exportada com sucesso para<br/>%2."
 "<br/><b>Não</b> deixe-a em um lugar inseguro.</qt>"
 
-#: keysmanager.cpp:1414
+#: keysmanager.cpp:1408
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2300,7 +2300,7 @@ msgstr ""
 "Sua chave secreta não pode ser exportada.\n"
 "Verifique-a."
 
-#: keysmanager.cpp:1516
+#: keysmanager.cpp:1510
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
@@ -2308,7 +2308,7 @@ msgstr[0] "<qt>A chave pública foi exportada com sucesso para<br/>%2</qt>"
 msgstr[1] ""
 "<qt>As chaves públicas %1 foram exportadas com sucesso para<br/>%2</qt>"
 
-#: keysmanager.cpp:1520 keysmanager.cpp:1535 keysmanager.cpp:1549
+#: keysmanager.cpp:1514 keysmanager.cpp:1529 keysmanager.cpp:1543
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2317,7 +2317,7 @@ msgstr ""
 "Sua chave pública não pode ser exportada\n"
 "Verifique-a."
 
-#: keysmanager.cpp:1658
+#: keysmanager.cpp:1652
 #, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
@@ -2327,27 +2327,27 @@ msgstr ""
 "não pode ser atualmente utilizada.</p><p>Gostaria de gerar a chave pública "
 "novamente?</p>"
 
-#: keysmanager.cpp:1660
+#: keysmanager.cpp:1654
 #, kde-format
 msgid "Generate"
 msgstr "Gerar"
 
-#: keysmanager.cpp:1660
+#: keysmanager.cpp:1654
 #, kde-format
 msgid "Do Not Generate"
 msgstr "Não gerar"
 
-#: keysmanager.cpp:1690
+#: keysmanager.cpp:1684
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Tem certeza de que deseja excluir o grupo <b>%1</b>?</qt>"
 
-#: keysmanager.cpp:1691 keysmanager.cpp:2361
+#: keysmanager.cpp:1685 keysmanager.cpp:2355
 #, kde-format
 msgid "Delete"
 msgstr "Excluir"
 
-#: keysmanager.cpp:1721
+#: keysmanager.cpp:1715
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2356,24 +2356,24 @@ msgstr ""
 "<qt>Você não pode criar um grupo contendo assinaturas, subchaves ou outros "
 "grupos.</qt>"
 
-#: keysmanager.cpp:1736 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1730 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr "%1 (%2) ID: %3"
 
-#: keysmanager.cpp:1741
+#: keysmanager.cpp:1735
 #, kde-format
 msgid "Create New Group"
 msgstr "Criar novo grupo"
 
-#: keysmanager.cpp:1742
+#: keysmanager.cpp:1736
 #, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "Digite o nome do novo grupo:"
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1741
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
@@ -2382,7 +2382,7 @@ msgstr ""
 "As seguintes chaves não são válidas ou não são confiáveis. Por este motivo, "
 "não serão adicionadas ao grupo:"
 
-#: keysmanager.cpp:1753
+#: keysmanager.cpp:1747
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2391,17 +2391,17 @@ msgstr ""
 "<qt>Nenhuma chave válida ou confiável foi selecionada. O grupo <b>%1</b> não "
 "será criado.</qt>"
 
-#: keysmanager.cpp:1765
+#: keysmanager.cpp:1759
 #, kde-format
 msgid "Group Properties"
 msgstr "Propriedades do grupo"
 
-#: keysmanager.cpp:1801
+#: keysmanager.cpp:1795
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "Você somente pode assinar chaves primárias. Verifique sua seleção."
 
-#: keysmanager.cpp:1810
+#: keysmanager.cpp:1804
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2415,7 +2415,7 @@ msgstr ""
 "da chave, para ter certeza de que ninguém está tentando interceptar suas "
 "comunicações</qt>"
 
-#: keysmanager.cpp:1815
+#: keysmanager.cpp:1809
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2429,20 +2429,20 @@ msgstr ""
 "da chave para ter certeza de que ninguém está tentando interceptar suas "
 "comunicações.</qt>"
 
-#: keysmanager.cpp:1830 keysmanager.cpp:1914 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1832 keysmanager.cpp:1917 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr "%1 (%2): %3"
 
-#: keysmanager.cpp:1838
+#: keysmanager.cpp:1832
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2453,13 +2453,13 @@ msgstr ""
 "><b>Se você não tiver cuidado ao verificar todas as impressões digitais, a "
 "segurança de suas comunicações pode ficar comprometida.</b></qt>"
 
-#: keysmanager.cpp:1880 keysmanager.cpp:2027
+#: keysmanager.cpp:1874 keysmanager.cpp:2021
 #, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr ""
 "Você somente pode assinar IDs de usuários e de fotos. Verifique sua seleção."
 
-#: keysmanager.cpp:1894
+#: keysmanager.cpp:1888
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2473,7 +2473,7 @@ msgstr ""
 "para ter certeza de que ninguém está tentando interceptar suas comunicações."
 "</qt>"
 
-#: keysmanager.cpp:1898
+#: keysmanager.cpp:1892
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2487,7 +2487,7 @@ msgstr ""
 "da chave para ter certeza de que ninguém está tentando interceptar suas "
 "comunicações.</qt>"
 
-#: keysmanager.cpp:1924
+#: keysmanager.cpp:1918
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2498,17 +2498,17 @@ msgstr ""
 "<br/><b>Se você não tiver cuidado ao verificar todas as impressões digitais, "
 "a segurança de suas comunicações pode ficar comprometida.</b></qt>"
 
-#: keysmanager.cpp:1993
+#: keysmanager.cpp:1987
 #, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>Senha incorreta, chave <b>%1 (%2)</b> não assinada.</qt>"
 
-#: keysmanager.cpp:1997
+#: keysmanager.cpp:1991
 #, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>A chave <b>%1 (%2)</b> já está assinada.</qt>"
 
-#: keysmanager.cpp:2002
+#: keysmanager.cpp:1996
 #, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
@@ -2517,19 +2517,19 @@ msgstr ""
 "<qt>A assinatura da chave <b>%1</b> com a chave <b>%2</b> falhou.<br /"
 ">Deseja tentar assinar a chave no modo console?</qt>"
 
-#: keysmanager.cpp:2120
+#: keysmanager.cpp:2114
 #, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "Todas as assinaturas para esta chave já estão no seu chaveiro"
 msgstr[1] "Todas as assinaturas para estas chaves já estão no seu chaveiro"
 
-#: keysmanager.cpp:2207
+#: keysmanager.cpp:2201
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "Edite a chave manualmente para excluir sua própria assinatura."
 
-#: keysmanager.cpp:2211
+#: keysmanager.cpp:2205
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
@@ -2538,13 +2538,13 @@ msgstr ""
 "<qt>Tem certeza de que deseja excluir a assinatura <br /><b>%1</b><br />do "
 "ID de usuário <b>%2</b><br />da chave: <b>%3</b>?</qt>"
 
-#: keysmanager.cpp:2233
+#: keysmanager.cpp:2227
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr ""
 "A operação solicitada não teve sucesso. Por favor, edite a chave manualmente."
 
-#: keysmanager.cpp:2317
+#: keysmanager.cpp:2311
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2559,14 +2559,14 @@ msgstr[1] ""
 "<qt>A chave que você está excluindo é membro dos seguintes grupos de chaves. "
 "Deseja removê-la destes grupos?</qt>"
 
-#: keysmanager.cpp:2321 keysmanager.cpp:2335 keysmanager.cpp:2370
-#: keysmanager.cpp:2385 keysmanager.cpp:2388 keysmanager.cpp:2399
-#: keysmanager.cpp:2413 keysmanager.cpp:2454
+#: keysmanager.cpp:2315 keysmanager.cpp:2329 keysmanager.cpp:2364
+#: keysmanager.cpp:2379 keysmanager.cpp:2382 keysmanager.cpp:2393
+#: keysmanager.cpp:2407 keysmanager.cpp:2448
 #, kde-format
 msgid "Delete key"
 msgstr "Excluir chave"
 
-#: keysmanager.cpp:2334
+#: keysmanager.cpp:2328
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
@@ -2575,7 +2575,7 @@ msgstr ""
 "Você está removendo a última chave do grupo de chaves %1.<br/>Também deseja "
 "excluir o grupo?"
 
-#: keysmanager.cpp:2358
+#: keysmanager.cpp:2352
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2585,7 +2585,7 @@ msgstr ""
 "chaves você nunca mais poderá descriptografar arquivos que tenham sido "
 "criptografados com esta chave."
 
-#: keysmanager.cpp:2369 keysmanager.cpp:2398
+#: keysmanager.cpp:2363 keysmanager.cpp:2392
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2594,24 +2594,24 @@ msgstr ""
 "A operação de exclusão de outra chave está em andamento.\n"
 "Por favor, espere a sua conclusão."
 
-#: keysmanager.cpp:2385
+#: keysmanager.cpp:2379
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "A chave <b>%1</b> foi excluída."
 
-#: keysmanager.cpp:2388
+#: keysmanager.cpp:2382
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "Falha <b>%1</b> ao excluir a chave."
 
-#: keysmanager.cpp:2412
+#: keysmanager.cpp:2406
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 "Não é possível excluir a chave <b>%1</b> enquanto estiver sendo editada no "
 "terminal."
 
-#: keysmanager.cpp:2453
+#: keysmanager.cpp:2447
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
@@ -2620,7 +2620,7 @@ msgstr ""
 "Você selecionou itens que não são chaves. Eles não poderão ser excluídos com "
 "este item de menu."
 
-#: keysmanager.cpp:2478
+#: keysmanager.cpp:2472
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2629,24 +2629,24 @@ msgstr ""
 "<qt>Os seguintes são pares de chaves secretas: <br/><b>%1</b><br/>Eles não "
 "serão excluídos.</qt>"
 
-#: keysmanager.cpp:2488
+#: keysmanager.cpp:2482
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>Excluir a seguinte chave pública?</b></qt>"
 msgstr[1] "<qt><b>Excluir as seguintes %1 chaves públicas?</b></qt>"
 
-#: keysmanager.cpp:2519 keysmanager.cpp:2595 keysmanager.cpp:2606
+#: keysmanager.cpp:2513 keysmanager.cpp:2589 keysmanager.cpp:2600
 #, kde-format
 msgid "Key Import"
 msgstr "Importar chave"
 
-#: keysmanager.cpp:2527
+#: keysmanager.cpp:2521
 #, kde-format
 msgid "Open File"
 msgstr "Abrir arquivo"
 
-#: keysmanager.cpp:2560
+#: keysmanager.cpp:2554
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2656,54 +2656,54 @@ msgstr ""
 "texto criptografado.<br />Deseja descriptografar primeiro e depois tentar "
 "importá-lo?</qt>"
 
-#: keysmanager.cpp:2562
+#: keysmanager.cpp:2556
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "Importar da área de transferência"
 
-#: keysmanager.cpp:2582
+#: keysmanager.cpp:2576
 #, kde-format
 msgid "Importing..."
 msgstr "Importando..."
 
-#: keysmanager.cpp:2594
+#: keysmanager.cpp:2588
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr ""
 "Falha na importação da chave. Verifique os registros detalhados para mais "
 "informações."
 
-#: keysmanager.cpp:2647
+#: keysmanager.cpp:2641
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - ferramenta de criptografia"
 
-#: keysmanager.cpp:2668
+#: keysmanager.cpp:2662
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "Ge&renciador de chaves"
 
-#: keysmanager.cpp:2671
+#: keysmanager.cpp:2665
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "&Criptografar área de transferência"
 
-#: keysmanager.cpp:2674
+#: keysmanager.cpp:2668
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&Descriptografar área de transferência"
 
-#: keysmanager.cpp:2677
+#: keysmanager.cpp:2671
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&Assinar/verificar área de transferência"
 
-#: keysmanager.cpp:2714 keysmanager.cpp:2817 keysmanager.cpp:2835
+#: keysmanager.cpp:2708 keysmanager.cpp:2811 keysmanager.cpp:2829
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "A área de transferência está vazia."
 
-#: keysmanager.cpp:2759
+#: keysmanager.cpp:2753
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "O texto foi criptografado com sucesso."
