@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-15 00:51+0000\n"
+"POT-Creation-Date: 2023-06-25 00:57+0000\n"
 "PO-Revision-Date: 2014-09-24 20:32+0200\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -533,7 +533,7 @@ msgstr "Tjenestemeny for signering av filer:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:310
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:304
 #, kde-format
 msgid "Disable"
 msgstr "Slå av"
@@ -1416,7 +1416,7 @@ msgstr "Tilgjengelige tiltrodde nøkler"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:432 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:426 searchres.ui:29
 #, kde-format
 msgid "Search:"
 msgstr "Søk:"
@@ -1773,241 +1773,241 @@ msgstr ""
 msgid "Found %1 matching keys (%2 shown)"
 msgstr ""
 
-#: keysmanager.cpp:132
+#: keysmanager.cpp:126
 #, kde-format
 msgid "Key Management"
 msgstr "Nøkkelhåndtering"
 
-#: keysmanager.cpp:139
+#: keysmanager.cpp:133
 #, kde-format
 msgid "&Open Editor"
 msgstr "Å&pne redigering"
 
-#: keysmanager.cpp:142
+#: keysmanager.cpp:136
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "&Nøkkeltjenerdialog"
 
-#: keysmanager.cpp:147 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:141 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "&Gå til standardnøkkel"
 
-#: keysmanager.cpp:164
+#: keysmanager.cpp:158
 #, kde-format
 msgid "Tip of the &Day"
 msgstr "&Dagens tips"
 
-#: keysmanager.cpp:167
+#: keysmanager.cpp:161
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "Vis GnuPG-håndboka"
 
-#: keysmanager.cpp:172
+#: keysmanager.cpp:166
 #, kde-format
 msgid "&Refresh List"
 msgstr "&Oppfrisk liste"
 
-#: keysmanager.cpp:176
+#: keysmanager.cpp:170
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr "Vis &lang nøkkel-ID"
 
-#: keysmanager.cpp:181
+#: keysmanager.cpp:175
 #, kde-format
 msgid "K&ey Properties"
 msgstr "Nøkk&elegenskaper"
 
-#: keysmanager.cpp:185
+#: keysmanager.cpp:179
 #, kde-format
 msgid "&Open Key URL"
 msgstr "Å&pne nøkkel-URL"
 
-#: keysmanager.cpp:189
+#: keysmanager.cpp:183
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "Rediger nøkkel i &terminalvindu"
 
-#: keysmanager.cpp:194
+#: keysmanager.cpp:188
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "&Generer nøkkelpar …"
 
-#: keysmanager.cpp:203
+#: keysmanager.cpp:197
 #, kde-format
 msgid "&Import Key..."
 msgstr "&Importer nøkkel …"
 
-#: keysmanager.cpp:208
+#: keysmanager.cpp:202
 #, kde-format
 msgid "Send Ema&il"
 msgstr "Send &e-post"
 
-#: keysmanager.cpp:212
+#: keysmanager.cpp:206
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "Opprett ny &kontakt i adresseboka"
 
-#: keysmanager.cpp:218
+#: keysmanager.cpp:212
 #, kde-format
 msgid "&Edit Group..."
 msgstr "R&ediger gruppe …"
 
-#: keysmanager.cpp:221
+#: keysmanager.cpp:215
 #, kde-format
 msgid "&Delete Group"
 msgstr "S&lett gruppe"
 
-#: keysmanager.cpp:225
+#: keysmanager.cpp:219
 #, kde-format
 msgid "&Rename Group"
 msgstr "&Endre navn på gruppe"
 
-#: keysmanager.cpp:234
+#: keysmanager.cpp:228
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "Sett som s&tandardnøkkel"
 
-#: keysmanager.cpp:237
+#: keysmanager.cpp:231
 #, kde-format
 msgid "&Add Photo..."
 msgstr "&Legg til foto …"
 
-#: keysmanager.cpp:240
+#: keysmanager.cpp:234
 #, kde-format
 msgid "&Add User Id..."
 msgstr "&Legg til bruker-id …"
 
-#: keysmanager.cpp:243
+#: keysmanager.cpp:237
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "Eksporter hemmelig nøkkel …"
 
-#: keysmanager.cpp:246
+#: keysmanager.cpp:240
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "Slett nøkkelpar"
 
-#: keysmanager.cpp:250
+#: keysmanager.cpp:244
 #, kde-format
 msgid "Revoke Key..."
 msgstr "Tilbakekall nøkkel …"
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:247
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "&Gjenskap offentlig nøkkel"
 
-#: keysmanager.cpp:259
+#: keysmanager.cpp:253
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr "Sett bruker-ID som &primær"
 
-#: keysmanager.cpp:263
+#: keysmanager.cpp:257
 #, kde-format
 msgid "&Open Photo"
 msgstr "Å&pne foto"
 
-#: keysmanager.cpp:267
+#: keysmanager.cpp:261
 #, kde-format
 msgid "&Delete Photo"
 msgstr "&Slett foto"
 
-#: keysmanager.cpp:275
+#: keysmanager.cpp:269
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "Importer &manglende signaturer fra nøkkeltjener"
 
-#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:287 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "Tillit"
 
-#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:290 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "Størrelse"
 
-#: keysmanager.cpp:299 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "Opprettet"
 
-#: keysmanager.cpp:302 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "Utløper"
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:300
 #, kde-format
 msgid "&Photo ID's"
 msgstr "&Foto-id-er"
 
-#: keysmanager.cpp:311
+#: keysmanager.cpp:305
 #, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "Lite"
 
-#: keysmanager.cpp:312
+#: keysmanager.cpp:306
 #, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "Middels"
 
-#: keysmanager.cpp:313
+#: keysmanager.cpp:307
 #, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "Stort"
 
-#: keysmanager.cpp:317
+#: keysmanager.cpp:311
 #, kde-format
 msgid "Minimum &Trust"
 msgstr "Minimal &tillit"
 
-#: keysmanager.cpp:320
+#: keysmanager.cpp:314
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "&Ingen"
 
-#: keysmanager.cpp:321
+#: keysmanager.cpp:315
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr "&Aktiv"
 
-#: keysmanager.cpp:322
+#: keysmanager.cpp:316
 #, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "&Så vidt"
 
-#: keysmanager.cpp:323
+#: keysmanager.cpp:317
 #, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "&Fullstendig"
 
-#: keysmanager.cpp:324
+#: keysmanager.cpp:318
 #, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "&Ytterst"
 
-#: keysmanager.cpp:349
+#: keysmanager.cpp:343
 #, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "Vi&s bare hemmelige nøkler"
 
-#: keysmanager.cpp:449
+#: keysmanager.cpp:443
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "Fokus på søkelinje "
 
-#: keysmanager.cpp:492
+#: keysmanager.cpp:486
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
@@ -2016,64 +2016,64 @@ msgstr ""
 "En annen nøkkelgenerering pågår ennå.\n"
 "Vent litt til denne handlinga er fullført."
 
-#: keysmanager.cpp:493 keysmanager.cpp:531 keysmanager.cpp:579
+#: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
 #, kde-format
 msgid "Generating new key pair"
 msgstr "Lager nytt nøkkelpar"
 
-#: keysmanager.cpp:532
+#: keysmanager.cpp:526
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "Kan ikke starte «konsole»-programmet for ekspertbruk."
 
-#: keysmanager.cpp:571 keysmanager.cpp:2610 keysmanager.cpp:2612
+#: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "Klar"
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:194
 #, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "Feil passord. Kan ikke lage et nytt nøkkelpar."
 
-#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr "Avbrutt av bruker. Kan ikke lage et nytt nøkkelpar."
 
-#: keysmanager.cpp:589 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr "E-postadressen er ikke gyldig. Kan ikke lage et nytt nøkkelpar."
 
-#: keysmanager.cpp:592 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:203
 #, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "gpg godtar ikke navnet. Kan ikke lage et nytt nøkkelpar."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:598 newkey.ui:14
+#: keysmanager.cpp:592 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "Nytt nøkkelpar laget"
 
-#: keysmanager.cpp:637
+#: keysmanager.cpp:631
 #, kde-format
 msgid "backup copy"
 msgstr "sikkerhetskopi"
 
-#: keysmanager.cpp:651 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:645 transactions/kgpggeneratekey.cpp:215
 #, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "gpg-prosessen avsluttet ikke. Kan ikke lage et nytt nøkkelpar."
 
-#: keysmanager.cpp:755
+#: keysmanager.cpp:749
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr "Du kan bare friske opp primærnøkler. Sjekk utvalget."
 
-#: keysmanager.cpp:879
+#: keysmanager.cpp:873
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
@@ -2082,12 +2082,12 @@ msgstr ""
 "En annen handling pågår ennå.\n"
 "Vent litt til denne handlinga er fullført."
 
-#: keysmanager.cpp:880 keysmanager.cpp:885
+#: keysmanager.cpp:874 keysmanager.cpp:879
 #, kde-format
 msgid "Add New User Id"
 msgstr "Legg til ny bruker-id"
 
-#: keysmanager.cpp:925
+#: keysmanager.cpp:919
 #, kde-format
 msgid ""
 "The image must be a JPEG file. Remember that the image is stored within your "
@@ -2100,7 +2100,7 @@ msgstr ""
 "stor.  Størrelsen bør ikke være over 6 KiB. En bildestørrelse på omnkring "
 "240x288 piksler er passe."
 
-#: keysmanager.cpp:957
+#: keysmanager.cpp:951
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2109,133 +2109,133 @@ msgstr ""
 "<qt>Er du sikker på at du vil slette foto-id <b>%1</b> <br/> fra nøkkel "
 "<b>%2&lt;%3&gt;</b>?</qt>"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1094
 #, kde-format
 msgid "Public Key"
 msgstr "Offentlig nøkkel"
 
-#: keysmanager.cpp:1103
+#: keysmanager.cpp:1097
 #, kde-format
 msgid "Sub Key"
 msgstr "Undernøkkel"
 
-#: keysmanager.cpp:1106
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "Hemmelig nøkkelpar"
 
-#: keysmanager.cpp:1109
+#: keysmanager.cpp:1103
 #, kde-format
 msgid "Key Group"
 msgstr "Nøkkelgruppe"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1112 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1106 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "Signatur"
 
-#: keysmanager.cpp:1115
+#: keysmanager.cpp:1109
 #, kde-format
 msgid "User ID"
 msgstr "Bruker-id"
 
-#: keysmanager.cpp:1118
+#: keysmanager.cpp:1112
 #, kde-format
 msgid "Revocation Signature"
 msgstr "Tilbakekallingssignatur"
 
-#: keysmanager.cpp:1121
+#: keysmanager.cpp:1115
 #, kde-format
 msgid "Photo ID"
 msgstr "Foto-id"
 
-#: keysmanager.cpp:1124
+#: keysmanager.cpp:1118
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "Eierløs hemmelig nøkkel"
 
-#: keysmanager.cpp:1129
+#: keysmanager.cpp:1123
 #, kde-format
 msgid "Group member"
 msgstr "Gruppemedlem"
 
-#: keysmanager.cpp:1234
+#: keysmanager.cpp:1228
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
 msgstr[0] "&Signer bruker-ID …"
 msgstr[1] "&Signer bruker-IDer …"
 
-#: keysmanager.cpp:1235
+#: keysmanager.cpp:1229
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "Signer og &send bruker-ID …"
 msgstr[1] "&Signer og send bruker-IDer …"
 
-#: keysmanager.cpp:1236
+#: keysmanager.cpp:1230
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
 msgstr[0] "E&ksporter offentlig nøkkel …"
 msgstr[1] "E&ksporter offentlige nøkler …"
 
-#: keysmanager.cpp:1237
+#: keysmanager.cpp:1231
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "F&risk opp nøkkel fra nøkkeltjener"
 msgstr[1] "F&risk opp nøkler fra nøkkeltjener"
 
-#: keysmanager.cpp:1238
+#: keysmanager.cpp:1232
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "&Opprett gruppe med valgt nøkkel …"
 msgstr[1] "&Opprett gruppe med valgte nøkler …"
 
-#: keysmanager.cpp:1239
+#: keysmanager.cpp:1233
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
 msgstr[0] "&Signer nøkkel …"
 msgstr[1] "&Signer nøkler …"
 
-#: keysmanager.cpp:1240
+#: keysmanager.cpp:1234
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
 msgstr[0] "&Slett bruker-ID"
 msgstr[1] "&Slett bruker-IDer"
 
-#: keysmanager.cpp:1241
+#: keysmanager.cpp:1235
 #, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
 msgstr[0] "Slett sign&atur"
 msgstr[1] "Slett sign&aturer"
 
-#: keysmanager.cpp:1242
+#: keysmanager.cpp:1236
 #, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
 msgstr[0] "Importer nøkkel fra nøkkeltjener"
 msgstr[1] "Importer nøkler fra nøkkeltjener"
 
-#: keysmanager.cpp:1243
+#: keysmanager.cpp:1237
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
 msgstr[0] "&Slett nøkkel"
 msgstr[1] "&Slett nøkler"
 
-#: keysmanager.cpp:1366
+#: keysmanager.cpp:1360
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "Det lyktes ikke å lage et sertifikat for tilbakekalling …"
 
-#: keysmanager.cpp:1381
+#: keysmanager.cpp:1375
 #, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2246,17 +2246,17 @@ msgstr ""
 "annen kan få tak i denne fila, så er kryptering med denne nøkkelen "
 "kompromittert.<br/>Fortsette nøkkeleksport?</qt>"
 
-#: keysmanager.cpp:1393
+#: keysmanager.cpp:1387
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "Eksporter PRIVAT NØKKEL som"
 
-#: keysmanager.cpp:1393
+#: keysmanager.cpp:1387
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr "*.asc|*.asc filer"
 
-#: keysmanager.cpp:1411
+#: keysmanager.cpp:1405
 #, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
@@ -2265,7 +2265,7 @@ msgstr ""
 "<qt>Din <b>private</b> nøkkel «%1» ble vellykket eksportert til <br/>%2.<br/"
 "><b>Ikke etterlat den</b> på et utrygt sted.</qt>"
 
-#: keysmanager.cpp:1414
+#: keysmanager.cpp:1408
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2274,7 +2274,7 @@ msgstr ""
 "Din hemmelige nøkkel kunne ikke eksporteres.\n"
 "Sjekk nøkkelen."
 
-#: keysmanager.cpp:1516
+#: keysmanager.cpp:1510
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
@@ -2283,7 +2283,7 @@ msgstr[0] ""
 msgstr[1] ""
 "<qt>De %1 offentlige nøklene ble eksportert som de skulle til <br/>%2</qt>"
 
-#: keysmanager.cpp:1520 keysmanager.cpp:1535 keysmanager.cpp:1549
+#: keysmanager.cpp:1514 keysmanager.cpp:1529 keysmanager.cpp:1543
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2292,7 +2292,7 @@ msgstr ""
 "Din offentlige nøkkel kunne ikke eksporteres\n"
 "Sjekk nøkkelen."
 
-#: keysmanager.cpp:1658
+#: keysmanager.cpp:1652
 #, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
@@ -2302,27 +2302,27 @@ msgstr ""
 "offentlig nøkkel). Den kan for tiden ikke brukes.</p><p>Vil du gjenskape den "
 "offentlige nøkkelen?</p>"
 
-#: keysmanager.cpp:1660
+#: keysmanager.cpp:1654
 #, kde-format
 msgid "Generate"
 msgstr "Lag"
 
-#: keysmanager.cpp:1660
+#: keysmanager.cpp:1654
 #, kde-format
 msgid "Do Not Generate"
 msgstr "Ikke lag"
 
-#: keysmanager.cpp:1690
+#: keysmanager.cpp:1684
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Er du sikker på at du vil slette gruppe <b>%1</b> ?</qt>"
 
-#: keysmanager.cpp:1691 keysmanager.cpp:2361
+#: keysmanager.cpp:1685 keysmanager.cpp:2355
 #, kde-format
 msgid "Delete"
 msgstr "Slett"
 
-#: keysmanager.cpp:1721
+#: keysmanager.cpp:1715
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2331,24 +2331,24 @@ msgstr ""
 "<qt>Du kan ikke opprette en gruppe som inneholder signaturer, undernøkler "
 "eller andre grupper.</qt>"
 
-#: keysmanager.cpp:1736 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1730 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr "%1 (%2) ID: %3"
 
-#: keysmanager.cpp:1741
+#: keysmanager.cpp:1735
 #, kde-format
 msgid "Create New Group"
 msgstr "Opprett ny gruppe"
 
-#: keysmanager.cpp:1742
+#: keysmanager.cpp:1736
 #, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "Oppgi navn på ny gruppe:"
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1741
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
@@ -2357,7 +2357,7 @@ msgstr ""
 "Følgende nøkler er ikke gyldige eller ikke tiltrodde, og blir ikke lagt til "
 "gruppa:"
 
-#: keysmanager.cpp:1753
+#: keysmanager.cpp:1747
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2366,17 +2366,17 @@ msgstr ""
 "<qt>Ingen tiltrodde eller gyldige nøkler ble valgt. Gruppa <b>%1</b> blir "
 "ikke opprettet.</qt>"
 
-#: keysmanager.cpp:1765
+#: keysmanager.cpp:1759
 #, kde-format
 msgid "Group Properties"
 msgstr "Gruppeegenskaper"
 
-#: keysmanager.cpp:1801
+#: keysmanager.cpp:1795
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "Du kan bare signere primærnøkler. Sjekk utvalget."
 
-#: keysmanager.cpp:1810
+#: keysmanager.cpp:1804
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2389,7 +2389,7 @@ msgstr ""
 "ringe til eller møte nøkkelens eier for å forsikre deg om at det ikke er "
 "noen som forsøker å fange opp meldingene dine.</qt>"
 
-#: keysmanager.cpp:1815
+#: keysmanager.cpp:1809
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2402,20 +2402,20 @@ msgstr ""
 "å ringe til eller møte nøkkelens eier for å forsikre deg om at det ikke er "
 "noen som forsøker å fange opp meldingene dine.</qt>"
 
-#: keysmanager.cpp:1830 keysmanager.cpp:1914 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1832 keysmanager.cpp:1917 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr "%1 (%2): %3"
 
-#: keysmanager.cpp:1838
+#: keysmanager.cpp:1832
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2426,13 +2426,13 @@ msgstr ""
 "har nøye undersøkt alle fingeravtrykkene, kan sikkerheten i meldingene dine "
 "stå på spill.</b></qt>"
 
-#: keysmanager.cpp:1880 keysmanager.cpp:2027
+#: keysmanager.cpp:1874 keysmanager.cpp:2021
 #, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr ""
 "Du kan bare signere bruker-ID-er og foto-ID-er. Kontroller hva du har valgt."
 
-#: keysmanager.cpp:1894
+#: keysmanager.cpp:1888
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2445,7 +2445,7 @@ msgstr ""
 "ved å ringe til eller møte nøkkelens eier for å forsikre deg om at det ikke "
 "er noen som forsøker å fange opp meldingene dine.</qt>"
 
-#: keysmanager.cpp:1898
+#: keysmanager.cpp:1892
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2458,7 +2458,7 @@ msgstr ""
 "ved å ringe til eller møte nøkkelens eier for å forsikre deg om at det ikke "
 "er noen som forsøker å fange opp meldingene dine.</qt>"
 
-#: keysmanager.cpp:1924
+#: keysmanager.cpp:1918
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2469,17 +2469,17 @@ msgstr ""
 "ikke har nøye undersøkt alle fingeravtrykkene, kan sikkerheten i meldingene "
 "dine stå på spill</b></qt>"
 
-#: keysmanager.cpp:1993
+#: keysmanager.cpp:1987
 #, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>Dårlig passord, nøkkel <b>%1 (%2)</b> ikke signert.</qt>"
 
-#: keysmanager.cpp:1997
+#: keysmanager.cpp:1991
 #, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>Nøkkelen <b>%1 (%2)</b> er allerede signert.</qt>"
 
-#: keysmanager.cpp:2002
+#: keysmanager.cpp:1996
 #, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
@@ -2488,19 +2488,19 @@ msgstr ""
 "<qt>Det lyktes ikke å signere nøkkel <b>%1</b> med nøkkel <b>%2</b>. <br /"
 ">Vil du forsøke å signere nøkkelen i konsollmodus? </qt>"
 
-#: keysmanager.cpp:2120
+#: keysmanager.cpp:2114
 #, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "Alle signaturer for denne nøkkelen er alt på nøkkelknippet ditt"
 msgstr[1] "Alle signaturer for disse nøklene er alt på nøkkelknippet ditt"
 
-#: keysmanager.cpp:2207
+#: keysmanager.cpp:2201
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "Rediger nøkkelen manuelt for å slette en egen-signaturen."
 
-#: keysmanager.cpp:2211
+#: keysmanager.cpp:2205
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
@@ -2509,12 +2509,12 @@ msgstr ""
 "<qt>Er du sikker på at du vil slette signaturen <br/><b>%1</b> <br /> fra "
 "bruker-id: <b>%2</b><br />i nøkkel: <b>%3</b>?</qt>"
 
-#: keysmanager.cpp:2233
+#: keysmanager.cpp:2227
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "Etterspurt operasjon var mislykket, rediger nøkkelen manuelt."
 
-#: keysmanager.cpp:2317
+#: keysmanager.cpp:2311
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2529,14 +2529,14 @@ msgstr[1] ""
 "<qt>Nøkkelen du sletter er et medlem i følgende nøkkelgrupper. Vil du fjerne "
 "den fra disse gruppene?</qt>"
 
-#: keysmanager.cpp:2321 keysmanager.cpp:2335 keysmanager.cpp:2370
-#: keysmanager.cpp:2385 keysmanager.cpp:2388 keysmanager.cpp:2399
-#: keysmanager.cpp:2413 keysmanager.cpp:2454
+#: keysmanager.cpp:2315 keysmanager.cpp:2329 keysmanager.cpp:2364
+#: keysmanager.cpp:2379 keysmanager.cpp:2382 keysmanager.cpp:2393
+#: keysmanager.cpp:2407 keysmanager.cpp:2448
 #, kde-format
 msgid "Delete key"
 msgstr "Slett nøkkel"
 
-#: keysmanager.cpp:2334
+#: keysmanager.cpp:2328
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
@@ -2545,7 +2545,7 @@ msgstr ""
 "Du sletter nå  den siste nøkkelen fra nøkkelgruppe %1.\n"
 "Vil du slette gruppa også?"
 
-#: keysmanager.cpp:2358
+#: keysmanager.cpp:2352
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2555,7 +2555,7 @@ msgstr ""
 "nøkkelparet vil du aldri mer kunne dekryptere filer som er kryptert med "
 "denne nøkkelen."
 
-#: keysmanager.cpp:2369 keysmanager.cpp:2398
+#: keysmanager.cpp:2363 keysmanager.cpp:2392
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2564,23 +2564,23 @@ msgstr ""
 "En annen nøkkelsletting pågår ennå.\n"
 "Vent litt til denne handlinga er fullført."
 
-#: keysmanager.cpp:2385
+#: keysmanager.cpp:2379
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "Nøkkel <b>%1</b> slettet."
 
-#: keysmanager.cpp:2388
+#: keysmanager.cpp:2382
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "Klarte ikke å slette nøkkel <b>%1</b>."
 
-#: keysmanager.cpp:2412
+#: keysmanager.cpp:2406
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 "Kan ikke slette nøkkel <b>%1</b> mens den blir redigert i et terminalvindu."
 
-#: keysmanager.cpp:2453
+#: keysmanager.cpp:2447
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
@@ -2589,7 +2589,7 @@ msgstr ""
 "Du har valgt elementer som ikke er nøkler. De kan ikke slettes med denne "
 "menyoppføringa."
 
-#: keysmanager.cpp:2478
+#: keysmanager.cpp:2472
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2598,24 +2598,24 @@ msgstr ""
 "<qt>Følgende er hemmelige nøkkelpar: <br/><b>%1</b> <br />De vil ikke bli "
 "slettet.</qt>"
 
-#: keysmanager.cpp:2488
+#: keysmanager.cpp:2482
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>Slette den følgende offentlige nøkkelen?</b></qt>"
 msgstr[1] "<qt><b>Slette de følgende %1 offentlige nøklene?</b></qt>"
 
-#: keysmanager.cpp:2519 keysmanager.cpp:2595 keysmanager.cpp:2606
+#: keysmanager.cpp:2513 keysmanager.cpp:2589 keysmanager.cpp:2600
 #, kde-format
 msgid "Key Import"
 msgstr "Nøkkelimport"
 
-#: keysmanager.cpp:2527
+#: keysmanager.cpp:2521
 #, kde-format
 msgid "Open File"
 msgstr "Åpne fil"
 
-#: keysmanager.cpp:2560
+#: keysmanager.cpp:2554
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2624,52 +2624,52 @@ msgstr ""
 "<qt>Teksten på utklippstavla ser ikke ut som en nøkkel, men som kryptert "
 "tekst.<br /> Vil du dekryptere den først, og så forsøke å importere den?</qt>"
 
-#: keysmanager.cpp:2562
+#: keysmanager.cpp:2556
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "Importer fra utklippstavla"
 
-#: keysmanager.cpp:2582
+#: keysmanager.cpp:2576
 #, kde-format
 msgid "Importing..."
 msgstr "Importerer …"
 
-#: keysmanager.cpp:2594
+#: keysmanager.cpp:2588
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr "Nøkkelimportering lyktes ikke, Se detaljert log for mer informasjon."
 
-#: keysmanager.cpp:2647
+#: keysmanager.cpp:2641
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg – krypteringsverktøy"
 
-#: keysmanager.cpp:2668
+#: keysmanager.cpp:2662
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "Nø&kkelhåndtering"
 
-#: keysmanager.cpp:2671
+#: keysmanager.cpp:2665
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "Krypt&er utklippstavla"
 
-#: keysmanager.cpp:2674
+#: keysmanager.cpp:2668
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&Dekrypter utklippstavla"
 
-#: keysmanager.cpp:2677
+#: keysmanager.cpp:2671
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&Signer/verifiser utklippstavla"
 
-#: keysmanager.cpp:2714 keysmanager.cpp:2817 keysmanager.cpp:2835
+#: keysmanager.cpp:2708 keysmanager.cpp:2811 keysmanager.cpp:2829
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Utklippstavla er tom."
 
-#: keysmanager.cpp:2759
+#: keysmanager.cpp:2753
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "Teksten er kryptert uten feil."
