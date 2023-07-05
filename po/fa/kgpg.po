@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Lokalize 1.2\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -80,6 +80,7 @@ msgid_plural ""
 "No mail was sent for the following user ids because they belong to keys "
 "without encryption capability:"
 msgstr[0] ""
+msgstr[1] ""
 
 #: caff.cpp:179
 #, kde-format
@@ -88,6 +89,7 @@ msgid ""
 msgid_plural ""
 "No mail was sent for the following user ids because they were already signed:"
 msgstr[0] ""
+msgstr[1] ""
 
 #: caff.cpp:312
 #, kde-format
@@ -982,6 +984,7 @@ msgstr ""
 msgid "1 key"
 msgid_plural "%1 keys"
 msgstr[0] "زیرکلید %1"
+msgstr[1] ""
 
 #: core/KGpgKeyNode.cpp:72
 #, kde-format
@@ -994,6 +997,7 @@ msgstr ""
 msgid "1 signature"
 msgid_plural "%1 signatures"
 msgstr[0] "امضا"
+msgstr[1] ""
 
 #: core/KGpgNode.cpp:43
 #, kde-format
@@ -1756,6 +1760,7 @@ msgstr " کلیدهای تطابق %1 را یافت"
 msgid "Found 1 matching key"
 msgid_plural "Found %1 matching keys"
 msgstr[0] " کلیدهای تطابق %1 را یافت"
+msgstr[1] ""
 
 #: keyservers.cpp:378
 #, fuzzy, kde-format
@@ -2175,12 +2180,14 @@ msgstr ""
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
 msgstr[0] "&امضای کلیدها...‌"
+msgstr[1] ""
 
 #: keysmanager.cpp:1229
 #, fuzzy, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "&امضای کلیدها...‌"
+msgstr[1] ""
 
 #: keysmanager.cpp:1230
 #, fuzzy, kde-format
@@ -2188,6 +2195,7 @@ msgstr[0] "&امضای کلیدها...‌"
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
 msgstr[0] "&صادرات کلیدهای عمومی...‌"
+msgstr[1] ""
 
 #: keysmanager.cpp:1231
 #, fuzzy, kde-format
@@ -2195,6 +2203,7 @@ msgstr[0] "&صادرات کلیدهای عمومی...‌"
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "&بازآوری کلیدها از کارساز کلید‌"
+msgstr[1] ""
 
 #: keysmanager.cpp:1232
 #, fuzzy, kde-format
@@ -2202,6 +2211,7 @@ msgstr[0] "&بازآوری کلیدها از کارساز کلید‌"
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "&ایجاد گروه با کلیدهای برگزیده...‌"
+msgstr[1] ""
 
 #: keysmanager.cpp:1233
 #, fuzzy, kde-format
@@ -2209,6 +2219,7 @@ msgstr[0] "&ایجاد گروه با کلیدهای برگزیده...‌"
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
 msgstr[0] "&امضای کلیدها...‌"
+msgstr[1] ""
 
 #: keysmanager.cpp:1234
 #, fuzzy, kde-format
@@ -2216,6 +2227,7 @@ msgstr[0] "&امضای کلیدها...‌"
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
 msgstr[0] "&حذف شناسه کاربر‌"
+msgstr[1] ""
 
 #: keysmanager.cpp:1235
 #, fuzzy, kde-format
@@ -2223,6 +2235,7 @@ msgstr[0] "&حذف شناسه کاربر‌"
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
 msgstr[0] "حذف &امضا‌"
+msgstr[1] ""
 
 #: keysmanager.cpp:1236
 #, fuzzy, kde-format
@@ -2230,6 +2243,7 @@ msgstr[0] "حذف &امضا‌"
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
 msgstr[0] "واردات کلید از کارساز کلید"
+msgstr[1] ""
 
 #: keysmanager.cpp:1237
 #, fuzzy, kde-format
@@ -2237,6 +2251,7 @@ msgstr[0] "واردات کلید از کارساز کلید"
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
 msgstr[0] "&حذف کلیدها‌"
+msgstr[1] ""
 
 #: keysmanager.cpp:1360
 #, kde-format
@@ -2288,6 +2303,7 @@ msgstr ""
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
 msgstr[0] "کلید عمومی‌ شما، »%1« با موفقیت صادر شد.\n"
+msgstr[1] ""
 
 #: keysmanager.cpp:1514 keysmanager.cpp:1529 keysmanager.cpp:1543
 #, kde-format
@@ -2499,6 +2515,7 @@ msgstr ""
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "در حال حاضر، همه امضاهای این کلید در حلقه کلید شما وجود دارند"
+msgstr[1] ""
 
 #: keysmanager.cpp:2201
 #, kde-format
@@ -2528,6 +2545,7 @@ msgid_plural ""
 "<qt>The key you are deleting is a member of the following key groups. Do you "
 "want to remove it from these groups?</qt>"
 msgstr[0] ""
+msgstr[1] ""
 
 #: keysmanager.cpp:2315 keysmanager.cpp:2329 keysmanager.cpp:2364
 #: keysmanager.cpp:2379 keysmanager.cpp:2382 keysmanager.cpp:2393
@@ -2594,10 +2612,11 @@ msgstr ""
 "<qt>موارد زیر زوج کلیدهای سری هستند:<br/><b>%1</b>آنها حذف نمی‌شوند.</qt>"
 
 #: keysmanager.cpp:2482
-#, kde-format
+#, fuzzy, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>%1 کلید عمومی زیر حذف شوند؟</b></qt>"
+msgstr[1] ""
 
 #: keysmanager.cpp:2513 keysmanager.cpp:2589 keysmanager.cpp:2600
 #, kde-format
@@ -3125,6 +3144,7 @@ msgstr "روش فشرده‌سازی‌ برای بایگانی:"
 msgid "Decryption of this file failed:"
 msgid_plural "Decryption of these files failed:"
 msgstr[0] "خرابی در سرگشایی."
+msgstr[1] ""
 
 #: kgpgexternalactions.cpp:424
 #, fuzzy, kde-format
@@ -3864,12 +3884,14 @@ msgstr "اعتبار:"
 msgid "1 Key"
 msgid_plural "%1 Keys"
 msgstr[0] "کلید"
+msgstr[1] ""
 
 #: model/kgpgitemmodel.cpp:284
 #, fuzzy, kde-format
 msgid "1 Group"
 msgid_plural "%1 Groups"
 msgstr[0] "&گروهها‌"
+msgstr[1] ""
 
 #: model/kgpgitemmodel.cpp:286
 #, kde-format
@@ -3911,6 +3933,7 @@ msgstr ""
 msgid "One Photo ID"
 msgid_plural "%1 Photo IDs"
 msgstr[0] "شناسه عکس‌"
+msgstr[1] ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2)
 #: newkey.ui:20
@@ -4029,6 +4052,7 @@ msgstr "برگزیدن کلید عمومی برای %1"
 msgid "Select Public Key for %2 and one more file"
 msgid_plural "Select Public Key for %2 and %1 more files"
 msgstr[0] "برگزیدن کلید عمومی برای %1"
+msgstr[1] ""
 
 #: selectpublickeydialog.cpp:75
 #, kde-format
@@ -4117,7 +4141,7 @@ msgid "Choose secret key for signing:"
 msgstr "انتخاب کلید سری برای امضا:"
 
 #: selectsecretkey.cpp:64
-#, kde-format
+#, fuzzy, kde-format
 msgid ""
 "How carefully have you checked that the key really belongs to the person "
 "with whom you wish to communicate:"
@@ -4127,6 +4151,7 @@ msgid_plural ""
 msgstr[0] ""
 "تا چه حد در بررسی %1  کلید دقت کرده‌اید؟ آیا واقعاً به فردی که می‌خواهید با او "
 "ارتباط داشته باشید تعلق دارد؟"
+msgstr[1] ""
 
 #: selectsecretkey.cpp:71
 #, kde-format
@@ -4455,6 +4480,7 @@ msgctxt "@info"
 msgid "<para>%1 key processed.</para>"
 msgid_plural "<para>%1 keys processed.</para>"
 msgstr[0] "<qt>%1 کلید پردازش شد.</qt>"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:126
 #, fuzzy, kde-kuit-format
@@ -4464,6 +4490,7 @@ msgctxt "@info"
 msgid "<para>One key without ID.</para>"
 msgid_plural "<para>%1 keys without ID.</para>"
 msgstr[0] "<qt>%1 کلید بدون شناسه.</qt>"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:128
 #, kde-kuit-format
@@ -4472,6 +4499,7 @@ msgid "<para><emphasis strong='true'>One key imported:</emphasis></para>"
 msgid_plural ""
 "<para><emphasis strong='true'>%1 keys imported:</emphasis></para>"
 msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:130
 #, fuzzy, kde-kuit-format
@@ -4481,6 +4509,7 @@ msgctxt "@info"
 msgid "<para>One RSA key imported.</para>"
 msgid_plural "<para>%1 RSA keys imported.</para>"
 msgstr[0] "<qt>%1 کلید RSA وارد شد.</qt>"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:132
 #, fuzzy, kde-kuit-format
@@ -4490,6 +4519,7 @@ msgctxt "@info"
 msgid "<para>One key unchanged.</para>"
 msgid_plural "<para>%1 keys unchanged.</para>"
 msgstr[0] "<qt>%1 کلید تغییر نکرد.</qt>"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:134
 #, fuzzy, kde-kuit-format
@@ -4499,6 +4529,7 @@ msgctxt "@info"
 msgid "<para>One user ID imported.</para>"
 msgid_plural "<para>%1 user IDs imported.</para>"
 msgstr[0] "<qt>%1 شناسه کاربر وارد شد.</qt>"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:136
 #, fuzzy, kde-kuit-format
@@ -4508,6 +4539,7 @@ msgctxt "@info"
 msgid "<para>One subkey imported.</para>"
 msgid_plural "<para>%1 subkeys imported.</para>"
 msgstr[0] "<qt>%1 کلید فرعی وارد شد.</qt>"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:138
 #, fuzzy, kde-kuit-format
@@ -4517,6 +4549,7 @@ msgctxt "@info"
 msgid "<para>One signature imported.</para>"
 msgid_plural "<para>%1 signatures imported.</para>"
 msgstr[0] "<qt>%1 امضا وارد شد.</qt>"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:140
 #, fuzzy, kde-kuit-format
@@ -4526,6 +4559,7 @@ msgctxt "@info"
 msgid "<para>One revocation certificate imported.</para>"
 msgid_plural "<para>%1 revocation certificates imported.</para>"
 msgstr[0] "<qt>%1 گواهی‌ ابطال وارد شد.</qt>"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:142
 #, fuzzy, kde-kuit-format
@@ -4535,6 +4569,7 @@ msgctxt "@info"
 msgid "<para>One secret key processed.</para>"
 msgid_plural "<para>%1 secret keys processed.</para>"
 msgstr[0] "<qt>%1 کلید سری پردازش شد.</qt>"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:144
 #, kde-kuit-format
@@ -4544,6 +4579,7 @@ msgid ""
 msgid_plural ""
 "<para><emphasis strong='true'>%1 secret keys imported.</emphasis></para>"
 msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:146
 #, fuzzy, kde-kuit-format
@@ -4553,6 +4589,7 @@ msgctxt "@info"
 msgid "<para>One secret key unchanged.</para>"
 msgid_plural "<para>%1 secret keys unchanged.</para>"
 msgstr[0] "<qt>%1 کلید سری تغییر نکرد.</qt>"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:148
 #, fuzzy, kde-kuit-format
@@ -4562,6 +4599,7 @@ msgctxt "@info"
 msgid "<para>One secret key not imported.</para>"
 msgid_plural "<para>%1 secret keys not imported.</para>"
 msgstr[0] "<qt>%1 کلید سری وارد نشد.</qt>"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:151
 #, fuzzy, kde-kuit-format
@@ -4599,6 +4637,7 @@ msgstr ""
 msgid "New Key"
 msgid_plural "New Keys"
 msgstr[0] "کلید"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:224
 #, fuzzy, kde-format
@@ -4606,6 +4645,7 @@ msgstr[0] "کلید"
 msgid "Key with new User Id"
 msgid_plural "Keys with new User Ids"
 msgstr[0] "کلید دیگر استفاده نمی‌شود"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:227
 #, fuzzy, kde-format
@@ -4613,12 +4653,14 @@ msgstr[0] "کلید دیگر استفاده نمی‌شود"
 msgid "Key with new Signatures"
 msgid_plural "Keys with new Signatures"
 msgstr[0] "حذف &امضا‌"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:230
 #, kde-format
 msgid "Key with new Subkeys"
 msgid_plural "Keys with new Subkeys"
 msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:233
 #, fuzzy, kde-format
@@ -4626,12 +4668,14 @@ msgstr[0] ""
 msgid "New Private Key"
 msgid_plural "New Private Keys"
 msgstr[0] "فهرست کلید خصوصی"
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:249
 #, kde-format
 msgid "Unchanged Key"
 msgid_plural "Unchanged Keys"
 msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgkeyservertransaction.cpp:87
 #, kde-format
@@ -4665,6 +4709,7 @@ msgstr "وارد کردن عبارت عبور برای  <b>%1</b>"
 msgid "<p><b>Bad passphrase</b>. You have 1 try left.</p>"
 msgid_plural "<p><b>Bad passphrase</b>. You have %1 tries left.</p>"
 msgstr[0] "<p><b>عبارت عبور بد</b>. %1 بار سعی کردید.</p>"
+msgstr[1] ""
 
 #: transactions/kgpgtransactionprivate.cpp:82
 #, fuzzy, kde-format
