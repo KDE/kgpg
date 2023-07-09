@@ -727,7 +727,7 @@ void KgpgEditor::modified()
 		m_textchanged = !m_editor->toPlainText().isEmpty();
 		if (capt.isEmpty())
 			capt = i18n("Untitled");
-	} else if (!m_textchanged) {
+	} else {
 		m_textchanged = true;
 	}
 	setCaption(capt, m_textchanged);
