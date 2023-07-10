@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:57+0000\n"
+"POT-Creation-Date: 2023-07-10 00:50+0000\n"
 "PO-Revision-Date: 2011-07-22 17:00+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -396,7 +396,7 @@ msgid "Change..."
 msgstr "Promijeni …"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:112
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "Izvršna datoteka GnuPG-a"
@@ -2444,14 +2444,14 @@ msgstr ""
 "ili sastajanjem s vlasnikom ključa kako biste se uvjerili da netko ne "
 "pokušava presresti vašu komunikaciju.</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -3006,7 +3006,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Koristi biranje mišem umjesto klipborda."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Automatski pokreni KGpg pri pokretanju KDE-a."
@@ -3210,12 +3210,12 @@ msgstr "Pokreni pomoćnika"
 msgid "Do Not Start"
 msgstr "Ne pokreći"
 
-#: kgpgfirstassistant.cpp:33
+#: kgpgfirstassistant.cpp:34
 #, kde-format
 msgid "KGpg Assistant"
 msgstr "Pomoćnik KGpg-a"
 
-#: kgpgfirstassistant.cpp:57
+#: kgpgfirstassistant.cpp:58
 #, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3226,17 +3226,17 @@ msgstr ""
 "pravilni rad KGpg-a. Nadalje će vam omogućiti stvaranje vašeg para ključeva "
 "za kriptiranje vaših datoteka i e-pošte."
 
-#: kgpgfirstassistant.cpp:65
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr "Dobrodošli u Pomoćnika KGpg-a"
 
-#: kgpgfirstassistant.cpp:77
+#: kgpgfirstassistant.cpp:78
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg treba znati koju izvršnu datoteku GnuPG-a treba koristiti."
 
-#: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3245,53 +3245,55 @@ msgstr ""
 "Ukoliko ne želite isprobati neuobičajene postavke, kliknite na gumb "
 "\"sljedeće\"."
 
-#: kgpgfirstassistant.cpp:99
-#, kde-format
-msgctxt "search filter for gpg binary"
-msgid ""
-"gpg|GnuPG binary\n"
-"*|All files"
-msgstr ""
-"Izvršna datoteka za gpg|GnuPG\n"
-"*|Sve datoteke"
+#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+msgctxt "search filter name for gpg binary"
+msgid "GnuPG binary"
+msgstr "Globalne postavke"
 
-#: kgpgfirstassistant.cpp:129
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "*|All Files"
+msgid "All files"
+msgstr "*|Sve datoteke"
+
+#: kgpgfirstassistant.cpp:137
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr ""
 "KGpg treba znati gdje je pohranjena vaša konfiguracijska datoteka GnuPG-a."
 
-#: kgpgfirstassistant.cpp:144
+#: kgpgfirstassistant.cpp:152
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "Putanja do konfiguracijske datoteke GnuPG-a:"
 
-#: kgpgfirstassistant.cpp:158
+#: kgpgfirstassistant.cpp:166
 #, kde-format
 msgid "Configuration File"
 msgstr "Konfiguracijska datoteka"
 
-#: kgpgfirstassistant.cpp:168
+#: kgpgfirstassistant.cpp:176
 #, kde-format
 msgid "Your default key:"
 msgstr "Vaš zadan ključ:"
 
-#: kgpgfirstassistant.cpp:187
+#: kgpgfirstassistant.cpp:195
 #, kde-format
 msgid "Default Key"
 msgstr "Zadani ključ"
 
-#: kgpgfirstassistant.cpp:208
+#: kgpgfirstassistant.cpp:216
 #, kde-format
 msgid "Generate new key"
 msgstr "Stvori novi ključ"
 
-#: kgpgfirstassistant.cpp:222
+#: kgpgfirstassistant.cpp:230
 #, kde-format
 msgid "Done"
 msgstr "Završeno"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3300,37 +3302,37 @@ msgstr ""
 "<qt><b>Nije pronađena konfiguracijska datoteka GnuPG-a</b>. Treba li KGpg "
 "pokušati stvoriti konfiguracijsku datoteku?</qt>"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Create Config"
 msgstr "Stvori konfiguraciju"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Do Not Create"
 msgstr "Nemoj stvoriti"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:252
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>Konfiguracijska datoteka GnuPG-a nije pronađena</b>.</qt>"
 
-#: kgpgfirstassistant.cpp:286
+#: kgpgfirstassistant.cpp:294
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "Vaša izvršna datoteka GnuPG-a je: %1"
 
-#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
+#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "Imate GnuPG inačice: %1"
 
-#: kgpgfirstassistant.cpp:308
+#: kgpgfirstassistant.cpp:316
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "Vaš zadan ključ je: %1"
 
-#: kgpgfirstassistant.cpp:359
+#: kgpgfirstassistant.cpp:367
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -4844,6 +4846,14 @@ msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<qt>Potpis je valjan i ključu se bezuvjetno vjeruje<br /></qt>"
 
+#~ msgctxt "search filter for gpg binary"
+#~ msgid ""
+#~ "gpg|GnuPG binary\n"
+#~ "*|All files"
+#~ msgstr ""
+#~ "Izvršna datoteka za gpg|GnuPG\n"
+#~ "*|Sve datoteke"
+
 #~ msgid ""
 #~ "<qt>A viewer for JPEG images is not specified.<br/>Please check your "
 #~ "installation.</qt>"
@@ -5087,10 +5097,6 @@ msgstr "<qt>Potpis je valjan i ključu se bezuvjetno vjeruje<br /></qt>"
 #, fuzzy
 #~ msgid "Import key(s) from keyserver"
 #~ msgstr "Uvezi ključ sa ključ-poslužitelja"
-
-#, fuzzy
-#~ msgid "GnuPG binary"
-#~ msgstr "Globalne postavke"
 
 #, fuzzy
 #~ msgid "<qt>%1 key processed.<br/></qt>"

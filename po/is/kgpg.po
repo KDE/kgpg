@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:57+0000\n"
+"POT-Creation-Date: 2023-07-10 00:50+0000\n"
 "PO-Revision-Date: 2009-06-13 16:13+0000\n"
 "Last-Translator: Sveinn í Felli <sveinki@nett.is>\n"
 "Language-Team: icelandic <kde-isl@molar.is>\n"
@@ -428,7 +428,7 @@ msgid "Change..."
 msgstr "Breyta..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:112
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
 #, fuzzy, kde-format
 #| msgid "GnuPG Settings"
 msgid "GnuPG Binary"
@@ -2540,14 +2540,14 @@ msgstr ""
 "lykileigandann til að fullvissa þig um að enginn sé að reyna að komast inn í "
 "samskipti ykkar.</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
 #: model/keylistproxymodel.cpp:181
 #, fuzzy, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
 #, fuzzy, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -3111,7 +3111,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Nota val með mús í stað klippispjalds"
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
 #, fuzzy, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Ræsa KGpg sjálfvirkt við innskráningu."
@@ -3305,12 +3305,12 @@ msgstr ""
 msgid "Do Not Start"
 msgstr "EKKI treysta"
 
-#: kgpgfirstassistant.cpp:33
+#: kgpgfirstassistant.cpp:34
 #, kde-format
 msgid "KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:57
+#: kgpgfirstassistant.cpp:58
 #, fuzzy, kde-format
 #| msgid ""
 #| "<h1>Welcome to the KGpg Wizard</h1>\n"
@@ -3328,18 +3328,18 @@ msgstr ""
 "eigið lyklapar til að gera þér kleyft að dulrita skrár þínar og "
 "tölvupóstskeyti."
 
-#: kgpgfirstassistant.cpp:65
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:77
+#: kgpgfirstassistant.cpp:78
 #, fuzzy, kde-format
 #| msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg þarf að vita hvað GnuPG stillingaskrárnar þínar eru geymdar."
 
-#: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3348,54 +3348,58 @@ msgstr ""
 "Ef þú vilt ekki prófa einhverjar óvenjulegar stillingar, skaltu smella á "
 "\"næsta\" hnappinn."
 
-#: kgpgfirstassistant.cpp:99
+#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
 #, fuzzy, kde-format
 #| msgid "GnuPG Settings"
-msgctxt "search filter for gpg binary"
-msgid ""
-"gpg|GnuPG binary\n"
-"*|All files"
+msgctxt "search filter name for gpg binary"
+msgid "GnuPG binary"
 msgstr "GnuPG stillingar"
 
-#: kgpgfirstassistant.cpp:129
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "*|All Files"
+msgid "All files"
+msgstr "*|Allar skrár"
+
+#: kgpgfirstassistant.cpp:137
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "KGpg þarf að vita hvað GnuPG stillingaskrárnar þínar eru geymdar."
 
-#: kgpgfirstassistant.cpp:144
+#: kgpgfirstassistant.cpp:152
 #, fuzzy, kde-format
 #| msgid "<br>Path to your GnuPG options file:"
 msgid "Path to your GnuPG configuration file:"
 msgstr "<br>Slóð að GnuPG stillingaskrám:"
 
-#: kgpgfirstassistant.cpp:158
+#: kgpgfirstassistant.cpp:166
 #, fuzzy, kde-format
 #| msgid "Configuration file:"
 msgid "Configuration File"
 msgstr "Stillingaskrá:"
 
-#: kgpgfirstassistant.cpp:168
+#: kgpgfirstassistant.cpp:176
 #, kde-format
 msgid "Your default key:"
 msgstr "Sjálfgefni lykillinn þinn:"
 
-#: kgpgfirstassistant.cpp:187
+#: kgpgfirstassistant.cpp:195
 #, fuzzy, kde-format
 msgid "Default Key"
 msgstr "&Eyða lyklum (i)"
 
-#: kgpgfirstassistant.cpp:208
+#: kgpgfirstassistant.cpp:216
 #, fuzzy, kde-format
 msgid "Generate new key"
 msgstr "Bý til lyklapar."
 
-#: kgpgfirstassistant.cpp:222
+#: kgpgfirstassistant.cpp:230
 #, fuzzy, kde-format
 #| msgid "none"
 msgid "Done"
 msgstr "engin"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>The GnuPG configuration file was not found</b>. Please make sure "
@@ -3407,40 +3411,40 @@ msgstr ""
 "<qt><b>GnuPG stillingaskráin fannst ekki</b>. Vinsamlega fullvissaðu þig um "
 "að GnuPG sé innsett. Á KGpg að reyna að búa til stillingaskránna ?</qt>"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 msgid "Create Config"
 msgstr "Búin til"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 msgid "Do Not Create"
 msgstr "Búa til"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:252
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:286
+#: kgpgfirstassistant.cpp:294
 #, fuzzy, kde-format
 #| msgid "GnuPG Settings"
 msgid "Your GnuPG binary is: %1"
 msgstr "GnuPG stillingar"
 
-#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
+#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
 #, fuzzy, kde-format
 #| msgid "You have GnuPG version:"
 msgid "You have GnuPG version: %1"
 msgstr "Þú ert með GnuPG útgáfu:"
 
-#: kgpgfirstassistant.cpp:308
+#: kgpgfirstassistant.cpp:316
 #, fuzzy, kde-format
 #| msgid "Your default key:"
 msgid "Your default key is: %1"
 msgstr "Sjálfgefni lykillinn þinn:"
 
-#: kgpgfirstassistant.cpp:359
+#: kgpgfirstassistant.cpp:367
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -4896,6 +4900,14 @@ msgstr "<qt>%2 undirskrift flutt inn.<br></qt>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<qt>%2 undirskrift flutt inn.<br></qt>"
+
+#, fuzzy
+#~| msgid "GnuPG Settings"
+#~ msgctxt "search filter for gpg binary"
+#~ msgid ""
+#~ "gpg|GnuPG binary\n"
+#~ "*|All files"
+#~ msgstr "GnuPG stillingar"
 
 #, fuzzy
 #~| msgid "No Photo"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:57+0000\n"
+"POT-Creation-Date: 2023-07-10 00:50+0000\n"
 "PO-Revision-Date: 2007-09-06 15:42+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -431,7 +431,7 @@ msgid "Change..."
 msgstr "परिवर्तन गर्नुहोस्..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:112
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "GnuPG बाइनरी"
@@ -2572,14 +2572,14 @@ msgstr ""
 "%3</b><br><br>तपाईँले सञ्चारमा अन्य व्यक्तिद्वारा अवरोध नहोस् भनेर निश्चित हुन कुञ्जी "
 "मालिकलाई फोन गरेर वा भेटेर कुञ्जी औठाछाप जाँच गर्नु पर्दछ ।</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr ""
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -3157,7 +3157,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "क्लिपबोर्डको सट्टामा माउस चयन प्रयोग गर्नुहोस् ।"
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "केडीई सुरुआतमा स्वचालित रूपमा KGpg सुरु गर्नुहोस् ।"
@@ -3358,12 +3358,12 @@ msgstr ""
 msgid "Do Not Start"
 msgstr "सुरु नगर्नुहोस्"
 
-#: kgpgfirstassistant.cpp:33
+#: kgpgfirstassistant.cpp:34
 #, kde-format
 msgid "KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:57
+#: kgpgfirstassistant.cpp:58
 #, fuzzy, kde-format
 #| msgid ""
 #| "<h1>Welcome to the KGpg Wizard</h1>\n"
@@ -3380,74 +3380,78 @@ msgstr ""
 "सेटअप गर्नेछ । अनि, यसले तपाईँको फाइल र इमेल गुप्तिकरण गर्न सक्षम पार्दै, तपाईँको आफ्नै "
 "कुञ्जी जोडी सिर्जना गर्न अनुमति दिन्छ ।"
 
-#: kgpgfirstassistant.cpp:65
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:77
+#: kgpgfirstassistant.cpp:78
 #, fuzzy, kde-format
 #| msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg लाई तपाईँको GnuPG कन्फिगरेसन फाइल भण्डारण भएको स्थान थाहा हुन पर्दछ ।"
 
-#: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
 "button."
 msgstr "तपाईँले केही असमान्य सेटिङ चाहनु भएसम्म\"पछिल्लो\" बटनमा क्लिक गर्नुहोस् ।"
 
-#: kgpgfirstassistant.cpp:99
+#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
 #, fuzzy, kde-format
 #| msgid "GnuPG Binary"
-msgctxt "search filter for gpg binary"
-msgid ""
-"gpg|GnuPG binary\n"
-"*|All files"
+msgctxt "search filter name for gpg binary"
+msgid "GnuPG binary"
 msgstr "GnuPG बाइनरी"
 
-#: kgpgfirstassistant.cpp:129
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "*|All Files"
+msgid "All files"
+msgstr "*|सबै फाइल"
+
+#: kgpgfirstassistant.cpp:137
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "KGpg लाई तपाईँको GnuPG कन्फिगरेसन फाइल भण्डारण भएको स्थान थाहा हुन पर्दछ ।"
 
-#: kgpgfirstassistant.cpp:144
+#: kgpgfirstassistant.cpp:152
 #, fuzzy, kde-format
 #| msgid "<br>Path to your GnuPG options file:"
 msgid "Path to your GnuPG configuration file:"
 msgstr "<br>तपाईँको GnuPG विकल्प फाइलमा मार्ग:"
 
-#: kgpgfirstassistant.cpp:158
+#: kgpgfirstassistant.cpp:166
 #, fuzzy, kde-format
 #| msgid "Configuration file:"
 msgid "Configuration File"
 msgstr "कन्फिगरेसन फाइल:"
 
-#: kgpgfirstassistant.cpp:168
+#: kgpgfirstassistant.cpp:176
 #, kde-format
 msgid "Your default key:"
 msgstr "तपाईँको पूर्वनिर्धारित कुञ्जी:"
 
-#: kgpgfirstassistant.cpp:187
+#: kgpgfirstassistant.cpp:195
 #, fuzzy, kde-format
 #| msgid "&Delete Keys"
 msgid "Default Key"
 msgstr "कुञ्जी मेट्नुहोस्"
 
-#: kgpgfirstassistant.cpp:208
+#: kgpgfirstassistant.cpp:216
 #, fuzzy, kde-format
 #| msgid "Generating new key pair"
 msgid "Generate new key"
 msgstr "नयाँ कुञ्जी जोडी उत्पन्न गर्दैछ"
 
-#: kgpgfirstassistant.cpp:222
+#: kgpgfirstassistant.cpp:230
 #, fuzzy, kde-format
 #| msgid "none"
 msgid "Done"
 msgstr "कुनै पनि होइन"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>The GnuPG configuration file was not found</b>. Please make sure "
@@ -3459,40 +3463,40 @@ msgstr ""
 "<qt><b>GnuPG कन्फिगरेसन फाइल फेला परेन</b> । कृपया GnuPG स्थापना गरिएको निश्चित "
 "गर्नुहोस् । KGpg ले नयाँ कन्फिग फाइल सिर्जना गर्न प्रयास गर्नुपर्छ ?</qt>"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Create Config"
 msgstr "कन्फिग सिर्जना गर्नुहोस्"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Do Not Create"
 msgstr "सिर्जना नगर्नुहोस्"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:252
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:286
+#: kgpgfirstassistant.cpp:294
 #, fuzzy, kde-format
 #| msgid "GnuPG Binary"
 msgid "Your GnuPG binary is: %1"
 msgstr "GnuPG बाइनरी"
 
-#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
+#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
 #, fuzzy, kde-format
 #| msgid "You have GnuPG version:"
 msgid "You have GnuPG version: %1"
 msgstr "तपाईँसँग GnuPG संस्करण छ:"
 
-#: kgpgfirstassistant.cpp:308
+#: kgpgfirstassistant.cpp:316
 #, fuzzy, kde-format
 #| msgid "Your default key:"
 msgid "Your default key is: %1"
 msgstr "तपाईँको पूर्वनिर्धारित कुञ्जी:"
 
-#: kgpgfirstassistant.cpp:359
+#: kgpgfirstassistant.cpp:367
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -5025,6 +5029,14 @@ msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "हस्ताक्षर वैध छ र कुञ्जी अन्तिममा विश्वासिलो छ"
 
 #, fuzzy
+#~| msgid "GnuPG Binary"
+#~ msgctxt "search filter for gpg binary"
+#~ msgid ""
+#~ "gpg|GnuPG binary\n"
+#~ "*|All files"
+#~ msgstr "GnuPG बाइनरी"
+
+#, fuzzy
 #~| msgid "No Photo"
 #~ msgid "Show photo"
 #~ msgstr "फोटो छैन"
@@ -5316,11 +5328,6 @@ msgstr "हस्ताक्षर वैध छ र कुञ्जी अन�
 #~| msgid "Import Key From Keyserver"
 #~ msgid "Import key(s) from keyserver"
 #~ msgstr "कुञ्जी सर्भरबाट कुञ्जी आयात गर्नुहोस्"
-
-#, fuzzy
-#~| msgid "GnuPG Binary"
-#~ msgid "GnuPG binary"
-#~ msgstr "GnuPG बाइनरी"
 
 #, fuzzy
 #~| msgid "<qt>%1 key processed.<br></qt>"

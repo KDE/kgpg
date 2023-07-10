@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:57+0000\n"
+"POT-Creation-Date: 2023-07-10 00:50+0000\n"
 "PO-Revision-Date: 2021-09-09 21:46+0200\n"
 "Last-Translator: Martin Schlander <mschlander@opensuse.org>\n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -397,7 +397,7 @@ msgid "Change..."
 msgstr "Ændr..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:112
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "GnuPG-program"
@@ -2407,14 +2407,14 @@ msgstr ""
 "tilsikre, at der ikke er nogen der forsøger at opsnappe jeres kommunikation</"
 "qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -2983,7 +2983,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Brug musemarkeringen i stedet for udklipsholderen."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Start KGpg automatisk ved KDE-opstart."
@@ -3180,12 +3180,12 @@ msgstr "Start guide"
 msgid "Do Not Start"
 msgstr "Start ikke"
 
-#: kgpgfirstassistant.cpp:33
+#: kgpgfirstassistant.cpp:34
 #, kde-format
 msgid "KGpg Assistant"
 msgstr "KGpg-guide"
 
-#: kgpgfirstassistant.cpp:57
+#: kgpgfirstassistant.cpp:58
 #, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3196,17 +3196,17 @@ msgstr ""
 "KGpg kan virke rigtigt. Dernæst vil den lade dig oprette dit eget nøglepar, "
 "hvilket gør dig i stand til at kryptere dine filer og e-mail."
 
-#: kgpgfirstassistant.cpp:65
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr "Velkommen til KGpg-guiden"
 
-#: kgpgfirstassistant.cpp:77
+#: kgpgfirstassistant.cpp:78
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg har brug for at vide hvilket GnuPG-program der skal bruges."
 
-#: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3215,52 +3215,55 @@ msgstr ""
 "Tryk blot på knappen \"Næste\" medmindre du vil prøve nogle usædvanlige "
 "indstillinger."
 
-#: kgpgfirstassistant.cpp:99
-#, kde-format
-msgctxt "search filter for gpg binary"
-msgid ""
-"gpg|GnuPG binary\n"
-"*|All files"
-msgstr ""
-"gpg|GnuPG-program\n"
-"*|Alle filer"
+#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "GnuPG binary"
+msgctxt "search filter name for gpg binary"
+msgid "GnuPG binary"
+msgstr "GnuPG-program"
 
-#: kgpgfirstassistant.cpp:129
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "*|All Files"
+msgid "All files"
+msgstr "*|Alle filer"
+
+#: kgpgfirstassistant.cpp:137
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "KGpg har brug for at vide hvor din GnuPG-konfigurationsfil opbevares."
 
-#: kgpgfirstassistant.cpp:144
+#: kgpgfirstassistant.cpp:152
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "Sti til din GnuPG-konfigurationsfil:"
 
-#: kgpgfirstassistant.cpp:158
+#: kgpgfirstassistant.cpp:166
 #, kde-format
 msgid "Configuration File"
 msgstr "Konfigurationsfil"
 
-#: kgpgfirstassistant.cpp:168
+#: kgpgfirstassistant.cpp:176
 #, kde-format
 msgid "Your default key:"
 msgstr "Din standardnøgle:"
 
-#: kgpgfirstassistant.cpp:187
+#: kgpgfirstassistant.cpp:195
 #, kde-format
 msgid "Default Key"
 msgstr "Standardnøgle"
 
-#: kgpgfirstassistant.cpp:208
+#: kgpgfirstassistant.cpp:216
 #, kde-format
 msgid "Generate new key"
 msgstr "Generér ny nøgle"
 
-#: kgpgfirstassistant.cpp:222
+#: kgpgfirstassistant.cpp:230
 #, kde-format
 msgid "Done"
 msgstr "Færdig"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3269,37 +3272,37 @@ msgstr ""
 "<qt><b>GnuPG-konfigurationsfilen blev ikke fundet</b>. Skal KGpg prøve at "
 "lave en konfigurationsfil?</qt>"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Create Config"
 msgstr "Opret konfiguration"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Do Not Create"
 msgstr "Opret ikke"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:252
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>GnuPG-konfigurationsfilen blev ikke fundet</b>.</qt>"
 
-#: kgpgfirstassistant.cpp:286
+#: kgpgfirstassistant.cpp:294
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "Dit GnuPG-program er: %1"
 
-#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
+#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "Du har GnuPG-version: %1"
 
-#: kgpgfirstassistant.cpp:308
+#: kgpgfirstassistant.cpp:316
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "Din standardnøgle er: %1"
 
-#: kgpgfirstassistant.cpp:359
+#: kgpgfirstassistant.cpp:367
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -4729,6 +4732,14 @@ msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Signaturen er gyldig og nøglen er ultimativt betroet</para>"
 
+#~ msgctxt "search filter for gpg binary"
+#~ msgid ""
+#~ "gpg|GnuPG binary\n"
+#~ "*|All files"
+#~ msgstr ""
+#~ "gpg|GnuPG-program\n"
+#~ "*|Alle filer"
+
 #~ msgid ""
 #~ "<qt>A viewer for JPEG images is not specified.<br/>Please check your "
 #~ "installation.</qt>"
@@ -5056,9 +5067,6 @@ msgstr "<para>Signaturen er gyldig og nøglen er ultimativt betroet</para>"
 
 #~ msgid "Import key(s) from keyserver"
 #~ msgstr "Importér nøgle(r) fra nøgleserver"
-
-#~ msgid "GnuPG binary"
-#~ msgstr "GnuPG-program"
 
 #~ msgid "Key server"
 #~ msgstr "Nøgleserver"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:57+0000\n"
+"POT-Creation-Date: 2023-07-10 00:50+0000\n"
 "PO-Revision-Date: 2023-02-26 16:45+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -400,7 +400,7 @@ msgid "Change..."
 msgstr "Canvia..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:112
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "Executable de GnuPG"
@@ -2421,14 +2421,14 @@ msgstr ""
 "propietari per a assegurar-vos que ningú està intentant interceptar les "
 "vostres comunicacions.</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -3012,7 +3012,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Utilitza la selecció del ratolí en comptes del porta-retalls."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Inicia KGpg automàticament en iniciar KDE."
@@ -3211,12 +3211,12 @@ msgstr "Inicia l'assistent"
 msgid "Do Not Start"
 msgstr "No inicies"
 
-#: kgpgfirstassistant.cpp:33
+#: kgpgfirstassistant.cpp:34
 #, kde-format
 msgid "KGpg Assistant"
 msgstr "Assistent de KGpg"
 
-#: kgpgfirstassistant.cpp:57
+#: kgpgfirstassistant.cpp:58
 #, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3228,19 +3228,19 @@ msgstr ""
 "vostre propi parell de claus, capacitant-vos per a encriptar els vostres "
 "fitxers i missatges de correu electrònic."
 
-#: kgpgfirstassistant.cpp:65
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr "Us donem la benvinguda a l'assistent de KGpg"
 
-#: kgpgfirstassistant.cpp:77
+#: kgpgfirstassistant.cpp:78
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr ""
 "KGpg necessita saber a on està el fitxer executable de GnuPG que "
 "s'utilitzarà."
 
-#: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3249,53 +3249,56 @@ msgstr ""
 "A menys que vulgueu provar algunes opcions poc usuals, senzillament cliqueu "
 "damunt del botó «següent»."
 
-#: kgpgfirstassistant.cpp:99
-#, kde-format
-msgctxt "search filter for gpg binary"
-msgid ""
-"gpg|GnuPG binary\n"
-"*|All files"
-msgstr ""
-"gpg|Executable de GnuPG\n"
-"*|Tots els fitxers"
+#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "GnuPG Binary"
+msgctxt "search filter name for gpg binary"
+msgid "GnuPG binary"
+msgstr "Executable de GnuPG"
 
-#: kgpgfirstassistant.cpp:129
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "*|All Files"
+msgid "All files"
+msgstr "*|Tots els fitxers"
+
+#: kgpgfirstassistant.cpp:137
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr ""
 "KGpg necessita saber a on està el vostre fitxer de configuració de GnuPG."
 
-#: kgpgfirstassistant.cpp:144
+#: kgpgfirstassistant.cpp:152
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "Camí cap al fitxer de configuració de GnuPG:"
 
-#: kgpgfirstassistant.cpp:158
+#: kgpgfirstassistant.cpp:166
 #, kde-format
 msgid "Configuration File"
 msgstr "Fitxer de configuració"
 
-#: kgpgfirstassistant.cpp:168
+#: kgpgfirstassistant.cpp:176
 #, kde-format
 msgid "Your default key:"
 msgstr "La vostra clau predeterminada:"
 
-#: kgpgfirstassistant.cpp:187
+#: kgpgfirstassistant.cpp:195
 #, kde-format
 msgid "Default Key"
 msgstr "Clau predeterminada"
 
-#: kgpgfirstassistant.cpp:208
+#: kgpgfirstassistant.cpp:216
 #, kde-format
 msgid "Generate new key"
 msgstr "Genera una clau nova"
 
-#: kgpgfirstassistant.cpp:222
+#: kgpgfirstassistant.cpp:230
 #, kde-format
 msgid "Done"
 msgstr "Fet"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3304,37 +3307,37 @@ msgstr ""
 "<qt><b>No s'ha trobat el fitxer de configuració de GnuPG</b>. S'hauria "
 "d'intentar crear un fitxer de configuració de KGpg?</qt>"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Create Config"
 msgstr "Crea la configuració"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Do Not Create"
 msgstr "No crees"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:252
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>No s'ha trobat el fitxer de configuració de GnuPG</b>.</qt>"
 
-#: kgpgfirstassistant.cpp:286
+#: kgpgfirstassistant.cpp:294
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "L'executable de GnuPG és: %1"
 
-#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
+#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "Teniu la versió de GnuPG: %1"
 
-#: kgpgfirstassistant.cpp:308
+#: kgpgfirstassistant.cpp:316
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "La vostra clau predeterminada és: %1"
 
-#: kgpgfirstassistant.cpp:359
+#: kgpgfirstassistant.cpp:367
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -4773,3 +4776,11 @@ msgstr "<para>La signatura és vàlida, però la clau no és de confiança</para
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>La signatura és vàlida i la clau és de confiança absoluta</para>"
+
+#~ msgctxt "search filter for gpg binary"
+#~ msgid ""
+#~ "gpg|GnuPG binary\n"
+#~ "*|All files"
+#~ msgstr ""
+#~ "gpg|Executable de GnuPG\n"
+#~ "*|Tots els fitxers"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:57+0000\n"
+"POT-Creation-Date: 2023-07-10 00:50+0000\n"
 "PO-Revision-Date: 2021-03-19 09:36-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
@@ -403,7 +403,7 @@ msgid "Change..."
 msgstr "Alterar..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:112
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "Executável do GnuPG"
@@ -2429,14 +2429,14 @@ msgstr ""
 "da chave para ter certeza de que ninguém está tentando interceptar suas "
 "comunicações.</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -3017,7 +3017,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Usar a seleção do mouse em vez da área de transferência."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Iniciar o KGpg automaticamente durante a inicialização do KDE."
@@ -3219,12 +3219,12 @@ msgstr "Iniciar o assistente"
 msgid "Do Not Start"
 msgstr "Não iniciar"
 
-#: kgpgfirstassistant.cpp:33
+#: kgpgfirstassistant.cpp:34
 #, kde-format
 msgid "KGpg Assistant"
 msgstr "Assistente do KGpg"
 
-#: kgpgfirstassistant.cpp:57
+#: kgpgfirstassistant.cpp:58
 #, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3236,17 +3236,17 @@ msgstr ""
 "ele irá possibilitar a criação do seu próprio par de chaves, permitindo-lhe "
 "criptografar os seus arquivos e e-mails."
 
-#: kgpgfirstassistant.cpp:65
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr "Bem-vindo ao assistente do KGpg"
 
-#: kgpgfirstassistant.cpp:77
+#: kgpgfirstassistant.cpp:78
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "O KGpg precisa saber qual arquivo executável do GnuPG deve usar."
 
-#: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3255,55 +3255,58 @@ msgstr ""
 "A menos que deseje usar algumas configurações incomuns, apenas clique no "
 "botão \"Próximo\"."
 
-#: kgpgfirstassistant.cpp:99
-#, kde-format
-msgctxt "search filter for gpg binary"
-msgid ""
-"gpg|GnuPG binary\n"
-"*|All files"
-msgstr ""
-"gpg|Executável do GnuPG\n"
-"*|Todos os arquivos"
+#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "GnuPG Binary"
+msgctxt "search filter name for gpg binary"
+msgid "GnuPG binary"
+msgstr "Executável do GnuPG"
 
-#: kgpgfirstassistant.cpp:129
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "*|All Files"
+msgid "All files"
+msgstr "*|Todos os arquivos"
+
+#: kgpgfirstassistant.cpp:137
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr ""
 "O KGpg precisa saber onde seu arquivo de configuração do GnuPG está "
 "armazenado."
 
-#: kgpgfirstassistant.cpp:144
+#: kgpgfirstassistant.cpp:152
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "Caminho para o seu arquivo de configuração do GnuPG:"
 
-#: kgpgfirstassistant.cpp:158
+#: kgpgfirstassistant.cpp:166
 #, kde-format
 msgid "Configuration File"
 msgstr "Arquivo de configuração"
 
-#: kgpgfirstassistant.cpp:168
+#: kgpgfirstassistant.cpp:176
 #, kde-format
 msgid "Your default key:"
 msgstr "Sua chave padrão:"
 
-#: kgpgfirstassistant.cpp:187
+#: kgpgfirstassistant.cpp:195
 #, kde-format
 msgid "Default Key"
 msgstr "Chave padrão"
 
-#: kgpgfirstassistant.cpp:208
+#: kgpgfirstassistant.cpp:216
 #, kde-format
 msgid "Generate new key"
 msgstr "Gerar nova chave"
 
 # UTILIZEI ESTA TRADUÇÃO PORQUE LOGO EM SEGUIDA É NECESSÁRIO CLICAR NO BOTÃO CONCLUIR, FICANDO INCOERENTE.
-#: kgpgfirstassistant.cpp:222
+#: kgpgfirstassistant.cpp:230
 #, kde-format
 msgid "Done"
 msgstr "Pronto"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3312,37 +3315,37 @@ msgstr ""
 "<qt><b>O arquivo de configuração do GnuPG não foi encontrado</b>. O KGpg "
 "deve tentar criar um arquivo de configuração?</qt>"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Create Config"
 msgstr "Criar configuração"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Do Not Create"
 msgstr "Não criar"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:252
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>O arquivo de configuração do GnuPG não foi encontrado</b>.</qt>"
 
-#: kgpgfirstassistant.cpp:286
+#: kgpgfirstassistant.cpp:294
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "O seu executável do GnuPG é: %1"
 
-#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
+#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "Você possui a versão %1 do GnuPG"
 
-#: kgpgfirstassistant.cpp:308
+#: kgpgfirstassistant.cpp:316
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "Sua chave padrão é: %1"
 
-#: kgpgfirstassistant.cpp:359
+#: kgpgfirstassistant.cpp:367
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -4783,6 +4786,14 @@ msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr ""
 "<para>A assinatura é válida e a chave é definitivamente confiável</para>"
+
+#~ msgctxt "search filter for gpg binary"
+#~ msgid ""
+#~ "gpg|GnuPG binary\n"
+#~ "*|All files"
+#~ msgstr ""
+#~ "gpg|Executável do GnuPG\n"
+#~ "*|Todos os arquivos"
 
 #~ msgid ""
 #~ "<qt>A viewer for JPEG images is not specified.<br/>Please check your "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:57+0000\n"
+"POT-Creation-Date: 2023-07-10 00:50+0000\n"
 "PO-Revision-Date: 2008-12-19 10:25+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -353,7 +353,7 @@ msgid "Change..."
 msgstr "ផ្លាស់ប្ដូរ..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:112
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
 #, fuzzy, kde-format
 msgid "GnuPG Binary"
 msgstr "គោល​ពីរ"
@@ -2255,14 +2255,14 @@ msgstr ""
 "<qt> អ្នក ដល់<br /><br /><br /> លេខ​សម្គាល់<br /> ស្នាម​ម្រាមដៃ​<br /><b></b><br /"
 "><br /> អ្នក ដោយ ឬ ដល់ ជា ដល់</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
 #: model/keylistproxymodel.cpp:181
 #, fuzzy, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1 (%2)"
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
 #, fuzzy, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -2768,7 +2768,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "ប្រើ នៃ​ ក្តារ​តម្បៀត​ខ្ទាស់."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
 #, fuzzy, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "ចាប់ផ្ដើម នៅ KDE."
@@ -2952,12 +2952,12 @@ msgstr ""
 msgid "Do Not Start"
 msgstr "កុំ​ចាប់ផ្ដើម"
 
-#: kgpgfirstassistant.cpp:33
+#: kgpgfirstassistant.cpp:34
 #, kde-format
 msgid "KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:57
+#: kgpgfirstassistant.cpp:58
 #, fuzzy, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -2965,104 +2965,107 @@ msgid ""
 "pair, enabling you to encrypt your files and emails."
 msgstr "<h1> ស្វាគមន៍ ដល់ អ្នក​ជំនួយ​ការ​​</h1> ទី​មួយ សម្រាប់ ដល់ បន្ទាប់ ដល់ ដល់ និង."
 
-#: kgpgfirstassistant.cpp:65
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:77
+#: kgpgfirstassistant.cpp:78
 #, fuzzy, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "ដល់ ជា."
 
-#: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
 #, fuzzy, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
 "button."
 msgstr "ដល់ លើ."
 
-#: kgpgfirstassistant.cpp:99
+#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
 #, fuzzy, kde-format
-msgctxt "search filter for gpg binary"
-msgid ""
-"gpg|GnuPG binary\n"
-"*|All files"
+msgctxt "search filter name for gpg binary"
+msgid "GnuPG binary"
 msgstr "គោល​ពីរ"
 
-#: kgpgfirstassistant.cpp:129
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+msgid "All files"
+msgstr "*|ឯកសារ​ទាំង​អស់"
+
+#: kgpgfirstassistant.cpp:137
 #, fuzzy, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "ដល់ ជា."
 
-#: kgpgfirstassistant.cpp:144
+#: kgpgfirstassistant.cpp:152
 #, fuzzy, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "<br> ផ្លូវ ដល់:"
 
-#: kgpgfirstassistant.cpp:158
+#: kgpgfirstassistant.cpp:166
 #, fuzzy, kde-format
 msgid "Configuration File"
 msgstr "​កំណត់​​រចនាសម្ព័ន្ធ:"
 
-#: kgpgfirstassistant.cpp:168
+#: kgpgfirstassistant.cpp:176
 #, fuzzy, kde-format
 msgid "Your default key:"
 msgstr "លំនាំដើម:"
 
-#: kgpgfirstassistant.cpp:187
+#: kgpgfirstassistant.cpp:195
 #, fuzzy, kde-format
 msgid "Default Key"
 msgstr "គ្រាប់​ចុច លុប (Delete)"
 
-#: kgpgfirstassistant.cpp:208
+#: kgpgfirstassistant.cpp:216
 #, fuzzy, kde-format
 msgid "Generate new key"
 msgstr "ថ្មី គ្រាប់​ចុច."
 
-#: kgpgfirstassistant.cpp:222
+#: kgpgfirstassistant.cpp:230
 #, fuzzy, kde-format
 msgid "Done"
 msgstr "គ្មាន"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
 "create a config file ?</qt>"
 msgstr "<qt><b></b> ដល់ a</qt>"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 msgid "Create Config"
 msgstr "បង្កើត"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 msgid "Do Not Create"
 msgstr "កុំ​បង្កើត"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:252
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:286
+#: kgpgfirstassistant.cpp:294
 #, fuzzy, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "គោល​ពីរ"
 
-#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
+#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
 #, fuzzy, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "អ្នក កំណែ:"
 
-#: kgpgfirstassistant.cpp:308
+#: kgpgfirstassistant.cpp:316
 #, fuzzy, kde-format
 msgid "Your default key is: %1"
 msgstr "លំនាំដើម:"
 
-#: kgpgfirstassistant.cpp:359
+#: kgpgfirstassistant.cpp:367
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -4390,6 +4393,13 @@ msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "ជា និង ជា"
 
 #, fuzzy
+#~ msgctxt "search filter for gpg binary"
+#~ msgid ""
+#~ "gpg|GnuPG binary\n"
+#~ "*|All files"
+#~ msgstr "គោល​ពីរ"
+
+#, fuzzy
 #~ msgid "Show photo"
 #~ msgstr "គ្មាន​រូបថត"
 
@@ -4612,10 +4622,6 @@ msgstr "ជា និង ជា"
 #, fuzzy
 #~ msgid "Import key(s) from keyserver"
 #~ msgstr "នាំចូល s ពី"
-
-#, fuzzy
-#~ msgid "GnuPG binary"
-#~ msgstr "គោល​ពីរ"
 
 #, fuzzy
 #~ msgid "<qt>%1 key without ID.<br/></qt>"

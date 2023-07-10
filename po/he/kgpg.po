@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:57+0000\n"
+"POT-Creation-Date: 2023-07-10 00:50+0000\n"
 "PO-Revision-Date: 2017-05-16 07:04-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
@@ -372,7 +372,7 @@ msgid "Change..."
 msgstr "שינוי..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:112
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
 #, fuzzy, kde-format
 msgid "GnuPG Binary"
 msgstr "הגדרות GnuPG"
@@ -2340,14 +2340,14 @@ msgstr ""
 "<br><b>%3</b><br><br> עליך לבדוק את טביעת־האצבע של המפתח בהתקשרות, או בפגישה "
 "עם בעל־המפתח על־מנת לוודא, שאף אחד אינו מנסה ליירט את ההתקשרויות שלך.</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr ""
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -2870,7 +2870,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "השתמש בסימון העכבר במקום לוח העריכה."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "הפעל את KGpg אוטומטית עם הכניסה למערכת."
@@ -3060,12 +3060,12 @@ msgstr ""
 msgid "Do Not Start"
 msgstr "לא להתחיל"
 
-#: kgpgfirstassistant.cpp:33
+#: kgpgfirstassistant.cpp:34
 #, kde-format
 msgid "KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:57
+#: kgpgfirstassistant.cpp:58
 #, fuzzy, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3077,67 +3077,71 @@ msgstr ""
 "מכן, הוא יאפשר לך ליצור זוג מפתחות משלך, ובכך יתיר לך להצפין את קבצים ודוא"
 "\"ל."
 
-#: kgpgfirstassistant.cpp:65
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:77
+#: kgpgfirstassistant.cpp:78
 #, fuzzy, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "תוכנת KGpg צריכה לדעת היכן נשמר קובץ ההגדרות של GnuPG."
 
-#: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
 "button."
 msgstr "אלא אם כן רצונך לנסות דברים יוצאי דופן, לחץ על כפתור ה \"next\"."
 
-#: kgpgfirstassistant.cpp:99
+#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
 #, fuzzy, kde-format
-msgctxt "search filter for gpg binary"
-msgid ""
-"gpg|GnuPG binary\n"
-"*|All files"
+msgctxt "search filter name for gpg binary"
+msgid "GnuPG binary"
 msgstr "הגדרות GnuPG"
 
-#: kgpgfirstassistant.cpp:129
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "*|All Files"
+msgid "All files"
+msgstr "*|כל הקבצים"
+
+#: kgpgfirstassistant.cpp:137
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "תוכנת KGpg צריכה לדעת היכן נשמר קובץ ההגדרות של GnuPG."
 
-#: kgpgfirstassistant.cpp:144
+#: kgpgfirstassistant.cpp:152
 #, fuzzy, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "<br>כתובת בה נמצא קובץ ההגדרות של GnuPG:"
 
-#: kgpgfirstassistant.cpp:158
+#: kgpgfirstassistant.cpp:166
 #, fuzzy, kde-format
 msgid "Configuration File"
 msgstr "קובץ ההגדרות:"
 
-#: kgpgfirstassistant.cpp:168
+#: kgpgfirstassistant.cpp:176
 #, kde-format
 msgid "Your default key:"
 msgstr "מפתח ברירת המחדל:"
 
-#: kgpgfirstassistant.cpp:187
+#: kgpgfirstassistant.cpp:195
 #, fuzzy, kde-format
 msgid "Default Key"
 msgstr "&מחק מפתחות"
 
-#: kgpgfirstassistant.cpp:208
+#: kgpgfirstassistant.cpp:216
 #, fuzzy, kde-format
 msgid "Generate new key"
 msgstr "מייצר זוג מפתחות חדש."
 
-#: kgpgfirstassistant.cpp:222
+#: kgpgfirstassistant.cpp:230
 #, fuzzy, kde-format
 msgid "Done"
 msgstr "כלום"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3146,37 +3150,37 @@ msgstr ""
 "<qt><b>קובץ הגדרות של GnuPG לא נמצא.</b>אנא וודא כי תוכנת GnuPG מותקנת. האם "
 "על KGpg לנסות וליצור קובץ הגדרות חדש?</qt>"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Create Config"
 msgstr "צור תצורה"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Do Not Create"
 msgstr "לא ליצור"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:252
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:286
+#: kgpgfirstassistant.cpp:294
 #, fuzzy, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "הגדרות GnuPG"
 
-#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
+#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
 #, fuzzy, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "אתה בעל גרסת GnuPG:"
 
-#: kgpgfirstassistant.cpp:308
+#: kgpgfirstassistant.cpp:316
 #, fuzzy, kde-format
 msgid "Your default key is: %1"
 msgstr "מפתח ברירת המחדל:"
 
-#: kgpgfirstassistant.cpp:359
+#: kgpgfirstassistant.cpp:367
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -4555,6 +4559,13 @@ msgstr "החתימה תקפה, אבל המפתח לא אמין"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "החתימה תקפה, והמפתח אמין לחלוטין"
+
+#, fuzzy
+#~ msgctxt "search filter for gpg binary"
+#~ msgid ""
+#~ "gpg|GnuPG binary\n"
+#~ "*|All files"
+#~ msgstr "הגדרות GnuPG"
 
 #, fuzzy
 #~ msgid "Show photo"

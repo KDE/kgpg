@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:57+0000\n"
+"POT-Creation-Date: 2023-07-10 00:50+0000\n"
 "PO-Revision-Date: 2008-05-02 13:34+0200\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -383,7 +383,7 @@ msgid "Change..."
 msgstr "Змяніць..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:112
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
 #, fuzzy, kde-format
 msgid "GnuPG Binary"
 msgstr "Параметры GnuPG"
@@ -2403,7 +2403,7 @@ msgstr ""
 "кантрольную суму ў уладальніка ключа па тэлефоне альбо пры асабістай "
 "сустрэчы, каб упэўніцца што ніхто не падрабіў гэты ключ</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
 #: model/keylistproxymodel.cpp:181
 #, fuzzy, kde-format
 #| msgctxt "Name (Comment)"
@@ -2412,7 +2412,7 @@ msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1 (%2)"
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
 #, fuzzy, kde-format
 #| msgctxt "Name (Comment)"
 #| msgid "%1 (%2)"
@@ -2957,7 +2957,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Выкарыстаць вылучэнне мышшу для аперацый з буферам абмену."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
 #, fuzzy, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Запускаць KGpg пры запуску KDE."
@@ -3150,12 +3150,12 @@ msgstr ""
 msgid "Do Not Start"
 msgstr "Не запускаць"
 
-#: kgpgfirstassistant.cpp:33
+#: kgpgfirstassistant.cpp:34
 #, kde-format
 msgid "KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:57
+#: kgpgfirstassistant.cpp:58
 #, fuzzy, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3167,17 +3167,17 @@ msgstr ""
 "пару ключоў, якія дазваляюць вам шыфраваць файлы, электронную пошту і іншую "
 "інфармацыю."
 
-#: kgpgfirstassistant.cpp:65
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:77
+#: kgpgfirstassistant.cpp:78
 #, fuzzy, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "Для KGpg неабходна паказаць размяшчэнне файла канфігурацыі GnuPG."
 
-#: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
 #, fuzzy, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3186,52 +3186,55 @@ msgstr ""
 "Калі вы не жадаеце задзейнічаць рэдка выкарыстоўваныя налады, націсніце "
 "кнопку \"Далей\"."
 
-#: kgpgfirstassistant.cpp:99
+#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
 #, fuzzy, kde-format
-msgctxt "search filter for gpg binary"
-msgid ""
-"gpg|GnuPG binary\n"
-"*|All files"
+msgctxt "search filter name for gpg binary"
+msgid "GnuPG binary"
 msgstr "Параметры GnuPG"
 
-#: kgpgfirstassistant.cpp:129
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+msgid "All files"
+msgstr "*|Усе файлы"
+
+#: kgpgfirstassistant.cpp:137
 #, fuzzy, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "Для KGpg неабходна паказаць размяшчэнне файла канфігурацыі GnuPG."
 
-#: kgpgfirstassistant.cpp:144
+#: kgpgfirstassistant.cpp:152
 #, fuzzy, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "<br>Шлях да файла канфігурацыі GnuPG:"
 
-#: kgpgfirstassistant.cpp:158
+#: kgpgfirstassistant.cpp:166
 #, fuzzy, kde-format
 msgid "Configuration File"
 msgstr "Файл канфігурацыі:"
 
-#: kgpgfirstassistant.cpp:168
+#: kgpgfirstassistant.cpp:176
 #, fuzzy, kde-format
 msgid "Your default key:"
 msgstr "Ваш ключ па змаўчанні:"
 
-#: kgpgfirstassistant.cpp:187
+#: kgpgfirstassistant.cpp:195
 #, fuzzy, kde-format
 msgid "Default Key"
 msgstr "Выдаліць ключы"
 
-#: kgpgfirstassistant.cpp:208
+#: kgpgfirstassistant.cpp:216
 #, fuzzy, kde-format
 msgid "Generate new key"
 msgstr "Ствараецца новая пара ключоў."
 
-#: kgpgfirstassistant.cpp:222
+#: kgpgfirstassistant.cpp:230
 #, fuzzy, kde-format
 #| msgctxt "no email address"
 #| msgid "none"
 msgid "Done"
 msgstr "няма"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3241,37 +3244,37 @@ msgstr ""
 "усталяваная карэктна. Выкарыстаць Kgpg для стварэння гэтага канфігурацыйнага "
 "файла?</qt>"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 msgid "Create Config"
 msgstr "Стварыць файл налад"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 msgid "Do Not Create"
 msgstr "Не ствараць"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:252
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:286
+#: kgpgfirstassistant.cpp:294
 #, fuzzy, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "Параметры GnuPG"
 
-#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
+#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
 #, fuzzy, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "Вы выкарыстаеце GnuPG версіі:"
 
-#: kgpgfirstassistant.cpp:308
+#: kgpgfirstassistant.cpp:316
 #, fuzzy, kde-format
 msgid "Your default key is: %1"
 msgstr "Ваш ключ па змаўчанні:"
 
-#: kgpgfirstassistant.cpp:359
+#: kgpgfirstassistant.cpp:367
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -4802,6 +4805,13 @@ msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "Подпіс дакладная і давер ключу абсалютнае"
 
 #, fuzzy
+#~ msgctxt "search filter for gpg binary"
+#~ msgid ""
+#~ "gpg|GnuPG binary\n"
+#~ "*|All files"
+#~ msgstr "Параметры GnuPG"
+
+#, fuzzy
 #~| msgid "No Photo"
 #~ msgid "Show photo"
 #~ msgstr "Няма фота"
@@ -5100,10 +5110,6 @@ msgstr "Подпіс дакладная і давер ключу абсалют�
 #, fuzzy
 #~ msgid "Import key(s) from keyserver"
 #~ msgstr "Імпарт ключа з сервера"
-
-#, fuzzy
-#~ msgid "GnuPG binary"
-#~ msgstr "Параметры GnuPG"
 
 #, fuzzy
 #~ msgid "<qt>%1 key processed.<br/></qt>"

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:57+0000\n"
+"POT-Creation-Date: 2023-07-10 00:50+0000\n"
 "PO-Revision-Date: 2021-01-18 19:22+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -427,7 +427,7 @@ msgid "Change..."
 msgstr "மாற்று..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:112
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
 #, fuzzy, kde-format
 #| msgid "GnuPG Settings"
 msgid "GnuPG Binary"
@@ -2564,14 +2564,14 @@ msgstr ""
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr ""
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -3154,7 +3154,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "இடைநிலைக்கு பதிலாக சுட்டியை பயன் படுத வேண்டும்"
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "கேடியியை துவக்கும்போது KGpgயை தானக துவக்கவும்."
@@ -3351,12 +3351,12 @@ msgstr ""
 msgid "Do Not Start"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:33
+#: kgpgfirstassistant.cpp:34
 #, kde-format
 msgid "KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:57
+#: kgpgfirstassistant.cpp:58
 #, fuzzy, kde-format
 #| msgid ""
 #| "<h1>Welcome to the KGpg Wizard</h1>\n"
@@ -3373,18 +3373,18 @@ msgstr ""
 "அமைக்கும். அடுத்து, உங்கள் மின் அஞ்சல்களையும் மற்ரும் கோப்புகளையும் மறையாக்கமாக்க செயல்படுத்த "
 "உங்கள் சொந்த விசை ஜோடியை உருவாக்க அனுமதிக்கும். ."
 
-#: kgpgfirstassistant.cpp:65
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:77
+#: kgpgfirstassistant.cpp:78
 #, fuzzy, kde-format
 #| msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "GnuPG  உள்ளமைவு கோப்பு எங்கு சேமிக்கப்பட்டுள்ள்து எண்பது KGpgக்கு தெரியவேண்டும்   "
 
-#: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3392,55 +3392,59 @@ msgid ""
 msgstr ""
 "வழக்கத்திர்குமாராக் அமைப்புகளை பயன்படுத்த வெண்டும் என்றல், \"அடுத்து\" விசையை அழுத்தவும்."
 
-#: kgpgfirstassistant.cpp:99
+#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
 #, fuzzy, kde-format
 #| msgid "GnuPG Settings"
-msgctxt "search filter for gpg binary"
-msgid ""
-"gpg|GnuPG binary\n"
-"*|All files"
+msgctxt "search filter name for gpg binary"
+msgid "GnuPG binary"
 msgstr "GnuPG அமைப்புகள்"
 
-#: kgpgfirstassistant.cpp:129
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "*|All Files"
+msgid "All files"
+msgstr "*|அனைத்துக் கோப்பு"
+
+#: kgpgfirstassistant.cpp:137
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "GnuPG  உள்ளமைவு கோப்பு எங்கு சேமிக்கப்பட்டுள்ள்து எண்பது KGpgக்கு தெரியவேண்டும்   "
 
-#: kgpgfirstassistant.cpp:144
+#: kgpgfirstassistant.cpp:152
 #, fuzzy, kde-format
 #| msgid "<br>Path to your GnuPG options file:"
 msgid "Path to your GnuPG configuration file:"
 msgstr "<br>GnuPG விருப்பத்தேர்வு கோபின் வழி "
 
-#: kgpgfirstassistant.cpp:158
+#: kgpgfirstassistant.cpp:166
 #, fuzzy, kde-format
 #| msgid "Configuration file:"
 msgid "Configuration File"
 msgstr "உள்ளமைவின் கோப்பு:  "
 
-#: kgpgfirstassistant.cpp:168
+#: kgpgfirstassistant.cpp:176
 #, kde-format
 msgid "Your default key:"
 msgstr "உங்கள் முன்னிருப்பு விசை:"
 
-#: kgpgfirstassistant.cpp:187
+#: kgpgfirstassistant.cpp:195
 #, fuzzy, kde-format
 #| msgid "&Delete Keys"
 msgid "Default Key"
 msgstr "&விசைகளை நீக்கு"
 
-#: kgpgfirstassistant.cpp:208
+#: kgpgfirstassistant.cpp:216
 #, fuzzy, kde-format
 msgid "Generate new key"
 msgstr "புதிய விசையின் இணை உருவாக்கு"
 
-#: kgpgfirstassistant.cpp:222
+#: kgpgfirstassistant.cpp:230
 #, fuzzy, kde-format
 #| msgid "none"
 msgid "Done"
 msgstr "எதுவும் இல்லை"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>The GnuPG configuration file was not found</b>. Please make sure "
@@ -3452,40 +3456,40 @@ msgstr ""
 "<qt><b>GnuPG கட்டமைப்புக்கோப்பைக் காணவில்லை</b>. . KGpg  கட்டாயமாக கட்டமைப்புக்கோப்பை "
 "உருவாக்க வேண்டுமா?</qt>"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 msgid "Create Config"
 msgstr "உருவாக்கம்"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 msgid "Do Not Create"
 msgstr "உருவாக்குதல்"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:252
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:286
+#: kgpgfirstassistant.cpp:294
 #, fuzzy, kde-format
 #| msgid "GnuPG Settings"
 msgid "Your GnuPG binary is: %1"
 msgstr "GnuPG அமைப்புகள்"
 
-#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
+#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
 #, fuzzy, kde-format
 #| msgid "You have GnuPG version:"
 msgid "You have GnuPG version: %1"
 msgstr "நீங்கள் GnuPG பதிப்பு உஙகள் இடம் உள்ளது:"
 
-#: kgpgfirstassistant.cpp:308
+#: kgpgfirstassistant.cpp:316
 #, fuzzy, kde-format
 #| msgid "Your default key:"
 msgid "Your default key is: %1"
 msgstr "உங்கள் முன்னிருப்பு விசை:"
 
-#: kgpgfirstassistant.cpp:359
+#: kgpgfirstassistant.cpp:367
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -4978,6 +4982,14 @@ msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "கையெழுத்து சரியானது,மற்றும் விசை நம்பபட்டது"
 
 #, fuzzy
+#~| msgid "GnuPG Settings"
+#~ msgctxt "search filter for gpg binary"
+#~ msgid ""
+#~ "gpg|GnuPG binary\n"
+#~ "*|All files"
+#~ msgstr "GnuPG அமைப்புகள்"
+
+#, fuzzy
 #~| msgid "No Photo"
 #~ msgid "Show photo"
 #~ msgstr "படம் இல்லை"
@@ -5258,11 +5270,6 @@ msgstr "கையெழுத்து சரியானது,மற்று�
 #~| msgid "Import Key From Keyserver"
 #~ msgid "Import key(s) from keyserver"
 #~ msgstr "விசைவழங்கனிலிருந்து விசையை ஏற்றுமதி செய்"
-
-#, fuzzy
-#~| msgid "GnuPG Settings"
-#~ msgid "GnuPG binary"
-#~ msgstr "GnuPG அமைப்புகள்"
 
 #, fuzzy
 #~ msgid "<qt>%1 key processed.<br/></qt>"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-25 00:57+0000\n"
+"POT-Creation-Date: 2023-07-10 00:50+0000\n"
 "PO-Revision-Date: 2019-02-09 14:22-0800\n"
 "Last-Translator: A S Alam <alam.yellow@gmail.com>\n"
 "Language-Team: Punjabi <punjabi-users@lists.sf.net>\n"
@@ -338,7 +338,7 @@ msgid "Change..."
 msgstr "ਤਬਦੀਲ..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:112
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "GnuPG ਬਾਈਨਰੀ"
@@ -2325,14 +2325,14 @@ msgid ""
 "not trying to intercept your communications.</qt>"
 msgstr ""
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:271
+#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:273
+#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -2847,7 +2847,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "ਕਲਿੱਪਬੋਰਡ ਦੀ ਬਜਾਏ ਮਾਊਸ ਚੋਣ ਦੀ ਵਰਤੋਂ ਕਰੋ।"
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:218
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "KDE ਸ਼ੁਰੂ ਕਰਨ 'ਤੇ KGpg ਨੂੰ ਆਟੋਮੈਟਿਕ ਸ਼ੁਰੂ ਕਰੋ।"
@@ -3046,13 +3046,13 @@ msgstr "ਸਹਾਇਕ ਸ਼ੁਰੂ"
 msgid "Do Not Start"
 msgstr "ਨਾ ਸ਼ੁਰੂ ਕਰੋ"
 
-#: kgpgfirstassistant.cpp:33
+#: kgpgfirstassistant.cpp:34
 #, fuzzy, kde-format
 #| msgid "KGpg assistant"
 msgid "KGpg Assistant"
 msgstr "KGpg ਸਹਾਇਕ"
 
-#: kgpgfirstassistant.cpp:57
+#: kgpgfirstassistant.cpp:58
 #, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3063,69 +3063,72 @@ msgstr ""
 "ਆਪਣਾ ਕੁੰਜੀ ਜੋੜਾ ਤਿਆਰ ਕਰਨ ਲਈ ਸਹਾਇਕ ਹੈ, ਜੋ ਕਿ ਤੁਹਾਨੂੰ ਆਪਣੀਆਂ ਫਾਇਲਾਂ ਅਤੇ ਈ-ਮੇਲਾਂ ਇੰਕ੍ਰਿਪਟ ਕਰਨ "
 "ਦੇ ਯੋਗ ਕਰਦਾ ਹੈ।"
 
-#: kgpgfirstassistant.cpp:65
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr "KGpg ਸਹਾਇਕ ਵਲੋਂ ਜੀ ਆਇਆਂ ਨੂੰ"
 
-#: kgpgfirstassistant.cpp:77
+#: kgpgfirstassistant.cpp:78
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg ਨੂੰ ਇਹ ਜਾਣਨ ਦੀ ਲੋੜ ਹੈ ਕਿ GnuPG ਬਾਈਨਰੀ ਵਰਤਣੀ ਹੈ।"
 
-#: kgpgfirstassistant.cpp:85 kgpgfirstassistant.cpp:122
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
 "button."
 msgstr "ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ ਕੁਝ ਅਸਧਾਰਨ ਸੈਟਿੰਗ ਨਹੀਂ ਕਰਨੀ ਚਾਹੁੰਦੇ, ਉਦੋਂ ਤੱਕ ਸਿਰਫ਼ \"ਅੱਗੇ\" ਨੂੰ ਦਬਾਉਦੇ ਜਾਉ।"
 
-#: kgpgfirstassistant.cpp:99
-#, kde-format
-msgctxt "search filter for gpg binary"
-msgid ""
-"gpg|GnuPG binary\n"
-"*|All files"
-msgstr ""
-"gpg|GnuPG ਬਾਈਨਰੀ\n"
-"*|ਸਭ ਫਾਇਲਾਂ"
+#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "GnuPG binary"
+msgctxt "search filter name for gpg binary"
+msgid "GnuPG binary"
+msgstr "GnuPG ਬਾਈਨਰੀ"
 
-#: kgpgfirstassistant.cpp:129
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#, fuzzy, kde-format
+#| msgid "*|All Files"
+msgid "All files"
+msgstr "*|ਸਭ ਫਾਇਲਾਂ"
+
+#: kgpgfirstassistant.cpp:137
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "KGpg ਨੂੰ ਇਹ ਜਾਣਨ ਦੀ ਲੋੜ ਹੈ ਕਿ ਤੁਹਾਡੀ GnuPG ਸੰਰਚਨਾ ਫਾਇਲ ਕਿੱਥੇ ਸੰਭਾਲੀ ਗਈ ਹੈ।"
 
-#: kgpgfirstassistant.cpp:144
+#: kgpgfirstassistant.cpp:152
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "ਤੁਹਾਡੀ GnuPG ਸੰਰਚਨਾ ਫਾਇਲ ਲਈ ਮਾਰਗ:"
 
-#: kgpgfirstassistant.cpp:158
+#: kgpgfirstassistant.cpp:166
 #, kde-format
 msgid "Configuration File"
 msgstr "ਸੰਰਚਨਾ ਫਾਇਲ"
 
-#: kgpgfirstassistant.cpp:168
+#: kgpgfirstassistant.cpp:176
 #, kde-format
 msgid "Your default key:"
 msgstr "ਤੁਹਾਡੀ ਡਿਫਾਲਟ ਕੁੰਜੀ:"
 
-#: kgpgfirstassistant.cpp:187
+#: kgpgfirstassistant.cpp:195
 #, kde-format
 msgid "Default Key"
 msgstr "ਡਿਫਾਲਟ ਕੁੰਜੀ"
 
-#: kgpgfirstassistant.cpp:208
+#: kgpgfirstassistant.cpp:216
 #, kde-format
 msgid "Generate new key"
 msgstr "ਨਵੀਂ ਕੁੰਜੀ ਬਣਾਓ"
 
-#: kgpgfirstassistant.cpp:222
+#: kgpgfirstassistant.cpp:230
 #, kde-format
 msgid "Done"
 msgstr "ਮੁਕੰਮਲ"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>The GnuPG configuration file was not found</b>. Please make sure "
@@ -3137,37 +3140,37 @@ msgstr ""
 "<qt><b>GnuPG ਸੰਰਚਨਾ ਫਾਇਲ ਨਹੀਂ ਮਿਲੀ ਹੈ।</b>। ਯਕੀਨੀ ਬਣਾਉ ਕਿ GnuPG ਇੰਸਟਾਲ ਹੈ। ਕੀ "
 "KGpg ਨੂੰ ਇੱਕ ਸੰਰਚਨਾ ਫਾਇਲ ਬਣਾਉਣ ਦੀ ਜਤਨ ਕਰਨਾ ਚਾਹੀਦਾ ਹੈ?</qt>"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Create Config"
 msgstr "ਸੰਰਚਨਾ ਬਣਾਓ"
 
-#: kgpgfirstassistant.cpp:236
+#: kgpgfirstassistant.cpp:244
 #, kde-format
 msgid "Do Not Create"
 msgstr "ਨਾ ਬਣਾਓ"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:252
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:286
+#: kgpgfirstassistant.cpp:294
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "ਤੁਹਾਡੀ GunPG ਬਾਈਨਰੀ ਹੈ: %1"
 
-#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
+#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "ਤੁਹਾਡਾ GnuPG ਵਰਜਨ ਹੈ: %1"
 
-#: kgpgfirstassistant.cpp:308
+#: kgpgfirstassistant.cpp:316
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "ਤੁਹਾਡੀ ਡਿਫਾਲਟ ਕੁੰਜੀ: %1"
 
-#: kgpgfirstassistant.cpp:359
+#: kgpgfirstassistant.cpp:367
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -4588,6 +4591,14 @@ msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "ਦਸਤਖਤ ਠੀਕ ਹਨ ਅਤੇ ਕੁੰਜੀ ਵੀ ਪੂਰੀ ਤਰਾਂ ਭਰੋਸੇਯੋਗ ਹੈ"
 
+#~ msgctxt "search filter for gpg binary"
+#~ msgid ""
+#~ "gpg|GnuPG binary\n"
+#~ "*|All files"
+#~ msgstr ""
+#~ "gpg|GnuPG ਬਾਈਨਰੀ\n"
+#~ "*|ਸਭ ਫਾਇਲਾਂ"
+
 #~ msgid "Show photo"
 #~ msgstr "ਫੋਟੋ ਵੇਖੋ"
 
@@ -4830,9 +4841,6 @@ msgstr "ਦਸਤਖਤ ਠੀਕ ਹਨ ਅਤੇ ਕੁੰਜੀ ਵੀ ਪੂ
 
 #~ msgid "Import key(s) from keyserver"
 #~ msgstr "ਕੁੰਜੀ-ਸਰਵਰ ਤੋਂ ਕੁੰਜੀ ਇੰਪੋਰਟ"
-
-#~ msgid "GnuPG binary"
-#~ msgstr "GnuPG ਬਾਈਨਰੀ"
 
 #, fuzzy
 #~| msgid "<qt>%1 key processed.<br></qt>"
