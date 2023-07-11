@@ -13,17 +13,17 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:50+0000\n"
-"PO-Revision-Date: 2021-03-02 08:01+0100\n"
+"PO-Revision-Date: 2023-07-10 07:38+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 2.4.2\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -698,8 +698,8 @@ msgstr ""
 "To je besedilo e-pošte, ki je poslana z dejanjem »Podpiši in pošlji "
 "uporabniški ID.\n"
 "\n"
-"Vsebniki, ki so obdani z znakoma za odstotek (npr. %IDKLJUČA%), bodo za "
-"vsako posamezno e-pošto zamenjani z ustreznim besedilom."
+"Vsebniki, ki so obdani z znakoma za odstotek (npr. %KEYID%), bodo za vsako "
+"posamezno e-pošto zamenjani z ustreznim besedilom."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
 #: conf_servers.ui:25
@@ -2093,7 +2093,7 @@ msgstr "varnostna kopija"
 #, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr ""
-"Opravilo GPG ni dokončalo dela. Ni mogoče ustvariti novega para ključev."
+"Opravilo gpgni dokončalo dela. Ni mogoče ustvariti novega para ključev."
 
 #: keysmanager.cpp:749
 #, kde-format
@@ -3270,17 +3270,15 @@ msgstr ""
 "nastavitve."
 
 #: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "GnuPG Binary"
+#, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
-msgstr "Program GnuPG"
+msgstr "Strojni program GnuPG"
 
 #: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "All files"
-msgstr "*|Vse datoteke"
+msgstr "Vse datoteke"
 
 #: kgpgfirstassistant.cpp:137
 #, kde-format
