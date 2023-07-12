@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:50+0000\n"
-"PO-Revision-Date: 2023-02-15 07:40+0100\n"
+"PO-Revision-Date: 2023-07-11 06:54+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1886,7 +1886,7 @@ msgstr "გასაღებების ახალი წყვილის 
 #: keysmanager.cpp:526
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
-msgstr ""
+msgstr "ექსპერტის რეჟიმისთვის \"konsole\" აპლიკაცია ვერ გავუშვი."
 
 #: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
 #, kde-format
@@ -2018,8 +2018,8 @@ msgstr "ჯგუფის წევრი"
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "მომხმარებლის ID-ის &ხელმოწერა ..."
+msgstr[1] "მომხმარებლის ID-ების &ხელმოწერა ..."
 
 #: keysmanager.cpp:1229
 #, kde-format
@@ -2637,7 +2637,7 @@ msgstr ""
 #: kgpg.kcfg:37
 #, kde-format
 msgid "Allow encryption with untrusted keys."
-msgstr ""
+msgstr "არასანდო გასაღებების დაშიფვრის დაშვება."
 
 #. i18n: ectx: label, entry (AllowUntrustedGroupMembers), group (Encryption)
 #: kgpg.kcfg:41
@@ -2697,25 +2697,25 @@ msgstr "ნდობის მნიშვნელობა გასაღე�
 #: kgpg.kcfg:90
 #, kde-format
 msgid "Show the expiration value in key manager."
-msgstr ""
+msgstr "გასაღებების მმართველში ვადის მნიშვნელობის ჩვენება."
 
 #. i18n: ectx: label, entry (ShowSize), group (General Options)
 #: kgpg.kcfg:94
 #, kde-format
 msgid "Show the size value in key manager."
-msgstr ""
+msgstr "გასაღებების მმართველში ზომის მნიშვნელობის ჩვენება."
 
 #. i18n: ectx: label, entry (ShowCreat), group (General Options)
 #: kgpg.kcfg:98
 #, kde-format
 msgid "Show the creation value in key manager."
-msgstr ""
+msgstr "გასაღებების მმართველში შექმნის მნიშვნელობის ჩვენება."
 
 #. i18n: ectx: label, entry (ShowSecret), group (General Options)
 #: kgpg.kcfg:102
 #, kde-format
 msgid "Show only secret keys in key manager."
-msgstr ""
+msgstr "გასაღებების მმართველში მხოლოდ საიდუმლო გასაღებების ჩვენება."
 
 #. i18n: ectx: label, entry (ShowLongKeyId), group (General Options)
 #: kgpg.kcfg:106
@@ -2795,7 +2795,7 @@ msgstr ""
 #: kgpg.kcfg:187
 #, kde-format
 msgid "Show tip of the day."
-msgstr ""
+msgstr "'დღის რჩევის' ჩვენება."
 
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
 #: kgpg.kcfg:194
@@ -2864,7 +2864,7 @@ msgstr ""
 #: kgpg.kcfg:259
 #, kde-format
 msgid "Use HTTP proxy when available."
-msgstr ""
+msgstr "HTTP პროქსის გამოყენება. თუ ის ხელმისაწვდომია."
 
 #. i18n: ectx: label, entry (EmailTemplate), group (Key Signing)
 #: kgpg.kcfg:266
@@ -2900,8 +2900,8 @@ msgstr "არქივის შეკუმშვის მეთოდი:"
 #, kde-format
 msgid "Decryption of this file failed:"
 msgid_plural "Decryption of these files failed:"
-msgstr[0] "ფაილის გაშიფვრის შეცდომა:"
-msgstr[1] ""
+msgstr[0] "ამ ფაილის გაშიფვრის შეცდომა:"
+msgstr[1] "ამ ფაილების გაშიფვრის შეცდომა:"
 
 #: kgpgexternalactions.cpp:424
 #, kde-format
@@ -2952,17 +2952,15 @@ msgid ""
 msgstr ""
 
 #: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "GnuPG Binary"
+#, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "GnuPG-ის გამშვები ფაილი"
 
 #: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "All files"
-msgstr "*|ყველა ფაილი"
+msgstr "ყველა ფაილი"
 
 #: kgpgfirstassistant.cpp:137
 #, kde-format
@@ -3481,7 +3479,7 @@ msgstr "სერტიფიკაის დაბეჭდვა"
 #: kgpgrevokewidget.ui:121
 #, kde-format
 msgid "Import into keyring"
-msgstr ""
+msgstr "ბრელოკში შემოტანა"
 
 #: main.cpp:39
 #, kde-kuit-format
@@ -3493,7 +3491,7 @@ msgstr "<application>KGpg</application>"
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
-msgstr ""
+msgstr "KGpg - simple მარტივი გრაფიკული ინტერფეისი GnuPG-სთვის"
 
 #: main.cpp:43
 #, kde-kuit-format
@@ -3675,7 +3673,7 @@ msgstr "თქვენს ნაგულისხმებ გასაღე�
 #: newkey.ui:152
 #, kde-format
 msgid "Revocation Certificate"
-msgstr ""
+msgstr "გაუქმების სერტიფიკატი"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: newkey.ui:158
@@ -3846,7 +3844,7 @@ msgstr ""
 #: selectsecretkey.cpp:79
 #, kde-format
 msgid "Local signature (cannot be exported)"
-msgstr ""
+msgstr "ლოკალური ხელმოწერა (გატანა შეუძლებელია)"
 
 #: selectsecretkey.cpp:83
 #, kde-format
@@ -4043,7 +4041,7 @@ msgstr "DSA გასაღების გენერაცია"
 #: transactions/kgpggeneratekey.cpp:156
 #, kde-format
 msgid "Generating ElGamal key"
-msgstr ""
+msgstr "ElGamal გასაღების გენერაცია"
 
 #: transactions/kgpggeneratekey.cpp:158
 #, kde-format
@@ -4087,8 +4085,8 @@ msgstr ""
 msgctxt "@info"
 msgid "<para>%1 key processed.</para>"
 msgid_plural "<para>%1 keys processed.</para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para>%1 გასაღები დამუშავებულია.</para>"
+msgstr[1] "<para>%1 გასაღები დამუშავებულია.</para>"
 
 #: transactions/kgpgimport.cpp:126
 #, kde-kuit-format
@@ -4250,8 +4248,8 @@ msgstr[1] "ახალი პირადი გასაღებები"
 #, kde-format
 msgid "Unchanged Key"
 msgid_plural "Unchanged Keys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "უცვლელი გასაღები"
+msgstr[1] "უცვლელი გასაღები"
 
 #: transactions/kgpgkeyservertransaction.cpp:87
 #, kde-format
