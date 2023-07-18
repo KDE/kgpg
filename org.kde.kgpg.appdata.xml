@@ -13,7 +13,6 @@
   <name xml:lang="de">KGpg</name>
   <name xml:lang="el">KGpg</name>
   <name xml:lang="en-GB">KGpg</name>
-  <name xml:lang="eo">KGpg</name>
   <name xml:lang="es">KGpg</name>
   <name xml:lang="et">KGpg</name>
   <name xml:lang="eu">KGpg</name>
@@ -59,7 +58,6 @@
   <summary xml:lang="de">Verschlüsselungsprogramm</summary>
   <summary xml:lang="el">Εργαλείο κρυπτογράφησης</summary>
   <summary xml:lang="en-GB">Encryption Tool</summary>
-  <summary xml:lang="eo">Ĉifrilo</summary>
   <summary xml:lang="es">Herramienta de cifrado</summary>
   <summary xml:lang="et">Krüptimistööriist</summary>
   <summary xml:lang="eu">Zifratzeko tresna</summary>
@@ -108,7 +106,6 @@
     <p xml:lang="de">KGpg ist eine einfache Bedienungsoberfläche für GnuPG, ein leistungsfähiges Dienstprogramm zur Verschlüsselung. KGpg kann Ihnen bei der Einrichtung und Verwaltung Ihrer Schlüssel und beim Import und Export von Schlüsseln helfen, kann Schlüsselsignaturen, Vertrauensstatus und Ablaufdaten anzeigen.</p>
     <p xml:lang="el">Το KGpg είναι μια απλή διεπαφή για το GnuPG, ένα πανίσχυρο εργαλείο κρυπτογράφησης. Σας βοηθάει να ορίσετε και να διαχειριστείτε τα κλειδιά σας, να κάνετε εισαγωγή και εξαγωγή κλειδιών, να δείτε τις ψηφιακές υπογραφές, την κατάσταση εμπιστοσύνης και τις ημερομηνίες λήξης.</p>
     <p xml:lang="en-GB">KGpg is a simple interface for GnuPG, a powerful encryption utility. It can help you set up and manage your keys, import and export keys, view key signatures, trust status and expiry dates.</p>
-    <p xml:lang="eo">KGpg estas simpla interfaco por GnuPG, potenca ĉifrada utilaĵo. Ĝi povas helpi vin agordi kaj administri viajn ŝlosilojn, importi kaj eksporti ŝlosilojn, rigardi ŝlosilsubskribojn, fidan statuson kaj limdatojn.</p>
     <p xml:lang="es">KGpg es una sencilla interfaz para GnuPG, una potente utilidad de cifrado. Puede ayudarle a configurar y gestionar sus claves, a importar y exportar claves, a ver firmas de claves, su nivel de confianza y sus fechas de expiración.</p>
     <p xml:lang="et">KGpg on võimsa krüptimistööriista GnuPG lihtne graafiline kasutajaliides. See aitab luua ja hallata võtmeid, neid importida ja eksportida, näha võtmete allkirju, usaldusväärsust ja aegumise tähtaega.</p>
     <p xml:lang="eu">KGpg GnuPG-rentzako, zifratzeko baliagarritasun ahaltsu bat, interfaze erraz bat da. Lagunduko dizu zure gakoak ezarri eta kudeatzen, inportatzen eta esportatzen, haien sinadurak, fidagarritasun egoera eta iraungitze datak ikusten.</p>
@@ -159,7 +156,6 @@
       <caption xml:lang="de">Schlüsselverwaltung mit KGpg</caption>
       <caption xml:lang="el">Διαχείριση κλειδιών στο KGpg</caption>
       <caption xml:lang="en-GB">Key management in KGpg</caption>
-      <caption xml:lang="eo">Ŝlosiladministrado en KGpg</caption>
       <caption xml:lang="es">Gestión de claves en KGpg</caption>
       <caption xml:lang="et">Võtmehaldus KGpg-ga</caption>
       <caption xml:lang="eu">Gako kudeaketa KGpg-rekin</caption>
