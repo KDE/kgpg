@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:50+0000\n"
-"PO-Revision-Date: 2023-07-03 11:38\n"
+"PO-Revision-Date: 2023-07-18 11:15\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf5-trunk/messages/kgpg/kgpg.pot\n"
-"X-Crowdin-File-ID: 5730\n"
+"X-Crowdin-File: /kf5-stable/messages/kgpg/kgpg.pot\n"
+"X-Crowdin-File-ID: 4451\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3093,17 +3093,15 @@ msgid ""
 msgstr "除非您打算尝试一些特殊设定，否则只需单击“下一步”按钮。"
 
 #: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "GnuPG Binary"
+#, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "GnuPG 二进制文件"
 
 #: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "All files"
-msgstr "*|所有文件"
+msgstr "所有文件"
 
 #: kgpgfirstassistant.cpp:137
 #, kde-format
@@ -4541,11 +4539,3 @@ msgstr "<para>签名有效，但密钥不受信任</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>签名有效，且密钥是绝对可信的</para>"
-
-#~ msgctxt "search filter for gpg binary"
-#~ msgid ""
-#~ "gpg|GnuPG binary\n"
-#~ "*|All files"
-#~ msgstr ""
-#~ "gpg|GnuPG 二进制文件\n"
-#~ "*|所有文件"
