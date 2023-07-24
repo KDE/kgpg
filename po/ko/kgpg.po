@@ -1,14 +1,14 @@
 # Translation of kgpg to Korean.
 # Copyright (C) 2008 This_file_is_part_of_KDE
 # This file is distributed under the same license as the kdeutils package.
-# Shinjo Park <kde@peremen.name>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2017, 2020, 2021, 2022.
+# Shinjo Park <kde@peremen.name>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2017, 2020, 2021, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:50+0000\n"
-"PO-Revision-Date: 2022-05-15 22:25+0200\n"
+"PO-Revision-Date: 2023-07-23 20:42+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1475,8 +1475,7 @@ msgid ""
 "<qt>The requested key is not present in the keyring anymore.<br />Perhaps it "
 "was deleted by another application</qt>"
 msgstr ""
-"<qt>요청한 키가 키 모음에 없습니다.<br />다른 프로그램이 지웠을 수도 있습니"
-"다.</qt>"
+"<qt>요청한 키가 키 모음에 없습니다.<br />다른 앱이 지웠을 수도 있습니다.</qt>"
 
 #: keyinfodialog.cpp:175
 #, kde-format
@@ -1972,7 +1971,7 @@ msgstr "비밀 키만 표시(&S)"
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
-msgstr "검색 줄에 초점 맞추기"
+msgstr "검색 줄에 포커스 맞추기"
 
 #: keysmanager.cpp:486
 #, kde-format
@@ -1991,7 +1990,7 @@ msgstr "새 키 쌍 생성 중"
 #: keysmanager.cpp:526
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
-msgstr "전문가 모드용 \"konsole\" 프로그램을 시작할 수 없습니다."
+msgstr "전문가 모드용 \"konsole\" 앱을 시작할 수 없습니다."
 
 #: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
 #, kde-format
@@ -2855,7 +2854,7 @@ msgstr "KGpg에서 사용하는 gpg 실행 파일의 경로입니다."
 #: kgpg.kcfg:79
 #, kde-format
 msgid "Is the first time the application runs."
-msgstr "프로그램이 처음으로 실행되었는지 여부입니다."
+msgstr "앱이 처음으로 실행되었는지 여부입니다."
 
 #. i18n: ectx: label, entry (EditorGeometry), group (General Options)
 #: kgpg.kcfg:83
@@ -3138,17 +3137,15 @@ msgid ""
 msgstr "사용자 정의 설정이 필요하지 않다면 \"다음\"을 클릭하십시오."
 
 #: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "GnuPG Binary"
+#, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "GnuPG 실행 파일"
 
 #: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "All files"
-msgstr "*|모든 파일"
+msgstr "모든 파일"
 
 #: kgpgfirstassistant.cpp:137
 #, kde-format
@@ -4308,7 +4305,7 @@ msgid ""
 msgstr ""
 "엔트로피 풀이 바닥나고 있습니다. 충분한 엔트로피가 모일 때까지 키 생성이 중단"
 "됩니다. 마우스 포인터를 휘젓거나 키보드를 난타해서 엔트로피를 만드십시오. 가"
-"장 쉬운 방법은 키 생성이 다시 시작될 때까지 다른 프로그램을 사용하십시오."
+"장 쉬운 방법은 키 생성이 다시 시작될 때까지 다른 앱을 사용하십시오."
 
 #: transactions/kgpggeneratekey.cpp:206
 #, kde-format
