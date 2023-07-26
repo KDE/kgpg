@@ -5,14 +5,14 @@
 # Andrea Rizzi <rizzi@kde.org>, 2004.
 # Giovanni Venturi <jumpyj@tiscali.it>, 2004.
 # Nicola Ruggero <nicola@nxnt.org>, 2005, 2006, 2008, 2009, 2010, 2011, 2012, 2013.
-# Luigi Toscano <luigi.toscano@tiscali.it>, 2015, 2016, 2017, 2021.
+# Luigi Toscano <luigi.toscano@tiscali.it>, 2015, 2016, 2017, 2021, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:50+0000\n"
-"PO-Revision-Date: 2021-03-02 20:19+0100\n"
+"PO-Revision-Date: 2023-07-10 23:09+0200\n"
 "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3256,17 +3256,15 @@ msgstr ""
 "pulsante \"Successivo\"."
 
 #: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "GnuPG Binary"
+#, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "Binario di GnuPG"
 
 #: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "All files"
-msgstr "*|Tutti i file"
+msgstr "Tutti i file"
 
 #: kgpgfirstassistant.cpp:137
 #, kde-format
