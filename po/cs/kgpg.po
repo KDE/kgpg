@@ -3079,17 +3079,15 @@ msgstr ""
 "tlačítko \"Následující\"."
 
 #: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "GnuPG Binary"
+#, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
-msgstr "GnuPG program"
+msgstr ""
 
 #: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "All files"
-msgstr "*|Všechny soubory"
+msgstr "Všechny soubory"
 
 #: kgpgfirstassistant.cpp:137
 #, kde-format
@@ -4589,11 +4587,3 @@ msgstr "<para>Podpis je platný, ale klíč není důvěryhodný</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Podpis je platný a klíč je maximálně důvěryhodný</para>"
-
-#~ msgctxt "search filter for gpg binary"
-#~ msgid ""
-#~ "gpg|GnuPG binary\n"
-#~ "*|All files"
-#~ msgstr ""
-#~ "gpg|GnuPG program\n"
-#~ "*|Všechny soubory"
