@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:50+0000\n"
-"PO-Revision-Date: 2023-06-05 14:29+0200\n"
+"PO-Revision-Date: 2023-07-29 09:39+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.1\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -85,11 +85,11 @@ msgid_plural ""
 "No mail was sent for the following user ids because they belong to keys "
 "without encryption capability:"
 msgstr[0] ""
-"Non se enviou ningunha mensaxe de correo ao seguinte identificador de "
-"usuario porque corresponde a unha chave que non permite cifrado:"
+"Non se enviou ningunha mensaxe de correo ao seguinte identificador de persoa "
+"usuaria porque corresponde a unha chave que non permite cifrado:"
 msgstr[1] ""
 "Non se enviou ningunha mensaxe de correo aos seguintes identificadores de "
-"usuario porque corresponden a unha chave que non permite cifrado:"
+"persoas usuarias porque corresponden a unha chave que non permite cifrado:"
 
 #: caff.cpp:179
 #, kde-format
@@ -98,11 +98,11 @@ msgid ""
 msgid_plural ""
 "No mail was sent for the following user ids because they were already signed:"
 msgstr[0] ""
-"Non se enviou ningunha mensaxe de correo ao seguinte identificador de "
-"usuario porque xa estaba asinado:"
+"Non se enviou ningunha mensaxe de correo ao seguinte identificador de persoa "
+"usuaria porque xa estaba asinado:"
 msgstr[1] ""
 "Non se enviou ningunha mensaxe de correo aos seguintes identificadores de "
-"usuario porque xa estaban asinados:"
+"persoas usuarias porque xa estaban asinados:"
 
 #: caff.cpp:312
 #, kde-format
@@ -132,9 +132,9 @@ msgid ""
 "p></qt>"
 msgstr ""
 "<qt><b>Orde de descifrado personalizada:</b><br />\n"
-"<p>Esta opción permítelle especificar unha orde personalizada para que GPG o "
-"execute cando ocorra o descifrado. (Recoméndase só para usuarios avanzados)."
-"</p></qt>"
+"<p>Esta opción permítelle indicar unha orde personalizada para que GPG o "
+"execute cando ocorra o descifrado. (Recoméndase só para xente con "
+"experiencia).</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4_2)
 #: conf_decryption.ui:55
@@ -147,7 +147,7 @@ msgstr "Orde de descifrado personalizada:"
 #: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:104
 #, kde-format
 msgid "Encryption"
-msgstr "Cifrado"
+msgstr "Cifrado."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AsciiArmor)
 #: conf_encryption.ui:31
@@ -167,7 +167,7 @@ msgstr ""
 #: conf_encryption.ui:34 selectpublickeydialog.cpp:104
 #, kde-format
 msgid "ASCII armored encryption"
-msgstr "Cifrado ASCII armado"
+msgstr "Cifrado ASCII armado."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_PgpExtension)
 #: conf_encryption.ui:42
@@ -181,13 +181,13 @@ msgstr ""
 "<qt><b>Usar a extensión *.pgp para ficheiros cifrados:</b><br />\n"
 "<p>Marque esta opción para engadir unha extensión .pgp a todos os ficheiros "
 "cifrados no canto dunha extensión .gpg. Esta opción fornecerá certa "
-"compatibilidade cos usuarios do programa PGP.</p></qt>"
+"compatibilidade coas persoas usuarias do programa PGP.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PgpExtension)
 #: conf_encryption.ui:45
 #, kde-format
 msgid "Use *.pgp extension for encrypted files"
-msgstr "Usar a extensión *.pgp para os ficheiros cifrados"
+msgstr "Usar a extensión *.pgp para os ficheiros cifrados."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowCustomEncryptionOptions)
 #: conf_encryption.ui:69
@@ -201,7 +201,7 @@ msgstr ""
 "<qt><b>Orde personalizada de cifrado:</b> <br />\n"
 "<p>Cando se activa, amosarase un campo de entrada no diálogo de escolla da "
 "chave, activando a posibilidade de inserir unha orde personalizada para o "
-"cifrado. Esta opción recoméndase só para usuarios con experiencia.</p></qt>"
+"cifrado. Esta opción recoméndase só para xente con experiencia.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowCustomEncryptionOptions)
 #: conf_encryption.ui:72
@@ -221,8 +221,8 @@ msgstr ""
 "<qt><b>Cifrar sempre con:</b><br />\n"
 "<p>Isto garante que todas as mensaxes e ficheiros se cifren coa chave "
 "escollida. Porén, de ter escollida a opción «Cifrar os ficheiros con:», a "
-"chave escollida entón anulará a chave escollida en «Cifrar sempre con:».</"
-"p></qt>"
+"chave escollida entón sobredefinirá a chave escollida en «Cifrar sempre "
+"con:».</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, encrypt_to_always)
 #: conf_encryption.ui:116
@@ -270,7 +270,7 @@ msgstr ""
 #: conf_encryption.ui:138 selectpublickeydialog.cpp:110
 #, kde-format
 msgid "Allow encryption with untrusted keys"
-msgstr "Permitir cifrado con chaves non autenticadas"
+msgstr "Permitir cifrado con chaves non autenticadas."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowUntrustedGroupMembers)
 #: conf_encryption.ui:145
@@ -291,7 +291,7 @@ msgstr ""
 #: conf_encryption.ui:148
 #, kde-format
 msgid "Allow untrusted keys as members of key groups"
-msgstr "Permitir que as chaves non autenticadas formen parte de grupos"
+msgstr "Permitir que as chaves non autenticadas formen parte de grupos."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUserID)
 #: conf_encryption.ui:156
@@ -305,20 +305,21 @@ msgid ""
 "secret keys before being able to decrypt the packets. This can be a lengthy "
 "process depending on the number of secret keys the receiver holds.</p></qt>"
 msgstr ""
-"<qt><b>Agochar a ID de usuario:</b><br />\n"
-"<p>Se marca esta opción retirarase o identificador da chave do destinatario "
-"de todos os paquetes cifrados. A vantaxe: as análises de tráfico dos "
-"paquetes cifrados non se poden realizar tan doadamente porque o destinatario "
-"non se coñece. A desvantaxe: o destinatario dos paquetes cifrados verase "
-"forzado a usar todas as chaves secretas antes de ser quen de descifrar os "
-"paquetes. Isto podería ser un proceso longo dependendo do número de chaves "
-"secretas que posúa o usuario destinatario.</p></qt>"
+"<qt><b>Agochar o identificador de persoa usuaria:</b><br />\n"
+"<p>Se marca esta opción retirarase o identificador da chave da persoa "
+"destinataria de todos os paquetes cifrados. A vantaxe: as análises de "
+"tráfico dos paquetes cifrados non se poden realizar tan doadamente porque a "
+"persoa destinataria non se coñece. A desvantaxe: a persoa destinataria dos "
+"paquetes cifrados verase forzado a usar todas as chaves secretas antes de "
+"ser quen de descifrar os paquetes. Isto podería ser un proceso longo "
+"dependendo do número de chaves secretas que posúa a persoa destinataria.</"
+"p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUserID)
 #: conf_encryption.ui:159 selectpublickeydialog.cpp:119
 #, kde-format
 msgid "Hide user id"
-msgstr "Agochar a id do usuario"
+msgstr "Agochar o identificador de persoa usuaria."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_PgpCompatibility)
 #: conf_encryption.ui:167
@@ -331,14 +332,14 @@ msgid ""
 msgstr ""
 "<qt><b>Compatibilidade con PGP 6:</b><br />\n"
 "<p>Marque esta opción para forzar a GnuPG a que xere paquetes cifrados que "
-"cumpran co estándar PGP 6, na medida do posíbel, de xeito que os usuarios de "
-"GnuPG poidan operar cos usuarios de PGP 6.</p></qt>"
+"cumpran co estándar PGP 6, na medida do posíbel, de xeito que as persoas "
+"usuarias de GnuPG poidan operar coas persoas usuarias de PGP 6.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PgpCompatibility)
 #: conf_encryption.ui:170
 #, kde-format
 msgid "PGP 6 compatibility"
-msgstr "Compatibilidade con PGP 6"
+msgstr "Compatibilidade con PGP 6."
 
 #. i18n: ectx: property (whatsThis), widget (QWidget, GPGConf)
 #: conf_gpg.ui:16
@@ -366,7 +367,7 @@ msgid ""
 "configuration and the keyrings. If you have not changed it this is usually "
 "<em>~/.gnupg/</em></p>"
 msgstr ""
-"<b>Lugar de inicio</b><p>Este é o directorio onde GnuPG garda a súa "
+"<b>Lugar de inicio</b><p>Este é o cartafol onde GnuPG garda a súa "
 "configuración e os chaveiros. Se non o cambiou polo xeral será <em>~/.gnupg/"
 "</em></p>"
 
@@ -385,8 +386,8 @@ msgid ""
 "older versions of GnuPG used <em>options</em>.</p>"
 msgstr ""
 "<b>Ficheiro de configuración</b><p>É o nome do ficheiro de configuración no "
-"directorio indicado en riba. De maneira predeterminada é <em>gnupg.conf</em> "
-"aínda que versións máis vella de GnuPG empregaban <em>options</em>.</p>"
+"cartafol indicado en riba. De maneira predeterminada é <em>gnupg.conf</em> "
+"aínda que versións máis vella de GnuPG usaban <em>options</em>.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5_2_2)
 #: conf_gpg.ui:46
@@ -441,7 +442,7 @@ msgstr ""
 #: conf_gpg.ui:160
 #, kde-format
 msgid "Use GnuPG agent"
-msgstr "Usar o axente de GnuPG"
+msgstr "Usar o axente de GnuPG."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabGlobal)
 #: conf_misc.ui:24
@@ -465,7 +466,7 @@ msgstr ""
 #: conf_misc.ui:36
 #, kde-format
 msgid "Start KGpg automatically at login"
-msgstr "Iniciar KGpg automaticamente ao acceder"
+msgstr "Iniciar KGpg automaticamente ao acceder."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseMouseSelection)
 #: conf_misc.ui:53
@@ -488,7 +489,7 @@ msgstr ""
 #: conf_misc.ui:56
 #, kde-format
 msgid "Use mouse selection instead of clipboard"
-msgstr "Usar a selección do rato no canto do portapapeis"
+msgstr "Usar a selección do rato no canto do portapapeis."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_RemoteFileWarn)
 #: conf_misc.ui:70
@@ -507,14 +508,14 @@ msgid ""
 "Display warning before creating temporary files\n"
 "(only occurs on remote files operations)"
 msgstr ""
-"Mostra un aviso antes de crear ficheiros temporais\n"
-"(Só ocorre con operacións de ficheiros remotos)"
+"Amosa un aviso antes de crear ficheiros temporais\n"
+"(só ocorre con operacións de ficheiros remotos)."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabApplet)
 #: conf_misc.ui:97
 #, kde-format
 msgid "Applet && Menus"
-msgstr "Miniaplicativo e menús"
+msgstr "Miniaplicación e menús"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox11)
 #: conf_misc.ui:103
@@ -582,7 +583,7 @@ msgstr "Activar para os ficheiros cifrados"
 #: conf_misc.ui:201
 #, kde-format
 msgid "System Tray Applet"
-msgstr "Miniaplicativo da área de notificación"
+msgstr "Miniaplicación da área de notificación."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowSystray)
 #: conf_misc.ui:208
@@ -598,7 +599,7 @@ msgstr ""
 #: conf_misc.ui:211
 #, kde-format
 msgid "Show system tray icon"
-msgstr "Amosar a icona na bandexa do sistema"
+msgstr "Amosar a icona na bandexa do sistema."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: conf_misc.ui:223
@@ -640,16 +641,17 @@ msgid ""
 "with every other User Id you signed, only with the first Id you signed or to "
 "not send them at all."
 msgstr ""
-"Aquí pode definir como enviar os identificadores de usuario que non conteñen "
-"un enderezo de correo (como as fotos dos identificadores) ao propietario da "
-"chave. Pode escoller entre envialos co resto de identificadores de usuario "
-"asinados, só co primeiro identificador que asinou, ou non envialos."
+"Aquí pode definir como enviar os identificadores de persoas usuarias que non "
+"conteñen un enderezo de correo (como as fotos dos identificadores) ao "
+"propietario da chave. Pode escoller entre envialos co resto de "
+"identificadores de persoas usuarias asinados, só co primeiro identificador "
+"que asinou, ou non envialos."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: conf_misc.ui:317
 #, kde-format
 msgid "Mailing of User Ids without Email Addresses"
-msgstr "Envío de identificadores de usuario sen enderezo de correo"
+msgstr "Envío de identificadores de persoas usuarias sen enderezo de correo"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MailUats)
 #: conf_misc.ui:325
@@ -685,7 +687,7 @@ msgid ""
 "replaced with the corresponding text for every single mail."
 msgstr ""
 "Este é o texto da mensaxe enviada mediante a acción de «asinar e enviar o "
-"identificador do usuario».\n"
+"identificador de persoa usuaria».\n"
 "\n"
 "As marcas de substitución, rodeadas por símbolos de porcentaxe (por exemplo, "
 "«%KEYID%») substituiranse polo texto correspondente en cada mensaxe enviada."
@@ -707,7 +709,7 @@ msgstr ""
 #: conf_servers.ui:35
 #, kde-format
 msgid "Honor HTTP proxy when available"
-msgstr "Recoñecer ao proxy HTTP cando estea dispoñíbel"
+msgstr "Usar o mandatario de HTTP cando estea dispoñíbel."
 
 #. i18n: ectx: property (text), widget (QPushButton, server_default)
 #: conf_servers.ui:49
@@ -1032,7 +1034,7 @@ msgstr "%1 (%2)"
 #: core/KGpgRefNode.cpp:119 transactions/kgpgtransaction.cpp:277
 #, kde-format
 msgid "[No user id found]"
-msgstr "[Non se atopou un identificador de usuario]"
+msgstr "[Non se atopou un identificador de persoa usuaria]"
 
 #: core/KGpgSignNode.cpp:75
 #, kde-format
@@ -1360,7 +1362,7 @@ msgstr "Chave en falta"
 #: foldercompressjob.cpp:36
 #, kde-format
 msgid "Processing folder compression and encryption"
-msgstr "Estase a procesar a compresión e cifrado do cartafol"
+msgstr "Procesando a compresión e cifrado do cartafol"
 
 #: foldercompressjob.cpp:63 foldercompressjob.cpp:114 foldercompressjob.cpp:133
 #: foldercompressjob.cpp:135 transactions/kgpgtransactionjob.cpp:59
@@ -1507,7 +1509,7 @@ msgctxt ""
 "@option:radio Exports the smallest key possible. Maps to export-minimal "
 "option of gpg"
 msgid "Clean key"
-msgstr "Chave limpa"
+msgstr "Limpar a chave."
 
 #: keyinfodialog.cpp:175
 #, kde-format
@@ -1535,8 +1537,8 @@ msgid ""
 "<qt>The left part is the algorithm used by the <b>signature</b> key. The "
 "right part is the algorithm used by the <b>encryption</b> key.</qt>"
 msgstr ""
-"<qt>A parte esquerda é o algoritmo empregado pola chave de <b>sinatura</b>. "
-"A parte dereita é o algoritmo empregado pola chave de <b>cifrado</b>.</qt>"
+"<qt>A parte esquerda é o algoritmo usado pola chave de <b>sinatura</b>. A "
+"parte dereita é o algoritmo usado pola chave de <b>cifrado</b>.</qt>"
 
 #: keyinfodialog.cpp:217
 #, kde-format
@@ -1604,9 +1606,10 @@ msgstr ""
 "centralizado de chaves PGP/GnuPG conectado a Internet ao que se pode acceder "
 "para obter ou depositar chaves. Escolla na lista despregábel de abaixo para "
 "indicar o servidor que se vai usar.</p> <p>A miúdo estas chaves son de xente "
-"que o usuario non coñece e en consecuencia a autenticidade é dubidosa. "
-"Consulte a sección de «Autenticación por web» do manual de GnuPG para saber "
-"como afronta GnuPG o problema de verificar a autenticidade.</p> </qt>"
+"que a persoa usuaria non coñece e en consecuencia a autenticidade é "
+"dubidosa. Consulte a sección de «Autenticación por web» do manual de GnuPG "
+"para saber como afronta GnuPG o problema de verificar a autenticidade.</p> </"
+"qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
@@ -1624,7 +1627,7 @@ msgid ""
 "GnuPG keys into the local keyring."
 msgstr ""
 "<b>Lista despregábel de servidores de chaves:</b>\n"
-"Permítelle ao usuario escoller o servidor de chaves que ha usar para "
+"Permítelle á persoa usuaria escoller o servidor de chaves que ha usar para "
 "importar chaves PGP/GnuPG no chaveiro local."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel2)
@@ -1658,7 +1661,7 @@ msgstr "Texto para buscar ou ID da chave para importar:"
 #: keyserver.ui:92 keyserver.ui:222
 #, kde-format
 msgid "Honor HTTP proxy:"
-msgstr "Proxy HTTP de Honra:"
+msgstr "Usar o mandatario de HTTP:"
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonsearch)
 #: keyserver.ui:135
@@ -1681,7 +1684,7 @@ msgid ""
 "be exported to the key server selected.</p></qt>"
 msgstr ""
 "<qt><b>Chave a exportar:</b><br />\n"
-"<p>Esta lista despregábel permítelle especificar a chave que se exportará ao "
+"<p>Esta lista despregábel permítelle indicar a chave que se exportará ao "
 "servidor de chaves escollido.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
@@ -1694,7 +1697,7 @@ msgstr "Chave para exportar:"
 #: keyserver.ui:207
 #, kde-format
 msgid "Export attributes (photo id)"
-msgstr "Exportar os atributos (id da foto)"
+msgstr "Exportar os atributos (identificador de foto)."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, Buttonexport)
 #: keyserver.ui:266
@@ -1781,7 +1784,7 @@ msgstr[1] "Atopáronse %1 chaves coincidentes"
 #: keyservers.cpp:378
 #, kde-format
 msgid "Found 1 matching key (not shown)"
-msgstr "Atopouse 1 chave coincidente (non se mostra)"
+msgstr "Atopouse 1 chave coincidente (non se amosa)"
 
 #: keyservers.cpp:380
 #, kde-format
@@ -1861,7 +1864,7 @@ msgstr "Enviar un &correo"
 #: keysmanager.cpp:206
 #, kde-format
 msgid "&Create New Contact in Address Book"
-msgstr "&Crear un novo contacto no caderno de enderezos"
+msgstr "&Crear un novo contacto na axenda de enderezos"
 
 #: keysmanager.cpp:212
 #, kde-format
@@ -1891,7 +1894,7 @@ msgstr "&Engadir unha foto…"
 #: keysmanager.cpp:234
 #, kde-format
 msgid "&Add User Id..."
-msgstr "&Engadir o Id do usuario…"
+msgstr "&Engadir o identificador de persoa usuaria…"
 
 #: keysmanager.cpp:237
 #, kde-format
@@ -1916,7 +1919,7 @@ msgstr "Xerar de &novo a chave pública"
 #: keysmanager.cpp:253
 #, kde-format
 msgid "Set User Id as &Primary"
-msgstr "Pór o ID do usuario como &primario"
+msgstr "Definir o identificador de persoa usuaria como &principal"
 
 #: keysmanager.cpp:257
 #, kde-format
@@ -2014,7 +2017,7 @@ msgstr "&Total"
 #: keysmanager.cpp:343
 #, kde-format
 msgid "&Show Only Secret Keys"
-msgstr "Mo&strar só as chaves secretas"
+msgstr "Amo&sar só as chaves secretas"
 
 #: keysmanager.cpp:443
 #, kde-format
@@ -2034,7 +2037,7 @@ msgstr ""
 #: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
 #, kde-format
 msgid "Generating new key pair"
-msgstr "Estase a xerar un novo par de chaves"
+msgstr "Xerando un novo par de chaves"
 
 #: keysmanager.cpp:526
 #, kde-format
@@ -2055,7 +2058,8 @@ msgstr "Frase de paso incorrecta. Non se pode xerar o novo par de chaves."
 #: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
-msgstr "Interrompido polo usuario. Non se pode xerar o novo par de chaves."
+msgstr ""
+"Interrompido pola persoa usuaria. Non se pode xerar o novo par de chaves."
 
 #: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:200
 #, kde-format
@@ -2089,7 +2093,7 @@ msgstr "O proceso de gpg no rematou. Non se pode xerar un novo par de chaves."
 #: keysmanager.cpp:749
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
-msgstr "Só pode anovar chaves primarias. Por favor, comprobe a súa selección."
+msgstr "Só pode anovar chaves primarias. Comprobe a súa selección."
 
 #: keysmanager.cpp:873
 #, kde-format
@@ -2103,7 +2107,7 @@ msgstr ""
 #: keysmanager.cpp:874 keysmanager.cpp:879
 #, kde-format
 msgid "Add New User Id"
-msgstr "Engadir unha nova Id de usuario"
+msgstr "Engadir un novo identificador de persoa usuaria"
 
 #: keysmanager.cpp:919
 #, kde-format
@@ -2151,12 +2155,12 @@ msgstr "Grupo de chaves"
 #: keysmanager.cpp:1106 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
-msgstr "Sinatura"
+msgstr "Sinatura."
 
 #: keysmanager.cpp:1109
 #, kde-format
 msgid "User ID"
-msgstr "ID de usuario"
+msgstr "Identificador de persoa usuaria"
 
 #: keysmanager.cpp:1112
 #, kde-format
@@ -2182,15 +2186,15 @@ msgstr "Membro do grupo"
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
-msgstr[0] "A&sinar o ID do usuario…"
-msgstr[1] "A&sinar os ID do usuario…"
+msgstr[0] "A&sinar o identificador de persoa usuaria…"
+msgstr[1] "A&sinar os identificadores de persoas usuarias…"
 
 #: keysmanager.cpp:1229
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
-msgstr[0] "Asinar e &enviar o identificador do usuario…"
-msgstr[1] "Asinar e &enviar os identificadores dos usuarios…"
+msgstr[0] "Asinar e &enviar o identificador de persoa usuaria…"
+msgstr[1] "Asinar e &enviar os identificadores de persoas usuarias…"
 
 #: keysmanager.cpp:1230
 #, kde-format
@@ -2224,8 +2228,8 @@ msgstr[1] "A&sinar as chaves…"
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
-msgstr[0] "&Eliminar o ID do usuario"
-msgstr[1] "&Eliminar os ID do usuario"
+msgstr[0] "&Eliminar o identificador de persoa usuaria"
+msgstr[1] "&Eliminar os identificadores de persoas usuarias"
 
 #: keysmanager.cpp:1235
 #, kde-format
@@ -2262,7 +2266,7 @@ msgid ""
 msgstr ""
 "<qt>As chaves secretas <b>non</b> se deben gardar nun lugar inseguro.<br/>Se "
 "alguén puidera acceder a este ficheiro, o cifrado con esta chave veríase "
-"comprometido!<br/>Desexa continuar coa exportación da chave?</qt>"
+"comprometido!<br/>Quere continuar coa exportación da chave?</qt>"
 
 #: keysmanager.cpp:1387
 #, kde-format
@@ -2315,7 +2319,7 @@ msgid ""
 "currently not usable.</p><p>Would you like to regenerate the public key?</p>"
 msgstr ""
 "<p>Esta é unha chave secreta orfa (chave secreta sen chave pública.) Na "
-"actualidade non é acusábel:</p><p>Desexa xerar de novo a chave pública?</p>"
+"actualidade non é acusábel:</p><p>Quere xerar de novo a chave pública?</p>"
 
 #: keysmanager.cpp:1654
 #, kde-format
@@ -2389,7 +2393,7 @@ msgstr "Propiedades do grupo"
 #: keysmanager.cpp:1795
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
-msgstr "Só pode asinar chaves primarias. Por favor, comprobe a súa selección."
+msgstr "Só pode asinar chaves primarias. Comprobe a súa selección."
 
 #: keysmanager.cpp:1804
 #, kde-format
@@ -2445,8 +2449,8 @@ msgstr ""
 #, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr ""
-"Só pode asinar identidades de usuario e fotos de identidades. Por favor, "
-"comprobe a súa selección."
+"Só pode asinar identificadores de persoas usuarias e identificadores de "
+"fotos. Comprobe a súa selección."
 
 #: keysmanager.cpp:1888
 #, kde-format
@@ -2456,10 +2460,11 @@ msgid ""
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications.</qt>"
 msgstr ""
-"<qt>Está a piques de asinar a identidade de usuario:<br /><br />%1<br />ID: "
-"%2<br />Pegada dixital: <br /><b>%3</b>.<br /><br />Debería comprobar a "
-"pegada dixital chamando ou reuníndose co propietario da chave para comprobar "
-"que ninguén está a intentar interceptar as súas comunicacións.</qt>"
+"<qt>Está a piques de asinar o identificador de persoa usuaria:<br /><br />"
+"%1<br />Identificador: %2<br />Pegada dixital: <br /><b>%3</b>.<br /><br /"
+">Debería comprobar a pegada dixital chamando ou reuníndose co propietario da "
+"chave para comprobar que ninguén está a intentar interceptar as súas "
+"comunicacións.</qt>"
 
 #: keysmanager.cpp:1892
 #, kde-format
@@ -2469,10 +2474,11 @@ msgid ""
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications.</qt>"
 msgstr ""
-"<qt>Está a piques de asinar a identidade de usuario:<br /><br />%1 (%2)<br /"
-">ID: %3<br />Pegada dixital: <br /><b>%4</b>.<br /><br />Debería comprobar a "
-"pegada dixital chamando ou reuníndose co propietario da chave para comprobar "
-"que ninguén está a intentar interceptar as súas comunicacións.</qt>"
+"<qt>Está a piques de asinar o identificador de persoa usuaria:<br /><br />%1 "
+"(%2)<br />Identificador: %3<br />Pegada dixital: <br /><b>%4</b>.<br /><br /"
+">Debería comprobar a pegada dixital chamando ou reuníndose co propietario da "
+"chave para comprobar que ninguén está a intentar interceptar as súas "
+"comunicacións.</qt>"
 
 #: keysmanager.cpp:1918
 #, kde-format
@@ -2481,9 +2487,9 @@ msgid ""
 "have not carefully checked all fingerprints, the security of your "
 "communications may be compromised.</b></qt>"
 msgstr ""
-"<qt>Está a piques de asinar as seguintes identidades de usuario nun paso.<br/"
-"><b>Se non comprobou coidadosamente as pegadas dixitais, a seguridade das "
-"súas comunicacións podería verse comprometida.</b></qt>"
+"<qt>Está a piques de asinar os seguintes identificadores de persoas usuarias "
+"nun paso.<br/><b>Se non comprobou coidadosamente as pegadas dixitais, a "
+"seguridade das súas comunicacións podería verse comprometida.</b></qt>"
 
 #: keysmanager.cpp:1987
 #, kde-format
@@ -2523,8 +2529,8 @@ msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
 "id <b>%2</b><br />of key: <b>%3</b>?</qt>"
 msgstr ""
-"<qt>Seguro que quere eliminar a sinatura<br /><b>%1</b><br /> da identidade "
-"de usuario <b>%2</b><br />da chave: <b>%3</b>?</qt>"
+"<qt>Seguro que quere eliminar a sinatura<br /><b>%1</b><br /> do "
+"identificador de persoa usuaria <b>%2</b><br />da chave: <b>%3</b>?</qt>"
 
 #: keysmanager.cpp:2227
 #, kde-format
@@ -2660,7 +2666,7 @@ msgstr ""
 #: keysmanager.cpp:2641
 #, kde-format
 msgid "KGpg - encryption tool"
-msgstr "KGpg - ferramenta de cifrado"
+msgstr "KGpg — Ferramenta de cifrado"
 
 #: keysmanager.cpp:2662
 #, kde-format
@@ -2702,7 +2708,7 @@ msgstr "&Chaves"
 #: keysmanager.rc:30
 #, kde-format
 msgid "&Show Details"
-msgstr "Mo&strar os detalles"
+msgstr "Amo&sar os detalles"
 
 #. i18n: ectx: Menu (groups)
 #: keysmanager.rc:42
@@ -2737,7 +2743,7 @@ msgid ""
 "in problems with signing/decryption.<br />Please disable GnuPG Agent from "
 "KGpg settings, or fix the agent.</qt>"
 msgstr ""
-"<qt>A utilización do <b>axente de GnuPG</b> está activada no ficheiro de "
+"<qt>O uso do <b>axente de GnuPG</b> está activada no ficheiro de "
 "configuración de GnuPG (%1).<br />Porén, o axente non parece estar a "
 "executarse. Isto podería causar problemas de sinatura ou descifrado.<br /"
 ">Desactive o axente de GnuPG coas opcións de KGpg, ou corríxao.</qt>"
@@ -2770,8 +2776,8 @@ msgid ""
 "folders."
 msgstr ""
 "Non se pode realizar a operación pedida.\n"
-"Por favor, escolla só un cartafol ou varios ficheiros, pero non mesture "
-"ficheiros e cartafoles."
+"Escolla só un cartafol ou varios ficheiros, pero non mesture ficheiros e "
+"cartafoles."
 
 #: kgpg.cpp:189
 #, kde-format
@@ -2836,14 +2842,15 @@ msgid ""
 msgstr ""
 "Ola,\n"
 "\n"
-"Atope anexo o identificador de usuario «%UIDNAME%» da súa chave, %KEYID%, "
-"asinada por min. Este correo vai asinado con esa chave, para asegurarme de "
-"que ten no seu control tanto o enderezo de correo como a chave.\n"
+"Atope anexo o identificador de persoa usuaria «%UIDNAME%» da súa chave, "
+"%KEYID%, asinada por min. Este correo vai asinado con esa chave, para "
+"asegurarme de que ten no seu control tanto o enderezo de correo como a "
+"chave.\n"
 "\n"
-"Se ten varios identificadores de usuario, envieille a sinatura de cada "
-"identificador por separado ao enderezo de correo asociado ao identificador. "
-"Pode importar as sinaturas executando para cada unha delas «gpg --import», "
-"despois de descifralas con «gpg --decrypt».\n"
+"Se ten varios identificadores de persoa usuaria, envieille a sinatura de "
+"cada identificador por separado ao enderezo de correo asociado ao "
+"identificador. Pode importar as sinaturas executando para cada unha delas "
+"«gpg --import», despois de descifralas con «gpg --decrypt».\n"
 "\n"
 "Se está a usar KGpg, garde o anexo e logo impórteo. Só ten que seleccionar "
 "«Importar unha chave…» no menú «Chaves» e abrir o ficheiro.\n"
@@ -2854,7 +2861,8 @@ msgstr ""
 "subkeys.pgp.net --send-key %KEYID%.\n"
 "\n"
 "Con KGpg pode facer clic dereito na chave, despois de importar todos os "
-"identificadores de usuario, e seleccionar «Exportar a chave pública…».\n"
+"identificadores de persoa usuaria, e seleccionar «Exportar a chave "
+"pública…».\n"
 "\n"
 "Se ten calquera dúbida, pregunte sen medo.\n"
 
@@ -2911,7 +2919,7 @@ msgstr ""
 #: kgpg.kcfg:45
 #, kde-format
 msgid "Hide the user ID."
-msgstr "Agochar a ID do usuario."
+msgstr "Agochar o identificador de persoa usuaria."
 
 #. i18n: ectx: label, entry (PgpCompatibility), group (Encryption)
 #: kgpg.kcfg:49
@@ -2935,7 +2943,7 @@ msgstr "A ruta ao ficheiro de configuración de gpg."
 #: kgpg.kcfg:63
 #, kde-format
 msgid "The path of the gpg binary used by KGpg."
-msgstr "A ruta ao programa gpg empregado por KGpg."
+msgstr "A ruta ao binario gpg que KGpg usa."
 
 #. i18n: ectx: label, entry (FirstRun), group (General Options)
 #: kgpg.kcfg:79
@@ -2990,7 +2998,7 @@ msgstr "Amosar a id longa das chaves no xestor de chaves."
 #, kde-format
 msgid "Show only keys with at least that trust level in key manager."
 msgstr ""
-"Mostra no xestor de chaves só as chaves que teñan polo menos este nivel de "
+"Amosa no xestor de chaves só as chaves que teñan polo menos este nivel de "
 "confianza."
 
 #. i18n: ectx: label, entry (UseMouseSelection), group (User Interface)
@@ -3105,7 +3113,7 @@ msgstr "A cor usada para as chaves autenticadas marxinalmente."
 #: kgpg.kcfg:218
 #, kde-format
 msgid "Color used for expired keys."
-msgstr "A cor usada para as chaves expiradas."
+msgstr "A cor usada para as chaves caducadas."
 
 #. i18n: ectx: label, entry (Font), group (Text Font)
 #: kgpg.kcfg:225
@@ -3119,8 +3127,7 @@ msgstr "Fonte"
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
 msgstr ""
-"Os servidores de chaves empregados por KGpg. O primeiro da lista é o "
-"predeterminado."
+"Os servidores de chaves que KGpg usa. O primeiro da lista é o predeterminado."
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
 #: kgpg.kcfg:252
@@ -3129,7 +3136,7 @@ msgid ""
 "List of URLs that show details and analysis of the given key. The first "
 "server in the list is the default server."
 msgstr ""
-"Unha lista de URL que mostra detalles e análises da chave dada. O primeiro "
+"Unha lista de URL que amosa detalles e análises da chave dada. O primeiro "
 "servidor da lista é o predeterminado."
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
@@ -3145,7 +3152,7 @@ msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
 msgstr ""
 "Este é o texto da mensaxe enviada mediante a acción de «asinar e enviar o "
-"identificador do usuario»."
+"identificador de persoa usuaria»."
 
 #: kgpgexternalactions.cpp:126
 #, kde-format
@@ -3189,7 +3196,7 @@ msgid ""
 msgstr ""
 "<qt>Non ten configurada a ruta ao seu ficheiro de configuración de GnuPG."
 "<br />Isto pode causar algúns resultados sorprendentes ao executar KGpg.<br /"
-">Desexa iniciar o asistente de KGpg para corrixir este problema?</qt>"
+">Quere iniciar o asistente de KGpg para corrixir este problema?</qt>"
 
 #: kgpgexternalactions.cpp:426
 #, kde-format
@@ -3237,17 +3244,15 @@ msgstr ""
 "«seguinte»."
 
 #: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "GnuPG Binary"
+#, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
-msgstr "Programa GPG"
+msgstr "Binario de GPG"
 
 #: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "All files"
-msgstr "*|Todos os ficheiros"
+msgstr "Todos os ficheiros"
 
 #: kgpgfirstassistant.cpp:137
 #, kde-format
@@ -3504,19 +3509,19 @@ msgstr "Capacidades"
 #: kgpgkeygenerate.ui:172
 #, kde-format
 msgid "Certification is automatically enabled for all keys"
-msgstr "A certificación actívase automaticamente para todas as chaves"
+msgstr "A certificación actívase automaticamente para todas as chaves."
 
 #. i18n: ectx: property (text), widget (QCheckBox, capCert)
 #: kgpgkeygenerate.ui:175
 #, kde-format
 msgid "Certification"
-msgstr "Certificación"
+msgstr "Certificación."
 
 #. i18n: ectx: property (text), widget (QCheckBox, capAuth)
 #: kgpgkeygenerate.ui:195
 #, kde-format
 msgid "Authentication"
-msgstr "Autenticación"
+msgstr "Autenticación."
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, kgpgKeyInfo)
 #: kgpgKeyInfo.ui:14
@@ -3597,7 +3602,7 @@ msgstr "Sen foto"
 #: kgpgKeyInfo.ui:350
 #, kde-format
 msgid "Disable key"
-msgstr "Desactivar a chave"
+msgstr "Desactivar a chave."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_expirationbtn)
 #: kgpgKeyInfo.ui:357
@@ -3779,13 +3784,13 @@ msgstr "Gardar o certificado:"
 #: kgpgrevokewidget.ui:111
 #, kde-format
 msgid "Print certificate"
-msgstr "Imprimir o certificado"
+msgstr "Imprimir o certificado."
 
 #. i18n: ectx: property (text), widget (QCheckBox, cbImport)
 #: kgpgrevokewidget.ui:121
 #, kde-format
 msgid "Import into keyring"
-msgstr "Importar no chaveiro"
+msgstr "Importar no chaveiro."
 
 #: main.cpp:39
 #, kde-kuit-format
@@ -3803,7 +3808,7 @@ msgstr "KGpg — Interface gráfica sinxela para GnuPG"
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
-msgstr "© 2003-2016 Desenvolvedores de KGpg"
+msgstr "© 2003-2016 Persoas desenvolvedoras de KGpg"
 
 #: main.cpp:45
 #, kde-kuit-format
@@ -3815,7 +3820,7 @@ msgstr "Rolf Eike Beer"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
-msgstr "Mantedor."
+msgstr "Mantemento."
 
 #: main.cpp:46
 #, kde-kuit-format
@@ -3827,7 +3832,7 @@ msgstr "Jean-Baptiste Mardelle"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
-msgstr "Autor orixinal e antigo mantedor"
+msgstr "Autoría orixinal e mantemento previo."
 
 #: main.cpp:47
 #, kde-kuit-format
@@ -3976,7 +3981,7 @@ msgstr ""
 #: newkey.ui:140
 #, kde-format
 msgid "Set as your default key"
-msgstr "Definir como chave predeterminada"
+msgstr "Definir como chave predeterminada."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: newkey.ui:152
@@ -4004,13 +4009,13 @@ msgstr "Gardar como:"
 #: newkey.ui:186
 #, kde-format
 msgid "Print"
-msgstr "Imprimir"
+msgstr "Imprimir."
 
 #. i18n: ectx: property (text), widget (QCheckBox, validFilterCheckbox)
 #: searchres.ui:48
 #, kde-format
 msgid "Show only valid keys"
-msgstr "Amosar só as chaves correctas"
+msgstr "Amosar só as chaves correctas."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: searchres.ui:73
@@ -4092,10 +4097,10 @@ msgid ""
 "traffic analysis. It may slow down the decryption process because all "
 "available secret keys are tried."
 msgstr ""
-"<b>Agochar o ID do usuario</b>: Non pon o id da chave nos paquetes cifrados. "
-"Esta opción agocha o destinatario da mensaxe e é unha contramedida contra as "
-"análises de tráfico. Pode facer máis lento o proceso de descifrado porque se "
-"proba con todas as chaves secretas dispoñíbeis."
+"<b>Agochar o identificador de persoa usuaria</b>: Non pon o id da chave nos "
+"paquetes cifrados. Esta opción agocha o destinatario da mensaxe e é unha "
+"contramedida contra as análises de tráfico. Pode facer máis lento o proceso "
+"de descifrado porque se proba con todas as chaves secretas dispoñíbeis."
 
 #: selectpublickeydialog.cpp:126
 #, kde-format
@@ -4122,7 +4127,7 @@ msgid ""
 "<b>Custom option</b>: for experienced users only, allows you to enter a gpg "
 "command line option, like: '--armor'"
 msgstr ""
-"<b>Opción personalizada</b>: só para usuarios con experiencia, permítelle "
+"<b>Opción personalizada</b>: só para xente con experiencia, permítelle "
 "inserir unha opción da orde gpg, como: '--armor'"
 
 #: selectsecretkey.cpp:35
@@ -4145,10 +4150,10 @@ msgid_plural ""
 "with whom you wish to communicate:"
 msgstr[0] ""
 "Con que coidado comprobou que a chave pertence realmente á persoa coa que "
-"desexa comunicarse:"
+"quere comunicarse:"
 msgstr[1] ""
 "Con que coidade comprobou que as %1 chaves pertencen realmente á persoas "
-"coas que desexa comunicarse:"
+"coas que quere comunicarse:"
 
 #: selectsecretkey.cpp:71
 #, kde-format
@@ -4178,7 +4183,8 @@ msgstr "Sinatura local (non se pode exportar)"
 #: selectsecretkey.cpp:83
 #, kde-format
 msgid "Do not sign all user id's (open terminal)"
-msgstr "Non asinar todas os ID de usuario (abre unha terminal)"
+msgstr ""
+"Non asinar todos os identificadores de persoas usuarias (abre un terminal)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkServer)
 #: sourceselect.ui:68
@@ -4336,7 +4342,7 @@ msgstr ""
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "This image is very large. Use it anyway?"
-msgstr "Esta imaxe é moi grande. Desexa usala aínda así?"
+msgstr "Esta imaxe é moi grande. Quere usala aínda así?"
 
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
@@ -4377,7 +4383,7 @@ msgstr "Descifrouse %1."
 #: transactions/kgpggeneratekey.cpp:52
 #, kde-format
 msgid "Generating New Key for %1"
-msgstr "Estase a xerar unha chave nova para %1"
+msgstr "Xerando unha nova chave para %1"
 
 #: transactions/kgpggeneratekey.cpp:125
 #, kde-format
@@ -4400,7 +4406,7 @@ msgstr ""
 #: transactions/kgpggeneratekey.cpp:139
 #, kde-format
 msgid "Generating Key"
-msgstr "Estase a xerar unha chave"
+msgstr "Xerando unha chave"
 
 #: transactions/kgpggeneratekey.cpp:152
 #, kde-format
@@ -4410,17 +4416,17 @@ msgstr "Estanse a xerar os números primos"
 #: transactions/kgpggeneratekey.cpp:154
 #, kde-format
 msgid "Generating DSA key"
-msgstr "Estase a xerar a chave DSA"
+msgstr "Xerando a chave DSA."
 
 #: transactions/kgpggeneratekey.cpp:156
 #, kde-format
 msgid "Generating ElGamal key"
-msgstr "Estase a xerar a chave ElGamal"
+msgstr "Xerando a chave ElGamal."
 
 #: transactions/kgpggeneratekey.cpp:158
 #, kde-format
 msgid "Waiting for entropy"
-msgstr "Estase a agardar pola entropía"
+msgstr "Agardando pola entropía."
 
 #: transactions/kgpggeneratekey.cpp:163
 #, kde-format
@@ -4510,8 +4516,8 @@ msgstr[1] "<para>%1 chaves sen cambios.</para>"
 msgctxt "@info"
 msgid "<para>One user ID imported.</para>"
 msgid_plural "<para>%1 user IDs imported.</para>"
-msgstr[0] "<para>Importouse un ID de usuario.</para>"
-msgstr[1] "<para>Importáronse %1 ID de usuario.</para>"
+msgstr[0] "<para>Importouse un identificador de persoa usuaria.</para>"
+msgstr[1] "<para>Importáronse %1 identificadores de persoas usuarias.</para>"
 
 #: transactions/kgpgimport.cpp:136
 #, kde-kuit-format
@@ -4613,8 +4619,8 @@ msgstr[1] "Novas chaves"
 #, kde-format
 msgid "Key with new User Id"
 msgid_plural "Keys with new User Ids"
-msgstr[0] "Chave con novo Id de usuario"
-msgstr[1] "Chaves con novos Id de usuario"
+msgstr[0] "Chave con novo identificador de persoa usuaria."
+msgstr[1] "Chaves con novos identificadores de persoas usuarias."
 
 #: transactions/kgpgimport.cpp:227
 #, kde-format
@@ -4657,7 +4663,7 @@ msgstr "Servidor de chaves"
 #: transactions/kgpgtransaction.cpp:76 transactions/kgpgtransaction.cpp:268
 #, kde-format
 msgid "Requesting Passphrase"
-msgstr "Estase a pedir a frase de paso"
+msgstr "Pedindo a frase de paso"
 
 #: transactions/kgpgtransaction.cpp:199
 #, kde-format
