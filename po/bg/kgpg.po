@@ -4743,11 +4743,3 @@ msgstr "<para>Подписът е валиден, но ключът не е на
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Подписът е валиден и ключът е ултимативно надежден</para>"
-
-#~ msgctxt "search filter for gpg binary"
-#~ msgid ""
-#~ "gpg|GnuPG binary\n"
-#~ "*|All files"
-#~ msgstr ""
-#~ "gpg|GnuPG двоичен код\n"
-#~ "*|Всички файлове"
