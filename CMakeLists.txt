@@ -63,8 +63,9 @@ find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED
   Contacts
 )
 
-find_package(KPim${KF_MAJOR_VERSION}AkonadiContact REQUIRED)
-find_package(KPim${KF_MAJOR_VERSION}ContactEditor REQUIRED)
+# 5.23.80 aka 23.07.80
+find_package(KPim${KF_MAJOR_VERSION}AkonadiContact 5.23.80 REQUIRED)
+find_package(KPim${KF_MAJOR_VERSION}ContactEditor 5.23.80 REQUIRED)
 
 if (QT_MAJOR_VERSION STREQUAL "6")
     find_package(Qt6Core5Compat)
