@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:50+0000\n"
-"PO-Revision-Date: 2023-08-31 15:38+0300\n"
+"PO-Revision-Date: 2023-09-03 22:01+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2956,45 +2956,45 @@ msgstr "Düzenleyici penceresinin büyüklüğü."
 #: kgpg.kcfg:86
 #, kde-format
 msgid "Show the trust value in key manager."
-msgstr "Anahtar Yöneticisi'nde güvenilirlik derecesini göster."
+msgstr "Anahtar yöneticisinde güvenilirlik derecesini gösterin."
 
 #. i18n: ectx: label, entry (ShowExpi), group (General Options)
 #: kgpg.kcfg:90
 #, kde-format
 msgid "Show the expiration value in key manager."
-msgstr "Anahtar Yöneticisi'nde son kullanma tarihini göster."
+msgstr "Anahtar yöneticisinde son kullanma tarihini gösterin."
 
 #. i18n: ectx: label, entry (ShowSize), group (General Options)
 #: kgpg.kcfg:94
 #, kde-format
 msgid "Show the size value in key manager."
-msgstr "Anahtar Yöneticisi'nde büyüklük değerini göster."
+msgstr "Anahtar yöneticisinde büyüklük değerini gösterin."
 
 #. i18n: ectx: label, entry (ShowCreat), group (General Options)
 #: kgpg.kcfg:98
 #, kde-format
 msgid "Show the creation value in key manager."
-msgstr "Anahtar Yöneticisi'nde oluşturulma zamanını göster."
+msgstr "Anahtar yöneticisinde oluşturulma zamanını gösterin."
 
 #. i18n: ectx: label, entry (ShowSecret), group (General Options)
 #: kgpg.kcfg:102
 #, kde-format
 msgid "Show only secret keys in key manager."
-msgstr "Anahtar yöneticisinde yalnızca gizli anahtarları göster."
+msgstr "Anahtar yöneticisinde yalnızca gizli anahtarları gösterin."
 
 #. i18n: ectx: label, entry (ShowLongKeyId), group (General Options)
 #: kgpg.kcfg:106
 #, kde-format
 msgid "Show long key id in key manager."
-msgstr "Anahtar yöneticisinde uzun anahtar kimliklerini göster."
+msgstr "Anahtar yöneticisinde uzun anahtar kimliklerini gösterin."
 
 #. i18n: ectx: label, entry (TrustLevel), group (General Options)
 #: kgpg.kcfg:110
 #, kde-format
 msgid "Show only keys with at least that trust level in key manager."
 msgstr ""
-"Yalnızca anahtar yöneticisinde en azından güvenilirlik düzeyi olan "
-"anahtarları göster."
+"Anahtar yöneticisinde yalnızca en azından güvenilirlik düzeyi olan "
+"anahtarları gösterin."
 
 #. i18n: ectx: label, entry (UseMouseSelection), group (User Interface)
 #: kgpg.kcfg:124
