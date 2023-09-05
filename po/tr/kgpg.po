@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:50+0000\n"
-"PO-Revision-Date: 2023-09-03 22:01+0300\n"
+"PO-Revision-Date: 2023-09-04 12:56+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -220,7 +220,7 @@ msgid ""
 "key. However, if the \"Encrypt files with:\" option is selected that chosen "
 "key will override the \"Always encrypt with:\" selection.</p></qt>"
 msgstr ""
-"<qt><b>Her zaman bununla şifrele:</b><br/>\n"
+"<qt><b>Her zaman şununla şifrele:</b><br/>\n"
 "<p>Bu seçenek, tüm dosya ve iletilerin seçilen anahtar ile şifrelenmesini "
 "sağlar. Bununla birlikte, eğer \"Dosyaları bununla şifrele:\" seçeneği "
 "seçili ise burada seçilen anahtar \"Her zaman bu anahtarla şifrele:\" "
@@ -230,7 +230,7 @@ msgstr ""
 #: conf_encryption.ui:116
 #, kde-format
 msgid "Always encrypt with:"
-msgstr "Her zaman bu anahtarla şifrele:"
+msgstr "Her zaman şununla şifrele:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_EncryptFilesTo)
 #: conf_encryption.ui:124
@@ -250,7 +250,7 @@ msgstr ""
 #: conf_encryption.ui:127
 #, kde-format
 msgid "Encrypt files with:"
-msgstr "Dosyaları bu anahtarla şifrele:"
+msgstr "Dosyaları şununla şifrele:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowUntrustedKeys)
 #: conf_encryption.ui:135
