@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:50+0000\n"
-"PO-Revision-Date: 2023-09-04 12:56+0300\n"
+"PO-Revision-Date: 2023-09-05 13:50+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -687,11 +687,11 @@ msgid ""
 "The placeholders surrounded by the percent signs (like %KEYID%) will be "
 "replaced with the corresponding text for every single mail."
 msgstr ""
-"\"Kullanıcı Kimliklerini İmzala ve Gönder\" eylemi tarafından gönderilen e-"
+"\"Kullanıcı Kimliğini İmzala ve Postala\" eylemi tarafından gönderilen e-"
 "posta metni.\n"
 "\n"
 "Yüzde işaretleriyle çevrili özel ifadeler (%KEYID% gibi) her e-posta "
-"metninde gerçek değerleriyle değiştirilecektir."
+"metninde gerçek değerleriyle değiştirilir."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
 #: conf_servers.ui:25
@@ -2189,8 +2189,8 @@ msgstr[1] "&Kullanıcı Kimliklerini İmzala ..."
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
-msgstr[0] "Kullanıcı Kimliklerini İmzala ve &Gönder ..."
-msgstr[1] "Kullanıcı Kimliklerini İmzala ve &Gönder ..."
+msgstr[0] "Kullanıcı Kimliğini İmzala ve &Postala..."
+msgstr[1] "Kullanıcı Kimliklerini İmzala ve &Postala..."
 
 #: keysmanager.cpp:1230
 #, kde-format
@@ -2926,7 +2926,7 @@ msgstr "PGP 6 uyumluluğunu etkinleştir."
 #: kgpg.kcfg:53
 #, kde-format
 msgid "Use *.pgp extension for encrypted files."
-msgstr "Şifrelenmiş dosyalar için *.pgp uzantısını kullan."
+msgstr "Şifrelenmiş dosyalar için *.pgp uzantısını kullanın."
 
 #. i18n: ectx: label, entry (GpgConfigPath), group (GPG Settings)
 #: kgpg.kcfg:60
@@ -3145,7 +3145,7 @@ msgstr "Olanaklıysa HTTP vekili kullan."
 msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
 msgstr ""
-"\"Kullanıcı Kimliklerini İmzala ve Gönder\" eylemi tarafından gönderilen e-"
+"\"Kullanıcı Kimliğini İmzala ve Postala\" eylemi tarafından gönderilen e-"
 "posta metni."
 
 #: kgpgexternalactions.cpp:126
