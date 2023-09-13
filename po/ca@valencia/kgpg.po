@@ -4448,7 +4448,7 @@ msgid ""
 "until the key generation continues."
 msgstr ""
 "El pou d'entropia està buit. El procés de generació està interromput fins "
-"que hi haja suficient entropia. Podeu generar entropia p. ex. movent el "
+"que hi haja suficient entropia. Podeu generar entropia p. ex., movent el "
 "ratolí o teclejant en el teclat. La manera més senzilla és utilitzar una "
 "altra aplicació fins que continue la generació de la clau."
 
