@@ -483,7 +483,7 @@ msgstr ""
 "selecció del porta-retalls, és a dir, es ressaltarà el text que es copiarà i "
 "amb el botó del mig del ratolí (o els botons dret+esquerre a la vegada) per "
 "a apegar. Si esta opció no està marcada, el porta-retalls funcionarà amb les "
-"dreceres (Ctrl+c, Ctrl+v).</p></qt> "
+"dreceres («Ctrl+C», «Ctrl+V»).</p></qt> "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseMouseSelection)
 #: conf_misc.ui:56
