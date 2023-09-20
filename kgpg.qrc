@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/kxmlgui5/kgpg">
+        <file alias="kgpgeditor.rc">editor/kgpgeditor.rc</file>
+        <file>keysmanager.rc</file>
+    </qresource>
+</RCC>

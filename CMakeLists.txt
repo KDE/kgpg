@@ -247,7 +247,10 @@ ecm_add_app_icon(kgpg_SRCS ICONS ${ICONS_SRCS})
 kconfig_add_kcfg_files(kgpg_SRCS kgpgsettings.kcfgc )
 
 add_library(kgpg_lib STATIC ${kgpg_SRCS} ${kgpg_HDRS})
-add_executable(kgpg main.cpp)
+add_executable(kgpg
+    kgpg.qrc
+    main.cpp
+)
 target_link_libraries(kgpg kgpg_lib)
 
 if (KGPG_DEBUG_TRANSACTIONS)
@@ -291,7 +294,6 @@ install(TARGETS kgpg  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
-install( FILES editor/kgpgeditor.rc keysmanager.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/kgpg)
 install( FILES tips  DESTINATION ${KDE_INSTALL_DATADIR}/kgpg)
 install( PROGRAMS org.kde.kgpg.desktop  DESTINATION ${KDE_INSTALL_APPDIR})
 install( FILES org.kde.kgpg.appdata.xml  DESTINATION ${KDE_INSTALL_METAINFODIR})
