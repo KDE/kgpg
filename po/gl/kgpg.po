@@ -592,14 +592,14 @@ msgid ""
 "<qt><b>Show system tray icon:</b><br />\n"
 "<p>If checked KGpg will minimize to an icon in the system tray.</p></qt>"
 msgstr ""
-"<qt><b>Amosar a icona na bandexa do sistema:</b><br />\n"
-"<p>Se marca esta opción, KGpg minimizarase á bandexa do sistema.</p></qt>"
+"<qt><b>Amosar a icona na área de notificación:</b><br />\n"
+"<p>Se marca esta opción, KGpg minimizarase á área de notificación.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSystray)
 #: conf_misc.ui:211
 #, kde-format
 msgid "Show system tray icon"
-msgstr "Amosar a icona na bandexa do sistema."
+msgstr "Amosar a icona na área de notificación."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: conf_misc.ui:223
@@ -1131,7 +1131,7 @@ msgstr "Pechar o documento"
 msgid ""
 "The document could not been saved, as the selected codec is not supported."
 msgstr ""
-"Non se puido gardar o documento, xa que a codificación escollida non está "
+"Non foi posíbel gardar o documento, xa que a codificación escollida non está "
 "admitida."
 
 #: editor/kgpgeditor.cpp:288
@@ -1140,7 +1140,7 @@ msgid ""
 "The document could not been saved, as the selected encoding cannot encode "
 "every unicode character in it."
 msgstr ""
-"Non se puido gardar o documento, xa que a codificación escollida non pode "
+"Non foi posíbel gardar o documento, xa que a codificación escollida non pode "
 "codificar todos os caracteres unicode que contén."
 
 #: editor/kgpgeditor.cpp:297 editor/kgpgeditor.cpp:313
@@ -1149,7 +1149,7 @@ msgid ""
 "The document could not be saved, please check your permissions and disk "
 "space."
 msgstr ""
-"Non se puido gardar o documento, comprobe os seus permisos e o espazo "
+"Non foi posíbel gardar o documento, comprobe os seus permisos e o espazo "
 "dispoñíbel no disco."
 
 #: editor/kgpgeditor.cpp:338 editor/kgpgeditor.cpp:349 keyexport.cpp:37
@@ -1282,7 +1282,7 @@ msgstr ""
 #: editor/kgpgtextedit.cpp:93
 #, kde-format
 msgid "Could not download file."
-msgstr "Non se puido descargar o ficheiro."
+msgstr "Non foi posíbel descargar o ficheiro."
 
 #: editor/kgpgtextedit.cpp:129
 #, kde-format
@@ -1380,7 +1380,7 @@ msgstr "Iniciado"
 #: foldercompressjob.cpp:96
 #, kde-format
 msgid "Unable to create temporary file"
-msgstr "Non se pode crear o ficheiro temporal"
+msgstr "Non é posíbel crear o ficheiro temporal"
 
 #: foldercompressjob.cpp:115 transactions/kgpgencrypt.cpp:92
 #, kde-format
@@ -1571,7 +1571,7 @@ msgstr ""
 #: keyinfodialog.cpp:314
 #, kde-format
 msgid "Could not change passphrase"
-msgstr "Non se puido cambiar a frase de paso"
+msgstr "Non foi posíbel cambiar a frase de paso"
 
 #: keyinfodialog.cpp:319
 #, kde-format
@@ -2042,7 +2042,7 @@ msgstr "Xerando un novo par de chaves"
 #: keysmanager.cpp:526
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
-msgstr "Non se pode iniciar a aplicación «konsole» para o modo experto."
+msgstr "Non é posíbel iniciar a aplicación «konsole» para o modo experto."
 
 #: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
 #, kde-format
@@ -2083,7 +2083,7 @@ msgstr "Creouse un novo par de chaves"
 #: keysmanager.cpp:631
 #, kde-format
 msgid "backup copy"
-msgstr "copia de seguridade"
+msgstr "salvagarda"
 
 #: keysmanager.cpp:645 transactions/kgpggeneratekey.cpp:215
 #, kde-format
@@ -2293,7 +2293,7 @@ msgid ""
 "Your secret key could not be exported.\n"
 "Check the key."
 msgstr ""
-"Non se puido exportar a súa chave privada.\n"
+"Non foi posíbel exportar a súa chave privada.\n"
 "Comprobe a chave."
 
 #: keysmanager.cpp:1510
@@ -2309,7 +2309,7 @@ msgid ""
 "Your public key could not be exported\n"
 "Check the key."
 msgstr ""
-"Non se puido exportar a súa chave pública\n"
+"Non foi posíbel exportar a súa chave pública\n"
 "Comprobe a chave."
 
 #: keysmanager.cpp:1652
@@ -2600,7 +2600,7 @@ msgstr "Fallou o eliminado da chave <b>%1</b>."
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
-"Non se pode eliminar a chave <b>%1</b> mentres está a editarse na terminal."
+"Non é posíbel eliminar a chave <b>%1</b> mentres está a editarse na terminal."
 
 #: keysmanager.cpp:2447
 #, kde-format
@@ -2756,17 +2756,17 @@ msgstr "Non se indicou ningún ficheiro."
 #: kgpg.cpp:134
 #, kde-format
 msgid "Cannot decrypt and show folder."
-msgstr "Non se pode descifrar e amosar o cartafol."
+msgstr "Non é posíbel descifrar e amosar o cartafol."
 
 #: kgpg.cpp:141
 #, kde-format
 msgid "Cannot sign folder."
-msgstr "Non se pode asinar o cartafol."
+msgstr "Non é posíbel asinar o cartafol."
 
 #: kgpg.cpp:148
 #, kde-format
 msgid "Cannot verify folder."
-msgstr "Non se pode verificar o cartafol."
+msgstr "Non é posíbel verificar o cartafol."
 
 #: kgpg.cpp:151
 #, kde-format
@@ -2775,7 +2775,7 @@ msgid ""
 "Please select only one folder, or several files, but do not mix files and "
 "folders."
 msgstr ""
-"Non se pode realizar a operación pedida.\n"
+"Non é posíbel realizar a operación pedida.\n"
 "Escolla só un cartafol ou varios ficheiros, pero non mesture ficheiros e "
 "cartafoles."
 
@@ -3057,7 +3057,7 @@ msgstr "Amosar o menú de servizo «descifrar ficheiro»."
 #: kgpg.kcfg:176
 #, kde-format
 msgid "Show the systray icon"
-msgstr "Amosar a icona na bandexa do sistema"
+msgstr "Amosar a icona na área de notificación"
 
 #. i18n: ectx: label, entry (RecentFiles), group (User Interface)
 #: kgpg.kcfg:180
@@ -3157,7 +3157,7 @@ msgstr ""
 #: kgpgexternalactions.cpp:126
 #, kde-format
 msgid "Cannot create temporary file for folder compression."
-msgstr "Non se pode crear o ficheiro temporal para a compresión do cartafol."
+msgstr "Non é posíbel crear o ficheiro temporal para a compresión do cartafol."
 
 #: kgpgexternalactions.cpp:126 kgpgexternalactions.cpp:133
 #, kde-format
@@ -3687,7 +3687,7 @@ msgid ""
 "Cannot create configuration file. Please check if destination media is "
 "mounted and if you have write access."
 msgstr ""
-"Non se pode crear o ficheiro de configuración. Comprobe que o medio de "
+"Non é posíbel crear o ficheiro de configuración. Comprobe que o medio de "
 "destino está montado e que ten permiso de escritura."
 
 #: kgpgoptions.cpp:197
