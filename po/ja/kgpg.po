@@ -4694,11 +4694,3 @@ msgstr "<qt>署名は有効ですが、鍵は信頼されていません。<br/>
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<qt>署名は有効で、鍵は絶対的に信頼されています。<br/></qt>"
-
-#~ msgctxt "search filter for gpg binary"
-#~ msgid ""
-#~ "gpg|GnuPG binary\n"
-#~ "*|All files"
-#~ msgstr ""
-#~ "gpg|GnuPG 実行ファイル\n"
-#~ "*|すべてのファイル"
