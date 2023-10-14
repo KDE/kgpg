@@ -1808,7 +1808,7 @@ msgstr "&Diàleg del servidor de claus"
 #: keysmanager.cpp:141 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
-msgstr "&Ves a la clau predeterminada"
+msgstr "&Ves fins a la clau predeterminada"
 
 #: keysmanager.cpp:158
 #, kde-format
@@ -2664,8 +2664,8 @@ msgstr "S'està important..."
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr ""
-"Ha fallat la importació de la clau. Comproveu el registre per a obtindre més "
-"informació."
+"Fallada durant la importació de la clau. Comproveu el registre per a "
+"obtindre més informació."
 
 #: keysmanager.cpp:2641
 #, kde-format
