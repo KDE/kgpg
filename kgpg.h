@@ -10,6 +10,7 @@
 #include <QKeySequence>
 
 #include <KLocalizedString>
+#include <KLazyLocalizedString>
 
 class KeysManager;
 class KGpgExternalActions;
@@ -17,7 +18,7 @@ class QCommandLineParser;
 class QDir;
 class QString;
 
-static const QString EMailTemplateText=i18n(
+static constexpr const KLazyLocalizedString EMailTemplateText = kli18n(
     "Hi,\n\nplease find attached the user id '%UIDNAME%' of your key %KEYID% signed by me. "
     "This mail is encrypted with that key to make sure you control both the email address and the key.\n\n"
     "If you have multiple user ids, I sent the signature for each user id separately to that user id's associated email address. "
