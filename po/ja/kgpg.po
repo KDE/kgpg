@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-10 00:50+0000\n"
+"POT-Creation-Date: 2023-10-19 00:44+0000\n"
 "PO-Revision-Date: 2014-09-21 00:43-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -2767,8 +2767,7 @@ msgstr "署名を検証"
 msgid "File to open"
 msgstr "開くファイル"
 
-#: kgpg.h:21
-#, kde-format
+#: kgpg.h:22
 msgid ""
 "Hi,\n"
 "\n"

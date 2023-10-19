@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-10 00:50+0000\n"
+"POT-Creation-Date: 2023-10-19 00:44+0000\n"
 "PO-Revision-Date: 2023-08-07 11:45+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -2682,8 +2682,7 @@ msgstr "Ověřit podpis"
 msgid "File to open"
 msgstr "Soubor k otevření"
 
-#: kgpg.h:21
-#, kde-format
+#: kgpg.h:22
 msgid ""
 "Hi,\n"
 "\n"

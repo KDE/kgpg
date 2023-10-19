@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-10 00:50+0000\n"
+"POT-Creation-Date: 2023-10-19 00:44+0000\n"
 "PO-Revision-Date: 2007-09-06 15:42+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -2987,8 +2987,7 @@ msgstr "हस्ताक्षर रूजु गर्नुहोस्"
 msgid "File to open"
 msgstr "खोल्नु पर्ने फाइल"
 
-#: kgpg.h:21
-#, kde-format
+#: kgpg.h:22
 msgid ""
 "Hi,\n"
 "\n"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-10 00:50+0000\n"
+"POT-Creation-Date: 2023-10-19 00:44+0000\n"
 "PO-Revision-Date: 2011-07-22 17:00+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -2838,8 +2838,7 @@ msgstr "Provjeri potpis"
 msgid "File to open"
 msgstr "Datoteka koju treba otvoriti"
 
-#: kgpg.h:21
-#, kde-format
+#: kgpg.h:22
 msgid ""
 "Hi,\n"
 "\n"

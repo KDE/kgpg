@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-10 00:50+0000\n"
+"POT-Creation-Date: 2023-10-19 00:44+0000\n"
 "PO-Revision-Date: 2023-07-10 09:26+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -2819,8 +2819,7 @@ msgid "File to open"
 msgstr "Fitxer que s'ha d'obrir"
 
 # skip-rule: rst-link0italic,rst-italic2
-#: kgpg.h:21
-#, kde-format
+#: kgpg.h:22
 msgid ""
 "Hi,\n"
 "\n"
