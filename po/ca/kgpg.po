@@ -1,7 +1,7 @@
 # Translation of kgpg.po to Catalan
 # Copyright (C) 2003-2023 This_file_is_part_of_KDE
 #
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2003, 2012, 2014, 2016, 2017, 2020, 2021, 2022.
+# SPDX-FileCopyrightText: 2003, 2012, 2014, 2016, 2017, 2020, 2021, 2022, 2023 Antoni Bella Pérez <antonibella5@yahoo.com>
 # Albert Astals Cid <aacid@kde.org>, 2003, 2004, 2005, 2009.
 # Josep M. Ferrer <txemaq@gmail.com>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023.
 # Joan Maspons <joanmaspons@gmail.com>, 2009.
@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-19 02:30+0000\n"
-"PO-Revision-Date: 2023-07-10 09:26+0200\n"
-"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
+"PO-Revision-Date: 2023-11-06 16:06+0100\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -176,8 +176,8 @@ msgid ""
 "users of PGP (Pretty Good Privacy) software.</p></qt>"
 msgstr ""
 "<qt><b>Usa l'extensió *.pgp per als fitxers encriptats:</b><br />\n"
-"<p>Marcant aquesta opció afegirà una extensió .pgp a tots els fitxers "
-"encriptats en comptes d'una extensió .gpg. Aquesta opció mantindrà la "
+"<p>Marcant aquesta opció s'afegirà una extensió «.pgp» a tots els fitxers "
+"encriptats en comptes d'una extensió «.gpg». Aquesta opció mantindrà la "
 "compatibilitat amb els usuaris del programari PGP (Pretty Good Privacy).</"
 "p></qt>"
 
