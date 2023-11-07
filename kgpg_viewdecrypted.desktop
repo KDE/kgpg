@@ -59,6 +59,7 @@ Name[sv]=Visa filen avkodad
 Name[th]=ดูแฟ้มที่ถูกเข้ารหัส
 Name[tr]=Dosya Şifresini Aç ve Görüntüle
 Name[uk]=Перегляньте розшифрований файл
+Name[x-test]=xxView file decryptedxx
 Name[zh_CN]=查看解密文件
 Name[zh_TW]=檢視解密後檔案
 Icon=document-edit-decrypt-verify
