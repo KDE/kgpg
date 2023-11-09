@@ -1,7 +1,7 @@
 # Translation of kgpg.po to Catalan (Valencian)
 # Copyright (C) 2003-2023 This_file_is_part_of_KDE
 #
-# Antoni Bella Pérez <antonibella5@yahoo.com>, 2003, 2012, 2014, 2016, 2017, 2020, 2021, 2022.
+# SPDX-FileCopyrightText: 2003, 2012, 2014, 2016, 2017, 2020, 2021, 2022, 2023 Antoni Bella Pérez <antonibella5@yahoo.com>
 # Albert Astals Cid <aacid@kde.org>, 2003, 2004, 2005, 2009.
 # Josep M. Ferrer <txemaq@gmail.com>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023.
 # Joan Maspons <joanmaspons@gmail.com>, 2009.
@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-19 02:30+0000\n"
-"PO-Revision-Date: 2023-07-10 09:26+0200\n"
-"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
+"PO-Revision-Date: 2023-11-06 16:06+0100\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -156,9 +156,9 @@ msgid ""
 "the body of an e-mail message.</p></qt>"
 msgstr ""
 "<qt><b>Encriptació en armadura ASCII</b> <br /> \n"
-"<p>Marcant esta opció s'encripten tots els fitxers en un format que es pot "
-"obrir en un editor de text i, per tant, l'eixida és vàlida per a posar-la en "
-"el cos d'un missatge de correu electrònic.</p></qt>"
+"<p>Seleccionant esta opció s'encripten tots els fitxers en un format que es "
+"pot obrir en un editor de text i, per tant, l'eixida és vàlida per a posar-"
+"la en el cos d'un missatge de correu electrònic.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AsciiArmor)
 #: conf_encryption.ui:34 selectpublickeydialog.cpp:104
@@ -176,8 +176,8 @@ msgid ""
 "users of PGP (Pretty Good Privacy) software.</p></qt>"
 msgstr ""
 "<qt><b>Utilitza l'extensió *.pgp per als fitxers encriptats:</b><br />\n"
-"<p>Marcant esta opció afegirà una extensió .pgp a tots els fitxers "
-"encriptats en comptes d'una extensió .gpg. Esta opció mantindrà la "
+"<p>Seleccionant esta opció s'afegirà una extensió «.pgp» a tots els fitxers "
+"encriptats en comptes d'una extensió «.gpg». Esta opció mantindrà la "
 "compatibilitat amb els usuaris del programari PGP (Pretty Good Privacy).</"
 "p></qt>"
 
@@ -238,9 +238,9 @@ msgid ""
 "the default key will be bypassed.</p></qt>"
 msgstr ""
 "<qt><b>Encripta fitxers amb:</b><br />\n"
-"<p>En marcar esta opció i seleccionar una clau, es forçarà que qualsevol "
-"operació d'encriptació de fitxers utilitze esta clau. KGpg no demanarà un "
-"destinatari i la clau predeterminada serà omesa.</p></qt>"
+"<p>Quan se selecciona esta opció i se selecciona una clau, es forçarà que "
+"qualsevol operació d'encriptació de fitxers utilitze esta clau. KGpg no "
+"demanarà un destinatari i la clau predeterminada serà omesa.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EncryptFilesTo)
 #: conf_encryption.ui:127
@@ -261,7 +261,7 @@ msgstr ""
 "<qt><b>Permet l'encriptació amb claus que no siguen de confiança:</b> <br/>\n"
 "<p>Quan s'importa una clau pública es marca com que no és de confiança i no "
 "podreu utilitzar-la a menys que la signeu amb la clau predeterminada (per a "
-"fer-la «de confiança»). Si marqueu esta casella, podreu emprar qualsevol "
+"fer-la «de confiança»). Si seleccioneu esta casella, podreu emprar qualsevol "
 "clau, encara que no siga de confiança.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowUntrustedKeys)
@@ -304,9 +304,9 @@ msgid ""
 "process depending on the number of secret keys the receiver holds.</p></qt>"
 msgstr ""
 "<qt><b>Oculta l'identificador d'usuari:</b><br />\n"
-"<p>Marcant esta opció s'eliminarà l'identificador de la clau del destinatari "
-"de tots els paquets encriptats. L'avantatge és que l'anàlisi del trànsit "
-"dels paquets encriptats no es pot realitzar amb facilitat perquè el "
+"<p>Seleccionant esta opció s'eliminarà l'identificador de la clau del "
+"destinatari de tots els paquets encriptats. L'avantatge és que l'anàlisi del "
+"trànsit dels paquets encriptats no es pot realitzar amb facilitat perquè el "
 "destinatari és desconegut. El desavantatge és que el destinatari dels "
 "paquets encriptats està obligat a provar totes les claus secretes abans de "
 "poder desencriptar els paquets. Açò pot ser un procés molt llarg depenent "
@@ -328,10 +328,10 @@ msgid ""
 "allowing GnuPG users to inter operate with PGP 6 users.</p></qt>"
 msgstr ""
 "<qt><b>Compatibilitat PGP 6:</b><br /> \n"
-"<p>Marcant esta opció es força que GnuPG retorne paquets encriptats que són "
-"tan compatibles com siga possible amb l'estàndard PGP (Pretty Good Privacy) "
-"6 i, per tant, permet als usuaris de GnuPG interoperar amb els del PGP 6.</"
-"p></qt>"
+"<p>Seleccionant esta opció es força que GnuPG retorne paquets encriptats que "
+"són tan compatibles com siga possible amb l'estàndard PGP (Pretty Good "
+"Privacy) 6 i, per tant, permet als usuaris de GnuPG interoperar amb els del "
+"PGP 6.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PgpCompatibility)
 #: conf_encryption.ui:170
@@ -458,7 +458,7 @@ msgid ""
 "p></qt>"
 msgstr ""
 "<qt><b>Inicia KGpg automàticament en iniciar KDE:</b><br />\n"
-"<p>Si està marcada, KGpg s'iniciarà automàticament cada vegada que s'inicie "
+"<p>Si se selecciona, KGpg s'iniciarà automàticament cada vegada que s'inicie "
 "KDE.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoStart)
@@ -479,11 +479,11 @@ msgid ""
 msgstr ""
 "<qt><b>Utilitza la selecció del ratolí en comptes del porta-retalls:</b> "
 "<br />\n"
-"<p>Si està marcada, les operacions del porta-retalls a KGpg utilitzaran la "
+"<p>Si se selecciona, les operacions del porta-retalls a KGpg utilitzaran la "
 "selecció del porta-retalls, és a dir, es ressaltarà el text que es copiarà i "
 "amb el botó del mig del ratolí (o els botons dret+esquerre a la vegada) per "
-"a apegar. Si esta opció no està marcada, el porta-retalls funcionarà amb les "
-"dreceres («Ctrl+C», «Ctrl+V»).</p></qt> "
+"a apegar. Si no se selecciona, el porta-retalls funcionarà amb les dreceres "
+"(«Ctrl+C», «Ctrl+V»).</p></qt> "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseMouseSelection)
 #: conf_misc.ui:56
@@ -593,7 +593,7 @@ msgid ""
 "<p>If checked KGpg will minimize to an icon in the system tray.</p></qt>"
 msgstr ""
 "<qt><b>Mostra una icona en la safata del sistema:</b><br />\n"
-"<p>Si està marcada, KGpg es minimitzarà en una icona en la safata del "
+"<p>Si se selecciona, KGpg es minimitzarà en una icona en la safata del "
 "sistema.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSystray)
@@ -3978,8 +3978,8 @@ msgid ""
 "pair.</p></qt>"
 msgstr ""
 "<qt><b>Establix com a clau predeterminada:</b><br />\n"
-"<p>Marcant esta opció s'establirà el parell nou de claus com a parell de "
-"claus predeterminades.</p></qt>"
+"<p>Seleccionant esta opció s'establirà el parell de claus nou com a parell "
+"de claus predeterminat.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CBdefault)
 #: newkey.ui:140
@@ -4092,8 +4092,9 @@ msgid ""
 msgstr ""
 "<b>Permet l'encriptació amb claus que no siguen de confiança</b>: quan "
 "s'importa una clau pública es marca com que no és de confiança i no podreu "
-"utilitzar-la a menys que la signeu per a fer-la «de confiança». Si marqueu "
-"esta casella, podreu emprar qualsevol clau, encara que no haja estat signada."
+"utilitzar-la a menys que la signeu per a fer-la «de confiança». Si "
+"seleccioneu esta casella, podreu emprar qualsevol clau, encara que no haja "
+"estat signada."
 
 #: selectpublickeydialog.cpp:122
 #, kde-format
