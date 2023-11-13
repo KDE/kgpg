@@ -66,13 +66,16 @@ QDateTime SelectExpiryDate::date() const
 {
 	if (m_unlimited->isChecked())
 		return QDateTime();
-	else
-		return QDateTime(m_datepicker->date());
+	else {
+		QDateTime date;
+		date.setDate(m_datepicker->date());
+		return date;
+	}
 }
 
 void SelectExpiryDate::slotCheckDate(const QDate& date)
 {
-	okButton->setEnabled(QDateTime(date) >= QDateTime::currentDateTime());
+	okButton->setEnabled(date >= QDate::currentDate());
 }
 
 void SelectExpiryDate::slotEnableDate(const bool ison)

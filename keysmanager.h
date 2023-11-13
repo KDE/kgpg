@@ -114,7 +114,6 @@ public Q_SLOTS:
     void slotImportDone(int ret);
 
 protected:
-    bool eventFilter(QObject *, QEvent *e) override;
     void removeFromGroups(KGpgKeyNode *nd);
     void setDefaultKeyNode(KGpgKeyNode *key);
 

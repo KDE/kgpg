@@ -79,7 +79,6 @@
 #include <KStandardGuiItem>
 #include <KStandardShortcut>
 #include <KStatusNotifierItem>
-#include <KTipDialog>
 #include <KToggleAction>
 
 #include <QApplication>
@@ -709,16 +708,6 @@ void KeysManager::slotSetTrustFilter(int i)
 	}
 
 	iproxy->setTrustFilter(t);
-}
-
-bool KeysManager::eventFilter(QObject *, QEvent *e)
-{
-	if ((e->type() == QEvent::Show) && (showTipOfDay)) {
-		KTipDialog::showTip(this, QLatin1String("kgpg/tips"), false);
-		showTipOfDay = false;
-	}
-
-	return false;
 }
 
 void KeysManager::slotGotoDefaultKey()

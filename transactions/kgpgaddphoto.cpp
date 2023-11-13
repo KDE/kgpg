@@ -7,6 +7,7 @@
 
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <kmessagebox.h>
 
 KGpgAddPhoto::KGpgAddPhoto(QObject *parent, const QString &keyid, const QString &imagepath)
 	: KGpgEditKeyTransaction(parent, keyid, QLatin1String( "addphoto" ), false)
@@ -35,7 +36,7 @@ KGpgAddPhoto::nextLine(const QString &line)
 KGpgTransaction::ts_boolanswer KGpgAddPhoto::boolQuestion(const QString &line)
 {
 	if (line == QLatin1String("photoid.jpeg.size")) {
-        if (KMessageBox::questionYesNo(nullptr, i18n("This image is very large. Use it anyway?"), QString(), KGuiItem(i18n("Use Anyway")), KGuiItem(i18n("Do Not Use"))) == KMessageBox::Yes) {
+        if (KMessageBox::questionTwoActions(nullptr, i18n("This image is very large. Use it anyway?"), QString(), KGuiItem(i18n("Use Anyway")), KGuiItem(i18n("Do Not Use"))) == KMessageBox::PrimaryAction) {
 			return BA_YES;
 		} else {
 			setSuccess(TS_USER_ABORTED);

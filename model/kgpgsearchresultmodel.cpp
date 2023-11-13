@@ -77,7 +77,7 @@ SearchResult::SearchResult(const QString &line)
 	m_fingerprint = parts.at(1);
 	m_algo = KgpgCore::Convert::toAlgo(parts.at(2));
 	m_bits = parts.at(3).toUInt();
-	m_creation.setTime_t(parts.at(4).toULongLong());
+	m_creation.setSecsSinceEpoch(parts.at(4).toULongLong());
 	m_expired = !parts.at(5).isEmpty() &&
 			QDateTime::fromSecsSinceEpoch(parts.at(5).toULongLong()) <= QDateTime::currentDateTimeUtc();
 	m_revoked = (parts.at(6) == QLatin1String( "r" ));
@@ -146,12 +146,12 @@ SearchResult::summary() const
 		return i18nc("example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked",
 				"ID %1, %2-bit %3 key, created %4, revoked", m_fingerprint,
 				m_bits, KgpgCore::Convert::toString(m_algo),
-				m_creation.toString(Qt::SystemLocaleShortDate));
+				QLocale::system().toString(m_creation, QLocale::ShortFormat));
 	} else {
 		return i18nc("example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009",
 				"ID %1, %2-bit %3 key, created %4", m_fingerprint,
 				m_bits, KgpgCore::Convert::toString(m_algo),
-				m_creation.toString(Qt::SystemLocaleShortDate));
+				QLocale::system().toString(m_creation, QLocale::ShortFormat));
 	}
 }
 

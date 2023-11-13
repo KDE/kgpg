@@ -99,7 +99,7 @@ KGpgDelSign::boolQuestion(const QString &line)
 
 		auto it = std::find_if(m_signids.begin(), m_signids.end(),
 			[sigid, snlen](const KGpgSignNode *snode) {
-				return (snode->getId().rightRef(snlen).compare(sigid) == 0);
+				return (snode->getId().right(snlen).compare(sigid) == 0);
 			});
 		if (it == m_signids.end())
 			return KGpgTransaction::BA_NO;

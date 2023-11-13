@@ -134,7 +134,7 @@ void KgpgTextEdit::openDroppedFile(const QUrl &url, const bool probe)
         }
 
 	if (!tmpinfo.isEmpty()) {
-		if (KMessageBox::questionYesNo(this, tmpinfo, i18n("Key file dropped on Editor")) != KMessageBox::Yes) {
+		if (KMessageBox::questionTwoActions(this, tmpinfo, i18n("Key file dropped on Editor"), KGuiItem{i18nc("@action:button", "Yes")}, KGuiItem{i18nc("@action:button", "No")}) != KMessageBox::PrimaryAction) {
 			setPlainText(result);
 		} else {
 			KGpgImport *imp = new KGpgImport(this, result);

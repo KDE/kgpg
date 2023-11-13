@@ -64,8 +64,13 @@ find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED
 )
 
 # 5.23.80 aka 23.07.80
+if (QT_MAJOR_VERSION STREQUAL "6")
+find_package(KPim${KF_MAJOR_VERSION}AkonadiContactWidgets 5.24.40 REQUIRED)
+find_package(KF${KF_MAJOR_VERSION}StatusNotifierItem ${KF_MIN_VERSION} REQUIRED)
+else()
 find_package(KPim${KF_MAJOR_VERSION}AkonadiContact 5.23.80 REQUIRED)
 find_package(KPim${KF_MAJOR_VERSION}ContactEditor 5.23.80 REQUIRED)
+endif()
 
 if (QT_MAJOR_VERSION STREQUAL "6")
     find_package(Qt6Core5Compat)
@@ -277,10 +282,21 @@ target_link_libraries(kgpg_lib
     KF${KF_MAJOR_VERSION}::XmlGui
     KF${KF_MAJOR_VERSION}::WidgetsAddons
     KF${KF_MAJOR_VERSION}::WindowSystem
-    KPim${KF_MAJOR_VERSION}::AkonadiContact
-    KPim${KF_MAJOR_VERSION}::ContactEditor
     Qt::PrintSupport
 )
+
+if (QT_MAJOR_VERSION STREQUAL "6")
+target_link_libraries(kgpg_lib
+    KPim6::AkonadiContactWidgets
+    KF6::StatusNotifierItem
+)
+else()
+target_link_libraries(kgpg_lib
+    KPim5::AkonadiContact
+    KPim5::ContactEditor
+)
+endif()
+
 if (QT_MAJOR_VERSION STREQUAL "6")
     target_link_libraries(kgpg_lib
         Qt6::Core5Compat
