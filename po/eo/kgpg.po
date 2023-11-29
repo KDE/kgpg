@@ -61,7 +61,11 @@ msgid "%1: %2"
 msgstr "%1: %2"
 
 #: caff.cpp:158 caff.cpp:176
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "%1 is the key id, %2 is the name and comment of the key or uid, %3 is the "
+#| "¦email address of the uid"
+#| msgid "%1: %2 &lt;%3&gt;"
 msgctxt ""
 "%1 is the key id, %2 is the name and comment of the key or uid, %3 is the "
 "email address of the uid"
@@ -3206,7 +3210,7 @@ msgstr ""
 #: kgpgkeygenerate.ui:195
 #, kde-format
 msgid "Authentication"
-msgstr ""
+msgstr "Aŭtentigo"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, kgpgKeyInfo)
 #: kgpgKeyInfo.ui:14
