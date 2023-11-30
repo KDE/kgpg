@@ -61,11 +61,7 @@ msgid "%1: %2"
 msgstr "%1: %2"
 
 #: caff.cpp:158 caff.cpp:176
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "%1 is the key id, %2 is the name and comment of the key or uid, %3 is the "
-#| "¦email address of the uid"
-#| msgid "%1: %2 &lt;%3&gt;"
+#, kde-format
 msgctxt ""
 "%1 is the key id, %2 is the name and comment of the key or uid, %3 is the "
 "email address of the uid"
