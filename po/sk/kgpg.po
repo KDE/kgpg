@@ -3,21 +3,21 @@
 # Jozef Říha <jose1711@gmail.com>, 2006.
 # Richard Fric <Richard.Fric@kdemail.net>, 2006, 2009.
 # Richard Frič <Richard.Fric@kdemail.net>, 2012.
-# Roman Paholík <wizzardsk@gmail.com>, 2013, 2014, 2015, 2016, 2017, 2022.
+# SPDX-FileCopyrightText: 2013, 2014, 2015, 2016, 2017, 2022, 2023 Roman Paholík <wizzardsk@gmail.com>
 # Matej Mrenica <matejm98mthw@gmail.com>, 2019.
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-19 02:30+0000\n"
-"PO-Revision-Date: 2022-04-09 19:29+0200\n"
+"PO-Revision-Date: 2023-12-04 17:28+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 23.08.3\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, kde-format
@@ -3228,17 +3228,15 @@ msgstr ""
 "\"Dopredu\"."
 
 #: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "GnuPG Binary"
+#, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
-msgstr "Binárka BiGnuPG"
+msgstr "Binárka GnuPG"
 
 #: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "All files"
-msgstr "*|Všetky súbory"
+msgstr "Všetky súbory"
 
 #: kgpgfirstassistant.cpp:137
 #, kde-format
