@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:40+0000\n"
-"PO-Revision-Date: 2023-11-29 17:37+0900\n"
+"PO-Revision-Date: 2023-12-08 22:18+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -730,7 +730,7 @@ msgstr "已過期的金鑰:"
 #: conf_ui2.ui:82
 #, kde-format
 msgid "Revoked keys:"
-msgstr "註銷的金鑰:"
+msgstr "撤銷的金鑰:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustUnknown)
 #: conf_ui2.ui:92
@@ -881,7 +881,7 @@ msgstr "未知"
 #, kde-format
 msgctxt "Invalid key"
 msgid "Invalid"
-msgstr "不合法"
+msgstr "無效"
 
 #: core/convert.cpp:93
 #, kde-format
@@ -892,7 +892,7 @@ msgstr "已停用"
 #: core/convert.cpp:95
 #, kde-format
 msgid "Revoked"
-msgstr "已註銷"
+msgstr "已撤銷"
 
 #: core/convert.cpp:97 model/groupeditproxymodel.cpp:95
 #, kde-format
@@ -1787,7 +1787,7 @@ msgstr "在終端機編輯金鑰(&T)"
 #: keysmanager.cpp:188
 #, kde-format
 msgid "&Generate Key Pair..."
-msgstr "產生金鑰配對(&G)..."
+msgstr "產生金鑰對(&G)..."
 
 #: keysmanager.cpp:197
 #, kde-format
@@ -1842,12 +1842,12 @@ msgstr "匯出私密金鑰..."
 #: keysmanager.cpp:240
 #, kde-format
 msgid "Delete Key Pair"
-msgstr "刪除金鑰配對"
+msgstr "刪除金鑰對"
 
 #: keysmanager.cpp:244
 #, kde-format
 msgid "Revoke Key..."
-msgstr "註銷金鑰..."
+msgstr "撤銷金鑰..."
 
 #: keysmanager.cpp:247
 #, kde-format
@@ -1975,7 +1975,7 @@ msgstr ""
 #: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
 #, kde-format
 msgid "Generating new key pair"
-msgstr "產生金鑰配對中"
+msgstr "產生金鑰對中"
 
 #: keysmanager.cpp:526
 #, kde-format
@@ -2012,7 +2012,7 @@ msgstr "名稱無法被 gpg 接受。無法產生新的配對金鑰。"
 #: keysmanager.cpp:592 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
-msgstr "產生新的金鑰配對"
+msgstr "產生新的金鑰對"
 
 #: keysmanager.cpp:631
 #, kde-format
@@ -2076,7 +2076,7 @@ msgstr "次鑰"
 #: keysmanager.cpp:1100
 #, kde-format
 msgid "Secret Key Pair"
-msgstr "私密金鑰配對"
+msgstr "私密金鑰對"
 
 #: keysmanager.cpp:1103
 #, kde-format
@@ -2097,7 +2097,7 @@ msgstr "使用者 ID"
 #: keysmanager.cpp:1112
 #, kde-format
 msgid "Revocation Signature"
-msgstr "註銷簽章"
+msgstr "撤銷簽章"
 
 #: keysmanager.cpp:1115
 #, kde-format
@@ -2177,7 +2177,7 @@ msgstr[0] "刪除金鑰(&D)"
 #: keysmanager.cpp:1360
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
-msgstr "註銷憑証的建立失敗了..."
+msgstr "撤銷憑證的建立失敗了..."
 
 #: keysmanager.cpp:1375
 #, kde-format
@@ -2469,8 +2469,8 @@ msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
 "you will never be able to decrypt files encrypted with this key again."
 msgstr ""
-"<p>要刪除<b>私密金鑰</b>配對 <b>%1</b> 嗎？</p>刪除這個金鑰配對代表您將再也不"
-"能解密以這個金鑰加密的檔案。"
+"<p>要刪除<b>私密金鑰</b>配對 <b>%1</b> 嗎？</p>刪除這個金鑰對代表您將再也不能"
+"解密以這個金鑰加密的檔案。"
 
 #: keysmanager.cpp:2363 keysmanager.cpp:2392
 #, kde-format
@@ -2506,7 +2506,7 @@ msgstr "您選擇了沒有金鑰的項目。它們無法在此選單中刪除。
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
 "deleted.</qt>"
-msgstr "<qt>下面是私密金鑰配對：<br /><b>%1</b><br/>它們將不會被刪除。</qt>"
+msgstr "<qt>下面是私密金鑰對：<br /><b>%1</b><br/>它們將不會被刪除。</qt>"
 
 #: keysmanager.cpp:2482
 #, kde-format
@@ -2951,7 +2951,7 @@ msgstr "用於信任的金鑰的色彩。"
 #: kgpg.kcfg:198
 #, kde-format
 msgid "Color used for revoked keys."
-msgstr "用於註銷的金鑰的色彩。"
+msgstr "用於撤銷的金鑰的色彩。"
 
 #. i18n: ectx: label, entry (ColorUnknown), group (Key Colors)
 #: kgpg.kcfg:202
@@ -3081,7 +3081,7 @@ msgid ""
 "pair, enabling you to encrypt your files and emails."
 msgstr ""
 "這個小助手首先會設定一些 KGpg 正常運作所需的基本組態選項。接下來，他會讓您建"
-"立您自己的金鑰配對，使您可以加密您的檔案與郵件。"
+"立您自己的金鑰對，使您可以加密您的檔案與郵件。"
 
 #: kgpgfirstassistant.cpp:66
 #, kde-format
@@ -3263,7 +3263,7 @@ msgstr "產生金鑰"
 #: kgpgkeygenerate.ui:26
 #, kde-format
 msgid "Generate Key Pair"
-msgstr "產生金鑰配對"
+msgstr "產生金鑰對"
 
 #. i18n: Name of key owner
 #. i18n: ectx: property (text), widget (QLabel, nameLabel)
@@ -3570,13 +3570,13 @@ msgstr "解密檔案"
 #: kgpgrevokewidget.cpp:38
 #, kde-format
 msgid "Create Revocation Certificate"
-msgstr "建立註銷憑證"
+msgstr "建立撤銷憑證"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: kgpgrevokewidget.ui:18
 #, kde-format
 msgid "Create revocation certificate for"
-msgstr "建立註銷憑證"
+msgstr "建立撤銷憑證"
 
 #. i18n: ectx: property (text), widget (QLabel, keyID)
 #: kgpgrevokewidget.ui:28
@@ -3588,7 +3588,7 @@ msgstr "金鑰 id"
 #: kgpgrevokewidget.ui:45
 #, kde-format
 msgid "Reason for revocation:"
-msgstr "註銷的理由："
+msgstr "撤銷的理由："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, comboBox1)
 #: kgpgrevokewidget.ui:56
@@ -3817,7 +3817,7 @@ msgid ""
 "pair.</p></qt>"
 msgstr ""
 "<qt><b>設為您的預設金鑰：</b><br />\n"
-"<p>核取這個選項會把最新建立的金鑰配對設為預設的金鑰配對。</p>\n"
+"<p>核取這個選項會把最新建立的金鑰對設為預設的金鑰對。</p>\n"
 "</qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CBdefault)
@@ -3830,7 +3830,7 @@ msgstr "設為您的預設金鑰"
 #: newkey.ui:152
 #, kde-format
 msgid "Revocation Certificate"
-msgstr "註銷憑證"
+msgstr "撤銷憑證"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: newkey.ui:158
@@ -3838,7 +3838,7 @@ msgstr "註銷憑證"
 msgid ""
 "It is recommended to save or print a revocation certificate in case your key "
 "is compromised."
-msgstr "建議儲存或列印註銷憑證以備您的金鑰不再安全時之用。"
+msgstr "建議儲存或列印撤銷憑證以備您的金鑰不再安全時之用。"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CBsave)
 #: newkey.ui:170
@@ -4077,8 +4077,8 @@ msgid ""
 "encrypted, ready to be sent by email.</p>\n"
 msgstr ""
 "<p><strong>您完全不了解加密也能使用此工具。</strong><br/>\n"
-"只要在金鑰管理視窗中建立您自己的金鑰配對。接著，匯出您的公開金鑰並將它寄給您"
-"的朋友。<br/>\n"
+"只要在金鑰管理視窗中建立您自己的金鑰對。接著，匯出您的公開金鑰並將它寄給您的"
+"朋友。<br/>\n"
 "請他們做相同的程序並匯入他們的公開金鑰。最後，要傳送加密的郵件，可在 KGpg 編"
 "輯器中輸入，然後按下「加密」。選擇您朋友的金鑰並按再次按下「加密」。這個郵件"
 "就會被加密，並且可以用電子郵件傳送。</p>\n"
@@ -4260,7 +4260,7 @@ msgstr "金鑰 %1 已產生"
 #: transactions/kgpggeneraterevoke.cpp:38
 #, kde-format
 msgid "Generating Revocation Certificate for key %1"
-msgstr "產生金鑰 %1 的註銷憑證中"
+msgstr "產生金鑰 %1 的撤銷憑證中"
 
 #: transactions/kgpgimport.cpp:117
 #, kde-kuit-format
@@ -4338,7 +4338,7 @@ msgstr[0] "<para>已經匯入 %1 個簽章。</para>"
 msgctxt "@info"
 msgid "<para>One revocation certificate imported.</para>"
 msgid_plural "<para>%1 revocation certificates imported.</para>"
-msgstr[0] "<para>已經匯入 %1 個註銷憑證。</para>"
+msgstr[0] "<para>已經匯入 %1 個撤銷憑證。</para>"
 
 #: transactions/kgpgimport.cpp:142
 #, kde-kuit-format
