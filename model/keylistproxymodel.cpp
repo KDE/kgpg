@@ -553,7 +553,7 @@ KeyListProxyModel::setData(const QModelIndex &index, const QVariant &value, int 
 {
 	Q_UNUSED(role);
 
-	if (value.type() != QVariant::String)
+	if (value.typeId() != QMetaType::QString)
 		return false;
 
 	KGpgNode *node = nodeForIndex(index);
