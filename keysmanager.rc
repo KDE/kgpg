@@ -51,7 +51,6 @@
     </Menu>
 
     <Menu name="help">
-        <Action name="help_tipofday"/>
         <Action name="gpg_man"/>
     </Menu>
 </MenuBar>

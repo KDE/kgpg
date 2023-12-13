@@ -287,7 +287,6 @@ install(TARGETS kgpg  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
-install( FILES tips  DESTINATION ${KDE_INSTALL_DATADIR}/kgpg)
 install( PROGRAMS org.kde.kgpg.desktop  DESTINATION ${KDE_INSTALL_APPDIR})
 install( FILES org.kde.kgpg.appdata.xml  DESTINATION ${KDE_INSTALL_METAINFODIR})
 install( FILES kgpg.kcfg  DESTINATION ${KDE_INSTALL_KCFGDIR})

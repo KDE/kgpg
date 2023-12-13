@@ -146,14 +146,7 @@ KeysManager::KeysManager(QWidget *parent)
 	// because they are used to set up the tray icon context menu
 	readOptions();
 
-	if (showTipOfDay)
-		installEventFilter(this);
-
 	QAction *action;
-
-	action = actionCollection()->addAction(QLatin1String("help_tipofday"), this, &KeysManager::slotTip);
-	action->setIcon( QIcon::fromTheme( QLatin1String( "help-hint" )) );
-	action->setText( i18n("Tip of the &Day") );
 
 	action = actionCollection()->addAction(QLatin1String("gpg_man"), this, &KeysManager::slotManpage);
 	action->setText( i18n("View GnuPG Manual") );
@@ -460,7 +453,7 @@ KeysManager::KeysManager(QWidget *parent)
 	m_statusBarLabel.setAlignment(Qt::AlignCenter);
 	statusBar()->addPermanentWidget(&m_statusBarLabel);
 
-	cg = KConfigGroup(KSharedConfig::openConfig().data(), "MainWindow");
+	cg = KConfigGroup(KSharedConfig::openConfig().data(), u"MainWindow"_s);
 	setAutoSaveSettings(cg, true);
 	applyMainWindowSettings(cg);
 
@@ -1016,20 +1009,20 @@ void KeysManager::slotAddressbookSearchResult(KJob *job)
 
 	m_addIds.take(job);
 
-	ContactEditor::ContactEditorDialog *dlg;
+	Akonadi::ContactEditorDialog *dlg;
 // 	KContacts::Key key; TODO
 	if (!addresseeList.isEmpty()) {
-		dlg = new ContactEditor::ContactEditorDialog(ContactEditor::ContactEditorDialog::EditMode, this);
+		dlg = new Akonadi::ContactEditorDialog(Akonadi::ContactEditorDialog::EditMode, this);
 		dlg->setContact(searchJob->items().at(0));
 	} else {
 		KContacts::Addressee addressee;
 		addressee.setNameFromString(nd->getName());
 		addressee.setEmails(QStringList(nd->getEmail()));
-		dlg = new ContactEditor::ContactEditorDialog(ContactEditor::ContactEditorDialog::CreateMode, this);
+		dlg = new Akonadi::ContactEditorDialog(Akonadi::ContactEditorDialog::CreateMode, this);
 		dlg->editor()->setContactTemplate(addressee);
 	}
 
-	connect(dlg, &ContactEditor::ContactEditorDialog::finished, dlg, &ContactEditor::ContactEditorDialog::deleteLater);
+	connect(dlg, &Akonadi::ContactEditorDialog::finished, dlg, &Akonadi::ContactEditorDialog::deleteLater);
 	dlg->show();
 }
 
@@ -1039,11 +1032,6 @@ void KeysManager::slotManpage()
 	auto job = new KIO::ApplicationLauncherJob(helpCenter);
 	job->setUrls({QUrl(QStringLiteral("man:/gpg"))});
 	job->start();
-}
-
-void KeysManager::slotTip()
-{
-	KTipDialog::showTip(this, QLatin1String("kgpg/tips"), true);
 }
 
 void KeysManager::showKeyServer()
@@ -1129,7 +1117,7 @@ void KeysManager::quitApp()
 
 void KeysManager::saveToggleOpts(void)
 {
-	KConfigGroup cg = KConfigGroup(KSharedConfig::openConfig().data(), "KeyView");
+	KConfigGroup cg = KConfigGroup(KSharedConfig::openConfig().data(), u"KeyView"_s);
 	iview->saveLayout(cg);
 	KGpgSettings::setPhotoProperties(photoProps->currentItem());
 	KGpgSettings::setShowTrust(sTrust->isChecked());
@@ -1150,8 +1138,6 @@ void KeysManager::readOptions()
 
 	if (imodel != nullptr)
 		updateStatusCounter();
-
-	showTipOfDay = KGpgSettings::showTipOfDay();
 
 	if (KGpgSettings::showSystray()) {
 		setupTrayIcon();
@@ -2051,7 +2037,7 @@ void KeysManager::slotCaffDone()
 
 void KeysManager::signKeyOpenConsole(const QString &signer, const QString &keyid, const int checking, const bool local)
 {
-	KConfigGroup config(KSharedConfig::openConfig(), "General");
+	KConfigGroup config(KSharedConfig::openConfig(), u"General"_s);
 
 	KProcess process;
 	process << config.readPathEntry("TerminalApplication", QLatin1String("konsole"))
@@ -2060,7 +2046,7 @@ void KeysManager::signKeyOpenConsole(const QString &signer, const QString &keyid
 			<< QLatin1String("--no-secmem-warning")
 			<< QLatin1String("-u") << signer
 			<< QLatin1String("--default-cert-level")
-			<< QString(checking);
+			<< QString::number(checking);
 
 	if (!local)
 		process << QLatin1String( "--sign-key" ) << keyid;
@@ -2252,7 +2238,7 @@ void KeysManager::slotedit()
 		return;
 
 	KProcess *kp = new KProcess(this);
-	KConfigGroup config(KSharedConfig::openConfig(), "General");
+	KConfigGroup config(KSharedConfig::openConfig(), u"General"_s);
 	*kp << config.readPathEntry("TerminalApplication", QLatin1String("konsole"))
 			<< QLatin1String("-e")
 			<< KGpgSettings::gpgBinaryPath()
@@ -2263,7 +2249,7 @@ void KeysManager::slotedit()
 	terminalkey = nd->toKeyNode();
 	editKey->setEnabled(false);
 
-	connect(kp, QOverload<int>::of(&KProcess::finished), this, &KeysManager::slotEditDone);
+	connect(kp, &KProcess::finished, this, &KeysManager::slotEditDone);
 	kp->start();
 }
 

@@ -182,13 +182,6 @@
         </entry>
     </group>
 
-    <group name="TipOfDay">
-        <entry name="ShowTipOfDay" type="Bool" key="RunOnStart">
-            <label>Show tip of the day.</label>
-            <default>true</default>
-        </entry>
-    </group>
-
     <group name="Key Colors">
         <entry name="ColorGood" type="Color" key="color_good">
             <label>Color used for trusted keys.</label>

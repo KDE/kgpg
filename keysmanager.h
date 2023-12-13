@@ -149,7 +149,6 @@ private Q_SLOTS:
     void doPrint(const QString &txt);
     void checkList();
     void slotManpage();
-    void slotTip();
     void slotExportFinished(int result);
     void slotProcessExportMail(int result);
     void slotProcessExportClip(int result);
@@ -269,7 +268,6 @@ private:
     QAction *m_groupRename;
     QAction *m_revokeKey;
 
-    bool showTipOfDay;
     bool m_signuids;
 
     int keyCount;
