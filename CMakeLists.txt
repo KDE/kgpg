@@ -26,25 +26,22 @@ include(CMakeFindDependencyMacro)
 include(ECMQtDeclareLoggingCategory)
 include(ECMDeprecationSettings)
 
-if (QT_MAJOR_VERSION STREQUAL "6")
-    set(QT_REQUIRED_VERSION "6.4.0")
-    set(KF_MIN_VERSION "5.240.0")
-    set(KF_MAJOR_VERSION "6")
-else()
-    set(KF_MAJOR_VERSION "5")
-endif()
+set(QT_REQUIRED_VERSION "6.4.0")
+set(KF_MIN_VERSION "5.240.0")
+set(KF_MAJOR_VERSION "6")
 
-find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
   Core
   DBus
   Gui
   PrintSupport
   Widgets
+  Core5Compat
 )
 
 
 # Load the frameworks we need
-find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED
+find_package(KF6 ${KF_MIN_VERSION} REQUIRED
   Archive
   DocTools
   Codecs
@@ -61,20 +58,10 @@ find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED
   WidgetsAddons
   WindowSystem
   Contacts
+  StatusNotifierItem
 )
 
-# 5.23.80 aka 23.07.80
-if (QT_MAJOR_VERSION STREQUAL "6")
-find_package(KPim${KF_MAJOR_VERSION}AkonadiContactWidgets 5.24.40 REQUIRED)
-find_package(KF${KF_MAJOR_VERSION}StatusNotifierItem ${KF_MIN_VERSION} REQUIRED)
-else()
-find_package(KPim${KF_MAJOR_VERSION}AkonadiContact 5.23.80 REQUIRED)
-find_package(KPim${KF_MAJOR_VERSION}ContactEditor 5.23.80 REQUIRED)
-endif()
-
-if (QT_MAJOR_VERSION STREQUAL "6")
-    find_package(Qt6Core5Compat)
-endif()
+find_package(KPim6AkonadiContactWidgets 5.24.40 REQUIRED)
 
 # only headers are used
 find_package(Gpgme REQUIRED)
@@ -265,41 +252,31 @@ endif ()
 set_property(SOURCE main.cpp APPEND PROPERTY COMPILE_DEFINITIONS "KGPG_VERSION=\"${RELEASE_SERVICE_VERSION}\"")
 
 target_link_libraries(kgpg_lib
-    KF${KF_MAJOR_VERSION}::Archive
-    KF${KF_MAJOR_VERSION}::Codecs
-    KF${KF_MAJOR_VERSION}::Contacts
-    KF${KF_MAJOR_VERSION}::CoreAddons
-    KF${KF_MAJOR_VERSION}::Crash
-    KF${KF_MAJOR_VERSION}::DBusAddons
-    KF${KF_MAJOR_VERSION}::I18n
-    KF${KF_MAJOR_VERSION}::JobWidgets
-    KF${KF_MAJOR_VERSION}::KIOCore
-    KF${KF_MAJOR_VERSION}::KIOFileWidgets
-    KF${KF_MAJOR_VERSION}::KIOWidgets
-    KF${KF_MAJOR_VERSION}::Notifications
-    KF${KF_MAJOR_VERSION}::Service
-    KF${KF_MAJOR_VERSION}::TextWidgets
-    KF${KF_MAJOR_VERSION}::XmlGui
-    KF${KF_MAJOR_VERSION}::WidgetsAddons
-    KF${KF_MAJOR_VERSION}::WindowSystem
-    Qt::PrintSupport
-)
-
-if (QT_MAJOR_VERSION STREQUAL "6")
-target_link_libraries(kgpg_lib
-    KPim6::AkonadiContactWidgets
+    KF6::Archive
+    KF6::Codecs
+    KF6::Contacts
+    KF6::CoreAddons
+    KF6::Crash
+    KF6::DBusAddons
+    KF6::I18n
+    KF6::JobWidgets
+    KF6::KIOCore
+    KF6::KIOFileWidgets
+    KF6::KIOWidgets
+    KF6::Notifications
+    KF6::Service
+    KF6::TextWidgets
+    KF6::XmlGui
+    KF6::WidgetsAddons
+    KF6::WindowSystem
     KF6::StatusNotifierItem
+    KPim6::AkonadiContactWidgets
+    Qt6::Core5Compat
+    Qt6::PrintSupport
 )
-else()
-target_link_libraries(kgpg_lib
-    KPim5::AkonadiContact
-    KPim5::ContactEditor
-)
-endif()
 
 if (QT_MAJOR_VERSION STREQUAL "6")
     target_link_libraries(kgpg_lib
-        Qt6::Core5Compat
     )
 endif()
 if(BUILD_TESTING)

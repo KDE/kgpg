@@ -76,7 +76,6 @@ private Q_SLOTS:
     // Coding menu
     void slotSetCharset();
     void slotResetEncoding(bool enc);
-    bool checkEncoding(QTextCodec *codec);
 
     // Signing menu
     void slotPreSignFile();

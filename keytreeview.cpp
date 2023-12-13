@@ -154,9 +154,9 @@ KeyTreeView::contentsDropEvent(QDropEvent *o)
 {
 	QList<QUrl> uriList = KUrlMimeData::urlsFromMimeData(o->mimeData());
 	if (!uriList.isEmpty()) {
-		if (KMessageBox::questionYesNo(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>",
+		if (KMessageBox::questionTwoActions(this, i18n("<p>Do you want to import file <b>%1</b> into your key ring?</p>",
 					uriList.first().path()), QString(), KGuiItem(i18n("Import")),
-					KGuiItem(i18n("Do Not Import"))) != KMessageBox::Yes)
+					KGuiItem(i18n("Do Not Import"))) != KMessageBox::PrimaryAction)
 			return;
 
 		Q_EMIT importDrop(uriList);

@@ -15,6 +15,7 @@
 #include "model/keylistproxymodel.h"
 #include "model/kgpgitemmodel.h"
 
+#include <kmessagebox.h>
 #include <kwidgetsaddons_version.h>
 #include <KConfig>
 #include <KConfigGroup>
@@ -36,6 +37,7 @@
 #include <QStandardPaths>
 
 using namespace KgpgCore;
+using namespace Qt::Literals::StringLiterals;
 
 //   main window
 kgpgOptions::kgpgOptions(QWidget *parent, KGpgItemModel *model)
@@ -153,7 +155,7 @@ void kgpgOptions::slotChangeHome()
 		confPath = QLatin1String( "gpg.conf" );
 		if (!QFile(gpgHome + confPath).exists()) {
 			// Try to create config File by running gpg once
-			if (KMessageBox::Yes == KMessageBox::questionYesNo(this,
+			if (KMessageBox::PrimaryAction == KMessageBox::questionTwoActions(this,
 					i18n("No configuration file was found in the selected location.\nDo you want to create it now?\n\nWithout a configuration file, neither KGpg nor GnuPG will work properly."),
 					i18n("No Configuration File Found"),
 					KGuiItem(i18n("Create")),
@@ -476,13 +478,13 @@ void kgpgOptions::slotInstallDecrypt(const QString &mimetype)
 	const QString path(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/konqueror/servicemenus/decryptfile.desktop" ));
 	KDesktopFile configl2(path);
 	if (!configl2.isImmutable()) {
-		KConfigGroup gr(configl2.group("Desktop Entry"));
+		KConfigGroup gr(configl2.group(u"Desktop Entry"_s));
 
 		gr.writeXdgListEntry("MimeType", QStringList(mimetype));
 		gr.writeEntry("X-KDE-ServiceTypes", "KonqPopupMenu/Plugin");
 		gr.writeEntry("Actions", "decrypt");
 
-		gr = configl2.group("Desktop Action decrypt");
+		gr = configl2.group(u"Desktop Action decrypt"_s);
 		gr.writeEntry("Name", i18n("Decrypt File"));
 		//gr.writeEntry("Icon", "decrypt_file");
 		gr.writeEntry("Exec", "kgpg %U");
@@ -494,12 +496,12 @@ void kgpgOptions::slotInstallSign(const QString &mimetype)
 	QString path(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QLatin1String("/kde5/services/") + QLatin1String( "ServiceMenus/signfile.desktop" ));
 	KDesktopFile configl2(path);
 	if (!configl2.isImmutable()) {
-		KConfigGroup gr = configl2.group("Desktop Entry");
+		KConfigGroup gr = configl2.group(u"Desktop Entry"_s);
 		gr.writeXdgListEntry("MimeType", QStringList(mimetype));
 		gr.writeEntry("X-KDE-ServiceTypes", "KonqPopupMenu/Plugin");
 		gr.writeEntry("Actions", "sign");
 
-		gr = configl2.group("Desktop Action sign");
+		gr = configl2.group(u"Desktop Action sign"_s);
 		gr.writeEntry("Name", i18n("Sign File"));
 		//gr.writeEntry("Icon", "sign_file");
 		gr.writeEntry("Exec","kgpg -S %F");

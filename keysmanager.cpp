@@ -58,6 +58,7 @@
 #include <KActionCollection>
 #include <KContacts/AddresseeList>
 // #include <KContacts/Key> TODO
+#include <kmessagebox.h>
 #include <kwidgetsaddons_version.h>
 #include <KIO/Global>
 #include <KIO/ApplicationLauncherJob>
@@ -102,6 +103,8 @@
 #include <QUrl>
 #include <QWidget>
 #include <QWidgetAction>
+
+using namespace Qt::Literals::StringLiterals;
 
 using namespace KgpgCore;
 
@@ -412,7 +415,7 @@ KeysManager::KeysManager(QWidget *parent)
 
 	exportPublicKey->setEnabled(false);
 
-	KConfigGroup cg = KConfigGroup(KSharedConfig::openConfig().data(), "KeyView");
+	KConfigGroup cg = KConfigGroup(KSharedConfig::openConfig().data(), u"KeyView"_s);
 	iview->restoreLayout(cg);
 
 	connect(photoProps, &KSelectAction::indexTriggered, this, &KeysManager::slotSetPhotoSize);
@@ -502,7 +505,7 @@ void KeysManager::slotGenerateKey()
 			m_genkey->start();
 			QApplication::setOverrideCursor(Qt::BusyCursor);
 		} else {
-			KConfigGroup config(KSharedConfig::openConfig(), "General");
+			KConfigGroup config(KSharedConfig::openConfig(), u"General"_s);
 
 			QString terminalApp(config.readPathEntry("TerminalApplication", QLatin1String( "konsole" )));
 
@@ -603,7 +606,7 @@ void KeysManager::slotGenerateKeyDone(KJob *job)
 		page->kURLRequester1->setUrl(KGpgRevokeDialog::revokeUrl(genkey->getName(), email));
 
 		const QString fingerprint(genkey->getFingerprint());
-		page->TLid->setText(QLatin1String( "<b>" ) % fingerprint.rightRef(8) % QLatin1String( "</b>" ));
+		page->TLid->setText(QLatin1String( "<b>" ) % fingerprint.right(8) % QLatin1String( "</b>" ));
 		page->LEfinger->setText(fingerprint);
 		page->CBdefault->setChecked(true);
 		page->show();
@@ -1638,10 +1641,10 @@ void KeysManager::keyproperties()
 	switch (cur->getType()) {
 	case ITYPE_SECRET:
 	case ITYPE_GSECRET:
-		if (KMessageBox::questionYesNo(this,
+		if (KMessageBox::questionTwoActions(this,
 			i18n("<p>This key is an orphaned secret key (secret key without public key.) It is currently not usable.</p>"
 					"<p>Would you like to regenerate the public key?</p>"),
-					QString(), KGuiItem(i18n("Generate")), KGuiItem(i18n("Do Not Generate"))) == KMessageBox::Yes)
+					QString(), KGuiItem(i18n("Generate")), KGuiItem(i18n("Do Not Generate"))) == KMessageBox::PrimaryAction)
 		slotregenerate();
 		return;
 	case ITYPE_PAIR:
@@ -1982,10 +1985,10 @@ void KeysManager::signatureResult(int success)
 				nd->getName(), nd->getEmail()));
 		break;
 	default:
-		if (KMessageBox::questionYesNo(this,
+		if (KMessageBox::questionTwoActions(this,
 				i18n("<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />"
 						"Do you want to try signing the key in console mode?</qt>",
-						nd->getId(), signer)) == KMessageBox::Yes)
+						nd->getId(), signer), QString{}, KGuiItem(i18nc("@action:button", "Sign")), KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction)
 			signKeyOpenConsole(signer, nd->getId(), checklevel, localsign);
 	}
 
@@ -2195,7 +2198,7 @@ void KeysManager::delsignkey()
 	QString ask = i18n("<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user id <b>%2</b><br />of key: <b>%3</b>?</qt>",
 			signMail, parentMail, parentKey);
 
-	if (KMessageBox::questionYesNo(this, ask, QString(), KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::Yes)
+	if (KMessageBox::questionTwoActions(this, ask, QString(), KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction)
 		return;
 
 	KGpgDelSign *delsig = new KGpgDelSign(this, nd->toSignNode());
@@ -2302,7 +2305,7 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 			"<qt>The key you are deleting is a member of the following key groups. Do you want to remove it from these groups?</qt>",
 			groupNames.count());
 
-	if (KMessageBox::questionYesNoList(this, ask, groupNames, i18n("Delete key")) != KMessageBox::Yes)
+	if (KMessageBox::questionTwoActionsList(this, ask, groupNames, i18n("Delete key"), KStandardGuiItem::remove(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction)
 		return;
 
 	bool groupDeleted = false;
@@ -2314,9 +2317,9 @@ void KeysManager::removeFromGroups(KGpgKeyNode *node)
 		bool deleteWholeGroup = (group->getChildCount() == 1) &&
 				(group->getChild(0)->toGroupMemberNode() == gref);
 		if (deleteWholeGroup)
-			deleteWholeGroup = (KMessageBox::questionYesNo(this,
+			deleteWholeGroup = (KMessageBox::questionTwoActions(this,
 					i18n("You are removing the last key from key group %1.<br/>Do you want to delete the group, too?", group->getName()),
-					i18n("Delete key")) == KMessageBox::Yes);
+					i18n("Delete key"), KStandardGuiItem::remove(), KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction);
 
 		if (!deleteWholeGroup) {
 			imodel->deleteFromGroup(group, gref);
@@ -2540,10 +2543,10 @@ void KeysManager::slotImport(const QString &text)
 	KGpgImport *imp;
 
 	if (!KGpgImport::isKey(text) && KGpgDecrypt::isEncryptedText(text)) {
-		if (KMessageBox::questionYesNo(this,
+		if (KMessageBox::questionTwoActions(this,
 				i18n("<qt>The text in the clipboard does not look like a key, but like encrypted text.<br />Do you want to decrypt it first"
 						" and then try importing it?</qt>"),
-						i18n("Import from Clipboard")) != KMessageBox::Yes)
+						i18n("Import from Clipboard"), KStandardGuiItem::ok(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction)
 			return;
 
 		imp = new KGpgImport(this);
@@ -2633,10 +2636,10 @@ KeysManager::setupTrayIcon()
 
 	switch (KGpgSettings::leftClick()) {
 	case KGpgSettings::EnumLeftClick::Editor:
-		m_trayicon->setAssociatedWidget(s_kgpgEditor);
+		m_trayicon->setAssociatedWindow(s_kgpgEditor->windowHandle());
 		break;
 	case KGpgSettings::EnumLeftClick::KeyManager:
-		m_trayicon->setAssociatedWidget(this);
+		m_trayicon->setAssociatedWindow(windowHandle());
 		break;
 	}
 

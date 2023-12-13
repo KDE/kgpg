@@ -96,8 +96,6 @@ void KGpgApp::handleArguments(const QCommandLineParser &parser, const QDir &work
 	// parsing of command line args
     if (parser.isSet(QStringLiteral("k")) || (!KGpgSettings::showSystray() && parser.positionalArguments().isEmpty() && !parser.isSet(QStringLiteral("d")))) {
 		s_keyManager->show();
-		KWindowSystem::setOnDesktop(s_keyManager->winId(), KWindowSystem::currentDesktop());  //set on the current desktop
-		KWindowSystem::unminimizeWindow(s_keyManager->winId());  //de-iconify window
 		s_keyManager->raise();  // set on top
     } else if (parser.isSet(QStringLiteral("d"))) {
 		s_keyManager->slotOpenEditor();

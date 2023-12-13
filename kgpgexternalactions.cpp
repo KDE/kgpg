@@ -420,7 +420,7 @@ void KGpgExternalActions::readOptions()
 	if (KGpgSettings::firstRun()) {
 		firstRun();
 	} else if (KGpgSettings::gpgConfigPath().isEmpty()) {
-                if (KMessageBox::Yes == KMessageBox::questionYesNo(nullptr,
+                if (KMessageBox::PrimaryAction == KMessageBox::questionTwoActions(nullptr,
 				i18n("<qt>You have not set a path to your GnuPG config file.<br />This may cause some surprising results in KGpg's execution."
 				"<br />Would you like to start KGpg's assistant to fix this problem?</qt>"),
 				QString(), KGuiItem(i18n("Start Assistant")), KGuiItem(i18n("Do Not Start"))))

@@ -48,6 +48,10 @@
 #include <QTextStream>
 #include <QVBoxLayout>
 #include <QWidget>
+#include <kmessagebox.h>
+#include <qstringconverter_base.h>
+
+using namespace Qt::Literals::StringLiterals;
 
 class KgpgView : public QWidget {
 public:
@@ -102,7 +106,7 @@ KgpgEditor::KgpgEditor(KeysManager *parent, KGpgItemModel *model, Qt::WindowFlag
 KgpgEditor::~KgpgEditor()
 {
     disconnect(m_editor, &KgpgTextEdit::textChanged, this, &KgpgEditor::modified);
-    m_recentfiles->saveEntries( KConfigGroup(KSharedConfig::openConfig(), "Recent Files" ) );
+    m_recentfiles->saveEntries( KConfigGroup(KSharedConfig::openConfig(), u"Recent Files"_s ) );
 }
 
 void KgpgEditor::openDocumentFile(const QUrl &url, const QString &encoding)
@@ -113,7 +117,10 @@ void KgpgEditor::openDocumentFile(const QUrl &url, const QString &encoding)
     if(!downloadJob->error())
     {
         QTextStream t(downloadJob->data());
-        t.setEncoding(encoding.toLatin1().constData());
+        auto enc = QStringConverter::encodingForName(encoding.toLatin1().constData());
+        if (enc) {
+            t.setEncoding(*enc);
+        }
         m_editor->setPlainText(t.readAll());
         m_docname = url;
         m_textchanged = false;
@@ -135,7 +142,7 @@ void KgpgEditor::slotSetFont(QFont myFont)
 
 void KgpgEditor::closeWindow()
 {
-    m_recentfiles->saveEntries( KConfigGroup(KSharedConfig::openConfig(), "Recent Files" ) );
+    m_recentfiles->saveEntries( KConfigGroup(KSharedConfig::openConfig(), u"Recent Files"_s ) );
     close();
 }
 
@@ -169,7 +176,7 @@ void KgpgEditor::initActions()
     m_recentfiles = KStandardAction::openRecent(this, SLOT(openDocumentFile(QUrl)), this);
     menuBar()->addAction(m_recentfiles);
 
-    m_recentfiles->loadEntries( KConfigGroup(KSharedConfig::openConfig(), "Recent Files" ) );
+    m_recentfiles->loadEntries( KConfigGroup(KSharedConfig::openConfig(), u"Recent Files"_s ) );
     m_recentfiles->setMaxItems(KGpgSettings::recentFiles());
 
     QAction *action = actionCollection()->addAction(QLatin1String("file_encrypt"), this, &KgpgEditor::slotFilePreEnc);
@@ -234,11 +241,11 @@ bool KgpgEditor::saveBeforeClear()
 
         QString msg = i18n("The document \"%1\" has changed.\nDo you want to save it?", fname);
         QString caption = i18n("Close the document");
-        int res = KMessageBox::warningYesNoCancel(this, msg, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
-        if (res == KMessageBox::Yes)
+        int res = KMessageBox::warningTwoActionsCancel(this, msg, caption, KStandardGuiItem::save(), KStandardGuiItem::discard());
+        if (res == KMessageBox::PrimaryAction)
             return slotFileSave();
         else
-        if (res == KMessageBox::No)
+        if (res == KMessageBox::SecondaryAction)
             return true;
         else
             return false;
@@ -276,17 +283,11 @@ bool KgpgEditor::slotFileSave()
     if (filn.isEmpty())
         return slotFileSaveAs();
 
-    QTextCodec *cod = QTextCodec::codecForName(m_textencoding.toLatin1());
+    auto encoding = QStringConverter::encodingForName(m_textencoding.toUtf8().data());
 
-    if (cod == nullptr) {
+    if (!encoding) {
 		KMessageBox::error(this, i18n("The document could not been saved, as the selected codec is not supported."));
 		return false;
-    }
-
-    if (!checkEncoding(cod))
-    {
-        KMessageBox::error(this, i18n("The document could not been saved, as the selected encoding cannot encode every unicode character in it."));
-        return false;
     }
 
     if (m_docname.isLocalFile())
@@ -299,13 +300,14 @@ bool KgpgEditor::slotFileSave()
         }
 
         QTextStream t(&f);
-        t.setCodec(cod);
+        t.setEncoding(*encoding);
         t << m_editor->toPlainText();
         f.close();
     }
     else
     {
-        auto uploadJob = KIO::storedPut(cod->fromUnicode(m_editor->toPlainText()), m_docname, -1);
+		auto fromUnicode = QStringEncoder(*encoding);
+        auto uploadJob = KIO::storedPut(fromUnicode(m_editor->toPlainText()), m_docname, -1);
         KJobWidgets::setWindow(uploadJob , this);
         uploadJob->exec();
         if(uploadJob->error())
@@ -592,15 +594,8 @@ void KgpgEditor::slotSetCharset()
         m_editor->setPlainText(QString::fromUtf8(m_editor->toPlainText().toLatin1()));
     else
     {
-        if (checkEncoding(QTextCodec::codecForLocale()))
-            return;
         m_editor->setPlainText(QLatin1String( m_editor->toPlainText().toUtf8() ));
     }
-}
-
-bool KgpgEditor::checkEncoding(QTextCodec *codec)
-{
-    return codec->canEncode(m_editor->toPlainText());
 }
 
 void KgpgEditor::slotResetEncoding(bool enc)
@@ -695,9 +690,9 @@ void KgpgEditor::importSignatureKey(const QString &id, const QString &fileName)
 {
 	sender()->deleteLater();
 
-        if (KMessageBox::questionYesNo(nullptr,
+        if (KMessageBox::questionTwoActions(nullptr,
 			i18n("<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt>", id),
-			fileName, KGuiItem(i18n("Import")), KGuiItem(i18n("Do Not Import"))) != KMessageBox::Yes)
+			fileName, KGuiItem(i18n("Import")), KGuiItem(i18n("Do Not Import"))) != KMessageBox::PrimaryAction)
 		return;
 
 	KeyServer *ks = new KeyServer(this);

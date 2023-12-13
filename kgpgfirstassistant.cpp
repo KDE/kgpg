@@ -25,6 +25,7 @@
 #include <QTextStream>
 #include <QWidget>
 #include <QUrl>
+#include <kmessagebox.h>
 
 using namespace KgpgCore;
 
@@ -241,7 +242,7 @@ KGpgFirstAssistant::findConfigPath(const QString &gpgBinary)
 		if (QFile(confPathOpt).exists()) {
 			confPath = confPathOpt;
 		} else {
-                        if (KMessageBox::questionYesNo(nullptr, i18n("<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to create a config file ?</qt>"), QString(), KGuiItem(i18n("Create Config")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::Yes) {
+			if (KMessageBox::questionTwoActions(nullptr, i18n("<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to create a config file ?</qt>"), QString(), KGuiItem(i18n("Create Config")), KGuiItem(i18n("Do Not Create"))) == KMessageBox::PrimaryAction) {
 				QFile file(confPath);
 				if (file.open(QIODevice::WriteOnly)) {
 				    QTextStream stream(&file);
