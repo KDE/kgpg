@@ -63,11 +63,7 @@
 #include <KIO/ApplicationLauncherJob>
 #include <KIO/OpenUrlJob>
 #include <kio_version.h>
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
 #include <KIO/JobUiDelegateFactory>
-#else
-#include <KIO/JobUiDelegate>
-#endif
 #include <KJobTrackerInterface>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -96,7 +92,7 @@
 #include <QList>
 #include <QMenu>
 #include <QMetaObject>
-#include <QNetworkConfigurationManager>
+#include <QNetworkInformation>
 #include <QPainter>
 #include <QPrintDialog>
 #include <QPrinter>
@@ -466,11 +462,16 @@ KeysManager::KeysManager(QWidget *parent)
 	applyMainWindowSettings(cg);
 
 	connect(this, &KeysManager::fontChanged, s_kgpgEditor, &KgpgEditor::slotSetFont);
+	QNetworkInformation::loadDefaultBackend();
+	auto networkInformation = QNetworkInformation::instance();
+	if (networkInformation) {
+		Q_ASSERT(networkInformation);
+		connect(networkInformation, &QNetworkInformation::reachabilityChanged, this, [this](QNetworkInformation::Reachability reachability) {
+			toggleNetworkActions(reachability == QNetworkInformation::Reachability::Online);
+		});
 
-	QNetworkConfigurationManager *netmgr = new QNetworkConfigurationManager(this);
-	connect(netmgr, &QNetworkConfigurationManager::onlineStateChanged, this, &KeysManager::toggleNetworkActions);
-
-	toggleNetworkActions(netmgr->isOnline());
+		toggleNetworkActions(networkInformation->reachability() == QNetworkInformation::Reachability::Online);
+	}
 	importSignatureKey->setEnabled(false);
 
     stateChanged(QStringLiteral("empty_list"));
