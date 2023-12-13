@@ -113,7 +113,7 @@ void KgpgEditor::openDocumentFile(const QUrl &url, const QString &encoding)
     if(!downloadJob->error())
     {
         QTextStream t(downloadJob->data());
-        t.setCodec(encoding.toLatin1().constData());
+        t.setEncoding(encoding.toLatin1().constData());
         m_editor->setPlainText(t.readAll());
         m_docname = url;
         m_textchanged = false;

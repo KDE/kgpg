@@ -250,7 +250,7 @@ KGpgTransaction::insertArguments(const int pos, const QStringList &args)
 	d->m_process->setProgram(tmp);
 
 	int move = args.count();
-	for (int *ref : qAsConst(d->m_argRefs)) {
+	for (int *ref : std::as_const(d->m_argRefs)) {
 		if (*ref >= pos)
 			*ref += move;
 	}

@@ -326,15 +326,19 @@ void KgpgTextEdit::slotVerifyDone(int result)
 
 void KgpgTextEdit::verifyKeyNeeded(const QString &id)
 {
-    KGuiItem importitem = KStandardGuiItem::yes();
-    importitem.setText(i18n("&Import"));
-    importitem.setToolTip(i18n("Import key in your list"));
+    KGuiItem importitem {
+        i18n("&Import"),
+        QIcon::fromTheme(QStringLiteral("checkbox")),
+        i18n("Import key in your list")
+    };
 
-    KGuiItem noimportitem = KStandardGuiItem::no();
-    noimportitem.setText(i18n("Do &Not Import"));
-    noimportitem.setToolTip(i18n("Will not import this key in your list"));
+    KGuiItem noimportitem {
+        i18n("Do &Not Import"),
+        QIcon{},
+        i18n("Will not import this key in your list")
+    };
 
-    if (KMessageBox::questionYesNo(this, i18n("<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt>", id), i18n("Missing Key"), importitem, noimportitem) == KMessageBox::Yes)
+    if (KMessageBox::questionTwoActions(this, i18n("<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to import this key from a keyserver?</qt>", id), i18n("Missing Key"), importitem, noimportitem) == KMessageBox::PrimaryAction)
     {
         KeyServer *kser = new KeyServer(nullptr, m_model, true);
         kser->slotSetText(id);

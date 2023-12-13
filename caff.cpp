@@ -149,7 +149,7 @@ KGpgCaffPrivate::checkNextLoop()
 		if (!m_noEncIds.isEmpty()) {
 			QStringList ids;
 
-			for (const KGpgSignableNode *nd : qAsConst(m_noEncIds))
+			for (const KGpgSignableNode *nd : std::as_const(m_noEncIds))
 				if (nd->getEmail().isEmpty())
 					ids << i18nc("%1 is the key id, %2 is the name and comment of the key or uid",
 							"%1: %2", nd->getId(), nd->getNameComment());
@@ -167,7 +167,7 @@ KGpgCaffPrivate::checkNextLoop()
 		if (!m_alreadyIds.isEmpty()) {
 			QStringList ids;
 
-			for (const KGpgSignableNode *nd : qAsConst(m_alreadyIds))
+			for (const KGpgSignableNode *nd : std::as_const(m_alreadyIds))
 				if (nd->getEmail().isEmpty())
 					ids << i18nc("%1 is the key id, %2 is the name and comment of the key or uid",
 							"%1: %2", nd->getId(), nd->getNameComment());

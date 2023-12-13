@@ -28,7 +28,7 @@ KGpgKeyNode::~KGpgKeyNode()
 {
 	// do not try to access the root node if we are being deleted from there
 	KGpgRootNode * const root = parent() != nullptr ? m_parent->toRootNode() : nullptr;
-	for (KGpgRefNode *nd : qAsConst(m_refs))
+	for (KGpgRefNode *nd : std::as_const(m_refs))
 		nd->unRef(root);
 }
 
@@ -283,7 +283,7 @@ KGpgKeyNode::getSignatures(const bool subkeys) const
 			bool found = false;
 			const QString snid(sn->getId());
 
-			for (const KGpgSignNode *retsn : qAsConst(ret)) {
+			for (const KGpgSignNode *retsn : std::as_const(ret)) {
 				found = (retsn->getId() == snid);
 				if (found)
 					break;

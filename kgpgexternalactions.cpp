@@ -394,7 +394,7 @@ void KGpgExternalActions::slotDecryptionDone(int status)
 	} else {
 		if (!m_decryptionFailed.isEmpty()) {
 			QStringList failedFiles;
-			for (const QUrl &url : qAsConst(m_decryptionFailed))
+			for (const QUrl &url : std::as_const(m_decryptionFailed))
 				failedFiles.append(url.toDisplayString());
 			KMessageBox::errorList(nullptr,
 					i18np("Decryption of this file failed:", "Decryption of these files failed:",

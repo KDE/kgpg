@@ -23,7 +23,7 @@ KGpgRootNode::~KGpgRootNode()
 {
 	// clear the parents in all children to signal them not to do any
 	// update signalling
-	for (KGpgNode *child: qAsConst(children))
+	for (KGpgNode *child: std::as_const(children))
 		child->setParent(nullptr);
 }
 
@@ -71,7 +71,7 @@ KGpgRootNode::addKeys(const QStringList &ids)
 		Q_EMIT newKeyNode(nd);
 	}
 
-	for (const KgpgCore::KgpgKey &key : qAsConst(secretlist))
+	for (const KgpgCore::KgpgKey &key : std::as_const(secretlist))
 		new KGpgOrphanNode(this, key);
 }
 
@@ -81,7 +81,7 @@ KGpgRootNode::refreshKeys(KGpgKeyNode::List nodes)
 	QStringList ids;
 	ids.reserve(nodes.count());
 
-	for (const KGpgNode *nd : qAsConst(nodes))
+	for (const KGpgNode *nd : std::as_const(nodes))
 		ids << nd->getId();
 
 	const KgpgCore::KgpgKeyList publiclist = KgpgInterface::readPublicKeys(ids);
@@ -121,7 +121,7 @@ KGpgRootNode::findKeyRow(const QString &keyId)
 {
 	int i = 0;
 
-	for (const KGpgNode *node : qAsConst(children)) {
+	for (const KGpgNode *node : std::as_const(children)) {
 		if ((node->getType() & ITYPE_PAIR) == 0) {
 			++i;
 			continue;

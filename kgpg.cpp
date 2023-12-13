@@ -110,7 +110,7 @@ void KGpgApp::handleArguments(const QCommandLineParser &parser, const QDir &work
 			urlList.append(QUrl::fromLocalFile(workingDirectory.absoluteFilePath(arg)));
 
 		bool directoryInside = false;
-		for (const QUrl &url : qAsConst(urlList)) {
+		for (const QUrl &url : std::as_const(urlList)) {
 			QMimeDatabase db;
 			if (db.mimeTypeForUrl(url).name() == QLatin1String( "inode/directory" )) {
 				directoryInside = true;
@@ -159,7 +159,7 @@ void KGpgApp::handleArguments(const QCommandLineParser &parser, const QDir &work
 			} else {
 				bool haskeys = false;
 				bool hastext = false;
-				for (const QUrl &url : qAsConst(urlList)) {
+				for (const QUrl &url : std::as_const(urlList)) {
 					QFile qfile(url.path());
 					if (qfile.open(QIODevice::ReadOnly)) {
 						const int probelen = 4096;
