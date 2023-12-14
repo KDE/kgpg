@@ -7,7 +7,6 @@
 
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <kmessagebox.h>
 
 KGpgAddPhoto::KGpgAddPhoto(QObject *parent, const QString &keyid, const QString &imagepath)
 	: KGpgEditKeyTransaction(parent, keyid, QLatin1String( "addphoto" ), false)
