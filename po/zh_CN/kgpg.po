@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:40+0000\n"
-"PO-Revision-Date: 2023-12-09 09:27\n"
+"PO-Revision-Date: 2023-12-17 11:29\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -1441,7 +1441,7 @@ msgstr "导出所有(&X)"
 #: keyexport.ui:111
 #, kde-format
 msgid "Do &not export attributes (photo ids)"
-msgstr "不导出属性(照片 ID)(&N)"
+msgstr "不导出属性 (照片 ID) (&N)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkAttrClean)
 #: keyexport.ui:118
@@ -3289,7 +3289,7 @@ msgstr "可选的电子邮件(&M)："
 #: kgpgkeygenerate.ui:65
 #, kde-format
 msgid "Commen&t (optional):"
-msgstr "备注(可选的)(&T)："
+msgstr "备注 (可选的) (&T)："
 
 #. i18n: ectx: property (text), widget (QLabel, tl_expiration)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
