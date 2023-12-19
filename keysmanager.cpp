@@ -2622,9 +2622,11 @@ KeysManager::setupTrayIcon()
 
 	switch (KGpgSettings::leftClick()) {
 	case KGpgSettings::EnumLeftClick::Editor:
+		s_kgpgEditor->winId(); // create windowHandle
 		m_trayicon->setAssociatedWindow(s_kgpgEditor->windowHandle());
 		break;
 	case KGpgSettings::EnumLeftClick::KeyManager:
+		winId(); // create windowHandle
 		m_trayicon->setAssociatedWindow(windowHandle());
 		break;
 	}
