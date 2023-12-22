@@ -11,7 +11,7 @@
 # Sébastien Renard <Sebastien.Renard@digitalfox.org>, 2008.
 # Guillaume Pujol <guill.p@gmail.com>, 2008.
 # Paul Morin <m.paulmorin@gmail.com>, 2008.
-# Xavier Besnard <xavier.besnard@kde.org>, 2013.
+# SPDX-FileCopyrightText: 2013, 2023 Xavier Besnard <xavier.besnard@kde.org>
 # Sebastien Renard <renard@kde.org>, 2013.
 # Vincent PINON <vincent.pinon@st.com>, 2013.
 # Vincent Pinon <vincent.pinon@laposte.net>, 2014, 2015, 2016, 2017.
@@ -23,15 +23,15 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:40+0000\n"
-"PO-Revision-Date: 2023-09-09 16:13+0200\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
-"Language-Team: fr\n"
+"PO-Revision-Date: 2023-12-20 09:35+0100\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
+"Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.0\n"
+"X-Generator: Lokalize 23.08.4\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -47,7 +47,7 @@ msgstr ""
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
-"xavier.besnard@neuf.fr, jcornavi@kde-france.org, rjacolin@ifrance.com, "
+"xavier.besnard@kde.org, jcornavi@kde-france.org, rjacolin@ifrance.com, "
 "sylvain.garsault@freesbee.fr, mrjay01@users.sourceforge.net, vincent."
 "pinon@laposte.net"
 
