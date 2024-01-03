@@ -27,6 +27,8 @@
 #include <KFind>
 #include <KFindDialog>
 #include <KIO/Job>
+#include <KIO/StoredTransferJob>
+#include <KIO/StatJob>
 #include <KIO/RenameDialog>
 #include <KJobWidgets>
 #include <KLocalizedString>
@@ -344,7 +346,7 @@ bool KgpgEditor::slotFileSaveAs()
 			}
 			f.close();
 		} else {
-            auto statJob = KIO::statDetails(url, KIO::StatJob::DestinationSide, {});
+            auto statJob = KIO::stat(url, KIO::StatJob::DestinationSide, {});
 			KJobWidgets::setWindow(statJob, this);
 			statJob->exec();
 			if (!statJob->error()) {

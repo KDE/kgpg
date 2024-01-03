@@ -20,6 +20,7 @@
 #include "transactions/kgpgverify.h"
 
 #include <KIO/Job>
+#include <KIO/FileCopyJob>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
