@@ -37,8 +37,9 @@
 #include <QProcess>
 #include <QStringListModel>
 #include <QTemporaryFile>
-#include <kio/global.h>
-#include <kio/renamedialog.h>
+#include <KIO/Global>
+#include <KIO/RenameDialog>
+#include <KIO/JobTracker>
 
 KGpgExternalActions::KGpgExternalActions(KeysManager *parent, KGpgItemModel *model)
 	: QObject(parent),

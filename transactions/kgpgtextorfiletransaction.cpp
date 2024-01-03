@@ -8,8 +8,9 @@
 
 #include "gpgproc.h"
 
-#include <KIO/Job>
-
+#include <KIO/JobTracker>
+#include <KIO/StoredTransferJob>
+#include <KIO/FileCopyJob>
 
 #include <QRegularExpression>
 #include <QTemporaryFile>
@@ -57,11 +58,7 @@ KGpgTextOrFileTransaction::setText(const QString &text)
 			break;
 
 		const QString charset = QLatin1String("Charset: ");
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-		if (text.midRef(begin, charset.length()) == charset) {
-#else
 		if (QStringView(text).mid(begin, charset.length()) == charset) {
-#endif
 			QString cs = text.mid(begin + charset.length(), nextlf - begin - charset.length());
 			if (!getProcess()->setCodec(cs.toLatin1()))
 				qCDebug(KGPG_LOG_GENERAL) << "unsupported charset found in header" << cs;
