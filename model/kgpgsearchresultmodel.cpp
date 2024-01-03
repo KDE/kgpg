@@ -450,7 +450,7 @@ KGpgSearchResultBackingModel::slotAddKey(const QStringList &lines)
 
 	QStringList::const_iterator it = lines.constBegin();
 
-	QScopedPointer<SearchResult> nkey(new SearchResult(*it));
+	auto nkey = std::make_unique<SearchResult>(*it);
 	if (!nkey->m_validPub)
 		return;
 
@@ -470,7 +470,7 @@ KGpgSearchResultBackingModel::slotAddKey(const QStringList &lines)
 
 	if (nkey->getUidCount() > 0) {
 		beginInsertRows(QModelIndex(), d->m_items.count(), d->m_items.count());
-		d->m_items.append(nkey.take());
+		d->m_items.append(nkey.release());
 		endInsertRows();
 	}
 }
