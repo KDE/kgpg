@@ -363,11 +363,7 @@ KeyListProxyModelPrivate::nodeLessThan(const KGpgNode *left, const KGpgNode *rig
 		return (left->getCreation() < right->getCreation());
 	default:
 		Q_ASSERT(column == KEYCOLUMN_ID);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-		return (left->getId().rightRef(m_idLength).compare(right->getId().rightRef(m_idLength)) < 0);
-#else
 		return (QStringView(left->getId()).right(m_idLength).compare(QStringView(right->getId()).right(m_idLength)) < 0);
-#endif
 	}
 }
 

@@ -511,11 +511,7 @@ KGpgItemModel::refreshGroups()
 bool
 KGpgItemModel::isDefaultKey(const KGpgNode *node) const
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-	return !m_default.isEmpty() && (node->getId().rightRef(m_default.length()).compare(m_default) == 0);
-#else
 	return !m_default.isEmpty() && (QStringView(node->getId()).right(m_default.length()).compare(m_default) == 0);
-#endif
 }
 
 void

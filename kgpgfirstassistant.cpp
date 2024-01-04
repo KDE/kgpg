@@ -98,14 +98,10 @@ KGpgFirstAssistant::KGpgFirstAssistant(QWidget *parent)
 	gridLayout->addWidget(txtGpgVersion, 3, 1, 1, 1);
 
 	binURL = new KUrlRequester(page);
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 108, 0)
 	binURL->setNameFilters({
 	    i18nc("search filter name for gpg binary", "GnuPG binary") + QLatin1String(" (gpg)"),
 	    i18n("All files") + QLatin1String(" (*)"),
 	});
-#else
-	binURL->setFilter(QLatin1String("gpg|") + i18nc("search filter name for gpg binary", "GnuPG binary") + QLatin1String("\n*|")+ i18n("All files"));
-#endif
 	QString gpgBin = QStandardPaths::findExecutable(QLatin1String("gpg2"));
 	if (gpgBin.isEmpty())
 		gpgBin = QStandardPaths::findExecutable(QLatin1String("gpg"));
@@ -301,11 +297,7 @@ KGpgFirstAssistant::next()
 
 		if (!defaultID.isEmpty()) {
 			for (int i = 0; i < CBdefault->count(); i++) {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-				if (CBdefault->itemData(i).toString().rightRef(defaultID.length()).compare(defaultID) == 0) {
-#else
 				if (QStringView(CBdefault->itemData(i).toString()).right(defaultID.length()).compare(defaultID) == 0) {
-#endif
 					CBdefault->setCurrentIndex(i);
 					break;
 				}

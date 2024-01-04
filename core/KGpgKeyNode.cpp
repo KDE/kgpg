@@ -332,11 +332,7 @@ KGpgKeyNode::compareId(const QString &other) const
 		return (other.compare(m_key->fingerprint(), Qt::CaseInsensitive) == 0);
 
 	const QString comId = m_key->fullId().isEmpty() ? m_key->fingerprint() : m_key->fullId();
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-	return (other.rightRef(comId.length()).compare(comId.rightRef(other.length()), Qt::CaseInsensitive) == 0);
-#else
 	return (QStringView(other).right(comId.length()).compare(QStringView(comId).right(other.length()), Qt::CaseInsensitive) == 0);
-#endif
 }
 
 bool
