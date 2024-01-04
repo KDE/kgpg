@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mimos\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:40+0000\n"
+"POT-Creation-Date: 2024-01-04 01:36+0000\n"
 "PO-Revision-Date: 2005-11-17 23:25+0800\n"
 "Last-Translator: MIMOS Open Source <opensource@mimos.my>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -135,7 +135,7 @@ msgstr "Arahan nyahsulit langganan:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Encryption)
 #. i18n: ectx: property (text), widget (QCheckBox, capEncrypt)
-#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:104
+#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:106
 #, kde-format
 msgid "Encryption"
 msgstr "Penyulitan"
@@ -422,7 +422,7 @@ msgid "Change..."
 msgstr "Ubah..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
 #, fuzzy, kde-format
 #| msgid "GnuPG Settings"
 msgid "GnuPG Binary"
@@ -569,7 +569,7 @@ msgstr "Tandatangan menu servis fail:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:304
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:296
 #, kde-format
 msgid "Disable"
 msgstr "Nyahaktif"
@@ -651,7 +651,7 @@ msgstr "Pengurus Kunci"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #. i18n: ectx: attribute (title), widget (QWidget, tabEditor)
-#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:499
+#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:503
 #, kde-format
 msgid "Editor"
 msgstr "Editor"
@@ -832,25 +832,25 @@ msgid "Sort Order"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:253 kgpgoptions.cpp:98
+#: conf_ui2.ui:253 kgpgoptions.cpp:100
 #, kde-format
 msgid "Left to right, account first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:258 kgpgoptions.cpp:99
+#: conf_ui2.ui:258 kgpgoptions.cpp:101
 #, kde-format
 msgid "Right to left, TLD first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:263 kgpgoptions.cpp:100
+#: conf_ui2.ui:263 kgpgoptions.cpp:102
 #, kde-format
 msgid "Right to left, domain first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:268 kgpgoptions.cpp:101
+#: conf_ui2.ui:268 kgpgoptions.cpp:103
 #, kde-format
 msgid "Right to left, FQDN first"
 msgstr ""
@@ -1109,75 +1109,75 @@ msgstr "Id foto"
 msgid "Info"
 msgstr "Maklumat"
 
-#: editor/kgpgeditor.cpp:84 editor/kgpgeditor.cpp:231 editor/kgpgeditor.cpp:729
-#: editor/kgpgeditor.cpp:758
+#: editor/kgpgeditor.cpp:90 editor/kgpgeditor.cpp:240 editor/kgpgeditor.cpp:726
+#: editor/kgpgeditor.cpp:755
 #, fuzzy, kde-format
 msgid "Untitled"
 msgstr "tak bertajuk"
 
-#: editor/kgpgeditor.cpp:177
+#: editor/kgpgeditor.cpp:186
 #, kde-format
 msgid "&Encrypt File..."
 msgstr "&Sulitkan Fail..."
 
-#: editor/kgpgeditor.cpp:181
+#: editor/kgpgeditor.cpp:190
 #, kde-format
 msgid "&Decrypt File..."
 msgstr "&Nyahsulitkan Fail..."
 
-#: editor/kgpgeditor.cpp:185
+#: editor/kgpgeditor.cpp:194
 #, kde-format
 msgid "&Open Key Manager"
 msgstr "&Buka Pengurus Kunci"
 
-#: editor/kgpgeditor.cpp:188
+#: editor/kgpgeditor.cpp:197
 #, kde-format
 msgid "&Generate Signature..."
 msgstr "&Hasilkan Tandatangan..."
 
-#: editor/kgpgeditor.cpp:192
+#: editor/kgpgeditor.cpp:201
 #, kde-format
 msgid "&Verify Signature..."
 msgstr "&Sahkan Tandatangan..."
 
-#: editor/kgpgeditor.cpp:195
+#: editor/kgpgeditor.cpp:204
 #, kde-format
 msgid "&Check MD5 Sum..."
 msgstr "&Semak Jumlah MD5..."
 
-#: editor/kgpgeditor.cpp:198
+#: editor/kgpgeditor.cpp:207
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
 msgstr ""
 
-#: editor/kgpgeditor.cpp:204
+#: editor/kgpgeditor.cpp:213
 #, kde-format
 msgid "En&crypt"
 msgstr "&Sulitkan"
 
-#: editor/kgpgeditor.cpp:208
+#: editor/kgpgeditor.cpp:217
 #, kde-format
 msgid "&Decrypt"
 msgstr "&Nyahsulit"
 
-#: editor/kgpgeditor.cpp:212
+#: editor/kgpgeditor.cpp:221
 #, kde-format
 msgid "S&ign/Verify"
 msgstr "&Tandatangan/Sah"
 
-#: editor/kgpgeditor.cpp:235
+#: editor/kgpgeditor.cpp:244
 #, kde-format
 msgid ""
 "The document \"%1\" has changed.\n"
 "Do you want to save it?"
 msgstr ""
 
-#: editor/kgpgeditor.cpp:236
+#: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid "Close the document"
 msgstr ""
 
-#: editor/kgpgeditor.cpp:282
+#: editor/kgpgeditor.cpp:291
 #, fuzzy, kde-format
 #| msgid ""
 #| "The document could not been saved, as the selected encoding cannot encode "
@@ -1188,16 +1188,7 @@ msgstr ""
 "Dokumen tidak dapat disimpan, kerana pengekodan yang dipilih tidak dapat "
 "mengekod setiap aksara ekakod di dalamnya."
 
-#: editor/kgpgeditor.cpp:288
-#, kde-format
-msgid ""
-"The document could not been saved, as the selected encoding cannot encode "
-"every unicode character in it."
-msgstr ""
-"Dokumen tidak dapat disimpan, kerana pengekodan yang dipilih tidak dapat "
-"mengekod setiap aksara ekakod di dalamnya."
-
-#: editor/kgpgeditor.cpp:297 editor/kgpgeditor.cpp:313
+#: editor/kgpgeditor.cpp:300 editor/kgpgeditor.cpp:317
 #, kde-format
 msgid ""
 "The document could not be saved, please check your permissions and disk "
@@ -1205,55 +1196,55 @@ msgid ""
 msgstr ""
 "Dokumen tidak dapat disimpan, sila semak keizinan anda dan ruang cakera."
 
-#: editor/kgpgeditor.cpp:338 editor/kgpgeditor.cpp:349 keyexport.cpp:37
+#: editor/kgpgeditor.cpp:342 editor/kgpgeditor.cpp:353 keyexport.cpp:37
 #, kde-format
 msgid "Overwrite existing file %1?"
 msgstr "Tulis ganti fail sedia ada %1?"
 
-#: editor/kgpgeditor.cpp:463
+#: editor/kgpgeditor.cpp:467
 #, kde-format
 msgid "Open File to Encode"
 msgstr "Buka Fail untuk Mengekod"
 
-#: editor/kgpgeditor.cpp:463 editor/kgpgeditor.cpp:472
-#: editor/kgpgeditor.cpp:614 editor/kgpgeditor.cpp:652
-#: editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:467 editor/kgpgeditor.cpp:476
+#: editor/kgpgeditor.cpp:611 editor/kgpgeditor.cpp:649
+#: editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "*|All Files"
 msgstr "*|Semua Fail"
 
-#: editor/kgpgeditor.cpp:472
+#: editor/kgpgeditor.cpp:476
 #, kde-format
 msgid "Open File to Decode"
 msgstr "Buka Fail untuk Nyahkod"
 
-#: editor/kgpgeditor.cpp:486
+#: editor/kgpgeditor.cpp:490
 #, kde-format
 msgid "Decrypt File To"
 msgstr "Nyahsulit Fail Ke"
 
-#: editor/kgpgeditor.cpp:497 keyexport.cpp:20
+#: editor/kgpgeditor.cpp:501 keyexport.cpp:20
 #, kde-format
 msgid "Save File"
 msgstr "Simpan Fail"
 
-#: editor/kgpgeditor.cpp:523 kgpgexternalactions.cpp:203
-#: kgpgexternalactions.cpp:362 transactions/kgpgtransactionprivate.cpp:107
+#: editor/kgpgeditor.cpp:527 kgpgexternalactions.cpp:204
+#: kgpgexternalactions.cpp:363 transactions/kgpgtransactionprivate.cpp:107
 #, kde-format
 msgid "File Already Exists"
 msgstr "Fail Sudah Wujud"
 
-#: editor/kgpgeditor.cpp:614
+#: editor/kgpgeditor.cpp:611
 #, kde-format
 msgid "Open File to Sign"
 msgstr "Buka Fail untuk Tandatangan"
 
-#: editor/kgpgeditor.cpp:652 editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:649 editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "Open File to Verify"
 msgstr "Buka Fail untuk Pengesahan"
 
-#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:337
+#: editor/kgpgeditor.cpp:696 editor/kgpgtextedit.cpp:342
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>Missing signature:</b><br>Key id: %1<br><br>Do you want to import "
@@ -1266,12 +1257,12 @@ msgstr ""
 "kunci ini dari pelayan kunci?</qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
-#: editor/kgpgeditor.cpp:700 keyserver.ui:33 keytreeview.cpp:158
+#: editor/kgpgeditor.cpp:697 keyserver.ui:33 keytreeview.cpp:158
 #, fuzzy, kde-format
 msgid "Import"
 msgstr "&Import"
 
-#: editor/kgpgeditor.cpp:700 keytreeview.cpp:159
+#: editor/kgpgeditor.cpp:697 keytreeview.cpp:159
 #, fuzzy, kde-format
 msgid "Do Not Import"
 msgstr "Import Kunci"
@@ -1323,7 +1314,7 @@ msgstr "<b>Betulkan semak jumlah</b>, fail adalah ok."
 msgid "<b>Wrong checksum, <em>file corrupted</em></b>"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:84
+#: editor/kgpgtextedit.cpp:85
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to "
@@ -1338,12 +1329,12 @@ msgstr ""
 "sementara untuk memproses operasi yang diminta. Fail sementara ini akan "
 "dihapuskan selepas operasi.</qt>"
 
-#: editor/kgpgtextedit.cpp:93
+#: editor/kgpgtextedit.cpp:94
 #, kde-format
 msgid "Could not download file."
 msgstr "Tidak dapat muat turun fail."
 
-#: editor/kgpgtextedit.cpp:129
+#: editor/kgpgtextedit.cpp:130
 #, fuzzy, kde-format
 #| msgid ""
 #| "<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>"
@@ -1352,7 +1343,7 @@ msgid ""
 "of opening it in editor?</qt>"
 msgstr "<p>Fail <b>%1</b> adalah kunci awam.<br>Anda ingin mengimportnya?</p>"
 
-#: editor/kgpgtextedit.cpp:132
+#: editor/kgpgtextedit.cpp:133
 #, fuzzy, kde-format
 #| msgid ""
 #| "This file is a private key.\n"
@@ -1364,61 +1355,75 @@ msgstr ""
 "Fail ini adalah kunci persendirian.\n"
 "Guna pengurusan kunci kgpg untuk mengimportnya."
 
-#: editor/kgpgtextedit.cpp:137
+#: editor/kgpgtextedit.cpp:138
 #, fuzzy, kde-format
 #| msgid "Decrypt & Open in Editor"
 msgid "Key file dropped on Editor"
 msgstr "Nyahsulit & Buka dalam Editor"
 
-#: editor/kgpgtextedit.cpp:260 kgpgexternalactions.cpp:402
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgid "Years"
+msgctxt "@action:button"
+msgid "Yes"
+msgstr "Tahun"
+
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgid "None"
+msgctxt "@action:button"
+msgid "No"
+msgstr "Tiada"
+
+#: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
 msgid "Decryption failed."
 msgstr "Nyahsulit gagal."
 
-#: editor/kgpgtextedit.cpp:275 foldercompressjob.cpp:132
+#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:132
 #, kde-format
 msgid "The encryption failed with error code %1"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:133
+#: editor/kgpgtextedit.cpp:277 foldercompressjob.cpp:133
 #, kde-format
 msgid "Encryption failed."
 msgstr "Penyulitan gagal."
 
-#: editor/kgpgtextedit.cpp:289
+#: editor/kgpgtextedit.cpp:290
 #, kde-format
 msgid "Signing not possible: bad passphrase or missing key"
 msgstr ""
 "Tandatangan tidak boleh dilakukan: frasa laluan tidak bagus atau kunci hilang"
 
-#: editor/kgpgtextedit.cpp:324 kgpgexternalactions.cpp:281
+#: editor/kgpgtextedit.cpp:325 kgpgexternalactions.cpp:282
 #, kde-format
 msgctxt "Caption of message box"
 msgid "Verification Finished"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonimport)
-#: editor/kgpgtextedit.cpp:330 keyserver.ui:145 keyservers.cpp:201
+#: editor/kgpgtextedit.cpp:331 keyserver.ui:145 keyservers.cpp:201
 #, kde-format
 msgid "&Import"
 msgstr "&Import"
 
-#: editor/kgpgtextedit.cpp:331
+#: editor/kgpgtextedit.cpp:333
 #, fuzzy, kde-format
 msgid "Import key in your list"
 msgstr "Import ke dalam gegelang kunci"
 
-#: editor/kgpgtextedit.cpp:334
+#: editor/kgpgtextedit.cpp:337
 #, fuzzy, kde-format
 msgid "Do &Not Import"
 msgstr "Import Kunci"
 
-#: editor/kgpgtextedit.cpp:335
+#: editor/kgpgtextedit.cpp:339
 #, kde-format
 msgid "Will not import this key in your list"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:337
+#: editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid "Missing Key"
 msgstr "Kunci Hilang"
@@ -1501,7 +1506,7 @@ msgstr "Kunci Dipercayai Yang Boleh Didapatkan"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:426 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:418 searchres.ui:29
 #, fuzzy, kde-format
 #| msgid "Search: "
 msgid "Search:"
@@ -1889,333 +1894,328 @@ msgstr "Temui %1 kunci sepadan"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "Temui %1 kunci sepadan"
 
-#: keysmanager.cpp:126
+#: keysmanager.cpp:125
 #, kde-format
 msgid "Key Management"
 msgstr "Pengurusan Kunci"
 
-#: keysmanager.cpp:133
+#: keysmanager.cpp:132
 #, kde-format
 msgid "&Open Editor"
 msgstr "&Buka Editor"
 
-#: keysmanager.cpp:136
+#: keysmanager.cpp:135
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "Dialog Pelayan &Kunci"
 
-#: keysmanager.cpp:141 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:140 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "&Pergi ke Kunci Piawai"
 
-#: keysmanager.cpp:158
-#, kde-format
-msgid "Tip of the &Day"
-msgstr "Tip &Hari Ini"
-
-#: keysmanager.cpp:161
+#: keysmanager.cpp:153
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "Papar Manual GnuPG"
 
-#: keysmanager.cpp:166
+#: keysmanager.cpp:158
 #, kde-format
 msgid "&Refresh List"
 msgstr "&Muat Semula Senarai"
 
-#: keysmanager.cpp:170
+#: keysmanager.cpp:162
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr ""
 
-#: keysmanager.cpp:175
+#: keysmanager.cpp:167
 #, fuzzy, kde-format
 #| msgid "Key Properties"
 msgid "K&ey Properties"
 msgstr "Ciri Kunci"
 
-#: keysmanager.cpp:179
+#: keysmanager.cpp:171
 #, fuzzy, kde-format
 #| msgid "&Open Key Manager"
 msgid "&Open Key URL"
 msgstr "&Buka Pengurus Kunci"
 
-#: keysmanager.cpp:183
+#: keysmanager.cpp:175
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "Edit Kunci dalam &Terminal"
 
-#: keysmanager.cpp:188
+#: keysmanager.cpp:180
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "&Jana Pasangan Kunci..."
 
-#: keysmanager.cpp:197
+#: keysmanager.cpp:189
 #, kde-format
 msgid "&Import Key..."
 msgstr "&Import Kunci..."
 
-#: keysmanager.cpp:202
+#: keysmanager.cpp:194
 #, kde-format
 msgid "Send Ema&il"
 msgstr ""
 
-#: keysmanager.cpp:206
+#: keysmanager.cpp:198
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "&Cipta Hubungan Baru dalam Buku Alamat"
 
-#: keysmanager.cpp:212
+#: keysmanager.cpp:204
 #, fuzzy, kde-format
 #| msgid "&Edit Group"
 msgid "&Edit Group..."
 msgstr "&Edit Kumpulan"
 
-#: keysmanager.cpp:215
+#: keysmanager.cpp:207
 #, kde-format
 msgid "&Delete Group"
 msgstr "&Hapuskan Kumpulan"
 
-#: keysmanager.cpp:219
+#: keysmanager.cpp:211
 #, fuzzy, kde-format
 #| msgid "&Delete Group"
 msgid "&Rename Group"
 msgstr "&Hapuskan Kumpulan"
 
-#: keysmanager.cpp:228
+#: keysmanager.cpp:220
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "Setkan sebagai Kunci &Piawai"
 
-#: keysmanager.cpp:231
+#: keysmanager.cpp:223
 #, fuzzy, kde-format
 #| msgid "&Add Photo"
 msgid "&Add Photo..."
 msgstr "&Tambah Foto"
 
-#: keysmanager.cpp:234
+#: keysmanager.cpp:226
 #, fuzzy, kde-format
 #| msgid "&Add User Id"
 msgid "&Add User Id..."
 msgstr "&Tambah Id Pengguna"
 
-#: keysmanager.cpp:237
+#: keysmanager.cpp:229
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "Eksport Kunci Rahsia..."
 
-#: keysmanager.cpp:240
+#: keysmanager.cpp:232
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "Hapuskan Pasangan Kunci"
 
-#: keysmanager.cpp:244
+#: keysmanager.cpp:236
 #, kde-format
 msgid "Revoke Key..."
 msgstr "Batalkan Kunci..."
 
-#: keysmanager.cpp:247
+#: keysmanager.cpp:239
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "&Janakan Semula Kunci Awam"
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:245
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr ""
 
-#: keysmanager.cpp:257
+#: keysmanager.cpp:249
 #, kde-format
 msgid "&Open Photo"
 msgstr "&Buka Foto"
 
-#: keysmanager.cpp:261
+#: keysmanager.cpp:253
 #, kde-format
 msgid "&Delete Photo"
 msgstr "&Hapuskan Foto"
 
-#: keysmanager.cpp:269
+#: keysmanager.cpp:261
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "Import Tandatangan &Hilang Dari Pelayan Kunci"
 
-#: keysmanager.cpp:287 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:279 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "Amanah"
 
-#: keysmanager.cpp:290 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:282 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "Saiz"
 
-#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:285 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "Penciptaan"
 
-#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:288 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "Peluputan"
 
-#: keysmanager.cpp:300
+#: keysmanager.cpp:292
 #, kde-format
 msgid "&Photo ID's"
 msgstr "Id &Foto"
 
-#: keysmanager.cpp:305
+#: keysmanager.cpp:297
 #, fuzzy, kde-format
 #| msgid "Small"
 msgctxt "small picture"
 msgid "Small"
 msgstr "Kecil"
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:298
 #, fuzzy, kde-format
 #| msgid "Medium"
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "Sederhana"
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:299
 #, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "large picture"
 msgid "Large"
 msgstr "Besar"
 
-#: keysmanager.cpp:311
+#: keysmanager.cpp:303
 #, kde-format
 msgid "Minimum &Trust"
 msgstr ""
 
-#: keysmanager.cpp:314
+#: keysmanager.cpp:306
 #, fuzzy, kde-format
 #| msgid "None"
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "Tiada"
 
-#: keysmanager.cpp:315
+#: keysmanager.cpp:307
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr ""
 
-#: keysmanager.cpp:316
+#: keysmanager.cpp:308
 #, fuzzy, kde-format
 #| msgid "Marginal"
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "Marginal"
 
-#: keysmanager.cpp:317
+#: keysmanager.cpp:309
 #, fuzzy, kde-format
 #| msgid "Full"
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "Penuh"
 
-#: keysmanager.cpp:318
+#: keysmanager.cpp:310
 #, fuzzy, kde-format
 #| msgid "Ultimate"
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "Mutlak"
 
-#: keysmanager.cpp:343
+#: keysmanager.cpp:335
 #, fuzzy, kde-format
 #| msgid "&Show only Secret Keys"
 msgid "&Show Only Secret Keys"
 msgstr "&Papar hanya Kunci Rahsia"
 
-#: keysmanager.cpp:443
+#: keysmanager.cpp:435
 #, fuzzy, kde-format
 #| msgid "Search: "
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "Cari:"
 
-#: keysmanager.cpp:486
+#: keysmanager.cpp:483
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
+#: keysmanager.cpp:484 keysmanager.cpp:522 keysmanager.cpp:570
 #, fuzzy, kde-format
 msgid "Generating new key pair"
 msgstr "Menjana pasangan kunci baru."
 
-#: keysmanager.cpp:526
+#: keysmanager.cpp:523
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr ""
 
-#: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
+#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
 #, fuzzy, kde-format
 #| msgid "Ready"
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "Sedia"
 
-#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:574 transactions/kgpggeneratekey.cpp:194
 #, fuzzy, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "Frasa laluan tidak bagus, tandatangan tidak dicipta."
 
-#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr ""
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr ""
 
-#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:203
 #, fuzzy, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "Frasa laluan tidak bagus, tandatangan tidak dicipta."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:592 newkey.ui:14
+#: keysmanager.cpp:589 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "Pasangan Kunci Baru Dicipta"
 
-#: keysmanager.cpp:631
+#: keysmanager.cpp:628
 #, kde-format
 msgid "backup copy"
 msgstr "salinan sandaran"
 
-#: keysmanager.cpp:645 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:642 transactions/kgpggeneratekey.cpp:215
 #, fuzzy, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "Frasa laluan tidak bagus, tandatangan tidak dicipta."
 
-#: keysmanager.cpp:749
+#: keysmanager.cpp:736
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr "Anda hanya boleh muat semula kunci primer. Sila semak pilihan anda."
 
-#: keysmanager.cpp:873
+#: keysmanager.cpp:860
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:874 keysmanager.cpp:879
+#: keysmanager.cpp:861 keysmanager.cpp:866
 #, kde-format
 msgid "Add New User Id"
 msgstr "Tambah Id Pengguna Baru"
 
-#: keysmanager.cpp:919
+#: keysmanager.cpp:906
 #, fuzzy, kde-format
 #| msgid ""
 #| "The image must be a JPEG file. Remember that the image is stored within "
@@ -2232,7 +2232,7 @@ msgstr ""
 "Jika anda guna gambar besar, kunci anda juga akan menjadi sangat besar! "
 "Mengekalkan imej hampir kepada 240x288 adalah saiz yang baik untuk digunakan."
 
-#: keysmanager.cpp:951
+#: keysmanager.cpp:938
 #, fuzzy, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2241,58 +2241,58 @@ msgstr ""
 "<qt>Anda pasti ingin hapuskan id Foto <b>%1</b><br>dari kunci <b>%2 &lt;"
 "%3&gt;</b> ?</qt>"
 
-#: keysmanager.cpp:1094
+#: keysmanager.cpp:1076
 #, kde-format
 msgid "Public Key"
 msgstr "Kunci Awam"
 
-#: keysmanager.cpp:1097
+#: keysmanager.cpp:1079
 #, kde-format
 msgid "Sub Key"
 msgstr "Subkunci"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1082
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "Pasangan Kunci Rahsia"
 
-#: keysmanager.cpp:1103
+#: keysmanager.cpp:1085
 #, kde-format
 msgid "Key Group"
 msgstr "Kumpulan Kunci"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1106 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1088 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "Tandatangan"
 
-#: keysmanager.cpp:1109
+#: keysmanager.cpp:1091
 #, kde-format
 msgid "User ID"
 msgstr "ID Pengguna"
 
-#: keysmanager.cpp:1112
+#: keysmanager.cpp:1094
 #, kde-format
 msgid "Revocation Signature"
 msgstr "Tandatangan Pembatalan"
 
-#: keysmanager.cpp:1115
+#: keysmanager.cpp:1097
 #, kde-format
 msgid "Photo ID"
 msgstr "ID Foto"
 
-#: keysmanager.cpp:1118
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "Kunci Rahsia Yatim"
 
-#: keysmanager.cpp:1123
+#: keysmanager.cpp:1105
 #, kde-format
 msgid "Group member"
 msgstr ""
 
-#: keysmanager.cpp:1228
+#: keysmanager.cpp:1208
 #, fuzzy, kde-format
 #| msgid "&Sign Keys..."
 msgid "&Sign User ID ..."
@@ -2300,7 +2300,7 @@ msgid_plural "&Sign User IDs ..."
 msgstr[0] "&Tandatangan Kunci..."
 msgstr[1] "&Tandatangan Kunci..."
 
-#: keysmanager.cpp:1229
+#: keysmanager.cpp:1209
 #, fuzzy, kde-format
 #| msgid "&Sign Keys..."
 msgid "Sign and &Mail User ID ..."
@@ -2308,7 +2308,7 @@ msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "&Tandatangan Kunci..."
 msgstr[1] "&Tandatangan Kunci..."
 
-#: keysmanager.cpp:1230
+#: keysmanager.cpp:1210
 #, fuzzy, kde-format
 #| msgid "E&xport Public Keys..."
 msgid "E&xport Public Key..."
@@ -2316,7 +2316,7 @@ msgid_plural "E&xport Public Keys..."
 msgstr[0] "&Eksport Kunci Awam..."
 msgstr[1] "&Eksport Kunci Awam..."
 
-#: keysmanager.cpp:1231
+#: keysmanager.cpp:1211
 #, fuzzy, kde-format
 #| msgid "&Refresh Keys From Keyserver"
 msgid "&Refresh Key From Keyserver"
@@ -2324,7 +2324,7 @@ msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "&Muatkan Semula Kunci dari Pelayan Kunci"
 msgstr[1] "&Muatkan Semula Kunci dari Pelayan Kunci"
 
-#: keysmanager.cpp:1232
+#: keysmanager.cpp:1212
 #, fuzzy, kde-format
 #| msgid "&Create Group with Selected Keys..."
 msgid "&Create Group with Selected Key..."
@@ -2332,7 +2332,7 @@ msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "&Cipta Kumpulan dengan Kunci Yang Dipilih..."
 msgstr[1] "&Cipta Kumpulan dengan Kunci Yang Dipilih..."
 
-#: keysmanager.cpp:1233
+#: keysmanager.cpp:1213
 #, fuzzy, kde-format
 #| msgid "&Sign Keys..."
 msgid "&Sign Key..."
@@ -2340,7 +2340,7 @@ msgid_plural "&Sign Keys..."
 msgstr[0] "&Tandatangan Kunci..."
 msgstr[1] "&Tandatangan Kunci..."
 
-#: keysmanager.cpp:1234
+#: keysmanager.cpp:1214
 #, fuzzy, kde-format
 #| msgid "&Delete User Id"
 msgid "&Delete User ID"
@@ -2348,7 +2348,7 @@ msgid_plural "&Delete User IDs"
 msgstr[0] "&Hapuskan Id Pengguna"
 msgstr[1] "&Hapuskan Id Pengguna"
 
-#: keysmanager.cpp:1235
+#: keysmanager.cpp:1215
 #, fuzzy, kde-format
 #| msgid "Delete Sign&ature"
 msgid "Delete Sign&ature"
@@ -2356,7 +2356,7 @@ msgid_plural "Delete Sign&atures"
 msgstr[0] "Hapuskan &Tandatangan"
 msgstr[1] "Hapuskan &Tandatangan"
 
-#: keysmanager.cpp:1236
+#: keysmanager.cpp:1216
 #, fuzzy, kde-format
 #| msgid "Import Key From Keyserver"
 msgid "Import Key From Keyserver"
@@ -2364,7 +2364,7 @@ msgid_plural "Import Keys From Keyserver"
 msgstr[0] "Import Kunci Dari Pelayan Kunci"
 msgstr[1] "Import Kunci Dari Pelayan Kunci"
 
-#: keysmanager.cpp:1237
+#: keysmanager.cpp:1217
 #, fuzzy, kde-format
 #| msgid "&Delete Keys"
 msgid "&Delete Key"
@@ -2372,12 +2372,12 @@ msgid_plural "&Delete Keys"
 msgstr[0] "&Hapuskan Kunci"
 msgstr[1] "&Hapuskan Kunci"
 
-#: keysmanager.cpp:1360
+#: keysmanager.cpp:1340
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "Penciptaan sijil pembatalan gagal..."
 
-#: keysmanager.cpp:1375
+#: keysmanager.cpp:1355
 #, fuzzy, kde-format
 #| msgid ""
 #| "Secret keys SHOULD NOT be saved in an unsafe place.\n"
@@ -2394,17 +2394,17 @@ msgstr ""
 "ditolak ansur!\n"
 "Teruskan eksport kunci?"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "Eksport KUNCI PERSENDIRIAN Sebagai"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr ""
 
-#: keysmanager.cpp:1405
+#: keysmanager.cpp:1385
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your PRIVATE key \"%1\" was successfully exported.\n"
@@ -2416,7 +2416,7 @@ msgstr ""
 "Kunci PERSENDIRIAN anda \"%1\" berjaya dieksport.\n"
 "JANGAN biarkan ia di tempat tak selamat."
 
-#: keysmanager.cpp:1408
+#: keysmanager.cpp:1388
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2425,7 +2425,7 @@ msgstr ""
 "Kunci rahsia anda tidak boleh dieksport.\n"
 "Semak kunci."
 
-#: keysmanager.cpp:1510
+#: keysmanager.cpp:1490
 #, fuzzy, kde-format
 #| msgid "Your public key \"%1\" was successfully exported\n"
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
@@ -2433,7 +2433,7 @@ msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
 msgstr[0] "Kunci awam anda \"%1\" berjaya dieksport\n"
 msgstr[1] "Kunci awam anda \"%1\" berjaya dieksport\n"
 
-#: keysmanager.cpp:1514 keysmanager.cpp:1529 keysmanager.cpp:1543
+#: keysmanager.cpp:1494 keysmanager.cpp:1509 keysmanager.cpp:1523
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2442,7 +2442,7 @@ msgstr ""
 "Kunci awam anda tidak dapat dieksport\n"
 "Semak kunci."
 
-#: keysmanager.cpp:1652
+#: keysmanager.cpp:1632
 #, fuzzy, kde-format
 #| msgid ""
 #| "This key is an orphaned secret key (secret key without public key.) It is "
@@ -2456,27 +2456,27 @@ msgstr ""
 "Kunci ini adalah kunci rahsia yatim (kunci rahsia tanpa kunci awam.) Masa "
 "ini ia tidak boleh diguna.\\nAnda ingin menjana semula kunci rahsia?"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, fuzzy, kde-format
 msgid "Generate"
 msgstr "Jana Pasangan Kunci "
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, kde-format
 msgid "Do Not Generate"
 msgstr ""
 
-#: keysmanager.cpp:1684
+#: keysmanager.cpp:1664
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Anda pasti ingin hapuskan kumpulan <b>%1</b> ?</qt>"
 
-#: keysmanager.cpp:1685 keysmanager.cpp:2355
+#: keysmanager.cpp:1665 keysmanager.cpp:2335
 #, fuzzy, kde-format
 msgid "Delete"
 msgstr "&Hapuskan Kunci"
 
-#: keysmanager.cpp:1715
+#: keysmanager.cpp:1695
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2485,25 +2485,25 @@ msgstr ""
 "<qt>Anda tidak boleh cipta kumpulan yang mengandungi tandatangan, subkunci "
 "atau kumpulan lain.</qt>"
 
-#: keysmanager.cpp:1730 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1710 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr ""
 
-#: keysmanager.cpp:1735
+#: keysmanager.cpp:1715
 #, kde-format
 msgid "Create New Group"
 msgstr "Cipta Kumpulan Baru"
 
-#: keysmanager.cpp:1736
+#: keysmanager.cpp:1716
 #, fuzzy, kde-format
 #| msgid "Enter new group name:"
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "Masukkan nama kumpulan baru:"
 
-#: keysmanager.cpp:1741
+#: keysmanager.cpp:1721
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
@@ -2512,7 +2512,7 @@ msgstr ""
 "Kunci yang berikut tidak sah atau tidak dipercayai dan tidak akan ditambah "
 "ke dalam kumpulan:"
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1727
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2521,17 +2521,17 @@ msgstr ""
 "<qt>Tiada kunci yang sah atau dipercayai dipilih. Kumpulan <b>%1</b> tidak "
 "akan dicipta.</qt>"
 
-#: keysmanager.cpp:1759
+#: keysmanager.cpp:1739
 #, kde-format
 msgid "Group Properties"
 msgstr "Ciri Kumpulan"
 
-#: keysmanager.cpp:1795
+#: keysmanager.cpp:1775
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "Anda hanya boleh tandatangan kunci primer. Semak pilihan anda."
 
-#: keysmanager.cpp:1804
+#: keysmanager.cpp:1784
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2549,7 +2549,7 @@ msgstr ""
 "dengan pemilik kunci untuk memastikan seseorang tidak cuba menceroboh "
 "komunikasi anda</qt>"
 
-#: keysmanager.cpp:1809
+#: keysmanager.cpp:1789
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2567,20 +2567,20 @@ msgstr ""
 "dengan pemilik kunci untuk memastikan seseorang tidak cuba menceroboh "
 "komunikasi anda</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr ""
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr ""
 
-#: keysmanager.cpp:1832
+#: keysmanager.cpp:1812
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign the following keys in one pass.<br><b>If you "
@@ -2595,13 +2595,13 @@ msgstr ""
 "anda belum semak dengan teliti semua cap jari, sekuriti komunikasi boleh "
 "dikompromi.</b></qt>"
 
-#: keysmanager.cpp:1874 keysmanager.cpp:2021
+#: keysmanager.cpp:1854 keysmanager.cpp:2001
 #, fuzzy, kde-format
 #| msgid "You can only sign primary keys. Please check your selection."
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr "Anda hanya boleh tandatangan kunci primer. Semak pilihan anda."
 
-#: keysmanager.cpp:1888
+#: keysmanager.cpp:1868
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2619,7 +2619,7 @@ msgstr ""
 "dengan pemilik kunci untuk memastikan seseorang tidak cuba menceroboh "
 "komunikasi anda</qt>"
 
-#: keysmanager.cpp:1892
+#: keysmanager.cpp:1872
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2637,7 +2637,7 @@ msgstr ""
 "dengan pemilik kunci untuk memastikan seseorang tidak cuba menceroboh "
 "komunikasi anda</qt>"
 
-#: keysmanager.cpp:1918
+#: keysmanager.cpp:1898
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign the following keys in one pass.<br><b>If you "
@@ -2652,18 +2652,18 @@ msgstr ""
 "anda belum semak dengan teliti semua cap jari, sekuriti komunikasi boleh "
 "dikompromi.</b></qt>"
 
-#: keysmanager.cpp:1987
+#: keysmanager.cpp:1967
 #, fuzzy, kde-format
 #| msgid "<qt>Bad passphrase, key <b>%1</b> not signed.</qt>"
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>Kunci, frasa laluan <b>%1</b> tidak ditandatangani.</qt>"
 
-#: keysmanager.cpp:1991
+#: keysmanager.cpp:1971
 #, fuzzy, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>Kunci, frasa laluan <b>%1</b> tidak ditandatangani.</qt>"
 
-#: keysmanager.cpp:1996
+#: keysmanager.cpp:1976
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br>Do you want to "
@@ -2675,19 +2675,26 @@ msgstr ""
 "<qt>Menandatangan kunci <b>%1</b> dengan kunci <b>%2</b> gagal.<br>Anda "
 "ingin cuba menandatangan kunci dalam mod konsol?</qt>"
 
-#: keysmanager.cpp:2114
+#: keysmanager.cpp:1978
+#, fuzzy, kde-format
+#| msgid "Sign"
+msgctxt "@action:button"
+msgid "Sign"
+msgstr "Tandatangan"
+
+#: keysmanager.cpp:2094
 #, fuzzy, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "Semua tandatangan untuk kunci ini sudah ada dalam gelang kunci anda"
 msgstr[1] "Semua tandatangan untuk kunci ini sudah ada dalam gelang kunci anda"
 
-#: keysmanager.cpp:2201
+#: keysmanager.cpp:2181
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "Edit kunci secara manual untuk hapuskan swatandatangan."
 
-#: keysmanager.cpp:2205
+#: keysmanager.cpp:2185
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>Are you sure you want to delete signature<br><b>%1</b> from key:"
@@ -2699,12 +2706,12 @@ msgstr ""
 "<qt>Anda pasti ingin hapuskan tandatangan<br><b>%1</b> dari kunci:<br><b>%2</"
 "b>?</qt>"
 
-#: keysmanager.cpp:2227
+#: keysmanager.cpp:2207
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "Operasi yang diminta tidak berjaya, sila edit kunci secara manual."
 
-#: keysmanager.cpp:2311
+#: keysmanager.cpp:2291
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2715,22 +2722,22 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: keysmanager.cpp:2315 keysmanager.cpp:2329 keysmanager.cpp:2364
-#: keysmanager.cpp:2379 keysmanager.cpp:2382 keysmanager.cpp:2393
-#: keysmanager.cpp:2407 keysmanager.cpp:2448
+#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
+#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
+#: keysmanager.cpp:2387 keysmanager.cpp:2428
 #, fuzzy, kde-format
 #| msgid "&Delete Keys"
 msgid "Delete key"
 msgstr "&Hapuskan Kunci"
 
-#: keysmanager.cpp:2328
+#: keysmanager.cpp:2308
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
 
-#: keysmanager.cpp:2352
+#: keysmanager.cpp:2332
 #, fuzzy, kde-format
 #| msgid ""
 #| "<p>Delete <b>SECRET KEY</b> pair <b>%1</b>?</p>Deleting this key pair "
@@ -2744,36 +2751,36 @@ msgstr ""
 "kunci ini tidak akan dapat menyahsulit fail yang disulitkan dengan kunci ini "
 "lagi."
 
-#: keysmanager.cpp:2363 keysmanager.cpp:2392
+#: keysmanager.cpp:2343 keysmanager.cpp:2372
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:2379
+#: keysmanager.cpp:2359
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr ""
 
-#: keysmanager.cpp:2382
+#: keysmanager.cpp:2362
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr ""
 
-#: keysmanager.cpp:2406
+#: keysmanager.cpp:2386
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 
-#: keysmanager.cpp:2447
+#: keysmanager.cpp:2427
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr ""
 
-#: keysmanager.cpp:2472
+#: keysmanager.cpp:2452
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>The following are secret key pairs:<br><b>%1</b>They will not be "
@@ -2785,42 +2792,42 @@ msgstr ""
 "<qt>Yang berikut adalah pasangan kunci rahsia:<br><b>%1</b>Ia tidak akan "
 "dihapuskan.<br></qt>"
 
-#: keysmanager.cpp:2482
+#: keysmanager.cpp:2462
 #, fuzzy, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "_n: <qt><b>Hapuskan kunci awam yang berikut?</b></qt>"
 msgstr[1] "<qt><b>Hapuskan %1 kunci awam yang berikut?</b></qt>"
 
-#: keysmanager.cpp:2513 keysmanager.cpp:2589 keysmanager.cpp:2600
+#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
 #, kde-format
 msgid "Key Import"
 msgstr "Import Kunci"
 
-#: keysmanager.cpp:2521
+#: keysmanager.cpp:2501
 #, kde-format
 msgid "Open File"
 msgstr "Buka Fail"
 
-#: keysmanager.cpp:2554
+#: keysmanager.cpp:2534
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2536
 #, fuzzy, kde-format
 #| msgid "&Encrypt Clipboard"
 msgid "Import from Clipboard"
 msgstr "&Sulitkan Klipbod"
 
-#: keysmanager.cpp:2576
+#: keysmanager.cpp:2556
 #, kde-format
 msgid "Importing..."
 msgstr "Mengimport..."
 
-#: keysmanager.cpp:2588
+#: keysmanager.cpp:2568
 #, fuzzy, kde-format
 #| msgid ""
 #| "No key imported... \n"
@@ -2830,38 +2837,38 @@ msgstr ""
 "Tiada kunci diimport... \n"
 "Semak log terperinci untuk maklumat lanjut"
 
-#: keysmanager.cpp:2641
+#: keysmanager.cpp:2621
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - alat penyulitan"
 
-#: keysmanager.cpp:2662
+#: keysmanager.cpp:2644
 #, fuzzy, kde-format
 #| msgid "Key Manager"
 msgid "Ke&y Manager"
 msgstr "Pengurus Kunci"
 
-#: keysmanager.cpp:2665
+#: keysmanager.cpp:2647
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "&Sulitkan Klipbod"
 
-#: keysmanager.cpp:2668
+#: keysmanager.cpp:2650
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&Nyahsulit Klipbod"
 
-#: keysmanager.cpp:2671
+#: keysmanager.cpp:2653
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&Tandatangan/Sahkan Klipbod"
 
-#: keysmanager.cpp:2708 keysmanager.cpp:2811 keysmanager.cpp:2829
+#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Klipbod kosong."
 
-#: keysmanager.cpp:2753
+#: keysmanager.cpp:2735
 #, fuzzy, kde-format
 #| msgid "The signature file %1 was successfully created."
 msgid "Text successfully encrypted."
@@ -2921,27 +2928,27 @@ msgstr ""
 "masalah dalam tandatangan/penyahsulitan.<br>Sila nyahaktifkan Ejen GnuPG "
 "daripada seting KGpg, atau tetapkan ejen.</qt>"
 
-#: kgpg.cpp:123 kgpg.cpp:130 kgpg.cpp:137 kgpg.cpp:144
+#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:134
+#: kgpg.cpp:132
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Tidak dapat nyahsulitkan dan papar folder."
 
-#: kgpg.cpp:141
+#: kgpg.cpp:139
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Tidak dapat tandatangan folder."
 
-#: kgpg.cpp:148
+#: kgpg.cpp:146
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Tidak dapat sahkan folder."
 
-#: kgpg.cpp:151
+#: kgpg.cpp:149
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2952,38 +2959,38 @@ msgstr ""
 "Pilih hanya satu folder, atau beberapa fail, tetapi jangan campurkan fail "
 "dengan folder."
 
-#: kgpg.cpp:189
+#: kgpg.cpp:187
 #, kde-format
 msgid "Encrypt file"
 msgstr "Sulitkan fail"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:188
 #, kde-format
 msgid "Open key manager"
 msgstr "Buka pengurus kunci"
 
-#: kgpg.cpp:191
+#: kgpg.cpp:189
 #, fuzzy, kde-format
 #| msgid "&Open Editor"
 msgid "Open editor"
 msgstr "&Buka Editor"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:190
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Papar fail yang disulitkan"
 
-#: kgpg.cpp:193 kgpgoptions.cpp:503
+#: kgpg.cpp:191 kgpgoptions.cpp:505
 #, kde-format
 msgid "Sign File"
 msgstr "Tandatangan Fail"
 
-#: kgpg.cpp:194
+#: kgpg.cpp:192
 #, kde-format
 msgid "Verify signature"
 msgstr "Sahkan tandatangan"
 
-#: kgpg.cpp:195
+#: kgpg.cpp:193
 #, kde-format
 msgid "File to open"
 msgstr "Fail hendak dibuka"
@@ -3157,7 +3164,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Guna pilihan tetikus dan bukan pilihan klipbod."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Mulakan KGpg secara automatik pada permulaan KDE."
@@ -3212,72 +3219,66 @@ msgstr ""
 msgid "The number of recently opened files shown in the editor menu."
 msgstr ""
 
-#. i18n: ectx: label, entry (ShowTipOfDay), group (TipOfDay)
-#: kgpg.kcfg:187
-#, kde-format
-msgid "Show tip of the day."
-msgstr "Papar tip hari ini."
-
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
-#: kgpg.kcfg:194
+#: kgpg.kcfg:187
 #, kde-format
 msgid "Color used for trusted keys."
 msgstr "Warna yang digunakan untuk kunci yang dipercayai."
 
 #. i18n: ectx: label, entry (ColorRev), group (Key Colors)
-#: kgpg.kcfg:198
+#: kgpg.kcfg:191
 #, kde-format
 msgid "Color used for revoked keys."
 msgstr "Warna yang digunakan untuk kunci yang dibatalkan."
 
 #. i18n: ectx: label, entry (ColorUnknown), group (Key Colors)
-#: kgpg.kcfg:202
+#: kgpg.kcfg:195
 #, kde-format
 msgid "Color used for unknown keys."
 msgstr "Warna yang digunakan untuk kunci tak diketahui."
 
 #. i18n: ectx: label, entry (ColorBad), group (Key Colors)
-#: kgpg.kcfg:206
+#: kgpg.kcfg:199
 #, kde-format
 msgid "Color used for untrusted keys."
 msgstr "Warna yang digunakan untuk kunci yang tak dipercayai."
 
 #. i18n: ectx: label, entry (ColorUltimate), group (Key Colors)
-#: kgpg.kcfg:210
+#: kgpg.kcfg:203
 #, fuzzy, kde-format
 #| msgid "Color used for untrusted keys."
 msgid "Color used for ultimately trusted keys."
 msgstr "Warna yang digunakan untuk kunci yang tak dipercayai."
 
 #. i18n: ectx: label, entry (ColorMarginal), group (Key Colors)
-#: kgpg.kcfg:214
+#: kgpg.kcfg:207
 #, fuzzy, kde-format
 #| msgid "Color used for untrusted keys."
 msgid "Color used for marginally trusted keys."
 msgstr "Warna yang digunakan untuk kunci yang tak dipercayai."
 
 #. i18n: ectx: label, entry (ColorExpired), group (Key Colors)
-#: kgpg.kcfg:218
+#: kgpg.kcfg:211
 #, fuzzy, kde-format
 #| msgid "Color used for trusted keys."
 msgid "Color used for expired keys."
 msgstr "Warna yang digunakan untuk kunci yang dipercayai."
 
 #. i18n: ectx: label, entry (Font), group (Text Font)
-#: kgpg.kcfg:225
+#: kgpg.kcfg:218
 #, fuzzy, kde-format
 msgid "Font"
 msgstr "Bulan"
 
 #. i18n: ectx: label, entry (KeyServers), group (Servers)
-#: kgpg.kcfg:248
+#: kgpg.kcfg:241
 #, kde-format
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
 msgstr ""
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
-#: kgpg.kcfg:252
+#: kgpg.kcfg:245
 #, kde-format
 msgid ""
 "List of URLs that show details and analysis of the given key. The first "
@@ -3285,29 +3286,29 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
-#: kgpg.kcfg:259
+#: kgpg.kcfg:252
 #, kde-format
 msgid "Use HTTP proxy when available."
 msgstr "Guna proksi HTTP apabila boleh didapatkan."
 
 #. i18n: ectx: label, entry (EmailTemplate), group (Key Signing)
-#: kgpg.kcfg:266
+#: kgpg.kcfg:259
 #, kde-format
 msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
 msgstr ""
 
-#: kgpgexternalactions.cpp:126
+#: kgpgexternalactions.cpp:127
 #, kde-format
 msgid "Cannot create temporary file for folder compression."
 msgstr ""
 
-#: kgpgexternalactions.cpp:126 kgpgexternalactions.cpp:133
+#: kgpgexternalactions.cpp:127 kgpgexternalactions.cpp:134
 #, kde-format
 msgid "Temporary File Creation"
 msgstr "Penciptaan Fail Sementara"
 
-#: kgpgexternalactions.cpp:131
+#: kgpgexternalactions.cpp:132
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to "
@@ -3321,12 +3322,12 @@ msgstr ""
 "<qt>KGpg akan mencipta fail arkib sementara:<br><b>%1</b> untuk memproses "
 "penyulitan. Fail akan dihapuskan selepas penyulitan selesai.</qt>"
 
-#: kgpgexternalactions.cpp:147
+#: kgpgexternalactions.cpp:148
 #, kde-format
 msgid "Compression method for archive:"
 msgstr "Kaedah mampatan untuk arkib:"
 
-#: kgpgexternalactions.cpp:400
+#: kgpgexternalactions.cpp:401
 #, fuzzy, kde-format
 #| msgid "Decryption failed."
 msgid "Decryption of this file failed:"
@@ -3334,7 +3335,7 @@ msgid_plural "Decryption of these files failed:"
 msgstr[0] "Nyahsulit gagal."
 msgstr[1] "Nyahsulit gagal."
 
-#: kgpgexternalactions.cpp:424
+#: kgpgexternalactions.cpp:425
 #, kde-format
 msgid ""
 "<qt>You have not set a path to your GnuPG config file.<br />This may cause "
@@ -3342,22 +3343,22 @@ msgid ""
 "KGpg's assistant to fix this problem?</qt>"
 msgstr ""
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Start Assistant"
 msgstr ""
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Do Not Start"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:34
+#: kgpgfirstassistant.cpp:35
 #, kde-format
 msgid "KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:58
+#: kgpgfirstassistant.cpp:59
 #, fuzzy, kde-format
 #| msgid ""
 #| "<h1>Welcome to the KGpg Wizard</h1>\n"
@@ -3375,18 +3376,18 @@ msgstr ""
 "mencipta pasangan kekunci anda sendiri, membolehkan anda menyulitkan fail "
 "dan e-mel."
 
-#: kgpgfirstassistant.cpp:66
+#: kgpgfirstassistant.cpp:67
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:78
+#: kgpgfirstassistant.cpp:79
 #, fuzzy, kde-format
 #| msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg perlu tahu di mana fail konfigurasi GnuPG anda disimpan."
 
-#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3395,59 +3396,59 @@ msgstr ""
 "Melainkan anda ingin cuba seting luar biasa, hanya klik pada butang "
 "\"Seterusnya\"."
 
-#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
 #, fuzzy, kde-format
 #| msgid "GnuPG Settings"
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "Seting GnuPG"
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
 #, fuzzy, kde-format
 #| msgid "*|All Files"
 msgid "All files"
 msgstr "*|Semua Fail"
 
-#: kgpgfirstassistant.cpp:137
+#: kgpgfirstassistant.cpp:138
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "KGpg perlu tahu di mana fail konfigurasi GnuPG anda disimpan."
 
-#: kgpgfirstassistant.cpp:152
+#: kgpgfirstassistant.cpp:153
 #, fuzzy, kde-format
 #| msgid "<br>Path to your GnuPG options file:"
 msgid "Path to your GnuPG configuration file:"
 msgstr "<br>Laluan ke fail opsyen GnuPG anda:"
 
-#: kgpgfirstassistant.cpp:166
+#: kgpgfirstassistant.cpp:167
 #, fuzzy, kde-format
 #| msgid "Configuration file:"
 msgid "Configuration File"
 msgstr "Fail konfigurasi:"
 
-#: kgpgfirstassistant.cpp:176
+#: kgpgfirstassistant.cpp:177
 #, kde-format
 msgid "Your default key:"
 msgstr "Kunci piawai anda:"
 
-#: kgpgfirstassistant.cpp:195
+#: kgpgfirstassistant.cpp:196
 #, fuzzy, kde-format
 #| msgid "&Delete Keys"
 msgid "Default Key"
 msgstr "&Hapuskan Kunci"
 
-#: kgpgfirstassistant.cpp:216
+#: kgpgfirstassistant.cpp:217
 #, fuzzy, kde-format
 msgid "Generate new key"
 msgstr "Menjana pasangan kunci baru."
 
-#: kgpgfirstassistant.cpp:230
+#: kgpgfirstassistant.cpp:231
 #, fuzzy, kde-format
 #| msgid "none"
 msgid "Done"
 msgstr "tiada"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>The GnuPG configuration file was not found</b>. Please make sure "
@@ -3459,40 +3460,40 @@ msgstr ""
 "<qt><b>Fail konfigurasi GnuPG tidak ditemui</b>. Pastikan GnuPG sudah "
 "dipasang. Patutkah KGng cuba mencipta fail konfig?</qt>"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, fuzzy, kde-format
 msgid "Create Config"
 msgstr "Penciptaan"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, fuzzy, kde-format
 msgid "Do Not Create"
 msgstr "Cipta"
 
-#: kgpgfirstassistant.cpp:252
+#: kgpgfirstassistant.cpp:253
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:294
+#: kgpgfirstassistant.cpp:295
 #, fuzzy, kde-format
 #| msgid "GnuPG Settings"
 msgid "Your GnuPG binary is: %1"
 msgstr "Seting GnuPG"
 
-#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
+#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
 #, fuzzy, kde-format
 #| msgid "You have GnuPG version:"
 msgid "You have GnuPG version: %1"
 msgstr "Anda mempunyai versi GnuPG:"
 
-#: kgpgfirstassistant.cpp:316
+#: kgpgfirstassistant.cpp:317
 #, fuzzy, kde-format
 #| msgid "Your default key:"
 msgid "Your default key is: %1"
 msgstr "Kunci piawai anda:"
 
-#: kgpgfirstassistant.cpp:367
+#: kgpgfirstassistant.cpp:368
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3798,37 +3799,37 @@ msgstr "Ubah Frasa Laluan..."
 msgid "Fingerprint"
 msgstr "Cap jari:"
 
-#: kgpgoptions.cpp:105
+#: kgpgoptions.cpp:107
 #, kde-format
 msgid "Decryption"
 msgstr "Penyahsulitan"
 
-#: kgpgoptions.cpp:106
+#: kgpgoptions.cpp:108
 #, kde-format
 msgid "Appearance"
 msgstr ""
 
-#: kgpgoptions.cpp:107
+#: kgpgoptions.cpp:109
 #, kde-format
 msgid "GnuPG Settings"
 msgstr "Seting GnuPG"
 
-#: kgpgoptions.cpp:108
+#: kgpgoptions.cpp:110
 #, kde-format
 msgid "Key Servers"
 msgstr "Pelayan Kunci"
 
-#: kgpgoptions.cpp:109
+#: kgpgoptions.cpp:111
 #, kde-format
 msgid "Misc"
 msgstr "Pelbagai"
 
-#: kgpgoptions.cpp:144
+#: kgpgoptions.cpp:146
 #, kde-format
 msgid "New GnuPG Home Location"
 msgstr "Lokasi Laman Utama GnuPG Baru"
 
-#: kgpgoptions.cpp:157
+#: kgpgoptions.cpp:159
 #, fuzzy, kde-format
 #| msgid ""
 #| "No configuration file was found in the selected location.\n"
@@ -3847,22 +3848,22 @@ msgstr ""
 "Tanpa fail konfigurasi, baik KGpg mahupun Gnupg tidak akan berfungsi dengan "
 "baik."
 
-#: kgpgoptions.cpp:158
+#: kgpgoptions.cpp:160
 #, kde-format
 msgid "No Configuration File Found"
 msgstr "Tiada Fail Konfigurasi Ditemui"
 
-#: kgpgoptions.cpp:159
+#: kgpgoptions.cpp:161
 #, kde-format
 msgid "Create"
 msgstr "Cipta"
 
-#: kgpgoptions.cpp:160
+#: kgpgoptions.cpp:162
 #, kde-format
 msgid "Ignore"
 msgstr "Abai"
 
-#: kgpgoptions.cpp:174
+#: kgpgoptions.cpp:176
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot create configuration file. Please check if destination media is "
@@ -3874,34 +3875,34 @@ msgstr ""
 "Tidak dapat mencipta fail konfigurasi. Semak sama ada media destinasi "
 "dilekapkan dan sama ada anda mempunyai akses tulis"
 
-#: kgpgoptions.cpp:197
+#: kgpgoptions.cpp:199
 #, kde-format
 msgid "Key server URLs may not contain whitespace."
 msgstr ""
 
-#: kgpgoptions.cpp:202
+#: kgpgoptions.cpp:204
 #, kde-format
 msgid "Key server already in the list."
 msgstr ""
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Add New Key Server"
 msgstr "Tambah Pelayan Kunci Baru"
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Server URL:"
 msgstr "URL Pelayan:"
 
-#: kgpgoptions.cpp:464 kgpgoptions.cpp:466
+#: kgpgoptions.cpp:466 kgpgoptions.cpp:468
 #, fuzzy, kde-format
 #| msgid "none"
 msgctxt "no key available"
 msgid "none"
 msgstr "tiada"
 
-#: kgpgoptions.cpp:486
+#: kgpgoptions.cpp:488
 #, kde-format
 msgid "Decrypt File"
 msgstr "Nyahsulitkan Fail"
@@ -4401,160 +4402,6 @@ msgid ""
 "Enter the ids or fingerprints of the keys to import as space separated list."
 msgstr ""
 
-#. i18n: ectx: @info:tipoftheday
-#: tips:2
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>If you want to decrypt a text file, simply drag and drop it into the "
-#| "editor window. Kgpg will do the rest. Even remote files can be dropped.</"
-#| "p>\n"
-#| "<p>Drag a public key into the editor window and kgpg will automatically "
-#| "import it if you want.</p>\n"
-msgid ""
-"<p>If you want to decrypt a text file, simply drag and drop it into the "
-"editor window. KGpg will do the rest. Even remote files can be dropped.</p>\n"
-"<p>Drag a public key into the editor window and kgpg will automatically "
-"import it if you want.</p>\n"
-msgstr ""
-"<p>Jika anda ingin menyahsulitkan fail teks, hanya seret dan lepaskan ke "
-"dalam tetingkap editor. Kgpg akan melakukan yang selebihnya. Malah, fail "
-"jauh pun boleh dilepaskan.</p>\n"
-"<p>Seret kekunci awam ke dalam tetingkap editor dan kgpg akan mengimportnya "
-"secara automatik jika anda mahu.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:7
-#, kde-format
-msgid ""
-"<p>The easiest way to encrypt a file: simply right click on the file, and "
-"you have an encrypt option in the contextual menu.\n"
-"This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
-msgstr ""
-"<p>Cara termudah untuk menyulitkan fail: hanya klik kanan pada fail, dan "
-"anda ada opsyen sulitkan dalam menu konteks.\n"
-"Ini berfungsi dalam <strong>konqueror</strong> atau dalam Desktop anda!</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:13
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>If you want to encrypt a message for several persons, just select "
-#| "several encryption keys by pressing the \"Ctrl\" key.</p>\n"
-msgid ""
-"<p>If you want to encrypt a message for several persons, just select several "
-"encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
-msgstr ""
-"<p>Jika anda ingin menyulitkan mesej untuk beberapa orang, hanya pilih "
-"beberapa kekunci penyulitan dengan menekan kekunci \"Ctrl\".</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:18
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p><strong>You don't know anything about encryption?</strong><br>\n"
-#| "No problem, simply create yourself a key pair in the key management "
-#| "window. Then, export your public key & mail it to your friends.<br>\n"
-#| "Ask them to do the same & import their public keys. Finally, to send an "
-#| "encrypted message, type it in the Kgpg editor, then click \"encrypt\". "
-#| "Choose \n"
-#| "your friend key and click \"encrypt\" again. The message will be "
-#| "encrypted, ready to be sent by email.</p>\n"
-msgid ""
-"<p><strong>You do not have to be an expert in encryption to use this tool?</"
-"strong><br>\n"
-"Simply create yourself a key pair in the key management window. Then, export "
-"your public key and mail it to your friends.<br>\n"
-"Ask them to do the same and import their public keys. Finally, to send an "
-"encrypted message, type it in the KGpg editor, then click &quot;"
-"encrypt&quot;. Choose\n"
-"your friend's key and click &quot;encrypt&quot; again. The message will be "
-"encrypted, ready to be sent by email.</p>\n"
-msgstr ""
-"<p><strong>Anda tidak tahu apa-apa tentang penyulitan?</strong><br>\n"
-"Tidak mengapa, cipta sendiri pasangan kekunci  dalam tetingkap pengurusan "
-"kekunci. Kemudian eksport kekunci awam anda & melkan kepada kawan anda.<br>\n"
-"Suruh mereka lakukan perkara yang sama & import kekunci awam mereka. Akhir "
-"sekali, untuk menghantar mesej yang disulitkan, taipkan dalam editor Kgpg, "
-"kemudian klik \"sulitkan\". Pilih \n"
-"kekunci kawan anda dan klik \"sulitkan\" sekali lagi. Mesej ini akan "
-"disulitkan, sedia untuk dihantar melalui e-mel.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:26
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>To perform an operation on a key, open the key management window & "
-#| "right click on the key. A popup menu with all available options will "
-#| "appear.</p>\n"
-msgid ""
-"<p>To perform an operation on a key, open the key management window and "
-"right click on the key. A popup menu with all available options will appear."
-"</p>\n"
-msgstr ""
-"<p>Untuk melaksanakan operasi ke atas kekunci, buka tetingkap pengurusan "
-"kunci & klik kanan pada kekunci. Satu popup menu dengan semua opsyen yang "
-"boleh didapatkan akan muncul.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:31
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>Decrypt a file with a single mouse click on it. You will then be "
-#| "prompted for password & that's all!</p>\n"
-msgid ""
-"<p>Decrypt a file with a single mouse click on it. You will then be prompted "
-"for password, and then that is it!</p>\n"
-msgstr ""
-"<p>Nyahsulit fail dengan satu klik tetikus padanya. Kemudian anda akan "
-"digesa untuk kata laluan & itu sahaja!</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>If you only want to open the key manager, type \"kgpg -k\" in the "
-#| "command line prompt.</p>\n"
-msgid ""
-"<p>If you only want to open the key manager, type this in the command line "
-"prompt: <pre>kgpg -k</pre>\n"
-"The editor can be reached by: <pre>kgpg -d</pre></p>\n"
-msgstr ""
-"<p>Jika anda hanya ingin membuka pengurus kunci, taip \"kgpg -k\" dalam "
-"gesaan baris arahan.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:42
-#, kde-format
-msgid ""
-"<p>To open a file in the KGpg's editor and immediately decrypt it type: "
-"<pre>kgpg -s filename</pre></p>\n"
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:47
-#, kde-format
-msgid ""
-"<p>If you want to change the password or expiration of a secret key simply "
-"double click on it to get the key properties dialog.</p>\n"
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:52
-#, kde-format
-msgid ""
-"<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the "
-"key manager.</p>\n"
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:57
-#, kde-format
-msgid ""
-"<p>The number of signatures is shown as a tooltip if you hover the mouse on "
-"the size column in key manager. A key has to be expanded once for this to "
-"work.</p>\n"
-msgstr ""
-
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "This image is very large. Use it anyway?"
@@ -4994,6 +4841,128 @@ msgstr "Tandatangan ini sah, tetapi kunci tak dipercayai"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "Tandatangan adalah sah, dan kunci dipercayai secara mutlak"
+
+#~ msgid ""
+#~ "The document could not been saved, as the selected encoding cannot encode "
+#~ "every unicode character in it."
+#~ msgstr ""
+#~ "Dokumen tidak dapat disimpan, kerana pengekodan yang dipilih tidak dapat "
+#~ "mengekod setiap aksara ekakod di dalamnya."
+
+#~ msgid "Tip of the &Day"
+#~ msgstr "Tip &Hari Ini"
+
+#~ msgid "Show tip of the day."
+#~ msgstr "Papar tip hari ini."
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>If you want to decrypt a text file, simply drag and drop it into the "
+#~| "editor window. Kgpg will do the rest. Even remote files can be dropped.</"
+#~| "p>\n"
+#~| "<p>Drag a public key into the editor window and kgpg will automatically "
+#~| "import it if you want.</p>\n"
+#~ msgid ""
+#~ "<p>If you want to decrypt a text file, simply drag and drop it into the "
+#~ "editor window. KGpg will do the rest. Even remote files can be dropped.</"
+#~ "p>\n"
+#~ "<p>Drag a public key into the editor window and kgpg will automatically "
+#~ "import it if you want.</p>\n"
+#~ msgstr ""
+#~ "<p>Jika anda ingin menyahsulitkan fail teks, hanya seret dan lepaskan ke "
+#~ "dalam tetingkap editor. Kgpg akan melakukan yang selebihnya. Malah, fail "
+#~ "jauh pun boleh dilepaskan.</p>\n"
+#~ "<p>Seret kekunci awam ke dalam tetingkap editor dan kgpg akan "
+#~ "mengimportnya secara automatik jika anda mahu.</p>\n"
+
+#~ msgid ""
+#~ "<p>The easiest way to encrypt a file: simply right click on the file, and "
+#~ "you have an encrypt option in the contextual menu.\n"
+#~ "This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
+#~ msgstr ""
+#~ "<p>Cara termudah untuk menyulitkan fail: hanya klik kanan pada fail, dan "
+#~ "anda ada opsyen sulitkan dalam menu konteks.\n"
+#~ "Ini berfungsi dalam <strong>konqueror</strong> atau dalam Desktop anda!</"
+#~ "p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>If you want to encrypt a message for several persons, just select "
+#~| "several encryption keys by pressing the \"Ctrl\" key.</p>\n"
+#~ msgid ""
+#~ "<p>If you want to encrypt a message for several persons, just select "
+#~ "several encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
+#~ msgstr ""
+#~ "<p>Jika anda ingin menyulitkan mesej untuk beberapa orang, hanya pilih "
+#~ "beberapa kekunci penyulitan dengan menekan kekunci \"Ctrl\".</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p><strong>You don't know anything about encryption?</strong><br>\n"
+#~| "No problem, simply create yourself a key pair in the key management "
+#~| "window. Then, export your public key & mail it to your friends.<br>\n"
+#~| "Ask them to do the same & import their public keys. Finally, to send an "
+#~| "encrypted message, type it in the Kgpg editor, then click \"encrypt\". "
+#~| "Choose \n"
+#~| "your friend key and click \"encrypt\" again. The message will be "
+#~| "encrypted, ready to be sent by email.</p>\n"
+#~ msgid ""
+#~ "<p><strong>You do not have to be an expert in encryption to use this tool?"
+#~ "</strong><br>\n"
+#~ "Simply create yourself a key pair in the key management window. Then, "
+#~ "export your public key and mail it to your friends.<br>\n"
+#~ "Ask them to do the same and import their public keys. Finally, to send an "
+#~ "encrypted message, type it in the KGpg editor, then click &quot;"
+#~ "encrypt&quot;. Choose\n"
+#~ "your friend's key and click &quot;encrypt&quot; again. The message will "
+#~ "be encrypted, ready to be sent by email.</p>\n"
+#~ msgstr ""
+#~ "<p><strong>Anda tidak tahu apa-apa tentang penyulitan?</strong><br>\n"
+#~ "Tidak mengapa, cipta sendiri pasangan kekunci  dalam tetingkap pengurusan "
+#~ "kekunci. Kemudian eksport kekunci awam anda & melkan kepada kawan anda."
+#~ "<br>\n"
+#~ "Suruh mereka lakukan perkara yang sama & import kekunci awam mereka. "
+#~ "Akhir sekali, untuk menghantar mesej yang disulitkan, taipkan dalam "
+#~ "editor Kgpg, kemudian klik \"sulitkan\". Pilih \n"
+#~ "kekunci kawan anda dan klik \"sulitkan\" sekali lagi. Mesej ini akan "
+#~ "disulitkan, sedia untuk dihantar melalui e-mel.</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>To perform an operation on a key, open the key management window & "
+#~| "right click on the key. A popup menu with all available options will "
+#~| "appear.</p>\n"
+#~ msgid ""
+#~ "<p>To perform an operation on a key, open the key management window and "
+#~ "right click on the key. A popup menu with all available options will "
+#~ "appear.</p>\n"
+#~ msgstr ""
+#~ "<p>Untuk melaksanakan operasi ke atas kekunci, buka tetingkap pengurusan "
+#~ "kunci & klik kanan pada kekunci. Satu popup menu dengan semua opsyen yang "
+#~ "boleh didapatkan akan muncul.</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>Decrypt a file with a single mouse click on it. You will then be "
+#~| "prompted for password & that's all!</p>\n"
+#~ msgid ""
+#~ "<p>Decrypt a file with a single mouse click on it. You will then be "
+#~ "prompted for password, and then that is it!</p>\n"
+#~ msgstr ""
+#~ "<p>Nyahsulit fail dengan satu klik tetikus padanya. Kemudian anda akan "
+#~ "digesa untuk kata laluan & itu sahaja!</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>If you only want to open the key manager, type \"kgpg -k\" in the "
+#~| "command line prompt.</p>\n"
+#~ msgid ""
+#~ "<p>If you only want to open the key manager, type this in the command "
+#~ "line prompt: <pre>kgpg -k</pre>\n"
+#~ "The editor can be reached by: <pre>kgpg -d</pre></p>\n"
+#~ msgstr ""
+#~ "<p>Jika anda hanya ingin membuka pengurus kunci, taip \"kgpg -k\" dalam "
+#~ "gesaan baris arahan.</p>\n"
 
 #, fuzzy
 #~| msgid "GnuPG Settings"
@@ -5511,9 +5480,6 @@ msgstr "Tandatangan adalah sah, dan kunci dipercayai secara mutlak"
 
 #~ msgid "Encrypt"
 #~ msgstr "Sulitkan"
-
-#~ msgid "Sign"
-#~ msgstr "Tandatangan"
 
 #~ msgid "Ask"
 #~ msgstr "Tanya"

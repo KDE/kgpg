@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:40+0000\n"
+"POT-Creation-Date: 2024-01-04 01:36+0000\n"
 "PO-Revision-Date: 2017-05-16 07:04-0400\n"
 "Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
 "Language-Team: Hebrew <kde-i18n-doc@kde.org>\n"
@@ -17,7 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Zanata 3.9.6\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
+"n % 10 == 0) ? 2 : 3));\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -80,6 +81,8 @@ msgid_plural ""
 "without encryption capability:"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: caff.cpp:179
 #, kde-format
@@ -89,6 +92,8 @@ msgid_plural ""
 "No mail was sent for the following user ids because they were already signed:"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: caff.cpp:312
 #, kde-format
@@ -130,7 +135,7 @@ msgstr "פקודת פענוח מותאמת אישית:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Encryption)
 #. i18n: ectx: property (text), widget (QCheckBox, capEncrypt)
-#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:104
+#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:106
 #, kde-format
 msgid "Encryption"
 msgstr "הצפנה"
@@ -372,7 +377,7 @@ msgid "Change..."
 msgstr "שינוי..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
 #, fuzzy, kde-format
 msgid "GnuPG Binary"
 msgstr "הגדרות GnuPG"
@@ -505,7 +510,7 @@ msgstr "תפריט־שרות לחתימת־קבצים:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:304
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:296
 #, kde-format
 msgid "Disable"
 msgstr "לא בשימוש"
@@ -578,7 +583,7 @@ msgstr "מנהל מפתחות"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #. i18n: ectx: attribute (title), widget (QWidget, tabEditor)
-#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:499
+#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:503
 #, kde-format
 msgid "Editor"
 msgstr "עורך"
@@ -754,25 +759,25 @@ msgid "Sort Order"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:253 kgpgoptions.cpp:98
+#: conf_ui2.ui:253 kgpgoptions.cpp:100
 #, kde-format
 msgid "Left to right, account first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:258 kgpgoptions.cpp:99
+#: conf_ui2.ui:258 kgpgoptions.cpp:101
 #, kde-format
 msgid "Right to left, TLD first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:263 kgpgoptions.cpp:100
+#: conf_ui2.ui:263 kgpgoptions.cpp:102
 #, kde-format
 msgid "Right to left, domain first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:268 kgpgoptions.cpp:101
+#: conf_ui2.ui:268 kgpgoptions.cpp:103
 #, kde-format
 msgid "Right to left, FQDN first"
 msgstr ""
@@ -963,6 +968,8 @@ msgid "1 key"
 msgid_plural "%1 keys"
 msgstr[0] "%1 תת מפתח"
 msgstr[1] "%1 תת מפתח"
+msgstr[2] ""
+msgstr[3] ""
 
 #: core/KGpgKeyNode.cpp:72
 #, kde-format
@@ -976,6 +983,8 @@ msgid "1 signature"
 msgid_plural "%1 signatures"
 msgstr[0] "חתימה"
 msgstr[1] "חתימה"
+msgstr[2] ""
+msgstr[3] ""
 
 #: core/KGpgNode.cpp:43
 #, kde-format
@@ -1008,75 +1017,75 @@ msgstr "מספר־זיהוי תצלום"
 msgid "Info"
 msgstr "מידע"
 
-#: editor/kgpgeditor.cpp:84 editor/kgpgeditor.cpp:231 editor/kgpgeditor.cpp:729
-#: editor/kgpgeditor.cpp:758
+#: editor/kgpgeditor.cpp:90 editor/kgpgeditor.cpp:240 editor/kgpgeditor.cpp:726
+#: editor/kgpgeditor.cpp:755
 #, fuzzy, kde-format
 msgid "Untitled"
 msgstr "ללא כותרת"
 
-#: editor/kgpgeditor.cpp:177
+#: editor/kgpgeditor.cpp:186
 #, kde-format
 msgid "&Encrypt File..."
 msgstr "ה&צפן קובץ..."
 
-#: editor/kgpgeditor.cpp:181
+#: editor/kgpgeditor.cpp:190
 #, kde-format
 msgid "&Decrypt File..."
 msgstr "&פענח קובץ..."
 
-#: editor/kgpgeditor.cpp:185
+#: editor/kgpgeditor.cpp:194
 #, kde-format
 msgid "&Open Key Manager"
 msgstr "פתח מנהל &מפתחות"
 
-#: editor/kgpgeditor.cpp:188
+#: editor/kgpgeditor.cpp:197
 #, kde-format
 msgid "&Generate Signature..."
 msgstr "ייצר &חתימה..."
 
-#: editor/kgpgeditor.cpp:192
+#: editor/kgpgeditor.cpp:201
 #, kde-format
 msgid "&Verify Signature..."
 msgstr "&וודא תקינות חתימה..."
 
-#: editor/kgpgeditor.cpp:195
+#: editor/kgpgeditor.cpp:204
 #, kde-format
 msgid "&Check MD5 Sum..."
 msgstr "&בדוק MD5 Sum..."
 
-#: editor/kgpgeditor.cpp:198
+#: editor/kgpgeditor.cpp:207
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
 msgstr ""
 
-#: editor/kgpgeditor.cpp:204
+#: editor/kgpgeditor.cpp:213
 #, kde-format
 msgid "En&crypt"
 msgstr "ה&צפן"
 
-#: editor/kgpgeditor.cpp:208
+#: editor/kgpgeditor.cpp:217
 #, kde-format
 msgid "&Decrypt"
 msgstr "&פענח"
 
-#: editor/kgpgeditor.cpp:212
+#: editor/kgpgeditor.cpp:221
 #, kde-format
 msgid "S&ign/Verify"
 msgstr "&חתום/וודא תקינות"
 
-#: editor/kgpgeditor.cpp:235
+#: editor/kgpgeditor.cpp:244
 #, kde-format
 msgid ""
 "The document \"%1\" has changed.\n"
 "Do you want to save it?"
 msgstr ""
 
-#: editor/kgpgeditor.cpp:236
+#: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid "Close the document"
 msgstr ""
 
-#: editor/kgpgeditor.cpp:282
+#: editor/kgpgeditor.cpp:291
 #, fuzzy, kde-format
 msgid ""
 "The document could not been saved, as the selected codec is not supported."
@@ -1084,16 +1093,7 @@ msgstr ""
 "לא ניתן לשמור את המסמך, משום שהקידוד שנבחר לא יכול לקודד כל סימן unicode "
 "בתוכו."
 
-#: editor/kgpgeditor.cpp:288
-#, kde-format
-msgid ""
-"The document could not been saved, as the selected encoding cannot encode "
-"every unicode character in it."
-msgstr ""
-"לא ניתן לשמור את המסמך, משום שהקידוד שנבחר לא יכול לקודד כל סימן unicode "
-"בתוכו."
-
-#: editor/kgpgeditor.cpp:297 editor/kgpgeditor.cpp:313
+#: editor/kgpgeditor.cpp:300 editor/kgpgeditor.cpp:317
 #, kde-format
 msgid ""
 "The document could not be saved, please check your permissions and disk "
@@ -1101,55 +1101,55 @@ msgid ""
 msgstr ""
 "אין אפשרות לשמור את המסמך, בדוק שנית את ההרשאות של הדיסק והמקום הפנוי בו."
 
-#: editor/kgpgeditor.cpp:338 editor/kgpgeditor.cpp:349 keyexport.cpp:37
+#: editor/kgpgeditor.cpp:342 editor/kgpgeditor.cpp:353 keyexport.cpp:37
 #, kde-format
 msgid "Overwrite existing file %1?"
 msgstr "לדרוס קובץ קיים %1?"
 
-#: editor/kgpgeditor.cpp:463
+#: editor/kgpgeditor.cpp:467
 #, kde-format
 msgid "Open File to Encode"
 msgstr "פתח קובץ לקידוד"
 
-#: editor/kgpgeditor.cpp:463 editor/kgpgeditor.cpp:472
-#: editor/kgpgeditor.cpp:614 editor/kgpgeditor.cpp:652
-#: editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:467 editor/kgpgeditor.cpp:476
+#: editor/kgpgeditor.cpp:611 editor/kgpgeditor.cpp:649
+#: editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "*|All Files"
 msgstr "*|כל הקבצים"
 
-#: editor/kgpgeditor.cpp:472
+#: editor/kgpgeditor.cpp:476
 #, kde-format
 msgid "Open File to Decode"
 msgstr "פתח קובץ לפענוח"
 
-#: editor/kgpgeditor.cpp:486
+#: editor/kgpgeditor.cpp:490
 #, kde-format
 msgid "Decrypt File To"
 msgstr "פענח קובץ ל"
 
-#: editor/kgpgeditor.cpp:497 keyexport.cpp:20
+#: editor/kgpgeditor.cpp:501 keyexport.cpp:20
 #, kde-format
 msgid "Save File"
 msgstr "שמור קובץ"
 
-#: editor/kgpgeditor.cpp:523 kgpgexternalactions.cpp:203
-#: kgpgexternalactions.cpp:362 transactions/kgpgtransactionprivate.cpp:107
+#: editor/kgpgeditor.cpp:527 kgpgexternalactions.cpp:204
+#: kgpgexternalactions.cpp:363 transactions/kgpgtransactionprivate.cpp:107
 #, kde-format
 msgid "File Already Exists"
 msgstr "הקובץ כבר קיים"
 
-#: editor/kgpgeditor.cpp:614
+#: editor/kgpgeditor.cpp:611
 #, kde-format
 msgid "Open File to Sign"
 msgstr "פתח קובץ לחתימה"
 
-#: editor/kgpgeditor.cpp:652 editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:649 editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "Open File to Verify"
 msgstr "פתח קובץ לווידוא תקינות"
 
-#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:337
+#: editor/kgpgeditor.cpp:696 editor/kgpgtextedit.cpp:342
 #, fuzzy, kde-format
 msgid ""
 "<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to "
@@ -1159,12 +1159,12 @@ msgstr ""
 "הזה משרת המפתחות? </qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
-#: editor/kgpgeditor.cpp:700 keyserver.ui:33 keytreeview.cpp:158
+#: editor/kgpgeditor.cpp:697 keyserver.ui:33 keytreeview.cpp:158
 #, fuzzy, kde-format
 msgid "Import"
 msgstr "&ייבא"
 
-#: editor/kgpgeditor.cpp:700 keytreeview.cpp:159
+#: editor/kgpgeditor.cpp:697 keytreeview.cpp:159
 #, kde-format
 msgid "Do Not Import"
 msgstr "לא לייבא"
@@ -1216,7 +1216,7 @@ msgstr "<b>בדיקת checksum תקינה</b>, הקובץ תקין."
 msgid "<b>Wrong checksum, <em>file corrupted</em></b>"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:84
+#: editor/kgpgtextedit.cpp:85
 #, fuzzy, kde-format
 msgid ""
 "<qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a "
@@ -1226,19 +1226,19 @@ msgstr ""
 "<qt><b> הושלך קובץ מרוחק</b>.<br> הקובץ המרוחק יועתק כעת לספריה זמנית על־מנת "
 "לבצע את הבקשה. הקובץ הזמני ימחק בתום הפעולה.</qt>"
 
-#: editor/kgpgtextedit.cpp:93
+#: editor/kgpgtextedit.cpp:94
 #, kde-format
 msgid "Could not download file."
 msgstr "אין אפשרות להוריד קובץ."
 
-#: editor/kgpgtextedit.cpp:129
+#: editor/kgpgtextedit.cpp:130
 #, fuzzy, kde-format
 msgid ""
 "<qt>This file is a <b>public</b> key.<br />Do you want to import it instead "
 "of opening it in editor?</qt>"
 msgstr "<p>הוא מפתח ציבורי <b> %1</b> הקובץ<br> האם אתה רוצה לייבא אותו? </p>"
 
-#: editor/kgpgtextedit.cpp:132
+#: editor/kgpgtextedit.cpp:133
 #, fuzzy, kde-format
 msgid ""
 "<qt>This file is a <b>private</b> key.<br />Do you want to import it instead "
@@ -1247,59 +1247,72 @@ msgstr ""
 "זה מפתח פרטי.\n"
 "העזר במנהל המפתחות של kgpg על מנת לייבא אותו."
 
-#: editor/kgpgtextedit.cpp:137
+#: editor/kgpgtextedit.cpp:138
 #, fuzzy, kde-format
 msgid "Key file dropped on Editor"
 msgstr "פענח ופתח בעורך"
 
-#: editor/kgpgtextedit.cpp:260 kgpgexternalactions.cpp:402
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgid "Years"
+msgctxt "@action:button"
+msgid "Yes"
+msgstr "שנים"
+
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+msgctxt "@action:button"
+msgid "No"
+msgstr "כלום"
+
+#: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
 msgid "Decryption failed."
 msgstr "פענוח נכשל."
 
-#: editor/kgpgtextedit.cpp:275 foldercompressjob.cpp:132
+#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:132
 #, kde-format
 msgid "The encryption failed with error code %1"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:133
+#: editor/kgpgtextedit.cpp:277 foldercompressjob.cpp:133
 #, kde-format
 msgid "Encryption failed."
 msgstr "ההצפנה נכשלה."
 
-#: editor/kgpgtextedit.cpp:289
+#: editor/kgpgtextedit.cpp:290
 #, kde-format
 msgid "Signing not possible: bad passphrase or missing key"
 msgstr "סימון בלתי אפשרי. משפט המעבר שגוי או מפתח חסר"
 
-#: editor/kgpgtextedit.cpp:324 kgpgexternalactions.cpp:281
+#: editor/kgpgtextedit.cpp:325 kgpgexternalactions.cpp:282
 #, kde-format
 msgctxt "Caption of message box"
 msgid "Verification Finished"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonimport)
-#: editor/kgpgtextedit.cpp:330 keyserver.ui:145 keyservers.cpp:201
+#: editor/kgpgtextedit.cpp:331 keyserver.ui:145 keyservers.cpp:201
 #, kde-format
 msgid "&Import"
 msgstr "&ייבא"
 
-#: editor/kgpgtextedit.cpp:331
+#: editor/kgpgtextedit.cpp:333
 #, fuzzy, kde-format
 msgid "Import key in your list"
 msgstr "ייבא לתוך צרור־המפתח"
 
-#: editor/kgpgtextedit.cpp:334
+#: editor/kgpgtextedit.cpp:337
 #, fuzzy, kde-format
 msgid "Do &Not Import"
 msgstr "לא לייבא"
 
-#: editor/kgpgtextedit.cpp:335
+#: editor/kgpgtextedit.cpp:339
 #, kde-format
 msgid "Will not import this key in your list"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:337
+#: editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid "Missing Key"
 msgstr "מפתח חסר"
@@ -1376,7 +1389,7 @@ msgstr "מפתחות אמינים קיימים"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:426 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:418 searchres.ui:29
 #, fuzzy, kde-format
 msgid "Search:"
 msgstr "חפש: "
@@ -1713,6 +1726,8 @@ msgid "Found 1 matching key"
 msgid_plural "Found %1 matching keys"
 msgstr[0] "נמצאו %1 מפתחות תואמים"
 msgstr[1] "נמצאו %1 מפתחות תואמים"
+msgstr[2] ""
+msgstr[3] ""
 
 #: keyservers.cpp:378
 #, fuzzy, kde-format
@@ -1724,317 +1739,312 @@ msgstr "נמצאו %1 מפתחות תואמים"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "נמצאו %1 מפתחות תואמים"
 
-#: keysmanager.cpp:126
+#: keysmanager.cpp:125
 #, kde-format
 msgid "Key Management"
 msgstr "ניהול מפתחות"
 
-#: keysmanager.cpp:133
+#: keysmanager.cpp:132
 #, kde-format
 msgid "&Open Editor"
 msgstr "&עורך טקסט"
 
-#: keysmanager.cpp:136
+#: keysmanager.cpp:135
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "דיאלוג &שרת המפתחות"
 
-#: keysmanager.cpp:141 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:140 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "&עבור למפתח ברירת המחדל"
 
-#: keysmanager.cpp:158
-#, kde-format
-msgid "Tip of the &Day"
-msgstr "&טיפ יומי"
-
-#: keysmanager.cpp:161
+#: keysmanager.cpp:153
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "עיין במדריך של GnuPG"
 
-#: keysmanager.cpp:166
+#: keysmanager.cpp:158
 #, kde-format
 msgid "&Refresh List"
 msgstr "&רענן רשימה"
 
-#: keysmanager.cpp:170
+#: keysmanager.cpp:162
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr ""
 
-#: keysmanager.cpp:175
+#: keysmanager.cpp:167
 #, fuzzy, kde-format
 msgid "K&ey Properties"
 msgstr "תכונות המפתח"
 
-#: keysmanager.cpp:179
+#: keysmanager.cpp:171
 #, fuzzy, kde-format
 msgid "&Open Key URL"
 msgstr "פתח מנהל &מפתחות"
 
-#: keysmanager.cpp:183
+#: keysmanager.cpp:175
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "ערוך מפתח במ&סוף"
 
-#: keysmanager.cpp:188
+#: keysmanager.cpp:180
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "י&צירת זוג מפתחות..."
 
-#: keysmanager.cpp:197
+#: keysmanager.cpp:189
 #, kde-format
 msgid "&Import Key..."
 msgstr "יי&בוא מפתח..."
 
-#: keysmanager.cpp:202
+#: keysmanager.cpp:194
 #, kde-format
 msgid "Send Ema&il"
 msgstr ""
 
-#: keysmanager.cpp:206
+#: keysmanager.cpp:198
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "צור &איש־קשר חדש בספר־הכתובות"
 
-#: keysmanager.cpp:212
+#: keysmanager.cpp:204
 #, fuzzy, kde-format
 msgid "&Edit Group..."
 msgstr "&ערוך קבוצה"
 
-#: keysmanager.cpp:215
+#: keysmanager.cpp:207
 #, kde-format
 msgid "&Delete Group"
 msgstr "&מחק קבוצה"
 
-#: keysmanager.cpp:219
+#: keysmanager.cpp:211
 #, fuzzy, kde-format
 msgid "&Rename Group"
 msgstr "&מחק קבוצה"
 
-#: keysmanager.cpp:228
+#: keysmanager.cpp:220
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "&קבע כמפתח ברירת־מחדל"
 
-#: keysmanager.cpp:231
+#: keysmanager.cpp:223
 #, fuzzy, kde-format
 msgid "&Add Photo..."
 msgstr "&הוסף תצלום"
 
-#: keysmanager.cpp:234
+#: keysmanager.cpp:226
 #, fuzzy, kde-format
 msgid "&Add User Id..."
 msgstr "&הוסף מספר־זיהוי משתמש"
 
-#: keysmanager.cpp:237
+#: keysmanager.cpp:229
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "ייצאו מפתח סודי..."
 
-#: keysmanager.cpp:240
+#: keysmanager.cpp:232
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "מחק זוג מפתחות"
 
-#: keysmanager.cpp:244
+#: keysmanager.cpp:236
 #, kde-format
 msgid "Revoke Key..."
 msgstr "בטל תוקף מפתח..."
 
-#: keysmanager.cpp:247
+#: keysmanager.cpp:239
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "צור &מחדש מפתח ציבורי"
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:245
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr ""
 
-#: keysmanager.cpp:257
+#: keysmanager.cpp:249
 #, kde-format
 msgid "&Open Photo"
 msgstr "&פתח תצלום"
 
-#: keysmanager.cpp:261
+#: keysmanager.cpp:253
 #, kde-format
 msgid "&Delete Photo"
 msgstr "&מחק תצלום"
 
-#: keysmanager.cpp:269
+#: keysmanager.cpp:261
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "יי&בא חתימות חסרות משרת־המפתחות"
 
-#: keysmanager.cpp:287 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:279 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "אמון"
 
-#: keysmanager.cpp:290 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:282 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "גודל"
 
-#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:285 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "יצירה"
 
-#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:288 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "תפוגה"
 
-#: keysmanager.cpp:300
+#: keysmanager.cpp:292
 #, kde-format
 msgid "&Photo ID's"
 msgstr "מספר זיהוי של &תצלום"
 
-#: keysmanager.cpp:305
+#: keysmanager.cpp:297
 #, fuzzy, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "קטן"
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:298
 #, fuzzy, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "בינוני"
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:299
 #, fuzzy, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "גדול"
 
-#: keysmanager.cpp:311
+#: keysmanager.cpp:303
 #, kde-format
 msgid "Minimum &Trust"
 msgstr ""
 
-#: keysmanager.cpp:314
+#: keysmanager.cpp:306
 #, fuzzy, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "כלום"
 
-#: keysmanager.cpp:315
+#: keysmanager.cpp:307
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr ""
 
-#: keysmanager.cpp:316
+#: keysmanager.cpp:308
 #, fuzzy, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "שולי"
 
-#: keysmanager.cpp:317
+#: keysmanager.cpp:309
 #, fuzzy, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "מלא"
 
-#: keysmanager.cpp:318
+#: keysmanager.cpp:310
 #, fuzzy, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "לחלוטין"
 
-#: keysmanager.cpp:343
+#: keysmanager.cpp:335
 #, fuzzy, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "ה&צג מפתחות סודיים בלבד"
 
-#: keysmanager.cpp:443
+#: keysmanager.cpp:435
 #, fuzzy, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "חפש: "
 
-#: keysmanager.cpp:486
+#: keysmanager.cpp:483
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
+#: keysmanager.cpp:484 keysmanager.cpp:522 keysmanager.cpp:570
 #, fuzzy, kde-format
 msgid "Generating new key pair"
 msgstr "מייצר זוג מפתחות חדש."
 
-#: keysmanager.cpp:526
+#: keysmanager.cpp:523
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr ""
 
-#: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
+#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
 #, fuzzy, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "מוכן"
 
-#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:574 transactions/kgpggeneratekey.cpp:194
 #, fuzzy, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "ססמה שגויה, החתימה לא נוצרה."
 
-#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr ""
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr ""
 
-#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:203
 #, fuzzy, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "ססמה שגויה, החתימה לא נוצרה."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:592 newkey.ui:14
+#: keysmanager.cpp:589 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "זוג מפתחות חדש נוצר"
 
-#: keysmanager.cpp:631
+#: keysmanager.cpp:628
 #, kde-format
 msgid "backup copy"
 msgstr "העתק גיבוי"
 
-#: keysmanager.cpp:645 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:642 transactions/kgpggeneratekey.cpp:215
 #, fuzzy, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "ססמה שגויה, החתימה לא נוצרה."
 
-#: keysmanager.cpp:749
+#: keysmanager.cpp:736
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr "באפשרותך לרענן רק מפתחות ראשיים. אנא בודק את בחירתך."
 
-#: keysmanager.cpp:873
+#: keysmanager.cpp:860
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:874 keysmanager.cpp:879
+#: keysmanager.cpp:861 keysmanager.cpp:866
 #, kde-format
 msgid "Add New User Id"
 msgstr "הוסף מספר־זיהוי משתמש חדש"
 
-#: keysmanager.cpp:919
+#: keysmanager.cpp:906
 #, fuzzy, kde-format
 msgid ""
 "The image must be a JPEG file. Remember that the image is stored within your "
@@ -2046,7 +2056,7 @@ msgstr ""
 "אם אתה משתמש בתמונה מאד גודלה, המפתח יהיה גדול בהתאם! שמירה על גודל תמונה "
 "הקרוב ל־ 240x288 היא בחירה טובה לשימוש."
 
-#: keysmanager.cpp:951
+#: keysmanager.cpp:938
 #, fuzzy, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2055,133 +2065,153 @@ msgstr ""
 "<qt> אם אתה בטוח שברצונך למחוק תמונה מס' <b>%1</b> <br> מתוך מפתח <b>%2 &lt;"
 "%3&gt;</b>?</qt>"
 
-#: keysmanager.cpp:1094
+#: keysmanager.cpp:1076
 #, kde-format
 msgid "Public Key"
 msgstr "מפתח ציבורי"
 
-#: keysmanager.cpp:1097
+#: keysmanager.cpp:1079
 #, kde-format
 msgid "Sub Key"
 msgstr "תת־מפתח"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1082
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "זוג מפתחות סודיים"
 
-#: keysmanager.cpp:1103
+#: keysmanager.cpp:1085
 #, kde-format
 msgid "Key Group"
 msgstr "קבוצת מפתחות"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1106 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1088 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "חתימה"
 
-#: keysmanager.cpp:1109
+#: keysmanager.cpp:1091
 #, kde-format
 msgid "User ID"
 msgstr "מספר־זיהוי משתמש"
 
-#: keysmanager.cpp:1112
+#: keysmanager.cpp:1094
 #, kde-format
 msgid "Revocation Signature"
 msgstr "חתימת ביטול־תוקף"
 
-#: keysmanager.cpp:1115
+#: keysmanager.cpp:1097
 #, kde-format
 msgid "Photo ID"
 msgstr "מספר־זיהוי תצלום"
 
-#: keysmanager.cpp:1118
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "מפתח סודי מיותם"
 
-#: keysmanager.cpp:1123
+#: keysmanager.cpp:1105
 #, kde-format
 msgid "Group member"
 msgstr ""
 
-#: keysmanager.cpp:1228
+#: keysmanager.cpp:1208
 #, fuzzy, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
 msgstr[0] "&חתימה על מפתחות..."
 msgstr[1] "&חתימה על מפתחות..."
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:1229
+#: keysmanager.cpp:1209
 #, fuzzy, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "&חתימה על מפתחות..."
 msgstr[1] "&חתימה על מפתחות..."
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:1230
+#: keysmanager.cpp:1210
 #, fuzzy, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
 msgstr[0] "&ייצוא מפתחות ציבוריים..."
 msgstr[1] "&ייצוא מפתחות ציבוריים..."
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:1231
+#: keysmanager.cpp:1211
 #, fuzzy, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "&רענן מפתחות משרת־המפתחות"
 msgstr[1] "&רענן מפתחות משרת־המפתחות"
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:1232
+#: keysmanager.cpp:1212
 #, fuzzy, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "יצירת &קבוצה ממפתחות שנבחרו..."
 msgstr[1] "יצירת &קבוצה ממפתחות שנבחרו..."
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:1233
+#: keysmanager.cpp:1213
 #, fuzzy, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
 msgstr[0] "&חתימה על מפתחות..."
 msgstr[1] "&חתימה על מפתחות..."
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:1234
+#: keysmanager.cpp:1214
 #, fuzzy, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
 msgstr[0] "&מחק מספר־זיהוי משתמש"
 msgstr[1] "&מחק מספר־זיהוי משתמש"
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:1235
+#: keysmanager.cpp:1215
 #, fuzzy, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
 msgstr[0] "מחק ח&תימה"
 msgstr[1] "מחק ח&תימה"
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:1236
+#: keysmanager.cpp:1216
 #, fuzzy, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
 msgstr[0] "יבא מפתח משרת־המפתחות"
 msgstr[1] "יבא מפתח משרת־המפתחות"
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:1237
+#: keysmanager.cpp:1217
 #, fuzzy, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
 msgstr[0] "&מחק מפתחות"
 msgstr[1] "&מחק מפתחות"
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:1360
+#: keysmanager.cpp:1340
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "יצירת אשרת ביטול־תוקף נכשלה..."
 
-#: keysmanager.cpp:1375
+#: keysmanager.cpp:1355
 #, fuzzy, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2192,17 +2222,17 @@ msgstr ""
 "אם מישהו אחר יוכל להגשת לקובץ זה, הצפינה עם מפתח תאבד את משמעותה!\n"
 "האם להמשיך בייצוא המפתח?"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "ייצא מפתח פרטי כ־"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr ""
 
-#: keysmanager.cpp:1405
+#: keysmanager.cpp:1385
 #, fuzzy, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
@@ -2211,7 +2241,7 @@ msgstr ""
 "המפתח הפרטי, ששייך לך \"%1\" ייוצא בהצלחה.\n"
 "אל תשאיר אותו במקום בלתי בטוח."
 
-#: keysmanager.cpp:1408
+#: keysmanager.cpp:1388
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2220,14 +2250,16 @@ msgstr ""
 "ייצוא המפתח הפרטי שלך לא צלח.\n"
 "בדוק את המפתח."
 
-#: keysmanager.cpp:1510
+#: keysmanager.cpp:1490
 #, fuzzy, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
 msgstr[0] "המפתח הציבורי ששייך לך  \"%1\" ייוצא בהצלחה.\n"
 msgstr[1] "המפתח הציבורי ששייך לך  \"%1\" ייוצא בהצלחה.\n"
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:1514 keysmanager.cpp:1529 keysmanager.cpp:1543
+#: keysmanager.cpp:1494 keysmanager.cpp:1509 keysmanager.cpp:1523
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2236,7 +2268,7 @@ msgstr ""
 "לא ניתן היה לייצא את המפתח הציבורי שלך.\n"
 "בדוק את המפתח."
 
-#: keysmanager.cpp:1652
+#: keysmanager.cpp:1632
 #, fuzzy, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
@@ -2247,27 +2279,27 @@ msgstr ""
 "\n"
 "האם ברצונך ליצור מחדש את המפתח הציבורי?"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, kde-format
 msgid "Generate"
 msgstr "צור"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, kde-format
 msgid "Do Not Generate"
 msgstr "לא ליצור"
 
-#: keysmanager.cpp:1684
+#: keysmanager.cpp:1664
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>האם אתה בטוח שברצונך למחוק את הקבוצה <b>%1</b>?</qt>"
 
-#: keysmanager.cpp:1685 keysmanager.cpp:2355
+#: keysmanager.cpp:1665 keysmanager.cpp:2335
 #, fuzzy, kde-format
 msgid "Delete"
 msgstr "&מחק מפתחות"
 
-#: keysmanager.cpp:1715
+#: keysmanager.cpp:1695
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2275,48 +2307,48 @@ msgid ""
 msgstr ""
 "<qt>אינך יכול ליצור קבוצה המכילה חתימות, תת־מפתחות או קבוצות אחרות.</qt>"
 
-#: keysmanager.cpp:1730 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1710 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr ""
 
-#: keysmanager.cpp:1735
+#: keysmanager.cpp:1715
 #, kde-format
 msgid "Create New Group"
 msgstr "צור קבוצה חדשה"
 
-#: keysmanager.cpp:1736
+#: keysmanager.cpp:1716
 #, fuzzy, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "הזן שם קבוצה חדשה:"
 
-#: keysmanager.cpp:1741
+#: keysmanager.cpp:1721
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
 "group:"
 msgstr "המפתחות הבאים אינם תקפים או אינם אמינים, ולכן לא יוספו לקבוצה:"
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1727
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
 "created.</qt>"
 msgstr "<qt> לא נבחר מפתח מפתח תקף או אמין. הקבוצה <b>%1</b> לא תיווצר.</qt>"
 
-#: keysmanager.cpp:1759
+#: keysmanager.cpp:1739
 #, kde-format
 msgid "Group Properties"
 msgstr "הגדרות הקבוצה"
 
-#: keysmanager.cpp:1795
+#: keysmanager.cpp:1775
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "אינך יכול לחתום על מפתחות ראשיים. אנא בחן את בחירתך מחדש."
 
-#: keysmanager.cpp:1804
+#: keysmanager.cpp:1784
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2328,7 +2360,7 @@ msgstr ""
 "<br><b>%3</b><br><br> עליך לבדוק את טביעת־האצבע של המפתח בהתקשרות, או בפגישה "
 "עם בעל־המפתח על־מנת לוודא, שאף אחד אינו מנסה ליירט את ההתקשרויות שלך.</qt>"
 
-#: keysmanager.cpp:1809
+#: keysmanager.cpp:1789
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2340,20 +2372,20 @@ msgstr ""
 "<br><b>%3</b><br><br> עליך לבדוק את טביעת־האצבע של המפתח בהתקשרות, או בפגישה "
 "עם בעל־המפתח על־מנת לוודא, שאף אחד אינו מנסה ליירט את ההתקשרויות שלך.</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr ""
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr ""
 
-#: keysmanager.cpp:1832
+#: keysmanager.cpp:1812
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2363,12 +2395,12 @@ msgstr ""
 "<qt> אתה עומד לחתום על המפתחות הבאים במעבר אחד<br><b> אם לא בדקת היטב את כל "
 "טביעת־האצבעות, אמינות התקשורת שלך עלולה להיפגע!</b></qt>"
 
-#: keysmanager.cpp:1874 keysmanager.cpp:2021
+#: keysmanager.cpp:1854 keysmanager.cpp:2001
 #, fuzzy, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr "אינך יכול לחתום על מפתחות ראשיים. אנא בחן את בחירתך מחדש."
 
-#: keysmanager.cpp:1888
+#: keysmanager.cpp:1868
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2380,7 +2412,7 @@ msgstr ""
 "<br><b>%3</b><br><br> עליך לבדוק את טביעת־האצבע של המפתח בהתקשרות, או בפגישה "
 "עם בעל־המפתח על־מנת לוודא, שאף אחד אינו מנסה ליירט את ההתקשרויות שלך.</qt>"
 
-#: keysmanager.cpp:1892
+#: keysmanager.cpp:1872
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2392,7 +2424,7 @@ msgstr ""
 "<br><b>%3</b><br><br> עליך לבדוק את טביעת־האצבע של המפתח בהתקשרות, או בפגישה "
 "עם בעל־המפתח על־מנת לוודא, שאף אחד אינו מנסה ליירט את ההתקשרויות שלך.</qt>"
 
-#: keysmanager.cpp:1918
+#: keysmanager.cpp:1898
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2402,17 +2434,17 @@ msgstr ""
 "<qt> אתה עומד לחתום על המפתחות הבאים במעבר אחד<br><b> אם לא בדקת היטב את כל "
 "טביעת־האצבעות, אמינות התקשורת שלך עלולה להיפגע!</b></qt>"
 
-#: keysmanager.cpp:1987
+#: keysmanager.cpp:1967
 #, fuzzy, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt> משפט־ססמה לא תקין, מפתח <b>%1</b> לא נחתם.</qt>"
 
-#: keysmanager.cpp:1991
+#: keysmanager.cpp:1971
 #, fuzzy, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt> משפט־ססמה לא תקין, מפתח <b>%1</b> לא נחתם.</qt>"
 
-#: keysmanager.cpp:1996
+#: keysmanager.cpp:1976
 #, fuzzy, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
@@ -2421,19 +2453,28 @@ msgstr ""
 "<qt> החתימה על המפתח <b>%1</b>  עם מפתח <b>%2</b> נכשלה.<br> האם ברצונך "
 "לנסות ולחתום על המפתח דרך המסוף?</qt>"
 
-#: keysmanager.cpp:2114
+#: keysmanager.cpp:1978
+#, fuzzy, kde-format
+#| msgid "Signature"
+msgctxt "@action:button"
+msgid "Sign"
+msgstr "חתימה"
+
+#: keysmanager.cpp:2094
 #, fuzzy, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "כל החתימות עבור מפתח זה כבר נמצאות בצרור־המפתחות שלך"
 msgstr[1] "כל החתימות עבור מפתח זה כבר נמצאות בצרור־המפתחות שלך"
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:2201
+#: keysmanager.cpp:2181
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "ערוך את המפתח ידנית להסרת החתימה העצמית."
 
-#: keysmanager.cpp:2205
+#: keysmanager.cpp:2185
 #, fuzzy, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
@@ -2441,12 +2482,12 @@ msgid ""
 msgstr ""
 "<qt> אם אתה בטוח שברצונך להסיר חתימה<br> ממפתח: <b>%1</b> <br><b>%2</b>?</qt>"
 
-#: keysmanager.cpp:2227
+#: keysmanager.cpp:2207
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "הפעולה המבוקשת נכשלה, אנא ערוך את המפתח ידנית."
 
-#: keysmanager.cpp:2311
+#: keysmanager.cpp:2291
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2456,22 +2497,24 @@ msgid_plural ""
 "want to remove it from these groups?</qt>"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:2315 keysmanager.cpp:2329 keysmanager.cpp:2364
-#: keysmanager.cpp:2379 keysmanager.cpp:2382 keysmanager.cpp:2393
-#: keysmanager.cpp:2407 keysmanager.cpp:2448
+#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
+#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
+#: keysmanager.cpp:2387 keysmanager.cpp:2428
 #, fuzzy, kde-format
 msgid "Delete key"
 msgstr "&מחק מפתחות"
 
-#: keysmanager.cpp:2328
+#: keysmanager.cpp:2308
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
 
-#: keysmanager.cpp:2352
+#: keysmanager.cpp:2332
 #, fuzzy, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2480,114 +2523,116 @@ msgstr ""
 "<p>?<b>%1</b><b>מפתחות סודיים</b>למחוק זוג</p> מחיקת זוג זה - משמעותה כי לא "
 "תוכל לעולם לפענח קבצים המוצפנים עם מפתח זה מחדש."
 
-#: keysmanager.cpp:2363 keysmanager.cpp:2392
+#: keysmanager.cpp:2343 keysmanager.cpp:2372
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:2379
+#: keysmanager.cpp:2359
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr ""
 
-#: keysmanager.cpp:2382
+#: keysmanager.cpp:2362
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr ""
 
-#: keysmanager.cpp:2406
+#: keysmanager.cpp:2386
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 
-#: keysmanager.cpp:2447
+#: keysmanager.cpp:2427
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr ""
 
-#: keysmanager.cpp:2472
+#: keysmanager.cpp:2452
 #, fuzzy, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
 "deleted.</qt>"
 msgstr "<qt>הם לא ימחקו<b>%1</b>:המפתחות הבאים סודיים<br></qt>"
 
-#: keysmanager.cpp:2482
+#: keysmanager.cpp:2462
 #, fuzzy, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>האם למחוק את המפתח הציבורי הבא?</b></qt>"
 msgstr[1] "<qt><b>האם למחק את %1 המפתחות הציבוריים הבאים?</b></qt>"
+msgstr[2] ""
+msgstr[3] ""
 
-#: keysmanager.cpp:2513 keysmanager.cpp:2589 keysmanager.cpp:2600
+#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
 #, kde-format
 msgid "Key Import"
 msgstr "ייבוא מפתח"
 
-#: keysmanager.cpp:2521
+#: keysmanager.cpp:2501
 #, kde-format
 msgid "Open File"
 msgstr "פתח קובץ"
 
-#: keysmanager.cpp:2554
+#: keysmanager.cpp:2534
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2536
 #, fuzzy, kde-format
 msgid "Import from Clipboard"
 msgstr "ה&צפן לוח עריכה"
 
-#: keysmanager.cpp:2576
+#: keysmanager.cpp:2556
 #, kde-format
 msgid "Importing..."
 msgstr "מייבא..."
 
-#: keysmanager.cpp:2588
+#: keysmanager.cpp:2568
 #, fuzzy, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr ""
 "אף מפתח לא ייובא...\n"
 "בדוק את ה log למידע נוסף"
 
-#: keysmanager.cpp:2641
+#: keysmanager.cpp:2621
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - כלי הצפנה"
 
-#: keysmanager.cpp:2662
+#: keysmanager.cpp:2644
 #, fuzzy, kde-format
 msgid "Ke&y Manager"
 msgstr "מנהל מפתחות"
 
-#: keysmanager.cpp:2665
+#: keysmanager.cpp:2647
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "ה&צפן לוח עריכה"
 
-#: keysmanager.cpp:2668
+#: keysmanager.cpp:2650
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&פענח לוח עריכה"
 
-#: keysmanager.cpp:2671
+#: keysmanager.cpp:2653
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&חתום/וודא תקינות לוח עריכה"
 
-#: keysmanager.cpp:2708 keysmanager.cpp:2811 keysmanager.cpp:2829
+#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "לוח העריכה ריק."
 
-#: keysmanager.cpp:2753
+#: keysmanager.cpp:2735
 #, fuzzy, kde-format
 msgid "Text successfully encrypted."
 msgstr "קובץ החתימה %1 נוצרה בהצלחה."
@@ -2639,27 +2684,27 @@ msgstr ""
 "נראה שהסוכן אינו פועל. זה יכול להביא לבעיות עם סימון/פענוח<br> אנא עצור את "
 "הסוכן של GnuPG מתוך הגדרות ה KGpg, או עדכן את הסוכן. </qt>"
 
-#: kgpg.cpp:123 kgpg.cpp:130 kgpg.cpp:137 kgpg.cpp:144
+#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:134
+#: kgpg.cpp:132
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "אין אפשרות לפענח ולהציג תיקייה."
 
-#: kgpg.cpp:141
+#: kgpg.cpp:139
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "אין אפשרות לחתום על תיקייה."
 
-#: kgpg.cpp:148
+#: kgpg.cpp:146
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "אין אפשרות לוודא תקינות תיקייה."
 
-#: kgpg.cpp:151
+#: kgpg.cpp:149
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2669,37 +2714,37 @@ msgstr ""
 "אין אפשרות לבצע את הפעולה.\n"
 "אנא בחר בתיקייה אחת או במספר קבצים, אך אל תערב קבצים ותיקיות."
 
-#: kgpg.cpp:189
+#: kgpg.cpp:187
 #, kde-format
 msgid "Encrypt file"
 msgstr "הצפן קובץ"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:188
 #, kde-format
 msgid "Open key manager"
 msgstr "פתח את מנהל המפתחות"
 
-#: kgpg.cpp:191
+#: kgpg.cpp:189
 #, fuzzy, kde-format
 msgid "Open editor"
 msgstr "&עורך טקסט"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:190
 #, kde-format
 msgid "Show encrypted file"
 msgstr "הצג קובץ מוצפן"
 
-#: kgpg.cpp:193 kgpgoptions.cpp:503
+#: kgpg.cpp:191 kgpgoptions.cpp:505
 #, kde-format
 msgid "Sign File"
 msgstr "חתום קובץ"
 
-#: kgpg.cpp:194
+#: kgpg.cpp:192
 #, kde-format
 msgid "Verify signature"
 msgstr "וודא תקינות חתימה"
 
-#: kgpg.cpp:195
+#: kgpg.cpp:193
 #, kde-format
 msgid "File to open"
 msgstr "קובץ לפתיחה"
@@ -2869,7 +2914,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "השתמש בסימון העכבר במקום לוח העריכה."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "הפעל את KGpg אוטומטית עם הכניסה למערכת."
@@ -2924,69 +2969,63 @@ msgstr ""
 msgid "The number of recently opened files shown in the editor menu."
 msgstr ""
 
-#. i18n: ectx: label, entry (ShowTipOfDay), group (TipOfDay)
-#: kgpg.kcfg:187
-#, kde-format
-msgid "Show tip of the day."
-msgstr "הצג את הטיפ היומי."
-
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
-#: kgpg.kcfg:194
+#: kgpg.kcfg:187
 #, kde-format
 msgid "Color used for trusted keys."
 msgstr "צבע עבור מפתחות אמינים."
 
 #. i18n: ectx: label, entry (ColorRev), group (Key Colors)
-#: kgpg.kcfg:198
+#: kgpg.kcfg:191
 #, kde-format
 msgid "Color used for revoked keys."
 msgstr "צבע עבור מפתחות שפג תוקפם."
 
 #. i18n: ectx: label, entry (ColorUnknown), group (Key Colors)
-#: kgpg.kcfg:202
+#: kgpg.kcfg:195
 #, kde-format
 msgid "Color used for unknown keys."
 msgstr "צבע עבור מפתחות לא מוכרים."
 
 #. i18n: ectx: label, entry (ColorBad), group (Key Colors)
-#: kgpg.kcfg:206
+#: kgpg.kcfg:199
 #, kde-format
 msgid "Color used for untrusted keys."
 msgstr "צבע עבור מפתחות לא אמינים."
 
 #. i18n: ectx: label, entry (ColorUltimate), group (Key Colors)
-#: kgpg.kcfg:210
+#: kgpg.kcfg:203
 #, fuzzy, kde-format
 msgid "Color used for ultimately trusted keys."
 msgstr "צבע עבור מפתחות לא אמינים."
 
 #. i18n: ectx: label, entry (ColorMarginal), group (Key Colors)
-#: kgpg.kcfg:214
+#: kgpg.kcfg:207
 #, fuzzy, kde-format
 msgid "Color used for marginally trusted keys."
 msgstr "צבע עבור מפתחות לא אמינים."
 
 #. i18n: ectx: label, entry (ColorExpired), group (Key Colors)
-#: kgpg.kcfg:218
+#: kgpg.kcfg:211
 #, fuzzy, kde-format
 msgid "Color used for expired keys."
 msgstr "צבע עבור מפתחות אמינים."
 
 #. i18n: ectx: label, entry (Font), group (Text Font)
-#: kgpg.kcfg:225
+#: kgpg.kcfg:218
 #, fuzzy, kde-format
 msgid "Font"
 msgstr "חודשים"
 
 #. i18n: ectx: label, entry (KeyServers), group (Servers)
-#: kgpg.kcfg:248
+#: kgpg.kcfg:241
 #, kde-format
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
 msgstr ""
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
-#: kgpg.kcfg:252
+#: kgpg.kcfg:245
 #, kde-format
 msgid ""
 "List of URLs that show details and analysis of the given key. The first "
@@ -2994,29 +3033,29 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
-#: kgpg.kcfg:259
+#: kgpg.kcfg:252
 #, kde-format
 msgid "Use HTTP proxy when available."
 msgstr "השתמש במתווך HTTP כאשר קיים."
 
 #. i18n: ectx: label, entry (EmailTemplate), group (Key Signing)
-#: kgpg.kcfg:266
+#: kgpg.kcfg:259
 #, kde-format
 msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
 msgstr ""
 
-#: kgpgexternalactions.cpp:126
+#: kgpgexternalactions.cpp:127
 #, kde-format
 msgid "Cannot create temporary file for folder compression."
 msgstr ""
 
-#: kgpgexternalactions.cpp:126 kgpgexternalactions.cpp:133
+#: kgpgexternalactions.cpp:127 kgpgexternalactions.cpp:134
 #, kde-format
 msgid "Temporary File Creation"
 msgstr "יצרת קובץ זמני"
 
-#: kgpgexternalactions.cpp:131
+#: kgpgexternalactions.cpp:132
 #, fuzzy, kde-format
 msgid ""
 "<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process "
@@ -3026,19 +3065,21 @@ msgstr ""
 "<qt>KGpg יצור כעת קובץ ארכיון זמני:<br><b>%1</b>  עבור תהליך ההצפנה. הקובץ "
 "ימחק לאחר תום ההצפנה.</qt>"
 
-#: kgpgexternalactions.cpp:147
+#: kgpgexternalactions.cpp:148
 #, kde-format
 msgid "Compression method for archive:"
 msgstr "שיטת דחיסה לארכיון:"
 
-#: kgpgexternalactions.cpp:400
+#: kgpgexternalactions.cpp:401
 #, fuzzy, kde-format
 msgid "Decryption of this file failed:"
 msgid_plural "Decryption of these files failed:"
 msgstr[0] "פענוח נכשל."
 msgstr[1] "פענוח נכשל."
+msgstr[2] ""
+msgstr[3] ""
 
-#: kgpgexternalactions.cpp:424
+#: kgpgexternalactions.cpp:425
 #, fuzzy, kde-format
 msgid ""
 "<qt>You have not set a path to your GnuPG config file.<br />This may cause "
@@ -3049,22 +3090,22 @@ msgstr ""
 "בלתי צפויות בפעולת KGpg.<br> האם ברצונך להפעיל את אשף KGpg כדי לפתור בעיה זו?"
 "</qt>"
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Start Assistant"
 msgstr ""
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Do Not Start"
 msgstr "לא להתחיל"
 
-#: kgpgfirstassistant.cpp:34
+#: kgpgfirstassistant.cpp:35
 #, kde-format
 msgid "KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:58
+#: kgpgfirstassistant.cpp:59
 #, fuzzy, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3076,71 +3117,71 @@ msgstr ""
 "מכן, הוא יאפשר לך ליצור זוג מפתחות משלך, ובכך יתיר לך להצפין את קבצים ודוא"
 "\"ל."
 
-#: kgpgfirstassistant.cpp:66
+#: kgpgfirstassistant.cpp:67
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:78
+#: kgpgfirstassistant.cpp:79
 #, fuzzy, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "תוכנת KGpg צריכה לדעת היכן נשמר קובץ ההגדרות של GnuPG."
 
-#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
 "button."
 msgstr "אלא אם כן רצונך לנסות דברים יוצאי דופן, לחץ על כפתור ה \"next\"."
 
-#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
 #, fuzzy, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "הגדרות GnuPG"
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
 #, fuzzy, kde-format
 #| msgid "*|All Files"
 msgid "All files"
 msgstr "*|כל הקבצים"
 
-#: kgpgfirstassistant.cpp:137
+#: kgpgfirstassistant.cpp:138
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "תוכנת KGpg צריכה לדעת היכן נשמר קובץ ההגדרות של GnuPG."
 
-#: kgpgfirstassistant.cpp:152
+#: kgpgfirstassistant.cpp:153
 #, fuzzy, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "<br>כתובת בה נמצא קובץ ההגדרות של GnuPG:"
 
-#: kgpgfirstassistant.cpp:166
+#: kgpgfirstassistant.cpp:167
 #, fuzzy, kde-format
 msgid "Configuration File"
 msgstr "קובץ ההגדרות:"
 
-#: kgpgfirstassistant.cpp:176
+#: kgpgfirstassistant.cpp:177
 #, kde-format
 msgid "Your default key:"
 msgstr "מפתח ברירת המחדל:"
 
-#: kgpgfirstassistant.cpp:195
+#: kgpgfirstassistant.cpp:196
 #, fuzzy, kde-format
 msgid "Default Key"
 msgstr "&מחק מפתחות"
 
-#: kgpgfirstassistant.cpp:216
+#: kgpgfirstassistant.cpp:217
 #, fuzzy, kde-format
 msgid "Generate new key"
 msgstr "מייצר זוג מפתחות חדש."
 
-#: kgpgfirstassistant.cpp:230
+#: kgpgfirstassistant.cpp:231
 #, fuzzy, kde-format
 msgid "Done"
 msgstr "כלום"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, fuzzy, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3149,37 +3190,37 @@ msgstr ""
 "<qt><b>קובץ הגדרות של GnuPG לא נמצא.</b>אנא וודא כי תוכנת GnuPG מותקנת. האם "
 "על KGpg לנסות וליצור קובץ הגדרות חדש?</qt>"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid "Create Config"
 msgstr "צור תצורה"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid "Do Not Create"
 msgstr "לא ליצור"
 
-#: kgpgfirstassistant.cpp:252
+#: kgpgfirstassistant.cpp:253
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:294
+#: kgpgfirstassistant.cpp:295
 #, fuzzy, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "הגדרות GnuPG"
 
-#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
+#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
 #, fuzzy, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "אתה בעל גרסת GnuPG:"
 
-#: kgpgfirstassistant.cpp:316
+#: kgpgfirstassistant.cpp:317
 #, fuzzy, kde-format
 msgid "Your default key is: %1"
 msgstr "מפתח ברירת המחדל:"
 
-#: kgpgfirstassistant.cpp:367
+#: kgpgfirstassistant.cpp:368
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3468,37 +3509,37 @@ msgstr "שנה ססמה..."
 msgid "Fingerprint"
 msgstr "טביעת אצבע:"
 
-#: kgpgoptions.cpp:105
+#: kgpgoptions.cpp:107
 #, kde-format
 msgid "Decryption"
 msgstr "פענוח"
 
-#: kgpgoptions.cpp:106
+#: kgpgoptions.cpp:108
 #, kde-format
 msgid "Appearance"
 msgstr ""
 
-#: kgpgoptions.cpp:107
+#: kgpgoptions.cpp:109
 #, kde-format
 msgid "GnuPG Settings"
 msgstr "הגדרות GnuPG"
 
-#: kgpgoptions.cpp:108
+#: kgpgoptions.cpp:110
 #, kde-format
 msgid "Key Servers"
 msgstr "שרתי מפתחות"
 
-#: kgpgoptions.cpp:109
+#: kgpgoptions.cpp:111
 #, kde-format
 msgid "Misc"
 msgstr "שונות"
 
-#: kgpgoptions.cpp:144
+#: kgpgoptions.cpp:146
 #, kde-format
 msgid "New GnuPG Home Location"
 msgstr "מיקום חדש עבור ספרית GnuPG"
 
-#: kgpgoptions.cpp:157
+#: kgpgoptions.cpp:159
 #, fuzzy, kde-format
 msgid ""
 "No configuration file was found in the selected location.\n"
@@ -3511,22 +3552,22 @@ msgstr ""
 "\n"
 "ללא קובץ ההגדרות, לא GnuPG ולא KGpg, יכלו לעבוד כראוי."
 
-#: kgpgoptions.cpp:158
+#: kgpgoptions.cpp:160
 #, kde-format
 msgid "No Configuration File Found"
 msgstr "לא נמצא קובץ ההגדרות"
 
-#: kgpgoptions.cpp:159
+#: kgpgoptions.cpp:161
 #, kde-format
 msgid "Create"
 msgstr "צור"
 
-#: kgpgoptions.cpp:160
+#: kgpgoptions.cpp:162
 #, kde-format
 msgid "Ignore"
 msgstr "התעלם"
 
-#: kgpgoptions.cpp:174
+#: kgpgoptions.cpp:176
 #, fuzzy, kde-format
 msgid ""
 "Cannot create configuration file. Please check if destination media is "
@@ -3534,33 +3575,33 @@ msgid ""
 msgstr ""
 "לא מסוגל ליצור קובץ הגדרות. אנא בדוק אם התקן היעד מעוגן ואם יש הרשאות כתיבה"
 
-#: kgpgoptions.cpp:197
+#: kgpgoptions.cpp:199
 #, kde-format
 msgid "Key server URLs may not contain whitespace."
 msgstr ""
 
-#: kgpgoptions.cpp:202
+#: kgpgoptions.cpp:204
 #, kde-format
 msgid "Key server already in the list."
 msgstr ""
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Add New Key Server"
 msgstr "הוסף שרת מפתחות חדש"
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Server URL:"
 msgstr "כתובת השרת:"
 
-#: kgpgoptions.cpp:464 kgpgoptions.cpp:466
+#: kgpgoptions.cpp:466 kgpgoptions.cpp:468
 #, fuzzy, kde-format
 msgctxt "no key available"
 msgid "none"
 msgstr "כלום"
 
-#: kgpgoptions.cpp:486
+#: kgpgoptions.cpp:488
 #, kde-format
 msgid "Decrypt File"
 msgstr "פענח קובץ"
@@ -3737,6 +3778,8 @@ msgid "1 Key"
 msgid_plural "%1 Keys"
 msgstr[0] "&מפתחות"
 msgstr[1] "&מפתחות"
+msgstr[2] ""
+msgstr[3] ""
 
 #: model/kgpgitemmodel.cpp:284
 #, fuzzy, kde-format
@@ -3744,6 +3787,8 @@ msgid "1 Group"
 msgid_plural "%1 Groups"
 msgstr[0] "קבוצת מפתחות"
 msgstr[1] "קבוצת מפתחות"
+msgstr[2] ""
+msgstr[3] ""
 
 #: model/kgpgitemmodel.cpp:286
 #, kde-format
@@ -3785,6 +3830,8 @@ msgid "One Photo ID"
 msgid_plural "%1 Photo IDs"
 msgstr[0] "מספר־זיהוי תצלום"
 msgstr[1] "מספר־זיהוי תצלום"
+msgstr[2] ""
+msgstr[3] ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2)
 #: newkey.ui:20
@@ -3899,6 +3946,8 @@ msgid "Select Public Key for %2 and one more file"
 msgid_plural "Select Public Key for %2 and %1 more files"
 msgstr[0] "בחר מפתח ציבורי עבור %1"
 msgstr[1] "בחר מפתח ציבורי עבור %1"
+msgstr[2] ""
+msgstr[3] ""
 
 #: selectpublickeydialog.cpp:75
 #, fuzzy, kde-format
@@ -3992,6 +4041,8 @@ msgid_plural ""
 msgstr[0] "באיזו זהירות בדקת שהמפתח אכן שייך לאדם שאתה עומד להתקשר עמו:"
 msgstr[1] ""
 "באיזו זהירות בדקת ש־ %1 המפתחות אכן שייכים לאנשים שאתה עומד לתקשר איתם:"
+msgstr[2] ""
+msgstr[3] ""
 
 #: selectsecretkey.cpp:71
 #, kde-format
@@ -4034,126 +4085,6 @@ msgstr "שרת המפתחות:"
 #, kde-format
 msgid ""
 "Enter the ids or fingerprints of the keys to import as space separated list."
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:2
-#, fuzzy, kde-format
-msgid ""
-"<p>If you want to decrypt a text file, simply drag and drop it into the "
-"editor window. KGpg will do the rest. Even remote files can be dropped.</p>\n"
-"<p>Drag a public key into the editor window and kgpg will automatically "
-"import it if you want.</p>\n"
-msgstr ""
-"<p>אם ברצונך לפענח קובץ טקסט, גרור את הקובץ לתוך חלון העורך. תוכנת KGpg תעשה "
-"את כל השאר. אפשר לגרור אפילו קבצים מרוחקים.</p>\n"
-"<p>גרור מפתח־ציבורי לתוך חלון העריכה ו־ KGpg ייבא אותו  באופן אוטומט, אם זה "
-"רצונך.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:7
-#, kde-format
-msgid ""
-"<p>The easiest way to encrypt a file: simply right click on the file, and "
-"you have an encrypt option in the contextual menu.\n"
-"This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
-msgstr ""
-"<p>הדרך הפשוטה ביותר להצפין קובץ: פשוט לחץ עם לחצן ימני על הקובץ ומופיעה לך "
-"אפשרות הצפנה בתפריט.\n"
-"הדבר עובד ב־ <strong>Konqueror</strong> או על שולחן העבודה שלך!</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:13
-#, fuzzy, kde-format
-msgid ""
-"<p>If you want to encrypt a message for several persons, just select several "
-"encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
-msgstr ""
-"<p>אם אתה רוצה להצפין הודעה עבור מספר אנשים, בחר מספר מפתחות־הצפנה על ידי "
-"לחיצה ממושכת על מקש \"Ctrl\".</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:18
-#, fuzzy, kde-format
-msgid ""
-"<p><strong>You do not have to be an expert in encryption to use this tool?</"
-"strong><br>\n"
-"Simply create yourself a key pair in the key management window. Then, export "
-"your public key and mail it to your friends.<br>\n"
-"Ask them to do the same and import their public keys. Finally, to send an "
-"encrypted message, type it in the KGpg editor, then click &quot;"
-"encrypt&quot;. Choose\n"
-"your friend's key and click &quot;encrypt&quot; again. The message will be "
-"encrypted, ready to be sent by email.</p>\n"
-msgstr ""
-"<p><strong>האם אינך יודע דבר על הצפנה?</strong><br>\n"
-"זאת לא בעיה, פשוט צור לעצמך זוג מפתחות בחלון הניהול. לאחר מכן, ייצא את המפתח "
-"הציבורי ושלח אותו לחבריך. <br>\n"
-"בקש מהם לעשות את לעשות את אותו הדבר אצלם, וייבא את המפתחות הציבוריים שלהם. "
-"לבסוף, על מנת לשלוח הודעה מוצפנת, רשום אותה בעורך של KGpg, לחץ על \"הצפן\". "
-"בחר במפתח של חברך, ולחץ \"הצפן\" שנית. ההודעה  תוצפן, מוכנה להישלח בדוא\"ל.</"
-"p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:26
-#, fuzzy, kde-format
-msgid ""
-"<p>To perform an operation on a key, open the key management window and "
-"right click on the key. A popup menu with all available options will appear."
-"</p>\n"
-msgstr ""
-"<p>כדי לערוך פעולה על מפתח, פתח את חלון ניהול המפתחות ולחץ עם לחצן ימני על "
-"המפתח. יופיע תפריט עם כל האפשרויות. </p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:31
-#, fuzzy, kde-format
-msgid ""
-"<p>Decrypt a file with a single mouse click on it. You will then be prompted "
-"for password, and then that is it!</p>\n"
-msgstr "<p>פענח קובץ בלחיצת כפתור בודדת. אתה תידרש לססמה, וזה הכל!</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:36
-#, fuzzy, kde-format
-msgid ""
-"<p>If you only want to open the key manager, type this in the command line "
-"prompt: <pre>kgpg -k</pre>\n"
-"The editor can be reached by: <pre>kgpg -d</pre></p>\n"
-msgstr ""
-"<p>אם אתה רק מעוניין לפתוח את מנהל המפתחות, רשום \"kgpg-k\" במסוף.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:42
-#, kde-format
-msgid ""
-"<p>To open a file in the KGpg's editor and immediately decrypt it type: "
-"<pre>kgpg -s filename</pre></p>\n"
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:47
-#, kde-format
-msgid ""
-"<p>If you want to change the password or expiration of a secret key simply "
-"double click on it to get the key properties dialog.</p>\n"
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:52
-#, kde-format
-msgid ""
-"<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the "
-"key manager.</p>\n"
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:57
-#, kde-format
-msgid ""
-"<p>The number of signatures is shown as a tooltip if you hover the mouse on "
-"the size column in key manager. A key has to be expanded once for this to "
-"work.</p>\n"
 msgstr ""
 
 #: transactions/kgpgaddphoto.cpp:38
@@ -4288,6 +4219,8 @@ msgid "<para>%1 key processed.</para>"
 msgid_plural "<para>%1 keys processed.</para>"
 msgstr[0] "<qt>טופל מפתח %1. <br></qt>"
 msgstr[1] "<qt>טופלו %1 מפתחות.<br></qt>"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:126
 #, fuzzy, kde-kuit-format
@@ -4296,6 +4229,8 @@ msgid "<para>One key without ID.</para>"
 msgid_plural "<para>%1 keys without ID.</para>"
 msgstr[0] "<qt>מפתח אחד ללא מספר־זיהוי.<br></qt>"
 msgstr[1] "<qt>%1 מפתחות ללא מספר־זיהוי.<br></qt>"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:128
 #, kde-kuit-format
@@ -4305,6 +4240,8 @@ msgid_plural ""
 "<para><emphasis strong='true'>%1 keys imported:</emphasis></para>"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:130
 #, fuzzy, kde-kuit-format
@@ -4313,6 +4250,8 @@ msgid "<para>One RSA key imported.</para>"
 msgid_plural "<para>%1 RSA keys imported.</para>"
 msgstr[0] "<qt>יובא מפתח RSA אחד.<br></qt>"
 msgstr[1] "<qt>יובאו %1 מפתחות RSA.<br></qt>"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:132
 #, fuzzy, kde-kuit-format
@@ -4321,6 +4260,8 @@ msgid "<para>One key unchanged.</para>"
 msgid_plural "<para>%1 keys unchanged.</para>"
 msgstr[0] "<qt>נותר מפתח אחד בלא שינוי.<br></qt>"
 msgstr[1] "<qt>נותרו %1 מפתחות בלא שינוי.<br></qt>"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:134
 #, fuzzy, kde-kuit-format
@@ -4329,6 +4270,8 @@ msgid "<para>One user ID imported.</para>"
 msgid_plural "<para>%1 user IDs imported.</para>"
 msgstr[0] "<qt>יובא מספר־זיהוי משתמש אחד.<br>"
 msgstr[1] "</qt><qt>יובאו %1 מספרי־זיהוי משתמשים.<br></qt>"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:136
 #, fuzzy, kde-kuit-format
@@ -4337,6 +4280,8 @@ msgid "<para>One subkey imported.</para>"
 msgid_plural "<para>%1 subkeys imported.</para>"
 msgstr[0] "<qt>יובא תת־מפתח אחד.<br></qt>"
 msgstr[1] "<qt>יובאו %1 תת־מפתחות.<br></qt>"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:138
 #, fuzzy, kde-kuit-format
@@ -4345,6 +4290,8 @@ msgid "<para>One signature imported.</para>"
 msgid_plural "<para>%1 signatures imported.</para>"
 msgstr[0] "<qt>יובאה חתימה אחת.<br></qt>"
 msgstr[1] "<qt>יובאו %1 חתימות.<br></qt>"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:140
 #, fuzzy, kde-kuit-format
@@ -4353,6 +4300,8 @@ msgid "<para>One revocation certificate imported.</para>"
 msgid_plural "<para>%1 revocation certificates imported.</para>"
 msgstr[0] "<qt>יובאה אשרת ביטול־תוקף אחת.<br></qt>"
 msgstr[1] "<qt>יובאו %1 אשרות ביטול־תוקף.<br></qt>"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:142
 #, fuzzy, kde-kuit-format
@@ -4361,6 +4310,8 @@ msgid "<para>One secret key processed.</para>"
 msgid_plural "<para>%1 secret keys processed.</para>"
 msgstr[0] "<qt>טופל מפתח סודי אחד.<br></qt>"
 msgstr[1] "<qt>טופלו %1 מפתחות סודיים.<br></qt>"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:144
 #, kde-kuit-format
@@ -4371,6 +4322,8 @@ msgid_plural ""
 "<para><emphasis strong='true'>%1 secret keys imported.</emphasis></para>"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:146
 #, fuzzy, kde-kuit-format
@@ -4379,6 +4332,8 @@ msgid "<para>One secret key unchanged.</para>"
 msgid_plural "<para>%1 secret keys unchanged.</para>"
 msgstr[0] "<qt>נותר מפתח סודי אחד ללא שינוי.<br></qt>"
 msgstr[1] "<qt>נותרו %1 מפתחות סודיים ללא שינוי.<br></qt>"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:148
 #, fuzzy, kde-kuit-format
@@ -4387,6 +4342,8 @@ msgid "<para>One secret key not imported.</para>"
 msgid_plural "<para>%1 secret keys not imported.</para>"
 msgstr[0] "<qt> נשאר מפתח סודי אחד שלא יובא.<br></qt>"
 msgstr[1] "<qt> נשארו %1 מפתחות סודיים שלא יובאו.<br></qt>"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:151
 #, fuzzy, kde-kuit-format
@@ -4420,6 +4377,8 @@ msgid "New Key"
 msgid_plural "New Keys"
 msgstr[0] "&מפתחות"
 msgstr[1] "&מפתחות"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:224
 #, fuzzy, kde-format
@@ -4427,6 +4386,8 @@ msgid "Key with new User Id"
 msgid_plural "Keys with new User Ids"
 msgstr[0] "המפתח אינו בשימוש עוד"
 msgstr[1] "המפתח אינו בשימוש עוד"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:227
 #, fuzzy, kde-format
@@ -4434,6 +4395,8 @@ msgid "Key with new Signatures"
 msgid_plural "Keys with new Signatures"
 msgstr[0] "מחק ח&תימה"
 msgstr[1] "מחק ח&תימה"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:230
 #, kde-format
@@ -4441,6 +4404,8 @@ msgid "Key with new Subkeys"
 msgid_plural "Keys with new Subkeys"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:233
 #, fuzzy, kde-format
@@ -4448,6 +4413,8 @@ msgid "New Private Key"
 msgid_plural "New Private Keys"
 msgstr[0] "רשימת מפתחות פרטיים"
 msgstr[1] "רשימת מפתחות פרטיים"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:249
 #, kde-format
@@ -4455,6 +4422,8 @@ msgid "Unchanged Key"
 msgid_plural "Unchanged Keys"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgkeyservertransaction.cpp:87
 #, kde-format
@@ -4487,6 +4456,8 @@ msgid "<p><b>Bad passphrase</b>. You have 1 try left.</p>"
 msgid_plural "<p><b>Bad passphrase</b>. You have %1 tries left.</p>"
 msgstr[0] "<b>משפט־ססמה שגוי</b>. נשארו %1 ניסיונות <br>"
 msgstr[1] "<b>משפט־ססמה שגוי</b>. נשארו %1 ניסיונות <br>"
+msgstr[2] ""
+msgstr[3] ""
 
 #: transactions/kgpgtransactionprivate.cpp:82
 #, fuzzy, kde-format
@@ -4558,6 +4529,92 @@ msgstr "החתימה תקפה, אבל המפתח לא אמין"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "החתימה תקפה, והמפתח אמין לחלוטין"
+
+#~ msgid ""
+#~ "The document could not been saved, as the selected encoding cannot encode "
+#~ "every unicode character in it."
+#~ msgstr ""
+#~ "לא ניתן לשמור את המסמך, משום שהקידוד שנבחר לא יכול לקודד כל סימן unicode "
+#~ "בתוכו."
+
+#~ msgid "Tip of the &Day"
+#~ msgstr "&טיפ יומי"
+
+#~ msgid "Show tip of the day."
+#~ msgstr "הצג את הטיפ היומי."
+
+#, fuzzy
+#~ msgid ""
+#~ "<p>If you want to decrypt a text file, simply drag and drop it into the "
+#~ "editor window. KGpg will do the rest. Even remote files can be dropped.</"
+#~ "p>\n"
+#~ "<p>Drag a public key into the editor window and kgpg will automatically "
+#~ "import it if you want.</p>\n"
+#~ msgstr ""
+#~ "<p>אם ברצונך לפענח קובץ טקסט, גרור את הקובץ לתוך חלון העורך. תוכנת KGpg "
+#~ "תעשה את כל השאר. אפשר לגרור אפילו קבצים מרוחקים.</p>\n"
+#~ "<p>גרור מפתח־ציבורי לתוך חלון העריכה ו־ KGpg ייבא אותו  באופן אוטומט, אם "
+#~ "זה רצונך.</p>\n"
+
+#~ msgid ""
+#~ "<p>The easiest way to encrypt a file: simply right click on the file, and "
+#~ "you have an encrypt option in the contextual menu.\n"
+#~ "This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
+#~ msgstr ""
+#~ "<p>הדרך הפשוטה ביותר להצפין קובץ: פשוט לחץ עם לחצן ימני על הקובץ ומופיעה "
+#~ "לך אפשרות הצפנה בתפריט.\n"
+#~ "הדבר עובד ב־ <strong>Konqueror</strong> או על שולחן העבודה שלך!</p>\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "<p>If you want to encrypt a message for several persons, just select "
+#~ "several encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
+#~ msgstr ""
+#~ "<p>אם אתה רוצה להצפין הודעה עבור מספר אנשים, בחר מספר מפתחות־הצפנה על ידי "
+#~ "לחיצה ממושכת על מקש \"Ctrl\".</p>\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "<p><strong>You do not have to be an expert in encryption to use this tool?"
+#~ "</strong><br>\n"
+#~ "Simply create yourself a key pair in the key management window. Then, "
+#~ "export your public key and mail it to your friends.<br>\n"
+#~ "Ask them to do the same and import their public keys. Finally, to send an "
+#~ "encrypted message, type it in the KGpg editor, then click &quot;"
+#~ "encrypt&quot;. Choose\n"
+#~ "your friend's key and click &quot;encrypt&quot; again. The message will "
+#~ "be encrypted, ready to be sent by email.</p>\n"
+#~ msgstr ""
+#~ "<p><strong>האם אינך יודע דבר על הצפנה?</strong><br>\n"
+#~ "זאת לא בעיה, פשוט צור לעצמך זוג מפתחות בחלון הניהול. לאחר מכן, ייצא את "
+#~ "המפתח הציבורי ושלח אותו לחבריך. <br>\n"
+#~ "בקש מהם לעשות את לעשות את אותו הדבר אצלם, וייבא את המפתחות הציבוריים "
+#~ "שלהם. לבסוף, על מנת לשלוח הודעה מוצפנת, רשום אותה בעורך של KGpg, לחץ על "
+#~ "\"הצפן\". בחר במפתח של חברך, ולחץ \"הצפן\" שנית. ההודעה  תוצפן, מוכנה "
+#~ "להישלח בדוא\"ל.</p>\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "<p>To perform an operation on a key, open the key management window and "
+#~ "right click on the key. A popup menu with all available options will "
+#~ "appear.</p>\n"
+#~ msgstr ""
+#~ "<p>כדי לערוך פעולה על מפתח, פתח את חלון ניהול המפתחות ולחץ עם לחצן ימני "
+#~ "על המפתח. יופיע תפריט עם כל האפשרויות. </p>\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "<p>Decrypt a file with a single mouse click on it. You will then be "
+#~ "prompted for password, and then that is it!</p>\n"
+#~ msgstr "<p>פענח קובץ בלחיצת כפתור בודדת. אתה תידרש לססמה, וזה הכל!</p>\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "<p>If you only want to open the key manager, type this in the command "
+#~ "line prompt: <pre>kgpg -k</pre>\n"
+#~ "The editor can be reached by: <pre>kgpg -d</pre></p>\n"
+#~ msgstr ""
+#~ "<p>אם אתה רק מעוניין לפתוח את מנהל המפתחות, רשום \"kgpg-k\" במסוף.</p>\n"
 
 #, fuzzy
 #~ msgctxt "search filter for gpg binary"

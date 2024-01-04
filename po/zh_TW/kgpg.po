@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:40+0000\n"
+"POT-Creation-Date: 2024-01-04 01:36+0000\n"
 "PO-Revision-Date: 2023-12-25 17:53+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -132,7 +132,7 @@ msgstr "自訂解密指令:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Encryption)
 #. i18n: ectx: property (text), widget (QCheckBox, capEncrypt)
-#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:104
+#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:106
 #, kde-format
 msgid "Encryption"
 msgstr "加密"
@@ -373,7 +373,7 @@ msgid "Change..."
 msgstr "變更..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "GnuPG 執行檔"
@@ -509,7 +509,7 @@ msgstr "簽署檔案服務選單："
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:304
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:296
 #, kde-format
 msgid "Disable"
 msgstr "停用"
@@ -581,7 +581,7 @@ msgstr "金鑰管理員"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #. i18n: ectx: attribute (title), widget (QWidget, tabEditor)
-#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:499
+#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:503
 #, kde-format
 msgid "Editor"
 msgstr "編輯器"
@@ -763,25 +763,25 @@ msgid "Sort Order"
 msgstr "排序規則"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:253 kgpgoptions.cpp:98
+#: conf_ui2.ui:253 kgpgoptions.cpp:100
 #, kde-format
 msgid "Left to right, account first"
 msgstr "左到右，帳號優先"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:258 kgpgoptions.cpp:99
+#: conf_ui2.ui:258 kgpgoptions.cpp:101
 #, kde-format
 msgid "Right to left, TLD first"
 msgstr "右到左，TLD 優先"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:263 kgpgoptions.cpp:100
+#: conf_ui2.ui:263 kgpgoptions.cpp:102
 #, kde-format
 msgid "Right to left, domain first"
 msgstr "右到左，網域優先"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:268 kgpgoptions.cpp:101
+#: conf_ui2.ui:268 kgpgoptions.cpp:103
 #, kde-format
 msgid "Right to left, FQDN first"
 msgstr "右到左，完整網域名稱優先"
@@ -1015,63 +1015,63 @@ msgstr "相片 id"
 msgid "Info"
 msgstr "資訊"
 
-#: editor/kgpgeditor.cpp:84 editor/kgpgeditor.cpp:231 editor/kgpgeditor.cpp:729
-#: editor/kgpgeditor.cpp:758
+#: editor/kgpgeditor.cpp:90 editor/kgpgeditor.cpp:240 editor/kgpgeditor.cpp:726
+#: editor/kgpgeditor.cpp:755
 #, kde-format
 msgid "Untitled"
 msgstr "未命名"
 
-#: editor/kgpgeditor.cpp:177
+#: editor/kgpgeditor.cpp:186
 #, kde-format
 msgid "&Encrypt File..."
 msgstr "加密檔案(&E)..."
 
-#: editor/kgpgeditor.cpp:181
+#: editor/kgpgeditor.cpp:190
 #, kde-format
 msgid "&Decrypt File..."
 msgstr "解密檔案(&D)..."
 
-#: editor/kgpgeditor.cpp:185
+#: editor/kgpgeditor.cpp:194
 #, kde-format
 msgid "&Open Key Manager"
 msgstr "開啟金鑰管理員(&O)"
 
-#: editor/kgpgeditor.cpp:188
+#: editor/kgpgeditor.cpp:197
 #, kde-format
 msgid "&Generate Signature..."
 msgstr "產生簽章(&G)..."
 
-#: editor/kgpgeditor.cpp:192
+#: editor/kgpgeditor.cpp:201
 #, kde-format
 msgid "&Verify Signature..."
 msgstr "驗證簽章(&V)..."
 
-#: editor/kgpgeditor.cpp:195
+#: editor/kgpgeditor.cpp:204
 #, kde-format
 msgid "&Check MD5 Sum..."
 msgstr "檢查 MD5 sum(&C)..."
 
-#: editor/kgpgeditor.cpp:198
+#: editor/kgpgeditor.cpp:207
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
 msgstr "萬國碼（utf-8）(&U)"
 
-#: editor/kgpgeditor.cpp:204
+#: editor/kgpgeditor.cpp:213
 #, kde-format
 msgid "En&crypt"
 msgstr "加密(&C)"
 
-#: editor/kgpgeditor.cpp:208
+#: editor/kgpgeditor.cpp:217
 #, kde-format
 msgid "&Decrypt"
 msgstr "解密(&D)"
 
-#: editor/kgpgeditor.cpp:212
+#: editor/kgpgeditor.cpp:221
 #, kde-format
 msgid "S&ign/Verify"
 msgstr "簽署/驗證(&I)"
 
-#: editor/kgpgeditor.cpp:235
+#: editor/kgpgeditor.cpp:244
 #, kde-format
 msgid ""
 "The document \"%1\" has changed.\n"
@@ -1080,80 +1080,73 @@ msgstr ""
 "文件 %1 已變更。\n"
 "您要儲存它嗎？"
 
-#: editor/kgpgeditor.cpp:236
+#: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid "Close the document"
 msgstr "關閉文件"
 
-#: editor/kgpgeditor.cpp:282
+#: editor/kgpgeditor.cpp:291
 #, kde-format
 msgid ""
 "The document could not been saved, as the selected codec is not supported."
 msgstr "無法儲存這個文件，因為選取的編碼未被支援。"
 
-#: editor/kgpgeditor.cpp:288
-#, kde-format
-msgid ""
-"The document could not been saved, as the selected encoding cannot encode "
-"every unicode character in it."
-msgstr "無法儲存這個文件，因為選取的編碼無法包含文件中的所有 unicode 編碼。"
-
-#: editor/kgpgeditor.cpp:297 editor/kgpgeditor.cpp:313
+#: editor/kgpgeditor.cpp:300 editor/kgpgeditor.cpp:317
 #, kde-format
 msgid ""
 "The document could not be saved, please check your permissions and disk "
 "space."
 msgstr "無法儲存文件，請檢查您的權限與磁碟空間。"
 
-#: editor/kgpgeditor.cpp:338 editor/kgpgeditor.cpp:349 keyexport.cpp:37
+#: editor/kgpgeditor.cpp:342 editor/kgpgeditor.cpp:353 keyexport.cpp:37
 #, kde-format
 msgid "Overwrite existing file %1?"
 msgstr "覆蓋既存的檔案 %1 ？"
 
-#: editor/kgpgeditor.cpp:463
+#: editor/kgpgeditor.cpp:467
 #, kde-format
 msgid "Open File to Encode"
 msgstr "開啟要編碼的檔案"
 
-#: editor/kgpgeditor.cpp:463 editor/kgpgeditor.cpp:472
-#: editor/kgpgeditor.cpp:614 editor/kgpgeditor.cpp:652
-#: editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:467 editor/kgpgeditor.cpp:476
+#: editor/kgpgeditor.cpp:611 editor/kgpgeditor.cpp:649
+#: editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "*|All Files"
 msgstr "*|所有檔案"
 
-#: editor/kgpgeditor.cpp:472
+#: editor/kgpgeditor.cpp:476
 #, kde-format
 msgid "Open File to Decode"
 msgstr "開啟要解碼的檔案"
 
-#: editor/kgpgeditor.cpp:486
+#: editor/kgpgeditor.cpp:490
 #, kde-format
 msgid "Decrypt File To"
 msgstr "解密檔案到"
 
-#: editor/kgpgeditor.cpp:497 keyexport.cpp:20
+#: editor/kgpgeditor.cpp:501 keyexport.cpp:20
 #, kde-format
 msgid "Save File"
 msgstr "儲存檔案"
 
-#: editor/kgpgeditor.cpp:523 kgpgexternalactions.cpp:203
-#: kgpgexternalactions.cpp:362 transactions/kgpgtransactionprivate.cpp:107
+#: editor/kgpgeditor.cpp:527 kgpgexternalactions.cpp:204
+#: kgpgexternalactions.cpp:363 transactions/kgpgtransactionprivate.cpp:107
 #, kde-format
 msgid "File Already Exists"
 msgstr "檔案已經存在"
 
-#: editor/kgpgeditor.cpp:614
+#: editor/kgpgeditor.cpp:611
 #, kde-format
 msgid "Open File to Sign"
 msgstr "開啟要簽署的檔案"
 
-#: editor/kgpgeditor.cpp:652 editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:649 editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "Open File to Verify"
 msgstr "開啟要驗證的檔案"
 
-#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:337
+#: editor/kgpgeditor.cpp:696 editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid ""
 "<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to "
@@ -1163,12 +1156,12 @@ msgstr ""
 "個金鑰？</qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
-#: editor/kgpgeditor.cpp:700 keyserver.ui:33 keytreeview.cpp:158
+#: editor/kgpgeditor.cpp:697 keyserver.ui:33 keytreeview.cpp:158
 #, kde-format
 msgid "Import"
 msgstr "匯入"
 
-#: editor/kgpgeditor.cpp:700 keytreeview.cpp:159
+#: editor/kgpgeditor.cpp:697 keytreeview.cpp:159
 #, kde-format
 msgid "Do Not Import"
 msgstr "不要匯入"
@@ -1220,7 +1213,7 @@ msgstr "<b>正確的 checksum</b>，檔案沒問題。"
 msgid "<b>Wrong checksum, <em>file corrupted</em></b>"
 msgstr "<b>Checksum 錯誤。<em>檔案已損毀</em></b>"
 
-#: editor/kgpgtextedit.cpp:84
+#: editor/kgpgtextedit.cpp:85
 #, kde-format
 msgid ""
 "<qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a "
@@ -1230,12 +1223,12 @@ msgstr ""
 "<qt><b>已拖放遠端檔案</b>。<br />這個遠端檔案將被複製到暫存檔案以進行要求的操"
 "作。這個暫存檔案將在操作完成後被刪除。</qt>"
 
-#: editor/kgpgtextedit.cpp:93
+#: editor/kgpgtextedit.cpp:94
 #, kde-format
 msgid "Could not download file."
 msgstr "無法下載檔案。"
 
-#: editor/kgpgtextedit.cpp:129
+#: editor/kgpgtextedit.cpp:130
 #, kde-format
 msgid ""
 "<qt>This file is a <b>public</b> key.<br />Do you want to import it instead "
@@ -1244,7 +1237,7 @@ msgstr ""
 "<qt>檔案是一個<b>公開</b>金鑰。<br />您要匯入它而不是在編輯器裡打開它嗎？</"
 "qt>"
 
-#: editor/kgpgtextedit.cpp:132
+#: editor/kgpgtextedit.cpp:133
 #, kde-format
 msgid ""
 "<qt>This file is a <b>private</b> key.<br />Do you want to import it instead "
@@ -1253,59 +1246,74 @@ msgstr ""
 "<qt>檔案是一個<b>私密</b>金鑰。<br />您要匯入它而不是在編輯器裡打開它嗎？</"
 "qt>"
 
-#: editor/kgpgtextedit.cpp:137
+#: editor/kgpgtextedit.cpp:138
 #, kde-format
 msgid "Key file dropped on Editor"
 msgstr "將金鑰檔在編輯器開啟"
 
-#: editor/kgpgtextedit.cpp:260 kgpgexternalactions.cpp:402
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgid "Years"
+msgctxt "@action:button"
+msgid "Yes"
+msgstr "年"
+
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgctxt "No trust in key"
+#| msgid "None"
+msgctxt "@action:button"
+msgid "No"
+msgstr "無"
+
+#: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
 msgid "Decryption failed."
 msgstr "解密失敗。"
 
-#: editor/kgpgtextedit.cpp:275 foldercompressjob.cpp:132
+#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:132
 #, kde-format
 msgid "The encryption failed with error code %1"
 msgstr "加密失敗，錯誤代碼 %1"
 
-#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:133
+#: editor/kgpgtextedit.cpp:277 foldercompressjob.cpp:133
 #, kde-format
 msgid "Encryption failed."
 msgstr "加密失敗。"
 
-#: editor/kgpgtextedit.cpp:289
+#: editor/kgpgtextedit.cpp:290
 #, kde-format
 msgid "Signing not possible: bad passphrase or missing key"
 msgstr "無法加密：不正確的密語或遺失金鑰"
 
-#: editor/kgpgtextedit.cpp:324 kgpgexternalactions.cpp:281
+#: editor/kgpgtextedit.cpp:325 kgpgexternalactions.cpp:282
 #, kde-format
 msgctxt "Caption of message box"
 msgid "Verification Finished"
 msgstr "確認完成"
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonimport)
-#: editor/kgpgtextedit.cpp:330 keyserver.ui:145 keyservers.cpp:201
+#: editor/kgpgtextedit.cpp:331 keyserver.ui:145 keyservers.cpp:201
 #, kde-format
 msgid "&Import"
 msgstr "匯入(&I)"
 
-#: editor/kgpgtextedit.cpp:331
+#: editor/kgpgtextedit.cpp:333
 #, kde-format
 msgid "Import key in your list"
 msgstr "匯入到您的清單"
 
-#: editor/kgpgtextedit.cpp:334
+#: editor/kgpgtextedit.cpp:337
 #, kde-format
 msgid "Do &Not Import"
 msgstr "不要匯入(&N)"
 
-#: editor/kgpgtextedit.cpp:335
+#: editor/kgpgtextedit.cpp:339
 #, kde-format
 msgid "Will not import this key in your list"
 msgstr "將不會匯入此金鑰到您的清單"
 
-#: editor/kgpgtextedit.cpp:337
+#: editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid "Missing Key"
 msgstr "遺失金鑰"
@@ -1382,7 +1390,7 @@ msgstr "可用的信任金鑰"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:426 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:418 searchres.ui:29
 #, kde-format
 msgid "Search:"
 msgstr "搜尋："
@@ -1729,241 +1737,236 @@ msgstr "找到 1 個符合的金鑰（未顯示）"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "找到 %1 個符合的金鑰（顯示 %2）"
 
-#: keysmanager.cpp:126
+#: keysmanager.cpp:125
 #, kde-format
 msgid "Key Management"
 msgstr "金鑰管理"
 
-#: keysmanager.cpp:133
+#: keysmanager.cpp:132
 #, kde-format
 msgid "&Open Editor"
 msgstr "開啟編輯器(&O)"
 
-#: keysmanager.cpp:136
+#: keysmanager.cpp:135
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "金鑰伺服器對話盒(&K)"
 
-#: keysmanager.cpp:141 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:140 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "移至預設金鑰(&G)"
 
-#: keysmanager.cpp:158
-#, kde-format
-msgid "Tip of the &Day"
-msgstr "每日一訣(&D)"
-
-#: keysmanager.cpp:161
+#: keysmanager.cpp:153
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "檢視 GnuPG 手冊"
 
-#: keysmanager.cpp:166
+#: keysmanager.cpp:158
 #, kde-format
 msgid "&Refresh List"
 msgstr "重新整理清單(&R)"
 
-#: keysmanager.cpp:170
+#: keysmanager.cpp:162
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr "顯示金鑰的長代碼(&L)"
 
-#: keysmanager.cpp:175
+#: keysmanager.cpp:167
 #, kde-format
 msgid "K&ey Properties"
 msgstr "金鑰屬性(&E)"
 
-#: keysmanager.cpp:179
+#: keysmanager.cpp:171
 #, kde-format
 msgid "&Open Key URL"
 msgstr "開啟金鑰網址(&O)"
 
-#: keysmanager.cpp:183
+#: keysmanager.cpp:175
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "在終端機編輯金鑰(&T)"
 
-#: keysmanager.cpp:188
+#: keysmanager.cpp:180
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "產生金鑰對(&G)..."
 
-#: keysmanager.cpp:197
+#: keysmanager.cpp:189
 #, kde-format
 msgid "&Import Key..."
 msgstr "匯入金鑰(&I)..."
 
-#: keysmanager.cpp:202
+#: keysmanager.cpp:194
 #, kde-format
 msgid "Send Ema&il"
 msgstr "傳送電子郵件(&I)"
 
-#: keysmanager.cpp:206
+#: keysmanager.cpp:198
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "在通訊錄中建立新的連絡人(&C)"
 
-#: keysmanager.cpp:212
+#: keysmanager.cpp:204
 #, kde-format
 msgid "&Edit Group..."
 msgstr "編輯群組(&E)..."
 
-#: keysmanager.cpp:215
+#: keysmanager.cpp:207
 #, kde-format
 msgid "&Delete Group"
 msgstr "刪除群組(&D)"
 
-#: keysmanager.cpp:219
+#: keysmanager.cpp:211
 #, kde-format
 msgid "&Rename Group"
 msgstr "重新命名群組(&R)"
 
-#: keysmanager.cpp:228
+#: keysmanager.cpp:220
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "設為預設金鑰(&F)"
 
-#: keysmanager.cpp:231
+#: keysmanager.cpp:223
 #, kde-format
 msgid "&Add Photo..."
 msgstr "加入相片(&A)..."
 
-#: keysmanager.cpp:234
+#: keysmanager.cpp:226
 #, kde-format
 msgid "&Add User Id..."
 msgstr "加入使用者代碼(&A)..."
 
-#: keysmanager.cpp:237
+#: keysmanager.cpp:229
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "匯出私密金鑰..."
 
-#: keysmanager.cpp:240
+#: keysmanager.cpp:232
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "刪除金鑰對"
 
-#: keysmanager.cpp:244
+#: keysmanager.cpp:236
 #, kde-format
 msgid "Revoke Key..."
 msgstr "撤銷金鑰..."
 
-#: keysmanager.cpp:247
+#: keysmanager.cpp:239
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "重新產生公開金鑰(&R)"
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:245
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr "將使用者代碼設為主要(&P)..."
 
-#: keysmanager.cpp:257
+#: keysmanager.cpp:249
 #, kde-format
 msgid "&Open Photo"
 msgstr "開啟相片(&O)"
 
-#: keysmanager.cpp:261
+#: keysmanager.cpp:253
 #, kde-format
 msgid "&Delete Photo"
 msgstr "刪除相片(&D)"
 
-#: keysmanager.cpp:269
+#: keysmanager.cpp:261
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "從金鑰伺服器匯入遺失的簽章(&M)"
 
-#: keysmanager.cpp:287 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:279 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "信任"
 
-#: keysmanager.cpp:290 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:282 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "大小"
 
-#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:285 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "建立"
 
-#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:288 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "使用期限"
 
-#: keysmanager.cpp:300
+#: keysmanager.cpp:292
 #, kde-format
 msgid "&Photo ID's"
 msgstr "相片 ID(&P)"
 
-#: keysmanager.cpp:305
+#: keysmanager.cpp:297
 #, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "小"
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:298
 #, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "中等"
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:299
 #, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "大"
 
-#: keysmanager.cpp:311
+#: keysmanager.cpp:303
 #, kde-format
 msgid "Minimum &Trust"
 msgstr "最小信任(&T)"
 
-#: keysmanager.cpp:314
+#: keysmanager.cpp:306
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "無(&N)"
 
-#: keysmanager.cpp:315
+#: keysmanager.cpp:307
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr "啟用中(&A)"
 
-#: keysmanager.cpp:316
+#: keysmanager.cpp:308
 #, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "最低限度(&M)"
 
-#: keysmanager.cpp:317
+#: keysmanager.cpp:309
 #, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "完整的(&F)"
 
-#: keysmanager.cpp:318
+#: keysmanager.cpp:310
 #, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "絕對的(&U)"
 
-#: keysmanager.cpp:343
+#: keysmanager.cpp:335
 #, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "只顯示私密金鑰(&S)"
 
-#: keysmanager.cpp:443
+#: keysmanager.cpp:435
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "焦點搜尋行"
 
-#: keysmanager.cpp:486
+#: keysmanager.cpp:483
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
@@ -1972,64 +1975,64 @@ msgstr ""
 "正在產生另一組金鑰中。\n"
 "請稍候，等這一組產生完後再說。"
 
-#: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
+#: keysmanager.cpp:484 keysmanager.cpp:522 keysmanager.cpp:570
 #, kde-format
 msgid "Generating new key pair"
 msgstr "產生金鑰對中"
 
-#: keysmanager.cpp:526
+#: keysmanager.cpp:523
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "無法啟動專家模式需要的應用程式 konsole。"
 
-#: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
+#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "準備完成"
 
-#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:574 transactions/kgpggeneratekey.cpp:194
 #, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "錯誤的密碼片語。無法建立新的配對金鑰。"
 
-#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr "使用者取消。未產生金鑰。"
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr "電子郵件地址不正確。無法產生新的配對金鑰。"
 
-#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:203
 #, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "名稱無法被 gpg 接受。無法產生新的配對金鑰。"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:592 newkey.ui:14
+#: keysmanager.cpp:589 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "產生新的金鑰對"
 
-#: keysmanager.cpp:631
+#: keysmanager.cpp:628
 #, kde-format
 msgid "backup copy"
 msgstr "備份複製"
 
-#: keysmanager.cpp:645 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:642 transactions/kgpggeneratekey.cpp:215
 #, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "gpg 行程未完成。無法產生新的配對金鑰。"
 
-#: keysmanager.cpp:749
+#: keysmanager.cpp:736
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr "您只能重新整理私密金鑰。請檢查您的選擇區。"
 
-#: keysmanager.cpp:873
+#: keysmanager.cpp:860
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
@@ -2038,12 +2041,12 @@ msgstr ""
 "正在執行其它動作中。\n"
 "請稍候，等此動作執行完後再說。"
 
-#: keysmanager.cpp:874 keysmanager.cpp:879
+#: keysmanager.cpp:861 keysmanager.cpp:866
 #, kde-format
 msgid "Add New User Id"
 msgstr "加入新的使用者 Id"
 
-#: keysmanager.cpp:919
+#: keysmanager.cpp:906
 #, kde-format
 msgid ""
 "The image must be a JPEG file. Remember that the image is stored within your "
@@ -2055,7 +2058,7 @@ msgstr ""
 "片，您的金鑰也同樣會變得非常大！大小不能超過 6KiB，大約 240x288 是個很好用的"
 "尺寸。"
 
-#: keysmanager.cpp:951
+#: keysmanager.cpp:938
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2063,123 +2066,123 @@ msgid ""
 msgstr ""
 "<qt>您確定要從金鑰 <b>%2 &lt;%3&gt;</b> <br/>刪除相片代碼 <b>%1</b> 嗎？</qt>"
 
-#: keysmanager.cpp:1094
+#: keysmanager.cpp:1076
 #, kde-format
 msgid "Public Key"
 msgstr "公開金鑰"
 
-#: keysmanager.cpp:1097
+#: keysmanager.cpp:1079
 #, kde-format
 msgid "Sub Key"
 msgstr "次鑰"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1082
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "私密金鑰對"
 
-#: keysmanager.cpp:1103
+#: keysmanager.cpp:1085
 #, kde-format
 msgid "Key Group"
 msgstr "金鑰群組"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1106 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1088 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "簽章"
 
-#: keysmanager.cpp:1109
+#: keysmanager.cpp:1091
 #, kde-format
 msgid "User ID"
 msgstr "使用者 ID"
 
-#: keysmanager.cpp:1112
+#: keysmanager.cpp:1094
 #, kde-format
 msgid "Revocation Signature"
 msgstr "撤銷簽章"
 
-#: keysmanager.cpp:1115
+#: keysmanager.cpp:1097
 #, kde-format
 msgid "Photo ID"
 msgstr "相片 ID"
 
-#: keysmanager.cpp:1118
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "被遺棄的私密金鑰"
 
-#: keysmanager.cpp:1123
+#: keysmanager.cpp:1105
 #, kde-format
 msgid "Group member"
 msgstr "群組成員"
 
-#: keysmanager.cpp:1228
+#: keysmanager.cpp:1208
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
 msgstr[0] "簽署使用者代碼(&S)..."
 
-#: keysmanager.cpp:1229
+#: keysmanager.cpp:1209
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "簽署並寄出使用者代碼(&M)..."
 
-#: keysmanager.cpp:1230
+#: keysmanager.cpp:1210
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
 msgstr[0] "匯出公開金鑰(&X)..."
 
-#: keysmanager.cpp:1231
+#: keysmanager.cpp:1211
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "從金鑰伺服器重新載入金鑰(&R)"
 
-#: keysmanager.cpp:1232
+#: keysmanager.cpp:1212
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "以選擇的金鑰建立群組(&C)..."
 
-#: keysmanager.cpp:1233
+#: keysmanager.cpp:1213
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
 msgstr[0] "簽署金鑰(&S)..."
 
-#: keysmanager.cpp:1234
+#: keysmanager.cpp:1214
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
 msgstr[0] "刪除使用者代碼(&D)"
 
-#: keysmanager.cpp:1235
+#: keysmanager.cpp:1215
 #, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
 msgstr[0] "刪除簽章(&A)"
 
-#: keysmanager.cpp:1236
+#: keysmanager.cpp:1216
 #, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
 msgstr[0] "從金鑰伺服器匯入金鑰"
 
-#: keysmanager.cpp:1237
+#: keysmanager.cpp:1217
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
 msgstr[0] "刪除金鑰(&D)"
 
-#: keysmanager.cpp:1360
+#: keysmanager.cpp:1340
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "撤銷憑證的建立失敗了..."
 
-#: keysmanager.cpp:1375
+#: keysmanager.cpp:1355
 #, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2189,17 +2192,17 @@ msgstr ""
 "<qt>私密金鑰<b>不能</b>儲存在不安全的地方。<br />如果別人可以存取這個檔案，將"
 "會危及以這個金鑰加密的資料。<br />是否繼續匯出金鑰？</qt>"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "匯出 私密金鑰 為"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr "*.asc|*.asc 檔"
 
-#: keysmanager.cpp:1405
+#: keysmanager.cpp:1385
 #, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
@@ -2208,7 +2211,7 @@ msgstr ""
 "<qt>您的<b>私密</b>金鑰「%1」已經成功地匯出到<br />%2。<br /><b>請不要</b>將"
 "它放在不安全的地方。</qt>"
 
-#: keysmanager.cpp:1408
+#: keysmanager.cpp:1388
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2217,13 +2220,13 @@ msgstr ""
 "無法匯出您的私密金鑰。\n"
 "請檢查金鑰。"
 
-#: keysmanager.cpp:1510
+#: keysmanager.cpp:1490
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
 msgstr[0] "<qt>您的公開金鑰「%1」已經成功地匯出到<br/>%2</qt>"
 
-#: keysmanager.cpp:1514 keysmanager.cpp:1529 keysmanager.cpp:1543
+#: keysmanager.cpp:1494 keysmanager.cpp:1509 keysmanager.cpp:1523
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2232,7 +2235,7 @@ msgstr ""
 "無法匯出您的公開金鑰\n"
 "請檢查金鑰。"
 
-#: keysmanager.cpp:1652
+#: keysmanager.cpp:1632
 #, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
@@ -2241,75 +2244,75 @@ msgstr ""
 "<p>這個金鑰是一個被遺棄的私密金鑰（沒有公開金鑰的私密金鑰。）它現在已無法使"
 "用。</p><p>您想要重新產生公開金鑰嗎？</p>"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, kde-format
 msgid "Generate"
 msgstr "產生"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, kde-format
 msgid "Do Not Generate"
 msgstr "不要產生"
 
-#: keysmanager.cpp:1684
+#: keysmanager.cpp:1664
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>您確定要刪除群組 <b>%1</b>？</qt>"
 
-#: keysmanager.cpp:1685 keysmanager.cpp:2355
+#: keysmanager.cpp:1665 keysmanager.cpp:2335
 #, kde-format
 msgid "Delete"
 msgstr "刪除"
 
-#: keysmanager.cpp:1715
+#: keysmanager.cpp:1695
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
 "</qt>"
 msgstr "<qt>您不能建立包含簽署、次鑰或其他群組的群組。</qt>"
 
-#: keysmanager.cpp:1730 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1710 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr "%1（%2）代碼：%3"
 
-#: keysmanager.cpp:1735
+#: keysmanager.cpp:1715
 #, kde-format
 msgid "Create New Group"
 msgstr "建立新的群組"
 
-#: keysmanager.cpp:1736
+#: keysmanager.cpp:1716
 #, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "輸入新群組的名稱："
 
-#: keysmanager.cpp:1741
+#: keysmanager.cpp:1721
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
 "group:"
 msgstr "下列金鑰沒有效力或不被信任因而無法加到群組中："
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1727
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
 "created.</qt>"
 msgstr "<qt>尚未選擇有效和信任的金鑰。群組 <b>%1</b> 將不會被建立。</qt>"
 
-#: keysmanager.cpp:1759
+#: keysmanager.cpp:1739
 #, kde-format
 msgid "Group Properties"
 msgstr "群組屬性"
 
-#: keysmanager.cpp:1795
+#: keysmanager.cpp:1775
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "您只能簽署私密金鑰。請檢查您的選擇區。"
 
-#: keysmanager.cpp:1804
+#: keysmanager.cpp:1784
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2321,7 +2324,7 @@ msgstr ""
 "<br /><br />您應該打電話或與該金鑰的擁有者見面以檢查這個金鑰的指紋，確定沒有"
 "別人嘗試攔截您的通訊。</qt>"
 
-#: keysmanager.cpp:1809
+#: keysmanager.cpp:1789
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2333,20 +2336,20 @@ msgstr ""
 "%4</b>。<br /><br /> 您應該打電話或與該金鑰的擁有者見面以檢查這個金鑰的指紋，"
 "確定沒有別人嘗試攔截您的通訊。</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1：%2"
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr "%1（%2）：%3"
 
-#: keysmanager.cpp:1832
+#: keysmanager.cpp:1812
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2356,12 +2359,12 @@ msgstr ""
 "<qt>您將要一次簽署下列的金鑰。<br /><b>如果您尚未很小心的檢查所有的指紋，您的"
 "通訊的安全性可能會遭到危害。</b></qt>"
 
-#: keysmanager.cpp:1874 keysmanager.cpp:2021
+#: keysmanager.cpp:1854 keysmanager.cpp:2001
 #, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr "您只能簽署使用者代碼與相片代碼。請檢查您的選擇區。"
 
-#: keysmanager.cpp:1888
+#: keysmanager.cpp:1868
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2373,7 +2376,7 @@ msgstr ""
 "%3</b>。<br /><br />您應該打電話或與該金鑰的擁有者見面以檢查這個金鑰的指紋，"
 "確定沒有別人嘗試攔截您的通訊。</qt>"
 
-#: keysmanager.cpp:1892
+#: keysmanager.cpp:1872
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2385,7 +2388,7 @@ msgstr ""
 "<br /> <b>%4</b>。<br /><br /> 您應該打電話或與該金鑰的擁有者見面以檢查這個金"
 "鑰的指紋，確定沒有別人嘗試攔截您的通訊。</qt>"
 
-#: keysmanager.cpp:1918
+#: keysmanager.cpp:1898
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2395,17 +2398,17 @@ msgstr ""
 "<qt>您將要一次簽署下列的使用者代碼。<br /><b>如果您尚未很小心的檢查所有的指"
 "紋，您的通訊的安全性可能會遭到危害。</b></qt>"
 
-#: keysmanager.cpp:1987
+#: keysmanager.cpp:1967
 #, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>錯誤的密碼片語，金鑰 <b>%1（%2）</b> 尚未簽署。</qt>"
 
-#: keysmanager.cpp:1991
+#: keysmanager.cpp:1971
 #, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>金鑰 <b>%1（%2）</b> 已簽署。</qt>"
 
-#: keysmanager.cpp:1996
+#: keysmanager.cpp:1976
 #, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
@@ -2414,18 +2417,25 @@ msgstr ""
 "<qt>使用金鑰 <b>%2</b> 簽署金鑰 <b>%1</b> 失敗。<br />您想要嘗試在 console 模"
 "式中簽署這個金鑰嗎？</qt>"
 
-#: keysmanager.cpp:2114
+#: keysmanager.cpp:1978
+#, fuzzy, kde-format
+#| msgid "Signature"
+msgctxt "@action:button"
+msgid "Sign"
+msgstr "簽章"
+
+#: keysmanager.cpp:2094
 #, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "這個金鑰的所有簽章都已經在您的鑰匙圈中"
 
-#: keysmanager.cpp:2201
+#: keysmanager.cpp:2181
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "手動編輯金鑰以刪除自我簽署。"
 
-#: keysmanager.cpp:2205
+#: keysmanager.cpp:2185
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
@@ -2434,12 +2444,12 @@ msgstr ""
 "<qt>您確定要刪除簽章<br /><b>%1</b><br />來自使用者代碼 <b>%2</b> <br />金"
 "鑰：<b>%3</b>？</qt>"
 
-#: keysmanager.cpp:2227
+#: keysmanager.cpp:2207
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "要求的操作不成功，請手動編輯這個金鑰。"
 
-#: keysmanager.cpp:2311
+#: keysmanager.cpp:2291
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2449,21 +2459,21 @@ msgid_plural ""
 "want to remove it from these groups?</qt>"
 msgstr[0] "<qt>您要刪除的金鑰屬於以下的金鑰群組。您也要從群組中移除嗎？</qt>"
 
-#: keysmanager.cpp:2315 keysmanager.cpp:2329 keysmanager.cpp:2364
-#: keysmanager.cpp:2379 keysmanager.cpp:2382 keysmanager.cpp:2393
-#: keysmanager.cpp:2407 keysmanager.cpp:2448
+#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
+#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
+#: keysmanager.cpp:2387 keysmanager.cpp:2428
 #, kde-format
 msgid "Delete key"
 msgstr "刪除金鑰"
 
-#: keysmanager.cpp:2328
+#: keysmanager.cpp:2308
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr "您正在從金鑰群組 %1 移除最後的一個金鑰。<br/>您也要同時刪除此群組嗎？"
 
-#: keysmanager.cpp:2352
+#: keysmanager.cpp:2332
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2472,59 +2482,59 @@ msgstr ""
 "<p>要刪除<b>私密金鑰</b>配對 <b>%1</b> 嗎？</p>刪除這個金鑰對代表您將再也不能"
 "解密以這個金鑰加密的檔案。"
 
-#: keysmanager.cpp:2363 keysmanager.cpp:2392
+#: keysmanager.cpp:2343 keysmanager.cpp:2372
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr "正在刪除另一個金鑰。請稍候。"
 
-#: keysmanager.cpp:2379
+#: keysmanager.cpp:2359
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "金鑰 <b>%1</b> 已刪除。"
 
-#: keysmanager.cpp:2382
+#: keysmanager.cpp:2362
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "刪除金鑰 <b>%1</b> 失敗。"
 
-#: keysmanager.cpp:2406
+#: keysmanager.cpp:2386
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr "無法刪除金鑰 <b>%1</b> 因為是由終端機編輯。"
 
-#: keysmanager.cpp:2447
+#: keysmanager.cpp:2427
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr "您選擇了沒有金鑰的項目。它們無法在此選單中刪除。"
 
-#: keysmanager.cpp:2472
+#: keysmanager.cpp:2452
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
 "deleted.</qt>"
 msgstr "<qt>下面是私密金鑰對：<br /><b>%1</b><br/>它們將不會被刪除。</qt>"
 
-#: keysmanager.cpp:2482
+#: keysmanager.cpp:2462
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>刪除下面的 %1 個公開金鑰？</b></qt>"
 
-#: keysmanager.cpp:2513 keysmanager.cpp:2589 keysmanager.cpp:2600
+#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
 #, kde-format
 msgid "Key Import"
 msgstr "金鑰匯入"
 
-#: keysmanager.cpp:2521
+#: keysmanager.cpp:2501
 #, kde-format
 msgid "Open File"
 msgstr "開啟檔案"
 
-#: keysmanager.cpp:2554
+#: keysmanager.cpp:2534
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2533,52 +2543,52 @@ msgstr ""
 "<qt>剪貼簿中的文字似乎不像是個金鑰，比較像是加密過的文字。<br />您要試著先將"
 "它解密再匯入嗎？</qt>"
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2536
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "從剪貼簿匯入"
 
-#: keysmanager.cpp:2576
+#: keysmanager.cpp:2556
 #, kde-format
 msgid "Importing..."
 msgstr "匯入..."
 
-#: keysmanager.cpp:2588
+#: keysmanager.cpp:2568
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr "金鑰匯入失敗。請檢查詳細的紀錄檔以獲取更多資訊。"
 
-#: keysmanager.cpp:2641
+#: keysmanager.cpp:2621
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - 解密工具"
 
-#: keysmanager.cpp:2662
+#: keysmanager.cpp:2644
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "金鑰管理員(&Y)"
 
-#: keysmanager.cpp:2665
+#: keysmanager.cpp:2647
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "加密剪貼簿(&E)"
 
-#: keysmanager.cpp:2668
+#: keysmanager.cpp:2650
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "解密剪貼簿(&D)"
 
-#: keysmanager.cpp:2671
+#: keysmanager.cpp:2653
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "簽署/驗證剪貼簿(&S)"
 
-#: keysmanager.cpp:2708 keysmanager.cpp:2811 keysmanager.cpp:2829
+#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "剪貼簿是空的。"
 
-#: keysmanager.cpp:2753
+#: keysmanager.cpp:2735
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "文字已成功加密。"
@@ -2630,27 +2640,27 @@ msgstr ""
 "此代理程式似乎並未執行。這樣可能會造成簽署/解密的問題。<br />請從 KGpg 設定之"
 "中停用 GnuPG Agent，或修正此代理程式。</qt>"
 
-#: kgpg.cpp:123 kgpg.cpp:130 kgpg.cpp:137 kgpg.cpp:144
+#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
 msgid "No files given."
 msgstr "未指定檔案。"
 
-#: kgpg.cpp:134
+#: kgpg.cpp:132
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "不能解密與顯示資料夾。"
 
-#: kgpg.cpp:141
+#: kgpg.cpp:139
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "不能簽署資料夾。"
 
-#: kgpg.cpp:148
+#: kgpg.cpp:146
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "不能驗證資料夾。"
 
-#: kgpg.cpp:151
+#: kgpg.cpp:149
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2660,37 +2670,37 @@ msgstr ""
 "無法進行所要求的操作。\n"
 "請只選擇一個資料夾，或許多檔案，但是不要混合檔案與資料夾。"
 
-#: kgpg.cpp:189
+#: kgpg.cpp:187
 #, kde-format
 msgid "Encrypt file"
 msgstr "加密檔案"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:188
 #, kde-format
 msgid "Open key manager"
 msgstr "開啟金鑰管理員"
 
-#: kgpg.cpp:191
+#: kgpg.cpp:189
 #, kde-format
 msgid "Open editor"
 msgstr "開啟編輯器"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:190
 #, kde-format
 msgid "Show encrypted file"
 msgstr "顯示加密的檔案"
 
-#: kgpg.cpp:193 kgpgoptions.cpp:503
+#: kgpg.cpp:191 kgpgoptions.cpp:505
 #, kde-format
 msgid "Sign File"
 msgstr "簽署檔案"
 
-#: kgpg.cpp:194
+#: kgpg.cpp:192
 #, kde-format
 msgid "Verify signature"
 msgstr "驗證簽章"
 
-#: kgpg.cpp:195
+#: kgpg.cpp:193
 #, kde-format
 msgid "File to open"
 msgstr "要開啟的檔案"
@@ -2880,7 +2890,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "使用滑鼠選擇代替剪貼簿。"
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "在啟動 KDE 時自動啟動 KGpg。"
@@ -2935,69 +2945,63 @@ msgstr "顯示系統匣圖示"
 msgid "The number of recently opened files shown in the editor menu."
 msgstr "在編輯器選單中顯示出來的最近已開啟檔案數量。"
 
-#. i18n: ectx: label, entry (ShowTipOfDay), group (TipOfDay)
-#: kgpg.kcfg:187
-#, kde-format
-msgid "Show tip of the day."
-msgstr "顯示每日一訣。"
-
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
-#: kgpg.kcfg:194
+#: kgpg.kcfg:187
 #, kde-format
 msgid "Color used for trusted keys."
 msgstr "用於信任的金鑰的色彩。"
 
 #. i18n: ectx: label, entry (ColorRev), group (Key Colors)
-#: kgpg.kcfg:198
+#: kgpg.kcfg:191
 #, kde-format
 msgid "Color used for revoked keys."
 msgstr "用於撤銷的金鑰的色彩。"
 
 #. i18n: ectx: label, entry (ColorUnknown), group (Key Colors)
-#: kgpg.kcfg:202
+#: kgpg.kcfg:195
 #, kde-format
 msgid "Color used for unknown keys."
 msgstr "用於未知的金鑰的色彩。"
 
 #. i18n: ectx: label, entry (ColorBad), group (Key Colors)
-#: kgpg.kcfg:206
+#: kgpg.kcfg:199
 #, kde-format
 msgid "Color used for untrusted keys."
 msgstr "用在不信任金鑰的色彩。"
 
 #. i18n: ectx: label, entry (ColorUltimate), group (Key Colors)
-#: kgpg.kcfg:210
+#: kgpg.kcfg:203
 #, kde-format
 msgid "Color used for ultimately trusted keys."
 msgstr "用在完全信任金鑰的色彩。"
 
 #. i18n: ectx: label, entry (ColorMarginal), group (Key Colors)
-#: kgpg.kcfg:214
+#: kgpg.kcfg:207
 #, kde-format
 msgid "Color used for marginally trusted keys."
 msgstr "用在大致信任金鑰的色彩。"
 
 #. i18n: ectx: label, entry (ColorExpired), group (Key Colors)
-#: kgpg.kcfg:218
+#: kgpg.kcfg:211
 #, kde-format
 msgid "Color used for expired keys."
 msgstr "用於逾期的金鑰的色彩。"
 
 #. i18n: ectx: label, entry (Font), group (Text Font)
-#: kgpg.kcfg:225
+#: kgpg.kcfg:218
 #, kde-format
 msgid "Font"
 msgstr "字型"
 
 #. i18n: ectx: label, entry (KeyServers), group (Servers)
-#: kgpg.kcfg:248
+#: kgpg.kcfg:241
 #, kde-format
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
 msgstr "KGpg 使用的金鑰伺服器。第一個為預設伺服器。"
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
-#: kgpg.kcfg:252
+#: kgpg.kcfg:245
 #, kde-format
 msgid ""
 "List of URLs that show details and analysis of the given key. The first "
@@ -3005,29 +3009,29 @@ msgid ""
 msgstr "顯示指定金鑰詳情與分析的網址列表。第一個伺服器為預設伺服器。"
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
-#: kgpg.kcfg:259
+#: kgpg.kcfg:252
 #, kde-format
 msgid "Use HTTP proxy when available."
 msgstr "儘可能使用 HTTP 代理伺服器。"
 
 #. i18n: ectx: label, entry (EmailTemplate), group (Key Signing)
-#: kgpg.kcfg:266
+#: kgpg.kcfg:259
 #, kde-format
 msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
 msgstr "這是執行「簽署並寄出使用者代碼」動作時，要在電子郵件中的文字。"
 
-#: kgpgexternalactions.cpp:126
+#: kgpgexternalactions.cpp:127
 #, kde-format
 msgid "Cannot create temporary file for folder compression."
 msgstr "無法建立資料夾壓縮暫存檔。"
 
-#: kgpgexternalactions.cpp:126 kgpgexternalactions.cpp:133
+#: kgpgexternalactions.cpp:127 kgpgexternalactions.cpp:134
 #, kde-format
 msgid "Temporary File Creation"
 msgstr "產生暫存檔案"
 
-#: kgpgexternalactions.cpp:131
+#: kgpgexternalactions.cpp:132
 #, kde-format
 msgid ""
 "<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process "
@@ -3037,18 +3041,18 @@ msgstr ""
 "<qt>KGpg 現在會建立一個暫存的檔案庫：<br /><b>%1</b> 來處理加密過程。在加密程"
 "序結束後這個檔案將會被刪除。</qt>"
 
-#: kgpgexternalactions.cpp:147
+#: kgpgexternalactions.cpp:148
 #, kde-format
 msgid "Compression method for archive:"
 msgstr "檔案庫的壓縮方式："
 
-#: kgpgexternalactions.cpp:400
+#: kgpgexternalactions.cpp:401
 #, kde-format
 msgid "Decryption of this file failed:"
 msgid_plural "Decryption of these files failed:"
 msgstr[0] "此檔案解密失敗："
 
-#: kgpgexternalactions.cpp:424
+#: kgpgexternalactions.cpp:425
 #, kde-format
 msgid ""
 "<qt>You have not set a path to your GnuPG config file.<br />This may cause "
@@ -3058,22 +3062,22 @@ msgstr ""
 "<qt>您還沒設定 GnuPG 設定檔的路境。<br /> 這可能會在 KGpg 執行時造成意外的結"
 "果。<br /> 您要開啟 KGpg 小助手來修正這個問題嗎？</qt>"
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Start Assistant"
 msgstr "啟動小助手"
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Do Not Start"
 msgstr "不要開始"
 
-#: kgpgfirstassistant.cpp:34
+#: kgpgfirstassistant.cpp:35
 #, kde-format
 msgid "KGpg Assistant"
 msgstr "KGpg 小助手"
 
-#: kgpgfirstassistant.cpp:58
+#: kgpgfirstassistant.cpp:59
 #, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3083,107 +3087,107 @@ msgstr ""
 "這個小助手首先會設定一些 KGpg 正常運作所需的基本組態選項。接下來，他會讓您建"
 "立您自己的金鑰對，使您可以加密您的檔案與郵件。"
 
-#: kgpgfirstassistant.cpp:66
+#: kgpgfirstassistant.cpp:67
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr "歡迎來到 KGpg 小助手"
 
-#: kgpgfirstassistant.cpp:78
+#: kgpgfirstassistant.cpp:79
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg 需要知道您要使用哪一 GnuPG 執行檔。"
 
-#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
 "button."
 msgstr "除非你想要嘗試某些特別的設定，只要按下「下一步」按鈕。"
 
-#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
 #, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "GnuPG 執行檔"
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
 #, kde-format
 msgid "All files"
 msgstr "所有檔案"
 
-#: kgpgfirstassistant.cpp:137
+#: kgpgfirstassistant.cpp:138
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "KGpg 需要知道您的 GnuPG 組態檔案儲存在何處。"
 
-#: kgpgfirstassistant.cpp:152
+#: kgpgfirstassistant.cpp:153
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "您的 GnuPG 設定檔路徑："
 
-#: kgpgfirstassistant.cpp:166
+#: kgpgfirstassistant.cpp:167
 #, kde-format
 msgid "Configuration File"
 msgstr "設定檔"
 
-#: kgpgfirstassistant.cpp:176
+#: kgpgfirstassistant.cpp:177
 #, kde-format
 msgid "Your default key:"
 msgstr "您的預設金鑰:"
 
-#: kgpgfirstassistant.cpp:195
+#: kgpgfirstassistant.cpp:196
 #, kde-format
 msgid "Default Key"
 msgstr "預設金鑰"
 
-#: kgpgfirstassistant.cpp:216
+#: kgpgfirstassistant.cpp:217
 #, kde-format
 msgid "Generate new key"
 msgstr "產生新的金鑰"
 
-#: kgpgfirstassistant.cpp:230
+#: kgpgfirstassistant.cpp:231
 #, kde-format
 msgid "Done"
 msgstr "完成"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
 "create a config file ?</qt>"
 msgstr "<qt><b>找不到 GnuPG 設定檔</b>。KGpg 是否應該建立一個設定檔案？</qt>"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid "Create Config"
 msgstr "建立設定檔"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid "Do Not Create"
 msgstr "不要建立"
 
-#: kgpgfirstassistant.cpp:252
+#: kgpgfirstassistant.cpp:253
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>找不到 GnuPG 設定檔</b>。</qt>"
 
-#: kgpgfirstassistant.cpp:294
+#: kgpgfirstassistant.cpp:295
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "您的 GnuPG 執行檔為：%1"
 
-#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
+#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "您的 GnuPG 版本為：%1"
 
-#: kgpgfirstassistant.cpp:316
+#: kgpgfirstassistant.cpp:317
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "您的預設金鑰為：%1"
 
-#: kgpgfirstassistant.cpp:367
+#: kgpgfirstassistant.cpp:368
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3471,37 +3475,37 @@ msgstr "變更密碼片語"
 msgid "Fingerprint"
 msgstr "指紋"
 
-#: kgpgoptions.cpp:105
+#: kgpgoptions.cpp:107
 #, kde-format
 msgid "Decryption"
 msgstr "解密"
 
-#: kgpgoptions.cpp:106
+#: kgpgoptions.cpp:108
 #, kde-format
 msgid "Appearance"
 msgstr "外觀"
 
-#: kgpgoptions.cpp:107
+#: kgpgoptions.cpp:109
 #, kde-format
 msgid "GnuPG Settings"
 msgstr "GnuPG 設定值"
 
-#: kgpgoptions.cpp:108
+#: kgpgoptions.cpp:110
 #, kde-format
 msgid "Key Servers"
 msgstr "金鑰伺服器"
 
-#: kgpgoptions.cpp:109
+#: kgpgoptions.cpp:111
 #, kde-format
 msgid "Misc"
 msgstr "雜項"
 
-#: kgpgoptions.cpp:144
+#: kgpgoptions.cpp:146
 #, kde-format
 msgid "New GnuPG Home Location"
 msgstr "新增 GnuPG 家位置"
 
-#: kgpgoptions.cpp:157
+#: kgpgoptions.cpp:159
 #, kde-format
 msgid ""
 "No configuration file was found in the selected location.\n"
@@ -3514,55 +3518,55 @@ msgstr ""
 "\n"
 "沒有組態檔案，KGpg 和 GnuPG 將無法正確運作。"
 
-#: kgpgoptions.cpp:158
+#: kgpgoptions.cpp:160
 #, kde-format
 msgid "No Configuration File Found"
 msgstr "找不到組態檔案"
 
-#: kgpgoptions.cpp:159
+#: kgpgoptions.cpp:161
 #, kde-format
 msgid "Create"
 msgstr "建立"
 
-#: kgpgoptions.cpp:160
+#: kgpgoptions.cpp:162
 #, kde-format
 msgid "Ignore"
 msgstr "忽略"
 
-#: kgpgoptions.cpp:174
+#: kgpgoptions.cpp:176
 #, kde-format
 msgid ""
 "Cannot create configuration file. Please check if destination media is "
 "mounted and if you have write access."
 msgstr "不能建立組態檔案。請檢查目的媒體是否已掛載以及您是否有寫入權限"
 
-#: kgpgoptions.cpp:197
+#: kgpgoptions.cpp:199
 #, kde-format
 msgid "Key server URLs may not contain whitespace."
 msgstr "金鑰伺服器網址不能包含空白。"
 
-#: kgpgoptions.cpp:202
+#: kgpgoptions.cpp:204
 #, kde-format
 msgid "Key server already in the list."
 msgstr "金鑰伺服器已在清單中。"
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Add New Key Server"
 msgstr "加入新的金鑰伺服器"
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Server URL:"
 msgstr "伺服器 URL:"
 
-#: kgpgoptions.cpp:464 kgpgoptions.cpp:466
+#: kgpgoptions.cpp:466 kgpgoptions.cpp:468
 #, kde-format
 msgctxt "no key available"
 msgid "none"
 msgstr "無"
 
-#: kgpgoptions.cpp:486
+#: kgpgoptions.cpp:488
 #, kde-format
 msgid "Decrypt File"
 msgstr "解密檔案"
@@ -4027,131 +4031,6 @@ msgid ""
 "Enter the ids or fingerprints of the keys to import as space separated list."
 msgstr "輸入金鑰的代碼或指紋碼以匯入。"
 
-#. i18n: ectx: @info:tipoftheday
-#: tips:2
-#, kde-format
-msgid ""
-"<p>If you want to decrypt a text file, simply drag and drop it into the "
-"editor window. KGpg will do the rest. Even remote files can be dropped.</p>\n"
-"<p>Drag a public key into the editor window and kgpg will automatically "
-"import it if you want.</p>\n"
-msgstr ""
-"<p>如果您要解密文字檔案，只要將它拖放到編輯器視窗即可。KGpg 會處理剩下的事。"
-"即使遠端檔案也同樣可以拖放。</p>\n"
-"<p>如果您想要，將公開金鑰拖放到編輯器視窗中，KGpg 會自動將它匯入。</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:7
-#, kde-format
-msgid ""
-"<p>The easiest way to encrypt a file: simply right click on the file, and "
-"you have an encrypt option in the contextual menu.\n"
-"This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
-msgstr ""
-"<p>最簡單的加密檔案方式：只要在檔案上按右鍵，您就會在快顯選單中看到加密選"
-"項。\n"
-"這在 <strong>konqueror</strong> 或您的桌面都有效！</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:13
-#, kde-format
-msgid ""
-"<p>If you want to encrypt a message for several persons, just select several "
-"encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
-msgstr ""
-"<p>如果您想要將郵件同時加密給許多人，只要按「Ctrl」鍵選擇多個加密金鑰即可。</"
-"p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:18
-#, kde-format
-msgid ""
-"<p><strong>You do not have to be an expert in encryption to use this tool?</"
-"strong><br>\n"
-"Simply create yourself a key pair in the key management window. Then, export "
-"your public key and mail it to your friends.<br>\n"
-"Ask them to do the same and import their public keys. Finally, to send an "
-"encrypted message, type it in the KGpg editor, then click &quot;"
-"encrypt&quot;. Choose\n"
-"your friend's key and click &quot;encrypt&quot; again. The message will be "
-"encrypted, ready to be sent by email.</p>\n"
-msgstr ""
-"<p><strong>您完全不了解加密也能使用此工具。</strong><br/>\n"
-"只要在金鑰管理視窗中建立您自己的金鑰對。接著，匯出您的公開金鑰並將它寄給您的"
-"朋友。<br/>\n"
-"請他們做相同的程序並匯入他們的公開金鑰。最後，要傳送加密的郵件，可在 KGpg 編"
-"輯器中輸入，然後按下「加密」。選擇您朋友的金鑰並按再次按下「加密」。這個郵件"
-"就會被加密，並且可以用電子郵件傳送。</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:26
-#, kde-format
-msgid ""
-"<p>To perform an operation on a key, open the key management window and "
-"right click on the key. A popup menu with all available options will appear."
-"</p>\n"
-msgstr ""
-"<p>要進行金鑰的操作，開啟金鑰管理視窗並在金鑰上按右鍵。就會出現彈出式選單及所"
-"有可用的選項。</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:31
-#, kde-format
-msgid ""
-"<p>Decrypt a file with a single mouse click on it. You will then be prompted "
-"for password, and then that is it!</p>\n"
-msgstr "<p>要解密檔案只要用滑鼠單擊它。您將被提示輸入密碼，就這樣！</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:36
-#, kde-format
-msgid ""
-"<p>If you only want to open the key manager, type this in the command line "
-"prompt: <pre>kgpg -k</pre>\n"
-"The editor can be reached by: <pre>kgpg -d</pre></p>\n"
-msgstr ""
-"<p>如果您只想開啟金鑰管理程式，在命令列提示中輸入 <pre>kgpg -k</pre>。\n"
-"編輯器可以用 <pre>kgpg -d</pre></p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:42
-#, kde-format
-msgid ""
-"<p>To open a file in the KGpg's editor and immediately decrypt it type: "
-"<pre>kgpg -s filename</pre></p>\n"
-msgstr ""
-"<p>要用 KGpg 的編輯器開啟檔案並直接解密，只要用 <pre>kgpg -s 檔名</pre> 即"
-"可。</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:47
-#, kde-format
-msgid ""
-"<p>If you want to change the password or expiration of a secret key simply "
-"double click on it to get the key properties dialog.</p>\n"
-msgstr ""
-"<p>如果要更換密碼或是過期的私密金鑰，只要在該金鑰上雙擊，到內容對話框即可。</"
-"p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:52
-#, kde-format
-msgid ""
-"<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the "
-"key manager.</p>\n"
-msgstr "<p>您可以在金鑰管理員中按 Ctrl+Home 取得預設金鑰。</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:57
-#, kde-format
-msgid ""
-"<p>The number of signatures is shown as a tooltip if you hover the mouse on "
-"the size column in key manager. A key has to be expanded once for this to "
-"work.</p>\n"
-msgstr ""
-"<p>若您將滑鼠移到金鑰管理員的大小欄位的上方，會出現工具提示顯示簽章的數量。金"
-"鑰必須先展開一次才能生效。</p>\n"
-
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "This image is very large. Use it anyway?"
@@ -4543,6 +4422,110 @@ msgstr "<para>該簽章是有效的，但是金鑰不被信任。</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>該簽章是有效的，而這個金鑰是被絕對信任的。</para>"
+
+#~ msgid ""
+#~ "The document could not been saved, as the selected encoding cannot encode "
+#~ "every unicode character in it."
+#~ msgstr "無法儲存這個文件，因為選取的編碼無法包含文件中的所有 unicode 編碼。"
+
+#~ msgid "Tip of the &Day"
+#~ msgstr "每日一訣(&D)"
+
+#~ msgid "Show tip of the day."
+#~ msgstr "顯示每日一訣。"
+
+#~ msgid ""
+#~ "<p>If you want to decrypt a text file, simply drag and drop it into the "
+#~ "editor window. KGpg will do the rest. Even remote files can be dropped.</"
+#~ "p>\n"
+#~ "<p>Drag a public key into the editor window and kgpg will automatically "
+#~ "import it if you want.</p>\n"
+#~ msgstr ""
+#~ "<p>如果您要解密文字檔案，只要將它拖放到編輯器視窗即可。KGpg 會處理剩下的"
+#~ "事。即使遠端檔案也同樣可以拖放。</p>\n"
+#~ "<p>如果您想要，將公開金鑰拖放到編輯器視窗中，KGpg 會自動將它匯入。</p>\n"
+
+#~ msgid ""
+#~ "<p>The easiest way to encrypt a file: simply right click on the file, and "
+#~ "you have an encrypt option in the contextual menu.\n"
+#~ "This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
+#~ msgstr ""
+#~ "<p>最簡單的加密檔案方式：只要在檔案上按右鍵，您就會在快顯選單中看到加密選"
+#~ "項。\n"
+#~ "這在 <strong>konqueror</strong> 或您的桌面都有效！</p>\n"
+
+#~ msgid ""
+#~ "<p>If you want to encrypt a message for several persons, just select "
+#~ "several encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
+#~ msgstr ""
+#~ "<p>如果您想要將郵件同時加密給許多人，只要按「Ctrl」鍵選擇多個加密金鑰即"
+#~ "可。</p>\n"
+
+#~ msgid ""
+#~ "<p><strong>You do not have to be an expert in encryption to use this tool?"
+#~ "</strong><br>\n"
+#~ "Simply create yourself a key pair in the key management window. Then, "
+#~ "export your public key and mail it to your friends.<br>\n"
+#~ "Ask them to do the same and import their public keys. Finally, to send an "
+#~ "encrypted message, type it in the KGpg editor, then click &quot;"
+#~ "encrypt&quot;. Choose\n"
+#~ "your friend's key and click &quot;encrypt&quot; again. The message will "
+#~ "be encrypted, ready to be sent by email.</p>\n"
+#~ msgstr ""
+#~ "<p><strong>您完全不了解加密也能使用此工具。</strong><br/>\n"
+#~ "只要在金鑰管理視窗中建立您自己的金鑰對。接著，匯出您的公開金鑰並將它寄給您"
+#~ "的朋友。<br/>\n"
+#~ "請他們做相同的程序並匯入他們的公開金鑰。最後，要傳送加密的郵件，可在 KGpg "
+#~ "編輯器中輸入，然後按下「加密」。選擇您朋友的金鑰並按再次按下「加密」。這個"
+#~ "郵件就會被加密，並且可以用電子郵件傳送。</p>\n"
+
+#~ msgid ""
+#~ "<p>To perform an operation on a key, open the key management window and "
+#~ "right click on the key. A popup menu with all available options will "
+#~ "appear.</p>\n"
+#~ msgstr ""
+#~ "<p>要進行金鑰的操作，開啟金鑰管理視窗並在金鑰上按右鍵。就會出現彈出式選單"
+#~ "及所有可用的選項。</p>\n"
+
+#~ msgid ""
+#~ "<p>Decrypt a file with a single mouse click on it. You will then be "
+#~ "prompted for password, and then that is it!</p>\n"
+#~ msgstr "<p>要解密檔案只要用滑鼠單擊它。您將被提示輸入密碼，就這樣！</p>\n"
+
+#~ msgid ""
+#~ "<p>If you only want to open the key manager, type this in the command "
+#~ "line prompt: <pre>kgpg -k</pre>\n"
+#~ "The editor can be reached by: <pre>kgpg -d</pre></p>\n"
+#~ msgstr ""
+#~ "<p>如果您只想開啟金鑰管理程式，在命令列提示中輸入 <pre>kgpg -k</pre>。\n"
+#~ "編輯器可以用 <pre>kgpg -d</pre></p>\n"
+
+#~ msgid ""
+#~ "<p>To open a file in the KGpg's editor and immediately decrypt it type: "
+#~ "<pre>kgpg -s filename</pre></p>\n"
+#~ msgstr ""
+#~ "<p>要用 KGpg 的編輯器開啟檔案並直接解密，只要用 <pre>kgpg -s 檔名</pre> 即"
+#~ "可。</p>\n"
+
+#~ msgid ""
+#~ "<p>If you want to change the password or expiration of a secret key "
+#~ "simply double click on it to get the key properties dialog.</p>\n"
+#~ msgstr ""
+#~ "<p>如果要更換密碼或是過期的私密金鑰，只要在該金鑰上雙擊，到內容對話框即"
+#~ "可。</p>\n"
+
+#~ msgid ""
+#~ "<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in "
+#~ "the key manager.</p>\n"
+#~ msgstr "<p>您可以在金鑰管理員中按 Ctrl+Home 取得預設金鑰。</p>\n"
+
+#~ msgid ""
+#~ "<p>The number of signatures is shown as a tooltip if you hover the mouse "
+#~ "on the size column in key manager. A key has to be expanded once for this "
+#~ "to work.</p>\n"
+#~ msgstr ""
+#~ "<p>若您將滑鼠移到金鑰管理員的大小欄位的上方，會出現工具提示顯示簽章的數"
+#~ "量。金鑰必須先展開一次才能生效。</p>\n"
 
 #~ msgctxt "search filter for gpg binary"
 #~ msgid ""

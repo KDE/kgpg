@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg 0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:40+0000\n"
+"POT-Creation-Date: 2024-01-04 01:36+0000\n"
 "PO-Revision-Date: 2011-07-22 17:00+0200\n"
 "Last-Translator: Marko Dimjašević <marko@dimjasevic.net>\n"
 "Language-Team: Croatian <kde-croatia-list@lists.sourceforge.net>\n"
@@ -140,7 +140,7 @@ msgstr "Prilagođena naredba dekriptiranja:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Encryption)
 #. i18n: ectx: property (text), widget (QCheckBox, capEncrypt)
-#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:104
+#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:106
 #, kde-format
 msgid "Encryption"
 msgstr "Kriptiranje"
@@ -396,7 +396,7 @@ msgid "Change..."
 msgstr "Promijeni …"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "Izvršna datoteka GnuPG-a"
@@ -537,7 +537,7 @@ msgstr "Servisni izbornik za potpisivanje datoteka:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:304
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:296
 #, kde-format
 msgid "Disable"
 msgstr "Onemogući"
@@ -609,7 +609,7 @@ msgstr "Upravitelj ključevima"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #. i18n: ectx: attribute (title), widget (QWidget, tabEditor)
-#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:499
+#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:503
 #, kde-format
 msgid "Editor"
 msgstr "Uređivač"
@@ -796,25 +796,25 @@ msgid "Sort Order"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:253 kgpgoptions.cpp:98
+#: conf_ui2.ui:253 kgpgoptions.cpp:100
 #, kde-format
 msgid "Left to right, account first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:258 kgpgoptions.cpp:99
+#: conf_ui2.ui:258 kgpgoptions.cpp:101
 #, kde-format
 msgid "Right to left, TLD first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:263 kgpgoptions.cpp:100
+#: conf_ui2.ui:263 kgpgoptions.cpp:102
 #, kde-format
 msgid "Right to left, domain first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:268 kgpgoptions.cpp:101
+#: conf_ui2.ui:268 kgpgoptions.cpp:103
 #, kde-format
 msgid "Right to left, FQDN first"
 msgstr ""
@@ -1055,63 +1055,63 @@ msgstr "Fotografski id"
 msgid "Info"
 msgstr "Info"
 
-#: editor/kgpgeditor.cpp:84 editor/kgpgeditor.cpp:231 editor/kgpgeditor.cpp:729
-#: editor/kgpgeditor.cpp:758
+#: editor/kgpgeditor.cpp:90 editor/kgpgeditor.cpp:240 editor/kgpgeditor.cpp:726
+#: editor/kgpgeditor.cpp:755
 #, kde-format
 msgid "Untitled"
 msgstr "Bez naslova"
 
-#: editor/kgpgeditor.cpp:177
+#: editor/kgpgeditor.cpp:186
 #, kde-format
 msgid "&Encrypt File..."
 msgstr "Kriptiraj datot&eku"
 
-#: editor/kgpgeditor.cpp:181
+#: editor/kgpgeditor.cpp:190
 #, kde-format
 msgid "&Decrypt File..."
 msgstr "&Dekriptiraj datoteku …"
 
-#: editor/kgpgeditor.cpp:185
+#: editor/kgpgeditor.cpp:194
 #, kde-format
 msgid "&Open Key Manager"
 msgstr "&Otvori upravitelja ključeva"
 
-#: editor/kgpgeditor.cpp:188
+#: editor/kgpgeditor.cpp:197
 #, kde-format
 msgid "&Generate Signature..."
 msgstr "&Stvori potpis…"
 
-#: editor/kgpgeditor.cpp:192
+#: editor/kgpgeditor.cpp:201
 #, kde-format
 msgid "&Verify Signature..."
 msgstr "&Ovjeri potpis …"
 
-#: editor/kgpgeditor.cpp:195
+#: editor/kgpgeditor.cpp:204
 #, kde-format
 msgid "&Check MD5 Sum..."
 msgstr "&Provjeri MD5 sumu …"
 
-#: editor/kgpgeditor.cpp:198
+#: editor/kgpgeditor.cpp:207
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
 msgstr "Uznačivanje &Unicode (utf-8)"
 
-#: editor/kgpgeditor.cpp:204
+#: editor/kgpgeditor.cpp:213
 #, kde-format
 msgid "En&crypt"
 msgstr "&Kriptiraj"
 
-#: editor/kgpgeditor.cpp:208
+#: editor/kgpgeditor.cpp:217
 #, kde-format
 msgid "&Decrypt"
 msgstr "&Dekriptiraj"
 
-#: editor/kgpgeditor.cpp:212
+#: editor/kgpgeditor.cpp:221
 #, kde-format
 msgid "S&ign/Verify"
 msgstr "Potp&iši/provjeri"
 
-#: editor/kgpgeditor.cpp:235
+#: editor/kgpgeditor.cpp:244
 #, kde-format
 msgid ""
 "The document \"%1\" has changed.\n"
@@ -1120,28 +1120,19 @@ msgstr ""
 "Promijenjen je dokument \"%1\".\n"
 "Želite li ga spremiti?"
 
-#: editor/kgpgeditor.cpp:236
+#: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid "Close the document"
 msgstr "Zatvori dokument"
 
-#: editor/kgpgeditor.cpp:282
+#: editor/kgpgeditor.cpp:291
 #, kde-format
 msgid ""
 "The document could not been saved, as the selected codec is not supported."
 msgstr ""
 "Dokument nije mogao biti spremljen jer odabrano uznačivanje nije podržano."
 
-#: editor/kgpgeditor.cpp:288
-#, kde-format
-msgid ""
-"The document could not been saved, as the selected encoding cannot encode "
-"every unicode character in it."
-msgstr ""
-"Dokument nije mogao biti spremljen jer odabrano uznačivanje ne može uznačiti "
-"svaki znak univerzalnog skupa u dokumentu."
-
-#: editor/kgpgeditor.cpp:297 editor/kgpgeditor.cpp:313
+#: editor/kgpgeditor.cpp:300 editor/kgpgeditor.cpp:317
 #, kde-format
 msgid ""
 "The document could not be saved, please check your permissions and disk "
@@ -1149,55 +1140,55 @@ msgid ""
 msgstr ""
 "Dokument nije mogao biti spremljen, provjerite dozvole i prostor na disku."
 
-#: editor/kgpgeditor.cpp:338 editor/kgpgeditor.cpp:349 keyexport.cpp:37
+#: editor/kgpgeditor.cpp:342 editor/kgpgeditor.cpp:353 keyexport.cpp:37
 #, kde-format
 msgid "Overwrite existing file %1?"
 msgstr "Prepisati preko postojeće datoteke %1?"
 
-#: editor/kgpgeditor.cpp:463
+#: editor/kgpgeditor.cpp:467
 #, kde-format
 msgid "Open File to Encode"
 msgstr "Otvori datoteku koju treba kodirati"
 
-#: editor/kgpgeditor.cpp:463 editor/kgpgeditor.cpp:472
-#: editor/kgpgeditor.cpp:614 editor/kgpgeditor.cpp:652
-#: editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:467 editor/kgpgeditor.cpp:476
+#: editor/kgpgeditor.cpp:611 editor/kgpgeditor.cpp:649
+#: editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "*|All Files"
 msgstr "*|Sve datoteke"
 
-#: editor/kgpgeditor.cpp:472
+#: editor/kgpgeditor.cpp:476
 #, kde-format
 msgid "Open File to Decode"
 msgstr "Otvori datoteku koju treba dekodirati"
 
-#: editor/kgpgeditor.cpp:486
+#: editor/kgpgeditor.cpp:490
 #, kde-format
 msgid "Decrypt File To"
 msgstr "Dekriptiraj datoteku u"
 
-#: editor/kgpgeditor.cpp:497 keyexport.cpp:20
+#: editor/kgpgeditor.cpp:501 keyexport.cpp:20
 #, kde-format
 msgid "Save File"
 msgstr "Spremi datoteku"
 
-#: editor/kgpgeditor.cpp:523 kgpgexternalactions.cpp:203
-#: kgpgexternalactions.cpp:362 transactions/kgpgtransactionprivate.cpp:107
+#: editor/kgpgeditor.cpp:527 kgpgexternalactions.cpp:204
+#: kgpgexternalactions.cpp:363 transactions/kgpgtransactionprivate.cpp:107
 #, kde-format
 msgid "File Already Exists"
 msgstr "Datoteka već postoji"
 
-#: editor/kgpgeditor.cpp:614
+#: editor/kgpgeditor.cpp:611
 #, kde-format
 msgid "Open File to Sign"
 msgstr "Otvori datoteku koju treba potpisati"
 
-#: editor/kgpgeditor.cpp:652 editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:649 editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "Open File to Verify"
 msgstr "Otvori datoteku koju treba provjeriti"
 
-#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:337
+#: editor/kgpgeditor.cpp:696 editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid ""
 "<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to "
@@ -1207,12 +1198,12 @@ msgstr ""
 "ovaj ključ s poslužitelja za ključeve?</qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
-#: editor/kgpgeditor.cpp:700 keyserver.ui:33 keytreeview.cpp:158
+#: editor/kgpgeditor.cpp:697 keyserver.ui:33 keytreeview.cpp:158
 #, kde-format
 msgid "Import"
 msgstr "Uvoz"
 
-#: editor/kgpgeditor.cpp:700 keytreeview.cpp:159
+#: editor/kgpgeditor.cpp:697 keytreeview.cpp:159
 #, kde-format
 msgid "Do Not Import"
 msgstr "Ne uvezuj"
@@ -1264,7 +1255,7 @@ msgstr "<b>Ispravna kontrolna suma</b>, datoteka je u redu."
 msgid "<b>Wrong checksum, <em>file corrupted</em></b>"
 msgstr "<b>Neispravna kontrolna suma, <em>datoteka oštećena</em></b>"
 
-#: editor/kgpgtextedit.cpp:84
+#: editor/kgpgtextedit.cpp:85
 #, kde-format
 msgid ""
 "<qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a "
@@ -1275,12 +1266,12 @@ msgstr ""
 "kopirana u privremenu datoteku radi obrade zahtjevane operacije. Ova "
 "privremena datoteka bit će izbrisana nakon operacije.</qt>"
 
-#: editor/kgpgtextedit.cpp:93
+#: editor/kgpgtextedit.cpp:94
 #, kde-format
 msgid "Could not download file."
 msgstr "Preuzimanje datoteke se nije moglo izvršiti."
 
-#: editor/kgpgtextedit.cpp:129
+#: editor/kgpgtextedit.cpp:130
 #, kde-format
 msgid ""
 "<qt>This file is a <b>public</b> key.<br />Do you want to import it instead "
@@ -1289,7 +1280,7 @@ msgstr ""
 "<qt>Ova je datoteka <b>javni</b> ključ.<br />Želite li ga uvesti umjesto "
 "otvoriti u uređivaču?</qt>"
 
-#: editor/kgpgtextedit.cpp:132
+#: editor/kgpgtextedit.cpp:133
 #, kde-format
 msgid ""
 "<qt>This file is a <b>private</b> key.<br />Do you want to import it instead "
@@ -1298,60 +1289,75 @@ msgstr ""
 "<qt>Ova je datoteka <b>privatni</b> ključ.<br />Želite li ga uvesti umjesto "
 "otvoriti u uređivaču?</qt>"
 
-#: editor/kgpgtextedit.cpp:137
+#: editor/kgpgtextedit.cpp:138
 #, kde-format
 msgid "Key file dropped on Editor"
 msgstr "Datoteka ključa ubačena je u uređivač"
 
-#: editor/kgpgtextedit.cpp:260 kgpgexternalactions.cpp:402
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgid "Years"
+msgctxt "@action:button"
+msgid "Yes"
+msgstr "Godine"
+
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgctxt "No trust in key"
+#| msgid "None"
+msgctxt "@action:button"
+msgid "No"
+msgstr "Nema"
+
+#: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
 msgid "Decryption failed."
 msgstr "Neuspjelo dekriptiranje."
 
-#: editor/kgpgtextedit.cpp:275 foldercompressjob.cpp:132
+#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:132
 #, kde-format
 msgid "The encryption failed with error code %1"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:133
+#: editor/kgpgtextedit.cpp:277 foldercompressjob.cpp:133
 #, kde-format
 msgid "Encryption failed."
 msgstr "Kriptiranje nije uspjelo."
 
-#: editor/kgpgtextedit.cpp:289
+#: editor/kgpgtextedit.cpp:290
 #, kde-format
 msgid "Signing not possible: bad passphrase or missing key"
 msgstr ""
 "Potpisivanje nije moguće: tajni izraz je neispravan ili nedostaje ključ"
 
-#: editor/kgpgtextedit.cpp:324 kgpgexternalactions.cpp:281
+#: editor/kgpgtextedit.cpp:325 kgpgexternalactions.cpp:282
 #, kde-format
 msgctxt "Caption of message box"
 msgid "Verification Finished"
 msgstr "Provjera završena"
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonimport)
-#: editor/kgpgtextedit.cpp:330 keyserver.ui:145 keyservers.cpp:201
+#: editor/kgpgtextedit.cpp:331 keyserver.ui:145 keyservers.cpp:201
 #, kde-format
 msgid "&Import"
 msgstr "&Uvoz"
 
-#: editor/kgpgtextedit.cpp:331
+#: editor/kgpgtextedit.cpp:333
 #, kde-format
 msgid "Import key in your list"
 msgstr "Uvezi ključ u vašu listu"
 
-#: editor/kgpgtextedit.cpp:334
+#: editor/kgpgtextedit.cpp:337
 #, kde-format
 msgid "Do &Not Import"
 msgstr "&Ne uvezuj"
 
-#: editor/kgpgtextedit.cpp:335
+#: editor/kgpgtextedit.cpp:339
 #, kde-format
 msgid "Will not import this key in your list"
 msgstr "Neću uvesti ovaj ključ u vašu listu"
 
-#: editor/kgpgtextedit.cpp:337
+#: editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid "Missing Key"
 msgstr "Nedostajući ključ"
@@ -1433,7 +1439,7 @@ msgstr "Dostupni ključevi kojima se vjeruje"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:426 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:418 searchres.ui:29
 #, kde-format
 msgid "Search:"
 msgstr "Pretraživanje:"
@@ -1804,243 +1810,238 @@ msgstr "Pronađen je %1 podudarni ključ"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "Pronađen je %1 podudarni ključ"
 
-#: keysmanager.cpp:126
+#: keysmanager.cpp:125
 #, kde-format
 msgid "Key Management"
 msgstr "Upravljanje ključevima"
 
-#: keysmanager.cpp:133
+#: keysmanager.cpp:132
 #, kde-format
 msgid "&Open Editor"
 msgstr "&Otvori uređivač"
 
-#: keysmanager.cpp:136
+#: keysmanager.cpp:135
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "Dijalog za poslužitelja za &ključeve"
 
-#: keysmanager.cpp:141 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:140 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "&Idi na zadani ključ"
 
-#: keysmanager.cpp:158
-#, kde-format
-msgid "Tip of the &Day"
-msgstr "Savjet dana"
-
-#: keysmanager.cpp:161
+#: keysmanager.cpp:153
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "Pokaži uputstvo GnuPG-a"
 
-#: keysmanager.cpp:166
+#: keysmanager.cpp:158
 #, kde-format
 msgid "&Refresh List"
 msgstr "&Osvježi popis"
 
-#: keysmanager.cpp:170
+#: keysmanager.cpp:162
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr "Prikaži &dugi Id ključa"
 
-#: keysmanager.cpp:175
+#: keysmanager.cpp:167
 #, kde-format
 msgid "K&ey Properties"
 msgstr "Svojstva &ključa"
 
-#: keysmanager.cpp:179
+#: keysmanager.cpp:171
 #, fuzzy, kde-format
 #| msgid "&Open Key Manager"
 msgid "&Open Key URL"
 msgstr "&Otvori upravitelja ključeva"
 
-#: keysmanager.cpp:183
+#: keysmanager.cpp:175
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "Uredi ključ u &Terminalu"
 
-#: keysmanager.cpp:188
+#: keysmanager.cpp:180
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "Stvori par &ključeva …"
 
-#: keysmanager.cpp:197
+#: keysmanager.cpp:189
 #, kde-format
 msgid "&Import Key..."
 msgstr "U&vezi ključ …"
 
-#: keysmanager.cpp:202
+#: keysmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Send with every Email"
 msgid "Send Ema&il"
 msgstr "Šalji sa svakom e-poštom"
 
-#: keysmanager.cpp:206
+#: keysmanager.cpp:198
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "&Napravi novi kontakt u adresaru"
 
-#: keysmanager.cpp:212
+#: keysmanager.cpp:204
 #, kde-format
 msgid "&Edit Group..."
 msgstr "&Uredi grupu …"
 
-#: keysmanager.cpp:215
+#: keysmanager.cpp:207
 #, kde-format
 msgid "&Delete Group"
 msgstr "O&briši grupu"
 
-#: keysmanager.cpp:219
+#: keysmanager.cpp:211
 #, kde-format
 msgid "&Rename Group"
 msgstr "P&reimenuj grupu"
 
-#: keysmanager.cpp:228
+#: keysmanager.cpp:220
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "Posta&vi kao zadani ključ"
 
-#: keysmanager.cpp:231
+#: keysmanager.cpp:223
 #, kde-format
 msgid "&Add Photo..."
 msgstr "Dod&aj fotografiju …"
 
-#: keysmanager.cpp:234
+#: keysmanager.cpp:226
 #, kde-format
 msgid "&Add User Id..."
 msgstr "Dod&aj Id korisnika"
 
-#: keysmanager.cpp:237
+#: keysmanager.cpp:229
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "Izvezi tajni ključ …"
 
-#: keysmanager.cpp:240
+#: keysmanager.cpp:232
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "Izbriši par ključeva"
 
-#: keysmanager.cpp:244
+#: keysmanager.cpp:236
 #, kde-format
 msgid "Revoke Key..."
 msgstr "Opozovi ključ …"
 
-#: keysmanager.cpp:247
+#: keysmanager.cpp:239
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "Ponovno stvo&ri javni ključ"
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:245
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr "Postavi korisnički Id kao &primarni"
 
-#: keysmanager.cpp:257
+#: keysmanager.cpp:249
 #, kde-format
 msgid "&Open Photo"
 msgstr "&Otvori fotografiju"
 
-#: keysmanager.cpp:261
+#: keysmanager.cpp:253
 #, kde-format
 msgid "&Delete Photo"
 msgstr "O&briši fotografiju"
 
-#: keysmanager.cpp:269
+#: keysmanager.cpp:261
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "Uvezi &nedostajuće potpise s poslužitelja za ključeve"
 
-#: keysmanager.cpp:287 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:279 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "Povjerenje"
 
-#: keysmanager.cpp:290 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:282 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "Veličina"
 
-#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:285 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "Stvoreno"
 
-#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:288 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "Ističe"
 
-#: keysmanager.cpp:300
+#: keysmanager.cpp:292
 #, kde-format
 msgid "&Photo ID's"
 msgstr "&Fotografski ID-ovi"
 
-#: keysmanager.cpp:305
+#: keysmanager.cpp:297
 #, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "Malena"
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:298
 #, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "Srednja"
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:299
 #, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "Velika"
 
-#: keysmanager.cpp:311
+#: keysmanager.cpp:303
 #, kde-format
 msgid "Minimum &Trust"
 msgstr "Najmanje &povjerenje"
 
-#: keysmanager.cpp:314
+#: keysmanager.cpp:306
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "&Ništa"
 
-#: keysmanager.cpp:315
+#: keysmanager.cpp:307
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr "&Aktivni"
 
-#: keysmanager.cpp:316
+#: keysmanager.cpp:308
 #, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "&Marginalno"
 
-#: keysmanager.cpp:317
+#: keysmanager.cpp:309
 #, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "&Potpuno"
 
-#: keysmanager.cpp:318
+#: keysmanager.cpp:310
 #, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "Bez&uvjetno"
 
-#: keysmanager.cpp:343
+#: keysmanager.cpp:335
 #, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "Pokaži &samo tajne ključeve"
 
-#: keysmanager.cpp:443
+#: keysmanager.cpp:435
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "Fokusiraj traku za pretraživanje"
 
-#: keysmanager.cpp:486
+#: keysmanager.cpp:483
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
@@ -2049,65 +2050,65 @@ msgstr ""
 "Još jedna operacija stvaranja ključa je u tijeku.\n"
 "Pričekajte trenutak da operacija završi."
 
-#: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
+#: keysmanager.cpp:484 keysmanager.cpp:522 keysmanager.cpp:570
 #, kde-format
 msgid "Generating new key pair"
 msgstr "Stvaram novi par ključeva"
 
-#: keysmanager.cpp:526
+#: keysmanager.cpp:523
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "Ne mogu pokrenuti aplikaciju \"konsole\" za napredni način."
 
-#: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
+#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "Spremna"
 
-#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:574 transactions/kgpggeneratekey.cpp:194
 #, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "Neispravan tajni izraz. Nije moguće stvoriti novi par ključeva."
 
-#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr "Prekinuto od strane korisnika. Nije moguće stvoriti novi par ključeva."
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr "Adresa e-pošte nije valjajuća. Nije moguće stvoriti novi par ključeva."
 
-#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:203
 #, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr ""
 "Ime nije prihvaćeno od strane gpg-a. Ne mogu stvoriti novi par ključeva."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:592 newkey.ui:14
+#: keysmanager.cpp:589 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "Stvoren novi par ključeva"
 
-#: keysmanager.cpp:631
+#: keysmanager.cpp:628
 #, kde-format
 msgid "backup copy"
 msgstr "rezervna kopija"
 
-#: keysmanager.cpp:645 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:642 transactions/kgpggeneratekey.cpp:215
 #, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "Proces gpg-a nije završio. Nije moguće stvoriti novi par ključeva."
 
-#: keysmanager.cpp:749
+#: keysmanager.cpp:736
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr "Možete osvježiti samo primarne ključeve. Provjerite vaš odabir."
 
-#: keysmanager.cpp:873
+#: keysmanager.cpp:860
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
@@ -2116,12 +2117,12 @@ msgstr ""
 "Još jedna operacija je u tijeku.\n"
 "Pričekajte trenutak da operacija završi."
 
-#: keysmanager.cpp:874 keysmanager.cpp:879
+#: keysmanager.cpp:861 keysmanager.cpp:866
 #, kde-format
 msgid "Add New User Id"
 msgstr "Dodaj novi korisnički Id"
 
-#: keysmanager.cpp:919
+#: keysmanager.cpp:906
 #, kde-format
 msgid ""
 "The image must be a JPEG file. Remember that the image is stored within your "
@@ -2134,7 +2135,7 @@ msgstr ""
 "vašeg ključa također biti pozamašna. Veličina ne bi trebala prelaziti 6 KiB. "
 "Preporuča se slika veličine oko 240x288."
 
-#: keysmanager.cpp:951
+#: keysmanager.cpp:938
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2143,58 +2144,58 @@ msgstr ""
 "<qt>Jeste li sigurni da želite izbrisati fotografski id <b>%1</b><br/>iz "
 "ključa <b>%2 &lt;%3&gt;</b>?</qt>"
 
-#: keysmanager.cpp:1094
+#: keysmanager.cpp:1076
 #, kde-format
 msgid "Public Key"
 msgstr "Javni ključ"
 
-#: keysmanager.cpp:1097
+#: keysmanager.cpp:1079
 #, kde-format
 msgid "Sub Key"
 msgstr "Podključ"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1082
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "Tajni par ključeva"
 
-#: keysmanager.cpp:1103
+#: keysmanager.cpp:1085
 #, kde-format
 msgid "Key Group"
 msgstr "Grupa ključeva"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1106 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1088 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "Potpis"
 
-#: keysmanager.cpp:1109
+#: keysmanager.cpp:1091
 #, kde-format
 msgid "User ID"
 msgstr "Broj korisnika"
 
-#: keysmanager.cpp:1112
+#: keysmanager.cpp:1094
 #, kde-format
 msgid "Revocation Signature"
 msgstr "Opozivajući potpis"
 
-#: keysmanager.cpp:1115
+#: keysmanager.cpp:1097
 #, kde-format
 msgid "Photo ID"
 msgstr "Fotografski ID"
 
-#: keysmanager.cpp:1118
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "Tajni ključ bez javnog ključa"
 
-#: keysmanager.cpp:1123
+#: keysmanager.cpp:1105
 #, kde-format
 msgid "Group member"
 msgstr "Član grupe"
 
-#: keysmanager.cpp:1228
+#: keysmanager.cpp:1208
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
@@ -2202,7 +2203,7 @@ msgstr[0] "Potpiši kori&snički ID …"
 msgstr[1] "Potpiši kori&sničke ID-ove …"
 msgstr[2] "Potpiši kori&sničke ID-ove …"
 
-#: keysmanager.cpp:1229
+#: keysmanager.cpp:1209
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
@@ -2210,7 +2211,7 @@ msgstr[0] "Potpiši i pošalji e-pošto&m korisnički ID …"
 msgstr[1] "Potpiši i pošalji e-pošto&m korisničke ID-ove …"
 msgstr[2] "Potpiši i pošalji e-pošto&m korisničke ID-ove …"
 
-#: keysmanager.cpp:1230
+#: keysmanager.cpp:1210
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
@@ -2218,7 +2219,7 @@ msgstr[0] "I&zvezi javni ključ …"
 msgstr[1] "I&zvezi javne ključeve …"
 msgstr[2] "I&zvezi javne ključeve …"
 
-#: keysmanager.cpp:1231
+#: keysmanager.cpp:1211
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
@@ -2226,7 +2227,7 @@ msgstr[0] "&Osvježi ključ s poslužitelja za ključeve"
 msgstr[1] "&Osvježi ključeve s poslužitelja za ključeve"
 msgstr[2] "&Osvježi ključeve s poslužitelja za ključeve"
 
-#: keysmanager.cpp:1232
+#: keysmanager.cpp:1212
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
@@ -2234,7 +2235,7 @@ msgstr[0] "Stvori gr&upu s odabranim ključem …"
 msgstr[1] "Stvori gr&upu s odabranim ključevima …"
 msgstr[2] "Stvori gr&upu s odabranim ključevima …"
 
-#: keysmanager.cpp:1233
+#: keysmanager.cpp:1213
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
@@ -2242,7 +2243,7 @@ msgstr[0] "Po&tpiši ključ …"
 msgstr[1] "Po&tpiši ključeve …"
 msgstr[2] "Po&tpiši ključeve …"
 
-#: keysmanager.cpp:1234
+#: keysmanager.cpp:1214
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
@@ -2250,7 +2251,7 @@ msgstr[0] "Izbriši I&D korisnika"
 msgstr[1] "Izbriši I&D-ove korisnika"
 msgstr[2] "Izbriši I&D-ove korisnika"
 
-#: keysmanager.cpp:1235
+#: keysmanager.cpp:1215
 #, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
@@ -2258,7 +2259,7 @@ msgstr[0] "Izbriši po&tpis"
 msgstr[1] "Izbriši po&tpise"
 msgstr[2] "Izbriši po&tpise"
 
-#: keysmanager.cpp:1236
+#: keysmanager.cpp:1216
 #, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
@@ -2266,7 +2267,7 @@ msgstr[0] "Uvezi ključ sa poslužitelja za ključeve"
 msgstr[1] "Uvezi ključeve sa poslužitelja za ključeve"
 msgstr[2] "Uvezi ključeve sa poslužitelja za ključeve"
 
-#: keysmanager.cpp:1237
+#: keysmanager.cpp:1217
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
@@ -2274,12 +2275,12 @@ msgstr[0] "O&briši ključ"
 msgstr[1] "O&briši ključeve"
 msgstr[2] "O&briši ključeve"
 
-#: keysmanager.cpp:1360
+#: keysmanager.cpp:1340
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "Stvaranje opozivajućeg certifikata nije uspjelo …"
 
-#: keysmanager.cpp:1375
+#: keysmanager.cpp:1355
 #, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2290,17 +2291,17 @@ msgstr ""
 ">Kriptiranje ovim ključem bit će kompromitirano ako netko drugi može "
 "pristupiti ovoj datoteci.<br/>Nastaviti s izvozom ključa?</qt>"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "Izvezi PRIVATNI KLJUČ kao"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr "*.asc|*.asc datoteke"
 
-#: keysmanager.cpp:1405
+#: keysmanager.cpp:1385
 #, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
@@ -2309,7 +2310,7 @@ msgstr ""
 "<qt>Vaš <b>privatni</b> ključ \"%1\" je uspješno izvezen u<br/>%2.<br/><b>Ne "
 "ostavljajte</b> ga na nesigurnim mjestima.</qt>"
 
-#: keysmanager.cpp:1408
+#: keysmanager.cpp:1388
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2318,7 +2319,7 @@ msgstr ""
 "Vaš tajni ključ nije moguće izvesti.\n"
 "Provjerite ključ."
 
-#: keysmanager.cpp:1510
+#: keysmanager.cpp:1490
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
@@ -2326,7 +2327,7 @@ msgstr[0] "<qt>%1 javni ključ je uspješno izvezen u<br/>%2</qt>"
 msgstr[1] "<qt>%1 javna ključa su uspješno izvezena u<br/>%2</qt>"
 msgstr[2] "<qt>%1 javnih ključeva je uspješno izvezeno u<br/>%2</qt>"
 
-#: keysmanager.cpp:1514 keysmanager.cpp:1529 keysmanager.cpp:1543
+#: keysmanager.cpp:1494 keysmanager.cpp:1509 keysmanager.cpp:1523
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2335,7 +2336,7 @@ msgstr ""
 "Vaš javni ključ se nije mogao izvesti\n"
 "Provjerite ključ."
 
-#: keysmanager.cpp:1652
+#: keysmanager.cpp:1632
 #, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
@@ -2344,27 +2345,27 @@ msgstr ""
 "<p>Ovaj ključ je tajni ključ bez javnog ključa. Trenutno nije upotrebljiv.</"
 "p><p>Želite li ponovno stvoriti javni ključ?</p>"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, kde-format
 msgid "Generate"
 msgstr "Stvori"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, kde-format
 msgid "Do Not Generate"
 msgstr "Nemoj stvoriti"
 
-#: keysmanager.cpp:1684
+#: keysmanager.cpp:1664
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Jeste li sigurni da želite izbrisati grupu <b>%1</b> ?</qt>"
 
-#: keysmanager.cpp:1685 keysmanager.cpp:2355
+#: keysmanager.cpp:1665 keysmanager.cpp:2335
 #, kde-format
 msgid "Delete"
 msgstr "Izbriši"
 
-#: keysmanager.cpp:1715
+#: keysmanager.cpp:1695
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2373,24 +2374,24 @@ msgstr ""
 "<qt>Ne možete stvoriti grupu koja sadrži potpise, podključeve ili druge "
 "grupe.</qt>"
 
-#: keysmanager.cpp:1730 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1710 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr "%1 (%2) ID: %3"
 
-#: keysmanager.cpp:1735
+#: keysmanager.cpp:1715
 #, kde-format
 msgid "Create New Group"
 msgstr "Stvori novu grupu"
 
-#: keysmanager.cpp:1736
+#: keysmanager.cpp:1716
 #, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "Unesite ime nove grupe:"
 
-#: keysmanager.cpp:1741
+#: keysmanager.cpp:1721
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
@@ -2399,7 +2400,7 @@ msgstr ""
 "Sljedeći ključevi nisu važeći ili im se ne vjeruje te stoga neće biti dodani "
 "u grupu:"
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1727
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2408,17 +2409,17 @@ msgstr ""
 "<qt>Nije odabran nijedan važeći ili ključ od povjerenja. Grupa <b>%1</b> "
 "neće biti stvorena.</qt>"
 
-#: keysmanager.cpp:1759
+#: keysmanager.cpp:1739
 #, kde-format
 msgid "Group Properties"
 msgstr "Svojstva grupe"
 
-#: keysmanager.cpp:1795
+#: keysmanager.cpp:1775
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "Možete potpisivati samo primarne ključeve. Provjerite svoj odabir."
 
-#: keysmanager.cpp:1804
+#: keysmanager.cpp:1784
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2431,7 +2432,7 @@ msgstr ""
 "sastajanjem s vlasnikom ključa kako biste se uvjerili da netko ne pokušava "
 "presresti vašu komunikaciju.</qt>"
 
-#: keysmanager.cpp:1809
+#: keysmanager.cpp:1789
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2444,20 +2445,20 @@ msgstr ""
 "ili sastajanjem s vlasnikom ključa kako biste se uvjerili da netko ne "
 "pokušava presresti vašu komunikaciju.</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr "%1 (%2): %3"
 
-#: keysmanager.cpp:1832
+#: keysmanager.cpp:1812
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2468,14 +2469,14 @@ msgstr ""
 "pažljivo provjerili sve otiske, sigurnost vaše komunikacije može biti "
 "kompromitirana.</b></qt>"
 
-#: keysmanager.cpp:1874 keysmanager.cpp:2021
+#: keysmanager.cpp:1854 keysmanager.cpp:2001
 #, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr ""
 "Možete potpisati samo korisničke id-ove i fotografske id-ove. Provjerite "
 "svoj odabir."
 
-#: keysmanager.cpp:1888
+#: keysmanager.cpp:1868
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2488,7 +2489,7 @@ msgstr ""
 "ili sastajanjem s vlasnikom ključa kako biste se uvjerili da netko ne "
 "pokušava presresti vašu komunikaciju.</qt>"
 
-#: keysmanager.cpp:1892
+#: keysmanager.cpp:1872
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2501,7 +2502,7 @@ msgstr ""
 "telefoniranjem ili sastajanjem s vlasnikom ključa kako biste se uvjerili da "
 "netko ne pokušava presresti vašu komunikaciju.</qt>"
 
-#: keysmanager.cpp:1918
+#: keysmanager.cpp:1898
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2512,17 +2513,17 @@ msgstr ""
 "niste pažljivo provjerili sve otiske, sigurnost vaše komunikacije može biti "
 "kompromitirana.</b></qt>"
 
-#: keysmanager.cpp:1987
+#: keysmanager.cpp:1967
 #, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>Neispravan tajni izraz, ključ <b>%1 (%2)</b> nije potpisan.</qt>"
 
-#: keysmanager.cpp:1991
+#: keysmanager.cpp:1971
 #, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>Ključ <b>%1 (%2)</b> je već potpisan.</qt>"
 
-#: keysmanager.cpp:1996
+#: keysmanager.cpp:1976
 #, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
@@ -2531,7 +2532,14 @@ msgstr ""
 "<qt>Potpisivanje ključa <b>%1</b> ključem <b>%2</b> nije uspjelo.<br /"
 ">Želite li pokušati potpisati ključ u konzolnom načinu?</qt>"
 
-#: keysmanager.cpp:2114
+#: keysmanager.cpp:1978
+#, fuzzy, kde-format
+#| msgid "Sign"
+msgctxt "@action:button"
+msgid "Sign"
+msgstr "Znak"
+
+#: keysmanager.cpp:2094
 #, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
@@ -2539,12 +2547,12 @@ msgstr[0] "Svi potpisi za ovaj ključ već su u vašem prstenu ključeva"
 msgstr[1] "Svi potpisi za ove ključeve već su u vašem prstenu ključeva"
 msgstr[2] "Svi potpisi za ove ključeve već su u vašem prstenu ključeva"
 
-#: keysmanager.cpp:2201
+#: keysmanager.cpp:2181
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "Uredite ključ ručno kako biste izbrisali samopotpis."
 
-#: keysmanager.cpp:2205
+#: keysmanager.cpp:2185
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
@@ -2553,12 +2561,12 @@ msgstr ""
 "<qt>Jeste li sigurni da želite izbrisati potpis<br /><b>%1</b><br />iz "
 "korisničkog id-a <b>%2</b><br />ključa: <b>%3</b>?</qt>"
 
-#: keysmanager.cpp:2227
+#: keysmanager.cpp:2207
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "Tražena operacija nije uspjela pa ručno uredite ključ."
 
-#: keysmanager.cpp:2311
+#: keysmanager.cpp:2291
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2576,21 +2584,21 @@ msgstr[2] ""
 "<qt>Ključ koji brišete član je sljedećih grupa ključeva. Želite li ga "
 "ukloniti iz ovih grupa?</qt>"
 
-#: keysmanager.cpp:2315 keysmanager.cpp:2329 keysmanager.cpp:2364
-#: keysmanager.cpp:2379 keysmanager.cpp:2382 keysmanager.cpp:2393
-#: keysmanager.cpp:2407 keysmanager.cpp:2448
+#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
+#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
+#: keysmanager.cpp:2387 keysmanager.cpp:2428
 #, kde-format
 msgid "Delete key"
 msgstr "O&briši ključ"
 
-#: keysmanager.cpp:2328
+#: keysmanager.cpp:2308
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
 
-#: keysmanager.cpp:2352
+#: keysmanager.cpp:2332
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2600,7 +2608,7 @@ msgstr ""
 "ključeva više nikada nećete moći dekriptirati datoteke kriptirane ovim "
 "ključem."
 
-#: keysmanager.cpp:2363 keysmanager.cpp:2392
+#: keysmanager.cpp:2343 keysmanager.cpp:2372
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2609,24 +2617,24 @@ msgstr ""
 "Još jedna operacija brisanja ključeva je u tijeku.\n"
 "Pričekajte trenutak da operacija završi."
 
-#: keysmanager.cpp:2379
+#: keysmanager.cpp:2359
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "Izbrisan je ključ<b>%1</b>."
 
-#: keysmanager.cpp:2382
+#: keysmanager.cpp:2362
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "Neuspješno brisanje ključa <b>%1</b>."
 
-#: keysmanager.cpp:2406
+#: keysmanager.cpp:2386
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 "Nije moguće izbrisati ključ <b>%1</b> dok traje njegovo uređivanje u "
 "terminalu."
 
-#: keysmanager.cpp:2447
+#: keysmanager.cpp:2427
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
@@ -2635,7 +2643,7 @@ msgstr ""
 "Odabrali ste stavke koje nisu ključevi. One se ne mogu izbrisati ovim unosom "
 "izbornika."
 
-#: keysmanager.cpp:2472
+#: keysmanager.cpp:2452
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2644,7 +2652,7 @@ msgstr ""
 "<qt>Ovo su tajni parovi ključeva:<br/><b>%1</b><br/>Oni neće biti izbrisani."
 "</qt>"
 
-#: keysmanager.cpp:2482
+#: keysmanager.cpp:2462
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
@@ -2652,17 +2660,17 @@ msgstr[0] "<qt><b>Izbrisati sljedeći %1 javni ključ?</b></qt>"
 msgstr[1] "<qt><b>Izbrisati sljedeća %1 javna ključa?</b></qt>"
 msgstr[2] "<qt><b>Izbrisati sljedećih %1 javnih ključeva?</b></qt>"
 
-#: keysmanager.cpp:2513 keysmanager.cpp:2589 keysmanager.cpp:2600
+#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
 #, kde-format
 msgid "Key Import"
 msgstr "Key Import"
 
-#: keysmanager.cpp:2521
+#: keysmanager.cpp:2501
 #, kde-format
 msgid "Open File"
 msgstr "Otvori datoteku"
 
-#: keysmanager.cpp:2554
+#: keysmanager.cpp:2534
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2671,53 +2679,53 @@ msgstr ""
 "<qt>Tekst u odlagalištu ne izgleda kao ključ, već kao kriptirani tekst.<br /"
 ">Želite li ga prvo dekriptirati pa ga onda pokušati uvesti?</qt>"
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2536
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "Uvezi iz odlagališta"
 
-#: keysmanager.cpp:2576
+#: keysmanager.cpp:2556
 #, kde-format
 msgid "Importing..."
 msgstr "Obrađujem"
 
-#: keysmanager.cpp:2588
+#: keysmanager.cpp:2568
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr ""
 "Uvoz ključeva nije uspio. Provjerite detaljan dnevnik za više informacija."
 
-#: keysmanager.cpp:2641
+#: keysmanager.cpp:2621
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg – alat za kriptiranje"
 
-#: keysmanager.cpp:2662
+#: keysmanager.cpp:2644
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "Upra&vitelj ključevima"
 
-#: keysmanager.cpp:2665
+#: keysmanager.cpp:2647
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "E&nkriptiraj odlagalište"
 
-#: keysmanager.cpp:2668
+#: keysmanager.cpp:2650
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&Dekriptiraj odlagalište"
 
-#: keysmanager.cpp:2671
+#: keysmanager.cpp:2653
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "Po&tpiši/provjeri odlagalište"
 
-#: keysmanager.cpp:2708 keysmanager.cpp:2811 keysmanager.cpp:2829
+#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Odlagalište je prazno."
 
-#: keysmanager.cpp:2753
+#: keysmanager.cpp:2735
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "Tekst uspješno kriptiran."
@@ -2772,27 +2780,27 @@ msgstr ""
 ">Onemogućite GnuPG-ovog agenta iz from postavki KGpg-a ili popravite agenta."
 "</qt>"
 
-#: kgpg.cpp:123 kgpg.cpp:130 kgpg.cpp:137 kgpg.cpp:144
+#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:134
+#: kgpg.cpp:132
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Mapa se ne može dekriptirati i prikazati."
 
-#: kgpg.cpp:141
+#: kgpg.cpp:139
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Mapa se ne može potpisati."
 
-#: kgpg.cpp:148
+#: kgpg.cpp:146
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Mapa se ne može provjeriti."
 
-#: kgpg.cpp:151
+#: kgpg.cpp:149
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2803,37 +2811,37 @@ msgstr ""
 "Odaberite samo jednu mapu ili nekoliko datoteka, no ne miješajte datoteke i "
 "mape."
 
-#: kgpg.cpp:189
+#: kgpg.cpp:187
 #, kde-format
 msgid "Encrypt file"
 msgstr "Kriptiraj datoteku"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:188
 #, kde-format
 msgid "Open key manager"
 msgstr "Otvori upravitelj ključeva"
 
-#: kgpg.cpp:191
+#: kgpg.cpp:189
 #, kde-format
 msgid "Open editor"
 msgstr "Otvori uređivač"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:190
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Prikaži kriptiranu datoteku"
 
-#: kgpg.cpp:193 kgpgoptions.cpp:503
+#: kgpg.cpp:191 kgpgoptions.cpp:505
 #, kde-format
 msgid "Sign File"
 msgstr "Potpiši datoteku"
 
-#: kgpg.cpp:194
+#: kgpg.cpp:192
 #, kde-format
 msgid "Verify signature"
 msgstr "Provjeri potpis"
 
-#: kgpg.cpp:195
+#: kgpg.cpp:193
 #, kde-format
 msgid "File to open"
 msgstr "Datoteka koju treba otvoriti"
@@ -3005,7 +3013,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Koristi biranje mišem umjesto klipborda."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Automatski pokreni KGpg pri pokretanju KDE-a."
@@ -3062,62 +3070,56 @@ msgstr "Prikaži ikonu u sistemskom bloku"
 msgid "The number of recently opened files shown in the editor menu."
 msgstr "Broj nedavno otvorenih datoteka prikazanih u izborniku uređivača."
 
-#. i18n: ectx: label, entry (ShowTipOfDay), group (TipOfDay)
-#: kgpg.kcfg:187
-#, kde-format
-msgid "Show tip of the day."
-msgstr "Prikaži savjet dana."
-
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
-#: kgpg.kcfg:194
+#: kgpg.kcfg:187
 #, kde-format
 msgid "Color used for trusted keys."
 msgstr "Boja za ključeve od povjerenja."
 
 #. i18n: ectx: label, entry (ColorRev), group (Key Colors)
-#: kgpg.kcfg:198
+#: kgpg.kcfg:191
 #, kde-format
 msgid "Color used for revoked keys."
 msgstr "Boja za opozvane ključeve."
 
 #. i18n: ectx: label, entry (ColorUnknown), group (Key Colors)
-#: kgpg.kcfg:202
+#: kgpg.kcfg:195
 #, kde-format
 msgid "Color used for unknown keys."
 msgstr "Boja za nepoznate ključeve."
 
 #. i18n: ectx: label, entry (ColorBad), group (Key Colors)
-#: kgpg.kcfg:206
+#: kgpg.kcfg:199
 #, kde-format
 msgid "Color used for untrusted keys."
 msgstr "Boja za ključeve kojima se ne vjeruje."
 
 #. i18n: ectx: label, entry (ColorUltimate), group (Key Colors)
-#: kgpg.kcfg:210
+#: kgpg.kcfg:203
 #, kde-format
 msgid "Color used for ultimately trusted keys."
 msgstr "Boja koja se koristi za ključeve s bezuvjetnim povjerenjem:"
 
 #. i18n: ectx: label, entry (ColorMarginal), group (Key Colors)
-#: kgpg.kcfg:214
+#: kgpg.kcfg:207
 #, kde-format
 msgid "Color used for marginally trusted keys."
 msgstr "Boja za ključeve s marginalnim povjerenjem."
 
 #. i18n: ectx: label, entry (ColorExpired), group (Key Colors)
-#: kgpg.kcfg:218
+#: kgpg.kcfg:211
 #, kde-format
 msgid "Color used for expired keys."
 msgstr "Boja za ključeve koji su istekli."
 
 #. i18n: ectx: label, entry (Font), group (Text Font)
-#: kgpg.kcfg:225
+#: kgpg.kcfg:218
 #, kde-format
 msgid "Font"
 msgstr "Pismo"
 
 #. i18n: ectx: label, entry (KeyServers), group (Servers)
-#: kgpg.kcfg:248
+#: kgpg.kcfg:241
 #, kde-format
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
@@ -3126,7 +3128,7 @@ msgstr ""
 "zadani poslužitelj."
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
-#: kgpg.kcfg:252
+#: kgpg.kcfg:245
 #, fuzzy, kde-format
 #| msgid ""
 #| "Key servers used by KGpg. The first server in the list is the default "
@@ -3139,13 +3141,13 @@ msgstr ""
 "zadani poslužitelj."
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
-#: kgpg.kcfg:259
+#: kgpg.kcfg:252
 #, kde-format
 msgid "Use HTTP proxy when available."
 msgstr "Koristi HTTP-proxy kad je dostupan."
 
 #. i18n: ectx: label, entry (EmailTemplate), group (Key Signing)
-#: kgpg.kcfg:266
+#: kgpg.kcfg:259
 #, kde-format
 msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
@@ -3153,17 +3155,17 @@ msgstr ""
 "Ovo je tekst e-pošte poslane akcijom \"Potpiši i pošalji e-poštom korisnički "
 "ID\"."
 
-#: kgpgexternalactions.cpp:126
+#: kgpgexternalactions.cpp:127
 #, kde-format
 msgid "Cannot create temporary file for folder compression."
 msgstr ""
 
-#: kgpgexternalactions.cpp:126 kgpgexternalactions.cpp:133
+#: kgpgexternalactions.cpp:127 kgpgexternalactions.cpp:134
 #, kde-format
 msgid "Temporary File Creation"
 msgstr "Privremeno stvaranje datoteka"
 
-#: kgpgexternalactions.cpp:131
+#: kgpgexternalactions.cpp:132
 #, kde-format
 msgid ""
 "<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process "
@@ -3174,12 +3176,12 @@ msgstr ""
 "obradio kriptiranje. Datoteka će biti izbrisana nakon što kriptiranje završi."
 "</qt>"
 
-#: kgpgexternalactions.cpp:147
+#: kgpgexternalactions.cpp:148
 #, kde-format
 msgid "Compression method for archive:"
 msgstr "Metoda kompresije za arhivu:"
 
-#: kgpgexternalactions.cpp:400
+#: kgpgexternalactions.cpp:401
 #, kde-format
 msgid "Decryption of this file failed:"
 msgid_plural "Decryption of these files failed:"
@@ -3187,7 +3189,7 @@ msgstr[0] "Dekriptiranje datoteke nije uspjelo:"
 msgstr[1] "Dekriptiranje ovih datoteka nije uspjelo:"
 msgstr[2] "Dekriptiranje ovih datoteka nije uspjelo:"
 
-#: kgpgexternalactions.cpp:424
+#: kgpgexternalactions.cpp:425
 #, kde-format
 msgid ""
 "<qt>You have not set a path to your GnuPG config file.<br />This may cause "
@@ -3199,22 +3201,22 @@ msgstr ""
 ">Želite li pokrenuti KGpg-ovog pomoćnika kako biste riješili ovaj problem?</"
 "qt>"
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Start Assistant"
 msgstr "Pokreni pomoćnika"
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Do Not Start"
 msgstr "Ne pokreći"
 
-#: kgpgfirstassistant.cpp:34
+#: kgpgfirstassistant.cpp:35
 #, kde-format
 msgid "KGpg Assistant"
 msgstr "Pomoćnik KGpg-a"
 
-#: kgpgfirstassistant.cpp:58
+#: kgpgfirstassistant.cpp:59
 #, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3225,17 +3227,17 @@ msgstr ""
 "pravilni rad KGpg-a. Nadalje će vam omogućiti stvaranje vašeg para ključeva "
 "za kriptiranje vaših datoteka i e-pošte."
 
-#: kgpgfirstassistant.cpp:66
+#: kgpgfirstassistant.cpp:67
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr "Dobrodošli u Pomoćnika KGpg-a"
 
-#: kgpgfirstassistant.cpp:78
+#: kgpgfirstassistant.cpp:79
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg treba znati koju izvršnu datoteku GnuPG-a treba koristiti."
 
-#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3244,55 +3246,55 @@ msgstr ""
 "Ukoliko ne želite isprobati neuobičajene postavke, kliknite na gumb "
 "\"sljedeće\"."
 
-#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
 #, fuzzy, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "Globalne postavke"
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
 #, fuzzy, kde-format
 #| msgid "*|All Files"
 msgid "All files"
 msgstr "*|Sve datoteke"
 
-#: kgpgfirstassistant.cpp:137
+#: kgpgfirstassistant.cpp:138
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr ""
 "KGpg treba znati gdje je pohranjena vaša konfiguracijska datoteka GnuPG-a."
 
-#: kgpgfirstassistant.cpp:152
+#: kgpgfirstassistant.cpp:153
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "Putanja do konfiguracijske datoteke GnuPG-a:"
 
-#: kgpgfirstassistant.cpp:166
+#: kgpgfirstassistant.cpp:167
 #, kde-format
 msgid "Configuration File"
 msgstr "Konfiguracijska datoteka"
 
-#: kgpgfirstassistant.cpp:176
+#: kgpgfirstassistant.cpp:177
 #, kde-format
 msgid "Your default key:"
 msgstr "Vaš zadan ključ:"
 
-#: kgpgfirstassistant.cpp:195
+#: kgpgfirstassistant.cpp:196
 #, kde-format
 msgid "Default Key"
 msgstr "Zadani ključ"
 
-#: kgpgfirstassistant.cpp:216
+#: kgpgfirstassistant.cpp:217
 #, kde-format
 msgid "Generate new key"
 msgstr "Stvori novi ključ"
 
-#: kgpgfirstassistant.cpp:230
+#: kgpgfirstassistant.cpp:231
 #, kde-format
 msgid "Done"
 msgstr "Završeno"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3301,37 +3303,37 @@ msgstr ""
 "<qt><b>Nije pronađena konfiguracijska datoteka GnuPG-a</b>. Treba li KGpg "
 "pokušati stvoriti konfiguracijsku datoteku?</qt>"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid "Create Config"
 msgstr "Stvori konfiguraciju"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid "Do Not Create"
 msgstr "Nemoj stvoriti"
 
-#: kgpgfirstassistant.cpp:252
+#: kgpgfirstassistant.cpp:253
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>Konfiguracijska datoteka GnuPG-a nije pronađena</b>.</qt>"
 
-#: kgpgfirstassistant.cpp:294
+#: kgpgfirstassistant.cpp:295
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "Vaša izvršna datoteka GnuPG-a je: %1"
 
-#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
+#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "Imate GnuPG inačice: %1"
 
-#: kgpgfirstassistant.cpp:316
+#: kgpgfirstassistant.cpp:317
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "Vaš zadan ključ je: %1"
 
-#: kgpgfirstassistant.cpp:367
+#: kgpgfirstassistant.cpp:368
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3630,37 +3632,37 @@ msgstr "Promijeni tajni izraz"
 msgid "Fingerprint"
 msgstr "Otisak prsta"
 
-#: kgpgoptions.cpp:105
+#: kgpgoptions.cpp:107
 #, kde-format
 msgid "Decryption"
 msgstr "Dekriptiranje"
 
-#: kgpgoptions.cpp:106
+#: kgpgoptions.cpp:108
 #, kde-format
 msgid "Appearance"
 msgstr "Izgled"
 
-#: kgpgoptions.cpp:107
+#: kgpgoptions.cpp:109
 #, kde-format
 msgid "GnuPG Settings"
 msgstr "Postavke GnuPG-a"
 
-#: kgpgoptions.cpp:108
+#: kgpgoptions.cpp:110
 #, kde-format
 msgid "Key Servers"
 msgstr "Poslužitelji za ključeve"
 
-#: kgpgoptions.cpp:109
+#: kgpgoptions.cpp:111
 #, kde-format
 msgid "Misc"
 msgstr "Razno"
 
-#: kgpgoptions.cpp:144
+#: kgpgoptions.cpp:146
 #, kde-format
 msgid "New GnuPG Home Location"
 msgstr "Nova početna lokacija GnuPG-a"
 
-#: kgpgoptions.cpp:157
+#: kgpgoptions.cpp:159
 #, kde-format
 msgid ""
 "No configuration file was found in the selected location.\n"
@@ -3673,22 +3675,22 @@ msgstr ""
 "\n"
 "Ni KGpg ni Gnupg neće raditi ispravno bez konfiguracijske datoteke."
 
-#: kgpgoptions.cpp:158
+#: kgpgoptions.cpp:160
 #, kde-format
 msgid "No Configuration File Found"
 msgstr "Nije pronađena konfiguracijska datoteka"
 
-#: kgpgoptions.cpp:159
+#: kgpgoptions.cpp:161
 #, kde-format
 msgid "Create"
 msgstr "Stvori"
 
-#: kgpgoptions.cpp:160
+#: kgpgoptions.cpp:162
 #, kde-format
 msgid "Ignore"
 msgstr "Zanemari"
 
-#: kgpgoptions.cpp:174
+#: kgpgoptions.cpp:176
 #, kde-format
 msgid ""
 "Cannot create configuration file. Please check if destination media is "
@@ -3697,33 +3699,33 @@ msgstr ""
 "Nije moguće stvoriti konfiguracijsku datoteku. Provjerite je li odredišni "
 "medij povezan i imate li prava pisanja."
 
-#: kgpgoptions.cpp:197
+#: kgpgoptions.cpp:199
 #, kde-format
 msgid "Key server URLs may not contain whitespace."
 msgstr "URL-ovi poslužitelja za ključeve ne smiju sadržavati praznine."
 
-#: kgpgoptions.cpp:202
+#: kgpgoptions.cpp:204
 #, kde-format
 msgid "Key server already in the list."
 msgstr "Poslužitelj za ključeve već je u listi."
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Add New Key Server"
 msgstr "Dodaj novog poslužitelja za ključeve"
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Server URL:"
 msgstr "URL poslužitelja:"
 
-#: kgpgoptions.cpp:464 kgpgoptions.cpp:466
+#: kgpgoptions.cpp:466 kgpgoptions.cpp:468
 #, kde-format
 msgctxt "no key available"
 msgid "none"
 msgstr "ništa"
 
-#: kgpgoptions.cpp:486
+#: kgpgoptions.cpp:488
 #, kde-format
 msgid "Decrypt File"
 msgstr "Dekriptiraj datoteku"
@@ -4231,152 +4233,6 @@ msgstr ""
 "Unesite id-ove ili otiske ključeva kako biste ih uvezli kao listu razmakom "
 "razdvojenih ključeva."
 
-#. i18n: ectx: @info:tipoftheday
-#: tips:2
-#, kde-format
-msgid ""
-"<p>If you want to decrypt a text file, simply drag and drop it into the "
-"editor window. KGpg will do the rest. Even remote files can be dropped.</p>\n"
-"<p>Drag a public key into the editor window and kgpg will automatically "
-"import it if you want.</p>\n"
-msgstr ""
-"<p>Ukoliko želite dekriptirati tekstualnu datoteku, jednostavno ju povucite "
-"i ispustite u prozor uređivača. KGpg će odraditi ostalo. Čak se i udaljene "
-"datoteke mogu ispustiti.</p>\n"
-"<p>Povucite javni ključ u prozor uređivača i kgpg će ga automatski uvesti "
-"ukoliko to želite.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:7
-#, kde-format
-msgid ""
-"<p>The easiest way to encrypt a file: simply right click on the file, and "
-"you have an encrypt option in the contextual menu.\n"
-"This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
-msgstr ""
-"<p>Najlakši način kriptiranja datoteke: napravite desni kliknite na datoteku "
-"i dobit ćete opciju za kriptiranje u kontekstnom izborniku.\n"
-"Ovo radi u <strong>Konqueroru</strong> ili na vašoj radnoj površini!</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:13
-#, kde-format
-msgid ""
-"<p>If you want to encrypt a message for several persons, just select several "
-"encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
-msgstr ""
-"<p>Ukoliko želite kriptirati poruku za nekoliko osoba, jednostavno odaberite "
-"nekoliko ključeva za kriptiranje dok držite tipku &quot;Ctrl&quot;.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:18
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p><strong>You do not know anything about encryption?</strong><br>\n"
-#| "No problem, simply create yourself a key pair in the key management "
-#| "window. Then, export your public key and mail it to your friends.<br>\n"
-#| "Ask them to do the same and import their public keys. Finally, to send an "
-#| "encrypted message, type it in the KGpg editor, then click &quot;"
-#| "encrypt&quot;. Choose\n"
-#| "your friend key and click &quot;encrypt&quot; again. The message will be "
-#| "encrypted, ready to be sent by email.</p>\n"
-msgid ""
-"<p><strong>You do not have to be an expert in encryption to use this tool?</"
-"strong><br>\n"
-"Simply create yourself a key pair in the key management window. Then, export "
-"your public key and mail it to your friends.<br>\n"
-"Ask them to do the same and import their public keys. Finally, to send an "
-"encrypted message, type it in the KGpg editor, then click &quot;"
-"encrypt&quot;. Choose\n"
-"your friend's key and click &quot;encrypt&quot; again. The message will be "
-"encrypted, ready to be sent by email.</p>\n"
-msgstr ""
-"<p><strong>Ne znate ništa o kriptiranju?</strong><br>\n"
-"Nema problema, jednostavno si napravite par ključeva u prozoru za "
-"upravljanje ključevima. Zatim izvezite vaš javni ključ i pošaljite ga svojim "
-"prijateljima.<br>\n"
-"Njih zamolite da učine isto i uvezite njihove javne ključeve. Kako biste "
-"poslali kriptiranu poruku, upišite je u KGpg-ovom uređivaču i kliknite na "
-"„kriptiraj“. Odaberite\n"
-" ključ vašeg prijatelja i ponovno kliknite na „kriptiraj“. Poruka će biti "
-"kriptirana i spremna za slanje e-poštom.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:26
-#, kde-format
-msgid ""
-"<p>To perform an operation on a key, open the key management window and "
-"right click on the key. A popup menu with all available options will appear."
-"</p>\n"
-msgstr ""
-"<p>Da biste izvršili operaciju nad ključem, otvorite prozor za upravljanje "
-"ključevima i napravite desni klik na ključ. Pojavit će se skočni izbornik sa "
-"svim dostupnim opcijama.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:31
-#, kde-format
-msgid ""
-"<p>Decrypt a file with a single mouse click on it. You will then be prompted "
-"for password, and then that is it!</p>\n"
-msgstr ""
-"<p>Dekriptirajte datoteku jednim klikom miša na nju. Tada ćete biti upitani "
-"za zaporku i to je sve!</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:36
-#, kde-format
-msgid ""
-"<p>If you only want to open the key manager, type this in the command line "
-"prompt: <pre>kgpg -k</pre>\n"
-"The editor can be reached by: <pre>kgpg -d</pre></p>\n"
-msgstr ""
-"<p>Ukoliko želite otvoriti upravitelj ključevima, ovo upišite u komandnu "
-"liniju: <pre>kgpg -k</pre>\n"
-"Do uređivača možete doći pomoću: <pre>kgpg -d</pre></p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:42
-#, kde-format
-msgid ""
-"<p>To open a file in the KGpg's editor and immediately decrypt it type: "
-"<pre>kgpg -s filename</pre></p>\n"
-msgstr ""
-"<p>Za otvaranje datoteke u uređivaču KGpg-a i njeno neposredno dekriptiranje "
-"utipkajte: <pre>kgpg -s ime_datoteke</pre></p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:47
-#, kde-format
-msgid ""
-"<p>If you want to change the password or expiration of a secret key simply "
-"double click on it to get the key properties dialog.</p>\n"
-msgstr ""
-"<p>Ako želite promijeniti zaporku ili vijek tajnog ključa, napravite dvoklik "
-"na njega kako biste dobili dijalog sa svojstvima ključa.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:52
-#, kde-format
-msgid ""
-"<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the "
-"key manager.</p>\n"
-msgstr ""
-"<p>Vaš zadani ključ možete doseći pritiskom &quot;Ctrl+Home&quot; u "
-"upravitelju ključeva.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:57
-#, kde-format
-msgid ""
-"<p>The number of signatures is shown as a tooltip if you hover the mouse on "
-"the size column in key manager. A key has to be expanded once for this to "
-"work.</p>\n"
-msgstr ""
-"<p>Broj potpisa je prikazan kao info-oblačić ako dođete mišem iznad stupca "
-"za veličinu u upravitelju ključeva. Ključ mora jednom biti proširen kako bi "
-"ovo funkcioniralo.</p>\n"
-
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "This image is very large. Use it anyway?"
@@ -4845,6 +4701,135 @@ msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<qt>Potpis je valjan i ključu se bezuvjetno vjeruje<br /></qt>"
 
+#~ msgid ""
+#~ "The document could not been saved, as the selected encoding cannot encode "
+#~ "every unicode character in it."
+#~ msgstr ""
+#~ "Dokument nije mogao biti spremljen jer odabrano uznačivanje ne može "
+#~ "uznačiti svaki znak univerzalnog skupa u dokumentu."
+
+#~ msgid "Tip of the &Day"
+#~ msgstr "Savjet dana"
+
+#~ msgid "Show tip of the day."
+#~ msgstr "Prikaži savjet dana."
+
+#~ msgid ""
+#~ "<p>If you want to decrypt a text file, simply drag and drop it into the "
+#~ "editor window. KGpg will do the rest. Even remote files can be dropped.</"
+#~ "p>\n"
+#~ "<p>Drag a public key into the editor window and kgpg will automatically "
+#~ "import it if you want.</p>\n"
+#~ msgstr ""
+#~ "<p>Ukoliko želite dekriptirati tekstualnu datoteku, jednostavno ju "
+#~ "povucite i ispustite u prozor uređivača. KGpg će odraditi ostalo. Čak se "
+#~ "i udaljene datoteke mogu ispustiti.</p>\n"
+#~ "<p>Povucite javni ključ u prozor uređivača i kgpg će ga automatski uvesti "
+#~ "ukoliko to želite.</p>\n"
+
+#~ msgid ""
+#~ "<p>The easiest way to encrypt a file: simply right click on the file, and "
+#~ "you have an encrypt option in the contextual menu.\n"
+#~ "This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
+#~ msgstr ""
+#~ "<p>Najlakši način kriptiranja datoteke: napravite desni kliknite na "
+#~ "datoteku i dobit ćete opciju za kriptiranje u kontekstnom izborniku.\n"
+#~ "Ovo radi u <strong>Konqueroru</strong> ili na vašoj radnoj površini!</p>\n"
+
+#~ msgid ""
+#~ "<p>If you want to encrypt a message for several persons, just select "
+#~ "several encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
+#~ msgstr ""
+#~ "<p>Ukoliko želite kriptirati poruku za nekoliko osoba, jednostavno "
+#~ "odaberite nekoliko ključeva za kriptiranje dok držite tipku &quot;"
+#~ "Ctrl&quot;.</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p><strong>You do not know anything about encryption?</strong><br>\n"
+#~| "No problem, simply create yourself a key pair in the key management "
+#~| "window. Then, export your public key and mail it to your friends.<br>\n"
+#~| "Ask them to do the same and import their public keys. Finally, to send "
+#~| "an encrypted message, type it in the KGpg editor, then click &quot;"
+#~| "encrypt&quot;. Choose\n"
+#~| "your friend key and click &quot;encrypt&quot; again. The message will be "
+#~| "encrypted, ready to be sent by email.</p>\n"
+#~ msgid ""
+#~ "<p><strong>You do not have to be an expert in encryption to use this tool?"
+#~ "</strong><br>\n"
+#~ "Simply create yourself a key pair in the key management window. Then, "
+#~ "export your public key and mail it to your friends.<br>\n"
+#~ "Ask them to do the same and import their public keys. Finally, to send an "
+#~ "encrypted message, type it in the KGpg editor, then click &quot;"
+#~ "encrypt&quot;. Choose\n"
+#~ "your friend's key and click &quot;encrypt&quot; again. The message will "
+#~ "be encrypted, ready to be sent by email.</p>\n"
+#~ msgstr ""
+#~ "<p><strong>Ne znate ništa o kriptiranju?</strong><br>\n"
+#~ "Nema problema, jednostavno si napravite par ključeva u prozoru za "
+#~ "upravljanje ključevima. Zatim izvezite vaš javni ključ i pošaljite ga "
+#~ "svojim prijateljima.<br>\n"
+#~ "Njih zamolite da učine isto i uvezite njihove javne ključeve. Kako biste "
+#~ "poslali kriptiranu poruku, upišite je u KGpg-ovom uređivaču i kliknite na "
+#~ "„kriptiraj“. Odaberite\n"
+#~ " ključ vašeg prijatelja i ponovno kliknite na „kriptiraj“. Poruka će biti "
+#~ "kriptirana i spremna za slanje e-poštom.</p>\n"
+
+#~ msgid ""
+#~ "<p>To perform an operation on a key, open the key management window and "
+#~ "right click on the key. A popup menu with all available options will "
+#~ "appear.</p>\n"
+#~ msgstr ""
+#~ "<p>Da biste izvršili operaciju nad ključem, otvorite prozor za "
+#~ "upravljanje ključevima i napravite desni klik na ključ. Pojavit će se "
+#~ "skočni izbornik sa svim dostupnim opcijama.</p>\n"
+
+#~ msgid ""
+#~ "<p>Decrypt a file with a single mouse click on it. You will then be "
+#~ "prompted for password, and then that is it!</p>\n"
+#~ msgstr ""
+#~ "<p>Dekriptirajte datoteku jednim klikom miša na nju. Tada ćete biti "
+#~ "upitani za zaporku i to je sve!</p>\n"
+
+#~ msgid ""
+#~ "<p>If you only want to open the key manager, type this in the command "
+#~ "line prompt: <pre>kgpg -k</pre>\n"
+#~ "The editor can be reached by: <pre>kgpg -d</pre></p>\n"
+#~ msgstr ""
+#~ "<p>Ukoliko želite otvoriti upravitelj ključevima, ovo upišite u komandnu "
+#~ "liniju: <pre>kgpg -k</pre>\n"
+#~ "Do uređivača možete doći pomoću: <pre>kgpg -d</pre></p>\n"
+
+#~ msgid ""
+#~ "<p>To open a file in the KGpg's editor and immediately decrypt it type: "
+#~ "<pre>kgpg -s filename</pre></p>\n"
+#~ msgstr ""
+#~ "<p>Za otvaranje datoteke u uređivaču KGpg-a i njeno neposredno "
+#~ "dekriptiranje utipkajte: <pre>kgpg -s ime_datoteke</pre></p>\n"
+
+#~ msgid ""
+#~ "<p>If you want to change the password or expiration of a secret key "
+#~ "simply double click on it to get the key properties dialog.</p>\n"
+#~ msgstr ""
+#~ "<p>Ako želite promijeniti zaporku ili vijek tajnog ključa, napravite "
+#~ "dvoklik na njega kako biste dobili dijalog sa svojstvima ključa.</p>\n"
+
+#~ msgid ""
+#~ "<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in "
+#~ "the key manager.</p>\n"
+#~ msgstr ""
+#~ "<p>Vaš zadani ključ možete doseći pritiskom &quot;Ctrl+Home&quot; u "
+#~ "upravitelju ključeva.</p>\n"
+
+#~ msgid ""
+#~ "<p>The number of signatures is shown as a tooltip if you hover the mouse "
+#~ "on the size column in key manager. A key has to be expanded once for this "
+#~ "to work.</p>\n"
+#~ msgstr ""
+#~ "<p>Broj potpisa je prikazan kao info-oblačić ako dođete mišem iznad "
+#~ "stupca za veličinu u upravitelju ključeva. Ključ mora jednom biti "
+#~ "proširen kako bi ovo funkcioniralo.</p>\n"
+
 #~ msgctxt "search filter for gpg binary"
 #~ msgid ""
 #~ "gpg|GnuPG binary\n"
@@ -5289,9 +5274,6 @@ msgstr "<qt>Potpis je valjan i ključu se bezuvjetno vjeruje<br /></qt>"
 
 #~ msgid "Encrypt"
 #~ msgstr "Kriptiraj"
-
-#~ msgid "Sign"
-#~ msgstr "Znak"
 
 #~ msgid "Ask"
 #~ msgstr "Pitaj"

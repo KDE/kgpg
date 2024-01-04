@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:40+0000\n"
+"POT-Creation-Date: 2024-01-04 01:36+0000\n"
 "PO-Revision-Date: 2010-01-09 16:00+0200\n"
 "Last-Translator: Viesturs Zarins <viesturs.zarins@mii.lu.lv>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -139,7 +139,7 @@ msgstr "Pielāgota atšifrēšanas komanda:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Encryption)
 #. i18n: ectx: property (text), widget (QCheckBox, capEncrypt)
-#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:104
+#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:106
 #, kde-format
 msgid "Encryption"
 msgstr "Šifrēšana"
@@ -383,7 +383,7 @@ msgid "Change..."
 msgstr "Mainīt..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "GnuPG izpildfails"
@@ -521,7 +521,7 @@ msgstr "Faila parakstīšanas pakalpojuma izvēlne:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:304
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:296
 #, kde-format
 msgid "Disable"
 msgstr "Izslēgt"
@@ -593,7 +593,7 @@ msgstr "Atslēgu pārvaldnieks"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #. i18n: ectx: attribute (title), widget (QWidget, tabEditor)
-#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:499
+#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:503
 #, kde-format
 msgid "Editor"
 msgstr "Redaktors"
@@ -771,25 +771,25 @@ msgid "Sort Order"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:253 kgpgoptions.cpp:98
+#: conf_ui2.ui:253 kgpgoptions.cpp:100
 #, kde-format
 msgid "Left to right, account first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:258 kgpgoptions.cpp:99
+#: conf_ui2.ui:258 kgpgoptions.cpp:101
 #, kde-format
 msgid "Right to left, TLD first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:263 kgpgoptions.cpp:100
+#: conf_ui2.ui:263 kgpgoptions.cpp:102
 #, kde-format
 msgid "Right to left, domain first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:268 kgpgoptions.cpp:101
+#: conf_ui2.ui:268 kgpgoptions.cpp:103
 #, kde-format
 msgid "Right to left, FQDN first"
 msgstr ""
@@ -1030,63 +1030,63 @@ msgstr "Foto id"
 msgid "Info"
 msgstr "Informācija"
 
-#: editor/kgpgeditor.cpp:84 editor/kgpgeditor.cpp:231 editor/kgpgeditor.cpp:729
-#: editor/kgpgeditor.cpp:758
+#: editor/kgpgeditor.cpp:90 editor/kgpgeditor.cpp:240 editor/kgpgeditor.cpp:726
+#: editor/kgpgeditor.cpp:755
 #, kde-format
 msgid "Untitled"
 msgstr "Nenosaukts"
 
-#: editor/kgpgeditor.cpp:177
+#: editor/kgpgeditor.cpp:186
 #, kde-format
 msgid "&Encrypt File..."
 msgstr "Ši&frēt failu..."
 
-#: editor/kgpgeditor.cpp:181
+#: editor/kgpgeditor.cpp:190
 #, kde-format
 msgid "&Decrypt File..."
 msgstr "&Atšifrēt failu..."
 
-#: editor/kgpgeditor.cpp:185
+#: editor/kgpgeditor.cpp:194
 #, kde-format
 msgid "&Open Key Manager"
 msgstr "&Atvērt atslēgu pārvaldnieku"
 
-#: editor/kgpgeditor.cpp:188
+#: editor/kgpgeditor.cpp:197
 #, kde-format
 msgid "&Generate Signature..."
 msgstr "Ģe&nerēt parakstu...."
 
-#: editor/kgpgeditor.cpp:192
+#: editor/kgpgeditor.cpp:201
 #, kde-format
 msgid "&Verify Signature..."
 msgstr "&Verificēt parakstu..."
 
-#: editor/kgpgeditor.cpp:195
+#: editor/kgpgeditor.cpp:204
 #, kde-format
 msgid "&Check MD5 Sum..."
 msgstr "&Pārbaudīt MD5 summu..."
 
-#: editor/kgpgeditor.cpp:198
+#: editor/kgpgeditor.cpp:207
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
 msgstr "&Unikoda (utf-8) kodējums"
 
-#: editor/kgpgeditor.cpp:204
+#: editor/kgpgeditor.cpp:213
 #, kde-format
 msgid "En&crypt"
 msgstr "Ši&frēt"
 
-#: editor/kgpgeditor.cpp:208
+#: editor/kgpgeditor.cpp:217
 #, kde-format
 msgid "&Decrypt"
 msgstr "&Atšifrēt"
 
-#: editor/kgpgeditor.cpp:212
+#: editor/kgpgeditor.cpp:221
 #, kde-format
 msgid "S&ign/Verify"
 msgstr "Parakstīt/Ver&ificēt"
 
-#: editor/kgpgeditor.cpp:235
+#: editor/kgpgeditor.cpp:244
 #, kde-format
 msgid ""
 "The document \"%1\" has changed.\n"
@@ -1095,12 +1095,12 @@ msgstr ""
 "Dokuments \"%1\" ir izmainīts.\n"
 "Vai vēlaties saglabāt?"
 
-#: editor/kgpgeditor.cpp:236
+#: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid "Close the document"
 msgstr "Aizvērt dokumentu"
 
-#: editor/kgpgeditor.cpp:282
+#: editor/kgpgeditor.cpp:291
 #, fuzzy, kde-format
 #| msgid ""
 #| "The document could not been saved, as the selected encoding cannot encode "
@@ -1111,16 +1111,7 @@ msgstr ""
 "Dokumentu neizdevās saglabāt, jo norādītajā kodējumā nevar nokodēt unikoda "
 "rakstzīmes."
 
-#: editor/kgpgeditor.cpp:288
-#, kde-format
-msgid ""
-"The document could not been saved, as the selected encoding cannot encode "
-"every unicode character in it."
-msgstr ""
-"Dokumentu neizdevās saglabāt, jo norādītajā kodējumā nevar nokodēt unikoda "
-"rakstzīmes."
-
-#: editor/kgpgeditor.cpp:297 editor/kgpgeditor.cpp:313
+#: editor/kgpgeditor.cpp:300 editor/kgpgeditor.cpp:317
 #, kde-format
 msgid ""
 "The document could not be saved, please check your permissions and disk "
@@ -1128,55 +1119,55 @@ msgid ""
 msgstr ""
 "Dokumentu neizdevās saglabāt, lūdzu pārbaudiet savas tiesības un diska vietu."
 
-#: editor/kgpgeditor.cpp:338 editor/kgpgeditor.cpp:349 keyexport.cpp:37
+#: editor/kgpgeditor.cpp:342 editor/kgpgeditor.cpp:353 keyexport.cpp:37
 #, kde-format
 msgid "Overwrite existing file %1?"
 msgstr "Pārrakstīt eksistējošo failu %1?"
 
-#: editor/kgpgeditor.cpp:463
+#: editor/kgpgeditor.cpp:467
 #, kde-format
 msgid "Open File to Encode"
 msgstr "Atvērt failu sašifrēšanai"
 
-#: editor/kgpgeditor.cpp:463 editor/kgpgeditor.cpp:472
-#: editor/kgpgeditor.cpp:614 editor/kgpgeditor.cpp:652
-#: editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:467 editor/kgpgeditor.cpp:476
+#: editor/kgpgeditor.cpp:611 editor/kgpgeditor.cpp:649
+#: editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "*|All Files"
 msgstr "*|Visi faili"
 
-#: editor/kgpgeditor.cpp:472
+#: editor/kgpgeditor.cpp:476
 #, kde-format
 msgid "Open File to Decode"
 msgstr "Atvērt failu atšifrēšanai"
 
-#: editor/kgpgeditor.cpp:486
+#: editor/kgpgeditor.cpp:490
 #, kde-format
 msgid "Decrypt File To"
 msgstr "Atšifrēt failu uz"
 
-#: editor/kgpgeditor.cpp:497 keyexport.cpp:20
+#: editor/kgpgeditor.cpp:501 keyexport.cpp:20
 #, kde-format
 msgid "Save File"
 msgstr "Saglabāt failu"
 
-#: editor/kgpgeditor.cpp:523 kgpgexternalactions.cpp:203
-#: kgpgexternalactions.cpp:362 transactions/kgpgtransactionprivate.cpp:107
+#: editor/kgpgeditor.cpp:527 kgpgexternalactions.cpp:204
+#: kgpgexternalactions.cpp:363 transactions/kgpgtransactionprivate.cpp:107
 #, kde-format
 msgid "File Already Exists"
 msgstr "Fails jau eksistē"
 
-#: editor/kgpgeditor.cpp:614
+#: editor/kgpgeditor.cpp:611
 #, kde-format
 msgid "Open File to Sign"
 msgstr "Atvērt failu parakstīšanai"
 
-#: editor/kgpgeditor.cpp:652 editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:649 editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "Open File to Verify"
 msgstr "Atvērt failu verificēšanai"
 
-#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:337
+#: editor/kgpgeditor.cpp:696 editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid ""
 "<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to "
@@ -1186,12 +1177,12 @@ msgstr ""
 "importēt šo atslēgu no atslēgu servera?</qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
-#: editor/kgpgeditor.cpp:700 keyserver.ui:33 keytreeview.cpp:158
+#: editor/kgpgeditor.cpp:697 keyserver.ui:33 keytreeview.cpp:158
 #, kde-format
 msgid "Import"
 msgstr "Importēt"
 
-#: editor/kgpgeditor.cpp:700 keytreeview.cpp:159
+#: editor/kgpgeditor.cpp:697 keytreeview.cpp:159
 #, kde-format
 msgid "Do Not Import"
 msgstr "Neimportēt"
@@ -1243,7 +1234,7 @@ msgstr "<b>Pareiza pārbaudes summa</b>, fails ir derīgs."
 msgid "<b>Wrong checksum, <em>file corrupted</em></b>"
 msgstr "<b>Nederīga pārbaudes summa, <em>fails ir bojāts</em></b>"
 
-#: editor/kgpgtextedit.cpp:84
+#: editor/kgpgtextedit.cpp:85
 #, kde-format
 msgid ""
 "<qt><b>Remote file dropped</b>.<br />The remote file will now be copied to a "
@@ -1254,12 +1245,12 @@ msgstr ""
 "pagaidu failos. Šis pagaidu fails tiks izdzēsts pēc operācijs pabeigšanas.</"
 "qt>"
 
-#: editor/kgpgtextedit.cpp:93
+#: editor/kgpgtextedit.cpp:94
 #, kde-format
 msgid "Could not download file."
 msgstr "Nevarēja lejupielādēt failu."
 
-#: editor/kgpgtextedit.cpp:129
+#: editor/kgpgtextedit.cpp:130
 #, fuzzy, kde-format
 #| msgid ""
 #| "<p>The file <b>%1</b> is a public key.<br />Do you want to import it ?</p>"
@@ -1269,7 +1260,7 @@ msgid ""
 msgstr ""
 "<p>Fails <b>%1</b> ir publiska atslēga.<br />Vai vēlaties importēt?</p>"
 
-#: editor/kgpgtextedit.cpp:132
+#: editor/kgpgtextedit.cpp:133
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>This file is a <b>private</b> key.\n"
@@ -1281,59 +1272,74 @@ msgstr ""
 "<qt>Šis fails ir <b>privātā</b> atslēga.\n"
 "Lūdzu izmantojiet kgpg atslēgu pārvaldnieku, lai importētu to.</qt>"
 
-#: editor/kgpgtextedit.cpp:137
+#: editor/kgpgtextedit.cpp:138
 #, kde-format
 msgid "Key file dropped on Editor"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:260 kgpgexternalactions.cpp:402
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgid "Years"
+msgctxt "@action:button"
+msgid "Yes"
+msgstr "Gadiem"
+
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgctxt "No trust in key"
+#| msgid "None"
+msgctxt "@action:button"
+msgid "No"
+msgstr "Nav"
+
+#: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
 msgid "Decryption failed."
 msgstr "Atšifrēšana neizdevās."
 
-#: editor/kgpgtextedit.cpp:275 foldercompressjob.cpp:132
+#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:132
 #, kde-format
 msgid "The encryption failed with error code %1"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:133
+#: editor/kgpgtextedit.cpp:277 foldercompressjob.cpp:133
 #, kde-format
 msgid "Encryption failed."
 msgstr "Šifrēšana neizdevās"
 
-#: editor/kgpgtextedit.cpp:289
+#: editor/kgpgtextedit.cpp:290
 #, kde-format
 msgid "Signing not possible: bad passphrase or missing key"
 msgstr "Parakstīšana nav iespējama: nepareiza parole vai trūkst atslēgas"
 
-#: editor/kgpgtextedit.cpp:324 kgpgexternalactions.cpp:281
+#: editor/kgpgtextedit.cpp:325 kgpgexternalactions.cpp:282
 #, kde-format
 msgctxt "Caption of message box"
 msgid "Verification Finished"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonimport)
-#: editor/kgpgtextedit.cpp:330 keyserver.ui:145 keyservers.cpp:201
+#: editor/kgpgtextedit.cpp:331 keyserver.ui:145 keyservers.cpp:201
 #, kde-format
 msgid "&Import"
 msgstr "&Importēt"
 
-#: editor/kgpgtextedit.cpp:331
+#: editor/kgpgtextedit.cpp:333
 #, kde-format
 msgid "Import key in your list"
 msgstr "Importēt atslēgu jūsu sarakstā"
 
-#: editor/kgpgtextedit.cpp:334
+#: editor/kgpgtextedit.cpp:337
 #, kde-format
 msgid "Do &Not Import"
 msgstr "&Neimportēt"
 
-#: editor/kgpgtextedit.cpp:335
+#: editor/kgpgtextedit.cpp:339
 #, kde-format
 msgid "Will not import this key in your list"
 msgstr "Neimportēs atslēgas jūsu sarakstā"
 
-#: editor/kgpgtextedit.cpp:337
+#: editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid "Missing Key"
 msgstr "Trūkstoša atslēga"
@@ -1416,7 +1422,7 @@ msgstr "Pieejamās uzticamās atslēgas"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:426 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:418 searchres.ui:29
 #, kde-format
 msgid "Search:"
 msgstr "Meklēt:"
@@ -1787,243 +1793,238 @@ msgstr "Atrasta %1 atbilstoša atslēga"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "Atrasta %1 atbilstoša atslēga"
 
-#: keysmanager.cpp:126
+#: keysmanager.cpp:125
 #, kde-format
 msgid "Key Management"
 msgstr "Atslēgu pārvaldība"
 
-#: keysmanager.cpp:133
+#: keysmanager.cpp:132
 #, kde-format
 msgid "&Open Editor"
 msgstr "&Atvērt redaktoru"
 
-#: keysmanager.cpp:136
+#: keysmanager.cpp:135
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "&Atslēgu servera dialogs"
 
-#: keysmanager.cpp:141 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:140 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "&Doties uz noklusēto atslēgu"
 
-#: keysmanager.cpp:158
-#, kde-format
-msgid "Tip of the &Day"
-msgstr "&Dienas padoms"
-
-#: keysmanager.cpp:161
+#: keysmanager.cpp:153
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "Apskatīt GnuPG rokasgrāmatu"
 
-#: keysmanager.cpp:166
+#: keysmanager.cpp:158
 #, kde-format
 msgid "&Refresh List"
 msgstr "&Atsvaidzināt sarakstu"
 
-#: keysmanager.cpp:170
+#: keysmanager.cpp:162
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr "Rādīt &garu atslēgas ID"
 
-#: keysmanager.cpp:175
+#: keysmanager.cpp:167
 #, kde-format
 msgid "K&ey Properties"
 msgstr "Atslēgas r&ekvizīti"
 
-#: keysmanager.cpp:179
+#: keysmanager.cpp:171
 #, fuzzy, kde-format
 #| msgid "&Open Key Manager"
 msgid "&Open Key URL"
 msgstr "&Atvērt atslēgu pārvaldnieku"
 
-#: keysmanager.cpp:183
+#: keysmanager.cpp:175
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "Rediģēt atslēgu &terminālī"
 
-#: keysmanager.cpp:188
+#: keysmanager.cpp:180
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "&Ģenerēt atslēgu pāri..."
 
-#: keysmanager.cpp:197
+#: keysmanager.cpp:189
 #, kde-format
 msgid "&Import Key..."
 msgstr "&Importēt atslēgu..."
 
-#: keysmanager.cpp:202
+#: keysmanager.cpp:194
 #, kde-format
 msgid "Send Ema&il"
 msgstr ""
 
-#: keysmanager.cpp:206
+#: keysmanager.cpp:198
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "&Izveidot jaunu kontaktu adrešu grāmatā"
 
-#: keysmanager.cpp:212
+#: keysmanager.cpp:204
 #, kde-format
 msgid "&Edit Group..."
 msgstr "&Rediģēt grupu..."
 
-#: keysmanager.cpp:215
+#: keysmanager.cpp:207
 #, kde-format
 msgid "&Delete Group"
 msgstr "&Dzēst grupu"
 
-#: keysmanager.cpp:219
+#: keysmanager.cpp:211
 #, fuzzy, kde-format
 #| msgid "&Delete Group"
 msgid "&Rename Group"
 msgstr "&Dzēst grupu"
 
-#: keysmanager.cpp:228
+#: keysmanager.cpp:220
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "Uzstādīt kā &noklusēto atslēgu"
 
-#: keysmanager.cpp:231
+#: keysmanager.cpp:223
 #, kde-format
 msgid "&Add Photo..."
 msgstr "&Pievienot foto..."
 
-#: keysmanager.cpp:234
+#: keysmanager.cpp:226
 #, kde-format
 msgid "&Add User Id..."
 msgstr "&Pievienot lietotāja ID..."
 
-#: keysmanager.cpp:237
+#: keysmanager.cpp:229
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "Eksportēt slepeno atslēgu..."
 
-#: keysmanager.cpp:240
+#: keysmanager.cpp:232
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "Dzēst atslēgu pāri"
 
-#: keysmanager.cpp:244
+#: keysmanager.cpp:236
 #, kde-format
 msgid "Revoke Key..."
 msgstr "Atsaukt atslēgu..."
 
-#: keysmanager.cpp:247
+#: keysmanager.cpp:239
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "&Pārģenerēt publisko atslēgu"
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:245
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr "Uzstādīt lietotāja ID, kā &primāro"
 
-#: keysmanager.cpp:257
+#: keysmanager.cpp:249
 #, kde-format
 msgid "&Open Photo"
 msgstr "&Atvērt foto"
 
-#: keysmanager.cpp:261
+#: keysmanager.cpp:253
 #, kde-format
 msgid "&Delete Photo"
 msgstr "&Dzēst foto"
 
-#: keysmanager.cpp:269
+#: keysmanager.cpp:261
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "Importēt &pazudušos parakstus no Keyserver"
 
-#: keysmanager.cpp:287 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:279 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "Uzticība"
 
-#: keysmanager.cpp:290 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:282 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "Izmērs"
 
-#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:285 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "Izveidošana"
 
-#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:288 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "Beigu datums"
 
-#: keysmanager.cpp:300
+#: keysmanager.cpp:292
 #, kde-format
 msgid "&Photo ID's"
 msgstr "&Foto ID"
 
-#: keysmanager.cpp:305
+#: keysmanager.cpp:297
 #, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "Mazs"
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:298
 #, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "Vidējs"
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:299
 #, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "Liels"
 
-#: keysmanager.cpp:311
+#: keysmanager.cpp:303
 #, kde-format
 msgid "Minimum &Trust"
 msgstr "Minimāla uz&ticība"
 
-#: keysmanager.cpp:314
+#: keysmanager.cpp:306
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "&Nav"
 
-#: keysmanager.cpp:315
+#: keysmanager.cpp:307
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr "&Aktīvas"
 
-#: keysmanager.cpp:316
+#: keysmanager.cpp:308
 #, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "&Minimāli"
 
-#: keysmanager.cpp:317
+#: keysmanager.cpp:309
 #, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "&Pilnībā"
 
-#: keysmanager.cpp:318
+#: keysmanager.cpp:310
 #, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "&Absolūti"
 
-#: keysmanager.cpp:343
+#: keysmanager.cpp:335
 #, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "&Rādīt tikai slepanās atslēgas"
 
-#: keysmanager.cpp:443
+#: keysmanager.cpp:435
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "Fokusēt meklēšanas rindā"
 
-#: keysmanager.cpp:486
+#: keysmanager.cpp:483
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
@@ -2032,65 +2033,65 @@ msgstr ""
 "Šobrīd notiek cita atslēgas ģenerēšanas darbība.\n"
 "Lūdzu pagaidiet līdz tā tiks pabeigta."
 
-#: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
+#: keysmanager.cpp:484 keysmanager.cpp:522 keysmanager.cpp:570
 #, kde-format
 msgid "Generating new key pair"
 msgstr "Jauna atslēgu pāra ģenerēšana"
 
-#: keysmanager.cpp:526
+#: keysmanager.cpp:523
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "Neizdevās palaist \"konsole\" programmu eksperta režīmam."
 
-#: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
+#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "Gatavs"
 
-#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:574 transactions/kgpggeneratekey.cpp:194
 #, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "Nepareiza parole. Nevar ģenerēt jaunu atslēgu pāri."
 
-#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr "Lietotājs atcēla. Nevar ģenerēt jaunu atslēgu pāri."
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr "E-pasta adrese nav derīga. Nevar ģenerēt jaunu atslēgu pāri."
 
-#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:203
 #, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "gpg nepieņem nosaukumu. Nevar ģenerēt jaunu atslēgu pāri."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:592 newkey.ui:14
+#: keysmanager.cpp:589 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "Jauns atslēgu pāris izveidots"
 
-#: keysmanager.cpp:631
+#: keysmanager.cpp:628
 #, kde-format
 msgid "backup copy"
 msgstr "rezerves kopija"
 
-#: keysmanager.cpp:645 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:642 transactions/kgpggeneratekey.cpp:215
 #, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "gpg process nepabeidzās. Nevar ģenerēt jaunu atslēgu pāri."
 
-#: keysmanager.cpp:749
+#: keysmanager.cpp:736
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr ""
 "Jūs varat atsvaidzināt tikai primārās atslēgas. Lūdzu pārbaudiet atlasi."
 
-#: keysmanager.cpp:873
+#: keysmanager.cpp:860
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
@@ -2099,12 +2100,12 @@ msgstr ""
 "Šobrīd notiek cita darbība.\n"
 "Lūdzu pagaidiet līdz tā tiks pabeigta."
 
-#: keysmanager.cpp:874 keysmanager.cpp:879
+#: keysmanager.cpp:861 keysmanager.cpp:866
 #, kde-format
 msgid "Add New User Id"
 msgstr "Pievienot jauna lietotāja ID"
 
-#: keysmanager.cpp:919
+#: keysmanager.cpp:906
 #, fuzzy, kde-format
 #| msgid ""
 #| "The image must be a JPEG file. Remember that the image is stored within "
@@ -2120,7 +2121,7 @@ msgstr ""
 "publiskajā atslēgā. Ja izmantosiet ļoti lielu attēlu, jūsu atslēga arī "
 "paliks ļoti liela. Vēlamais attēla izmērs ir apmēram 240x288."
 
-#: keysmanager.cpp:951
+#: keysmanager.cpp:938
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2129,58 +2130,58 @@ msgstr ""
 "<qt>Esat drošs, ka vēlaties dzēst foto ID <b>%1</b><br/>no atslēgas <b>%2 "
 "&lt;%3&gt;</b>?</qt>"
 
-#: keysmanager.cpp:1094
+#: keysmanager.cpp:1076
 #, kde-format
 msgid "Public Key"
 msgstr "Publiskā atslēga"
 
-#: keysmanager.cpp:1097
+#: keysmanager.cpp:1079
 #, kde-format
 msgid "Sub Key"
 msgstr "Apakšatslēga"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1082
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "Slepanais atslēgu pāris"
 
-#: keysmanager.cpp:1103
+#: keysmanager.cpp:1085
 #, kde-format
 msgid "Key Group"
 msgstr "Atslēgu grupa"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1106 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1088 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "Paraksts"
 
-#: keysmanager.cpp:1109
+#: keysmanager.cpp:1091
 #, kde-format
 msgid "User ID"
 msgstr "Lietotāja ID"
 
-#: keysmanager.cpp:1112
+#: keysmanager.cpp:1094
 #, kde-format
 msgid "Revocation Signature"
 msgstr "Atsaukšanas paraksts"
 
-#: keysmanager.cpp:1115
+#: keysmanager.cpp:1097
 #, kde-format
 msgid "Photo ID"
 msgstr "Foto ID"
 
-#: keysmanager.cpp:1118
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "Slapenās atslēgas bārenis"
 
-#: keysmanager.cpp:1123
+#: keysmanager.cpp:1105
 #, kde-format
 msgid "Group member"
 msgstr "Grupas biedrs"
 
-#: keysmanager.cpp:1228
+#: keysmanager.cpp:1208
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
@@ -2188,7 +2189,7 @@ msgstr[0] "&Parakstīt lietotāja ID ..."
 msgstr[1] "&Parakstīt lietotāju IDus ..."
 msgstr[2] "&Parakstīt lietotāju IDus ..."
 
-#: keysmanager.cpp:1229
+#: keysmanager.cpp:1209
 #, fuzzy, kde-format
 #| msgid "&Sign User ID ..."
 #| msgid_plural "&Sign User IDs ..."
@@ -2198,7 +2199,7 @@ msgstr[0] "&Parakstīt lietotāja ID ..."
 msgstr[1] "&Parakstīt lietotāju IDus ..."
 msgstr[2] "&Parakstīt lietotāju IDus ..."
 
-#: keysmanager.cpp:1230
+#: keysmanager.cpp:1210
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
@@ -2206,7 +2207,7 @@ msgstr[0] "E&ksportēt publisko atslēgu..."
 msgstr[1] "E&ksportēt publiskās atslēgas..."
 msgstr[2] "E&ksportēt publiskās atslēgas..."
 
-#: keysmanager.cpp:1231
+#: keysmanager.cpp:1211
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
@@ -2214,7 +2215,7 @@ msgstr[0] "&Atsvaidzināt atslēgu no Keyserver"
 msgstr[1] "&Atsvaidzināt atslēgas no Keyserver"
 msgstr[2] "&Atsvaidzināt atslēgas no Keyserver"
 
-#: keysmanager.cpp:1232
+#: keysmanager.cpp:1212
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
@@ -2222,7 +2223,7 @@ msgstr[0] "&Izveidot grupu ar atlasītajai atslēgai..."
 msgstr[1] "&Izveidot grupu ar atlasītajām atslēgam..."
 msgstr[2] "&Izveidot grupu ar atlasītajām atslēgam..."
 
-#: keysmanager.cpp:1233
+#: keysmanager.cpp:1213
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
@@ -2230,7 +2231,7 @@ msgstr[0] "&Parakstīt atslēgu..."
 msgstr[1] "&Parakstīt atslēgas..."
 msgstr[2] "&Parakstīt atslēgas..."
 
-#: keysmanager.cpp:1234
+#: keysmanager.cpp:1214
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
@@ -2238,7 +2239,7 @@ msgstr[0] "&Dzēst lietotāja ID"
 msgstr[1] "&Dzēst lietotāja IDus"
 msgstr[2] "&Dzēst lietotāja IDus"
 
-#: keysmanager.cpp:1235
+#: keysmanager.cpp:1215
 #, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
@@ -2246,7 +2247,7 @@ msgstr[0] "Dzēst p&arakstu"
 msgstr[1] "Dzēst p&arakstus"
 msgstr[2] "Dzēst p&arakstus"
 
-#: keysmanager.cpp:1236
+#: keysmanager.cpp:1216
 #, fuzzy, kde-format
 #| msgid "Import Key From Keyserver"
 #| msgid_plural "Import Keys From Keyserver"
@@ -2256,7 +2257,7 @@ msgstr[0] "Importēt %1 atslēgu no Keyserver"
 msgstr[1] "Importēt %1 atslēgas no Keyserver"
 msgstr[2] "Importēt %1 atslēgas no Keyserver"
 
-#: keysmanager.cpp:1237
+#: keysmanager.cpp:1217
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
@@ -2264,12 +2265,12 @@ msgstr[0] "&Dzēst atslēgu"
 msgstr[1] "&Dzēst atslēgas"
 msgstr[2] "&Dzēst atslēgas"
 
-#: keysmanager.cpp:1360
+#: keysmanager.cpp:1340
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "Atsaukšanas sertifikāta izveide neizdevās..."
 
-#: keysmanager.cpp:1375
+#: keysmanager.cpp:1355
 #, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2280,17 +2281,17 @@ msgstr ""
 "kāds cits var piekļūt šim failam, šifrēšana ar šo atslēgu būs apdraudēta.<br/"
 ">Turpināt atslēgas eksportu?</qt>"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "Eksportēt PRIVĀTO ATSLĒGU kā"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr ""
 
-#: keysmanager.cpp:1405
+#: keysmanager.cpp:1385
 #, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
@@ -2299,7 +2300,7 @@ msgstr ""
 "<qt>Jūsu <b>privātā</b> atslēga \"%1\" tika veiksmīgi eksportēta uz<br/>%2."
 "<br/><b>Neatstājiet</b> to nedrošā vietā.</qt>"
 
-#: keysmanager.cpp:1408
+#: keysmanager.cpp:1388
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2308,7 +2309,7 @@ msgstr ""
 "Jūsu slepeno atslēgu nevarēja eksportēt.\n"
 "Pārbaudiet atslēgu"
 
-#: keysmanager.cpp:1510
+#: keysmanager.cpp:1490
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
@@ -2316,7 +2317,7 @@ msgstr[0] "<qt>%1 publiskā atslēga tika veiksmīgi saglabāta uz <br/>%2</qt>"
 msgstr[1] "<qt>%1 publiskās atslēgas tika veiksmīgi saglabātas uz <br/>%2</qt>"
 msgstr[2] "<qt>%1 publisko atslēgu tika veiksmīgi saglabātas uz <br/>%2</qt>"
 
-#: keysmanager.cpp:1514 keysmanager.cpp:1529 keysmanager.cpp:1543
+#: keysmanager.cpp:1494 keysmanager.cpp:1509 keysmanager.cpp:1523
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2325,7 +2326,7 @@ msgstr ""
 "Jūsu publisko atslēgu nevar eksportēt\n"
 "Pārbaudiet atslēgu"
 
-#: keysmanager.cpp:1652
+#: keysmanager.cpp:1632
 #, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
@@ -2335,27 +2336,27 @@ msgstr ""
 "atslēgas). Pagaidām tā nav lietojama.</p> <p>Vai vēlaties veikt publiskās "
 "atslēgas ģenerāciju?</p>"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, kde-format
 msgid "Generate"
 msgstr "Ģenerēt"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, kde-format
 msgid "Do Not Generate"
 msgstr "Neģenerēt"
 
-#: keysmanager.cpp:1684
+#: keysmanager.cpp:1664
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Esat drošs, ka vēlaties dzēst grupu <b>%1</b>?</qt>"
 
-#: keysmanager.cpp:1685 keysmanager.cpp:2355
+#: keysmanager.cpp:1665 keysmanager.cpp:2335
 #, kde-format
 msgid "Delete"
 msgstr "Dzēst"
 
-#: keysmanager.cpp:1715
+#: keysmanager.cpp:1695
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2364,24 +2365,24 @@ msgstr ""
 "<qt>Jūs nevarat veidot grupu, kura satur parakstus, apakšatslēgas vai citas "
 "grupas.</qt>"
 
-#: keysmanager.cpp:1730 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1710 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr "%1 (%2) ID: %3"
 
-#: keysmanager.cpp:1735
+#: keysmanager.cpp:1715
 #, kde-format
 msgid "Create New Group"
 msgstr "Izveidot jaunu grupu"
 
-#: keysmanager.cpp:1736
+#: keysmanager.cpp:1716
 #, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "Ievadiet grupas nosaukumu:"
 
-#: keysmanager.cpp:1741
+#: keysmanager.cpp:1721
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
@@ -2389,7 +2390,7 @@ msgid ""
 msgstr ""
 "Šīs atslēgas nav derīgas vai nav uzticamas un netiks pievienotas grupai:"
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1727
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2398,17 +2399,17 @@ msgstr ""
 "<qt>Izvēlēta nederīga vai neuzticama atslēga. Grupa <b>%1</b> netiks "
 "izveidota.</qt>"
 
-#: keysmanager.cpp:1759
+#: keysmanager.cpp:1739
 #, kde-format
 msgid "Group Properties"
 msgstr "Grupas rekvizīti"
 
-#: keysmanager.cpp:1795
+#: keysmanager.cpp:1775
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "Jūs varat tikai parakstīt primāras atslēgas. Lūdzu pārbaudiet atlasi."
 
-#: keysmanager.cpp:1804
+#: keysmanager.cpp:1784
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2421,7 +2422,7 @@ msgstr ""
 "atslēgas pirkstunospiedums sazvanoties vai satiekoties ar atslēgas "
 "īpašnieku, lai būtu drošs, ka kāds nemēģina pārtvert jūsu komunikāciju.</qt>"
 
-#: keysmanager.cpp:1809
+#: keysmanager.cpp:1789
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2434,20 +2435,20 @@ msgstr ""
 "atslēgas pirkstu nospiedums, sazvanoties vai satiekoties ar atslēgas "
 "īpašnieku, lai būtu drošs, ka kāds nemēģina pārtvert jūsu komunikāciju.</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr "%1 (%2): %3"
 
-#: keysmanager.cpp:1832
+#: keysmanager.cpp:1812
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2458,12 +2459,12 @@ msgstr ""
 "nēsat pārbaudījis uzmanīgi visu atslēgu pirkstunospiedumus, jūsu "
 "komunikāciju drošība var tikt apdraudēta.</b></qt>"
 
-#: keysmanager.cpp:1874 keysmanager.cpp:2021
+#: keysmanager.cpp:1854 keysmanager.cpp:2001
 #, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr "Jūs varat tikai parakstīt primāras atslēgas. Lūdzu pārbaudiet izvēli."
 
-#: keysmanager.cpp:1888
+#: keysmanager.cpp:1868
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2476,7 +2477,7 @@ msgstr ""
 "pirkstu nospiedums, sazvanoties vai satiekoties ar atslēgas īpašnieku, lai "
 "būtu drošs, ka kāds nemēģina pārtvert jūsu komunikāciju.</qt>"
 
-#: keysmanager.cpp:1892
+#: keysmanager.cpp:1872
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2489,7 +2490,7 @@ msgstr ""
 "atslēgas pirkstu nospiedums, sazvanoties vai satiekoties ar atslēgas "
 "īpašnieku, lai būtu drošs, ka kāds nemēģina pārtvert jūsu komunikāciju.</qt>"
 
-#: keysmanager.cpp:1918
+#: keysmanager.cpp:1898
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2500,17 +2501,17 @@ msgstr ""
 "neesat pārbaudījis uzmanīgi visu atslēgu pirkstu nospiedumus, jūsu "
 "komunikāciju drošība var būt apdraudēta.</b></qt>"
 
-#: keysmanager.cpp:1987
+#: keysmanager.cpp:1967
 #, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>Nepareiza parole, atslēga <b>%1 (%2)</b> nav parakstīta.</qt>"
 
-#: keysmanager.cpp:1991
+#: keysmanager.cpp:1971
 #, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>Atslēga <b>%1 (%2)</b>, jau ir parakstīta.</qt>"
 
-#: keysmanager.cpp:1996
+#: keysmanager.cpp:1976
 #, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
@@ -2519,7 +2520,14 @@ msgstr ""
 "<qt>Atslēgas <b>%1</b> parakstīšana ar atslēgu <b>%2</b> neizdevās.<br />Vai "
 "vēlaties parakstīt atslēgu konsoles režīmā?</qt>"
 
-#: keysmanager.cpp:2114
+#: keysmanager.cpp:1978
+#, fuzzy, kde-format
+#| msgid "Signature"
+msgctxt "@action:button"
+msgid "Sign"
+msgstr "Paraksts"
+
+#: keysmanager.cpp:2094
 #, fuzzy, kde-format
 #| msgid "All signatures for this key are already in your keyring"
 #| msgid_plural "All signatures for this keys are already in your keyring"
@@ -2529,12 +2537,12 @@ msgstr[0] "Visi %1 atslēgas paraksti jau ir atslēgas saišķī."
 msgstr[1] "Visu %1 atslēgu paraksti jau ir atslēgas saišķī."
 msgstr[2] "Visu %1 atslēgu paraksti jau ir atslēgas saišķī."
 
-#: keysmanager.cpp:2201
+#: keysmanager.cpp:2181
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "Rediģēt atslēgu manuāli, lai dzēstu savu parakstu."
 
-#: keysmanager.cpp:2205
+#: keysmanager.cpp:2185
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
@@ -2543,12 +2551,12 @@ msgstr ""
 "<qt>Esat drošs, ka vēlaties dzēst parakstu<br /><b>%1</b><br />no lietotāja "
 "id <b>%2</b><br />no atslēgas: <b>%3</b>?</qt>"
 
-#: keysmanager.cpp:2227
+#: keysmanager.cpp:2207
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "Pieprasītā operācija ir neveiksmīga, lūdzu rediģējiet atslēgu manuāli."
 
-#: keysmanager.cpp:2311
+#: keysmanager.cpp:2291
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2566,21 +2574,21 @@ msgstr[2] ""
 "<qt>Atslēga, ko dzēšat, ir daļa no šīm atslēgu grupām. Vai vēlaties to "
 "izņemt no šīm grupām?</qt>"
 
-#: keysmanager.cpp:2315 keysmanager.cpp:2329 keysmanager.cpp:2364
-#: keysmanager.cpp:2379 keysmanager.cpp:2382 keysmanager.cpp:2393
-#: keysmanager.cpp:2407 keysmanager.cpp:2448
+#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
+#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
+#: keysmanager.cpp:2387 keysmanager.cpp:2428
 #, kde-format
 msgid "Delete key"
 msgstr "Dzēst atslēgu"
 
-#: keysmanager.cpp:2328
+#: keysmanager.cpp:2308
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
 
-#: keysmanager.cpp:2352
+#: keysmanager.cpp:2332
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2590,7 +2598,7 @@ msgstr ""
 "nozīmē, ka jūs nekad nevarēsiet atšifrēt failus, kuri tika širēti ar šim "
 "atslēgām."
 
-#: keysmanager.cpp:2363 keysmanager.cpp:2392
+#: keysmanager.cpp:2343 keysmanager.cpp:2372
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2599,29 +2607,29 @@ msgstr ""
 "Šobrīd notiek cita atslēgas dzēšanas darbība.\n"
 "Lūdzu pagaidiet līdz tā tiks pabeigta."
 
-#: keysmanager.cpp:2379
+#: keysmanager.cpp:2359
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "Atslēga <b>%1</b> izdzēsta."
 
-#: keysmanager.cpp:2382
+#: keysmanager.cpp:2362
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "Neizdevās izdēst atslēgu <b>%1</b>."
 
-#: keysmanager.cpp:2406
+#: keysmanager.cpp:2386
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr "Nevar dzēst atslēgu <b>%1</b>, kamēr tā tiek rediģētā terminālī."
 
-#: keysmanager.cpp:2447
+#: keysmanager.cpp:2427
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr "Izvēlētie ieraksti nav natslēgas. Tos nevar izdzēst ar šo darbību."
 
-#: keysmanager.cpp:2472
+#: keysmanager.cpp:2452
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2629,7 +2637,7 @@ msgid ""
 msgstr ""
 "<qt>Šie ir slepeno atslēgu pāri:<br/><b>%1</b><br/>Tie netiks dzēsti.</qt>"
 
-#: keysmanager.cpp:2482
+#: keysmanager.cpp:2462
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
@@ -2637,70 +2645,70 @@ msgstr[0] "<qt><b>Dzēst šo %1 publisko atslēgu?</b></qt>"
 msgstr[1] "<qt><b>Dzēst šīs %1 publiskās atslēgas?</b></qt>"
 msgstr[2] "<qt><b>Dzēst šīs %1 publiskās atslēgas?</b></qt>"
 
-#: keysmanager.cpp:2513 keysmanager.cpp:2589 keysmanager.cpp:2600
+#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
 #, kde-format
 msgid "Key Import"
 msgstr "Atslēgu imports"
 
-#: keysmanager.cpp:2521
+#: keysmanager.cpp:2501
 #, kde-format
 msgid "Open File"
 msgstr "Atvērt failu"
 
-#: keysmanager.cpp:2554
+#: keysmanager.cpp:2534
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2536
 #, fuzzy, kde-format
 #| msgid "&Encrypt Clipboard"
 msgid "Import from Clipboard"
 msgstr "Ši&frēt starpliktuvi"
 
-#: keysmanager.cpp:2576
+#: keysmanager.cpp:2556
 #, kde-format
 msgid "Importing..."
 msgstr "Importē..."
 
-#: keysmanager.cpp:2588
+#: keysmanager.cpp:2568
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr "Atslēgu importēšana neizdevās. Žurnālā pieejama papildus informācija"
 
-#: keysmanager.cpp:2641
+#: keysmanager.cpp:2621
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - šifrēšanass rīks"
 
-#: keysmanager.cpp:2662
+#: keysmanager.cpp:2644
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "&Atslēgu pārvaldnieks"
 
-#: keysmanager.cpp:2665
+#: keysmanager.cpp:2647
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "Ši&frēt starpliktuvi"
 
-#: keysmanager.cpp:2668
+#: keysmanager.cpp:2650
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&Atšifrēt starpliktuvi"
 
-#: keysmanager.cpp:2671
+#: keysmanager.cpp:2653
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&Parakstīt/verificēt starpliktuvi"
 
-#: keysmanager.cpp:2708 keysmanager.cpp:2811 keysmanager.cpp:2829
+#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Starpliktuve ir tukša."
 
-#: keysmanager.cpp:2753
+#: keysmanager.cpp:2735
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "Teksts veiksmīgi nošifrēts."
@@ -2754,27 +2762,27 @@ msgstr ""
 "parakstīšanā/atšifrēšanā.<br />Lūdzu izslēdziet GnuPG aģentu KGpg "
 "iestatījumos, vai salabojiet aģentu.</qt>"
 
-#: kgpg.cpp:123 kgpg.cpp:130 kgpg.cpp:137 kgpg.cpp:144
+#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:134
+#: kgpg.cpp:132
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Nevar atšifrēt un parādīt mapi."
 
-#: kgpg.cpp:141
+#: kgpg.cpp:139
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Nevar parakstīt mapi."
 
-#: kgpg.cpp:148
+#: kgpg.cpp:146
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Nevar verificēt mapi."
 
-#: kgpg.cpp:151
+#: kgpg.cpp:149
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2785,37 +2793,37 @@ msgstr ""
 "Lūdzu norādiet tikai vienu mapi, vai vairākus failus, bet nejauciet kopā "
 "failus un mapes."
 
-#: kgpg.cpp:189
+#: kgpg.cpp:187
 #, kde-format
 msgid "Encrypt file"
 msgstr "Šifrēt failu"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:188
 #, kde-format
 msgid "Open key manager"
 msgstr "Atvērt atslēgu pārvaldnieku"
 
-#: kgpg.cpp:191
+#: kgpg.cpp:189
 #, kde-format
 msgid "Open editor"
 msgstr "Atvērt redaktoru"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:190
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Rādīt šifrēto failu"
 
-#: kgpg.cpp:193 kgpgoptions.cpp:503
+#: kgpg.cpp:191 kgpgoptions.cpp:505
 #, kde-format
 msgid "Sign File"
 msgstr "Parakstīt failu"
 
-#: kgpg.cpp:194
+#: kgpg.cpp:192
 #, kde-format
 msgid "Verify signature"
 msgstr "Verificēt parakstu"
 
-#: kgpg.cpp:195
+#: kgpg.cpp:193
 #, kde-format
 msgid "File to open"
 msgstr "Atveramais fails"
@@ -2986,7 +2994,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Izmantot peles iezīmēšanu, nevis starpliktuvi."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Sākt KGpg automātiski ar KDE."
@@ -3043,62 +3051,56 @@ msgstr "Rādīt sistēmas joslas ikonu"
 msgid "The number of recently opened files shown in the editor menu."
 msgstr "Nesen atvērto failu saraksts, ko rāda redaktora izvēlnē."
 
-#. i18n: ectx: label, entry (ShowTipOfDay), group (TipOfDay)
-#: kgpg.kcfg:187
-#, kde-format
-msgid "Show tip of the day."
-msgstr "Rādīt dienas padomu."
-
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
-#: kgpg.kcfg:194
+#: kgpg.kcfg:187
 #, kde-format
 msgid "Color used for trusted keys."
 msgstr "Uzticamo atslēgu krāsa."
 
 #. i18n: ectx: label, entry (ColorRev), group (Key Colors)
-#: kgpg.kcfg:198
+#: kgpg.kcfg:191
 #, kde-format
 msgid "Color used for revoked keys."
 msgstr "Atsaukto atslēgu krāsa."
 
 #. i18n: ectx: label, entry (ColorUnknown), group (Key Colors)
-#: kgpg.kcfg:202
+#: kgpg.kcfg:195
 #, kde-format
 msgid "Color used for unknown keys."
 msgstr "Nezināmo atslēgu krāsa."
 
 #. i18n: ectx: label, entry (ColorBad), group (Key Colors)
-#: kgpg.kcfg:206
+#: kgpg.kcfg:199
 #, kde-format
 msgid "Color used for untrusted keys."
 msgstr "Neuzticamo atslēgu krāsa."
 
 #. i18n: ectx: label, entry (ColorUltimate), group (Key Colors)
-#: kgpg.kcfg:210
+#: kgpg.kcfg:203
 #, kde-format
 msgid "Color used for ultimately trusted keys."
 msgstr "Pilnīgi uzticamo atslēgu krāsa."
 
 #. i18n: ectx: label, entry (ColorMarginal), group (Key Colors)
-#: kgpg.kcfg:214
+#: kgpg.kcfg:207
 #, kde-format
 msgid "Color used for marginally trusted keys."
 msgstr "Daļēji uzticamo atslēgu krāsa."
 
 #. i18n: ectx: label, entry (ColorExpired), group (Key Colors)
-#: kgpg.kcfg:218
+#: kgpg.kcfg:211
 #, kde-format
 msgid "Color used for expired keys."
 msgstr "Izbeigušos atslēgu krāsa."
 
 #. i18n: ectx: label, entry (Font), group (Text Font)
-#: kgpg.kcfg:225
+#: kgpg.kcfg:218
 #, kde-format
 msgid "Font"
 msgstr "Fonts"
 
 #. i18n: ectx: label, entry (KeyServers), group (Servers)
-#: kgpg.kcfg:248
+#: kgpg.kcfg:241
 #, kde-format
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
@@ -3107,7 +3109,7 @@ msgstr ""
 "serveris."
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
-#: kgpg.kcfg:252
+#: kgpg.kcfg:245
 #, fuzzy, kde-format
 #| msgid ""
 #| "Key servers used by KGpg. The first server in the list is the default "
@@ -3120,29 +3122,29 @@ msgstr ""
 "serveris."
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
-#: kgpg.kcfg:259
+#: kgpg.kcfg:252
 #, kde-format
 msgid "Use HTTP proxy when available."
 msgstr "Izmantot HTTP starpniekserveri, kad pieejams."
 
 #. i18n: ectx: label, entry (EmailTemplate), group (Key Signing)
-#: kgpg.kcfg:266
+#: kgpg.kcfg:259
 #, kde-format
 msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
 msgstr ""
 
-#: kgpgexternalactions.cpp:126
+#: kgpgexternalactions.cpp:127
 #, kde-format
 msgid "Cannot create temporary file for folder compression."
 msgstr ""
 
-#: kgpgexternalactions.cpp:126 kgpgexternalactions.cpp:133
+#: kgpgexternalactions.cpp:127 kgpgexternalactions.cpp:134
 #, kde-format
 msgid "Temporary File Creation"
 msgstr "Pagaidu faila izveidošana"
 
-#: kgpgexternalactions.cpp:131
+#: kgpgexternalactions.cpp:132
 #, kde-format
 msgid ""
 "<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process "
@@ -3152,12 +3154,12 @@ msgstr ""
 "<qt>KGpg izveidos pagaidu arhīva failu:<br /><b>%1</b>, lai veiktu "
 "šifrēšanu. Kad šifrēšana tiks pabeigta, fails tiks izdzēsts.</qt>"
 
-#: kgpgexternalactions.cpp:147
+#: kgpgexternalactions.cpp:148
 #, kde-format
 msgid "Compression method for archive:"
 msgstr "Kompresijas metode arhīvam:"
 
-#: kgpgexternalactions.cpp:400
+#: kgpgexternalactions.cpp:401
 #, kde-format
 msgid "Decryption of this file failed:"
 msgid_plural "Decryption of these files failed:"
@@ -3165,7 +3167,7 @@ msgstr[0] "Šī faila atšifrēšana neizdevās:"
 msgstr[1] "Šo failu atšifrēšana neizdevās:"
 msgstr[2] "Šo failu atšifrēšana neizdevās:"
 
-#: kgpgexternalactions.cpp:424
+#: kgpgexternalactions.cpp:425
 #, kde-format
 msgid ""
 "<qt>You have not set a path to your GnuPG config file.<br />This may cause "
@@ -3176,22 +3178,22 @@ msgstr ""
 "var radīt neparedzamus rezultātus KGpg izpildē.<br />Vai vēlaties palaist "
 "KGpg palīgu, lai izlabotu šo problēmu?</qt>"
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Start Assistant"
 msgstr "Palaist palīgu"
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Do Not Start"
 msgstr "Nelaist"
 
-#: kgpgfirstassistant.cpp:34
+#: kgpgfirstassistant.cpp:35
 #, kde-format
 msgid "KGpg Assistant"
 msgstr "KGpg palīgs"
 
-#: kgpgfirstassistant.cpp:58
+#: kgpgfirstassistant.cpp:59
 #, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3202,17 +3204,17 @@ msgstr ""
 "nepieciešami, lai KGpg darbotos pareizi. Tālāk, tas ļaus jums izveidot jūsu "
 "atslēgu pāri, kurš ļaus jums šifrēt jūsu failus un e-pastus."
 
-#: kgpgfirstassistant.cpp:66
+#: kgpgfirstassistant.cpp:67
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr "Laipni lūdzam KGpg palīgā"
 
-#: kgpgfirstassistant.cpp:78
+#: kgpgfirstassistant.cpp:79
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg jāzina, kuru GnuPG izpildfailu izmantot."
 
-#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3221,55 +3223,55 @@ msgstr ""
 "Ja nevēlaties izmantot neparastus iestatījumus, tad vienkārši nospiediet "
 "\"tālāk\" pogu."
 
-#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
 #, fuzzy, kde-format
 #| msgid "GnuPG binary"
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "GnuPG izpildfails"
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
 #, fuzzy, kde-format
 #| msgid "*|All Files"
 msgid "All files"
 msgstr "*|Visi faili"
 
-#: kgpgfirstassistant.cpp:137
+#: kgpgfirstassistant.cpp:138
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "KGpg jāzina, kur atrodas jūsu GnuPG konfigurācijas fails."
 
-#: kgpgfirstassistant.cpp:152
+#: kgpgfirstassistant.cpp:153
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "Ceļš uz jūsu GnuPG konfigurācijas failu:"
 
-#: kgpgfirstassistant.cpp:166
+#: kgpgfirstassistant.cpp:167
 #, kde-format
 msgid "Configuration File"
 msgstr "Konfigurācijas fails"
 
-#: kgpgfirstassistant.cpp:176
+#: kgpgfirstassistant.cpp:177
 #, kde-format
 msgid "Your default key:"
 msgstr "Jūsu noklusēta atslēga:"
 
-#: kgpgfirstassistant.cpp:195
+#: kgpgfirstassistant.cpp:196
 #, kde-format
 msgid "Default Key"
 msgstr "Noklusētā atslēga"
 
-#: kgpgfirstassistant.cpp:216
+#: kgpgfirstassistant.cpp:217
 #, kde-format
 msgid "Generate new key"
 msgstr "Ģenerēt jaunu atslēgu"
 
-#: kgpgfirstassistant.cpp:230
+#: kgpgfirstassistant.cpp:231
 #, kde-format
 msgid "Done"
 msgstr "Pabeigts"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3278,37 +3280,37 @@ msgstr ""
 "<qt><b>GnuPG konfigurācijas fails netika atrasts</b>.  Vai KGpg mēģināt "
 "izveidot jaunu konfigurācijas failu?</qt>"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid "Create Config"
 msgstr "Izveidot konfigurāciju"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid "Do Not Create"
 msgstr "Neveidot"
 
-#: kgpgfirstassistant.cpp:252
+#: kgpgfirstassistant.cpp:253
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>Neizdevās atrast GnuPG konfigurācijas failu</b>.</qt>"
 
-#: kgpgfirstassistant.cpp:294
+#: kgpgfirstassistant.cpp:295
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "Jūsu GnuPG izpildfails ir: %1"
 
-#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
+#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "Jums ir GnuPG versija: %1"
 
-#: kgpgfirstassistant.cpp:316
+#: kgpgfirstassistant.cpp:317
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "Jūsu noklusētā atslēga ir: %1"
 
-#: kgpgfirstassistant.cpp:367
+#: kgpgfirstassistant.cpp:368
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3606,37 +3608,37 @@ msgstr "Mainīt paroli..."
 msgid "Fingerprint"
 msgstr "Pirkstu nospiedums"
 
-#: kgpgoptions.cpp:105
+#: kgpgoptions.cpp:107
 #, kde-format
 msgid "Decryption"
 msgstr "Atšifrēšana"
 
-#: kgpgoptions.cpp:106
+#: kgpgoptions.cpp:108
 #, kde-format
 msgid "Appearance"
 msgstr "Izskats"
 
-#: kgpgoptions.cpp:107
+#: kgpgoptions.cpp:109
 #, kde-format
 msgid "GnuPG Settings"
 msgstr "GnuPG iestatījumi"
 
-#: kgpgoptions.cpp:108
+#: kgpgoptions.cpp:110
 #, kde-format
 msgid "Key Servers"
 msgstr "Atslēgu serveris"
 
-#: kgpgoptions.cpp:109
+#: kgpgoptions.cpp:111
 #, kde-format
 msgid "Misc"
 msgstr "Dažādi"
 
-#: kgpgoptions.cpp:144
+#: kgpgoptions.cpp:146
 #, kde-format
 msgid "New GnuPG Home Location"
 msgstr "Jaunā GnuPG mājas atrašanās vieta"
 
-#: kgpgoptions.cpp:157
+#: kgpgoptions.cpp:159
 #, fuzzy, kde-format
 #| msgid ""
 #| "No configuration file was found in the selected location.\n"
@@ -3654,22 +3656,22 @@ msgstr ""
 "\n"
 "Bez konfigurācijas faila, KGpg un GnuPG nestrādās korekti."
 
-#: kgpgoptions.cpp:158
+#: kgpgoptions.cpp:160
 #, kde-format
 msgid "No Configuration File Found"
 msgstr "Netika atrasts konfigurācijas fails"
 
-#: kgpgoptions.cpp:159
+#: kgpgoptions.cpp:161
 #, kde-format
 msgid "Create"
 msgstr "Izveidot"
 
-#: kgpgoptions.cpp:160
+#: kgpgoptions.cpp:162
 #, kde-format
 msgid "Ignore"
 msgstr "Ignorēt"
 
-#: kgpgoptions.cpp:174
+#: kgpgoptions.cpp:176
 #, kde-format
 msgid ""
 "Cannot create configuration file. Please check if destination media is "
@@ -3678,33 +3680,33 @@ msgstr ""
 "Nevar izveidot konfigurācijas failu. Lūdzu pārbaudiet vai gala mērķa datu "
 "nesējs ir montēts un jums ir rakstoša piekļuve."
 
-#: kgpgoptions.cpp:197
+#: kgpgoptions.cpp:199
 #, kde-format
 msgid "Key server URLs may not contain whitespace."
 msgstr "Atslēgu servera URL nevar saturēt atstarpes."
 
-#: kgpgoptions.cpp:202
+#: kgpgoptions.cpp:204
 #, kde-format
 msgid "Key server already in the list."
 msgstr "Atslēgu serveris jau ir sarakstā."
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Add New Key Server"
 msgstr "Pievienot jaunu atslēgas serveri"
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Server URL:"
 msgstr "Servera URL:"
 
-#: kgpgoptions.cpp:464 kgpgoptions.cpp:466
+#: kgpgoptions.cpp:466 kgpgoptions.cpp:468
 #, kde-format
 msgctxt "no key available"
 msgid "none"
 msgstr "nav"
 
-#: kgpgoptions.cpp:486
+#: kgpgoptions.cpp:488
 #, kde-format
 msgid "Decrypt File"
 msgstr "Atšifrēt failu"
@@ -4212,152 +4214,6 @@ msgstr ""
 "Ievadiet atslēgu IDus vai pirkstu nospiedumus kā ar atstarpi atdalītu "
 "sarakstu."
 
-#. i18n: ectx: @info:tipoftheday
-#: tips:2
-#, kde-format
-msgid ""
-"<p>If you want to decrypt a text file, simply drag and drop it into the "
-"editor window. KGpg will do the rest. Even remote files can be dropped.</p>\n"
-"<p>Drag a public key into the editor window and kgpg will automatically "
-"import it if you want.</p>\n"
-msgstr ""
-"<p>Ja vēlaties atšifrēt teksta failu, vienkārši velciet un iemetiet to "
-"redaktora logā. KGpg izdarīs visu pats. Var iemest pat attālinātus failus.</"
-"p>\n"
-"<p>Velciet publiskās atslēgas uz redaktora logu un kgpg automātiski importēs "
-"šīs atslēgas, ja vēlēsieties.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:7
-#, kde-format
-msgid ""
-"<p>The easiest way to encrypt a file: simply right click on the file, and "
-"you have an encrypt option in the contextual menu.\n"
-"This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
-msgstr ""
-"<p>Vieglākais veids, lai nošifrētu failu, ir uzklikšķināt uz faila ar labo "
-"taustiņu, atvērsies konteksta izvēlne, kur būs arī darbības failu "
-"šifrēšanā.\n"
-"Strādā <strong>konqueror</strong> lietotnē un uz jūsu Darbvirsmas!</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:13
-#, kde-format
-msgid ""
-"<p>If you want to encrypt a message for several persons, just select several "
-"encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
-msgstr ""
-"<p>Ja vēlaties šifrēt ziņu vairākām personām, tad izvēlieties vairākas "
-"šifrēšanas atslēgas turot nospiestu &quot;Ctrl&quot; taustiņu.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:18
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p><strong>You do not know anything about encryption?</strong><br>\n"
-#| "No problem, simply create yourself a key pair in the key management "
-#| "window. Then, export your public key and mail it to your friends.<br>\n"
-#| "Ask them to do the same and import their public keys. Finally, to send an "
-#| "encrypted message, type it in the KGpg editor, then click &quot;"
-#| "encrypt&quot;. Choose\n"
-#| "your friend key and click &quot;encrypt&quot; again. The message will be "
-#| "encrypted, ready to be sent by email.</p>\n"
-msgid ""
-"<p><strong>You do not have to be an expert in encryption to use this tool?</"
-"strong><br>\n"
-"Simply create yourself a key pair in the key management window. Then, export "
-"your public key and mail it to your friends.<br>\n"
-"Ask them to do the same and import their public keys. Finally, to send an "
-"encrypted message, type it in the KGpg editor, then click &quot;"
-"encrypt&quot;. Choose\n"
-"your friend's key and click &quot;encrypt&quot; again. The message will be "
-"encrypted, ready to be sent by email.</p>\n"
-msgstr ""
-"<p><strong>Nezināt neko par šifrēšanu?</strong><br>\n"
-"Vienkārši atslēgu pārvaldniekā izveidojiet sev atslēgu pāri. Tad veiciet "
-"publisās atslēgas eksportu un nosūtiet to saviem draugiem.<br>\n"
-"Jautājiet, lai viņi izdara to pašu un importējiet viņu publiskās atslēgas. "
-"Beidzot, lai nosūtītu šifrētu ziņu, ievadiet to KGpg redaktorā, tad "
-"nospiediet &quot;šifrēt&quot;. Izvēlieties\n"
-"drauga atslēgu un nospiediet vēlreiz &quot;šifrēt&quot;. Ziņa tiks "
-"nošifrēta, gatava aizsūtīšanai pa e-pastu.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:26
-#, kde-format
-msgid ""
-"<p>To perform an operation on a key, open the key management window and "
-"right click on the key. A popup menu with all available options will appear."
-"</p>\n"
-msgstr ""
-"<p>Lai veiktu darbības ar atslēgu, atveriet atslēgu pārvaldnieku un "
-"uzklikšķiniet ar labo peles taustiņu uz atslēgas. Atvērsies konteksta "
-"izvēlne ar visām pieejamām darbībām.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:31
-#, kde-format
-msgid ""
-"<p>Decrypt a file with a single mouse click on it. You will then be prompted "
-"for password, and then that is it!</p>\n"
-msgstr ""
-"<p>Atšifrējiet failu ar vienu peles klikšķi. Jums pajautās tikai parol un "
-"viss.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:36
-#, kde-format
-msgid ""
-"<p>If you only want to open the key manager, type this in the command line "
-"prompt: <pre>kgpg -k</pre>\n"
-"The editor can be reached by: <pre>kgpg -d</pre></p>\n"
-msgstr ""
-"<p>Ja vēlaties tikai atvērt atslēgu pārvaldnieku, ievadiet komandu līnijā: "
-"<pre>kgpg -k</pre>\n"
-"Redaktoru var atvērt ar komandu: <pre>kgpg -d</pre></p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:42
-#, kde-format
-msgid ""
-"<p>To open a file in the KGpg's editor and immediately decrypt it type: "
-"<pre>kgpg -s filename</pre></p>\n"
-msgstr ""
-"<p>Lai atvērtu failu KGpg redaktorā un uzreiz atšifrēt, ievadiet: <pre>kgpg -"
-"s failanosaukums</pre></p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:47
-#, kde-format
-msgid ""
-"<p>If you want to change the password or expiration of a secret key simply "
-"double click on it to get the key properties dialog.</p>\n"
-msgstr ""
-"<p>Ja vēlaties mainīt paroli vai beigu datumu slepenajai atslēgai, vienkārši "
-"veiciet dubultklikšķi uz atslēgas, lai atvērtu rekvizītu logu.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:52
-#, kde-format
-msgid ""
-"<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the "
-"key manager.</p>\n"
-msgstr ""
-"<p>Jūs varat nokļūt uz noklusēto atslēgu nospiežot &quot;Ctrl+Home&quot; "
-"atslēgu pārvaldniekā.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:57
-#, kde-format
-msgid ""
-"<p>The number of signatures is shown as a tooltip if you hover the mouse on "
-"the size column in key manager. A key has to be expanded once for this to "
-"work.</p>\n"
-msgstr ""
-"<p>Parakstu skaits tiks parādīts paskaidrē, kad novietosiet kursoru virs "
-"izmēra kolonnas atslēgu pārvaldniekā. Lai tas strādātu nepieciešams lai "
-"atslēga būtu kaut reizi izvērsta.</p>\n"
-
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "This image is very large. Use it anyway?"
@@ -4827,6 +4683,135 @@ msgstr "<qt>Paraksts ir derīgs, bet atslēga nav uzticama<br/></qt>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<qt>Paraksts ir derīgs un atslēga ir absolūti uzticama<br/></qt>"
+
+#~ msgid ""
+#~ "The document could not been saved, as the selected encoding cannot encode "
+#~ "every unicode character in it."
+#~ msgstr ""
+#~ "Dokumentu neizdevās saglabāt, jo norādītajā kodējumā nevar nokodēt "
+#~ "unikoda rakstzīmes."
+
+#~ msgid "Tip of the &Day"
+#~ msgstr "&Dienas padoms"
+
+#~ msgid "Show tip of the day."
+#~ msgstr "Rādīt dienas padomu."
+
+#~ msgid ""
+#~ "<p>If you want to decrypt a text file, simply drag and drop it into the "
+#~ "editor window. KGpg will do the rest. Even remote files can be dropped.</"
+#~ "p>\n"
+#~ "<p>Drag a public key into the editor window and kgpg will automatically "
+#~ "import it if you want.</p>\n"
+#~ msgstr ""
+#~ "<p>Ja vēlaties atšifrēt teksta failu, vienkārši velciet un iemetiet to "
+#~ "redaktora logā. KGpg izdarīs visu pats. Var iemest pat attālinātus failus."
+#~ "</p>\n"
+#~ "<p>Velciet publiskās atslēgas uz redaktora logu un kgpg automātiski "
+#~ "importēs šīs atslēgas, ja vēlēsieties.</p>\n"
+
+#~ msgid ""
+#~ "<p>The easiest way to encrypt a file: simply right click on the file, and "
+#~ "you have an encrypt option in the contextual menu.\n"
+#~ "This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
+#~ msgstr ""
+#~ "<p>Vieglākais veids, lai nošifrētu failu, ir uzklikšķināt uz faila ar "
+#~ "labo taustiņu, atvērsies konteksta izvēlne, kur būs arī darbības failu "
+#~ "šifrēšanā.\n"
+#~ "Strādā <strong>konqueror</strong> lietotnē un uz jūsu Darbvirsmas!</p>\n"
+
+#~ msgid ""
+#~ "<p>If you want to encrypt a message for several persons, just select "
+#~ "several encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
+#~ msgstr ""
+#~ "<p>Ja vēlaties šifrēt ziņu vairākām personām, tad izvēlieties vairākas "
+#~ "šifrēšanas atslēgas turot nospiestu &quot;Ctrl&quot; taustiņu.</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p><strong>You do not know anything about encryption?</strong><br>\n"
+#~| "No problem, simply create yourself a key pair in the key management "
+#~| "window. Then, export your public key and mail it to your friends.<br>\n"
+#~| "Ask them to do the same and import their public keys. Finally, to send "
+#~| "an encrypted message, type it in the KGpg editor, then click &quot;"
+#~| "encrypt&quot;. Choose\n"
+#~| "your friend key and click &quot;encrypt&quot; again. The message will be "
+#~| "encrypted, ready to be sent by email.</p>\n"
+#~ msgid ""
+#~ "<p><strong>You do not have to be an expert in encryption to use this tool?"
+#~ "</strong><br>\n"
+#~ "Simply create yourself a key pair in the key management window. Then, "
+#~ "export your public key and mail it to your friends.<br>\n"
+#~ "Ask them to do the same and import their public keys. Finally, to send an "
+#~ "encrypted message, type it in the KGpg editor, then click &quot;"
+#~ "encrypt&quot;. Choose\n"
+#~ "your friend's key and click &quot;encrypt&quot; again. The message will "
+#~ "be encrypted, ready to be sent by email.</p>\n"
+#~ msgstr ""
+#~ "<p><strong>Nezināt neko par šifrēšanu?</strong><br>\n"
+#~ "Vienkārši atslēgu pārvaldniekā izveidojiet sev atslēgu pāri. Tad veiciet "
+#~ "publisās atslēgas eksportu un nosūtiet to saviem draugiem.<br>\n"
+#~ "Jautājiet, lai viņi izdara to pašu un importējiet viņu publiskās "
+#~ "atslēgas. Beidzot, lai nosūtītu šifrētu ziņu, ievadiet to KGpg redaktorā, "
+#~ "tad nospiediet &quot;šifrēt&quot;. Izvēlieties\n"
+#~ "drauga atslēgu un nospiediet vēlreiz &quot;šifrēt&quot;. Ziņa tiks "
+#~ "nošifrēta, gatava aizsūtīšanai pa e-pastu.</p>\n"
+
+#~ msgid ""
+#~ "<p>To perform an operation on a key, open the key management window and "
+#~ "right click on the key. A popup menu with all available options will "
+#~ "appear.</p>\n"
+#~ msgstr ""
+#~ "<p>Lai veiktu darbības ar atslēgu, atveriet atslēgu pārvaldnieku un "
+#~ "uzklikšķiniet ar labo peles taustiņu uz atslēgas. Atvērsies konteksta "
+#~ "izvēlne ar visām pieejamām darbībām.</p>\n"
+
+#~ msgid ""
+#~ "<p>Decrypt a file with a single mouse click on it. You will then be "
+#~ "prompted for password, and then that is it!</p>\n"
+#~ msgstr ""
+#~ "<p>Atšifrējiet failu ar vienu peles klikšķi. Jums pajautās tikai parol un "
+#~ "viss.</p>\n"
+
+#~ msgid ""
+#~ "<p>If you only want to open the key manager, type this in the command "
+#~ "line prompt: <pre>kgpg -k</pre>\n"
+#~ "The editor can be reached by: <pre>kgpg -d</pre></p>\n"
+#~ msgstr ""
+#~ "<p>Ja vēlaties tikai atvērt atslēgu pārvaldnieku, ievadiet komandu "
+#~ "līnijā: <pre>kgpg -k</pre>\n"
+#~ "Redaktoru var atvērt ar komandu: <pre>kgpg -d</pre></p>\n"
+
+#~ msgid ""
+#~ "<p>To open a file in the KGpg's editor and immediately decrypt it type: "
+#~ "<pre>kgpg -s filename</pre></p>\n"
+#~ msgstr ""
+#~ "<p>Lai atvērtu failu KGpg redaktorā un uzreiz atšifrēt, ievadiet: "
+#~ "<pre>kgpg -s failanosaukums</pre></p>\n"
+
+#~ msgid ""
+#~ "<p>If you want to change the password or expiration of a secret key "
+#~ "simply double click on it to get the key properties dialog.</p>\n"
+#~ msgstr ""
+#~ "<p>Ja vēlaties mainīt paroli vai beigu datumu slepenajai atslēgai, "
+#~ "vienkārši veiciet dubultklikšķi uz atslēgas, lai atvērtu rekvizītu logu.</"
+#~ "p>\n"
+
+#~ msgid ""
+#~ "<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in "
+#~ "the key manager.</p>\n"
+#~ msgstr ""
+#~ "<p>Jūs varat nokļūt uz noklusēto atslēgu nospiežot &quot;Ctrl+Home&quot; "
+#~ "atslēgu pārvaldniekā.</p>\n"
+
+#~ msgid ""
+#~ "<p>The number of signatures is shown as a tooltip if you hover the mouse "
+#~ "on the size column in key manager. A key has to be expanded once for this "
+#~ "to work.</p>\n"
+#~ msgstr ""
+#~ "<p>Parakstu skaits tiks parādīts paskaidrē, kad novietosiet kursoru virs "
+#~ "izmēra kolonnas atslēgu pārvaldniekā. Lai tas strādātu nepieciešams lai "
+#~ "atslēga būtu kaut reizi izvērsta.</p>\n"
 
 #~ msgctxt "search filter for gpg binary"
 #~ msgid ""

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:40+0000\n"
+"POT-Creation-Date: 2024-01-04 01:36+0000\n"
 "PO-Revision-Date: 2021-01-18 19:22+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -143,7 +143,7 @@ msgstr "வழக்கம் மறைவிலக்கம் கட்டள�
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Encryption)
 #. i18n: ectx: property (text), widget (QCheckBox, capEncrypt)
-#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:104
+#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:106
 #, kde-format
 msgid "Encryption"
 msgstr "மறையாக்கம்"
@@ -427,7 +427,7 @@ msgid "Change..."
 msgstr "மாற்று..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
 #, fuzzy, kde-format
 #| msgid "GnuPG Settings"
 msgid "GnuPG Binary"
@@ -573,7 +573,7 @@ msgstr "சேவை பட்டியலை அனுகு"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:304
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:296
 #, kde-format
 msgid "Disable"
 msgstr "முடக்கு "
@@ -654,7 +654,7 @@ msgstr "விசை மேளாளர்"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #. i18n: ectx: attribute (title), widget (QWidget, tabEditor)
-#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:499
+#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:503
 #, kde-format
 msgid "Editor"
 msgstr "தொகுப்பி "
@@ -835,25 +835,25 @@ msgid "Sort Order"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:253 kgpgoptions.cpp:98
+#: conf_ui2.ui:253 kgpgoptions.cpp:100
 #, kde-format
 msgid "Left to right, account first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:258 kgpgoptions.cpp:99
+#: conf_ui2.ui:258 kgpgoptions.cpp:101
 #, kde-format
 msgid "Right to left, TLD first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:263 kgpgoptions.cpp:100
+#: conf_ui2.ui:263 kgpgoptions.cpp:102
 #, kde-format
 msgid "Right to left, domain first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:268 kgpgoptions.cpp:101
+#: conf_ui2.ui:268 kgpgoptions.cpp:103
 #, kde-format
 msgid "Right to left, FQDN first"
 msgstr ""
@@ -1112,75 +1112,75 @@ msgstr "ஃபோட்டோ அடையாளம்"
 msgid "Info"
 msgstr "தகவல்"
 
-#: editor/kgpgeditor.cpp:84 editor/kgpgeditor.cpp:231 editor/kgpgeditor.cpp:729
-#: editor/kgpgeditor.cpp:758
+#: editor/kgpgeditor.cpp:90 editor/kgpgeditor.cpp:240 editor/kgpgeditor.cpp:726
+#: editor/kgpgeditor.cpp:755
 #, kde-format
 msgid "Untitled"
 msgstr "தலைப்பில்லாதது"
 
-#: editor/kgpgeditor.cpp:177
+#: editor/kgpgeditor.cpp:186
 #, kde-format
 msgid "&Encrypt File..."
 msgstr "&மறையாக்கு கோபு "
 
-#: editor/kgpgeditor.cpp:181
+#: editor/kgpgeditor.cpp:190
 #, kde-format
 msgid "&Decrypt File..."
 msgstr "&மறைவிலக்கு கோபு"
 
-#: editor/kgpgeditor.cpp:185
+#: editor/kgpgeditor.cpp:194
 #, kde-format
 msgid "&Open Key Manager"
 msgstr "விசை மேலாளர்யை திற"
 
-#: editor/kgpgeditor.cpp:188
+#: editor/kgpgeditor.cpp:197
 #, kde-format
 msgid "&Generate Signature..."
 msgstr "&கையெழுத்தை உருவாகு"
 
-#: editor/kgpgeditor.cpp:192
+#: editor/kgpgeditor.cpp:201
 #, kde-format
 msgid "&Verify Signature..."
 msgstr "&கையெழுத்தை சரிபார்"
 
-#: editor/kgpgeditor.cpp:195
+#: editor/kgpgeditor.cpp:204
 #, kde-format
 msgid "&Check MD5 Sum..."
 msgstr "&சரிபார் MD5 sum..."
 
-#: editor/kgpgeditor.cpp:198
+#: editor/kgpgeditor.cpp:207
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
 msgstr ""
 
-#: editor/kgpgeditor.cpp:204
+#: editor/kgpgeditor.cpp:213
 #, kde-format
 msgid "En&crypt"
 msgstr "&மறையாக்கம்"
 
-#: editor/kgpgeditor.cpp:208
+#: editor/kgpgeditor.cpp:217
 #, kde-format
 msgid "&Decrypt"
 msgstr "&மறைவிலக்கம்"
 
-#: editor/kgpgeditor.cpp:212
+#: editor/kgpgeditor.cpp:221
 #, kde-format
 msgid "S&ign/Verify"
 msgstr "&குறி/சரிபார்"
 
-#: editor/kgpgeditor.cpp:235
+#: editor/kgpgeditor.cpp:244
 #, kde-format
 msgid ""
 "The document \"%1\" has changed.\n"
 "Do you want to save it?"
 msgstr ""
 
-#: editor/kgpgeditor.cpp:236
+#: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid "Close the document"
 msgstr ""
 
-#: editor/kgpgeditor.cpp:282
+#: editor/kgpgeditor.cpp:291
 #, fuzzy, kde-format
 #| msgid ""
 #| "The document could not been saved, as the selected encoding cannot encode "
@@ -1191,16 +1191,7 @@ msgstr ""
 "தேர்வு செய்யப்பட்ட மறையாக்கத்தில் உள்ள ஒவ்வொரு யுனிகோட் எழுத்துக்களும் மறையாக்க முடியாததால் "
 "ஆவணத்தை சேமிக்க முடியவில்லை."
 
-#: editor/kgpgeditor.cpp:288
-#, kde-format
-msgid ""
-"The document could not been saved, as the selected encoding cannot encode "
-"every unicode character in it."
-msgstr ""
-"தேர்வு செய்யப்பட்ட மறையாக்கத்தில் உள்ள ஒவ்வொரு யுனிகோட் எழுத்துக்களும் மறையாக்க முடியாததால் "
-"ஆவணத்தை சேமிக்க முடியவில்லை."
-
-#: editor/kgpgeditor.cpp:297 editor/kgpgeditor.cpp:313
+#: editor/kgpgeditor.cpp:300 editor/kgpgeditor.cpp:317
 #, kde-format
 msgid ""
 "The document could not be saved, please check your permissions and disk "
@@ -1209,55 +1200,55 @@ msgstr ""
 "அடைவு சேமிக்க முடியாது, தயவுச் செய்து தட்டின் அளவைக் கொண்டு சோதித்தப்பிறகே "
 "அனுமதிக்கவும்."
 
-#: editor/kgpgeditor.cpp:338 editor/kgpgeditor.cpp:349 keyexport.cpp:37
+#: editor/kgpgeditor.cpp:342 editor/kgpgeditor.cpp:353 keyexport.cpp:37
 #, kde-format
 msgid "Overwrite existing file %1?"
 msgstr "மேல் எழுது இருகும் கோபு %1?"
 
-#: editor/kgpgeditor.cpp:463
+#: editor/kgpgeditor.cpp:467
 #, kde-format
 msgid "Open File to Encode"
 msgstr "குறிவிலக கோபை திர "
 
-#: editor/kgpgeditor.cpp:463 editor/kgpgeditor.cpp:472
-#: editor/kgpgeditor.cpp:614 editor/kgpgeditor.cpp:652
-#: editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:467 editor/kgpgeditor.cpp:476
+#: editor/kgpgeditor.cpp:611 editor/kgpgeditor.cpp:649
+#: editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "*|All Files"
 msgstr "*|அனைத்துக் கோப்பு"
 
-#: editor/kgpgeditor.cpp:472
+#: editor/kgpgeditor.cpp:476
 #, kde-format
 msgid "Open File to Decode"
 msgstr "குறிமுறை விலக கோபை திர "
 
-#: editor/kgpgeditor.cpp:486
+#: editor/kgpgeditor.cpp:490
 #, kde-format
 msgid "Decrypt File To"
 msgstr "கோபுடன் மறைவிலக்கு "
 
-#: editor/kgpgeditor.cpp:497 keyexport.cpp:20
+#: editor/kgpgeditor.cpp:501 keyexport.cpp:20
 #, kde-format
 msgid "Save File"
 msgstr "கோப்பினைச் சேமி"
 
-#: editor/kgpgeditor.cpp:523 kgpgexternalactions.cpp:203
-#: kgpgexternalactions.cpp:362 transactions/kgpgtransactionprivate.cpp:107
+#: editor/kgpgeditor.cpp:527 kgpgexternalactions.cpp:204
+#: kgpgexternalactions.cpp:363 transactions/kgpgtransactionprivate.cpp:107
 #, kde-format
 msgid "File Already Exists"
 msgstr "கோப்பு முன்பே உள்ளது"
 
-#: editor/kgpgeditor.cpp:614
+#: editor/kgpgeditor.cpp:611
 #, kde-format
 msgid "Open File to Sign"
 msgstr "கோப்பில் நுழைய அதை  திற"
 
-#: editor/kgpgeditor.cpp:652 editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:649 editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "Open File to Verify"
 msgstr "சரிபார்க கோபை திர"
 
-#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:337
+#: editor/kgpgeditor.cpp:696 editor/kgpgtextedit.cpp:342
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>Missing signature:</b><br>Key id: %1<br><br>Do you want to import "
@@ -1270,12 +1261,12 @@ msgstr ""
 "விசைவழங்கனிலிருந்து இறக்குமதி செய்யவேண்டுமா?</qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
-#: editor/kgpgeditor.cpp:700 keyserver.ui:33 keytreeview.cpp:158
+#: editor/kgpgeditor.cpp:697 keyserver.ui:33 keytreeview.cpp:158
 #, fuzzy, kde-format
 msgid "Import"
 msgstr "இறக்குமதி"
 
-#: editor/kgpgeditor.cpp:700 keytreeview.cpp:159
+#: editor/kgpgeditor.cpp:697 keytreeview.cpp:159
 #, fuzzy, kde-format
 msgid "Do Not Import"
 msgstr "இறக்குமதி விசை"
@@ -1327,7 +1318,7 @@ msgstr "<b>  சரியான கூட்டு தொகை</b>சரிய�
 msgid "<b>Wrong checksum, <em>file corrupted</em></b>"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:84
+#: editor/kgpgtextedit.cpp:85
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to "
@@ -1342,12 +1333,12 @@ msgstr ""
 "கோப்பிலிருந்து தற்காலிக கோபிற்க்கு படியெடு செய்யப்படும். இந்த தற்காலிக கோப்பு "
 "செயல்பாட்டிற்கு பின் அழிக்கப்படும். </qt>"
 
-#: editor/kgpgtextedit.cpp:93
+#: editor/kgpgtextedit.cpp:94
 #, kde-format
 msgid "Could not download file."
 msgstr "கோப்பினை பதிவிறக்க குடாது."
 
-#: editor/kgpgtextedit.cpp:129
+#: editor/kgpgtextedit.cpp:130
 #, fuzzy, kde-format
 #| msgid ""
 #| "<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>"
@@ -1356,7 +1347,7 @@ msgid ""
 "of opening it in editor?</qt>"
 msgstr "<p>கோப்பு<b>%1</b>ஒரு பொது விசை.<br>உங்களுக்கு இறக்குமதி செய்யவேண்டுமா?</p>"
 
-#: editor/kgpgtextedit.cpp:132
+#: editor/kgpgtextedit.cpp:133
 #, fuzzy, kde-format
 #| msgid ""
 #| "This file is a private key.\n"
@@ -1368,60 +1359,74 @@ msgstr ""
 "இந்த கோப்பு தனித்த விசை\n"
 "தயவு செய்து கே ஜி பி ஜி விசை மேலாண்மையை இறக்குமதிக்காக பயன்படுத்தவும்."
 
-#: editor/kgpgtextedit.cpp:137
+#: editor/kgpgtextedit.cpp:138
 #, fuzzy, kde-format
 #| msgid "Decrypt & Open in Editor"
 msgid "Key file dropped on Editor"
 msgstr "மறைவிலக்கு&தொகுப்பியில் திர"
 
-#: editor/kgpgtextedit.cpp:260 kgpgexternalactions.cpp:402
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgid "Years"
+msgctxt "@action:button"
+msgid "Yes"
+msgstr "வருடங்கள்"
+
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgid "None"
+msgctxt "@action:button"
+msgid "No"
+msgstr "ஏதுமில்லை"
+
+#: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
 msgid "Decryption failed."
 msgstr "மறைவிலக்கம் முடங்கியது."
 
-#: editor/kgpgtextedit.cpp:275 foldercompressjob.cpp:132
+#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:132
 #, kde-format
 msgid "The encryption failed with error code %1"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:133
+#: editor/kgpgtextedit.cpp:277 foldercompressjob.cpp:133
 #, kde-format
 msgid "Encryption failed."
 msgstr "மறையாக்கம் முடங்கியது."
 
-#: editor/kgpgtextedit.cpp:289
+#: editor/kgpgtextedit.cpp:290
 #, kde-format
 msgid "Signing not possible: bad passphrase or missing key"
 msgstr "புகு பதிகை இயலவில்லை: கடவுசொல் சரியில்லை அல்லது விசை இல்லாமை"
 
-#: editor/kgpgtextedit.cpp:324 kgpgexternalactions.cpp:281
+#: editor/kgpgtextedit.cpp:325 kgpgexternalactions.cpp:282
 #, kde-format
 msgctxt "Caption of message box"
 msgid "Verification Finished"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonimport)
-#: editor/kgpgtextedit.cpp:330 keyserver.ui:145 keyservers.cpp:201
+#: editor/kgpgtextedit.cpp:331 keyserver.ui:145 keyservers.cpp:201
 #, kde-format
 msgid "&Import"
 msgstr "இறக்குமதி"
 
-#: editor/kgpgtextedit.cpp:331
+#: editor/kgpgtextedit.cpp:333
 #, fuzzy, kde-format
 msgid "Import key in your list"
 msgstr "சாவிவ்லையத்தை இறக்குமதி செய் "
 
-#: editor/kgpgtextedit.cpp:334
+#: editor/kgpgtextedit.cpp:337
 #, fuzzy, kde-format
 msgid "Do &Not Import"
 msgstr "இறக்குமதி விசை"
 
-#: editor/kgpgtextedit.cpp:335
+#: editor/kgpgtextedit.cpp:339
 #, kde-format
 msgid "Will not import this key in your list"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:337
+#: editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid "Missing Key"
 msgstr " சாவில்லாத"
@@ -1504,7 +1509,7 @@ msgstr "நம்பக்கூடிய விசை உள்ளது"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:426 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:418 searchres.ui:29
 #, fuzzy, kde-format
 #| msgid "Search: "
 msgid "Search:"
@@ -1888,333 +1893,328 @@ msgstr "கிடைத %1 பொருந்தகொடிய விசை"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "கிடைத %1 பொருந்தகொடிய விசை"
 
-#: keysmanager.cpp:126
+#: keysmanager.cpp:125
 #, kde-format
 msgid "Key Management"
 msgstr "விசை மேலாண்மை"
 
-#: keysmanager.cpp:133
+#: keysmanager.cpp:132
 #, kde-format
 msgid "&Open Editor"
 msgstr "&திருத்துவோரை திற"
 
-#: keysmanager.cpp:136
+#: keysmanager.cpp:135
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "&விசைவழங்கன் உரையாடல் பெட்டி"
 
-#: keysmanager.cpp:141 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:140 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "&முன்னிருப்பு விசைக்கு போ"
 
-#: keysmanager.cpp:158
-#, kde-format
-msgid "Tip of the &Day"
-msgstr "இந்த நாளுக்கான யோசனை"
-
-#: keysmanager.cpp:161
+#: keysmanager.cpp:153
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "GnuPG கைம்முறை பார்வையிடு"
 
-#: keysmanager.cpp:166
+#: keysmanager.cpp:158
 #, kde-format
 msgid "&Refresh List"
 msgstr "&பட்டியலை புதுப்பி"
 
-#: keysmanager.cpp:170
+#: keysmanager.cpp:162
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr ""
 
-#: keysmanager.cpp:175
+#: keysmanager.cpp:167
 #, fuzzy, kde-format
 #| msgid "Key Properties"
 msgid "K&ey Properties"
 msgstr "விசையின் செயல்கள்"
 
-#: keysmanager.cpp:179
+#: keysmanager.cpp:171
 #, fuzzy, kde-format
 #| msgid "&Open Key Manager"
 msgid "&Open Key URL"
 msgstr "விசை மேலாளர்யை திற"
 
-#: keysmanager.cpp:183
+#: keysmanager.cpp:175
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "முனையம் &தொகுக்கும்விசையின் முனையம்  "
 
-#: keysmanager.cpp:188
+#: keysmanager.cpp:180
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "&விசை ஜோடியை உருவாக்கு"
 
-#: keysmanager.cpp:197
+#: keysmanager.cpp:189
 #, kde-format
 msgid "&Import Key..."
 msgstr "&இறக்குமதி விசை..."
 
-#: keysmanager.cpp:202
+#: keysmanager.cpp:194
 #, kde-format
 msgid "Send Ema&il"
 msgstr ""
 
-#: keysmanager.cpp:206
+#: keysmanager.cpp:198
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "&முகவரிபுத்தகத்தில் புதிய தொடர்பை உருவாக்கு"
 
-#: keysmanager.cpp:212
+#: keysmanager.cpp:204
 #, fuzzy, kde-format
 #| msgid "&Edit Group"
 msgid "&Edit Group..."
 msgstr "&குழுவைத் திருத்து"
 
-#: keysmanager.cpp:215
+#: keysmanager.cpp:207
 #, kde-format
 msgid "&Delete Group"
 msgstr "&குழுவை நீக்கு"
 
-#: keysmanager.cpp:219
+#: keysmanager.cpp:211
 #, fuzzy, kde-format
 #| msgid "&Delete Group"
 msgid "&Rename Group"
 msgstr "&குழுவை நீக்கு"
 
-#: keysmanager.cpp:228
+#: keysmanager.cpp:220
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "முன்னிருப்பு விசையாக அமை"
 
-#: keysmanager.cpp:231
+#: keysmanager.cpp:223
 #, fuzzy, kde-format
 #| msgid "&Add Photo"
 msgid "&Add Photo..."
 msgstr "&ஃபோட்டோவைச்சேரு"
 
-#: keysmanager.cpp:234
+#: keysmanager.cpp:226
 #, fuzzy, kde-format
 #| msgid "&Add User Id"
 msgid "&Add User Id..."
 msgstr "& பயனீட்டாளரின் அடையாளத்தை சேரு"
 
-#: keysmanager.cpp:237
+#: keysmanager.cpp:229
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "ரகசிய விசை ஏற்றுமதி..."
 
-#: keysmanager.cpp:240
+#: keysmanager.cpp:232
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "விசை ஜோடியை நீக்கு"
 
-#: keysmanager.cpp:244
+#: keysmanager.cpp:236
 #, kde-format
 msgid "Revoke Key..."
 msgstr "ஒதுக்கு விசை..."
 
-#: keysmanager.cpp:247
+#: keysmanager.cpp:239
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "பொது விசை மீளுருவாக்கு"
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:245
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr ""
 
-#: keysmanager.cpp:257
+#: keysmanager.cpp:249
 #, kde-format
 msgid "&Open Photo"
 msgstr "&ஃபோட்டோவைத் திற"
 
-#: keysmanager.cpp:261
+#: keysmanager.cpp:253
 #, kde-format
 msgid "&Delete Photo"
 msgstr "&ஃபோட்டோவை நீக்கு"
 
-#: keysmanager.cpp:269
+#: keysmanager.cpp:261
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "விசை வழங்கனிலிருந்து காணாமல் போன பதிவுகளை ஏற்றுமதி செய்"
 
-#: keysmanager.cpp:287 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:279 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "நம்பிக்கை"
 
-#: keysmanager.cpp:290 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:282 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "அளவு"
 
-#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:285 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "உருவாக்கம்"
 
-#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:288 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "காலாவதி"
 
-#: keysmanager.cpp:300
+#: keysmanager.cpp:292
 #, kde-format
 msgid "&Photo ID's"
 msgstr "&ஃபோட்டோ அடையாளங்கள்"
 
-#: keysmanager.cpp:305
+#: keysmanager.cpp:297
 #, fuzzy, kde-format
 #| msgid "Small"
 msgctxt "small picture"
 msgid "Small"
 msgstr "சிரிய"
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:298
 #, fuzzy, kde-format
 #| msgid "Medium"
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "மையமாக"
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:299
 #, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "large picture"
 msgid "Large"
 msgstr "பெரிய"
 
-#: keysmanager.cpp:311
+#: keysmanager.cpp:303
 #, kde-format
 msgid "Minimum &Trust"
 msgstr ""
 
-#: keysmanager.cpp:314
+#: keysmanager.cpp:306
 #, fuzzy, kde-format
 #| msgid "None"
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "ஏதுமில்லை"
 
-#: keysmanager.cpp:315
+#: keysmanager.cpp:307
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr ""
 
-#: keysmanager.cpp:316
+#: keysmanager.cpp:308
 #, fuzzy, kde-format
 #| msgid "Marginal"
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "விளிம்பை ஒட்டிய"
 
-#: keysmanager.cpp:317
+#: keysmanager.cpp:309
 #, fuzzy, kde-format
 #| msgid "Full"
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "முழுமையான "
 
-#: keysmanager.cpp:318
+#: keysmanager.cpp:310
 #, fuzzy, kde-format
 #| msgid "Ultimate"
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "இறுதியான"
 
-#: keysmanager.cpp:343
+#: keysmanager.cpp:335
 #, fuzzy, kde-format
 #| msgid "&Show only Secret Keys"
 msgid "&Show Only Secret Keys"
 msgstr "&ரகசிய விசைகளை மட்டும் காட்டு"
 
-#: keysmanager.cpp:443
+#: keysmanager.cpp:435
 #, fuzzy, kde-format
 #| msgid "Search: "
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "தேடு:"
 
-#: keysmanager.cpp:486
+#: keysmanager.cpp:483
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
+#: keysmanager.cpp:484 keysmanager.cpp:522 keysmanager.cpp:570
 #, fuzzy, kde-format
 msgid "Generating new key pair"
 msgstr "புதிய விசையின் இணை உருவாக்கு"
 
-#: keysmanager.cpp:526
+#: keysmanager.cpp:523
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr ""
 
-#: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
+#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
 #, fuzzy, kde-format
 #| msgid "Ready"
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "தயார்"
 
-#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:574 transactions/kgpggeneratekey.cpp:194
 #, fuzzy, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "கேட்ட கடவுசொர்தொடர், கையெழுத்து உறுவாகவில்லை."
 
-#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr ""
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr ""
 
-#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:203
 #, fuzzy, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "கேட்ட கடவுசொர்தொடர், கையெழுத்து உறுவாகவில்லை."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:592 newkey.ui:14
+#: keysmanager.cpp:589 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "புதிய விசையின் இணை தயாரிக்கபட்டது"
 
-#: keysmanager.cpp:631
+#: keysmanager.cpp:628
 #, kde-format
 msgid "backup copy"
 msgstr "காப்புநகல்"
 
-#: keysmanager.cpp:645 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:642 transactions/kgpggeneratekey.cpp:215
 #, fuzzy, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "கேட்ட கடவுசொர்தொடர், கையெழுத்து உறுவாகவில்லை."
 
-#: keysmanager.cpp:749
+#: keysmanager.cpp:736
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr "நீங்கள் மூல விசையை மட்டுமே பதிவு செய்ய முடியும். உங்கள் தேர்வை சரிபார்க்கவும்."
 
-#: keysmanager.cpp:873
+#: keysmanager.cpp:860
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:874 keysmanager.cpp:879
+#: keysmanager.cpp:861 keysmanager.cpp:866
 #, kde-format
 msgid "Add New User Id"
 msgstr "புதிய பயனீட்டாளரின் அடையாளத்தை சேரு"
 
-#: keysmanager.cpp:919
+#: keysmanager.cpp:906
 #, fuzzy, kde-format
 #| msgid ""
 #| "The image must be a JPEG file. Remember that the image is stored within "
@@ -2231,7 +2231,7 @@ msgstr ""
 "நினைவு கொள்ளுங்கள்.நீங்கள் மிகப்பெரிய படத்தை பயன்படுத்தினால் உங்கள் விசையும் "
 "பெரியதாகிவிடும்! பிம்பத்தை 240x288  என்னும் நெருங்கிய அளவில் வைத்துக்கொள்வது நல்லது."
 
-#: keysmanager.cpp:951
+#: keysmanager.cpp:938
 #, fuzzy, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2240,58 +2240,58 @@ msgstr ""
 "<qt>நீங்கள் நிச்சயமாக ஃபோட்டோ அடையாளத்தை நீக்க வேண்டுமா <b>%1</b><br>விசையிலிருந்து <b>"
 "%2 &lt;%3&gt;</b> ?</qt>"
 
-#: keysmanager.cpp:1094
+#: keysmanager.cpp:1076
 #, kde-format
 msgid "Public Key"
 msgstr "பொது விசை"
 
-#: keysmanager.cpp:1097
+#: keysmanager.cpp:1079
 #, kde-format
 msgid "Sub Key"
 msgstr "துனை குழு"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1082
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "இரகசியமான விசை ஜோடி"
 
-#: keysmanager.cpp:1103
+#: keysmanager.cpp:1085
 #, kde-format
 msgid "Key Group"
 msgstr "விசை குழு"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1106 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1088 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "கையொப்பம்"
 
-#: keysmanager.cpp:1109
+#: keysmanager.cpp:1091
 #, kde-format
 msgid "User ID"
 msgstr "பயனரின் ID "
 
-#: keysmanager.cpp:1112
+#: keysmanager.cpp:1094
 #, kde-format
 msgid "Revocation Signature"
 msgstr "கையெழுத்தை தல்லிவை"
 
-#: keysmanager.cpp:1115
+#: keysmanager.cpp:1097
 #, kde-format
 msgid "Photo ID"
 msgstr "போட்டோ ID"
 
-#: keysmanager.cpp:1118
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "அனாதை ரகசிய விசை"
 
-#: keysmanager.cpp:1123
+#: keysmanager.cpp:1105
 #, kde-format
 msgid "Group member"
 msgstr ""
 
-#: keysmanager.cpp:1228
+#: keysmanager.cpp:1208
 #, fuzzy, kde-format
 #| msgid "&Sign Keys..."
 msgid "&Sign User ID ..."
@@ -2299,7 +2299,7 @@ msgid_plural "&Sign User IDs ..."
 msgstr[0] "&அடையாள விசைகள்..."
 msgstr[1] "&அடையாள விசைகள்..."
 
-#: keysmanager.cpp:1229
+#: keysmanager.cpp:1209
 #, fuzzy, kde-format
 #| msgid "&Sign Keys..."
 msgid "Sign and &Mail User ID ..."
@@ -2307,7 +2307,7 @@ msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "&அடையாள விசைகள்..."
 msgstr[1] "&அடையாள விசைகள்..."
 
-#: keysmanager.cpp:1230
+#: keysmanager.cpp:1210
 #, fuzzy, kde-format
 #| msgid "E&xport Public Keys..."
 msgid "E&xport Public Key..."
@@ -2315,7 +2315,7 @@ msgid_plural "E&xport Public Keys..."
 msgstr[0] "பொது விசைகளை ஏற்று..."
 msgstr[1] "பொது விசைகளை ஏற்று..."
 
-#: keysmanager.cpp:1231
+#: keysmanager.cpp:1211
 #, fuzzy, kde-format
 #| msgid "&Refresh Keys From Keyserver"
 msgid "&Refresh Key From Keyserver"
@@ -2323,7 +2323,7 @@ msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "&விசை சேவகனில் இருந்து விசைகளை புதுப்பி"
 msgstr[1] "&விசை சேவகனில் இருந்து விசைகளை புதுப்பி"
 
-#: keysmanager.cpp:1232
+#: keysmanager.cpp:1212
 #, fuzzy, kde-format
 #| msgid "&Create Group with Selected Keys..."
 msgid "&Create Group with Selected Key..."
@@ -2331,7 +2331,7 @@ msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "&தேர்தெடுக்கப்பட்ட விசைகளைக் கொண்டு குழுவை உருவாக்கு..."
 msgstr[1] "&தேர்தெடுக்கப்பட்ட விசைகளைக் கொண்டு குழுவை உருவாக்கு..."
 
-#: keysmanager.cpp:1233
+#: keysmanager.cpp:1213
 #, fuzzy, kde-format
 #| msgid "&Sign Keys..."
 msgid "&Sign Key..."
@@ -2339,7 +2339,7 @@ msgid_plural "&Sign Keys..."
 msgstr[0] "&அடையாள விசைகள்..."
 msgstr[1] "&அடையாள விசைகள்..."
 
-#: keysmanager.cpp:1234
+#: keysmanager.cpp:1214
 #, fuzzy, kde-format
 #| msgid "&Delete User Id"
 msgid "&Delete User ID"
@@ -2347,7 +2347,7 @@ msgid_plural "&Delete User IDs"
 msgstr[0] "&பயனீட்டாளரின்  அடையாளத்தை நீக்கு"
 msgstr[1] "&பயனீட்டாளரின்  அடையாளத்தை நீக்கு"
 
-#: keysmanager.cpp:1235
+#: keysmanager.cpp:1215
 #, fuzzy, kde-format
 #| msgid "Delete Sign&ature"
 msgid "Delete Sign&ature"
@@ -2355,7 +2355,7 @@ msgid_plural "Delete Sign&atures"
 msgstr[0] "பதிவை நீக்கு"
 msgstr[1] "பதிவை நீக்கு"
 
-#: keysmanager.cpp:1236
+#: keysmanager.cpp:1216
 #, fuzzy, kde-format
 #| msgid "Import Key From Keyserver"
 msgid "Import Key From Keyserver"
@@ -2363,7 +2363,7 @@ msgid_plural "Import Keys From Keyserver"
 msgstr[0] "விசைவழங்கனிலிருந்து விசையை ஏற்றுமதி செய்"
 msgstr[1] "விசைவழங்கனிலிருந்து விசையை ஏற்றுமதி செய்"
 
-#: keysmanager.cpp:1237
+#: keysmanager.cpp:1217
 #, fuzzy, kde-format
 #| msgid "&Delete Keys"
 msgid "&Delete Key"
@@ -2371,12 +2371,12 @@ msgid_plural "&Delete Keys"
 msgstr[0] "&விசைகளை நீக்கு"
 msgstr[1] "&விசைகளை நீக்கு"
 
-#: keysmanager.cpp:1360
+#: keysmanager.cpp:1340
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "தள்ளுபடி சான்றிதழ்களை உருவக்கம் தடைபட்டது"
 
-#: keysmanager.cpp:1375
+#: keysmanager.cpp:1355
 #, fuzzy, kde-format
 #| msgid ""
 #| "Secret keys SHOULD NOT be saved in an unsafe place.\n"
@@ -2392,17 +2392,17 @@ msgstr ""
 " இந்த கோப்பை யாராவது பயன்படுத்தினால், இந்த சாவியின் மறையாக்கம் சமாதானம் அடையும்!\n"
 "  சாவி ஏற்றுமதியை தொடரலாமா?"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "தனிச் சாவியை   ..யாக ஏற்றுமதி செய்"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr ""
 
-#: keysmanager.cpp:1405
+#: keysmanager.cpp:1385
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your PRIVATE key \"%1\" was successfully exported.\n"
@@ -2414,7 +2414,7 @@ msgstr ""
 "உங்கள் தனிப்பட்ட விசை\"%1\" வெற்றிகரமாக ஏற்றுமதி செய்யப்பட்டது.\n"
 "பாதுகாப்பில்லாத இடத்தில் விடாதீர்கள்"
 
-#: keysmanager.cpp:1408
+#: keysmanager.cpp:1388
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2423,7 +2423,7 @@ msgstr ""
 "உங்கள் ரகசியவிசையை ஏற்றுமதி செய்ய இயலவில்லை\n"
 " விசையை சரிபார்க்கவும்"
 
-#: keysmanager.cpp:1510
+#: keysmanager.cpp:1490
 #, fuzzy, kde-format
 #| msgid "Your public key \"%1\" was successfully exported\n"
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
@@ -2431,7 +2431,7 @@ msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
 msgstr[0] "உங்கள் பொதுவிசை \"%1\"வெற்றிகரமாக ஏற்றுமதி செய்யப்பட்டது\n"
 msgstr[1] "உங்கள் பொதுவிசை \"%1\"வெற்றிகரமாக ஏற்றுமதி செய்யப்பட்டது\n"
 
-#: keysmanager.cpp:1514 keysmanager.cpp:1529 keysmanager.cpp:1543
+#: keysmanager.cpp:1494 keysmanager.cpp:1509 keysmanager.cpp:1523
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2440,7 +2440,7 @@ msgstr ""
 "உங்கள் பொதுவிசை  ஏற்றுமதி செய்ய இயலவில்லை\n"
 " விசையை சரிபார்க்கவும்"
 
-#: keysmanager.cpp:1652
+#: keysmanager.cpp:1632
 #, fuzzy, kde-format
 #| msgid ""
 #| "This key is an orphaned secret key (secret key without public key.) It is "
@@ -2456,27 +2456,27 @@ msgstr ""
 "\n"
 "பொது விசையை மீளுருவாக்க வேண்டுமா?"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, fuzzy, kde-format
 msgid "Generate"
 msgstr " விசைஜோடியை உருவாகு"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, kde-format
 msgid "Do Not Generate"
 msgstr ""
 
-#: keysmanager.cpp:1684
+#: keysmanager.cpp:1664
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>நீங்கள் நிச்சயமாக இந்த குழுவை நீக்க வேண்டுமா<b>%1</b> ?</qt>"
 
-#: keysmanager.cpp:1685 keysmanager.cpp:2355
+#: keysmanager.cpp:1665 keysmanager.cpp:2335
 #, fuzzy, kde-format
 msgid "Delete"
 msgstr "&விசைகளை நீக்கு"
 
-#: keysmanager.cpp:1715
+#: keysmanager.cpp:1695
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2484,32 +2484,32 @@ msgid ""
 msgstr ""
 "<qt>நீங்கள் கையொப்பம்,துணை சாவிகள் அல்லது இதர குழுகள் கொண்ட குழுவை தயாரிக்க இயலாது</qt>"
 
-#: keysmanager.cpp:1730 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1710 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr ""
 
-#: keysmanager.cpp:1735
+#: keysmanager.cpp:1715
 #, kde-format
 msgid "Create New Group"
 msgstr "புதிய குழுவை உருவாக்கு"
 
-#: keysmanager.cpp:1736
+#: keysmanager.cpp:1716
 #, fuzzy, kde-format
 #| msgid "Enter new group name:"
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "புதிய குழுவின் பெயரை குறிப்பிடு:"
 
-#: keysmanager.cpp:1741
+#: keysmanager.cpp:1721
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
 "group:"
 msgstr "குறிப்பிட்ட விசைகள் செல்லாது மற்றும் குழுவுடன் கூட்டப்பட இயலாது:"
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1727
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2518,17 +2518,17 @@ msgstr ""
 "<qt>செல்லுபடி இல்லாத அல்லது நம்பிக்கைக்குறிய சாவி தேர்ந்தெடுக்கப்பட்டுள்ளது.இந்த குழுவை "
 "<b>%1</b> உருவாக்க முடியாது.</qt>"
 
-#: keysmanager.cpp:1759
+#: keysmanager.cpp:1739
 #, kde-format
 msgid "Group Properties"
 msgstr "குழுவின் குணங்கள்"
 
-#: keysmanager.cpp:1795
+#: keysmanager.cpp:1775
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "நீங்கள் மூல விசையை மட்டுமே பதிவு செய்ய முடியும்.உங்கள் தேர்வை சரிபார்க்கவும்."
 
-#: keysmanager.cpp:1804
+#: keysmanager.cpp:1784
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2546,7 +2546,7 @@ msgstr ""
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications</qt>"
 
-#: keysmanager.cpp:1809
+#: keysmanager.cpp:1789
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2564,20 +2564,20 @@ msgstr ""
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr ""
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr ""
 
-#: keysmanager.cpp:1832
+#: keysmanager.cpp:1812
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign the following keys in one pass.<br><b>If you "
@@ -2592,13 +2592,13 @@ msgstr ""
 "கைரேகைகளையும் கவனத்துடன் பரிசோதிக்கவில்லையென்றால், உங்கள் தொடர்புகளின் பாதுகாப்பு "
 "சாமதானாம் அடையளாம்</b></qt>"
 
-#: keysmanager.cpp:1874 keysmanager.cpp:2021
+#: keysmanager.cpp:1854 keysmanager.cpp:2001
 #, fuzzy, kde-format
 #| msgid "You can only sign primary keys. Please check your selection."
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr "நீங்கள் மூல விசையை மட்டுமே பதிவு செய்ய முடியும்.உங்கள் தேர்வை சரிபார்க்கவும்."
 
-#: keysmanager.cpp:1888
+#: keysmanager.cpp:1868
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2616,7 +2616,7 @@ msgstr ""
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications</qt>"
 
-#: keysmanager.cpp:1892
+#: keysmanager.cpp:1872
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2634,7 +2634,7 @@ msgstr ""
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications</qt>"
 
-#: keysmanager.cpp:1918
+#: keysmanager.cpp:1898
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign the following keys in one pass.<br><b>If you "
@@ -2649,18 +2649,18 @@ msgstr ""
 "கைரேகைகளையும் கவனத்துடன் பரிசோதிக்கவில்லையென்றால், உங்கள் தொடர்புகளின் பாதுகாப்பு "
 "சாமதானாம் அடையளாம்</b></qt>"
 
-#: keysmanager.cpp:1987
+#: keysmanager.cpp:1967
 #, fuzzy, kde-format
 #| msgid "<qt>Bad passphrase, key <b>%1</b> not signed.</qt>"
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr " கடவுசொல்தொடர் தவறு. <b>%1</b>விசைக்கு அனுமதி கிட்டவில்லை "
 
-#: keysmanager.cpp:1991
+#: keysmanager.cpp:1971
 #, fuzzy, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr " கடவுசொல்தொடர் தவறு. <b>%1</b>விசைக்கு அனுமதி கிட்டவில்லை "
 
-#: keysmanager.cpp:1996
+#: keysmanager.cpp:1976
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br>Do you want to "
@@ -2672,19 +2672,26 @@ msgstr ""
 "<qt> <b>%1</b>உடன்<b>%2</b>ன் விசை புகுபதிய இயல்வில்லை.<br>உங்க்ளக்கு பணியக வகையில் "
 "விசையை புகுபதிய முயற்சிக்க வேண்டுமா?</qt>"
 
-#: keysmanager.cpp:2114
+#: keysmanager.cpp:1978
+#, fuzzy, kde-format
+#| msgid "Sign"
+msgctxt "@action:button"
+msgid "Sign"
+msgstr "அறிகுறி"
+
+#: keysmanager.cpp:2094
 #, fuzzy, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "இந்த விசையின் அனைத்து கையொப்பங்க்ளும் உங்களிடம் உள்ளன"
 msgstr[1] "இந்த விசையின் அனைத்து கையொப்பங்க்ளும் உங்களிடம் உள்ளன"
 
-#: keysmanager.cpp:2201
+#: keysmanager.cpp:2181
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "சுய-கையொப்பத்தை அழிக்க விசையை கையேட்டால் திருத்தி அமைக்கவும்."
 
-#: keysmanager.cpp:2205
+#: keysmanager.cpp:2185
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>Are you sure you want to delete signature<br><b>%1</b> from key:"
@@ -2695,12 +2702,12 @@ msgid ""
 msgstr ""
 "<b>%1</b>விசையிலிருந்து<br>கையொப்பத்தை உறுதியாக அழிக்கவேன்டுமா<br><b>%2</b>?</qt>"
 
-#: keysmanager.cpp:2227
+#: keysmanager.cpp:2207
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "விரும்பிய இயக்கங்கள் வெற்றியடையவில்லை,தயவி செய்து விசையை கையேட்டால் திருத்தவும்."
 
-#: keysmanager.cpp:2311
+#: keysmanager.cpp:2291
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2711,22 +2718,22 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: keysmanager.cpp:2315 keysmanager.cpp:2329 keysmanager.cpp:2364
-#: keysmanager.cpp:2379 keysmanager.cpp:2382 keysmanager.cpp:2393
-#: keysmanager.cpp:2407 keysmanager.cpp:2448
+#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
+#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
+#: keysmanager.cpp:2387 keysmanager.cpp:2428
 #, fuzzy, kde-format
 #| msgid "&Delete Keys"
 msgid "Delete key"
 msgstr "&விசைகளை நீக்கு"
 
-#: keysmanager.cpp:2328
+#: keysmanager.cpp:2308
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
 
-#: keysmanager.cpp:2352
+#: keysmanager.cpp:2332
 #, fuzzy, kde-format
 #| msgid ""
 #| "<p>Delete <b>SECRET KEY</b> pair <b>%1</b>?</p>Deleting this key pair "
@@ -2739,36 +2746,36 @@ msgstr ""
 "<p>நீக்கு<b>SECRET KEY</b>ஜோடி<b>%1</b> ?</p>இந்த விசை ஜோடியை அழித்தால் உங்களால் "
 "மறையாக்கப்பட்ட கோப்புகள் மறைவிலக்கு செய்ய முடியாது."
 
-#: keysmanager.cpp:2363 keysmanager.cpp:2392
+#: keysmanager.cpp:2343 keysmanager.cpp:2372
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:2379
+#: keysmanager.cpp:2359
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr ""
 
-#: keysmanager.cpp:2382
+#: keysmanager.cpp:2362
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr ""
 
-#: keysmanager.cpp:2406
+#: keysmanager.cpp:2386
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 
-#: keysmanager.cpp:2447
+#: keysmanager.cpp:2427
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr ""
 
-#: keysmanager.cpp:2472
+#: keysmanager.cpp:2452
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>The following are secret key pairs:<br><b>%1</b>They will not be "
@@ -2780,42 +2787,42 @@ msgstr ""
 "<qt>கீழ் உள்ள விசை ஜோடிகள் ரகசியாமானவை:<br><b>%1</b>.இவைகளை அழிக்க முடியாது.<br></"
 "qt>"
 
-#: keysmanager.cpp:2482
+#: keysmanager.cpp:2462
 #, fuzzy, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b> பின்வரும் பொது விசைகளை நீக்கு?</b></qt>"
 msgstr[1] ""
 
-#: keysmanager.cpp:2513 keysmanager.cpp:2589 keysmanager.cpp:2600
+#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
 #, kde-format
 msgid "Key Import"
 msgstr "இறக்குமதி விசை"
 
-#: keysmanager.cpp:2521
+#: keysmanager.cpp:2501
 #, kde-format
 msgid "Open File"
 msgstr "கோப்பை திற"
 
-#: keysmanager.cpp:2554
+#: keysmanager.cpp:2534
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2536
 #, fuzzy, kde-format
 #| msgid "&Encrypt Clipboard"
 msgid "Import from Clipboard"
 msgstr " &மறையாக்கப்பட்ட கிளிப் போர்டு"
 
-#: keysmanager.cpp:2576
+#: keysmanager.cpp:2556
 #, kde-format
 msgid "Importing..."
 msgstr "இறக்குமதி..."
 
-#: keysmanager.cpp:2588
+#: keysmanager.cpp:2568
 #, fuzzy, kde-format
 #| msgid ""
 #| "No key imported... \n"
@@ -2825,38 +2832,38 @@ msgstr ""
 "எந்த விசையும் இறக்கப்படவில்லை...\n"
 "அதிக தகவல்களுக்கு விவரமான பதிவை சரிப்பார்க்கவும்."
 
-#: keysmanager.cpp:2641
+#: keysmanager.cpp:2621
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGபிஜி-"
 
-#: keysmanager.cpp:2662
+#: keysmanager.cpp:2644
 #, fuzzy, kde-format
 #| msgid "Key Manager"
 msgid "Ke&y Manager"
 msgstr "விசை மேளாளர்"
 
-#: keysmanager.cpp:2665
+#: keysmanager.cpp:2647
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr " &மறையாக்கப்பட்ட கிளிப் போர்டு"
 
-#: keysmanager.cpp:2668
+#: keysmanager.cpp:2650
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&கிளிப்போர்டை மறைவிலக்கு"
 
-#: keysmanager.cpp:2671
+#: keysmanager.cpp:2653
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&கையொப்பம்/சித்திரப் பலகையை சரிபார்"
 
-#: keysmanager.cpp:2708 keysmanager.cpp:2811 keysmanager.cpp:2829
+#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "சித்திரப்பலகை காலி"
 
-#: keysmanager.cpp:2753
+#: keysmanager.cpp:2735
 #, fuzzy, kde-format
 #| msgid "The signature file %1 was successfully created."
 msgid "Text successfully encrypted."
@@ -2917,27 +2924,27 @@ msgstr ""
 "உண்டாக்கும்மறைவிலக்கம்<br>தயவு செய்து கே ஜி பி ஜி அமைப்பிலிருந்து ஜி என் யு பி ஜி  "
 "செயல்படுத்துபவரை முடக்கு, அல்லது செயல்படுத்துபவரை அமை.</qt>"
 
-#: kgpg.cpp:123 kgpg.cpp:130 kgpg.cpp:137 kgpg.cpp:144
+#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:134
+#: kgpg.cpp:132
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "முறைவிலக்க ÁüÚõ அடைவை காண்பிக்க இயலாது."
 
-#: kgpg.cpp:141
+#: kgpg.cpp:139
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "அடைவை பதிவுசெய்ய இயலவில்லை"
 
-#: kgpg.cpp:148
+#: kgpg.cpp:146
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "அடைவை சரிபார்க்க இயலவில்லை"
 
-#: kgpg.cpp:151
+#: kgpg.cpp:149
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2948,38 +2955,38 @@ msgstr ""
 "தயவு செய்து ஒரே ஒரு ஆவணம், அல்லது நிறைய கோப்புகளை தேர்ந்தெடுக்கவும்,ஆனால் கோப்புகளையும் "
 "ஆவணங்களையும் இணைக்க வேண்டாம்."
 
-#: kgpg.cpp:189
+#: kgpg.cpp:187
 #, kde-format
 msgid "Encrypt file"
 msgstr "கோப்பின் மறையாக்கம்"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:188
 #, kde-format
 msgid "Open key manager"
 msgstr "மேலாளர் விசையை திற"
 
-#: kgpg.cpp:191
+#: kgpg.cpp:189
 #, fuzzy, kde-format
 #| msgid "&Open Editor"
 msgid "Open editor"
 msgstr "&திருத்துவோரை திற"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:190
 #, kde-format
 msgid "Show encrypted file"
 msgstr "பதிவேடு கோப்பை காட்டு"
 
-#: kgpg.cpp:193 kgpgoptions.cpp:503
+#: kgpg.cpp:191 kgpgoptions.cpp:505
 #, kde-format
 msgid "Sign File"
 msgstr "கோப்பு குறி"
 
-#: kgpg.cpp:194
+#: kgpg.cpp:192
 #, kde-format
 msgid "Verify signature"
 msgstr "கையெழுத்தை சரிபார்"
 
-#: kgpg.cpp:195
+#: kgpg.cpp:193
 #, kde-format
 msgid "File to open"
 msgstr "திறக்க வேண்டிய கோப்புகள்"
@@ -3153,7 +3160,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "இடைநிலைக்கு பதிலாக சுட்டியை பயன் படுத வேண்டும்"
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "கேடியியை துவக்கும்போது KGpgயை தானக துவக்கவும்."
@@ -3210,72 +3217,66 @@ msgstr ""
 msgid "The number of recently opened files shown in the editor menu."
 msgstr ""
 
-#. i18n: ectx: label, entry (ShowTipOfDay), group (TipOfDay)
-#: kgpg.kcfg:187
-#, kde-format
-msgid "Show tip of the day."
-msgstr "இன்றைய உதவி குறிபு"
-
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
-#: kgpg.kcfg:194
+#: kgpg.kcfg:187
 #, kde-format
 msgid "Color used for trusted keys."
 msgstr "நம்பகமான விசைகளுக்கு வண்ணம் பயன்படுத்தப்பட்டது."
 
 #. i18n: ectx: label, entry (ColorRev), group (Key Colors)
-#: kgpg.kcfg:198
+#: kgpg.kcfg:191
 #, kde-format
 msgid "Color used for revoked keys."
 msgstr "செயலில் இல்லாத விசைகளுக்கான பயன்படுத்தப்பட்ட வண்ணம்"
 
 #. i18n: ectx: label, entry (ColorUnknown), group (Key Colors)
-#: kgpg.kcfg:202
+#: kgpg.kcfg:195
 #, kde-format
 msgid "Color used for unknown keys."
 msgstr "தெரியாத விசைகளுக்கான பயன்படுத்தப்பட்ட வண்ணம்"
 
 #. i18n: ectx: label, entry (ColorBad), group (Key Colors)
-#: kgpg.kcfg:206
+#: kgpg.kcfg:199
 #, kde-format
 msgid "Color used for untrusted keys."
 msgstr "அனுமதிக்கப்படாத விசைகளுக்கான பயன்படுத்தப்பட்ட வண்ணம்:"
 
 #. i18n: ectx: label, entry (ColorUltimate), group (Key Colors)
-#: kgpg.kcfg:210
+#: kgpg.kcfg:203
 #, fuzzy, kde-format
 #| msgid "Color used for untrusted keys."
 msgid "Color used for ultimately trusted keys."
 msgstr "அனுமதிக்கப்படாத விசைகளுக்கான பயன்படுத்தப்பட்ட வண்ணம்:"
 
 #. i18n: ectx: label, entry (ColorMarginal), group (Key Colors)
-#: kgpg.kcfg:214
+#: kgpg.kcfg:207
 #, fuzzy, kde-format
 #| msgid "Color used for untrusted keys."
 msgid "Color used for marginally trusted keys."
 msgstr "அனுமதிக்கப்படாத விசைகளுக்கான பயன்படுத்தப்பட்ட வண்ணம்:"
 
 #. i18n: ectx: label, entry (ColorExpired), group (Key Colors)
-#: kgpg.kcfg:218
+#: kgpg.kcfg:211
 #, fuzzy, kde-format
 #| msgid "Color used for trusted keys."
 msgid "Color used for expired keys."
 msgstr "நம்பகமான விசைகளுக்கு வண்ணம் பயன்படுத்தப்பட்டது."
 
 #. i18n: ectx: label, entry (Font), group (Text Font)
-#: kgpg.kcfg:225
+#: kgpg.kcfg:218
 #, fuzzy, kde-format
 msgid "Font"
 msgstr "மாதங்கள்"
 
 #. i18n: ectx: label, entry (KeyServers), group (Servers)
-#: kgpg.kcfg:248
+#: kgpg.kcfg:241
 #, kde-format
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
 msgstr ""
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
-#: kgpg.kcfg:252
+#: kgpg.kcfg:245
 #, kde-format
 msgid ""
 "List of URLs that show details and analysis of the given key. The first "
@@ -3283,29 +3284,29 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
-#: kgpg.kcfg:259
+#: kgpg.kcfg:252
 #, kde-format
 msgid "Use HTTP proxy when available."
 msgstr "HTTP ப்ராக்சியை கிடைக்கும்போது பயன்படுத்தவும்."
 
 #. i18n: ectx: label, entry (EmailTemplate), group (Key Signing)
-#: kgpg.kcfg:266
+#: kgpg.kcfg:259
 #, kde-format
 msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
 msgstr ""
 
-#: kgpgexternalactions.cpp:126
+#: kgpgexternalactions.cpp:127
 #, kde-format
 msgid "Cannot create temporary file for folder compression."
 msgstr ""
 
-#: kgpgexternalactions.cpp:126 kgpgexternalactions.cpp:133
+#: kgpgexternalactions.cpp:127 kgpgexternalactions.cpp:134
 #, kde-format
 msgid "Temporary File Creation"
 msgstr "தற்காலிகமாக உருவாக்கிய கோப்பு"
 
-#: kgpgexternalactions.cpp:131
+#: kgpgexternalactions.cpp:132
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to "
@@ -3319,12 +3320,12 @@ msgstr ""
 "<qt>குறியீட்டாக்கத்தை செயல்படுத்த KGpg தற்போது ஒரு தற்காலிக காப்புக்கோப்பையை உருவாக்கும்:"
 "<br><b>%1</b> குறியீட்டாக்கம் முடிந்தபிறகு இந்த கோப்பு     நீக்கப்படும்.</qt>"
 
-#: kgpgexternalactions.cpp:147
+#: kgpgexternalactions.cpp:148
 #, kde-format
 msgid "Compression method for archive:"
 msgstr "காப்புக்கான அழுத்த முறை:"
 
-#: kgpgexternalactions.cpp:400
+#: kgpgexternalactions.cpp:401
 #, fuzzy, kde-format
 #| msgid "Decryption failed."
 msgid "Decryption of this file failed:"
@@ -3332,7 +3333,7 @@ msgid_plural "Decryption of these files failed:"
 msgstr[0] "மறைவிலக்கம் முடங்கியது."
 msgstr[1] "மறைவிலக்கம் முடங்கியது."
 
-#: kgpgexternalactions.cpp:424
+#: kgpgexternalactions.cpp:425
 #, kde-format
 msgid ""
 "<qt>You have not set a path to your GnuPG config file.<br />This may cause "
@@ -3340,22 +3341,22 @@ msgid ""
 "KGpg's assistant to fix this problem?</qt>"
 msgstr ""
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Start Assistant"
 msgstr ""
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Do Not Start"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:34
+#: kgpgfirstassistant.cpp:35
 #, kde-format
 msgid "KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:58
+#: kgpgfirstassistant.cpp:59
 #, fuzzy, kde-format
 #| msgid ""
 #| "<h1>Welcome to the KGpg Wizard</h1>\n"
@@ -3372,18 +3373,18 @@ msgstr ""
 "அமைக்கும். அடுத்து, உங்கள் மின் அஞ்சல்களையும் மற்ரும் கோப்புகளையும் மறையாக்கமாக்க செயல்படுத்த "
 "உங்கள் சொந்த விசை ஜோடியை உருவாக்க அனுமதிக்கும். ."
 
-#: kgpgfirstassistant.cpp:66
+#: kgpgfirstassistant.cpp:67
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:78
+#: kgpgfirstassistant.cpp:79
 #, fuzzy, kde-format
 #| msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "GnuPG  உள்ளமைவு கோப்பு எங்கு சேமிக்கப்பட்டுள்ள்து எண்பது KGpgக்கு தெரியவேண்டும்   "
 
-#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3391,59 +3392,59 @@ msgid ""
 msgstr ""
 "வழக்கத்திர்குமாராக் அமைப்புகளை பயன்படுத்த வெண்டும் என்றல், \"அடுத்து\" விசையை அழுத்தவும்."
 
-#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
 #, fuzzy, kde-format
 #| msgid "GnuPG Settings"
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "GnuPG அமைப்புகள்"
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
 #, fuzzy, kde-format
 #| msgid "*|All Files"
 msgid "All files"
 msgstr "*|அனைத்துக் கோப்பு"
 
-#: kgpgfirstassistant.cpp:137
+#: kgpgfirstassistant.cpp:138
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "GnuPG  உள்ளமைவு கோப்பு எங்கு சேமிக்கப்பட்டுள்ள்து எண்பது KGpgக்கு தெரியவேண்டும்   "
 
-#: kgpgfirstassistant.cpp:152
+#: kgpgfirstassistant.cpp:153
 #, fuzzy, kde-format
 #| msgid "<br>Path to your GnuPG options file:"
 msgid "Path to your GnuPG configuration file:"
 msgstr "<br>GnuPG விருப்பத்தேர்வு கோபின் வழி "
 
-#: kgpgfirstassistant.cpp:166
+#: kgpgfirstassistant.cpp:167
 #, fuzzy, kde-format
 #| msgid "Configuration file:"
 msgid "Configuration File"
 msgstr "உள்ளமைவின் கோப்பு:  "
 
-#: kgpgfirstassistant.cpp:176
+#: kgpgfirstassistant.cpp:177
 #, kde-format
 msgid "Your default key:"
 msgstr "உங்கள் முன்னிருப்பு விசை:"
 
-#: kgpgfirstassistant.cpp:195
+#: kgpgfirstassistant.cpp:196
 #, fuzzy, kde-format
 #| msgid "&Delete Keys"
 msgid "Default Key"
 msgstr "&விசைகளை நீக்கு"
 
-#: kgpgfirstassistant.cpp:216
+#: kgpgfirstassistant.cpp:217
 #, fuzzy, kde-format
 msgid "Generate new key"
 msgstr "புதிய விசையின் இணை உருவாக்கு"
 
-#: kgpgfirstassistant.cpp:230
+#: kgpgfirstassistant.cpp:231
 #, fuzzy, kde-format
 #| msgid "none"
 msgid "Done"
 msgstr "எதுவும் இல்லை"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>The GnuPG configuration file was not found</b>. Please make sure "
@@ -3455,40 +3456,40 @@ msgstr ""
 "<qt><b>GnuPG கட்டமைப்புக்கோப்பைக் காணவில்லை</b>. . KGpg  கட்டாயமாக கட்டமைப்புக்கோப்பை "
 "உருவாக்க வேண்டுமா?</qt>"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, fuzzy, kde-format
 msgid "Create Config"
 msgstr "உருவாக்கம்"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, fuzzy, kde-format
 msgid "Do Not Create"
 msgstr "உருவாக்குதல்"
 
-#: kgpgfirstassistant.cpp:252
+#: kgpgfirstassistant.cpp:253
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:294
+#: kgpgfirstassistant.cpp:295
 #, fuzzy, kde-format
 #| msgid "GnuPG Settings"
 msgid "Your GnuPG binary is: %1"
 msgstr "GnuPG அமைப்புகள்"
 
-#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
+#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
 #, fuzzy, kde-format
 #| msgid "You have GnuPG version:"
 msgid "You have GnuPG version: %1"
 msgstr "நீங்கள் GnuPG பதிப்பு உஙகள் இடம் உள்ளது:"
 
-#: kgpgfirstassistant.cpp:316
+#: kgpgfirstassistant.cpp:317
 #, fuzzy, kde-format
 #| msgid "Your default key:"
 msgid "Your default key is: %1"
 msgstr "உங்கள் முன்னிருப்பு விசை:"
 
-#: kgpgfirstassistant.cpp:367
+#: kgpgfirstassistant.cpp:368
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3793,37 +3794,37 @@ msgstr "கடுவு சொற்றொடரை மாற்று..."
 msgid "Fingerprint"
 msgstr "கைரெகை"
 
-#: kgpgoptions.cpp:105
+#: kgpgoptions.cpp:107
 #, kde-format
 msgid "Decryption"
 msgstr "மறைவிலக்கம்"
 
-#: kgpgoptions.cpp:106
+#: kgpgoptions.cpp:108
 #, kde-format
 msgid "Appearance"
 msgstr ""
 
-#: kgpgoptions.cpp:107
+#: kgpgoptions.cpp:109
 #, kde-format
 msgid "GnuPG Settings"
 msgstr "GnuPG அமைப்புகள்"
 
-#: kgpgoptions.cpp:108
+#: kgpgoptions.cpp:110
 #, kde-format
 msgid "Key Servers"
 msgstr "விசை வழங்கன்"
 
-#: kgpgoptions.cpp:109
+#: kgpgoptions.cpp:111
 #, kde-format
 msgid "Misc"
 msgstr "இதர"
 
-#: kgpgoptions.cpp:144
+#: kgpgoptions.cpp:146
 #, kde-format
 msgid "New GnuPG Home Location"
 msgstr "புதிய GnuPG பக்கத்தின் இடம்"
 
-#: kgpgoptions.cpp:157
+#: kgpgoptions.cpp:159
 #, fuzzy, kde-format
 #| msgid ""
 #| "No configuration file was found in the selected location.\n"
@@ -3841,22 +3842,22 @@ msgstr ""
 "\n"
 "உள்ளமைக்காமல் KGpg  இது அல்லது Gnupg  போன்ற கோப்பையை சரிவர இயக்க இயலாது."
 
-#: kgpgoptions.cpp:158
+#: kgpgoptions.cpp:160
 #, kde-format
 msgid "No Configuration File Found"
 msgstr "உள்ளமைவுவின் கோப்பு  காணவில்லை"
 
-#: kgpgoptions.cpp:159
+#: kgpgoptions.cpp:161
 #, kde-format
 msgid "Create"
 msgstr "உருவாக்குதல்"
 
-#: kgpgoptions.cpp:160
+#: kgpgoptions.cpp:162
 #, kde-format
 msgid "Ignore"
 msgstr "மறுத்தல்"
 
-#: kgpgoptions.cpp:174
+#: kgpgoptions.cpp:176
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot create configuration file. Please check if destination media is "
@@ -3868,34 +3869,34 @@ msgstr ""
 "உள்ளமைக் கோப்பைகளை உருவாக்க இயலாது. தயவுச்செய்து சேரிட ஊடகம் சோதிக்கப்பட்டதா என்பதை "
 "கவனிக்கவும் மற்றும் எழுத்து செயல்படுத்தப்பட்டதா என்பதையும் கவனிக்கவும்."
 
-#: kgpgoptions.cpp:197
+#: kgpgoptions.cpp:199
 #, kde-format
 msgid "Key server URLs may not contain whitespace."
 msgstr ""
 
-#: kgpgoptions.cpp:202
+#: kgpgoptions.cpp:204
 #, kde-format
 msgid "Key server already in the list."
 msgstr ""
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Add New Key Server"
 msgstr "புதிய விசை வழங்கனை கூட்டுக"
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Server URL:"
 msgstr "வழங்கன் URL:"
 
-#: kgpgoptions.cpp:464 kgpgoptions.cpp:466
+#: kgpgoptions.cpp:466 kgpgoptions.cpp:468
 #, fuzzy, kde-format
 #| msgid "none"
 msgctxt "no key available"
 msgid "none"
 msgstr "எதுவும் இல்லை"
 
-#: kgpgoptions.cpp:486
+#: kgpgoptions.cpp:488
 #, kde-format
 msgid "Decrypt File"
 msgstr "கோப்பை மறைவிலக்கு"
@@ -4389,158 +4390,6 @@ msgid ""
 "Enter the ids or fingerprints of the keys to import as space separated list."
 msgstr ""
 
-#. i18n: ectx: @info:tipoftheday
-#: tips:2
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>If you want to decrypt a text file, simply drag and drop it into the "
-#| "editor window. Kgpg will do the rest. Even remote files can be dropped.</"
-#| "p>\n"
-#| "<p>Drag a public key into the editor window and kgpg will automatically "
-#| "import it if you want.</p>\n"
-msgid ""
-"<p>If you want to decrypt a text file, simply drag and drop it into the "
-"editor window. KGpg will do the rest. Even remote files can be dropped.</p>\n"
-"<p>Drag a public key into the editor window and kgpg will automatically "
-"import it if you want.</p>\n"
-msgstr ""
-"<p>நீங்கள் உரை கோப்பை மறைவிலக்கம் செய்ய வேண்டுமென்றால் தொகுப்பி சாளரத்தில் இழுத்து போட "
-"வேண்டும். Kgpg மற்றதை செய்யும். தொலை கோப்புகளும் விடப்படலாம்.</p>\n"
-"<p>தொகுப்பி சாளரத்திற்குள் பொது விசையை இழுக்க வேண்டும் மற்றும் உங்களுக்கு வேண்டுமென்றால் "
-"அதை kgpg  தானாகவே இறக்குமதி செய்யும்.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:7
-#, kde-format
-msgid ""
-"<p>The easiest way to encrypt a file: simply right click on the file, and "
-"you have an encrypt option in the contextual menu.\n"
-"This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
-msgstr ""
-"<p>கோப்பை மறையாக்க சுலபமான வழி: கோப்பில் வலப்பக்கம் சொடுக்கினால் குறித்த பணிக்கான "
-"பட்டியலில் மறையாக்க தேர்வுகள் உங்களுக்கு இருக்கும்.\n"
-"இது <strong>konqueror</strong>ல் அல்லது உங்கள் மேல்மேஜையில் வேலை செய்யும்!</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:13
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>If you want to encrypt a message for several persons, just select "
-#| "several encryption keys by pressing the \"Ctrl\" key.</p>\n"
-msgid ""
-"<p>If you want to encrypt a message for several persons, just select several "
-"encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
-msgstr ""
-"<p>நிறைய பேருக்கு தகவலை முறையாக்க விரும்பினால்,  \"Ctrl\" விசையை சொடுக்கி .நிறைய "
-"முறையாக்க விசைகளை தேர்வு செய்யலாம்</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:18
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p><strong>You don't know anything about encryption?</strong><br>\n"
-#| "No problem, simply create yourself a key pair in the key management "
-#| "window. Then, export your public key & mail it to your friends.<br>\n"
-#| "Ask them to do the same & import their public keys. Finally, to send an "
-#| "encrypted message, type it in the Kgpg editor, then click \"encrypt\". "
-#| "Choose \n"
-#| "your friend key and click \"encrypt\" again. The message will be "
-#| "encrypted, ready to be sent by email.</p>\n"
-msgid ""
-"<p><strong>You do not have to be an expert in encryption to use this tool?</"
-"strong><br>\n"
-"Simply create yourself a key pair in the key management window. Then, export "
-"your public key and mail it to your friends.<br>\n"
-"Ask them to do the same and import their public keys. Finally, to send an "
-"encrypted message, type it in the KGpg editor, then click &quot;"
-"encrypt&quot;. Choose\n"
-"your friend's key and click &quot;encrypt&quot; again. The message will be "
-"encrypted, ready to be sent by email.</p>\n"
-msgstr ""
-"p><வலிமை>மறைவடக்கத்தைப் பற்றி தாங்கள் அறிய வில்லையா?</வலிமை><br>\n"
-"பிரச்சினை அல்ல, தங்களின் விசை மேலாண்மை சாளரத்தில் விசை ஜோடியை உருவாக்கவும். அதன் "
-"பின்னர், பொது விசையை பதவியேற்று &நண்பர்களுக்கு அஞ்சல் அனுப்பு.<br>\n"
-"அவர்களையும் அவ்வாறே செய்யச் சொல் & அவர்களின் பொது விசையை பதவியிறக்கு. முடிவில், "
-"மறைவிடக்க செய்தியை அனுப்பு, Kgpg  திருத்தியை பொறி, அதன் பின்னர்\"என்கிரிப்ட்\" "
-"சொடுக்கு. தேர்ந்தெடு\n"
-"தங்கள் நண்பரின் விசை மற்றும் \"என்கிரிப்ட்\" மேலும்சொடுக்கு. செய்தி மறைவிடக்கப்பட்டது இதனை "
-"மின்னஞ்சலும் செய்ய தயார் நிலையில் உள்ளது.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:26
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>To perform an operation on a key, open the key management window & "
-#| "right click on the key. A popup menu with all available options will "
-#| "appear.</p>\n"
-msgid ""
-"<p>To perform an operation on a key, open the key management window and "
-"right click on the key. A popup menu with all available options will appear."
-"</p>\n"
-msgstr ""
-"<p>விசையில் ஒரு இயக்கத்தை செயல் படுத்த விசை மேலாண்மை சாளரத்தை திறந்து விசையின் மேல் "
-"வலப்பக்கம் சொடுக்கவும் அனைத்து தேர்வுகளுடன் மேல் எழும் நிரல் காணப்படும்.</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:31
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>Decrypt a file with a single mouse click on it. You will then be "
-#| "prompted for password & that's all!</p>\n"
-msgid ""
-"<p>Decrypt a file with a single mouse click on it. You will then be prompted "
-"for password, and then that is it!</p>\n"
-msgstr ""
-"<p>ஒரு சுட்டி சொருகுடன் அந்த கோப்பை மறைவிலக்கம் செய். பிறகு நீங்கள் கடவுச்சொல்லுக்காக "
-"தூண்டப்படுவீர்கள்</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>If you only want to open the key manager, type \"kgpg -k\" in the "
-#| "command line prompt.</p>\n"
-msgid ""
-"<p>If you only want to open the key manager, type this in the command line "
-"prompt: <pre>kgpg -k</pre>\n"
-"The editor can be reached by: <pre>kgpg -d</pre></p>\n"
-msgstr ""
-"<p>நீங்கள் விசை மேலாளரை மட்டும் திறக்க வேண்டுமென்றால், \"kgpg -k\"தை ஆணை வரி "
-"தூண்டுதலில் உள்ளிடவும் .</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:42
-#, kde-format
-msgid ""
-"<p>To open a file in the KGpg's editor and immediately decrypt it type: "
-"<pre>kgpg -s filename</pre></p>\n"
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:47
-#, kde-format
-msgid ""
-"<p>If you want to change the password or expiration of a secret key simply "
-"double click on it to get the key properties dialog.</p>\n"
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:52
-#, kde-format
-msgid ""
-"<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the "
-"key manager.</p>\n"
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:57
-#, kde-format
-msgid ""
-"<p>The number of signatures is shown as a tooltip if you hover the mouse on "
-"the size column in key manager. A key has to be expanded once for this to "
-"work.</p>\n"
-msgstr ""
-
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "This image is very large. Use it anyway?"
@@ -4979,6 +4828,124 @@ msgstr "கையெழுத்து சரியானது, ஆனால்
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "கையெழுத்து சரியானது,மற்றும் விசை நம்பபட்டது"
+
+#~ msgid ""
+#~ "The document could not been saved, as the selected encoding cannot encode "
+#~ "every unicode character in it."
+#~ msgstr ""
+#~ "தேர்வு செய்யப்பட்ட மறையாக்கத்தில் உள்ள ஒவ்வொரு யுனிகோட் எழுத்துக்களும் மறையாக்க "
+#~ "முடியாததால் ஆவணத்தை சேமிக்க முடியவில்லை."
+
+#~ msgid "Tip of the &Day"
+#~ msgstr "இந்த நாளுக்கான யோசனை"
+
+#~ msgid "Show tip of the day."
+#~ msgstr "இன்றைய உதவி குறிபு"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>If you want to decrypt a text file, simply drag and drop it into the "
+#~| "editor window. Kgpg will do the rest. Even remote files can be dropped.</"
+#~| "p>\n"
+#~| "<p>Drag a public key into the editor window and kgpg will automatically "
+#~| "import it if you want.</p>\n"
+#~ msgid ""
+#~ "<p>If you want to decrypt a text file, simply drag and drop it into the "
+#~ "editor window. KGpg will do the rest. Even remote files can be dropped.</"
+#~ "p>\n"
+#~ "<p>Drag a public key into the editor window and kgpg will automatically "
+#~ "import it if you want.</p>\n"
+#~ msgstr ""
+#~ "<p>நீங்கள் உரை கோப்பை மறைவிலக்கம் செய்ய வேண்டுமென்றால் தொகுப்பி சாளரத்தில் இழுத்து போட "
+#~ "வேண்டும். Kgpg மற்றதை செய்யும். தொலை கோப்புகளும் விடப்படலாம்.</p>\n"
+#~ "<p>தொகுப்பி சாளரத்திற்குள் பொது விசையை இழுக்க வேண்டும் மற்றும் உங்களுக்கு "
+#~ "வேண்டுமென்றால் அதை kgpg  தானாகவே இறக்குமதி செய்யும்.</p>\n"
+
+#~ msgid ""
+#~ "<p>The easiest way to encrypt a file: simply right click on the file, and "
+#~ "you have an encrypt option in the contextual menu.\n"
+#~ "This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
+#~ msgstr ""
+#~ "<p>கோப்பை மறையாக்க சுலபமான வழி: கோப்பில் வலப்பக்கம் சொடுக்கினால் குறித்த பணிக்கான "
+#~ "பட்டியலில் மறையாக்க தேர்வுகள் உங்களுக்கு இருக்கும்.\n"
+#~ "இது <strong>konqueror</strong>ல் அல்லது உங்கள் மேல்மேஜையில் வேலை செய்யும்!</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>If you want to encrypt a message for several persons, just select "
+#~| "several encryption keys by pressing the \"Ctrl\" key.</p>\n"
+#~ msgid ""
+#~ "<p>If you want to encrypt a message for several persons, just select "
+#~ "several encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
+#~ msgstr ""
+#~ "<p>நிறைய பேருக்கு தகவலை முறையாக்க விரும்பினால்,  \"Ctrl\" விசையை சொடுக்கி ."
+#~ "நிறைய முறையாக்க விசைகளை தேர்வு செய்யலாம்</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p><strong>You don't know anything about encryption?</strong><br>\n"
+#~| "No problem, simply create yourself a key pair in the key management "
+#~| "window. Then, export your public key & mail it to your friends.<br>\n"
+#~| "Ask them to do the same & import their public keys. Finally, to send an "
+#~| "encrypted message, type it in the Kgpg editor, then click \"encrypt\". "
+#~| "Choose \n"
+#~| "your friend key and click \"encrypt\" again. The message will be "
+#~| "encrypted, ready to be sent by email.</p>\n"
+#~ msgid ""
+#~ "<p><strong>You do not have to be an expert in encryption to use this tool?"
+#~ "</strong><br>\n"
+#~ "Simply create yourself a key pair in the key management window. Then, "
+#~ "export your public key and mail it to your friends.<br>\n"
+#~ "Ask them to do the same and import their public keys. Finally, to send an "
+#~ "encrypted message, type it in the KGpg editor, then click &quot;"
+#~ "encrypt&quot;. Choose\n"
+#~ "your friend's key and click &quot;encrypt&quot; again. The message will "
+#~ "be encrypted, ready to be sent by email.</p>\n"
+#~ msgstr ""
+#~ "p><வலிமை>மறைவடக்கத்தைப் பற்றி தாங்கள் அறிய வில்லையா?</வலிமை><br>\n"
+#~ "பிரச்சினை அல்ல, தங்களின் விசை மேலாண்மை சாளரத்தில் விசை ஜோடியை உருவாக்கவும். அதன் "
+#~ "பின்னர், பொது விசையை பதவியேற்று &நண்பர்களுக்கு அஞ்சல் அனுப்பு.<br>\n"
+#~ "அவர்களையும் அவ்வாறே செய்யச் சொல் & அவர்களின் பொது விசையை பதவியிறக்கு. முடிவில், "
+#~ "மறைவிடக்க செய்தியை அனுப்பு, Kgpg  திருத்தியை பொறி, அதன் பின்னர்\"என்கிரிப்ட்\" "
+#~ "சொடுக்கு. தேர்ந்தெடு\n"
+#~ "தங்கள் நண்பரின் விசை மற்றும் \"என்கிரிப்ட்\" மேலும்சொடுக்கு. செய்தி மறைவிடக்கப்பட்டது "
+#~ "இதனை மின்னஞ்சலும் செய்ய தயார் நிலையில் உள்ளது.</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>To perform an operation on a key, open the key management window & "
+#~| "right click on the key. A popup menu with all available options will "
+#~| "appear.</p>\n"
+#~ msgid ""
+#~ "<p>To perform an operation on a key, open the key management window and "
+#~ "right click on the key. A popup menu with all available options will "
+#~ "appear.</p>\n"
+#~ msgstr ""
+#~ "<p>விசையில் ஒரு இயக்கத்தை செயல் படுத்த விசை மேலாண்மை சாளரத்தை திறந்து விசையின் மேல் "
+#~ "வலப்பக்கம் சொடுக்கவும் அனைத்து தேர்வுகளுடன் மேல் எழும் நிரல் காணப்படும்.</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>Decrypt a file with a single mouse click on it. You will then be "
+#~| "prompted for password & that's all!</p>\n"
+#~ msgid ""
+#~ "<p>Decrypt a file with a single mouse click on it. You will then be "
+#~ "prompted for password, and then that is it!</p>\n"
+#~ msgstr ""
+#~ "<p>ஒரு சுட்டி சொருகுடன் அந்த கோப்பை மறைவிலக்கம் செய். பிறகு நீங்கள் கடவுச்சொல்லுக்காக "
+#~ "தூண்டப்படுவீர்கள்</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>If you only want to open the key manager, type \"kgpg -k\" in the "
+#~| "command line prompt.</p>\n"
+#~ msgid ""
+#~ "<p>If you only want to open the key manager, type this in the command "
+#~ "line prompt: <pre>kgpg -k</pre>\n"
+#~ "The editor can be reached by: <pre>kgpg -d</pre></p>\n"
+#~ msgstr ""
+#~ "<p>நீங்கள் விசை மேலாளரை மட்டும் திறக்க வேண்டுமென்றால், \"kgpg -k\"தை ஆணை வரி "
+#~ "தூண்டுதலில் உள்ளிடவும் .</p>\n"
 
 #, fuzzy
 #~| msgid "GnuPG Settings"
@@ -5482,9 +5449,6 @@ msgstr "கையெழுத்து சரியானது,மற்று�
 
 #~ msgid "Encrypt"
 #~ msgstr "மறையாக்கு "
-
-#~ msgid "Sign"
-#~ msgstr "அறிகுறி"
 
 #~ msgid "Ask"
 #~ msgstr "கெள்"

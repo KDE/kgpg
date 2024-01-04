@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:40+0000\n"
+"POT-Creation-Date: 2024-01-04 01:36+0000\n"
 "PO-Revision-Date: 2007-09-06 15:42+0545\n"
 "Last-Translator: Narayan Kumar Magar <narayan@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -138,7 +138,7 @@ msgstr "अनुकूल गुप्तिकरण उल्टाउने 
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Encryption)
 #. i18n: ectx: property (text), widget (QCheckBox, capEncrypt)
-#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:104
+#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:106
 #, kde-format
 msgid "Encryption"
 msgstr "गुप्तिकरण"
@@ -431,7 +431,7 @@ msgid "Change..."
 msgstr "परिवर्तन गर्नुहोस्..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:120
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "GnuPG बाइनरी"
@@ -576,7 +576,7 @@ msgstr "फाइल सेवा मेनु साइन गर्नुह�
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:304
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:296
 #, kde-format
 msgid "Disable"
 msgstr "अक्षम पार्नुहोस्"
@@ -657,7 +657,7 @@ msgstr "कुञ्जी प्रबन्धक"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #. i18n: ectx: attribute (title), widget (QWidget, tabEditor)
-#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:499
+#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:503
 #, kde-format
 msgid "Editor"
 msgstr "सम्पादक"
@@ -837,25 +837,25 @@ msgid "Sort Order"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:253 kgpgoptions.cpp:98
+#: conf_ui2.ui:253 kgpgoptions.cpp:100
 #, kde-format
 msgid "Left to right, account first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:258 kgpgoptions.cpp:99
+#: conf_ui2.ui:258 kgpgoptions.cpp:101
 #, kde-format
 msgid "Right to left, TLD first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:263 kgpgoptions.cpp:100
+#: conf_ui2.ui:263 kgpgoptions.cpp:102
 #, kde-format
 msgid "Right to left, domain first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:268 kgpgoptions.cpp:101
+#: conf_ui2.ui:268 kgpgoptions.cpp:103
 #, kde-format
 msgid "Right to left, FQDN first"
 msgstr ""
@@ -1113,63 +1113,63 @@ msgstr "फोटो आईडी"
 msgid "Info"
 msgstr "जानकारी"
 
-#: editor/kgpgeditor.cpp:84 editor/kgpgeditor.cpp:231 editor/kgpgeditor.cpp:729
-#: editor/kgpgeditor.cpp:758
+#: editor/kgpgeditor.cpp:90 editor/kgpgeditor.cpp:240 editor/kgpgeditor.cpp:726
+#: editor/kgpgeditor.cpp:755
 #, kde-format
 msgid "Untitled"
 msgstr "शीर्षक नभएको"
 
-#: editor/kgpgeditor.cpp:177
+#: editor/kgpgeditor.cpp:186
 #, kde-format
 msgid "&Encrypt File..."
 msgstr "फाइल गुप्तिकरण गर्नुहोस्..."
 
-#: editor/kgpgeditor.cpp:181
+#: editor/kgpgeditor.cpp:190
 #, kde-format
 msgid "&Decrypt File..."
 msgstr "फाइल गुप्तिकरण उल्टाउनुहोस्..."
 
-#: editor/kgpgeditor.cpp:185
+#: editor/kgpgeditor.cpp:194
 #, kde-format
 msgid "&Open Key Manager"
 msgstr "कुञ्जी प्रबन्धक खोल्नुहोस्"
 
-#: editor/kgpgeditor.cpp:188
+#: editor/kgpgeditor.cpp:197
 #, kde-format
 msgid "&Generate Signature..."
 msgstr "हस्ताक्षर उत्पन्न गर्नुहोस्..."
 
-#: editor/kgpgeditor.cpp:192
+#: editor/kgpgeditor.cpp:201
 #, kde-format
 msgid "&Verify Signature..."
 msgstr "हस्ताक्षर रूजु गर्नुहोस्..."
 
-#: editor/kgpgeditor.cpp:195
+#: editor/kgpgeditor.cpp:204
 #, kde-format
 msgid "&Check MD5 Sum..."
 msgstr "MD5 योगफल जाँच गर्नुहोस्..."
 
-#: editor/kgpgeditor.cpp:198
+#: editor/kgpgeditor.cpp:207
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
 msgstr "युनिकोड (utf-8) सङ्केतन"
 
-#: editor/kgpgeditor.cpp:204
+#: editor/kgpgeditor.cpp:213
 #, kde-format
 msgid "En&crypt"
 msgstr "गुप्तिकरण गर्नुहोस्"
 
-#: editor/kgpgeditor.cpp:208
+#: editor/kgpgeditor.cpp:217
 #, kde-format
 msgid "&Decrypt"
 msgstr "गुप्तिकरण उल्टाउनुहोस्"
 
-#: editor/kgpgeditor.cpp:212
+#: editor/kgpgeditor.cpp:221
 #, kde-format
 msgid "S&ign/Verify"
 msgstr "साइन/रूजु गर्नुहोस्"
 
-#: editor/kgpgeditor.cpp:235
+#: editor/kgpgeditor.cpp:244
 #, kde-format
 msgid ""
 "The document \"%1\" has changed.\n"
@@ -1178,12 +1178,12 @@ msgstr ""
 "\"%1\" कागजात परिवर्तन भएको छ । \n"
 " तपाईँ यसलाई बचत गर्न चाहानुहुन्छ?"
 
-#: editor/kgpgeditor.cpp:236
+#: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid "Close the document"
 msgstr "कागजात बन्द गर्नुहोस्"
 
-#: editor/kgpgeditor.cpp:282
+#: editor/kgpgeditor.cpp:291
 #, fuzzy, kde-format
 #| msgid ""
 #| "The document could not been saved, as the selected encoding cannot encode "
@@ -1194,71 +1194,62 @@ msgstr ""
 "चयन गरिएको सङ्केतनले यसमा प्रत्येक युनिकोड क्यारेक्टर सङ्केतन गर्न नसके जस्तै कागजात बचत गर्न "
 "सकेन ।"
 
-#: editor/kgpgeditor.cpp:288
-#, kde-format
-msgid ""
-"The document could not been saved, as the selected encoding cannot encode "
-"every unicode character in it."
-msgstr ""
-"चयन गरिएको सङ्केतनले यसमा प्रत्येक युनिकोड क्यारेक्टर सङ्केतन गर्न नसके जस्तै कागजात बचत गर्न "
-"सकेन ।"
-
-#: editor/kgpgeditor.cpp:297 editor/kgpgeditor.cpp:313
+#: editor/kgpgeditor.cpp:300 editor/kgpgeditor.cpp:317
 #, kde-format
 msgid ""
 "The document could not be saved, please check your permissions and disk "
 "space."
 msgstr "कागजात बचत गर्न सकेन, कृपया तपाईँको अनुमति र डिस्क खाली स्थान जाँच गर्नुहोस् ।"
 
-#: editor/kgpgeditor.cpp:338 editor/kgpgeditor.cpp:349 keyexport.cpp:37
+#: editor/kgpgeditor.cpp:342 editor/kgpgeditor.cpp:353 keyexport.cpp:37
 #, kde-format
 msgid "Overwrite existing file %1?"
 msgstr "अवस्थित %1 फाइल अधिलेखन गर्नुहुन्छ ?"
 
-#: editor/kgpgeditor.cpp:463
+#: editor/kgpgeditor.cpp:467
 #, kde-format
 msgid "Open File to Encode"
 msgstr "सङ्केतन गर्न फाइल खोल्नुहोस्"
 
-#: editor/kgpgeditor.cpp:463 editor/kgpgeditor.cpp:472
-#: editor/kgpgeditor.cpp:614 editor/kgpgeditor.cpp:652
-#: editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:467 editor/kgpgeditor.cpp:476
+#: editor/kgpgeditor.cpp:611 editor/kgpgeditor.cpp:649
+#: editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "*|All Files"
 msgstr "*|सबै फाइल"
 
-#: editor/kgpgeditor.cpp:472
+#: editor/kgpgeditor.cpp:476
 #, kde-format
 msgid "Open File to Decode"
 msgstr "डिकोड गर्न फाइल खोल्नुहोस्"
 
-#: editor/kgpgeditor.cpp:486
+#: editor/kgpgeditor.cpp:490
 #, kde-format
 msgid "Decrypt File To"
 msgstr "यसमा फाइल गुप्तिकरण उल्टाउनुहोस्"
 
-#: editor/kgpgeditor.cpp:497 keyexport.cpp:20
+#: editor/kgpgeditor.cpp:501 keyexport.cpp:20
 #, kde-format
 msgid "Save File"
 msgstr "फाइल बचत गर्नुहोस्"
 
-#: editor/kgpgeditor.cpp:523 kgpgexternalactions.cpp:203
-#: kgpgexternalactions.cpp:362 transactions/kgpgtransactionprivate.cpp:107
+#: editor/kgpgeditor.cpp:527 kgpgexternalactions.cpp:204
+#: kgpgexternalactions.cpp:363 transactions/kgpgtransactionprivate.cpp:107
 #, kde-format
 msgid "File Already Exists"
 msgstr "फाइल पहिल्यै अवस्थित छ"
 
-#: editor/kgpgeditor.cpp:614
+#: editor/kgpgeditor.cpp:611
 #, kde-format
 msgid "Open File to Sign"
 msgstr "साइन गर्न फाइल खोल्नुहोस्"
 
-#: editor/kgpgeditor.cpp:652 editor/kgpgeditor.cpp:686
+#: editor/kgpgeditor.cpp:649 editor/kgpgeditor.cpp:683
 #, kde-format
 msgid "Open File to Verify"
 msgstr "रूजु गर्न फाइल खोल्नुहोस्"
 
-#: editor/kgpgeditor.cpp:699 editor/kgpgtextedit.cpp:337
+#: editor/kgpgeditor.cpp:696 editor/kgpgtextedit.cpp:342
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>Missing signature:</b><br>Key id: %1<br><br>Do you want to import "
@@ -1271,12 +1262,12 @@ msgstr ""
 "कुञ्जी आयात गर्न चाहनुहुन्छ ?</qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
-#: editor/kgpgeditor.cpp:700 keyserver.ui:33 keytreeview.cpp:158
+#: editor/kgpgeditor.cpp:697 keyserver.ui:33 keytreeview.cpp:158
 #, kde-format
 msgid "Import"
 msgstr "आयात गर्नुहोस्"
 
-#: editor/kgpgeditor.cpp:700 keytreeview.cpp:159
+#: editor/kgpgeditor.cpp:697 keytreeview.cpp:159
 #, kde-format
 msgid "Do Not Import"
 msgstr "आयात नगर्नुहोस्"
@@ -1328,7 +1319,7 @@ msgstr "<b>चेकसम सुधार गर्नुहोस्</b>, फ�
 msgid "<b>Wrong checksum, <em>file corrupted</em></b>"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:84
+#: editor/kgpgtextedit.cpp:85
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>Remote file dropped</b>.<br>The remote file will now be copied to "
@@ -1343,12 +1334,12 @@ msgstr ""
 "फाइललाई अस्थायी फाइलमा प्रतिलिपि गरिनेछ । यो अस्थायी फाइल सञ्चालन पछि मेटिने छ ।</"
 "qt>"
 
-#: editor/kgpgtextedit.cpp:93
+#: editor/kgpgtextedit.cpp:94
 #, kde-format
 msgid "Could not download file."
 msgstr "फाइल डाउनलोड गर्न सकेन ।"
 
-#: editor/kgpgtextedit.cpp:129
+#: editor/kgpgtextedit.cpp:130
 #, fuzzy, kde-format
 #| msgid ""
 #| "<p>The file <b>%1</b> is a public key.<br>Do you want to import it ?</p>"
@@ -1358,7 +1349,7 @@ msgid ""
 msgstr ""
 "<p>फाइल<b>%1</b> सार्वजनिक कुञ्जी हो । <br>तपाईँ यसलाई आयात गर्न चाहनुहुन्छ ?</p>"
 
-#: editor/kgpgtextedit.cpp:132
+#: editor/kgpgtextedit.cpp:133
 #, fuzzy, kde-format
 #| msgid ""
 #| "This file is a private key.\n"
@@ -1370,60 +1361,74 @@ msgstr ""
 "यो फाइल निजी कुञ्जी हो ।\n"
 "कृपया यसलाई आयात गर्न kgpg कुञ्जी व्यवस्थापन प्रयोग गर्नुहोस् ।"
 
-#: editor/kgpgtextedit.cpp:137
+#: editor/kgpgtextedit.cpp:138
 #, fuzzy, kde-format
 #| msgid "Decrypt & Open in Editor"
 msgid "Key file dropped on Editor"
 msgstr "गुप्तिकरण उल्टाउनुहोस् र सम्पादकमा खोल्नुहोस्"
 
-#: editor/kgpgtextedit.cpp:260 kgpgexternalactions.cpp:402
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgid "Years"
+msgctxt "@action:button"
+msgid "Yes"
+msgstr "वर्ष"
+
+#: editor/kgpgtextedit.cpp:138
+#, fuzzy, kde-format
+#| msgid "None"
+msgctxt "@action:button"
+msgid "No"
+msgstr "कुनै पनि होइन"
+
+#: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
 msgid "Decryption failed."
 msgstr "गुप्तिकरण उल्टाउन असफल ।"
 
-#: editor/kgpgtextedit.cpp:275 foldercompressjob.cpp:132
+#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:132
 #, kde-format
 msgid "The encryption failed with error code %1"
 msgstr ""
 
-#: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:133
+#: editor/kgpgtextedit.cpp:277 foldercompressjob.cpp:133
 #, kde-format
 msgid "Encryption failed."
 msgstr "गुप्तिकरण असफल ।"
 
-#: editor/kgpgtextedit.cpp:289
+#: editor/kgpgtextedit.cpp:290
 #, kde-format
 msgid "Signing not possible: bad passphrase or missing key"
 msgstr "साइनिङ सम्भव छैन: खराब पासफ्रेज वा हराइरहेको कुञ्जी"
 
-#: editor/kgpgtextedit.cpp:324 kgpgexternalactions.cpp:281
+#: editor/kgpgtextedit.cpp:325 kgpgexternalactions.cpp:282
 #, kde-format
 msgctxt "Caption of message box"
 msgid "Verification Finished"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonimport)
-#: editor/kgpgtextedit.cpp:330 keyserver.ui:145 keyservers.cpp:201
+#: editor/kgpgtextedit.cpp:331 keyserver.ui:145 keyservers.cpp:201
 #, kde-format
 msgid "&Import"
 msgstr "आयात गर्नुहोस्"
 
-#: editor/kgpgtextedit.cpp:331
+#: editor/kgpgtextedit.cpp:333
 #, kde-format
 msgid "Import key in your list"
 msgstr "तपाईँको सूचीमा कुञ्जी आयात गर्नुहोस्"
 
-#: editor/kgpgtextedit.cpp:334
+#: editor/kgpgtextedit.cpp:337
 #, kde-format
 msgid "Do &Not Import"
 msgstr "आयात नगर्नुहोस्"
 
-#: editor/kgpgtextedit.cpp:335
+#: editor/kgpgtextedit.cpp:339
 #, kde-format
 msgid "Will not import this key in your list"
 msgstr "यो कुञ्जी तपाईँको सूचीमा आयत हुने छैन"
 
-#: editor/kgpgtextedit.cpp:337
+#: editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid "Missing Key"
 msgstr "हराइरहेको कुञ्जी"
@@ -1506,7 +1511,7 @@ msgstr "उपलब्ध विश्वासिलो कुञ्जी"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:426 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:418 searchres.ui:29
 #, fuzzy, kde-format
 #| msgid "Search: "
 msgid "Search:"
@@ -1893,336 +1898,331 @@ msgstr "%1 मिल्दो कुञ्जी फेला पर्यो"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "%1 मिल्दो कुञ्जी फेला पर्यो"
 
-#: keysmanager.cpp:126
+#: keysmanager.cpp:125
 #, kde-format
 msgid "Key Management"
 msgstr "कुञ्जी व्यवस्थापन"
 
-#: keysmanager.cpp:133
+#: keysmanager.cpp:132
 #, kde-format
 msgid "&Open Editor"
 msgstr "सम्पादक खोल्नुहोस्"
 
-#: keysmanager.cpp:136
+#: keysmanager.cpp:135
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "कुञ्जी सर्भर संवाद"
 
-#: keysmanager.cpp:141 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:140 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "पूर्वनिर्धारित कुञ्जीमा जानुहोस्"
 
-#: keysmanager.cpp:158
-#, kde-format
-msgid "Tip of the &Day"
-msgstr "आजको टिप"
-
-#: keysmanager.cpp:161
+#: keysmanager.cpp:153
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "GnuPG म्यानुअल हेर्नुहोस्"
 
-#: keysmanager.cpp:166
+#: keysmanager.cpp:158
 #, kde-format
 msgid "&Refresh List"
 msgstr "सूची ताजा पार्नुहोस्"
 
-#: keysmanager.cpp:170
+#: keysmanager.cpp:162
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr ""
 
-#: keysmanager.cpp:175
+#: keysmanager.cpp:167
 #, fuzzy, kde-format
 #| msgid "Key Properties"
 msgid "K&ey Properties"
 msgstr "कुञ्जी गुण"
 
-#: keysmanager.cpp:179
+#: keysmanager.cpp:171
 #, fuzzy, kde-format
 #| msgid "&Open Key Manager"
 msgid "&Open Key URL"
 msgstr "कुञ्जी प्रबन्धक खोल्नुहोस्"
 
-#: keysmanager.cpp:183
+#: keysmanager.cpp:175
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "टर्मिनलमा कुञ्जी सम्पादन गर्नुहोस्"
 
-#: keysmanager.cpp:188
+#: keysmanager.cpp:180
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "कुञ्जी जोडी उत्पन्न गर्नुहोस्..."
 
-#: keysmanager.cpp:197
+#: keysmanager.cpp:189
 #, kde-format
 msgid "&Import Key..."
 msgstr "कुञ्जी आयात गर्नुहोस्..."
 
-#: keysmanager.cpp:202
+#: keysmanager.cpp:194
 #, kde-format
 msgid "Send Ema&il"
 msgstr ""
 
-#: keysmanager.cpp:206
+#: keysmanager.cpp:198
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "ठेगाना पुस्तकमा नयाँ सम्पर्क सिर्जना गर्नुहोस्"
 
-#: keysmanager.cpp:212
+#: keysmanager.cpp:204
 #, fuzzy, kde-format
 #| msgid "&Edit Group"
 msgid "&Edit Group..."
 msgstr "समूह सिर्जना गर्नुहोस्"
 
-#: keysmanager.cpp:215
+#: keysmanager.cpp:207
 #, kde-format
 msgid "&Delete Group"
 msgstr "समूह मेट्नुहोस्"
 
-#: keysmanager.cpp:219
+#: keysmanager.cpp:211
 #, fuzzy, kde-format
 #| msgid "&Delete Group"
 msgid "&Rename Group"
 msgstr "समूह मेट्नुहोस्"
 
-#: keysmanager.cpp:228
+#: keysmanager.cpp:220
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "पूर्वनिर्धारित कुञ्जीको रूपमा सेट गर्नुहोस्"
 
-#: keysmanager.cpp:231
+#: keysmanager.cpp:223
 #, fuzzy, kde-format
 #| msgid "&Add Photo"
 msgid "&Add Photo..."
 msgstr "फोटो थप्नुहोस्"
 
-#: keysmanager.cpp:234
+#: keysmanager.cpp:226
 #, fuzzy, kde-format
 #| msgid "&Add User Id"
 msgid "&Add User Id..."
 msgstr "प्रयोगकर्ता आईडी थप्नुहोस्"
 
-#: keysmanager.cpp:237
+#: keysmanager.cpp:229
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "गुप्त कुञ्जी निर्यात गर्नुहोस्..."
 
-#: keysmanager.cpp:240
+#: keysmanager.cpp:232
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "कुञ्जी जोडी मेट्नुहोस्"
 
-#: keysmanager.cpp:244
+#: keysmanager.cpp:236
 #, kde-format
 msgid "Revoke Key..."
 msgstr "कुञ्जी खारेज गर्नुहोस्..."
 
-#: keysmanager.cpp:247
+#: keysmanager.cpp:239
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "सार्वजनिक कुञ्जी पुन: उत्पन्न गर्नुहोस्"
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:245
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr ""
 
-#: keysmanager.cpp:257
+#: keysmanager.cpp:249
 #, kde-format
 msgid "&Open Photo"
 msgstr "फोटो खोल्नुहोस्"
 
-#: keysmanager.cpp:261
+#: keysmanager.cpp:253
 #, kde-format
 msgid "&Delete Photo"
 msgstr "फोटो मेट्नुहोस्"
 
-#: keysmanager.cpp:269
+#: keysmanager.cpp:261
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "कुञ्जी सर्भरबाट हराइरहेको हस्ताक्षर आयात गर्नुहोस्"
 
-#: keysmanager.cpp:287 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:279 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "विश्वास"
 
-#: keysmanager.cpp:290 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:282 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "साइज"
 
-#: keysmanager.cpp:293 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:285 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "सिर्जना"
 
-#: keysmanager.cpp:296 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:288 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "म्याद समाप्ति"
 
-#: keysmanager.cpp:300
+#: keysmanager.cpp:292
 #, kde-format
 msgid "&Photo ID's"
 msgstr "फोटो आईडी"
 
-#: keysmanager.cpp:305
+#: keysmanager.cpp:297
 #, fuzzy, kde-format
 #| msgid "Small"
 msgctxt "small picture"
 msgid "Small"
 msgstr "सानो"
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:298
 #, fuzzy, kde-format
 #| msgid "Medium"
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "मध्यम"
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:299
 #, fuzzy, kde-format
 #| msgid "Large"
 msgctxt "large picture"
 msgid "Large"
 msgstr "ठूलो"
 
-#: keysmanager.cpp:311
+#: keysmanager.cpp:303
 #, kde-format
 msgid "Minimum &Trust"
 msgstr ""
 
-#: keysmanager.cpp:314
+#: keysmanager.cpp:306
 #, fuzzy, kde-format
 #| msgid "None"
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "कुनै पनि होइन"
 
-#: keysmanager.cpp:315
+#: keysmanager.cpp:307
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr ""
 
-#: keysmanager.cpp:316
+#: keysmanager.cpp:308
 #, fuzzy, kde-format
 #| msgid "Marginal"
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "सीमान्त"
 
-#: keysmanager.cpp:317
+#: keysmanager.cpp:309
 #, fuzzy, kde-format
 #| msgid "Full"
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "पूरा"
 
-#: keysmanager.cpp:318
+#: keysmanager.cpp:310
 #, fuzzy, kde-format
 #| msgid "Ultimate"
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "अन्तिम"
 
-#: keysmanager.cpp:343
+#: keysmanager.cpp:335
 #, fuzzy, kde-format
 #| msgid "&Show only Secret Keys"
 msgid "&Show Only Secret Keys"
 msgstr "गुप्त कुञ्जी मात्र देखाउनुहोस्"
 
-#: keysmanager.cpp:443
+#: keysmanager.cpp:435
 #, fuzzy, kde-format
 #| msgid "Search Line"
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "रेखा खोजी गर्नुहोस्"
 
-#: keysmanager.cpp:486
+#: keysmanager.cpp:483
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:487 keysmanager.cpp:525 keysmanager.cpp:573
+#: keysmanager.cpp:484 keysmanager.cpp:522 keysmanager.cpp:570
 #, kde-format
 msgid "Generating new key pair"
 msgstr "नयाँ कुञ्जी जोडी उत्पन्न गर्दैछ"
 
-#: keysmanager.cpp:526
+#: keysmanager.cpp:523
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr ""
 
-#: keysmanager.cpp:565 keysmanager.cpp:2604 keysmanager.cpp:2606
+#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
 #, fuzzy, kde-format
 #| msgid "Ready"
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "तयार"
 
-#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:574 transactions/kgpggeneratekey.cpp:194
 #, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "खराब पासफ्रेज । नयाँ कुञ्जी उत्पन्न गर्न सक्दैन ।"
 
-#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr "प्रयोगकर्ताद्वारा परित्याग गरियो । नयाँ कुञ्जी जोडी उत्पन्न गर्न सक्दैन ।"
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr "इमेल ठेगाना वैध छैन । नयाँ कुञ्जी जोडी उत्पन्न गर्न सक्दैन ।"
 
-#: keysmanager.cpp:586 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:203
 #, fuzzy, kde-format
 #| msgid "The email address is not valid. Cannot generate a new key pair."
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "इमेल ठेगाना वैध छैन । नयाँ कुञ्जी जोडी उत्पन्न गर्न सक्दैन ।"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:592 newkey.ui:14
+#: keysmanager.cpp:589 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "नयाँ कुञ्जी जोडी सिर्जना गरियो"
 
-#: keysmanager.cpp:631
+#: keysmanager.cpp:628
 #, kde-format
 msgid "backup copy"
 msgstr "जगेडा प्रति"
 
-#: keysmanager.cpp:645 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:642 transactions/kgpggeneratekey.cpp:215
 #, fuzzy, kde-format
 #| msgid "The email address is not valid. Cannot generate a new key pair."
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "इमेल ठेगाना वैध छैन । नयाँ कुञ्जी जोडी उत्पन्न गर्न सक्दैन ।"
 
-#: keysmanager.cpp:749
+#: keysmanager.cpp:736
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr ""
 "तपाईँले प्राथमिक कुञ्जी मात्र ताजा पार्न सक्नुहुन्छ । कृपया तपाईँको चयन जाँच गर्नुहोस् ।"
 
-#: keysmanager.cpp:873
+#: keysmanager.cpp:860
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:874 keysmanager.cpp:879
+#: keysmanager.cpp:861 keysmanager.cpp:866
 #, kde-format
 msgid "Add New User Id"
 msgstr "नयाँ प्रयोगकर्ता आईडी थप्नुहोस्"
 
-#: keysmanager.cpp:919
+#: keysmanager.cpp:906
 #, fuzzy, kde-format
 #| msgid ""
 #| "The image must be a JPEG file. Remember that the image is stored within "
@@ -2239,7 +2239,7 @@ msgstr ""
 "गरिएको छ । यदि तपाईँले धेरै ठूलो तस्वीर प्रयोग गर्नुभएमा, तपाईँको कुञ्जी पनि धेरै ठूलो "
 "हुन्छ ! छविलाई २४०x२८८ मा राख्दा प्रयोग गर्न राम्रो हुन्छ ।"
 
-#: keysmanager.cpp:951
+#: keysmanager.cpp:938
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>Are you sure you want to delete Photo id <b>%1</b><br>from key <b>%2 "
@@ -2251,58 +2251,58 @@ msgstr ""
 "<qt>तपाईँ <b>%1</b><br>कुञ्जीबाट<b>%2 &lt;%3&gt;</b>फोटो आईडी मेट्न निश्चित हुनुहुन्छ ?"
 "</qt>"
 
-#: keysmanager.cpp:1094
+#: keysmanager.cpp:1076
 #, kde-format
 msgid "Public Key"
 msgstr "सार्वजनिक कुञ्जी"
 
-#: keysmanager.cpp:1097
+#: keysmanager.cpp:1079
 #, kde-format
 msgid "Sub Key"
 msgstr "सहायक कुञ्जी"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1082
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "गुप्त कुञ्जी जोडी"
 
-#: keysmanager.cpp:1103
+#: keysmanager.cpp:1085
 #, kde-format
 msgid "Key Group"
 msgstr "कुञ्जी समूह"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1106 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1088 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "हस्ताक्षर"
 
-#: keysmanager.cpp:1109
+#: keysmanager.cpp:1091
 #, kde-format
 msgid "User ID"
 msgstr "प्रयोगकर्ता आईडी"
 
-#: keysmanager.cpp:1112
+#: keysmanager.cpp:1094
 #, kde-format
 msgid "Revocation Signature"
 msgstr "खारेजी हस्ताक्षर"
 
-#: keysmanager.cpp:1115
+#: keysmanager.cpp:1097
 #, kde-format
 msgid "Photo ID"
 msgstr "फोटो आईडी"
 
-#: keysmanager.cpp:1118
+#: keysmanager.cpp:1100
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "छुट्टयाइएको गुप्त कुञ्जी"
 
-#: keysmanager.cpp:1123
+#: keysmanager.cpp:1105
 #, kde-format
 msgid "Group member"
 msgstr ""
 
-#: keysmanager.cpp:1228
+#: keysmanager.cpp:1208
 #, fuzzy, kde-format
 #| msgid "&Sign Keys..."
 msgid "&Sign User ID ..."
@@ -2310,7 +2310,7 @@ msgid_plural "&Sign User IDs ..."
 msgstr[0] "कुञ्जी साइन गर्नुहोस्..."
 msgstr[1] "कुञ्जी साइन गर्नुहोस्..."
 
-#: keysmanager.cpp:1229
+#: keysmanager.cpp:1209
 #, fuzzy, kde-format
 #| msgid "&Sign Keys..."
 msgid "Sign and &Mail User ID ..."
@@ -2318,7 +2318,7 @@ msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "कुञ्जी साइन गर्नुहोस्..."
 msgstr[1] "कुञ्जी साइन गर्नुहोस्..."
 
-#: keysmanager.cpp:1230
+#: keysmanager.cpp:1210
 #, fuzzy, kde-format
 #| msgid "E&xport Public Keys..."
 msgid "E&xport Public Key..."
@@ -2326,7 +2326,7 @@ msgid_plural "E&xport Public Keys..."
 msgstr[0] "सार्वजनिक कुञ्जी निर्यात गर्नुहोस्..."
 msgstr[1] "सार्वजनिक कुञ्जी निर्यात गर्नुहोस्..."
 
-#: keysmanager.cpp:1231
+#: keysmanager.cpp:1211
 #, fuzzy, kde-format
 #| msgid "&Refresh Keys From Keyserver"
 msgid "&Refresh Key From Keyserver"
@@ -2334,7 +2334,7 @@ msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "कुञ्जी सर्भरबाट कुञ्जी ताजा पार्नुहोस्"
 msgstr[1] "कुञ्जी सर्भरबाट कुञ्जी ताजा पार्नुहोस्"
 
-#: keysmanager.cpp:1232
+#: keysmanager.cpp:1212
 #, fuzzy, kde-format
 #| msgid "&Create Group with Selected Keys..."
 msgid "&Create Group with Selected Key..."
@@ -2342,7 +2342,7 @@ msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "चयन गरिएको कुञ्जीसँग समूह सिर्जना गर्नुहोस्..."
 msgstr[1] "चयन गरिएको कुञ्जीसँग समूह सिर्जना गर्नुहोस्..."
 
-#: keysmanager.cpp:1233
+#: keysmanager.cpp:1213
 #, fuzzy, kde-format
 #| msgid "&Sign Keys..."
 msgid "&Sign Key..."
@@ -2350,7 +2350,7 @@ msgid_plural "&Sign Keys..."
 msgstr[0] "कुञ्जी साइन गर्नुहोस्..."
 msgstr[1] "कुञ्जी साइन गर्नुहोस्..."
 
-#: keysmanager.cpp:1234
+#: keysmanager.cpp:1214
 #, fuzzy, kde-format
 #| msgid "&Delete User Id"
 msgid "&Delete User ID"
@@ -2358,7 +2358,7 @@ msgid_plural "&Delete User IDs"
 msgstr[0] "प्रयोगकर्ता आईडी मेट्नुहोस्"
 msgstr[1] "प्रयोगकर्ता आईडी मेट्नुहोस्"
 
-#: keysmanager.cpp:1235
+#: keysmanager.cpp:1215
 #, fuzzy, kde-format
 #| msgid "Delete Sign&ature"
 msgid "Delete Sign&ature"
@@ -2366,7 +2366,7 @@ msgid_plural "Delete Sign&atures"
 msgstr[0] "हस्ताक्षर मेट्नुहोस्"
 msgstr[1] "हस्ताक्षर मेट्नुहोस्"
 
-#: keysmanager.cpp:1236
+#: keysmanager.cpp:1216
 #, fuzzy, kde-format
 #| msgid "Import Key From Keyserver"
 msgid "Import Key From Keyserver"
@@ -2374,7 +2374,7 @@ msgid_plural "Import Keys From Keyserver"
 msgstr[0] "कुञ्जी सर्भरबाट कुञ्जी आयात गर्नुहोस्"
 msgstr[1] "कुञ्जी सर्भरबाट कुञ्जी आयात गर्नुहोस्"
 
-#: keysmanager.cpp:1237
+#: keysmanager.cpp:1217
 #, fuzzy, kde-format
 #| msgid "&Delete Keys"
 msgid "&Delete Key"
@@ -2382,12 +2382,12 @@ msgid_plural "&Delete Keys"
 msgstr[0] "कुञ्जी मेट्नुहोस्"
 msgstr[1] "कुञ्जी मेट्नुहोस्"
 
-#: keysmanager.cpp:1360
+#: keysmanager.cpp:1340
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "खारेजी प्रमाणपत्रको सिर्जना असफल..."
 
-#: keysmanager.cpp:1375
+#: keysmanager.cpp:1355
 #, fuzzy, kde-format
 #| msgid ""
 #| "Secret keys SHOULD NOT be saved in an unsafe place.\n"
@@ -2403,17 +2403,17 @@ msgstr ""
 "यदि अन्य कसैले यो फाइलमा पहुँच गर्न सकेमा, यो कुञ्जीसँग गुप्तिकरण सम्झौता गर्नेछ !\n"
 "कुञ्जी निर्यात गर्न निरन्तरता दिनुहुन्छ ?"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "यस रूपमा व्यक्तिगत कुञ्जी निर्यात गर्नुहोस्"
 
-#: keysmanager.cpp:1387
+#: keysmanager.cpp:1367
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr ""
 
-#: keysmanager.cpp:1405
+#: keysmanager.cpp:1385
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your PRIVATE key \"%1\" was successfully exported.\n"
@@ -2425,7 +2425,7 @@ msgstr ""
 "तपाईँको \"%1\" व्यक्तिगत कुञ्जी सफलतापूर्वक निर्यात गरियो ।\n"
 "यसलाई असुरक्षित स्थानमा नछोड्नुहोस् ।"
 
-#: keysmanager.cpp:1408
+#: keysmanager.cpp:1388
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2434,7 +2434,7 @@ msgstr ""
 "तपाईँको गुप्त कुञ्जी निर्यात गर्न सकेन ।\n"
 "कुञ्जी जाँच गर्नुहोस् ।"
 
-#: keysmanager.cpp:1510
+#: keysmanager.cpp:1490
 #, fuzzy, kde-format
 #| msgid "Your public key \"%1\" was successfully exported\n"
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
@@ -2442,7 +2442,7 @@ msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
 msgstr[0] "तपाईँको \"%1\" सार्वजनिक कुञ्जी सफलतापूर्वक निर्यात गरियो\n"
 msgstr[1] "तपाईँको \"%1\" सार्वजनिक कुञ्जी सफलतापूर्वक निर्यात गरियो\n"
 
-#: keysmanager.cpp:1514 keysmanager.cpp:1529 keysmanager.cpp:1543
+#: keysmanager.cpp:1494 keysmanager.cpp:1509 keysmanager.cpp:1523
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2451,7 +2451,7 @@ msgstr ""
 "तपाईँको सार्वजनिक कुञ्जी निर्यात गर्न सकेन ।\n"
 "कुञ्जी जाँच गर्नुहोस् ।"
 
-#: keysmanager.cpp:1652
+#: keysmanager.cpp:1632
 #, fuzzy, kde-format
 #| msgid ""
 #| "This key is an orphaned secret key (secret key without public key.) It is "
@@ -2467,27 +2467,27 @@ msgstr ""
 "\n"
 "के तपाईँले सार्वजनिक कुञ्जी पुन: उत्पन्न गर्न चाहनुहुन्छ ?"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, kde-format
 msgid "Generate"
 msgstr "उत्पन्न गर्नुहोस्"
 
-#: keysmanager.cpp:1654
+#: keysmanager.cpp:1634
 #, kde-format
 msgid "Do Not Generate"
 msgstr "उत्पन्न नगर्नुहोस्"
 
-#: keysmanager.cpp:1684
+#: keysmanager.cpp:1664
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>तपाईँ समूह मेट्न<b>%1</b>निश्चित हुनुहुन्छ ?</qt>"
 
-#: keysmanager.cpp:1685 keysmanager.cpp:2355
+#: keysmanager.cpp:1665 keysmanager.cpp:2335
 #, kde-format
 msgid "Delete"
 msgstr "मेट्नुहोस्"
 
-#: keysmanager.cpp:1715
+#: keysmanager.cpp:1695
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2495,32 +2495,32 @@ msgid ""
 msgstr ""
 "<qt>तपाईँले हस्ताक्षर समाविष्ट समूह, सहायक कुञ्जी वा अन्य समूह सिर्जना गर्न सक्नुहुन्न ।</qt>"
 
-#: keysmanager.cpp:1730 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1710 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr ""
 
-#: keysmanager.cpp:1735
+#: keysmanager.cpp:1715
 #, kde-format
 msgid "Create New Group"
 msgstr "नयाँ समूह सिर्जना गर्नुहोस्"
 
-#: keysmanager.cpp:1736
+#: keysmanager.cpp:1716
 #, fuzzy, kde-format
 #| msgid "Enter new group name:"
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "नयाँ समूह नाम प्रविष्ट गर्नुहोस्:"
 
-#: keysmanager.cpp:1741
+#: keysmanager.cpp:1721
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
 "group:"
 msgstr "निम्न कुञ्जीहरू वैध छैन वा विश्वासिलो छैन र समूहमा थप गरिने छैन:"
 
-#: keysmanager.cpp:1747
+#: keysmanager.cpp:1727
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2528,17 +2528,17 @@ msgid ""
 msgstr ""
 "<qt>वैध वा विश्वासिलो कुञ्जी चयन गरिएको थिएन । समूह<b>%1</b> सिर्जना गरिने छैन ।</qt>"
 
-#: keysmanager.cpp:1759
+#: keysmanager.cpp:1739
 #, kde-format
 msgid "Group Properties"
 msgstr "समूह गुण"
 
-#: keysmanager.cpp:1795
+#: keysmanager.cpp:1775
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "तपाईँले प्राथमिक कुञ्जी मात्र साइन गर्न सक्नुहुन्छ । कृपया तपाईँको चयन जाँच गर्नुहोस् ।"
 
-#: keysmanager.cpp:1804
+#: keysmanager.cpp:1784
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2555,7 +2555,7 @@ msgstr ""
 "%3</b><br><br>तपाईँले सञ्चारमा अन्य व्यक्तिद्वारा अवरोध नहोस् भनेर निश्चित हुन कुञ्जी "
 "मालिकलाई फोन गरेर वा भेटेर कुञ्जी औठाछाप जाँच गर्नु पर्दछ ।</qt>"
 
-#: keysmanager.cpp:1809
+#: keysmanager.cpp:1789
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2572,20 +2572,20 @@ msgstr ""
 "%3</b><br><br>तपाईँले सञ्चारमा अन्य व्यक्तिद्वारा अवरोध नहोस् भनेर निश्चित हुन कुञ्जी "
 "मालिकलाई फोन गरेर वा भेटेर कुञ्जी औठाछाप जाँच गर्नु पर्दछ ।</qt>"
 
-#: keysmanager.cpp:1824 keysmanager.cpp:1908 kgpgfirstassistant.cpp:279
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr ""
 
-#: keysmanager.cpp:1826 keysmanager.cpp:1911 kgpgfirstassistant.cpp:281
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr ""
 
-#: keysmanager.cpp:1832
+#: keysmanager.cpp:1812
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign the following keys in one pass.<br><b>If you "
@@ -2600,13 +2600,13 @@ msgstr ""
 "सावधानीपूर्वक सबै औठाछापहरू जाँच गर्नुभएन भने, तपाईँको सञ्चारको सुरक्षामा सम्झौता गर्नेछ ।</"
 "b></qt>"
 
-#: keysmanager.cpp:1874 keysmanager.cpp:2021
+#: keysmanager.cpp:1854 keysmanager.cpp:2001
 #, fuzzy, kde-format
 #| msgid "You can only sign primary keys. Please check your selection."
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr "तपाईँले प्राथमिक कुञ्जी मात्र साइन गर्न सक्नुहुन्छ । कृपया तपाईँको चयन जाँच गर्नुहोस् ।"
 
-#: keysmanager.cpp:1888
+#: keysmanager.cpp:1868
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2623,7 +2623,7 @@ msgstr ""
 "%3</b><br><br>तपाईँले सञ्चारमा अन्य व्यक्तिद्वारा अवरोध नहोस् भनेर निश्चित हुन कुञ्जी "
 "मालिकलाई फोन गरेर वा भेटेर कुञ्जी औठाछाप जाँच गर्नु पर्दछ ।</qt>"
 
-#: keysmanager.cpp:1892
+#: keysmanager.cpp:1872
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign key:<br><br>%1<br>ID: %2<br>Fingerprint: <br><b>"
@@ -2640,7 +2640,7 @@ msgstr ""
 "%3</b><br><br>तपाईँले सञ्चारमा अन्य व्यक्तिद्वारा अवरोध नहोस् भनेर निश्चित हुन कुञ्जी "
 "मालिकलाई फोन गरेर वा भेटेर कुञ्जी औठाछाप जाँच गर्नु पर्दछ ।</qt>"
 
-#: keysmanager.cpp:1918
+#: keysmanager.cpp:1898
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You are about to sign the following keys in one pass.<br><b>If you "
@@ -2655,19 +2655,19 @@ msgstr ""
 "सावधानीपूर्वक सबै औठाछापहरू जाँच गर्नुभएन भने, तपाईँको सञ्चारको सुरक्षामा सम्झौता गर्नेछ ।</"
 "b></qt>"
 
-#: keysmanager.cpp:1987
+#: keysmanager.cpp:1967
 #, fuzzy, kde-format
 #| msgid "<qt>Bad passphrase, key <b>%1</b> not signed.</qt>"
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>खराब पासफ्रेज, <b>%1</b> कुञ्जी साइन गरिएको छैन ।</qt>"
 
-#: keysmanager.cpp:1991
+#: keysmanager.cpp:1971
 #, fuzzy, kde-format
 #| msgid "<qt>The key <b>%1</b> is already signed.</qt>"
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>कुञ्जी <b>%1</b> पहिल्यै साइन गरिएको छ ।</qt>"
 
-#: keysmanager.cpp:1996
+#: keysmanager.cpp:1976
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br>Do you want to "
@@ -2679,19 +2679,26 @@ msgstr ""
 "<qt>कुञ्जीलाई<b>%1</b> कुञ्जीसँग <b>%2</b> साइनिङ गर्न असफल भयो ।<br>तपाईँ कन्सोल "
 "मोडमा कुञ्जी साइनिङका लागि प्रयास गर्न चाहनुहुन्छ ?</qt>"
 
-#: keysmanager.cpp:2114
+#: keysmanager.cpp:1978
+#, fuzzy, kde-format
+#| msgid "Sign"
+msgctxt "@action:button"
+msgid "Sign"
+msgstr "साइन गर्नुहोस्"
+
+#: keysmanager.cpp:2094
 #, fuzzy, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "यो कुञ्जीका लागि सबै हस्ताक्षरहरू किरिङमा पहिल्यै छन्"
 msgstr[1] "यो कुञ्जीका लागि सबै हस्ताक्षरहरू किरिङमा पहिल्यै छन्"
 
-#: keysmanager.cpp:2201
+#: keysmanager.cpp:2181
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "आफ्नो हस्ताक्षर मेट्न कुञ्जी म्यानुअल तरिकाले सम्पादन गर्नुहोस् ।"
 
-#: keysmanager.cpp:2205
+#: keysmanager.cpp:2185
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>Are you sure you want to delete signature<br><b>%1</b> from key:"
@@ -2702,12 +2709,12 @@ msgid ""
 msgstr ""
 "<qt>तपाईँले<br><b>%1</b> कुञ्जीबाट:<br><b>%2</b> हस्ताक्षर मेट्न निश्चित हुनुहुन्छ ?</qt>"
 
-#: keysmanager.cpp:2227
+#: keysmanager.cpp:2207
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "अनुरोध गरिएको सञ्चालन असफल भयो, कृपया कुञ्जी म्यानुअल तरिकाले सम्पादन गर्नुहोस् ।"
 
-#: keysmanager.cpp:2311
+#: keysmanager.cpp:2291
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2718,22 +2725,22 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: keysmanager.cpp:2315 keysmanager.cpp:2329 keysmanager.cpp:2364
-#: keysmanager.cpp:2379 keysmanager.cpp:2382 keysmanager.cpp:2393
-#: keysmanager.cpp:2407 keysmanager.cpp:2448
+#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
+#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
+#: keysmanager.cpp:2387 keysmanager.cpp:2428
 #, fuzzy, kde-format
 #| msgid "&Delete Keys"
 msgid "Delete key"
 msgstr "कुञ्जी मेट्नुहोस्"
 
-#: keysmanager.cpp:2328
+#: keysmanager.cpp:2308
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
 
-#: keysmanager.cpp:2352
+#: keysmanager.cpp:2332
 #, fuzzy, kde-format
 #| msgid ""
 #| "<p>Delete <b>SECRET KEY</b> pair <b>%1</b>?</p>Deleting this key pair "
@@ -2746,36 +2753,36 @@ msgstr ""
 "<p> <b>गुप्त कुञ्जी</b> जोडी <b>%1</b> मेट्नुहुन्छ ?</p>यो कुञ्जी जोडी मेट्नुको अर्थ तपाईँले "
 "यो कुञ्जीसँग गुप्तिकरण गरिएको फाइललाई कहिल्यै पनि गुप्तिकरण उल्टाउन नसक्नु भन्ने हुन्छ ।"
 
-#: keysmanager.cpp:2363 keysmanager.cpp:2392
+#: keysmanager.cpp:2343 keysmanager.cpp:2372
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:2379
+#: keysmanager.cpp:2359
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr ""
 
-#: keysmanager.cpp:2382
+#: keysmanager.cpp:2362
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr ""
 
-#: keysmanager.cpp:2406
+#: keysmanager.cpp:2386
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 
-#: keysmanager.cpp:2447
+#: keysmanager.cpp:2427
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr ""
 
-#: keysmanager.cpp:2472
+#: keysmanager.cpp:2452
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>The following are secret key pairs:<br><b>%1</b>They will not be "
@@ -2785,42 +2792,42 @@ msgid ""
 "deleted.</qt>"
 msgstr "<qt>निम्न गुप्त कुञ्जी जोडी हुन:<br><b>%1</b>तिनीहरू मेटिने छैन ।<br></qt>"
 
-#: keysmanager.cpp:2482
+#: keysmanager.cpp:2462
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>निम्न सार्वजनिक कुञ्जी मेट्नुहुन्छ ?</b></qt>"
 msgstr[1] "<qt><b>निम्न %1 सार्वजनिक कुज्जी मेट्नुहुन्छ ?</b></qt>"
 
-#: keysmanager.cpp:2513 keysmanager.cpp:2589 keysmanager.cpp:2600
+#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
 #, kde-format
 msgid "Key Import"
 msgstr "कुञ्जी आयात"
 
-#: keysmanager.cpp:2521
+#: keysmanager.cpp:2501
 #, kde-format
 msgid "Open File"
 msgstr "फाइल खोल्नुहोस्"
 
-#: keysmanager.cpp:2554
+#: keysmanager.cpp:2534
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2536
 #, fuzzy, kde-format
 #| msgid "&Encrypt Clipboard"
 msgid "Import from Clipboard"
 msgstr "क्लिपबोर्ड गुप्तिकरण गर्नुहोस्"
 
-#: keysmanager.cpp:2576
+#: keysmanager.cpp:2556
 #, kde-format
 msgid "Importing..."
 msgstr "आयात गर्दैछ..."
 
-#: keysmanager.cpp:2588
+#: keysmanager.cpp:2568
 #, fuzzy, kde-format
 #| msgid ""
 #| "No key imported... \n"
@@ -2830,38 +2837,38 @@ msgstr ""
 "कुञ्जी आयात गरिएको छैन... \n"
 "बढी जानकारीका लागि विस्तृत लग जाँच गर्नुहोस्"
 
-#: keysmanager.cpp:2641
+#: keysmanager.cpp:2621
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - गुप्तिकरण उपकरण"
 
-#: keysmanager.cpp:2662
+#: keysmanager.cpp:2644
 #, fuzzy, kde-format
 #| msgid "Key Manager"
 msgid "Ke&y Manager"
 msgstr "कुञ्जी प्रबन्धक"
 
-#: keysmanager.cpp:2665
+#: keysmanager.cpp:2647
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "क्लिपबोर्ड गुप्तिकरण गर्नुहोस्"
 
-#: keysmanager.cpp:2668
+#: keysmanager.cpp:2650
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "क्लिपबोर्ड गुप्तिकरण उल्टाउनुहोस्"
 
-#: keysmanager.cpp:2671
+#: keysmanager.cpp:2653
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "क्लिपबोर्ड साइन/रुजु गर्नुहोस्"
 
-#: keysmanager.cpp:2708 keysmanager.cpp:2811 keysmanager.cpp:2829
+#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "क्लिपबोर्ड खाली छ ।"
 
-#: keysmanager.cpp:2753
+#: keysmanager.cpp:2735
 #, fuzzy, kde-format
 #| msgid "The signature file %1 was successfully created."
 msgid "Text successfully encrypted."
@@ -2921,27 +2928,27 @@ msgstr ""
 "ल्याउन सक्नेछ ।<br>कृपया KGpg सेटिङबाट GnuPG अभिकर्ता अक्षम पार्नुहोस् वा अभिकर्ता स्थिर "
 "पार्नुहोस् ।</qt>"
 
-#: kgpg.cpp:123 kgpg.cpp:130 kgpg.cpp:137 kgpg.cpp:144
+#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:134
+#: kgpg.cpp:132
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "गुप्तिकरण उल्टाउन र फोल्डर देखाउन सकिदैन ।"
 
-#: kgpg.cpp:141
+#: kgpg.cpp:139
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "फोल्डर साइन गर्न सक्दैन ।"
 
-#: kgpg.cpp:148
+#: kgpg.cpp:146
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "फोल्डर रूजु गर्न सक्दैन ।"
 
-#: kgpg.cpp:151
+#: kgpg.cpp:149
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2951,38 +2958,38 @@ msgstr ""
 "अनुरोध गरिएको सञ्चालन कार्यसम्पादन गर्न अक्षम ।\n"
 "कृपया एउटा मात्र फोल्डर वा धेरै फाइल चयन गर्नुहोस् तर फाइल र फोल्डर मिश्रण नगर्नुहोस् ।"
 
-#: kgpg.cpp:189
+#: kgpg.cpp:187
 #, kde-format
 msgid "Encrypt file"
 msgstr "फाइल गुप्तिकरण गर्नुहोस्"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:188
 #, kde-format
 msgid "Open key manager"
 msgstr "कुञ्जी प्रबन्धक खोल्नुहोस्"
 
-#: kgpg.cpp:191
+#: kgpg.cpp:189
 #, fuzzy, kde-format
 #| msgid "&Open Editor"
 msgid "Open editor"
 msgstr "सम्पादक खोल्नुहोस्"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:190
 #, kde-format
 msgid "Show encrypted file"
 msgstr "गुप्तिकरण गरिएको फाइल देखाउनुहोस्"
 
-#: kgpg.cpp:193 kgpgoptions.cpp:503
+#: kgpg.cpp:191 kgpgoptions.cpp:505
 #, kde-format
 msgid "Sign File"
 msgstr "फाइल साइन गर्नुहोस्"
 
-#: kgpg.cpp:194
+#: kgpg.cpp:192
 #, kde-format
 msgid "Verify signature"
 msgstr "हस्ताक्षर रूजु गर्नुहोस्"
 
-#: kgpg.cpp:195
+#: kgpg.cpp:193
 #, kde-format
 msgid "File to open"
 msgstr "खोल्नु पर्ने फाइल"
@@ -3156,7 +3163,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "क्लिपबोर्डको सट्टामा माउस चयन प्रयोग गर्नुहोस् ।"
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:226
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "केडीई सुरुआतमा स्वचालित रूपमा KGpg सुरु गर्नुहोस् ।"
@@ -3212,70 +3219,64 @@ msgstr ""
 msgid "The number of recently opened files shown in the editor menu."
 msgstr ""
 
-#. i18n: ectx: label, entry (ShowTipOfDay), group (TipOfDay)
-#: kgpg.kcfg:187
-#, kde-format
-msgid "Show tip of the day."
-msgstr "आजको टिप देखाउनुहोस् ।"
-
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
-#: kgpg.kcfg:194
+#: kgpg.kcfg:187
 #, kde-format
 msgid "Color used for trusted keys."
 msgstr "विश्वासिलो कुञ्जीका लागि प्रयोग गरिएको रङ ।"
 
 #. i18n: ectx: label, entry (ColorRev), group (Key Colors)
-#: kgpg.kcfg:198
+#: kgpg.kcfg:191
 #, kde-format
 msgid "Color used for revoked keys."
 msgstr "खारेज गरिएको कुञ्जीका लागि प्रयोग गरिएको रङ ।"
 
 #. i18n: ectx: label, entry (ColorUnknown), group (Key Colors)
-#: kgpg.kcfg:202
+#: kgpg.kcfg:195
 #, kde-format
 msgid "Color used for unknown keys."
 msgstr "अज्ञात कुञ्जीका लागि प्रयोग गरिएको रङ ।"
 
 #. i18n: ectx: label, entry (ColorBad), group (Key Colors)
-#: kgpg.kcfg:206
+#: kgpg.kcfg:199
 #, kde-format
 msgid "Color used for untrusted keys."
 msgstr "अविश्वासिलो कुञ्जीका लागि प्रयोग गरिएको रङ ।"
 
 #. i18n: ectx: label, entry (ColorUltimate), group (Key Colors)
-#: kgpg.kcfg:210
+#: kgpg.kcfg:203
 #, fuzzy, kde-format
 #| msgid "Color used for ulitmately trusted keys."
 msgid "Color used for ultimately trusted keys."
 msgstr "अन्तिममा विश्वास गरिएको कुञ्जीका लागि प्रयोग गरिएको रङ ।"
 
 #. i18n: ectx: label, entry (ColorMarginal), group (Key Colors)
-#: kgpg.kcfg:214
+#: kgpg.kcfg:207
 #, kde-format
 msgid "Color used for marginally trusted keys."
 msgstr "सिमान्तमा विश्वास गरिएको कुञ्जीका लागि प्रयोग गरिएको रङ ।"
 
 #. i18n: ectx: label, entry (ColorExpired), group (Key Colors)
-#: kgpg.kcfg:218
+#: kgpg.kcfg:211
 #, kde-format
 msgid "Color used for expired keys."
 msgstr "म्याद समाप्त भएको कुञ्जीका लागि प्रयोग गरिएको रङ ।"
 
 #. i18n: ectx: label, entry (Font), group (Text Font)
-#: kgpg.kcfg:225
+#: kgpg.kcfg:218
 #, kde-format
 msgid "Font"
 msgstr "फन्ट"
 
 #. i18n: ectx: label, entry (KeyServers), group (Servers)
-#: kgpg.kcfg:248
+#: kgpg.kcfg:241
 #, kde-format
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
 msgstr ""
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
-#: kgpg.kcfg:252
+#: kgpg.kcfg:245
 #, kde-format
 msgid ""
 "List of URLs that show details and analysis of the given key. The first "
@@ -3283,29 +3284,29 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
-#: kgpg.kcfg:259
+#: kgpg.kcfg:252
 #, kde-format
 msgid "Use HTTP proxy when available."
 msgstr "उपलब्ध हुँदा HTTP प्रोक्सी प्रयोग गर्नुहोस् ।"
 
 #. i18n: ectx: label, entry (EmailTemplate), group (Key Signing)
-#: kgpg.kcfg:266
+#: kgpg.kcfg:259
 #, kde-format
 msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
 msgstr ""
 
-#: kgpgexternalactions.cpp:126
+#: kgpgexternalactions.cpp:127
 #, kde-format
 msgid "Cannot create temporary file for folder compression."
 msgstr ""
 
-#: kgpgexternalactions.cpp:126 kgpgexternalactions.cpp:133
+#: kgpgexternalactions.cpp:127 kgpgexternalactions.cpp:134
 #, kde-format
 msgid "Temporary File Creation"
 msgstr "अस्थायी फाइल सिर्जना"
 
-#: kgpgexternalactions.cpp:131
+#: kgpgexternalactions.cpp:132
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>KGpg will now create a temporary archive file:<br><b>%1</b> to "
@@ -3319,12 +3320,12 @@ msgstr ""
 "<qt>KGpg ले अहिले अस्थायी सङ्ग्रह फाइल सिर्जना गर्नेछ:<br><b>%1</b> गुप्तिकरण प्रक्रिया "
 "गर्न । गुप्तिकरण समाप्त भएपछि यो फाइल मेटिनेछ ।</qt>"
 
-#: kgpgexternalactions.cpp:147
+#: kgpgexternalactions.cpp:148
 #, kde-format
 msgid "Compression method for archive:"
 msgstr "सङ्ग्रहका लागि सङ्कुचन विधि:"
 
-#: kgpgexternalactions.cpp:400
+#: kgpgexternalactions.cpp:401
 #, fuzzy, kde-format
 #| msgid "Decryption failed."
 msgid "Decryption of this file failed:"
@@ -3332,7 +3333,7 @@ msgid_plural "Decryption of these files failed:"
 msgstr[0] "गुप्तिकरण उल्टाउन असफल ।"
 msgstr[1] "गुप्तिकरण उल्टाउन असफल ।"
 
-#: kgpgexternalactions.cpp:424
+#: kgpgexternalactions.cpp:425
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>You have not set a path to your GnuPG config file.<br>This may cause "
@@ -3347,22 +3348,22 @@ msgstr ""
 "कार्यान्वयनमा केही अचम्मको नतिजा ल्याउन सक्दछ ।<br>तपाईँले यो समस्या स्थिर गर्न KGpg को "
 "विजार्ड सुरु गर्न चाहनुहुन्छ ?</qt>"
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Start Assistant"
 msgstr ""
 
-#: kgpgexternalactions.cpp:426
+#: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Do Not Start"
 msgstr "सुरु नगर्नुहोस्"
 
-#: kgpgfirstassistant.cpp:34
+#: kgpgfirstassistant.cpp:35
 #, kde-format
 msgid "KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:58
+#: kgpgfirstassistant.cpp:59
 #, fuzzy, kde-format
 #| msgid ""
 #| "<h1>Welcome to the KGpg Wizard</h1>\n"
@@ -3379,78 +3380,78 @@ msgstr ""
 "सेटअप गर्नेछ । अनि, यसले तपाईँको फाइल र इमेल गुप्तिकरण गर्न सक्षम पार्दै, तपाईँको आफ्नै "
 "कुञ्जी जोडी सिर्जना गर्न अनुमति दिन्छ ।"
 
-#: kgpgfirstassistant.cpp:66
+#: kgpgfirstassistant.cpp:67
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:78
+#: kgpgfirstassistant.cpp:79
 #, fuzzy, kde-format
 #| msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg लाई तपाईँको GnuPG कन्फिगरेसन फाइल भण्डारण भएको स्थान थाहा हुन पर्दछ ।"
 
-#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:130
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
 "button."
 msgstr "तपाईँले केही असमान्य सेटिङ चाहनु भएसम्म\"पछिल्लो\" बटनमा क्लिक गर्नुहोस् ।"
 
-#: kgpgfirstassistant.cpp:102 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
 #, fuzzy, kde-format
 #| msgid "GnuPG Binary"
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "GnuPG बाइनरी"
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:106
+#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
 #, fuzzy, kde-format
 #| msgid "*|All Files"
 msgid "All files"
 msgstr "*|सबै फाइल"
 
-#: kgpgfirstassistant.cpp:137
+#: kgpgfirstassistant.cpp:138
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "KGpg लाई तपाईँको GnuPG कन्फिगरेसन फाइल भण्डारण भएको स्थान थाहा हुन पर्दछ ।"
 
-#: kgpgfirstassistant.cpp:152
+#: kgpgfirstassistant.cpp:153
 #, fuzzy, kde-format
 #| msgid "<br>Path to your GnuPG options file:"
 msgid "Path to your GnuPG configuration file:"
 msgstr "<br>तपाईँको GnuPG विकल्प फाइलमा मार्ग:"
 
-#: kgpgfirstassistant.cpp:166
+#: kgpgfirstassistant.cpp:167
 #, fuzzy, kde-format
 #| msgid "Configuration file:"
 msgid "Configuration File"
 msgstr "कन्फिगरेसन फाइल:"
 
-#: kgpgfirstassistant.cpp:176
+#: kgpgfirstassistant.cpp:177
 #, kde-format
 msgid "Your default key:"
 msgstr "तपाईँको पूर्वनिर्धारित कुञ्जी:"
 
-#: kgpgfirstassistant.cpp:195
+#: kgpgfirstassistant.cpp:196
 #, fuzzy, kde-format
 #| msgid "&Delete Keys"
 msgid "Default Key"
 msgstr "कुञ्जी मेट्नुहोस्"
 
-#: kgpgfirstassistant.cpp:216
+#: kgpgfirstassistant.cpp:217
 #, fuzzy, kde-format
 #| msgid "Generating new key pair"
 msgid "Generate new key"
 msgstr "नयाँ कुञ्जी जोडी उत्पन्न गर्दैछ"
 
-#: kgpgfirstassistant.cpp:230
+#: kgpgfirstassistant.cpp:231
 #, fuzzy, kde-format
 #| msgid "none"
 msgid "Done"
 msgstr "कुनै पनि होइन"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>The GnuPG configuration file was not found</b>. Please make sure "
@@ -3462,40 +3463,40 @@ msgstr ""
 "<qt><b>GnuPG कन्फिगरेसन फाइल फेला परेन</b> । कृपया GnuPG स्थापना गरिएको निश्चित "
 "गर्नुहोस् । KGpg ले नयाँ कन्फिग फाइल सिर्जना गर्न प्रयास गर्नुपर्छ ?</qt>"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid "Create Config"
 msgstr "कन्फिग सिर्जना गर्नुहोस्"
 
-#: kgpgfirstassistant.cpp:244
+#: kgpgfirstassistant.cpp:245
 #, kde-format
 msgid "Do Not Create"
 msgstr "सिर्जना नगर्नुहोस्"
 
-#: kgpgfirstassistant.cpp:252
+#: kgpgfirstassistant.cpp:253
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:294
+#: kgpgfirstassistant.cpp:295
 #, fuzzy, kde-format
 #| msgid "GnuPG Binary"
 msgid "Your GnuPG binary is: %1"
 msgstr "GnuPG बाइनरी"
 
-#: kgpgfirstassistant.cpp:313 kgpgfirstassistant.cpp:369
+#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
 #, fuzzy, kde-format
 #| msgid "You have GnuPG version:"
 msgid "You have GnuPG version: %1"
 msgstr "तपाईँसँग GnuPG संस्करण छ:"
 
-#: kgpgfirstassistant.cpp:316
+#: kgpgfirstassistant.cpp:317
 #, fuzzy, kde-format
 #| msgid "Your default key:"
 msgid "Your default key is: %1"
 msgstr "तपाईँको पूर्वनिर्धारित कुञ्जी:"
 
-#: kgpgfirstassistant.cpp:367
+#: kgpgfirstassistant.cpp:368
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3804,37 +3805,37 @@ msgstr "पासफ्रेज परिवर्तन गर्नुहो�
 msgid "Fingerprint"
 msgstr "औठाछाप:"
 
-#: kgpgoptions.cpp:105
+#: kgpgoptions.cpp:107
 #, kde-format
 msgid "Decryption"
 msgstr "गुप्तिकरण उल्टाउनुहोस्"
 
-#: kgpgoptions.cpp:106
+#: kgpgoptions.cpp:108
 #, kde-format
 msgid "Appearance"
 msgstr "देखावट"
 
-#: kgpgoptions.cpp:107
+#: kgpgoptions.cpp:109
 #, kde-format
 msgid "GnuPG Settings"
 msgstr "GnuPG सेटिङ"
 
-#: kgpgoptions.cpp:108
+#: kgpgoptions.cpp:110
 #, kde-format
 msgid "Key Servers"
 msgstr "कुञ्जी सर्भर"
 
-#: kgpgoptions.cpp:109
+#: kgpgoptions.cpp:111
 #, kde-format
 msgid "Misc"
 msgstr "विविध"
 
-#: kgpgoptions.cpp:144
+#: kgpgoptions.cpp:146
 #, kde-format
 msgid "New GnuPG Home Location"
 msgstr "नयाँ GnuPG गृह स्थान"
 
-#: kgpgoptions.cpp:157
+#: kgpgoptions.cpp:159
 #, fuzzy, kde-format
 #| msgid ""
 #| "No configuration file was found in the selected location.\n"
@@ -3852,22 +3853,22 @@ msgstr ""
 "\n"
 "कन्फिगरेसन फाइल बिना, नत KGpg नत Gnupg ले राम्रोसँग काम गर्नेछ ।"
 
-#: kgpgoptions.cpp:158
+#: kgpgoptions.cpp:160
 #, kde-format
 msgid "No Configuration File Found"
 msgstr "कन्फिगरेसन फाइल फेला परेन"
 
-#: kgpgoptions.cpp:159
+#: kgpgoptions.cpp:161
 #, kde-format
 msgid "Create"
 msgstr "सिर्जना गर्नुहोस्"
 
-#: kgpgoptions.cpp:160
+#: kgpgoptions.cpp:162
 #, kde-format
 msgid "Ignore"
 msgstr "उपेक्षा गर्नुहोस्"
 
-#: kgpgoptions.cpp:174
+#: kgpgoptions.cpp:176
 #, kde-format
 msgid ""
 "Cannot create configuration file. Please check if destination media is "
@@ -3876,34 +3877,34 @@ msgstr ""
 "कन्फिगरेसन फाइल सिर्जना गर्न सक्दैन । कृपया गन्तव्य मिडिया माउन्ट गरिएको र यदि तपाईँसँग "
 "लेख्न पहुँच छ भने जाँच गर्नुहोस् । "
 
-#: kgpgoptions.cpp:197
+#: kgpgoptions.cpp:199
 #, kde-format
 msgid "Key server URLs may not contain whitespace."
 msgstr "कुञ्जी सर्भर URLs सेतो खालीस्थान समावेश नगर्न सक्छ ।"
 
-#: kgpgoptions.cpp:202
+#: kgpgoptions.cpp:204
 #, kde-format
 msgid "Key server already in the list."
 msgstr ""
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Add New Key Server"
 msgstr "नयाँ कुञ्जी सर्भर थप्नुहोस्"
 
-#: kgpgoptions.cpp:211
+#: kgpgoptions.cpp:213
 #, kde-format
 msgid "Server URL:"
 msgstr "सर्भर URL:"
 
-#: kgpgoptions.cpp:464 kgpgoptions.cpp:466
+#: kgpgoptions.cpp:466 kgpgoptions.cpp:468
 #, fuzzy, kde-format
 #| msgid "none"
 msgctxt "no key available"
 msgid "none"
 msgstr "कुनै पनि होइन"
 
-#: kgpgoptions.cpp:486
+#: kgpgoptions.cpp:488
 #, kde-format
 msgid "Decrypt File"
 msgstr "फाइल गुप्तिकरण उल्टाउनुहोस्"
@@ -4406,159 +4407,6 @@ msgid ""
 "Enter the ids or fingerprints of the keys to import as space separated list."
 msgstr ""
 
-#. i18n: ectx: @info:tipoftheday
-#: tips:2
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>If you want to decrypt a text file, simply drag and drop it into the "
-#| "editor window. Kgpg will do the rest. Even remote files can be dropped.</"
-#| "p>\n"
-#| "<p>Drag a public key into the editor window and kgpg will automatically "
-#| "import it if you want.</p>\n"
-msgid ""
-"<p>If you want to decrypt a text file, simply drag and drop it into the "
-"editor window. KGpg will do the rest. Even remote files can be dropped.</p>\n"
-"<p>Drag a public key into the editor window and kgpg will automatically "
-"import it if you want.</p>\n"
-msgstr ""
-"<p>यदि तपाईँले पाठ फाइल गुप्तिकरण उल्टाउन चाहनुहुन्छ भने, साधारण रूपमा यसलाई सम्पादक "
-"सञ्झ्यालमा तानेर छोड्नुहोस् । Kgpg ले बाँकी काम गर्नेछ । टाढाको फाइल पनि छोड्न सकिन्छ ।</"
-"p>\n"
-"<p>सम्पादक सञ्झ्यालमा सार्वजनिक कुञ्जी तान्नुहोस् र यदि तपाईँले चाहनुभएमा kgpg ले यसलाई "
-"स्वचालित रूपमा आयात गर्दछ ।</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:7
-#, kde-format
-msgid ""
-"<p>The easiest way to encrypt a file: simply right click on the file, and "
-"you have an encrypt option in the contextual menu.\n"
-"This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
-msgstr ""
-"<p>फाइल गुप्तिकरण गर्ने सब भन्दा सजिलो तरिका: फाइलमा दायाँ क्लिक गर्नुहोस् र तपाईँसँग "
-"प्रसङ्ग मेनुमा गुप्तिकरण विकल्प हुन्छ । यसले <strong>कनक्वेरर</strong> वा तपाईँको डेस्कटपमा "
-"काम गर्दछ !</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:13
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>If you want to encrypt a message for several persons, just select "
-#| "several encryption keys by pressing the \"Ctrl\" key.</p>\n"
-msgid ""
-"<p>If you want to encrypt a message for several persons, just select several "
-"encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
-msgstr ""
-"<p>यदि तपाईँले धेरै मानिसका लागि सन्देश गुप्तिकरण गर्न चाहनुहुन्छ भने \"Ctrl\" कुञ्जी थिचेर "
-"धेरै गुप्तिकरण कुञ्जीहरू चयन गर्नुहोस् ।</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:18
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p><strong>You don't know anything about encryption?</strong><br>\n"
-#| "No problem, simply create yourself a key pair in the key management "
-#| "window. Then, export your public key & mail it to your friends.<br>\n"
-#| "Ask them to do the same & import their public keys. Finally, to send an "
-#| "encrypted message, type it in the Kgpg editor, then click \"encrypt\". "
-#| "Choose \n"
-#| "your friend key and click \"encrypt\" again. The message will be "
-#| "encrypted, ready to be sent by email.</p>\n"
-msgid ""
-"<p><strong>You do not have to be an expert in encryption to use this tool?</"
-"strong><br>\n"
-"Simply create yourself a key pair in the key management window. Then, export "
-"your public key and mail it to your friends.<br>\n"
-"Ask them to do the same and import their public keys. Finally, to send an "
-"encrypted message, type it in the KGpg editor, then click &quot;"
-"encrypt&quot;. Choose\n"
-"your friend's key and click &quot;encrypt&quot; again. The message will be "
-"encrypted, ready to be sent by email.</p>\n"
-msgstr ""
-"<p><strong>तपाईँलाई गुप्तिकरणका बारेमा केही थाहा छैन ?</strong><br>\n"
-"केही छैन, कुञ्जी व्यवस्थापन सञ्झ्यालमा आफै कुञ्जी जोडी सिर्जना गर्नुहोस् । त्यसपछि, तपाईँको "
-"सार्वजनिक कुञ्जी निर्यात गर्नुहोस् र तपाईँको साथिहरूलाई पत्र पठाउनुहोस् ।<br>\n"
-"तिनीहरूलाई पनि उस्तै गर्न र तिनीहरूको सार्वजनिक कुञ्जी आयात गर्न भन्नुहोस् । अन्तिममा, "
-"गुप्तिकरण गरिएको सन्देश पठाउन, Kgpg सम्पादकमा यसलाई टाइप गर्नुहोस् र त्यसपछि\"गुप्तिकरण "
-"गर्नुहोस्\" क्लिक गर्नुहोस् । तपाईँको सहज कुञ्जी \n"
-"छनोट गर्नुहोस् र फेरि \"गुप्तिकरण गर्नुहोस्\" क्लिक गर्नुहोस् । सन्देश गुप्तकरण गरिनेछ, "
-"इमेलद्वारा पठाउन तयार हुनुहोस् ।</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:26
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>To perform an operation on a key, open the key management window & "
-#| "right click on the key. A popup menu with all available options will "
-#| "appear.</p>\n"
-msgid ""
-"<p>To perform an operation on a key, open the key management window and "
-"right click on the key. A popup menu with all available options will appear."
-"</p>\n"
-msgstr ""
-"<p>कुञ्जीमा सञ्चालन कार्यसम्पादन गर्न, कुञ्जी व्यवस्थापन सञ्झ्याल खोल्नुहोस् र कुञ्जीमा दायाँ "
-"क्लिक गर्नुहोस् । उपलब्ध सबै विकल्पसँग पपअप मेनु देखा पर्नेछ ।</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:31
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>Decrypt a file with a single mouse click on it. You will then be "
-#| "prompted for password & that's all!</p>\n"
-msgid ""
-"<p>Decrypt a file with a single mouse click on it. You will then be prompted "
-"for password, and then that is it!</p>\n"
-msgstr ""
-"<p>यसमा एकल माउस क्लिक गरेर फाइल गुप्तिकरण उल्टाउनुहोस् । त्यसपछि तपाईँ पासवर्डका लागि "
-"योग्य हुनुहुनेछ !</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:36
-#, fuzzy, kde-format
-#| msgid ""
-#| "<p>If you only want to open the key manager, type \"kgpg -k\" in the "
-#| "command line prompt.</p>\n"
-msgid ""
-"<p>If you only want to open the key manager, type this in the command line "
-"prompt: <pre>kgpg -k</pre>\n"
-"The editor can be reached by: <pre>kgpg -d</pre></p>\n"
-msgstr ""
-"<p>यदि तपाईँले कुञ्जी प्रबन्धक मात्र खोल्न चाहनुहुन्छ भने, आदेश रेखा प्रवर्धनमा \"kgpg -k\" "
-"टाइप गर्नुहोस् ।</p>\n"
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:42
-#, kde-format
-msgid ""
-"<p>To open a file in the KGpg's editor and immediately decrypt it type: "
-"<pre>kgpg -s filename</pre></p>\n"
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:47
-#, kde-format
-msgid ""
-"<p>If you want to change the password or expiration of a secret key simply "
-"double click on it to get the key properties dialog.</p>\n"
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:52
-#, kde-format
-msgid ""
-"<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in the "
-"key manager.</p>\n"
-msgstr ""
-
-#. i18n: ectx: @info:tipoftheday
-#: tips:57
-#, kde-format
-msgid ""
-"<p>The number of signatures is shown as a tooltip if you hover the mouse on "
-"the size column in key manager. A key has to be expanded once for this to "
-"work.</p>\n"
-msgstr ""
-
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
 msgid "This image is very large. Use it anyway?"
@@ -5026,6 +4874,125 @@ msgstr "हस्ताक्षर वैध छ, तर कुञ्जी अ
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "हस्ताक्षर वैध छ र कुञ्जी अन्तिममा विश्वासिलो छ"
+
+#~ msgid ""
+#~ "The document could not been saved, as the selected encoding cannot encode "
+#~ "every unicode character in it."
+#~ msgstr ""
+#~ "चयन गरिएको सङ्केतनले यसमा प्रत्येक युनिकोड क्यारेक्टर सङ्केतन गर्न नसके जस्तै कागजात बचत "
+#~ "गर्न सकेन ।"
+
+#~ msgid "Tip of the &Day"
+#~ msgstr "आजको टिप"
+
+#~ msgid "Show tip of the day."
+#~ msgstr "आजको टिप देखाउनुहोस् ।"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>If you want to decrypt a text file, simply drag and drop it into the "
+#~| "editor window. Kgpg will do the rest. Even remote files can be dropped.</"
+#~| "p>\n"
+#~| "<p>Drag a public key into the editor window and kgpg will automatically "
+#~| "import it if you want.</p>\n"
+#~ msgid ""
+#~ "<p>If you want to decrypt a text file, simply drag and drop it into the "
+#~ "editor window. KGpg will do the rest. Even remote files can be dropped.</"
+#~ "p>\n"
+#~ "<p>Drag a public key into the editor window and kgpg will automatically "
+#~ "import it if you want.</p>\n"
+#~ msgstr ""
+#~ "<p>यदि तपाईँले पाठ फाइल गुप्तिकरण उल्टाउन चाहनुहुन्छ भने, साधारण रूपमा यसलाई सम्पादक "
+#~ "सञ्झ्यालमा तानेर छोड्नुहोस् । Kgpg ले बाँकी काम गर्नेछ । टाढाको फाइल पनि छोड्न सकिन्छ "
+#~ "।</p>\n"
+#~ "<p>सम्पादक सञ्झ्यालमा सार्वजनिक कुञ्जी तान्नुहोस् र यदि तपाईँले चाहनुभएमा kgpg ले "
+#~ "यसलाई स्वचालित रूपमा आयात गर्दछ ।</p>\n"
+
+#~ msgid ""
+#~ "<p>The easiest way to encrypt a file: simply right click on the file, and "
+#~ "you have an encrypt option in the contextual menu.\n"
+#~ "This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
+#~ msgstr ""
+#~ "<p>फाइल गुप्तिकरण गर्ने सब भन्दा सजिलो तरिका: फाइलमा दायाँ क्लिक गर्नुहोस् र तपाईँसँग "
+#~ "प्रसङ्ग मेनुमा गुप्तिकरण विकल्प हुन्छ । यसले <strong>कनक्वेरर</strong> वा तपाईँको "
+#~ "डेस्कटपमा काम गर्दछ !</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>If you want to encrypt a message for several persons, just select "
+#~| "several encryption keys by pressing the \"Ctrl\" key.</p>\n"
+#~ msgid ""
+#~ "<p>If you want to encrypt a message for several persons, just select "
+#~ "several encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
+#~ msgstr ""
+#~ "<p>यदि तपाईँले धेरै मानिसका लागि सन्देश गुप्तिकरण गर्न चाहनुहुन्छ भने \"Ctrl\" कुञ्जी "
+#~ "थिचेर धेरै गुप्तिकरण कुञ्जीहरू चयन गर्नुहोस् ।</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p><strong>You don't know anything about encryption?</strong><br>\n"
+#~| "No problem, simply create yourself a key pair in the key management "
+#~| "window. Then, export your public key & mail it to your friends.<br>\n"
+#~| "Ask them to do the same & import their public keys. Finally, to send an "
+#~| "encrypted message, type it in the Kgpg editor, then click \"encrypt\". "
+#~| "Choose \n"
+#~| "your friend key and click \"encrypt\" again. The message will be "
+#~| "encrypted, ready to be sent by email.</p>\n"
+#~ msgid ""
+#~ "<p><strong>You do not have to be an expert in encryption to use this tool?"
+#~ "</strong><br>\n"
+#~ "Simply create yourself a key pair in the key management window. Then, "
+#~ "export your public key and mail it to your friends.<br>\n"
+#~ "Ask them to do the same and import their public keys. Finally, to send an "
+#~ "encrypted message, type it in the KGpg editor, then click &quot;"
+#~ "encrypt&quot;. Choose\n"
+#~ "your friend's key and click &quot;encrypt&quot; again. The message will "
+#~ "be encrypted, ready to be sent by email.</p>\n"
+#~ msgstr ""
+#~ "<p><strong>तपाईँलाई गुप्तिकरणका बारेमा केही थाहा छैन ?</strong><br>\n"
+#~ "केही छैन, कुञ्जी व्यवस्थापन सञ्झ्यालमा आफै कुञ्जी जोडी सिर्जना गर्नुहोस् । त्यसपछि, "
+#~ "तपाईँको सार्वजनिक कुञ्जी निर्यात गर्नुहोस् र तपाईँको साथिहरूलाई पत्र पठाउनुहोस् ।<br>\n"
+#~ "तिनीहरूलाई पनि उस्तै गर्न र तिनीहरूको सार्वजनिक कुञ्जी आयात गर्न भन्नुहोस् । अन्तिममा, "
+#~ "गुप्तिकरण गरिएको सन्देश पठाउन, Kgpg सम्पादकमा यसलाई टाइप गर्नुहोस् र त्यसपछि"
+#~ "\"गुप्तिकरण गर्नुहोस्\" क्लिक गर्नुहोस् । तपाईँको सहज कुञ्जी \n"
+#~ "छनोट गर्नुहोस् र फेरि \"गुप्तिकरण गर्नुहोस्\" क्लिक गर्नुहोस् । सन्देश गुप्तकरण गरिनेछ, "
+#~ "इमेलद्वारा पठाउन तयार हुनुहोस् ।</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>To perform an operation on a key, open the key management window & "
+#~| "right click on the key. A popup menu with all available options will "
+#~| "appear.</p>\n"
+#~ msgid ""
+#~ "<p>To perform an operation on a key, open the key management window and "
+#~ "right click on the key. A popup menu with all available options will "
+#~ "appear.</p>\n"
+#~ msgstr ""
+#~ "<p>कुञ्जीमा सञ्चालन कार्यसम्पादन गर्न, कुञ्जी व्यवस्थापन सञ्झ्याल खोल्नुहोस् र कुञ्जीमा "
+#~ "दायाँ क्लिक गर्नुहोस् । उपलब्ध सबै विकल्पसँग पपअप मेनु देखा पर्नेछ ।</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>Decrypt a file with a single mouse click on it. You will then be "
+#~| "prompted for password & that's all!</p>\n"
+#~ msgid ""
+#~ "<p>Decrypt a file with a single mouse click on it. You will then be "
+#~ "prompted for password, and then that is it!</p>\n"
+#~ msgstr ""
+#~ "<p>यसमा एकल माउस क्लिक गरेर फाइल गुप्तिकरण उल्टाउनुहोस् । त्यसपछि तपाईँ पासवर्डका "
+#~ "लागि योग्य हुनुहुनेछ !</p>\n"
+
+#, fuzzy
+#~| msgid ""
+#~| "<p>If you only want to open the key manager, type \"kgpg -k\" in the "
+#~| "command line prompt.</p>\n"
+#~ msgid ""
+#~ "<p>If you only want to open the key manager, type this in the command "
+#~ "line prompt: <pre>kgpg -k</pre>\n"
+#~ "The editor can be reached by: <pre>kgpg -d</pre></p>\n"
+#~ msgstr ""
+#~ "<p>यदि तपाईँले कुञ्जी प्रबन्धक मात्र खोल्न चाहनुहुन्छ भने, आदेश रेखा प्रवर्धनमा \"kgpg -k"
+#~ "\" टाइप गर्नुहोस् ।</p>\n"
 
 #, fuzzy
 #~| msgid "GnuPG Binary"
@@ -5568,9 +5535,6 @@ msgstr "हस्ताक्षर वैध छ र कुञ्जी अन�
 
 #~ msgid "Encrypt"
 #~ msgstr "गुप्तिकरण गर्नुहोस्"
-
-#~ msgid "Sign"
-#~ msgstr "साइन गर्नुहोस्"
 
 #~ msgid "Ask"
 #~ msgstr "सोध्नुहोस्"
