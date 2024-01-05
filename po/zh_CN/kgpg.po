@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-04 01:36+0000\n"
+"POT-Creation-Date: 2024-01-05 01:36+0000\n"
 "PO-Revision-Date: 2023-12-30 13:41\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -366,7 +366,7 @@ msgid "Change..."
 msgstr "更改..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "GnuPG 二进制文件"
@@ -959,7 +959,7 @@ msgctxt "used to join a list of key types, e.g. 'encryption, signature'"
 msgid ", "
 msgstr ", "
 
-#: core/KGpgGroupNode.cpp:158
+#: core/KGpgGroupNode.cpp:154
 #, kde-format
 msgid "1 key"
 msgid_plural "%1 keys"
@@ -983,7 +983,7 @@ msgctxt "Name of uid (comment)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: core/KGpgRefNode.cpp:119 transactions/kgpgtransaction.cpp:277
+#: core/KGpgRefNode.cpp:115 transactions/kgpgtransaction.cpp:277
 #, kde-format
 msgid "[No user id found]"
 msgstr "[未找到用户 ID]"
@@ -2326,14 +2326,14 @@ msgstr ""
 "b>。<br /><br />您现在应该通过电话或面见密钥属主来核对密钥指纹，以确保没有人"
 "正试图窃听您的通讯。</qt>"
 
-#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:276
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1：(%2)"
 
-#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:278
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -2576,7 +2576,7 @@ msgstr "解密剪贴板(&D)"
 msgid "&Sign/Verify Clipboard"
 msgstr "签名/校验剪贴板(&S)"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
+#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "剪贴板是空的。"
@@ -2881,7 +2881,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "使用鼠标而不是剪贴板进行选择。"
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:223
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "KDE 启动时自动开启 KGpg。"
@@ -3088,60 +3088,60 @@ msgstr "欢迎使用 KGpg 助手"
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg 需要知道您要使用的是哪个 GnuPG 二进制文件。"
 
-#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:127
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
 "button."
 msgstr "除非您打算尝试一些特殊设定，否则只需单击“下一步”按钮。"
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
+#: kgpgfirstassistant.cpp:102
 #, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "GnuPG 二进制文件"
 
-#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
+#: kgpgfirstassistant.cpp:103
 #, kde-format
 msgid "All files"
 msgstr "所有文件"
 
-#: kgpgfirstassistant.cpp:138
+#: kgpgfirstassistant.cpp:134
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "KGpg 需要知道您的 GnuPG 配置文件存在哪里。"
 
-#: kgpgfirstassistant.cpp:153
+#: kgpgfirstassistant.cpp:149
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "您 GnuPG 配置文件的路径："
 
-#: kgpgfirstassistant.cpp:167
+#: kgpgfirstassistant.cpp:163
 #, kde-format
 msgid "Configuration File"
 msgstr "配置文件"
 
-#: kgpgfirstassistant.cpp:177
+#: kgpgfirstassistant.cpp:173
 #, kde-format
 msgid "Your default key:"
 msgstr "您的默认密钥："
 
-#: kgpgfirstassistant.cpp:196
+#: kgpgfirstassistant.cpp:192
 #, kde-format
 msgid "Default Key"
 msgstr "默认密钥"
 
-#: kgpgfirstassistant.cpp:217
+#: kgpgfirstassistant.cpp:213
 #, kde-format
 msgid "Generate new key"
 msgstr "生成新密钥"
 
-#: kgpgfirstassistant.cpp:231
+#: kgpgfirstassistant.cpp:227
 #, kde-format
 msgid "Done"
 msgstr "完成"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3149,37 +3149,37 @@ msgid ""
 msgstr ""
 "<qt><b>找不到 GnuPG 配置文件</b>。想要 KGpg 尝试为您创建一个配置文件吗？</qt>"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid "Create Config"
 msgstr "创建配置"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid "Do Not Create"
 msgstr "不创建"
 
-#: kgpgfirstassistant.cpp:253
+#: kgpgfirstassistant.cpp:249
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>找不到 GnuPG 配置文件</b>。</qt>"
 
-#: kgpgfirstassistant.cpp:295
+#: kgpgfirstassistant.cpp:291
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "GnuPG 二进制文件是：%1"
 
-#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
+#: kgpgfirstassistant.cpp:306 kgpgfirstassistant.cpp:362
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "您的 GnuPG 版本：%1"
 
-#: kgpgfirstassistant.cpp:317
+#: kgpgfirstassistant.cpp:309
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "您的默认密钥：%1"
 
-#: kgpgfirstassistant.cpp:368
+#: kgpgfirstassistant.cpp:360
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3634,61 +3634,61 @@ msgstr "打印证书"
 msgid "Import into keyring"
 msgstr "导入至密钥串"
 
-#: main.cpp:39
+#: main.cpp:26
 #, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
 msgstr "<application>KGpg</application>"
 
-#: main.cpp:41
+#: main.cpp:28
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
 msgstr "KGpg - 简易的 GnuPG 图形界面"
 
-#: main.cpp:43
+#: main.cpp:30
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
 msgstr "&copy; 2003-2016, KGpg 开发者"
 
-#: main.cpp:45
+#: main.cpp:32
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Rolf Eike Beer"
 msgstr "Rolf Eike Beer"
 
-#: main.cpp:45
+#: main.cpp:32
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
 msgstr "维护者"
 
-#: main.cpp:46
+#: main.cpp:33
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: main.cpp:46
+#: main.cpp:33
 #, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
 msgstr "作者及前任维护者"
 
-#: main.cpp:47
+#: main.cpp:34
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jimmy Gilles"
 msgstr "Jimmy Gilles"
 
-#: main.cpp:48
+#: main.cpp:35
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:48
+#: main.cpp:35
 #, kde-format
 msgctxt "@info:credit"
 msgid "KF5 port"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-04 01:36+0000\n"
+"POT-Creation-Date: 2024-01-05 01:36+0000\n"
 "PO-Revision-Date: 2010-01-09 16:00+0200\n"
 "Last-Translator: Viesturs Zarins <viesturs.zarins@mii.lu.lv>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -383,7 +383,7 @@ msgid "Change..."
 msgstr "Mainīt..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "GnuPG izpildfails"
@@ -977,7 +977,7 @@ msgctxt "used to join a list of key types, e.g. 'encryption, signature'"
 msgid ", "
 msgstr ""
 
-#: core/KGpgGroupNode.cpp:158
+#: core/KGpgGroupNode.cpp:154
 #, kde-format
 msgid "1 key"
 msgid_plural "%1 keys"
@@ -1005,7 +1005,7 @@ msgctxt "Name of uid (comment)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: core/KGpgRefNode.cpp:119 transactions/kgpgtransaction.cpp:277
+#: core/KGpgRefNode.cpp:115 transactions/kgpgtransaction.cpp:277
 #, kde-format
 msgid "[No user id found]"
 msgstr "[Netika atrasts lietotāja id]"
@@ -2435,14 +2435,14 @@ msgstr ""
 "atslēgas pirkstu nospiedums, sazvanoties vai satiekoties ar atslēgas "
 "īpašnieku, lai būtu drošs, ka kāds nemēģina pārtvert jūsu komunikāciju.</qt>"
 
-#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:276
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:278
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -2703,7 +2703,7 @@ msgstr "&Atšifrēt starpliktuvi"
 msgid "&Sign/Verify Clipboard"
 msgstr "&Parakstīt/verificēt starpliktuvi"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
+#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Starpliktuve ir tukša."
@@ -2994,7 +2994,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Izmantot peles iezīmēšanu, nevis starpliktuvi."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:223
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Sākt KGpg automātiski ar KDE."
@@ -3214,7 +3214,7 @@ msgstr "Laipni lūdzam KGpg palīgā"
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg jāzina, kuru GnuPG izpildfailu izmantot."
 
-#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:127
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3223,55 +3223,55 @@ msgstr ""
 "Ja nevēlaties izmantot neparastus iestatījumus, tad vienkārši nospiediet "
 "\"tālāk\" pogu."
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
+#: kgpgfirstassistant.cpp:102
 #, fuzzy, kde-format
 #| msgid "GnuPG binary"
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "GnuPG izpildfails"
 
-#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
+#: kgpgfirstassistant.cpp:103
 #, fuzzy, kde-format
 #| msgid "*|All Files"
 msgid "All files"
 msgstr "*|Visi faili"
 
-#: kgpgfirstassistant.cpp:138
+#: kgpgfirstassistant.cpp:134
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "KGpg jāzina, kur atrodas jūsu GnuPG konfigurācijas fails."
 
-#: kgpgfirstassistant.cpp:153
+#: kgpgfirstassistant.cpp:149
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "Ceļš uz jūsu GnuPG konfigurācijas failu:"
 
-#: kgpgfirstassistant.cpp:167
+#: kgpgfirstassistant.cpp:163
 #, kde-format
 msgid "Configuration File"
 msgstr "Konfigurācijas fails"
 
-#: kgpgfirstassistant.cpp:177
+#: kgpgfirstassistant.cpp:173
 #, kde-format
 msgid "Your default key:"
 msgstr "Jūsu noklusēta atslēga:"
 
-#: kgpgfirstassistant.cpp:196
+#: kgpgfirstassistant.cpp:192
 #, kde-format
 msgid "Default Key"
 msgstr "Noklusētā atslēga"
 
-#: kgpgfirstassistant.cpp:217
+#: kgpgfirstassistant.cpp:213
 #, kde-format
 msgid "Generate new key"
 msgstr "Ģenerēt jaunu atslēgu"
 
-#: kgpgfirstassistant.cpp:231
+#: kgpgfirstassistant.cpp:227
 #, kde-format
 msgid "Done"
 msgstr "Pabeigts"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3280,37 +3280,37 @@ msgstr ""
 "<qt><b>GnuPG konfigurācijas fails netika atrasts</b>.  Vai KGpg mēģināt "
 "izveidot jaunu konfigurācijas failu?</qt>"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid "Create Config"
 msgstr "Izveidot konfigurāciju"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid "Do Not Create"
 msgstr "Neveidot"
 
-#: kgpgfirstassistant.cpp:253
+#: kgpgfirstassistant.cpp:249
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>Neizdevās atrast GnuPG konfigurācijas failu</b>.</qt>"
 
-#: kgpgfirstassistant.cpp:295
+#: kgpgfirstassistant.cpp:291
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "Jūsu GnuPG izpildfails ir: %1"
 
-#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
+#: kgpgfirstassistant.cpp:306 kgpgfirstassistant.cpp:362
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "Jums ir GnuPG versija: %1"
 
-#: kgpgfirstassistant.cpp:317
+#: kgpgfirstassistant.cpp:309
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "Jūsu noklusētā atslēga ir: %1"
 
-#: kgpgfirstassistant.cpp:368
+#: kgpgfirstassistant.cpp:360
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3782,66 +3782,66 @@ msgstr "Drukāt sertifikātu"
 msgid "Import into keyring"
 msgstr "Importēt atslēgu saisķī"
 
-#: main.cpp:39
+#: main.cpp:26
 #, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
 msgstr ""
 
-#: main.cpp:41
+#: main.cpp:28
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
 msgstr ""
 
-#: main.cpp:43
+#: main.cpp:30
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
 msgstr ""
 
-#: main.cpp:45
+#: main.cpp:32
 #, fuzzy, kde-kuit-format
 #| msgid "Rolf Eike Beer"
 msgctxt "@info:credit"
 msgid "Rolf Eike Beer"
 msgstr "Rolf Eike Beer"
 
-#: main.cpp:45
+#: main.cpp:32
 #, fuzzy, kde-format
 #| msgid "Maintainer"
 msgctxt "@info:credit"
 msgid "Maintainer"
 msgstr "Uzturētājs"
 
-#: main.cpp:46
+#: main.cpp:33
 #, fuzzy, kde-kuit-format
 #| msgid "Jean-Baptiste Mardelle"
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: main.cpp:46
+#: main.cpp:33
 #, fuzzy, kde-format
 #| msgid "Author and former maintainer"
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
 msgstr "Autors un iepriekšējais uzturētājs"
 
-#: main.cpp:47
+#: main.cpp:34
 #, fuzzy, kde-kuit-format
 #| msgid "Jimmy Gilles"
 msgctxt "@info:credit"
 msgid "Jimmy Gilles"
 msgstr "Jimmy Gilles"
 
-#: main.cpp:48
+#: main.cpp:35
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Andrius Štikonas"
 msgstr ""
 
-#: main.cpp:48
+#: main.cpp:35
 #, fuzzy, kde-format
 #| msgid "Key Import"
 msgctxt "@info:credit"

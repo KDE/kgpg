@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-04 01:36+0000\n"
+"POT-Creation-Date: 2024-01-05 01:36+0000\n"
 "PO-Revision-Date: 2008-12-19 10:25+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -353,7 +353,7 @@ msgid "Change..."
 msgstr "ផ្លាស់ប្ដូរ..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
 #, fuzzy, kde-format
 msgid "GnuPG Binary"
 msgstr "គោល​ពីរ"
@@ -929,7 +929,7 @@ msgctxt "used to join a list of key types, e.g. 'encryption, signature'"
 msgid ", "
 msgstr ""
 
-#: core/KGpgGroupNode.cpp:158
+#: core/KGpgGroupNode.cpp:154
 #, fuzzy, kde-format
 msgid "1 key"
 msgid_plural "%1 keys"
@@ -954,7 +954,7 @@ msgctxt "Name of uid (comment)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: core/KGpgRefNode.cpp:119 transactions/kgpgtransaction.cpp:277
+#: core/KGpgRefNode.cpp:115 transactions/kgpgtransaction.cpp:277
 #, fuzzy, kde-format
 msgid "[No user id found]"
 msgstr "ទេ"
@@ -2255,14 +2255,14 @@ msgstr ""
 "<qt> អ្នក ដល់<br /><br /><br /> លេខ​សម្គាល់<br /> ស្នាម​ម្រាមដៃ​<br /><b></b><br /"
 "><br /> អ្នក ដោយ ឬ ដល់ ជា ដល់</qt>"
 
-#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:276
 #: model/keylistproxymodel.cpp:181
 #, fuzzy, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1 (%2)"
 
-#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:278
 #, fuzzy, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -2489,7 +2489,7 @@ msgstr "ក្ដារ​តម្បៀត​ខ្ទាស់"
 msgid "&Sign/Verify Clipboard"
 msgstr "ចុះ​ហត្ថលេខា ក្ដារ​តម្បៀត​ខ្ទាស់"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
+#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
 #, fuzzy, kde-format
 msgid "Clipboard is empty."
 msgstr "ក្ដារ​តម្បៀត​ខ្ទាស់ ជា ទទេ."
@@ -2773,7 +2773,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "ប្រើ នៃ​ ក្តារ​តម្បៀត​ខ្ទាស់."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:223
 #, fuzzy, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "ចាប់ផ្ដើម នៅ KDE."
@@ -2974,97 +2974,97 @@ msgstr ""
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "ដល់ ជា."
 
-#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:127
 #, fuzzy, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
 "button."
 msgstr "ដល់ លើ."
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
+#: kgpgfirstassistant.cpp:102
 #, fuzzy, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "គោល​ពីរ"
 
-#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
+#: kgpgfirstassistant.cpp:103
 #, fuzzy, kde-format
 msgid "All files"
 msgstr "*|ឯកសារ​ទាំង​អស់"
 
-#: kgpgfirstassistant.cpp:138
+#: kgpgfirstassistant.cpp:134
 #, fuzzy, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "ដល់ ជា."
 
-#: kgpgfirstassistant.cpp:153
+#: kgpgfirstassistant.cpp:149
 #, fuzzy, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "<br> ផ្លូវ ដល់:"
 
-#: kgpgfirstassistant.cpp:167
+#: kgpgfirstassistant.cpp:163
 #, fuzzy, kde-format
 msgid "Configuration File"
 msgstr "​កំណត់​​រចនាសម្ព័ន្ធ:"
 
-#: kgpgfirstassistant.cpp:177
+#: kgpgfirstassistant.cpp:173
 #, fuzzy, kde-format
 msgid "Your default key:"
 msgstr "លំនាំដើម:"
 
-#: kgpgfirstassistant.cpp:196
+#: kgpgfirstassistant.cpp:192
 #, fuzzy, kde-format
 msgid "Default Key"
 msgstr "គ្រាប់​ចុច លុប (Delete)"
 
-#: kgpgfirstassistant.cpp:217
+#: kgpgfirstassistant.cpp:213
 #, fuzzy, kde-format
 msgid "Generate new key"
 msgstr "ថ្មី គ្រាប់​ចុច."
 
-#: kgpgfirstassistant.cpp:231
+#: kgpgfirstassistant.cpp:227
 #, fuzzy, kde-format
 msgid "Done"
 msgstr "គ្មាន"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, fuzzy, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
 "create a config file ?</qt>"
 msgstr "<qt><b></b> ដល់ a</qt>"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, fuzzy, kde-format
 msgid "Create Config"
 msgstr "បង្កើត"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, fuzzy, kde-format
 msgid "Do Not Create"
 msgstr "កុំ​បង្កើត"
 
-#: kgpgfirstassistant.cpp:253
+#: kgpgfirstassistant.cpp:249
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:295
+#: kgpgfirstassistant.cpp:291
 #, fuzzy, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "គោល​ពីរ"
 
-#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
+#: kgpgfirstassistant.cpp:306 kgpgfirstassistant.cpp:362
 #, fuzzy, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "អ្នក កំណែ:"
 
-#: kgpgfirstassistant.cpp:317
+#: kgpgfirstassistant.cpp:309
 #, fuzzy, kde-format
 msgid "Your default key is: %1"
 msgstr "លំនាំដើម:"
 
-#: kgpgfirstassistant.cpp:368
+#: kgpgfirstassistant.cpp:360
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3511,61 +3511,61 @@ msgstr "បោះ​​ពុម្ព​"
 msgid "Import into keyring"
 msgstr "នាំចូល"
 
-#: main.cpp:39
+#: main.cpp:26
 #, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
 msgstr ""
 
-#: main.cpp:41
+#: main.cpp:28
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
 msgstr ""
 
-#: main.cpp:43
+#: main.cpp:30
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
 msgstr ""
 
-#: main.cpp:45
+#: main.cpp:32
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Rolf Eike Beer"
 msgstr ""
 
-#: main.cpp:45
+#: main.cpp:32
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
 msgstr ""
 
-#: main.cpp:46
+#: main.cpp:33
 #, fuzzy, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
 msgstr "C"
 
-#: main.cpp:46
+#: main.cpp:33
 #, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
 msgstr ""
 
-#: main.cpp:47
+#: main.cpp:34
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jimmy Gilles"
 msgstr ""
 
-#: main.cpp:48
+#: main.cpp:35
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Andrius Štikonas"
 msgstr ""
 
-#: main.cpp:48
+#: main.cpp:35
 #, fuzzy, kde-format
 msgctxt "@info:credit"
 msgid "KF5 port"

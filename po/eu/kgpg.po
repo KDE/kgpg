@@ -1,26 +1,26 @@
 # Translation for kgpg.po to Euskara/Basque (eu).
-# Copyright (C) 2003-2023 This file is copyright:
+# Copyright (C) 2003-2024 This file is copyright:
 # This file is distributed under the same license as the kgpg package.
-# KDE euskarateko proiektuko arduraduna <xalba@ni.eus>.
+# SPDX-FileCopyrightText: 2024 KDE euskarateko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
 # Marcos  <marcos@euskalgnu.org>, 2003.
-# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2004, 2005, 2006, 2008, 2009, 2010, 2011, 2014, 2018, 2021, 2023.
+# Iñigo Salvador Azurmendi <xalba@ni.eus>, 2004, 2005, 2006, 2008, 2009, 2010, 2011, 2014, 2018, 2021, 2023, 2024.
 # Ion Gaztañaga <igaztanaga@gmail.com>, 2005.
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-04 01:36+0000\n"
-"PO-Revision-Date: 2023-07-21 10:26+0200\n"
+"POT-Creation-Date: 2024-01-05 01:36+0000\n"
+"PO-Revision-Date: 2024-01-04 10:17+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -405,7 +405,7 @@ msgid "Change..."
 msgstr "Aldatu..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "GnuPG bitarra"
@@ -1011,7 +1011,7 @@ msgctxt "used to join a list of key types, e.g. 'encryption, signature'"
 msgid ", "
 msgstr ", "
 
-#: core/KGpgGroupNode.cpp:158
+#: core/KGpgGroupNode.cpp:154
 #, kde-format
 msgid "1 key"
 msgid_plural "%1 keys"
@@ -1037,7 +1037,7 @@ msgctxt "Name of uid (comment)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: core/KGpgRefNode.cpp:119 transactions/kgpgtransaction.cpp:277
+#: core/KGpgRefNode.cpp:115 transactions/kgpgtransaction.cpp:277
 #, kde-format
 msgid "[No user id found]"
 msgstr "[Ez da erabiltzaile-identifikatzailerik aurkitu]"
@@ -1302,24 +1302,21 @@ msgid "Key file dropped on Editor"
 msgstr "Gako-fitxategia editorean jaregin da"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "Years"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr "urte"
+msgstr "Bai"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgctxt "No trust in key"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "Bat ere ez"
+msgstr "Ez"
 
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
 msgid "Decryption failed."
-msgstr "Deszifratzeak huts egin du."
+msgstr "Deszifratzea huts egin du."
 
 #: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:132
 #, kde-format
@@ -2426,14 +2423,14 @@ msgstr ""
 "egiaztatu beharko zenuke gakoaren jabeari deituta edo harekin elkartuta, "
 "ziurtatzeko inor ez dabilela zure komunikazioak atzitu nahian.</qt>"
 
-#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:276
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:278
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -2516,11 +2513,10 @@ msgstr ""
 "sinatzea kontsola moduan egiten saiatu nahi duzu?</qt>"
 
 #: keysmanager.cpp:1978
-#, fuzzy, kde-format
-#| msgid "Signature"
+#, kde-format
 msgctxt "@action:button"
 msgid "Sign"
-msgstr "Sinadura"
+msgstr "Sinatu"
 
 #: keysmanager.cpp:2094
 #, kde-format
@@ -2699,7 +2695,7 @@ msgstr "&Deszifratu arbela"
 msgid "&Sign/Verify Clipboard"
 msgstr "&Sinatu/egiaztatu arbela"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
+#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Arbela hutsik dago."
@@ -3014,7 +3010,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Erabili sagu-hautapena arbelaren ordez."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:223
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Abiatu KGpg automatikoki KDE abiaraztean."
@@ -3234,7 +3230,7 @@ msgstr "Ongi etorri KGpg-ren morroira"
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "KGpg-k jakin behar du zein GnuPG bitar erabili behar duen."
 
-#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:127
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3243,53 +3239,53 @@ msgstr ""
 "Ohikoak ez diren ezarpenak ezarri nahi ez badituzu, egin klik \"Hurrengoa\" "
 "botoian."
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
+#: kgpgfirstassistant.cpp:102
 #, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "GnuPG bitarra"
 
-#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
+#: kgpgfirstassistant.cpp:103
 #, kde-format
 msgid "All files"
 msgstr "Fitxategi guztiak"
 
-#: kgpgfirstassistant.cpp:138
+#: kgpgfirstassistant.cpp:134
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "KGpg-k jakin behar du GnuPG-ren konfigurazio-fitxategia non dagoen."
 
-#: kgpgfirstassistant.cpp:153
+#: kgpgfirstassistant.cpp:149
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "GnuPG-ren konfigurazio-fitxategirako bide-izena:"
 
-#: kgpgfirstassistant.cpp:167
+#: kgpgfirstassistant.cpp:163
 #, kde-format
 msgid "Configuration File"
 msgstr "Konfigurazio-fitxategia"
 
-#: kgpgfirstassistant.cpp:177
+#: kgpgfirstassistant.cpp:173
 #, kde-format
 msgid "Your default key:"
 msgstr "Zure gako lehenetsia:"
 
-#: kgpgfirstassistant.cpp:196
+#: kgpgfirstassistant.cpp:192
 #, kde-format
 msgid "Default Key"
 msgstr "Gako lehenetsia"
 
-#: kgpgfirstassistant.cpp:217
+#: kgpgfirstassistant.cpp:213
 #, kde-format
 msgid "Generate new key"
 msgstr "Sortu gako berria"
 
-#: kgpgfirstassistant.cpp:231
+#: kgpgfirstassistant.cpp:227
 #, kde-format
 msgid "Done"
 msgstr "Eginda"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3298,37 +3294,37 @@ msgstr ""
 "<qt><b>GnuPG-ren konfigurazio-fitxategia ez da aurkitu</b>. KGpg "
 "konfigurazio-fitxategi berria sortzen saiatzea nahi duzu?</qt>"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid "Create Config"
 msgstr "Sortu konfigurazioa"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid "Do Not Create"
 msgstr "Ez sortu"
 
-#: kgpgfirstassistant.cpp:253
+#: kgpgfirstassistant.cpp:249
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>GnuPG-ren konfigurazio-fitxategia ez da aurkitu</b>.</qt>"
 
-#: kgpgfirstassistant.cpp:295
+#: kgpgfirstassistant.cpp:291
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "Zure GnuPG bitarra: %1"
 
-#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
+#: kgpgfirstassistant.cpp:306 kgpgfirstassistant.cpp:362
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "Zure GnuPG bertsioa: %1"
 
-#: kgpgfirstassistant.cpp:317
+#: kgpgfirstassistant.cpp:309
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "Zure gako lehenetsia: %1"
 
-#: kgpgfirstassistant.cpp:368
+#: kgpgfirstassistant.cpp:360
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3790,61 +3786,61 @@ msgstr "Inprimatu ziurtagiria"
 msgid "Import into keyring"
 msgstr "Inportatu gako sortara"
 
-#: main.cpp:39
+#: main.cpp:26
 #, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
 msgstr "<application>KGpg</application>"
 
-#: main.cpp:41
+#: main.cpp:28
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
 msgstr "KGpg - GnuPG erabiltzeko erabiltzailearen interfaze grafiko erraza"
 
-#: main.cpp:43
+#: main.cpp:30
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
 msgstr "&copy; 2003-2016, KGpg-ren garatzaileak"
 
-#: main.cpp:45
+#: main.cpp:32
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Rolf Eike Beer"
 msgstr "Rolf Eike Beer"
 
-#: main.cpp:45
+#: main.cpp:32
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
 msgstr "Arduraduna"
 
-#: main.cpp:46
+#: main.cpp:33
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: main.cpp:46
+#: main.cpp:33
 #, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
 msgstr "Egilea eta arduradun ohia"
 
-#: main.cpp:47
+#: main.cpp:34
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jimmy Gilles"
 msgstr "Jimmy Gilles"
 
-#: main.cpp:48
+#: main.cpp:35
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:48
+#: main.cpp:35
 #, kde-format
 msgctxt "@info:credit"
 msgid "KF5 port"

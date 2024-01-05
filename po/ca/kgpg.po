@@ -1,23 +1,23 @@
 # Translation of kgpg.po to Catalan
-# Copyright (C) 2003-2023 This_file_is_part_of_KDE
+# Copyright (C) 2003-2024 This_file_is_part_of_KDE
 #
 # SPDX-FileCopyrightText: 2003, 2012, 2014, 2016, 2017, 2020, 2021, 2022, 2023 Antoni Bella Pérez <antonibella5@yahoo.com>
 # Albert Astals Cid <aacid@kde.org>, 2003, 2004, 2005, 2009.
-# Josep M. Ferrer <txemaq@gmail.com>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023.
+# Josep M. Ferrer <txemaq@gmail.com>, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2024.
 # Joan Maspons <joanmaspons@gmail.com>, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-04 01:36+0000\n"
-"PO-Revision-Date: 2023-11-06 16:06+0100\n"
-"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"POT-Creation-Date: 2024-01-05 01:36+0000\n"
+"PO-Revision-Date: 2024-01-04 08:27+0200\n"
+"Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
 
@@ -400,7 +400,7 @@ msgid "Change..."
 msgstr "Canvia..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "Executable del GnuPG"
@@ -785,7 +785,7 @@ msgstr "Claus desactivades:"
 #: conf_ui2.ui:225
 #, kde-format
 msgid "Editor Font"
-msgstr "Tipus de lletra de l'editor"
+msgstr "Lletra de l'editor"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabKeyList)
 #: conf_ui2.ui:230
@@ -1003,7 +1003,7 @@ msgctxt "used to join a list of key types, e.g. 'encryption, signature'"
 msgid ", "
 msgstr ", "
 
-#: core/KGpgGroupNode.cpp:158
+#: core/KGpgGroupNode.cpp:154
 #, kde-format
 msgid "1 key"
 msgid_plural "%1 keys"
@@ -1029,7 +1029,7 @@ msgctxt "Name of uid (comment)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: core/KGpgRefNode.cpp:119 transactions/kgpgtransaction.cpp:277
+#: core/KGpgRefNode.cpp:115 transactions/kgpgtransaction.cpp:277
 #, kde-format
 msgid "[No user id found]"
 msgstr "[No s'ha trobat cap identificador d'usuari]"
@@ -1296,19 +1296,16 @@ msgid "Key file dropped on Editor"
 msgstr "Fitxer de clau deixat anar en un editor"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "Years"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr "Anys"
+msgstr "Sí"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgctxt "No trust in key"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "Cap"
+msgstr "No"
 
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
@@ -2422,14 +2419,14 @@ msgstr ""
 "propietari per a assegurar-vos que ningú està intentant interceptar les "
 "vostres comunicacions.</qt>"
 
-#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:276
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:278
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -2513,11 +2510,10 @@ msgstr ""
 ">Desitgeu intentar la signatura de la clau en mode consola?</qt>"
 
 #: keysmanager.cpp:1978
-#, fuzzy, kde-format
-#| msgid "Signature"
+#, kde-format
 msgctxt "@action:button"
 msgid "Sign"
-msgstr "Signatura"
+msgstr "Signa"
 
 #: keysmanager.cpp:2094
 #, kde-format
@@ -2699,7 +2695,7 @@ msgstr "&Desencripta el porta-retalls"
 msgid "&Sign/Verify Clipboard"
 msgstr "&Signa/Verifica el porta-retalls"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
+#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "El porta-retalls està buit."
@@ -3017,7 +3013,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Usa la selecció del ratolí en comptes del porta-retalls."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:223
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Inicia el KGpg automàticament en engegar el KDE."
@@ -3121,7 +3117,7 @@ msgstr "Color usat per a les claus expirades."
 #: kgpg.kcfg:218
 #, kde-format
 msgid "Font"
-msgstr "Tipus de lletra"
+msgstr "Lletra"
 
 #. i18n: ectx: label, entry (KeyServers), group (Servers)
 #: kgpg.kcfg:241
@@ -3239,7 +3235,7 @@ msgid "KGpg needs to know which GnuPG binary to use."
 msgstr ""
 "El KGpg necessita saber a on està el fitxer executable del GnuPG a usar."
 
-#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:127
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3248,54 +3244,54 @@ msgstr ""
 "A menys que vulgueu provar algunes opcions poc usuals, simplement cliqueu a "
 "sobre del botó «següent»."
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
+#: kgpgfirstassistant.cpp:102
 #, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "Executable del GnuPG"
 
-#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
+#: kgpgfirstassistant.cpp:103
 #, kde-format
 msgid "All files"
 msgstr "Tots els fitxers"
 
-#: kgpgfirstassistant.cpp:138
+#: kgpgfirstassistant.cpp:134
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr ""
 "El KGpg necessita saber a on està el vostre fitxer de configuració del GnuPG."
 
-#: kgpgfirstassistant.cpp:153
+#: kgpgfirstassistant.cpp:149
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "Camí al fitxer de configuració del GnuPG:"
 
-#: kgpgfirstassistant.cpp:167
+#: kgpgfirstassistant.cpp:163
 #, kde-format
 msgid "Configuration File"
 msgstr "Fitxer de configuració"
 
-#: kgpgfirstassistant.cpp:177
+#: kgpgfirstassistant.cpp:173
 #, kde-format
 msgid "Your default key:"
 msgstr "La vostra clau per omissió:"
 
-#: kgpgfirstassistant.cpp:196
+#: kgpgfirstassistant.cpp:192
 #, kde-format
 msgid "Default Key"
 msgstr "Clau per omissió"
 
-#: kgpgfirstassistant.cpp:217
+#: kgpgfirstassistant.cpp:213
 #, kde-format
 msgid "Generate new key"
 msgstr "Genera una clau nova"
 
-#: kgpgfirstassistant.cpp:231
+#: kgpgfirstassistant.cpp:227
 #, kde-format
 msgid "Done"
 msgstr "Fet"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3304,37 +3300,37 @@ msgstr ""
 "<qt><b>No s'ha trobat el fitxer de configuració del GnuPG</b>. S'hauria "
 "d'intentar crear un fitxer de configuració del KGpg?</qt>"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid "Create Config"
 msgstr "Crea la configuració"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid "Do Not Create"
 msgstr "No creïs"
 
-#: kgpgfirstassistant.cpp:253
+#: kgpgfirstassistant.cpp:249
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>No s'ha trobat el fitxer de configuració del GnuPG</b>.</qt>"
 
-#: kgpgfirstassistant.cpp:295
+#: kgpgfirstassistant.cpp:291
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "L'executable del GnuPG és: %1"
 
-#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
+#: kgpgfirstassistant.cpp:306 kgpgfirstassistant.cpp:362
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "Teniu la versió del GnuPG: %1"
 
-#: kgpgfirstassistant.cpp:317
+#: kgpgfirstassistant.cpp:309
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "La vostra clau per omissió és: %1"
 
-#: kgpgfirstassistant.cpp:368
+#: kgpgfirstassistant.cpp:360
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3796,61 +3792,61 @@ msgstr "Imprimeix certificat"
 msgid "Import into keyring"
 msgstr "Importa cap a l'anell de claus"
 
-#: main.cpp:39
+#: main.cpp:26
 #, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
 msgstr "<application>KGpg</application>"
 
-#: main.cpp:41
+#: main.cpp:28
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
 msgstr "KGpg - una IGU senzilla per al GnuPG"
 
-#: main.cpp:43
+#: main.cpp:30
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
 msgstr "&copy; 2003-2016, Els desenvolupadors del KGpg"
 
-#: main.cpp:45
+#: main.cpp:32
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Rolf Eike Beer"
 msgstr "Rolf Eike Beer"
 
-#: main.cpp:45
+#: main.cpp:32
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
 msgstr "Mantenidor"
 
-#: main.cpp:46
+#: main.cpp:33
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: main.cpp:46
+#: main.cpp:33
 #, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
 msgstr "Autor i antic mantenidor"
 
-#: main.cpp:47
+#: main.cpp:34
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jimmy Gilles"
 msgstr "Jimmy Gilles"
 
-#: main.cpp:48
+#: main.cpp:35
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:48
+#: main.cpp:35
 #, kde-format
 msgctxt "@info:credit"
 msgid "KF5 port"

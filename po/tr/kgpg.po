@@ -11,13 +11,13 @@
 # obsoleteman <tulliana@gmail.com>, 2010,2012.
 # Serkan Arıkuşu <kde-l10n-tr@kde.org>, 2004.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014.
-# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-04 01:36+0000\n"
-"PO-Revision-Date: 2023-12-03 13:07+0300\n"
+"POT-Creation-Date: 2024-01-05 01:36+0000\n"
+"PO-Revision-Date: 2024-01-04 16:13+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 24.01.85\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -403,7 +403,7 @@ msgid "Change..."
 msgstr "Değiştir..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:121
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "GnuPG İkilisi"
@@ -949,7 +949,7 @@ msgstr "Tanımlanmamış"
 #, kde-format
 msgctxt "No trust in key"
 msgid "None"
-msgstr "Hiçbiri"
+msgstr "Yok"
 
 #: core/convert.cpp:103
 #, kde-format
@@ -1005,7 +1005,7 @@ msgctxt "used to join a list of key types, e.g. 'encryption, signature'"
 msgid ", "
 msgstr ", "
 
-#: core/KGpgGroupNode.cpp:158
+#: core/KGpgGroupNode.cpp:154
 #, kde-format
 msgid "1 key"
 msgid_plural "%1 keys"
@@ -1031,7 +1031,7 @@ msgctxt "Name of uid (comment)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: core/KGpgRefNode.cpp:119 transactions/kgpgtransaction.cpp:277
+#: core/KGpgRefNode.cpp:115 transactions/kgpgtransaction.cpp:277
 #, kde-format
 msgid "[No user id found]"
 msgstr "[Kullanıcı No bulunamadı]"
@@ -1296,19 +1296,16 @@ msgid "Key file dropped on Editor"
 msgstr "Düzenleyiciye anahtar dosyası bırakıldı"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "Years"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr "Yıl"
+msgstr "Evet"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgctxt "No trust in key"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "Hiçbiri"
+msgstr "Hayır"
 
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
@@ -1530,7 +1527,7 @@ msgstr "Anahtar bulunamadı"
 #, kde-format
 msgctxt "no email address"
 msgid "none"
-msgstr "hiçbiri"
+msgstr "yok"
 
 #: keyinfodialog.cpp:214
 #, kde-format
@@ -1560,7 +1557,7 @@ msgstr ""
 #, kde-format
 msgctxt "no key comment"
 msgid "<em>none</em>"
-msgstr "<em>hiçbiri</em>"
+msgstr "<em>yok</em>"
 
 #: keyinfodialog.cpp:314
 #, kde-format
@@ -1985,7 +1982,7 @@ msgstr "En Düşük &Güvenilirlik"
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
-msgstr "&Hiçbiri"
+msgstr "&Yok"
 
 #: keysmanager.cpp:307
 #, kde-format
@@ -2420,14 +2417,14 @@ msgstr ""
 "iletişiminize dahil olmadığından emin olmak için anahtarın parmak izini "
 "telefonla veya anahtar sahibi ile görüşerek denetlemelisiniz.</qt>"
 
-#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:280
+#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:276
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:282
+#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:278
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
@@ -2508,11 +2505,10 @@ msgstr ""
 ">Anahtar imzalamayı konsol kipinde denemek ister misiniz?</qt>"
 
 #: keysmanager.cpp:1978
-#, fuzzy, kde-format
-#| msgid "Signature"
+#, kde-format
 msgctxt "@action:button"
 msgid "Sign"
-msgstr "İmza"
+msgstr "İmzala"
 
 #: keysmanager.cpp:2094
 #, kde-format
@@ -2692,7 +2688,7 @@ msgstr "Pano Şifresini Çö&z"
 msgid "&Sign/Verify Clipboard"
 msgstr "Pano&yu İmzala/Doğrula"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2793 keysmanager.cpp:2811
+#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Pano boş."
@@ -3010,7 +3006,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Pano yerine fare ile seçmeyi kullan."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:227
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:223
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "KDE başlangıcında K GPG'yi kendiliğinden başlat"
@@ -3231,7 +3227,7 @@ msgid "KGpg needs to know which GnuPG binary to use."
 msgstr ""
 "K GPG uygulamasının GnuPG ikili dosyasının nerede olduğunu bilmesi gerekir."
 
-#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:131
+#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:127
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3239,54 +3235,54 @@ msgid ""
 msgstr ""
 "Farklı bir ayar yapmayı düşünmüyorsanız yalnızca \"İleri\" düğmesine basın."
 
-#: kgpgfirstassistant.cpp:103 kgpgfirstassistant.cpp:107
+#: kgpgfirstassistant.cpp:102
 #, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "GnuPG ikilisi"
 
-#: kgpgfirstassistant.cpp:104 kgpgfirstassistant.cpp:107
+#: kgpgfirstassistant.cpp:103
 #, kde-format
 msgid "All files"
 msgstr "Tüm Dosyalar"
 
-#: kgpgfirstassistant.cpp:138
+#: kgpgfirstassistant.cpp:134
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr ""
 "K GPG, GnuPG yapılandırma dosyasının nerede olduğunu bilmek zorundadır."
 
-#: kgpgfirstassistant.cpp:153
+#: kgpgfirstassistant.cpp:149
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "GnuPG yapılandırma dosyası yolu:"
 
-#: kgpgfirstassistant.cpp:167
+#: kgpgfirstassistant.cpp:163
 #, kde-format
 msgid "Configuration File"
 msgstr "Yapılandırma Dosyası"
 
-#: kgpgfirstassistant.cpp:177
+#: kgpgfirstassistant.cpp:173
 #, kde-format
 msgid "Your default key:"
 msgstr "Öntanımlı Anahtarınız:"
 
-#: kgpgfirstassistant.cpp:196
+#: kgpgfirstassistant.cpp:192
 #, kde-format
 msgid "Default Key"
 msgstr "Öntanımlı Anahtar"
 
-#: kgpgfirstassistant.cpp:217
+#: kgpgfirstassistant.cpp:213
 #, kde-format
 msgid "Generate new key"
 msgstr "Yeni anahtar üret"
 
-#: kgpgfirstassistant.cpp:231
+#: kgpgfirstassistant.cpp:227
 #, kde-format
 msgid "Done"
 msgstr "Bitti"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3295,37 +3291,37 @@ msgstr ""
 "<qt><b>GnuPG yapılandırma dosyası bulunamadı</b>.K GPG bir yapılandırma "
 "dosyası oluşturmayı denesin mi?</qt>"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid "Create Config"
 msgstr "Yapılandırma Dosyası Oluştur"
 
-#: kgpgfirstassistant.cpp:245
+#: kgpgfirstassistant.cpp:241
 #, kde-format
 msgid "Do Not Create"
 msgstr "Oluşturma"
 
-#: kgpgfirstassistant.cpp:253
+#: kgpgfirstassistant.cpp:249
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>GnuPG yapılandırma dosyası bulunamadı</b>.</qt>"
 
-#: kgpgfirstassistant.cpp:295
+#: kgpgfirstassistant.cpp:291
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "GnuPG ikiliniz şurada: %1"
 
-#: kgpgfirstassistant.cpp:314 kgpgfirstassistant.cpp:370
+#: kgpgfirstassistant.cpp:306 kgpgfirstassistant.cpp:362
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "GnuPG sürümünüz: %1"
 
-#: kgpgfirstassistant.cpp:317
+#: kgpgfirstassistant.cpp:309
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "Öntanımlı anahtarınız: %1"
 
-#: kgpgfirstassistant.cpp:368
+#: kgpgfirstassistant.cpp:360
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3707,7 +3703,7 @@ msgstr "Sunucu URL'si:"
 #, kde-format
 msgctxt "no key available"
 msgid "none"
-msgstr "hiçbiri"
+msgstr "yok"
 
 #: kgpgoptions.cpp:488
 #, kde-format
@@ -3785,61 +3781,61 @@ msgstr "Sertifikayı yazdır"
 msgid "Import into keyring"
 msgstr "Anahtar zincirine içe aktar"
 
-#: main.cpp:39
+#: main.cpp:26
 #, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
 msgstr "<application>K GPG</application>"
 
-#: main.cpp:41
+#: main.cpp:28
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
 msgstr "K GPG - GnuPG için basit bir grafik kullanıcı arayüzü"
 
-#: main.cpp:43
+#: main.cpp:30
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
 msgstr "&copy; 2003-2016, K GPG Geliştiricileri"
 
-#: main.cpp:45
+#: main.cpp:32
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Rolf Eike Beer"
 msgstr "Rolf Eike Beer"
 
-#: main.cpp:45
+#: main.cpp:32
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
 msgstr "Projeyi Yürütücüsü"
 
-#: main.cpp:46
+#: main.cpp:33
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: main.cpp:46
+#: main.cpp:33
 #, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
 msgstr "Yazar ve eski proje yürütücüsü"
 
-#: main.cpp:47
+#: main.cpp:34
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jimmy Gilles"
 msgstr "Jimmy Gilles"
 
-#: main.cpp:48
+#: main.cpp:35
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:48
+#: main.cpp:35
 #, kde-format
 msgctxt "@info:credit"
 msgid "KF5 port"
