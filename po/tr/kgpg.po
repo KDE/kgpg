@@ -11,13 +11,13 @@
 # obsoleteman <tulliana@gmail.com>, 2010,2012.
 # Serkan Arıkuşu <kde-l10n-tr@kde.org>, 2004.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014.
-# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-19 02:30+0000\n"
-"PO-Revision-Date: 2023-12-03 13:07+0300\n"
+"PO-Revision-Date: 2024-01-04 16:13+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 24.01.85\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -949,7 +949,7 @@ msgstr "Tanımlanmamış"
 #, kde-format
 msgctxt "No trust in key"
 msgid "None"
-msgstr "Hiçbiri"
+msgstr "Yok"
 
 #: core/convert.cpp:103
 #, kde-format
@@ -1524,7 +1524,7 @@ msgstr "Anahtar bulunamadı"
 #, kde-format
 msgctxt "no email address"
 msgid "none"
-msgstr "hiçbiri"
+msgstr "yok"
 
 #: keyinfodialog.cpp:214
 #, kde-format
@@ -1554,7 +1554,7 @@ msgstr ""
 #, kde-format
 msgctxt "no key comment"
 msgid "<em>none</em>"
-msgstr "<em>hiçbiri</em>"
+msgstr "<em>yok</em>"
 
 #: keyinfodialog.cpp:314
 #, kde-format
@@ -1984,7 +1984,7 @@ msgstr "En Düşük &Güvenilirlik"
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
-msgstr "&Hiçbiri"
+msgstr "&Yok"
 
 #: keysmanager.cpp:315
 #, kde-format
@@ -3705,7 +3705,7 @@ msgstr "Sunucu URL'si:"
 #, kde-format
 msgctxt "no key available"
 msgid "none"
-msgstr "hiçbiri"
+msgstr "yok"
 
 #: kgpgoptions.cpp:486
 #, kde-format
