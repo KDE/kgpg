@@ -11,7 +11,7 @@
 # Sébastien Renard <Sebastien.Renard@digitalfox.org>, 2008.
 # Guillaume Pujol <guill.p@gmail.com>, 2008.
 # Paul Morin <m.paulmorin@gmail.com>, 2008.
-# SPDX-FileCopyrightText: 2013, 2023 Xavier Besnard <xavier.besnard@kde.org>
+# SPDX-FileCopyrightText: 2013, 2023, 2024 Xavier Besnard <xavier.besnard@kde.org>
 # Sebastien Renard <renard@kde.org>, 2013.
 # Vincent PINON <vincent.pinon@st.com>, 2013.
 # Vincent Pinon <vincent.pinon@laposte.net>, 2014, 2015, 2016, 2017.
