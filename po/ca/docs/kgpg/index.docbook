@@ -456,7 +456,7 @@
 </screenshot>
 
 <para
->En aquest exemple podeu veure un grup de claus que conté dues claus, dos parells de claus i tres claus públiques. La tercera columna mostra la confiança que teniu en les claus. El primer parell de claus és de confiança total i també és la clau per omissió (els caràcters en negreta), mentre que el segon ja ha expirat. Dues de les claus públiques són de confiança completa, mentre que l'última posseeix una confiança marginal. L'última clau està expandida, i mostra la seva subclau ElGamal, una identitat d'usuari addicional, ambdues de confiança marginal, i algunes de les seves signatures.</para>
+>En aquest exemple podeu veure un grup de claus que conté dues claus, dos parells de claus i tres claus públiques. La tercera columna mostra la confiança que teniu en les claus. El primer parell de claus és de confiança total i també és la clau per omissió (lletra negreta), mentre que el segon ja ha expirat. Dues de les claus públiques són de confiança completa, mentre que l'última posseeix una confiança marginal. L'última clau està expandida, i mostra la seva subclau ElGamal, una identitat d'usuari addicional, ambdues de confiança marginal, i algunes de les seves signatures.</para>
 <para
 >Les signatures permeten navegar pel vostre anell de claus. Si feu doble clic sobre una signatura o una clau mostrada com membre d'un grup, anireu directament a la seva clau primària corresponent.</para>
 </sect2>
@@ -701,7 +701,7 @@
 <para
 >Aquí podeu configurar la manera en què es mostra &kgpg;. Les opcions possibles són els colors que reflecteixen els diferents nivells de confiança de les claus en el <link linkend="keymanager"
 >gestor de claus</link
-> i les opcions del tipus de lletra per a l'<link linkend="editor"
+> i les opcions de la lletra per a l'<link linkend="editor"
 >editor</link
 >.</para>
 </sect2>

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-05 01:36+0000\n"
-"PO-Revision-Date: 2024-01-04 09:36+0100\n"
+"PO-Revision-Date: 2024-01-07 16:52+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -2283,8 +2283,8 @@ msgstr ""
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
-msgstr[0] "La publika ŝlosilo estis subcese eksportita al<br/>%2</qt>"
-msgstr[1] "La %1 publikaj ŝlosiloj estis subcese eksportita al<br/>%2</qt>"
+msgstr[0] "<qt>La publika ŝlosilo estis subcese eksportita al<br/>%2</qt>"
+msgstr[1] "<qt>La %1 publikaj ŝlosiloj estis subcese eksportita al<br/>%2</qt>"
 
 #: keysmanager.cpp:1494 keysmanager.cpp:1509 keysmanager.cpp:1523
 #, kde-format
@@ -4516,7 +4516,7 @@ msgstr "Enigu pasfrazon por <b>%1</b>"
 msgid "<p><b>Bad passphrase</b>. You have 1 try left.</p>"
 msgid_plural "<p><b>Bad passphrase</b>. You have %1 tries left.</p>"
 msgstr[0] "<p><b>Malbona pasfrazo</b>. Restas al vi 1 provo.</p>"
-msgstr[1] "<p><b>Malbona pasfrazo</b>. Restas al vi %1 provoj.</p"
+msgstr[1] "<p><b>Malbona pasfrazo</b>. Restas al vi %1 provoj.</p>"
 
 #: transactions/kgpgtransactionprivate.cpp:82
 #, kde-format
