@@ -5,14 +5,14 @@
 # Andrea Rizzi <rizzi@kde.org>, 2004.
 # Giovanni Venturi <jumpyj@tiscali.it>, 2004.
 # Nicola Ruggero <nicola@nxnt.org>, 2005, 2006, 2008, 2009, 2010, 2011, 2012, 2013.
-# Luigi Toscano <luigi.toscano@tiscali.it>, 2015, 2016, 2017, 2021, 2023.
+# Luigi Toscano <luigi.toscano@tiscali.it>, 2015, 2016, 2017, 2021, 2023, 2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-05 01:36+0000\n"
-"PO-Revision-Date: 2023-07-10 23:09+0200\n"
+"PO-Revision-Date: 2024-01-04 13:30+0100\n"
 "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -1300,19 +1300,16 @@ msgid "Key file dropped on Editor"
 msgstr "File chiave passato all'editor"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "Years"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr "Anni"
+msgstr "Sì"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgctxt "No trust in key"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "Nessuna"
+msgstr "No"
 
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
@@ -2522,8 +2519,7 @@ msgstr ""
 "b>. <br/>Vuoi provare a firmare la chiave in modalità console?</qt>"
 
 #: keysmanager.cpp:1978
-#, fuzzy, kde-format
-#| msgid "Signature"
+#, kde-format
 msgctxt "@action:button"
 msgid "Sign"
 msgstr "Firma"
