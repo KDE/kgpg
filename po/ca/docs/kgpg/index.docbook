@@ -170,7 +170,7 @@
 </screenshot>
 
 <para
->Aquest és el lloc central per a gestionar les vostres claus. Per obrir la <link linkend="keymanager"
+>Aquest és el lloc central per a gestionar les vostres claus. Per a obrir la <link linkend="keymanager"
 >finestra del gestor de claus</link
 >, feu clic amb el &BER; sobre la miniaplicació de &kgpg;. Podeu importar, exportar, signar i editar les vostres claus. Gran part de les accions es poden realitzar amb un clic del &BER; sobre una clau. </para>
 </listitem>
@@ -191,9 +191,9 @@
 </screenshot>
 
 <para
->És un editor de text simple, on podeu escriure o enganxar text per encriptar/desencriptar. Per obrir l'<link linkend="editor"
+>És un editor de text simple, on podeu escriure o enganxar text per a encriptar/desencriptar. Per a obrir l'<link linkend="editor"
 >editor</link
->, feu clic del &BDR; sobre la miniaplicació de &kgpg;. </para>
+>, feu clic amb el &BDR; sobre la miniaplicació de &kgpg;. </para>
 </listitem>
 </varlistentry>
 
@@ -266,7 +266,7 @@
 >Mode expert</guibutton
 >, el qual us oferirà una &konsole; amb totes les opcions de gpg.</para>
 <para
->Moltes persones juguen amb la seva primera clau, generen identificadors d'usuari incorrectes, afegeixen comentaris dels quals després se'n penedeixen o simplement obliden la seva frase de pas. Per evitar que aquestes claus tinguin validesa il·limitada sol ser una bona idea limitar la seva vida a uns 12 mesos. Podeu modificar la vida de la vostra clau secreta més endavant utilitzant la <link linkend="keyproperties"
+>Moltes persones juguen amb la seva primera clau, generen identificadors d'usuari incorrectes, afegeixen comentaris dels quals després se'n penedeixen o simplement obliden la seva frase de pas. Per a evitar que aquestes claus tinguin validesa il·limitada sol ser una bona idea limitar la seva vida a uns 12 mesos. Podeu modificar la vida de la vostra clau secreta més endavant utilitzant la <link linkend="keyproperties"
 >finestra de propietats de la clau</link
 >.</para>
 
@@ -277,7 +277,7 @@
 >Com revocar una clau</title>
 
 <para
->Un parell de claus que ha expirat es pot tornar a un estat funcional, sempre que tingueu accés a la clau privada i a la frase de pas. Per tornar llegible una clau inusable necessitareu revocar-la. La revocació es porta a terme mitjançant l'afegit d'una signatura de revocació especial a la clau.</para>
+>Un parell de claus que ha expirat es pot tornar a un estat funcional, sempre que tingueu accés a la clau privada i a la frase de pas. Per a tornar llegible una clau inusable necessitareu revocar-la. La revocació es porta a terme mitjançant l'afegit d'una signatura de revocació especial a la clau.</para>
 
 <para
 >Aquesta signatura de revocació es pot crear juntament amb la clau. En aquest cas, s'emmagatzema en un fitxer a part. Aquest fitxer podrà ser importar més endavant al clauer i després afegit a la clau inusable. Si us plau, tingueu en compte que per a la importació d'aquesta signatura a la clau no és necessària la contrasenya. Per tant, hauríem d'emmagatzemar aquesta signatura de revocació en un lloc segur, en general diferent del parell de claus. És un bon consell utilitzar un lloc separat del vostre ordinador, o bé copiar-la a un dispositiu d'emmagatzematge extern com una memòria USB o imprimir-la.</para>
@@ -362,7 +362,7 @@
 >.</para>
 
 <para
->Per assegurar-vos que podeu desencriptar qualsevol fitxer que heu encriptat, fins i tot si ho heu fet amb la clau d'un altre, podeu utilitzar les opcions <guilabel
+>Per a assegurar-vos que podeu desencriptar qualsevol fitxer que heu encriptat, fins i tot si ho heu fet amb la clau d'un altre, podeu utilitzar les opcions <guilabel
 >Encripta sempre amb</guilabel
 > i <guilabel
 >Encripta fitxers amb</guilabel
@@ -435,12 +435,12 @@
 >Gestió de claus</title>
 
 <para
->Totes les opcions bàsiques per a la gestió de claus poden realitzar-se a través de &kgpg;. Per obrir la finestra de gestió de claus feu clic amb el &BER; a la miniaplicació de &kgpg;. La majoria d'opcions estan disponibles amb un clic <mousebutton
+>Totes les opcions bàsiques per a la gestió de claus poden realitzar-se a través de &kgpg;. Per a obrir la finestra de gestió de claus feu clic amb el &BER; a la miniaplicació de &kgpg;. La majoria d'opcions estan disponibles amb un clic <mousebutton
 >dret</mousebutton
-> sobre una clau. Per importar/exportar claus públiques, podeu utilitzar arrossegar i deixar anar o les dreceres del teclat de copiar/enganxar.</para>
+> sobre una clau. Per a importar/exportar claus públiques, podeu utilitzar arrossegar i deixar anar o les dreceres del teclat de copiar/enganxar.</para>
 
 <para
->Podeu exportar una clau pública a través del correu electrònic, al porta-retalls, a un servidor de claus o a un fitxer local. Utilitzeu les opcions en el diàleg d'exportació per exportar-ho tot, exportar sense atributs (identificacions amb foto) o exportar una clau neta, &ead;, la clau incloent les seves subclaus, però excloent totes les signatures. </para>
+>Podeu exportar una clau pública a través del correu electrònic, al porta-retalls, a un servidor de claus o a un fitxer local. Utilitzeu les opcions en el diàleg d'exportació per a exportar-ho tot, exportar sense atributs (identificacions amb foto) o exportar una clau neta, &ead;, la clau incloent les seves subclaus, però excloent totes les signatures. </para>
 
 <sect2 id="keymanager">
 <title
@@ -458,7 +458,7 @@
 <para
 >En aquest exemple podeu veure un grup de claus que conté dues claus, dos parells de claus i tres claus públiques. La tercera columna mostra la confiança que teniu en les claus. El primer parell de claus és de confiança total i també és la clau per omissió (lletra negreta), mentre que el segon ja ha expirat. Dues de les claus públiques són de confiança completa, mentre que l'última posseeix una confiança marginal. L'última clau està expandida, i mostra la seva subclau ElGamal, una identitat d'usuari addicional, ambdues de confiança marginal, i algunes de les seves signatures.</para>
 <para
->Les signatures permeten navegar pel vostre anell de claus. Si feu doble clic sobre una signatura o una clau mostrada com membre d'un grup, anireu directament a la seva clau primària corresponent.</para>
+>Les signatures permeten navegar pel vostre anell de claus. Si feu doble clic sobre una signatura o una clau mostrada com a membre d'un grup, anireu directament a la seva clau primària corresponent.</para>
 </sect2>
 
 <sect2 id="keyproperties">
@@ -489,7 +489,7 @@
 <para
 >Quan signeu una clau d'una altra persona (a la que anomenarem Alícia) esteu anunciant que esteu segur que aquesta clau realment pertany a aquesta persona i que la clau és de confiança. Per descomptat, hauríeu de comprovar-ho. Això sol significar que us heu trobat amb Alícia, que almenys heu comprovat el seu carnet d'identitat i heu obtingut d'ella l'empremta digital completa de la seva clau o una còpia d'aquesta. A continuació heu tornat a casa i heu signat la clau de l'Alícia. Normalment, pujareu més tard la clau recentment signada a un <link linkend="keyserver"
 >servidor de claus</link
-> perquè tothom sàpiga que heu comprovat que la clau i el seu propietari són de confiança. Alícia probablement farà el mateix, de manera que ambos tindreu les vostres claus signades per l'altra persona. Si un de vosaltres no té el carnet d'identitat a mà, tampoc hi haurà cap problema si la signatura es fa en una única direcció.</para>
+> perquè tothom sàpiga que heu comprovat que la clau i el seu propietari són de confiança. Alícia probablement farà el mateix, de manera que ambdós tindreu les vostres claus signades per l'altra persona. Si un de vosaltres no té el carnet d'identitat a mà, tampoc hi haurà cap problema si la signatura es fa en una única direcció.</para>
 
 <para
 >Però penseu en el que succeeix si Alícia viu a l'altre extrem del món. Us hi comuniqueu amb regularitat, però no hi ha cap possibilitat que us veieu en un futur immediat. Com confiar en la seva clau?</para>
@@ -501,7 +501,7 @@
 
 <screenshot>
 <screeninfo
->Selecció d'una clau privada per signar</screeninfo>
+>Selecció d'una clau privada per a signar</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="select-secret-key.png" format="PNG"/></imageobject>
@@ -509,18 +509,18 @@
 </screenshot>
 
 <para
->En primer lloc podeu triar la clau que utilitzareu per signar la clau. Llavors podeu introduir el grau de confiança amb el que heu comprovat que realment és la persona que diu ser. Aquesta informació serà emmagatzemada juntament amb la signatura per la qual cosa és una guia per a tots els altres que puguin necessitar la signatura (tornarem a això més endavant). I després ve l'opció que us ajuda si no us podeu trobar amb Alícia en persona: <guilabel
+>En primer lloc, podeu triar la clau que utilitzareu per a signar la clau. Llavors podeu introduir el grau de confiança amb el que heu comprovat que realment és la persona que diu ser. Aquesta informació serà emmagatzemada juntament amb la signatura, per la qual cosa és una guia per a tots els altres que puguin necessitar la signatura (tornarem a això més endavant). I després ve l'opció que us ajuda si no us podeu trobar amb Alícia en persona: <guilabel
 >Signatura local (no es pot exportar)</guilabel
 >. Quan activeu aquesta opció es crearà una versió especial de la signatura que mai sortirà del vostre anell de claus, ni tan sols per accident.</para>
 
 <para
->Però. Per què és important la cura amb què s'ha comprovat la identitat d'Alícia? Qui ha de tenir cura? Hi ha una manera diferent de resoldre el vostre problema amb la identitat d'Alícia. Si no podeu visitar-la a curt termini penseu en Trent. Sabeu que Trent també té un parell de claus. I és un rodamon, en un continent diferent almenys dues vegades al mes. Si teniu sort potser cau a prop d'Alícia aviat. D'aquesta manera us podeu reunir amb en Trent per signar les vostres respectives claus. A continuació, enviareu una nota a Alice dient que Trent viatjarà aviat a la seva ciutat i li demanareu si es pot reunir amb ell per a signar les claus. Quan tot això hagi passat, ja sabíeu que la clau d'en Trent és de confiança i Trent sap que la clau d'Alícia és de confiança. Si confieu en Trent que ha verificat acuradament la identitat d'Alícia, aleshores també podeu confiar en la seva clau.</para>
+>Però. Per què és important la cura amb què s'ha comprovat la identitat d'Alícia? Qui ha de tenir cura? Hi ha una manera diferent de resoldre el vostre problema amb la identitat d'Alícia. Si no podeu visitar-la a curt termini penseu en Trent. Sabeu que Trent també té un parell de claus. I és un rodamon, en un continent diferent almenys dues vegades al mes. Si teniu sort potser cau a prop d'Alícia aviat. D'aquesta manera us podeu reunir amb en Trent per a signar les vostres respectives claus. A continuació, enviareu una nota a Alice dient que Trent viatjarà aviat a la seva ciutat i li demanareu si es pot reunir amb ell per a signar les claus. Quan tot això hagi passat, ja sabíeu que la clau d'en Trent és de confiança i Trent sap que la clau d'Alícia és de confiança. Si confieu en Trent que ha verificat acuradament la identitat d'Alícia, aleshores també podeu confiar en la seva clau.</para>
 
 <para
->Aquestes relacions entre les claus i els seus propietaris formen el que s'anomena una xarxa de confiança. Dins d'aquesta xarxa hi ha alguns valors importants que defineixen el fiable que és una clau en particular. El primer és la cura amb què s'ha comprovat la identitat del propietari de la clau. Aquest és el valor que hem vist a la finestra de selecció de la clau secreta. Per exemple, probablement sabeu com verificar el vostre carnet d'identitat local, però en un país completament diferent pot ser difícil de comprovar. Per tant es podria dir que heu revisat acuradament la identitat de Trent, perquè heu vist el seu carnet d'identitat i s'assembla molt al vostre. No obstant això, Trent, tot i que ha vist tant el document d'identitat i la llicència de conduir de l'Alícia podria dir que només ha fet una lleugera identificació, ja que no està absolutament segur quant als documents en aquesta part del món.</para>
+>Aquestes relacions entre les claus i els seus propietaris formen el que s'anomena una xarxa de confiança. Dins d'aquesta xarxa hi ha alguns valors importants que defineixen el fiable que és una clau en particular. El primer és la cura amb què s'ha comprovat la identitat del propietari de la clau. Aquest és el valor que hem vist a la finestra de selecció de la clau secreta. Per exemple, probablement sabeu com verificar el vostre carnet d'identitat local, però en un país completament diferent pot ser difícil de comprovar. Per tant, es podria dir que heu revisat acuradament la identitat de Trent, perquè heu vist el seu carnet d'identitat i s'assembla molt al vostre. No obstant això, Trent, tot i que ha vist tant el document d'identitat i la llicència de conduir de l'Alícia podria dir que només ha fet una lleugera identificació, ja que no està absolutament segur quant als documents en aquesta part del món.</para>
 
 <para
->El valor d'importància és la quantitat de confiança en l'altra persona per a verificar documents. Sabeu que en Trent és bo en això. Però George, per exemple, no és algú al que qualificaríeu d'intel·ligent. Ja que gairebé no va mirar el vostre carnet d'identitat quan us vàreu reunir amb ell per signar una clau. Esteu segur que en George és la persona que pretén ser perquè vàreu comprovar acuradament els seus documents. Però, segons sembla, ell no és igual de minuciós en el control d'altres persones pel que tindreu un alt nivell de confiança en la clau d'en George, però una confiança molt baixa en la seva signatura. Si obriu les <link linkend="keyproperties"
+>El valor d'importància és la quantitat de confiança en l'altra persona per a verificar documents. Sabeu que en Trent és bo en això. Però George, per exemple, no és algú al que qualificaríeu d'intel·ligent. Ja que gairebé no va mirar el vostre carnet d'identitat quan us vàreu reunir amb ell per a signar una clau. Esteu segur que en George és la persona que pretén ser perquè vàreu comprovar acuradament els seus documents. Però, segons sembla, ell no és igual de minuciós en el control d'altres persones pel que tindreu un alt nivell de confiança en la clau d'en George, però una confiança molt baixa en la seva signatura. Si obriu les <link linkend="keyproperties"
 >propietats</link
 > d'una clau trobareu el camp <guilabel
 >Confiança en el propietari</guilabel
@@ -595,7 +595,7 @@
 >Clau a importar</guilabel
 > a la part inferior de la finestra. En fer clic a <guibutton
 >Importa</guibutton
-> es torna a contactar amb el servidor per obtenir les seleccionades i incorporar-les al vostre anell de claus.</para>
+> es torna a contactar amb el servidor per a obtenir les seleccionades i incorporar-les al vostre anell de claus.</para>
 
 </sect2>
 
@@ -628,7 +628,7 @@
 </mediaobject>
 </screenshot>
 <para
->Aquí podeu configurar opcions especials per passar-les a GnuPG per canviar el comportament de l'encriptatge. Per a una descripció detallada, si us plau doneu un cop d'ull al manual de GnuPG.</para>
+>Aquí podeu configurar opcions especials per a passar-les a GnuPG per a canviar el comportament de l'encriptatge. Per a una descripció detallada, doneu un cop d'ull al manual de GnuPG.</para>
 <itemizedlist>
 <listitem
 ><para

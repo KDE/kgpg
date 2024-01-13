@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-05 01:36+0000\n"
-"PO-Revision-Date: 2024-01-05 01:16+0100\n"
+"PO-Revision-Date: 2024-01-11 02:11+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -485,7 +485,7 @@ msgstr ""
 "usarán el portapapeles de selección, es decir, resaltar un texto para "
 "copiar, y pulsar el botón central del ratón (o los botones derecho e "
 "izquierdo a la vez) para pegar. Si esta opción no está marcada, el "
-"portapapeles funcionará con los accesos rápidos (Ctrl+c, Ctrl+v).</p></qt> "
+"portapapeles funcionará con los atajos de teclado (Ctrl+c, Ctrl+v).</p></qt> "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseMouseSelection)
 #: conf_misc.ui:56
