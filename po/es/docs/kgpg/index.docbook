@@ -437,7 +437,7 @@
 <para
 >&kgpg; puede realizar todas las opciones básicas de administración de claves. Para abrir la ventana de administración de claves haga clic con el &LMB; en applet de &kgpg;. La mayor parte de las opciones están disponibles al hacer clic con el botón <mousebutton
 >derecho</mousebutton
-> del ratón sobre una clave. Para importar o exportar claves públicas puede usar el procedimiento de arrastrar y soltar o los accesos rápidos de teclado para copiar y pegar.</para>
+> del ratón sobre una clave. Para importar o exportar claves públicas puede usar el procedimiento de arrastrar y soltar o los atajos de teclado para copiar y pegar.</para>
 
 <para
 >Puede exportar una clave pública por correo electrónico, al portapapeles, a un servidor de claves o a un archivo local. Use las opciones del diálogo de exportación para exportar todo, para exportar sin atributos (identidades de fotos) o para exportar una clave «limpia» (&ie;, la clave sola, incluyendo sus subclaves, pero excluyendo todas las firmas). </para>
@@ -740,7 +740,7 @@
 >iniciar KGpg automáticamente al comenzar KDE</guilabel
 >. La opción <guilabel
 >usar la selección del ratón en lugar del portapapeles</guilabel
-> modifica si se puede seleccionar con el ratón y el pegado con el botón central del ratón, o si todas las operaciones se realizan mediante accesos rápidos de teclado.</para>
+> modifica si se puede seleccionar con el ratón y el pegado con el botón central del ratón, o si todas las operaciones se realizan mediante atajos de teclado.</para>
 <para
 >También puede cambiar si el icono de &kgpg; en la bandeja del sistema se muestra o no, y qué acción ocurre si se pulsa el icono con el &LMB;. Si se muestra el icono de la bandeja del sistema, el cierre de la ventana de &kgpg; minimizará la aplicación en la bandeja del sistema. Si este icono no se muestra, se saldrá de &kgpg; cuando se cierren todas sus ventanas.</para>
 </sect2>
