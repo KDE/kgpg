@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-05 01:36+0000\n"
-"PO-Revision-Date: 2024-01-04 08:27+0200\n"
+"PO-Revision-Date: 2024-01-12 17:13+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -2871,7 +2871,7 @@ msgstr ""
 "Amb KGpg podeu fer clic dret damunt de la clau després d'haver importat tots "
 "els ID d'usuari i seleccionar «Exporta la clau pública...».\n"
 "\n"
-"Si cal qualsevol aclariment, no dubteu en preguntar.\n"
+"Si cal qualsevol aclariment, no dubteu a preguntar.\n"
 
 #. i18n: ectx: label, entry (CustomDecrypt), group (Decryption)
 #: kgpg.kcfg:13
@@ -3592,7 +3592,7 @@ msgid ""
 msgstr ""
 "<qt><b>Foto:</b><p>Es pot incloure una foto en una clau pública per a una "
 "seguretat extra. La foto es pot utilitzar com un mètode addicional "
-"d'autenticar la clau. No obstant açò, no s'hauria de confiar-hi com l'única "
+"d'autenticar la clau. No obstant açò, no caldria confiar-hi com l'única "
 "forma d'autenticació.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, m_photo)
