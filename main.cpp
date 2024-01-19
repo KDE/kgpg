@@ -9,6 +9,7 @@
 
 #include <QCommandLineParser>
 #include <QDir>
+#include <QIcon>
 
 #include <KAboutData>
 #include <KCrash>
@@ -40,6 +41,8 @@ int main(int argc, char *argv[])
     about.setProductName(QByteArray("kgpg"));
 
     KAboutData::setApplicationData(about);
+
+    QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("kgpg")));
 
     QCommandLineParser parser;
     parser.setApplicationDescription(about.shortDescription());
