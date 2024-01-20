@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-05 01:36+0000\n"
+"POT-Creation-Date: 2024-01-20 00:39+0000\n"
 "PO-Revision-Date: 2010-01-09 16:00+0200\n"
 "Last-Translator: Viesturs Zarins <viesturs.zarins@mii.lu.lv>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -3782,66 +3782,66 @@ msgstr "Drukāt sertifikātu"
 msgid "Import into keyring"
 msgstr "Importēt atslēgu saisķī"
 
-#: main.cpp:26
+#: main.cpp:27
 #, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
 msgstr ""
 
-#: main.cpp:28
+#: main.cpp:29
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
 msgstr ""
 
-#: main.cpp:30
+#: main.cpp:31
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
 msgstr ""
 
-#: main.cpp:32
+#: main.cpp:33
 #, fuzzy, kde-kuit-format
 #| msgid "Rolf Eike Beer"
 msgctxt "@info:credit"
 msgid "Rolf Eike Beer"
 msgstr "Rolf Eike Beer"
 
-#: main.cpp:32
+#: main.cpp:33
 #, fuzzy, kde-format
 #| msgid "Maintainer"
 msgctxt "@info:credit"
 msgid "Maintainer"
 msgstr "Uzturētājs"
 
-#: main.cpp:33
+#: main.cpp:34
 #, fuzzy, kde-kuit-format
 #| msgid "Jean-Baptiste Mardelle"
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: main.cpp:33
+#: main.cpp:34
 #, fuzzy, kde-format
 #| msgid "Author and former maintainer"
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
 msgstr "Autors un iepriekšējais uzturētājs"
 
-#: main.cpp:34
+#: main.cpp:35
 #, fuzzy, kde-kuit-format
 #| msgid "Jimmy Gilles"
 msgctxt "@info:credit"
 msgid "Jimmy Gilles"
 msgstr "Jimmy Gilles"
 
-#: main.cpp:35
+#: main.cpp:36
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Andrius Štikonas"
 msgstr ""
 
-#: main.cpp:35
+#: main.cpp:36
 #, fuzzy, kde-format
 #| msgid "Key Import"
 msgctxt "@info:credit"

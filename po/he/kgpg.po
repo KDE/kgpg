@@ -4,13 +4,13 @@
 # Chen Levy <mailist@chenlevy.com>, 2006.
 # Diego Iastrubni <elcuco@kde.org>, 2012.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
-# SPDX-FileCopyrightText: 2023 Yaron Shahrabani <sh.yaron@gmail.com>
+# SPDX-FileCopyrightText: 2023, 2024 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-05 01:36+0000\n"
-"PO-Revision-Date: 2024-01-06 15:08+0200\n"
+"POT-Creation-Date: 2024-01-20 00:39+0000\n"
+"PO-Revision-Date: 2024-01-19 09:59+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -591,9 +591,9 @@ msgstr "עורך"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: conf_misc.ui:280
-#, fuzzy, kde-format
+#, kde-format
 msgid "Recent files"
-msgstr "הצפן קובץ"
+msgstr "קבצים אחרונים"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabSigning)
 #: conf_misc.ui:306
@@ -631,9 +631,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MailUats)
 #: conf_misc.ui:335
-#, fuzzy, kde-format
+#, kde-format
 msgid "Do not send"
-msgstr "לא להשתמש"
+msgstr "לא לשלוח"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
 #: conf_misc.ui:345
@@ -671,27 +671,27 @@ msgstr "כבד את המתווך של HTTP כשמתאפשר"
 
 #. i18n: ectx: property (text), widget (QPushButton, server_default)
 #: conf_servers.ui:49
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Set as Default"
-msgstr "קבע כברירת־מחדל"
+msgstr "ה&גדרה כברירת־מחדל"
 
 #. i18n: ectx: property (text), widget (QPushButton, server_add)
 #: conf_servers.ui:56
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Add..."
-msgstr "הוסף..."
+msgstr "הו&ספה…"
 
 #. i18n: ectx: property (text), widget (QPushButton, server_del)
 #: conf_servers.ui:66
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Delete"
-msgstr "&מחק מפתחות"
+msgstr "מ&חיקה"
 
 #. i18n: ectx: property (text), widget (QPushButton, server_edit)
 #: conf_servers.ui:73
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Edit..."
-msgstr "עורך"
+msgstr "ע&ריכה…"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: conf_ui2.ui:32
@@ -719,9 +719,9 @@ msgstr "מפתחות אמינים קיימים"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustExpired)
 #: conf_ui2.ui:72
-#, fuzzy, kde-format
+#, kde-format
 msgid "Expired keys:"
-msgstr "מפתחות לא תקפים/שמישים:"
+msgstr "מפתחות פגי תוקף:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustRevoked)
 #: conf_ui2.ui:82
@@ -737,9 +737,9 @@ msgstr "מפתחות לא ידועים:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustDisabled)
 #: conf_ui2.ui:102
-#, fuzzy, kde-format
+#, kde-format
 msgid "Disabled keys:"
-msgstr "הוצא מפתח משימוש"
+msgstr "מפתחות מושבתים:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage)
 #: conf_ui2.ui:225
@@ -749,9 +749,9 @@ msgstr "גופן הערוך"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabKeyList)
 #: conf_ui2.ui:230
-#, fuzzy, kde-format
+#, kde-format
 msgid "Key List"
-msgstr "רשימת מפתחות פרטיים"
+msgstr "רשימת מפתחות"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBoxSorting)
 #: conf_ui2.ui:236
@@ -1254,17 +1254,16 @@ msgid "Key file dropped on Editor"
 msgstr "פענח ופתח בעורך"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "Years"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr "שנים"
+msgstr "כן"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "כלום"
+msgstr "לא"
 
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
@@ -1299,14 +1298,14 @@ msgid "&Import"
 msgstr "&ייבא"
 
 #: editor/kgpgtextedit.cpp:333
-#, fuzzy, kde-format
+#, kde-format
 msgid "Import key in your list"
-msgstr "ייבא לתוך צרור־המפתח"
+msgstr "ייבוא מפתח לרשימה שלך"
 
 #: editor/kgpgtextedit.cpp:337
-#, fuzzy, kde-format
+#, kde-format
 msgid "Do &Not Import"
-msgstr "לא לייבא"
+msgstr "לא &לייבא"
 
 #: editor/kgpgtextedit.cpp:339
 #, kde-format
@@ -1325,10 +1324,10 @@ msgstr "מבצע דחיסת תיקייה והצפנה"
 
 #: foldercompressjob.cpp:63 foldercompressjob.cpp:114 foldercompressjob.cpp:133
 #: foldercompressjob.cpp:135 transactions/kgpgtransactionjob.cpp:59
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "State of operation as in status"
 msgid "State"
-msgstr "לחלוטין"
+msgstr "מצב"
 
 #: foldercompressjob.cpp:63 transactions/kgpgtransactionjob.cpp:32
 #, kde-format
@@ -1342,16 +1341,16 @@ msgid "Unable to create temporary file"
 msgstr "אין אפשרות ליצור קובץ זמני"
 
 #: foldercompressjob.cpp:115 transactions/kgpgencrypt.cpp:92
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Status message 'Encrypting <filename>' (operation starts)"
 msgid "Encrypting %1"
-msgstr "מפענח  %1"
+msgstr "%1 מוצפן"
 
 #: foldercompressjob.cpp:136 transactions/kgpgencrypt.cpp:95
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Status message 'Encrypted <filename>' (operation was completed)"
 msgid "Encrypted %1"
-msgstr "מפענח  %1"
+msgstr "%1 הוצפן"
 
 #: foldercompressjob.cpp:167
 #, kde-format
@@ -1359,14 +1358,14 @@ msgid "Zip"
 msgstr "Zip"
 
 #: foldercompressjob.cpp:168
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tar/Gzip"
-msgstr "Gzip"
+msgstr "Tar/Gzip"
 
 #: foldercompressjob.cpp:169
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tar/Bzip2"
-msgstr "Bzip2"
+msgstr "Tar/Bzip2"
 
 #: foldercompressjob.cpp:170
 #, kde-format
@@ -1379,9 +1378,9 @@ msgid "Tar/XZ"
 msgstr ""
 
 #: groupedit.cpp:30
-#, fuzzy, kde-format
+#, kde-format
 msgid "Available Keys"
-msgstr "מפתחות אמינים קיימים"
+msgstr "מפתחות זמינים"
 
 #: groupedit.cpp:33
 #, kde-format
@@ -1391,15 +1390,15 @@ msgstr "מפתחות אמינים קיימים"
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: groupedit.ui:38 keysmanager.cpp:418 searchres.ui:29
-#, fuzzy, kde-format
+#, kde-format
 msgid "Search:"
-msgstr "חפש: "
+msgstr "חיפוש:"
 
 #. i18n: ectx: property (text), widget (QLabel, kActiveLabel1)
 #: groupedit.ui:84
-#, fuzzy, kde-format
+#, kde-format
 msgid "Keys in the Group"
-msgstr "<b>מפתחות בקבוצה</b>"
+msgstr "מפתחות בקבוצה"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, KeyExport)
 #: keyexport.ui:26
@@ -1409,16 +1408,16 @@ msgstr "ייצוא מפתח ציבורי"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkMail)
 #: keyexport.ui:41
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Export a key via email"
 msgid "E&mail"
-msgstr "דוא\"ל:"
+msgstr "&דוא״ל"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkClipboard)
 #: keyexport.ui:48 sourceselect.ui:35
-#, fuzzy, kde-format
+#, kde-format
 msgid "C&lipboard"
-msgstr "לוח עריכה"
+msgstr "&לוח גזירים"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, checkServer)
 #: keyexport.ui:58
@@ -1430,9 +1429,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkServer)
 #: keyexport.ui:61
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Key server:"
-msgstr "שרת המפתחות:"
+msgstr "שרת מ&פתחות:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkFile)
 #: keyexport.ui:75 sourceselect.ui:44
@@ -1442,30 +1441,30 @@ msgstr "קובץ:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, buttonGroup3)
 #: keyexport.ui:95
-#, fuzzy, kde-format
+#, kde-format
 msgid "Export Settings"
-msgstr "הגדרות גלובליות"
+msgstr "ייצוא הגדרות"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkAttrAll)
 #: keyexport.ui:101
-#, fuzzy, kde-format
+#, kde-format
 msgid "E&xport everything"
-msgstr "הגדרות גלובליות"
+msgstr "ייצוא של ה&כול"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkAttrPhoto)
 #: keyexport.ui:111
-#, fuzzy, kde-format
+#, kde-format
 msgid "Do &not export attributes (photo ids)"
-msgstr "ייצא תכונות (מספר זיהוי של תצלום)"
+msgstr "לא לייצא &תכונות (מזהי תמונות)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkAttrClean)
 #: keyexport.ui:118
-#, fuzzy, kde-format
+#, kde-format
 msgctxt ""
 "@option:radio Exports the smallest key possible. Maps to export-minimal "
 "option of gpg"
 msgid "Clean key"
-msgstr "הוצא מפתח משימוש"
+msgstr "מפתח נקי"
 
 #: keyinfodialog.cpp:175
 #, kde-format
@@ -1475,15 +1474,15 @@ msgid ""
 msgstr ""
 
 #: keyinfodialog.cpp:175
-#, fuzzy, kde-format
+#, kde-format
 msgid "Key not found"
-msgstr "<b>מפתחות בקבוצה</b>"
+msgstr "מפתח לא נמצא"
 
 #: keyinfodialog.cpp:189
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "no email address"
 msgid "none"
-msgstr "כלום"
+msgstr "אין"
 
 #: keyinfodialog.cpp:214
 #, kde-format
@@ -1493,7 +1492,7 @@ msgid ""
 msgstr ""
 
 #: keyinfodialog.cpp:217
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Unlimited key lifetime"
 msgid "Unlimited"
 msgstr "בלתי מוגבל"
@@ -1517,14 +1516,14 @@ msgid "Bad old passphrase, the passphrase for the key was not changed"
 msgstr "הססמה עבור המפתח שונתה"
 
 #: keyinfodialog.cpp:314
-#, fuzzy, kde-format
+#, kde-format
 msgid "Could not change passphrase"
-msgstr "אי אפשר להחליף תאריך תפוגה"
+msgstr "לא ניתן להחליף את מילת הצופן"
 
 #: keyinfodialog.cpp:319
-#, fuzzy, kde-format
+#, kde-format
 msgid "KGpg was unable to change the passphrase."
-msgstr "אי אפשר להחליף תאריך תפוגה"
+msgstr "KGpg לא הצליח לשנות את מילת הצופן."
 
 #: keyinfodialog.cpp:368
 #, kde-format
@@ -1533,9 +1532,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, gr_properties)
 #: keyinfodialog.cpp:368 kgpgKeyInfo.ui:37
-#, fuzzy, kde-format
+#, kde-format
 msgid "Key properties"
-msgstr "תכונות המפתח"
+msgstr "מאפייני מפתח"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel1)
 #: keyserver.ui:39
@@ -1617,9 +1616,9 @@ msgstr "&חפש"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_export)
 #: keyserver.ui:171
-#, fuzzy, kde-format
+#, kde-format
 msgid "Export"
-msgstr "יי&צא"
+msgstr "ייצוא"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel4)
 #: keyserver.ui:191
@@ -1685,10 +1684,10 @@ msgid "No keyservers defined"
 msgstr ""
 
 #: keyservers.cpp:142
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Caption of message box"
 msgid "Key Import Finished"
-msgstr "ייבוא מפתח"
+msgstr "ייבוא מפתח הושלם"
 
 #: keyservers.cpp:170
 #, kde-format
@@ -1701,10 +1700,10 @@ msgid "Upload to keyserver failed"
 msgstr ""
 
 #: keyservers.cpp:195
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Window title"
 msgid "Import Key From Keyserver"
-msgstr "יבא מפתח משרת־המפתחות"
+msgstr "ייבוא מפתח משרת־מפתחות"
 
 #: keyservers.cpp:206
 #, kde-format
@@ -1717,9 +1716,9 @@ msgid "You must choose a key."
 msgstr "עליך לבחור מפתח."
 
 #: keyservers.cpp:372
-#, fuzzy, kde-format
+#, kde-format
 msgid "No matching keys found"
-msgstr "נמצאו %1 מפתחות תואמים"
+msgstr "לא נמצאו מפתחות תואמים"
 
 #: keyservers.cpp:375
 #, fuzzy, kde-format
@@ -1731,14 +1730,14 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: keyservers.cpp:378
-#, fuzzy, kde-format
+#, kde-format
 msgid "Found 1 matching key (not shown)"
-msgstr "נמצאו %1 מפתחות תואמים"
+msgstr "נמצא מפתח תואם (לא מופיע)"
 
 #: keyservers.cpp:380
-#, fuzzy, kde-format
+#, kde-format
 msgid "Found %1 matching keys (%2 shown)"
-msgstr "נמצאו %1 מפתחות תואמים"
+msgstr " נמצאו %1 מפתחות תואמים (%2 מופיעים)"
 
 #: keysmanager.cpp:125
 #, kde-format
@@ -1776,14 +1775,14 @@ msgid "Show &Long Key Id"
 msgstr ""
 
 #: keysmanager.cpp:167
-#, fuzzy, kde-format
+#, kde-format
 msgid "K&ey Properties"
-msgstr "תכונות המפתח"
+msgstr "מ&אפייני מפתח"
 
 #: keysmanager.cpp:171
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Open Key URL"
-msgstr "פתח מנהל &מפתחות"
+msgstr "פתיחת כתובת &מפתח"
 
 #: keysmanager.cpp:175
 #, kde-format
@@ -1811,9 +1810,9 @@ msgid "&Create New Contact in Address Book"
 msgstr "צור &איש־קשר חדש בספר־הכתובות"
 
 #: keysmanager.cpp:204
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Edit Group..."
-msgstr "&ערוך קבוצה"
+msgstr "&עריכת קבוצה…"
 
 #: keysmanager.cpp:207
 #, kde-format
@@ -1821,9 +1820,9 @@ msgid "&Delete Group"
 msgstr "&מחק קבוצה"
 
 #: keysmanager.cpp:211
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Rename Group"
-msgstr "&מחק קבוצה"
+msgstr "&שינוי שם קבוצה"
 
 #: keysmanager.cpp:220
 #, kde-format
@@ -1831,14 +1830,14 @@ msgid "Set as De&fault Key"
 msgstr "&קבע כמפתח ברירת־מחדל"
 
 #: keysmanager.cpp:223
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Add Photo..."
-msgstr "&הוסף תצלום"
+msgstr "&הוספת תמונה…"
 
 #: keysmanager.cpp:226
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Add User Id..."
-msgstr "&הוסף מספר־זיהוי משתמש"
+msgstr "&הוספת מזהה משתמש…"
 
 #: keysmanager.cpp:229
 #, kde-format
@@ -1906,19 +1905,19 @@ msgid "&Photo ID's"
 msgstr "מספר זיהוי של &תצלום"
 
 #: keysmanager.cpp:297
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "קטן"
 
 #: keysmanager.cpp:298
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "בינוני"
 
 #: keysmanager.cpp:299
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "גדול"
@@ -1929,10 +1928,10 @@ msgid "Minimum &Trust"
 msgstr ""
 
 #: keysmanager.cpp:306
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
-msgstr "כלום"
+msgstr "&ללא"
 
 #: keysmanager.cpp:307
 #, kde-format
@@ -1941,16 +1940,16 @@ msgid "&Active"
 msgstr ""
 
 #: keysmanager.cpp:308
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
-msgstr "שולי"
+msgstr "&גבולי"
 
 #: keysmanager.cpp:309
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
-msgstr "מלא"
+msgstr "&מלא"
 
 #: keysmanager.cpp:310
 #, fuzzy, kde-format
@@ -1959,15 +1958,15 @@ msgid "&Ultimate"
 msgstr "לחלוטין"
 
 #: keysmanager.cpp:335
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Show Only Secret Keys"
-msgstr "ה&צג מפתחות סודיים בלבד"
+msgstr "לה&ציג מפתחות סודיים בלבד"
 
 #: keysmanager.cpp:435
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
-msgstr "חפש: "
+msgstr "התמקדות על שורת החיפוש"
 
 #: keysmanager.cpp:483
 #, kde-format
@@ -1977,9 +1976,9 @@ msgid ""
 msgstr ""
 
 #: keysmanager.cpp:484 keysmanager.cpp:522 keysmanager.cpp:570
-#, fuzzy, kde-format
+#, kde-format
 msgid "Generating new key pair"
-msgstr "מייצר זוג מפתחות חדש."
+msgstr "מייצר זוג מפתחות חדש"
 
 #: keysmanager.cpp:523
 #, kde-format
@@ -1987,15 +1986,15 @@ msgid "Can not start \"konsole\" application for expert mode."
 msgstr ""
 
 #: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "מוכן"
 
 #: keysmanager.cpp:574 transactions/kgpggeneratekey.cpp:194
-#, fuzzy, kde-format
+#, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
-msgstr "ססמה שגויה, החתימה לא נוצרה."
+msgstr "מילת צופן שגויה. לא ניתן לייצר צמד מפתחות חדש."
 
 #: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:197
 #, kde-format
@@ -3622,13 +3621,13 @@ msgstr "צור אשרת ביטול־תוקף עבור"
 #: kgpgrevokewidget.ui:28
 #, kde-format
 msgid "key id"
-msgstr "מספר זיהוי למפתח"
+msgstr "מזהה מפתח"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: kgpgrevokewidget.ui:45
 #, kde-format
 msgid "Reason for revocation:"
-msgstr "סיבה לאיפוס:"
+msgstr "סיבה לשלילה:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, comboBox1)
 #: kgpgrevokewidget.ui:56
@@ -3664,75 +3663,75 @@ msgstr "תיאור:"
 #: kgpgrevokewidget.ui:96
 #, kde-format
 msgid "Save certificate:"
-msgstr "שמור אישור:"
+msgstr "שמירת אישור:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cbPrint)
 #: kgpgrevokewidget.ui:111
 #, kde-format
 msgid "Print certificate"
-msgstr "הדפס אישור"
+msgstr "הדפסת אישור"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cbImport)
 #: kgpgrevokewidget.ui:121
 #, kde-format
 msgid "Import into keyring"
-msgstr "ייבא לתוך צרור־המפתח"
+msgstr "ייבוא לתוך צרור־מפתחות"
 
-#: main.cpp:26
+#: main.cpp:27
 #, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
 msgstr ""
 
-#: main.cpp:28
+#: main.cpp:29
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
 msgstr ""
 
-#: main.cpp:30
+#: main.cpp:31
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
 msgstr ""
 
-#: main.cpp:32
+#: main.cpp:33
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Rolf Eike Beer"
 msgstr ""
 
-#: main.cpp:32
+#: main.cpp:33
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
 msgstr ""
 
-#: main.cpp:33
+#: main.cpp:34
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
 msgstr ""
 
-#: main.cpp:33
+#: main.cpp:34
 #, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
 msgstr ""
 
-#: main.cpp:34
+#: main.cpp:35
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jimmy Gilles"
 msgstr ""
 
-#: main.cpp:35
+#: main.cpp:36
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Andrius Štikonas"
 msgstr ""
 
-#: main.cpp:35
+#: main.cpp:36
 #, fuzzy, kde-format
 msgctxt "@info:credit"
 msgid "KF5 port"
@@ -3875,7 +3874,7 @@ msgstr ""
 #: newkey.ui:140
 #, kde-format
 msgid "Set as your default key"
-msgstr "קבע כמפתח ברירת המחדל"
+msgstr "הגדרה כמפתח ברירת המחדל שלך"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: newkey.ui:152

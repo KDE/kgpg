@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-05 01:36+0000\n"
+"POT-Creation-Date: 2024-01-20 00:39+0000\n"
 "PO-Revision-Date: 2022-11-02 08:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <kde-i18n-doc@kde.org>\n"
@@ -3476,61 +3476,61 @@ msgstr "Printar li certificate"
 msgid "Import into keyring"
 msgstr "Importar al porta-clave"
 
-#: main.cpp:26
+#: main.cpp:27
 #, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
 msgstr "<application>KGpg</application>"
 
-#: main.cpp:28
+#: main.cpp:29
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
 msgstr "KGpg - un simplic interfacie por GnuPG"
 
-#: main.cpp:30
+#: main.cpp:31
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
 msgstr "&copy; 2003-2016, Li developatores de KGpg"
 
-#: main.cpp:32
+#: main.cpp:33
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Rolf Eike Beer"
 msgstr "Rolf Eike Beer"
 
-#: main.cpp:32
+#: main.cpp:33
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
 msgstr "Mantenetor"
 
-#: main.cpp:33
+#: main.cpp:34
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
 msgstr "Jean-Baptiste Mardelle"
 
-#: main.cpp:33
+#: main.cpp:34
 #, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
 msgstr "Autor e anteyan mantenetor"
 
-#: main.cpp:34
+#: main.cpp:35
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jimmy Gilles"
 msgstr "Jimmy Gilles"
 
-#: main.cpp:35
+#: main.cpp:36
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:35
+#: main.cpp:36
 #, kde-format
 msgctxt "@info:credit"
 msgid "KF5 port"
