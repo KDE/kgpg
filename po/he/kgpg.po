@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-20 00:39+0000\n"
-"PO-Revision-Date: 2024-01-19 09:59+0200\n"
+"PO-Revision-Date: 2024-01-26 08:52+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -178,7 +178,7 @@ msgstr ""
 #: conf_encryption.ui:45
 #, kde-format
 msgid "Use *.pgp extension for encrypted files"
-msgstr "השתמש בסיומת pgp.* עבור קבצים מוצפנים"
+msgstr "להשתמש בסיומת pgp.* עבור קבצים מוצפנים"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowCustomEncryptionOptions)
 #: conf_encryption.ui:69
@@ -260,7 +260,7 @@ msgstr ""
 #: conf_encryption.ui:138 selectpublickeydialog.cpp:110
 #, kde-format
 msgid "Allow encryption with untrusted keys"
-msgstr "אפשר הצפנה עם מפתחות לא אמינים"
+msgstr "לאפשר הצפנה עם מפתחות לא אמינים"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowUntrustedGroupMembers)
 #: conf_encryption.ui:145
@@ -301,7 +301,7 @@ msgstr ""
 #: conf_encryption.ui:159 selectpublickeydialog.cpp:119
 #, kde-format
 msgid "Hide user id"
-msgstr "הסתר מספר־זיהוי של משתמש"
+msgstr "הסתרת מזהה משתמש"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_PgpCompatibility)
 #: conf_encryption.ui:167
@@ -375,7 +375,7 @@ msgstr "קובץ ההגדרות:"
 #: conf_gpg.ui:96
 #, kde-format
 msgid "Change..."
-msgstr "שינוי..."
+msgstr "שינוי…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
@@ -3894,7 +3894,7 @@ msgstr "מומלץ לשמור או להדפיס את אשרת ביטול־התו
 #: newkey.ui:170
 #, kde-format
 msgid "Save as:"
-msgstr "שמור בשם:"
+msgstr "שמירה בשם:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CBprint)
 #: newkey.ui:186
@@ -3912,12 +3912,12 @@ msgstr "ה&צג מפתחות סודיים בלבד"
 #: searchres.ui:73
 #, kde-format
 msgid "Key to import:"
-msgstr "מפתח לייבא:"
+msgstr "מפתח לייבוא:"
 
 #: selectexpirydate.cpp:23
 #, kde-format
 msgid "Choose New Expiration"
-msgstr "בחר תאריך תוקף חדש"
+msgstr "בחירת פקיעת תוקף חדשה"
 
 #: selectexpirydate.cpp:37
 #, fuzzy, kde-format
@@ -3933,12 +3933,12 @@ msgstr ""
 #: selectpublickeydialog.cpp:61
 #, kde-format
 msgid "Select Public Key"
-msgstr "בחר מפתח ציבורי"
+msgstr "בחירת מפתח ציבורי"
 
 #: selectpublickeydialog.cpp:64
 #, kde-format
 msgid "Select Public Key for %1"
-msgstr "בחר מפתח ציבורי עבור %1"
+msgstr "בחירת מפתח ציבורי עבור %1"
 
 #: selectpublickeydialog.cpp:67
 #, fuzzy, kde-format
@@ -3958,14 +3958,14 @@ msgstr "חפש: "
 #, kde-format
 msgid ""
 "<b>Public keys list</b>: select the key that will be used for encryption."
-msgstr "<b> רשימת מפתחות ציבוריים</b>: בחר את המפתח שישמש להצפנה."
+msgstr "<b>רשימת מפתחות ציבוריים</b>: נא לבחור את המפתח שישמש להצפנה."
 
 #: selectpublickeydialog.cpp:107
 #, kde-format
 msgid ""
 "<b>ASCII encryption</b>: makes it possible to open the encrypted file/"
 "message in a text editor"
-msgstr "<b>ASCII הצפנת</b> מאפשרת לפתוח קובץ/הודעה מוצפנים בעורך טקסט"
+msgstr "<b>ASCII הצפנת</b>: מאפשרת לפתוח קובץ/הודעה מוצפנים בעורך טקסט"
 
 #: selectpublickeydialog.cpp:115
 #, kde-format
@@ -3975,9 +3975,9 @@ msgid ""
 "in order to make it 'trusted'. Checking this box enables you to use any key, "
 "even if it has not be signed."
 msgstr ""
-"<b> אפשר הצפנה עם מפתחות לא אמינים</b>: כאשר אתה מייבא מפתח ציבורי, בדרך כלל "
-"הוא מסומן כבלתי־אמין, ואינך יכול להשתמש בו, אלא אם כן חתמת עליו, על־מנת "
-"להפכו לאמין. סימן תיבה זו, מאפשר לך להשתמש בכל מפתח גם אם הוא אינו חתום."
+"<b>לאפשר הצפנה עם מפתחות לא אמינים</b>: בעת ייבוא מפתח ציבורי, בדרך כלל הוא "
+"מסומן כבלתי־אמין, ואי אפשר להשתמש בו, אלא אם כן חתמת עליו, על־מנת להפוך אותו "
+"ל‚מהימן’. סימון תיבה זו, מאפשר לך להשתמש בכל מפתח גם אם הוא אינו חתום."
 
 #: selectpublickeydialog.cpp:122
 #, kde-format
@@ -4428,7 +4428,7 @@ msgstr[3] ""
 #: transactions/kgpgkeyservertransaction.cpp:87
 #, kde-format
 msgid "<b>Connecting to the server...</b>"
-msgstr "<b>…חיבור לשרת</b>"
+msgstr "<b>התחברות לשרת...</b>"
 
 #: transactions/kgpgkeyservertransaction.cpp:88
 #, fuzzy, kde-format
