@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-20 00:39+0000\n"
-"PO-Revision-Date: 2016-11-04 11:09+0200\n"
+"PO-Revision-Date: 2024-02-03 12:11+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Lokalize 1.5\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -500,7 +500,7 @@ msgstr ""
 #: conf_misc.ui:97
 #, kde-format
 msgid "Applet && Menus"
-msgstr "Įskiepiai ir meniu"
+msgstr "Programėlės ir meniu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox11)
 #: conf_misc.ui:103
@@ -568,7 +568,7 @@ msgstr "Įgalinti su užšifruotais failais"
 #: conf_misc.ui:201
 #, kde-format
 msgid "System Tray Applet"
-msgstr "Sistemos dėklo įskiepis"
+msgstr "Sistemos dėklo programėlė"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowSystray)
 #: conf_misc.ui:208
