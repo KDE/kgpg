@@ -1209,19 +1209,16 @@ msgid "Key file dropped on Editor"
 msgstr ""
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "Years"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr "Let"
+msgstr "Ano"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgctxt "No trust in key"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "Žádný"
+msgstr "Ne"
 
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
@@ -2395,11 +2392,10 @@ msgstr ""
 "zkusit podepsat klíč v konzoli?</qt>"
 
 #: keysmanager.cpp:1978
-#, fuzzy, kde-format
-#| msgid "Signature"
+#, kde-format
 msgctxt "@action:button"
 msgid "Sign"
-msgstr "Podpis"
+msgstr "Podepsat"
 
 #: keysmanager.cpp:2094
 #, kde-format
@@ -4461,90 +4457,3 @@ msgstr "<para>Podpis je platný, ale klíč není důvěryhodný</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Podpis je platný a klíč je maximálně důvěryhodný</para>"
-
-#~ msgid ""
-#~ "The document could not been saved, as the selected encoding cannot encode "
-#~ "every unicode character in it."
-#~ msgstr ""
-#~ "Dokument nemohl být uložen, protože vybrané kódování nemůže kódovat "
-#~ "všechny znaky unicode v něm uložené."
-
-#~ msgid "Tip of the &Day"
-#~ msgstr "Tip &dne"
-
-#~ msgid "Show tip of the day."
-#~ msgstr "Zobrazit tip den."
-
-#~ msgid ""
-#~ "<p>If you want to decrypt a text file, simply drag and drop it into the "
-#~ "editor window. KGpg will do the rest. Even remote files can be dropped.</"
-#~ "p>\n"
-#~ "<p>Drag a public key into the editor window and kgpg will automatically "
-#~ "import it if you want.</p>\n"
-#~ msgstr ""
-#~ "<p>Jestliže si přejete dešifrovat textový soubor, prostě jej přetáhněte a "
-#~ "upusťte do okna editoru. KGpg se postará o zbytek. Lze upustit i vzdálené "
-#~ "soubory.</p>\n"
-#~ "<p>Jestliže si přejete tak přetáhněte do okna editoru veřejný klíč, a "
-#~ "KGpg jej automaticky naimportuje.</p>\n"
-
-#~ msgid ""
-#~ "<p>The easiest way to encrypt a file: simply right click on the file, and "
-#~ "you have an encrypt option in the contextual menu.\n"
-#~ "This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
-#~ msgstr ""
-#~ "<p>Nejjednodušší cesta k šifrování souboru: klikněte pravým tlačítkem na "
-#~ "soubor a v kontextové nabídce uvidíte volbu zašifrovat.\n"
-#~ "Pracuje v <strong>Konqueroru</strong> a na ploše.</p>\n"
-
-#~ msgid ""
-#~ "<p>If you want to encrypt a message for several persons, just select "
-#~ "several encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
-#~ msgstr ""
-#~ "<p>Jestliže si přejete zašifrovat zprávu pro více lidí, prostě vyberte "
-#~ "více šifrovacích klíčů přidržením klávesy „Ctrl“.</p>\n"
-
-#~ msgid ""
-#~ "<p><strong>You do not have to be an expert in encryption to use this tool?"
-#~ "</strong><br>\n"
-#~ "Simply create yourself a key pair in the key management window. Then, "
-#~ "export your public key and mail it to your friends.<br>\n"
-#~ "Ask them to do the same and import their public keys. Finally, to send an "
-#~ "encrypted message, type it in the KGpg editor, then click &quot;"
-#~ "encrypt&quot;. Choose\n"
-#~ "your friend's key and click &quot;encrypt&quot; again. The message will "
-#~ "be encrypted, ready to be sent by email.</p>\n"
-#~ msgstr ""
-#~ "<p><strong>Pro použití tohoto nástroje nemusíte být expert na šifrování?</"
-#~ "strong><br>\n"
-#~ "Jednoduše si v okně pro správu klíčů vytvořte pár klíčů. Potom "
-#~ "vyexportujte svůj veřejný klíč a pošlete jej přátelům.<br>\n"
-#~ "Požádejte je, aby udělali totéž, a naimportujte si jejich veřejné klíče. "
-#~ "Nakonec, abyste poslali zašifrovanou zprávu, napište ji v editoru KGpg a "
-#~ "klikněte na &quot;Zašifrovat&quot;.\n"
-#~ "Vyberte klíč příjemce a opět klikněte na &quot;Zašifrovat&quot;. Zpráva "
-#~ "bude zašifrována, připravena k odeslání e-mailem.</p>\n"
-
-#~ msgid ""
-#~ "<p>Decrypt a file with a single mouse click on it. You will then be "
-#~ "prompted for password, and then that is it!</p>\n"
-#~ msgstr ""
-#~ "<p>Rozšifrujte soubor jednoduchým kliknutím myší na něj. Budete dotázáni "
-#~ "na heslo, a to je vše.</p>\n"
-
-#~ msgid ""
-#~ "<p>If you only want to open the key manager, type this in the command "
-#~ "line prompt: <pre>kgpg -k</pre>\n"
-#~ "The editor can be reached by: <pre>kgpg -d</pre></p>\n"
-#~ msgstr ""
-#~ "<p>Pokud si přejete pouze otevřít správce klíčů, napište toto do "
-#~ "příkazového řádku: <pre>kgpg -k</pre>\n"
-#~ "K editoru se dostanete pomocí: <pre>kgpg -d</pre></p>\n"
-
-#~ msgid ""
-#~ "<p>If you want to change the password or expiration of a secret key "
-#~ "simply double click on it to get the key properties dialog.</p>\n"
-#~ msgstr ""
-#~ "<p>Přejete-li si změnit heslo nebo datum vypršení tajného klíče, prostě "
-#~ "na něj dvojitě klikněte pro vyvolání dialogového okna s vlastnostmi klíče."
-#~ "</p>\n"
