@@ -129,11 +129,11 @@
 
 <para
 >&kgpg; ile, dosyalarınızı ve e-postalarınızı şifreleyip şifrelerini çözebilirsiniz. Bu, çok daha güvenli iletişim sağlar. gpg ile şifrelemeye giriş için yararlı bir öğreticiyi <ulink url="https://www.gnupg.org/documentation/howtos.en.html"
->GnuPG'nin web sayfasında</ulink
+>GnuPG’nin web sayfasında</ulink
 > bulabilirsiniz. </para>
 
 <para
->&kgpg; ile gpg'nin komut satırlarını ve seçeneklerini hatırlamanıza gerek kalmaz. Tümü birkaç fare tıklamasıyla yapılabilir. </para>
+>&kgpg; ile gpg’nin komut satırlarını ve seçeneklerini hatırlamanıza gerek kalmaz. Tümü birkaç fare tıklamasıyla yapılabilir. </para>
 </chapter>
 
 <chapter id="getting-started">
@@ -240,11 +240,11 @@
 >Verinizi şifrelemenin iki yolu bulunur: <itemizedlist>
 <listitem
 ><para
->Simetrik şifreleme: Veriniz yalnızca bir parola ile şifrelenir. gpg'li bir bilgisayarı olan herhangi biri, ona şifreyi verirseniz iletinizin şifresini çözebilir. Simetrik şifreleme gerçekleştirmek için bir şifreleme anahtarı seçmeniz istendiğinde seçenekler kutusunda "simetrik şifreleme"yi seçin.</para
+>Simetrik şifreleme: Veriniz yalnızca bir parola ile şifrelenir. gpg’li bir bilgisayarı olan herhangi biri, ona şifreyi verirseniz iletinizin şifresini çözebilir. Simetrik şifreleme gerçekleştirmek için bir şifreleme anahtarı seçmeniz istendiğinde seçenekler kutusunda "simetrik şifreleme"yi seçin.</para
 ></listitem>
 <listitem
 ><para
->Anahtar şifreleme: Öncelikle anahtar çiftinizi (gizli anahtar ve genel anahtar) oluşturmalı ve bir parola vermelisiniz. Gizli anahtarınızı güvenli bir yerde saklayın ve ortak anahtarınızı arkadaşlarınızla paylaşın. Daha sonra Gökhan'a şifreli bir ileti göndermek istiyorsanız iletiyi Gökhan'ın ortak anahtarıyla şifrelemelisiniz. İletinin şifresini çözmek için alıcının Gökhan'ın gizli anahtarına ve parolasına gereksinimi olacaktır.</para
+>Anahtar şifreleme: Öncelikle anahtar çiftinizi (gizli anahtar ve genel anahtar) oluşturmalı ve bir parola vermelisiniz. Gizli anahtarınızı güvenli bir yerde saklayın ve ortak anahtarınızı arkadaşlarınızla paylaşın. Daha sonra Gökhan’a şifreli bir ileti göndermek istiyorsanız iletiyi Gökhan’ın ortak anahtarıyla şifrelemelisiniz. İletinin şifresini çözmek için alıcının Gökhan’ın gizli anahtarına ve parolasına gereksinimi olacaktır.</para
 ></listitem>
 </itemizedlist>
 </para>
@@ -391,7 +391,7 @@
 >Güvenilmeyen anahtarlarla şifrelemeye izin ver</guilabel
 > ve <guilabel
 >Simetrik şifreleme</guilabel
-> şifreleme seçenekleriyle ilgili daha fazla bilgi için lütfen gpg'nin belgelendirmesine veya <ulink url="man:gpg"
+> şifreleme seçenekleriyle ilgili daha fazla bilgi için lütfen gpg’nin belgelendirmesine veya <ulink url="man:gpg"
 >man sayfalarına</ulink
 > göz atın.</para>
 </sect2>
@@ -506,7 +506,7 @@
 > yükleyerek herkese anahtarı denetlediğinizi ve sahibinin güvenilir olduğunu ilan edersiniz. Ayça da büyük olasılıkla aynısını sizin için yapacaktır; böylecek iki anahtar da ikiniz tarafından imzalanmış olur. Birinizin kimlik kartı yoksa imzalamayı tek yönlü olarak da yapabilirsiniz.</para>
 
 <para
->Peki Ayça dünyanın diğer ucunda yaşıyorsa n'olacak? Sık sık iletişime geçiyorsunuz; ancak yakın zamanda görüşme olasılığınız yok. Anahtarına nasıl güveneceksiniz?</para>
+>Peki Ayça dünyanın diğer ucunda yaşıyorsa n’olacak? Sık sık iletişime geçiyorsunuz; ancak yakın zamanda görüşme olasılığınız yok. Anahtarına nasıl güveneceksiniz?</para>
 
 <para
 >Bir anahtar seçip <guimenuitem
@@ -528,13 +528,13 @@
 >. Bu seçeneği etkinleştirdiğinizde bir imzanın kazayla bile anahtar halkanızı terk edemeyecek özel bir sürümü oluşturulur.</para>
 
 <para
->Peki Ayça'nın kimliğini ne kadar dikkatli denetlediğiniz neden önemli? Kimin umrunda olmalı? Ayça'nın kimliğiyle ilgili sorununuzu çözmenin başka bir yolu var. Ayça'yı yakın zamanda ziyaret edemeyecekseniz Bilge'yi kullanmayı düşünürsünüz. Bilge'de de bir anahtar çifti olduğunu biliyorsunuz. Ayrıca Bilge, dünyayı dolaşan, her ay iki farklı kıtada olan bir arkadaş. Şanslıysanız yakın zamanda Ayça'nın yanına uçacaktır. Böylece siz de Bilge ile buluşarak anahtarları imzalarsınız. Ardından Ayça'ya bir not düşerek Bilge'nin yakın zamanda yanına geleceğini, onunla buluşup anahtarları imzalayıp imzalayamayacağını sorarsınız. Tüm bunlar olduktan sonra Bilge'nin anahtarının güvenilir olduğunu ve Bilge'nin Ayça'nın anahtarının güvenilir olduğunu bildiğini bilirsiniz. Bilge'ye Ayça'nın kimliğini denetleme konusunda güveniyorsanız anahtarına da güvenebilirsiniz.</para>
+>Peki Ayça’nın kimliğini ne kadar dikkatli denetlediğiniz neden önemli? Kimin umrunda olmalı? Ayça’nın kimliğiyle ilgili sorununuzu çözmenin başka bir yolu var. Ayça’yı yakın zamanda ziyaret edemeyecekseniz Bilge’yi kullanmayı düşünürsünüz. Bilge’de de bir anahtar çifti olduğunu biliyorsunuz. Ayrıca Bilge, dünyayı dolaşan, her ay iki farklı kıtada olan bir arkadaş. Şanslıysanız yakın zamanda Ayça’nın yanına uçacaktır. Böylece siz de Bilge ile buluşarak anahtarları imzalarsınız. Ardından Ayça’ya bir not düşerek Bilge’nin yakın zamanda yanına geleceğini, onunla buluşup anahtarları imzalayıp imzalayamayacağını sorarsınız. Tüm bunlar olduktan sonra Bilge’nin anahtarının güvenilir olduğunu ve Bilge’nin Ayça’nın anahtarının güvenilir olduğunu bildiğini bilirsiniz. Bilge’ye Ayça’nın kimliğini denetleme konusunda güveniyorsanız anahtarına da güvenebilirsiniz.</para>
 
 <para
->Anahtarlar ve kişiler arasındaki bu ilişkiler bir çeşit güven ağı oluşturur. Bu ağda belirli bir anahtarın ne kadar güvenilir olduğunu belirleyen bazı önemli değerler vardır. İlki, anahtar sahibinin kimliğinin ne kadar dikkatli denetlendiğidir. Bu özel anahtar seçim penceresinde gördüğünüz değerdir. Örneğin ülkenizin kimlik kartını nasıl doğrulayacağınızı büyük olasılıkla bilirsiniz; ancak tümüyle farklı bir ülkeden bir kimlik kartını doğrulamak zor olabilir. Yani Bilge'nin kimliğini dikkatlice denetlediğinizi; çünkü kimlik kartını gördüğünüzü ve sizinkiyle oldukça aynı göründüğünü söyleyebilirsiniz. Ancak Bilge, hem Ayça'nın kimlik kartını hem de sürücü belgesini gördüğü halde dünyanın bu kısmındaki belgelerle ilgili tümüyle emin olmadığını bu yüzden sıradan bir denetim yaptığını söyleyebilir.</para>
+>Anahtarlar ve kişiler arasındaki bu ilişkiler bir çeşit güven ağı oluşturur. Bu ağda belirli bir anahtarın ne kadar güvenilir olduğunu belirleyen bazı önemli değerler vardır. İlki, anahtar sahibinin kimliğinin ne kadar dikkatli denetlendiğidir. Bu özel anahtar seçim penceresinde gördüğünüz değerdir. Örneğin ülkenizin kimlik kartını nasıl doğrulayacağınızı büyük olasılıkla bilirsiniz; ancak tümüyle farklı bir ülkeden bir kimlik kartını doğrulamak zor olabilir. Yani Bilge’nin kimliğini dikkatlice denetlediğinizi; çünkü kimlik kartını gördüğünüzü ve sizinkiyle oldukça aynı göründüğünü söyleyebilirsiniz. Ancak Bilge, hem Ayça’nın kimlik kartını hem de sürücü belgesini gördüğü halde dünyanın bu kısmındaki belgelerle ilgili tümüyle emin olmadığını bu yüzden sıradan bir denetim yaptığını söyleyebilir.</para>
 
 <para
->İkinci önemli değer, diğer kişinin belgeleri onaylamasına ne kadar güvendiğinizdir. Bilge'nin bu işte iyi olduğunu biliyorsunuz. Ancak Ebubekir örneğin pek aklı başında biri değil. Anahtar imzalamak için buluştuğunuzda gözünün ucuyla kimlik kartınıza baktı. Siz Ebubekir'in belgelerini dikkatle incelediğinizden söylediği kişi olduğundan eminsiniz. Ancak kendisi diğer insanları gerçekten denetleyebilecek biri değil; demek oluyor ki Ebubekir'in anahtarına yüksek güven duyuyorsunuz; ancak imzalarına pek güvenmiyorsunuz. Bir anahtarın <link linkend="keyproperties"
+>İkinci önemli değer, diğer kişinin belgeleri onaylamasına ne kadar güvendiğinizdir. Bilge’nin bu işte iyi olduğunu biliyorsunuz. Ancak Ebubekir örneğin pek aklı başında biri değil. Anahtar imzalamak için buluştuğunuzda gözünün ucuyla kimlik kartınıza baktı. Siz Ebubekir’in belgelerini dikkatle incelediğinizden söylediği kişi olduğundan eminsiniz. Ancak kendisi diğer insanları gerçekten denetleyebilecek biri değil; demek oluyor ki Ebubekir’in anahtarına yüksek güven duyuyorsunuz; ancak imzalarına pek güvenmiyorsunuz. Bir anahtarın <link linkend="keyproperties"
 >özelliklerini</link
 > açtığınızda <guilabel
 >Sahip güvenilirliği</guilabel
@@ -550,12 +550,12 @@
 </screenshot>
 
 <para
->Artık güven ağının nasıl örüldüğünü, sahip ve anahtar güven değerlerinin ne için olduğunu ve kimlikleri denetlerken neden her zaman çok dikkatli olmanız gerektiğini biliyor olmalısınız. Başkaları size güveniyor olabilir; ancak süreçteki bir öge hala doğrulanmadı: İmzaladığınız anahtarlardaki e-posta adresleri. Anahtarınızda Ayça veya Bilge'nin e-posta adresleri ile yeni bir kimlik oluşturmak normalde yalnızca birkaç fare tıklaması alır. Bilge'nin gerçekten anahtarına sahip olduğunu doğruladınız. Ancak şimdiye kadar kimsenin aklına Bilge'nin kullanıcı kimliklerindeki e-posta adresine erişimi olup olmadığını denetlemek gelmedi.</para>
+>Artık güven ağının nasıl örüldüğünü, sahip ve anahtar güven değerlerinin ne için olduğunu ve kimlikleri denetlerken neden her zaman çok dikkatli olmanız gerektiğini biliyor olmalısınız. Başkaları size güveniyor olabilir; ancak süreçteki bir öge hala doğrulanmadı: İmzaladığınız anahtarlardaki e-posta adresleri. Anahtarınızda Ayça veya Bilge’nin e-posta adresleri ile yeni bir kimlik oluşturmak normalde yalnızca birkaç fare tıklaması alır. Bilge’nin gerçekten anahtarına sahip olduğunu doğruladınız. Ancak şimdiye kadar kimsenin aklına Bilge’nin kullanıcı kimliklerindeki e-posta adresine erişimi olup olmadığını denetlemek gelmedi.</para>
 
 <para
 >Menüden <guimenuitem
 >Kullanıcı Kimliğini İmzala ve Postala...</guimenuitem
-> ögesini seçerseniz bu açığı kapatabilirsiniz. Buradaki amaç, anahtarı normal bir biçimde imzalamanızın ardından parçalara bölmek üzerinedir. Her parça Bilge'nin anahtarının yalnızca bir kullanıcı kimliğini ve sizin ona imzanızı içerecektir. Bu, Bilge'nin anahtarıyla şifrelenecek ve yalnızca bu kimliğe verilen e-posta adresine gönderilecektir. Bilge, yalnızca bu postayı alıp iletinin şifresini açabilirse bu imzayı anahtar halkasına ekleyebilecektir. Siz imzalarınızı yüklemeyeceksiniz, bu tümüyle ona bağlıdır. Eğer imzanız bir anahtar sunucusunda görünürse Bilge'nin hem anahtarını hem de imzaladığınız e-posta adresini gerçekten denetlediğinden emin olabilirsiniz. Bu süreçte yaptığınız imzalar da anahtar halkanızın bir parçası olmayacaktır. Yani Bilge'nin anahtarını imzaladıktan sonra sizin anahtar halkanızda güvenilmez olarak görünmeyi sürdürecektir. Bilge postanızı aldıktan ve imzanızı kendi anahtar halkasına içe aktardıktan sonra onları bir anahtar sunucusuna yükleyebilir. Onun anahtarını bir anahtar sunucusundan güncellediğinizde yeni imzaları alırsınız. Yalnızca bir anahtar sunucusundaki imzalar herkesin, siz de dahil, gerçekten e-posta adreslerini denetlediğini anlamasını sağlar.</para>
+> ögesini seçerseniz bu açığı kapatabilirsiniz. Buradaki amaç, anahtarı normal bir biçimde imzalamanızın ardından parçalara bölmek üzerinedir. Her parça Bilge’nin anahtarının yalnızca bir kullanıcı kimliğini ve sizin ona imzanızı içerecektir. Bu, Bilge’nin anahtarıyla şifrelenecek ve yalnızca bu kimliğe verilen e-posta adresine gönderilecektir. Bilge, yalnızca bu postayı alıp iletinin şifresini açabilirse bu imzayı anahtar halkasına ekleyebilecektir. Siz imzalarınızı yüklemeyeceksiniz, bu tümüyle ona bağlıdır. Eğer imzanız bir anahtar sunucusunda görünürse Bilge’nin hem anahtarını hem de imzaladığınız e-posta adresini gerçekten denetlediğinden emin olabilirsiniz. Bu süreçte yaptığınız imzalar da anahtar halkanızın bir parçası olmayacaktır. Yani Bilge’nin anahtarını imzaladıktan sonra sizin anahtar halkanızda güvenilmez olarak görünmeyi sürdürecektir. Bilge postanızı aldıktan ve imzanızı kendi anahtar halkasına içe aktardıktan sonra onları bir anahtar sunucusuna yükleyebilir. Onun anahtarını bir anahtar sunucusundan güncellediğinizde yeni imzaları alırsınız. Yalnızca bir anahtar sunucusundaki imzalar herkesin, siz de dahil, gerçekten e-posta adreslerini denetlediğini anlamasını sağlar.</para>
 
 </sect2>
 
@@ -642,7 +642,7 @@
 </mediaobject>
 </screenshot>
 <para
->Burda şifreleme davranışını değiştirmek için GnuPG'ye verilecek özel seçenekleri yapılandırabilirsiniz. Ayrıntılı açıklamalar için lütfen GnuPG kılavuzuna göz atın.</para>
+>Burda şifreleme davranışını değiştirmek için GnuPG’ye verilecek özel seçenekleri yapılandırabilirsiniz. Ayrıntılı açıklamalar için lütfen GnuPG kılavuzuna göz atın.</para>
 <itemizedlist>
 <listitem
 ><para
@@ -686,7 +686,7 @@
 ><para
 ><guilabel
 >Özel şifreleme komutu</guilabel
->: GnuPG'ye olağan dışı seçenekler vermeniz gerekiyorsa komut satırını buradan belirtebilirsiniz. Çoğu kullanıcının buna gereksinimi olmayacaktır.</para
+>: GnuPG’ye olağan dışı seçenekler vermeniz gerekiyorsa komut satırını buradan belirtebilirsiniz. Çoğu kullanıcının buna gereksinimi olmayacaktır.</para
 ></listitem>
 <listitem
 ><para
@@ -706,7 +706,7 @@
 >Şifre çözme</title>
 
 <para
->Burada özel şifre çözme komutu belirtebilirsiniz. Bu seçenek genellikle pek sık kullanılmaz ve yalnızca GnuPG'nin komut satırı seçeneklerini bilen gelişmiş kullanıcılar içindir.</para>
+>Burada özel şifre çözme komutu belirtebilirsiniz. Bu seçenek genellikle pek sık kullanılmaz ve yalnızca GnuPG’nin komut satırı seçeneklerini bilen gelişmiş kullanıcılar içindir.</para>
 </sect2>
 
 <sect2 id="conf-appearance">
@@ -739,7 +739,7 @@
 <para
 >Burada <link linkend="keyserver"
 >anahtar sunucusu iletişim kutusunu</link
-> açtığınızda size gösterilmesini istediğiniz anahtar sunucusu listesini oluşturabilirsiniz. GnuPG'yi komut satırından çalıştırırsanız burada öntanımlı olarak ayarladığınız anahtar sunucusu kullanılır.</para>
+> açtığınızda size gösterilmesini istediğiniz anahtar sunucusu listesini oluşturabilirsiniz. GnuPG’yi komut satırından çalıştırırsanız burada öntanımlı olarak ayarladığınız anahtar sunucusu kullanılır.</para>
 <para
 >Anahtarlarla iletişimde kullanılan iletişim kuralı &HTTP; tabanlıdır, yani bazı ortamlarda <guilabel
 >&HTTP; vekiline uymak</guilabel
@@ -751,7 +751,7 @@
 >Çeşitli</title>
 <para
 >Bu kısım diğer kısımlara pek uymaya bazı değişik özelliklerin ayarlanmasını sağlar. Örneğin <guilabel
->girişte K GPG'nin kendiliğinden başlatılmasını</guilabel
+>girişte K GPG’nin kendiliğinden başlatılmasını</guilabel
 > yapılandırabilirsiniz. <guilabel
 >Pano yerine fare seçimini kullan</guilabel
 > seçeneği, seçimin fare ile yapılması ve orta fare düğmesi ile yapıştırma veya tüm işlemlerin klavye kısayollarıyla yapılmasını açar/kapatır.</para>
