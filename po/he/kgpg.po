@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-20 00:39+0000\n"
-"PO-Revision-Date: 2024-01-26 08:52+0200\n"
+"PO-Revision-Date: 2024-02-09 15:35+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -568,7 +568,7 @@ msgstr ""
 #: conf_misc.ui:211
 #, kde-format
 msgid "Show system tray icon"
-msgstr ""
+msgstr "להציג סמל בשורת המערכת"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: conf_misc.ui:223
@@ -599,7 +599,7 @@ msgstr "קבצים אחרונים"
 #: conf_misc.ui:306
 #, kde-format
 msgid "Key Signing"
-msgstr ""
+msgstr "חתימה על מפתחות"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_2)
 #: conf_misc.ui:314
@@ -763,25 +763,25 @@ msgstr ""
 #: conf_ui2.ui:253 kgpgoptions.cpp:100
 #, kde-format
 msgid "Left to right, account first"
-msgstr ""
+msgstr "משמאל לימין, החשבון קודם"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:258 kgpgoptions.cpp:101
 #, kde-format
 msgid "Right to left, TLD first"
-msgstr ""
+msgstr "מימין לשמאל, סיומת התחום העליונה קודם"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:263 kgpgoptions.cpp:102
 #, kde-format
 msgid "Right to left, domain first"
-msgstr ""
+msgstr "מימין לשמאל, שם התחום קודם"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:268 kgpgoptions.cpp:103
 #, kde-format
 msgid "Right to left, FQDN first"
-msgstr ""
+msgstr "מימין לשמאל, קודם ה־FQDN (שם תחום מלא)"
 
 #: core/convert.cpp:45
 #, fuzzy, kde-format
@@ -811,31 +811,31 @@ msgstr "ElGamal"
 #, kde-format
 msgctxt "Encryption algorithm RSA, Signing algorithm RSA"
 msgid "RSA & RSA"
-msgstr ""
+msgstr "RSA ו־RSA"
 
 #: core/convert.cpp:55
 #, kde-format
 msgctxt "Encryption algorithm"
 msgid "ECC"
-msgstr ""
+msgstr "ECC"
 
 #: core/convert.cpp:57
 #, kde-format
 msgctxt "Signing algorithm"
 msgid "ECDSA"
-msgstr ""
+msgstr "ECDSA"
 
 #: core/convert.cpp:59
 #, kde-format
 msgctxt "Encryption algorithm"
 msgid "ECDH"
-msgstr ""
+msgstr "ECDH"
 
 #: core/convert.cpp:61
 #, kde-format
 msgctxt "Signing algorithm"
 msgid "EdDSA"
-msgstr ""
+msgstr "EdDSA"
 
 #: core/convert.cpp:64
 #, fuzzy, kde-format
@@ -949,7 +949,7 @@ msgstr "הצפנה"
 #, kde-format
 msgctxt "key capability"
 msgid "Authentication"
-msgstr ""
+msgstr "אימות"
 
 #: core/convert.cpp:125
 #, fuzzy, kde-format
@@ -1084,7 +1084,7 @@ msgstr ""
 #: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid "Close the document"
-msgstr ""
+msgstr "סגירת המסמך"
 
 #: editor/kgpgeditor.cpp:291
 #, fuzzy, kde-format
