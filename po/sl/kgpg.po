@@ -5,15 +5,15 @@
 # Gregor Rakar <gregor.rakar@kiss.uni-lj.si>, 2003.
 # Gregor Rakar <gregor.rakar@kiss.si>, 2003, 2004, 2005.
 # Andrej Vernekar <andrej.vernekar@moj.net>, 2005.
-# Jure Repinc <jlp@holodeck1.com>, 2006, 2008, 2009, 2010, 2012, 2013.
+# Jure Repinc <jlp@holodeck1.com>, 2006, 2008, 2009, 2010, 2012, 2013, 2024.
 # Andrej Mernik <andrejm@ubuntu.si>, 2013, 2014, 2015, 2016, 2017.
-# Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2021.
+# SPDX-FileCopyrightText: 2020, 2021, 2024 Matjaž Jeran <matjaz.jeran@amis.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-05 01:36+0000\n"
-"PO-Revision-Date: 2024-01-04 07:00+0100\n"
+"PO-Revision-Date: 2024-02-21 14:03+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -23,14 +23,14 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
-"Gregor Rakar,Andrej Vernekar,Jure Repinc,Jaka Kranjc,Andrej Mernik,"
-"MatjažJeran"
+"Gregor Rakar,Andrej Vernekar,Jure Repinc,Jaka Kranjc,Andrej Mernik,Matjaž "
+"Jeran"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -412,7 +412,7 @@ msgstr "Nastavitvena datoteka:"
 #: conf_gpg.ui:96
 #, kde-format
 msgid "Change..."
-msgstr "Spremeni ..."
+msgstr "Spremeni …"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
@@ -1017,10 +1017,10 @@ msgstr ", "
 #, kde-format
 msgid "1 key"
 msgid_plural "%1 keys"
-msgstr[0] "%1 ključ"
-msgstr[1] "%1 ključa"
-msgstr[2] "%1 ključi"
-msgstr[3] "%1 ključev"
+msgstr[0] "%1 ključev"
+msgstr[1] "%1 ključ"
+msgstr[2] "%1 ključa"
+msgstr[3] "%1 ključi"
 
 #: core/KGpgKeyNode.cpp:72
 #, kde-format
@@ -1032,10 +1032,10 @@ msgstr "%1 / %2"
 #, kde-format
 msgid "1 signature"
 msgid_plural "%1 signatures"
-msgstr[0] "%1 podpis"
-msgstr[1] "%1 podpisa"
-msgstr[2] "%1 podpisi"
-msgstr[3] "%1 podpisov"
+msgstr[0] "%1 podpisov"
+msgstr[1] "%1 podpis"
+msgstr[2] "%1 podpisa"
+msgstr[3] "%1 podpisi"
 
 #: core/KGpgNode.cpp:43
 #, kde-format
@@ -1787,10 +1787,10 @@ msgstr "Najdenega ni nobenega ustreznega ključa"
 #, kde-format
 msgid "Found 1 matching key"
 msgid_plural "Found %1 matching keys"
-msgstr[0] "Najden %1 ustrezen ključ"
-msgstr[1] "Najdena %1 ustrezna ključa"
-msgstr[2] "Najdeni %1 ustrezni ključi"
-msgstr[3] "Najdenih %1 ustreznih ključev"
+msgstr[0] "Najdenih %1 ustreznih ključev"
+msgstr[1] "Najden %1 ustrezen ključ"
+msgstr[2] "Najdena %1 ustrezna ključa"
+msgstr[3] "Najdeni %1 ustrezni ključi"
 
 #: keyservers.cpp:378
 #, kde-format
@@ -2189,90 +2189,90 @@ msgstr "Član skupine"
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
-msgstr[0] "&Podpiši uporabniški ID..."
-msgstr[1] "&Podpiši uporabniška ID-ja..."
-msgstr[2] "&Podpiši uporabniške ID-je..."
-msgstr[3] "&Podpiši uporabniške ID-je..."
+msgstr[0] "&Podpiši uporabniške ID-je …"
+msgstr[1] "&Podpiši uporabniški ID …"
+msgstr[2] "&Podpiši uporabniška ID-ja …"
+msgstr[3] "&Podpiši uporabniške ID-je …"
 
 #: keysmanager.cpp:1209
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
-msgstr[0] "&Podpiši in pošlji uporabniški ID..."
-msgstr[1] "&Podpiši in pošlji uporabniška ID-ja..."
-msgstr[2] "&Podpiši in pošlji uporabniške ID-je..."
-msgstr[3] "&Podpiši in pošlji uporabniške ID-je..."
+msgstr[0] "&Podpiši in pošlji uporabniške ID-je …"
+msgstr[1] "&Podpiši in pošlji uporabniški ID …"
+msgstr[2] "&Podpiši in pošlji uporabniška ID-ja …"
+msgstr[3] "&Podpiši in pošlji uporabniške ID-je …"
 
 #: keysmanager.cpp:1210
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
-msgstr[0] "I&zvozi javni ključ..."
-msgstr[1] "I&zvozi javna ključa..."
-msgstr[2] "I&zvozi javne ključe..."
-msgstr[3] "I&zvozi javne ključe..."
+msgstr[0] "I&zvozi javne ključe …"
+msgstr[1] "I&zvozi javni ključ …"
+msgstr[2] "I&zvozi javna ključa …"
+msgstr[3] "I&zvozi javne ključe …"
 
 #: keysmanager.cpp:1211
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
-msgstr[0] "Os&veži ključ s strežnika s ključi"
-msgstr[1] "Os&veži ključa s strežnika s ključi"
-msgstr[2] "Os&veži ključe s strežnika s ključi"
+msgstr[0] "Os&veži ključe s strežnika s ključi"
+msgstr[1] "Os&veži ključ s strežnika s ključi"
+msgstr[2] "Os&veži ključa s strežnika s ključi"
 msgstr[3] "Os&veži ključe s strežnika s ključi"
 
 #: keysmanager.cpp:1212
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
-msgstr[0] "&Ustvari skupino z izbranim ključem..."
-msgstr[1] "&Ustvari skupino z izbranima ključema..."
-msgstr[2] "&Ustvari skupino z izbranimi ključi..."
-msgstr[3] "&Ustvari skupino z izbranimi ključi..."
+msgstr[0] "&Ustvari skupino z izbranimi ključi …"
+msgstr[1] "&Ustvari skupino z izbranim ključem …"
+msgstr[2] "&Ustvari skupino z izbranima ključema …"
+msgstr[3] "&Ustvari skupino z izbranimi ključi …"
 
 #: keysmanager.cpp:1213
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
-msgstr[0] "&Podpiši ključ..."
-msgstr[1] "&Podpiši ključa..."
-msgstr[2] "&Podpiši ključe..."
-msgstr[3] "&Podpiši ključe..."
+msgstr[0] "&Podpiši ključe …"
+msgstr[1] "&Podpiši ključ …"
+msgstr[2] "&Podpiši ključa …"
+msgstr[3] "&Podpiši ključe …"
 
 #: keysmanager.cpp:1214
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
-msgstr[0] "&Izbriši uporabniški ID"
-msgstr[1] "&Izbriši uporabniška ID-ja"
-msgstr[2] "&Izbriši uporabniške ID-je"
+msgstr[0] "&Izbriši uporabniške ID-je"
+msgstr[1] "&Izbriši uporabniški ID"
+msgstr[2] "&Izbriši uporabniška ID-ja"
 msgstr[3] "&Izbriši uporabniške ID-je"
 
 #: keysmanager.cpp:1215
 #, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
-msgstr[0] "Izbriši po&dpis"
-msgstr[1] "Izbriši po&dpisa"
-msgstr[2] "Izbriši po&dpise"
+msgstr[0] "Izbriši po&dpise"
+msgstr[1] "Izbriši po&dpis"
+msgstr[2] "Izbriši po&dpisa"
 msgstr[3] "Izbriši po&dpise"
 
 #: keysmanager.cpp:1216
 #, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
-msgstr[0] "Uvozi ključ s strežnika s ključi"
-msgstr[1] "Uvozi ključa s strežnika s ključi"
-msgstr[2] "Uvozi ključe s strežnika s ključi"
+msgstr[0] "Uvozi ključe s strežnika s ključi"
+msgstr[1] "Uvozi ključ s strežnika s ključi"
+msgstr[2] "Uvozi ključa s strežnika s ključi"
 msgstr[3] "Uvozi ključe s strežnika s ključi"
 
 #: keysmanager.cpp:1217
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
-msgstr[0] "&Izbriši ključ"
-msgstr[1] "&Izbriši ključa"
-msgstr[2] "&Izbriši ključe"
+msgstr[0] "&Izbriši ključe"
+msgstr[1] "&Izbriši ključ"
+msgstr[2] "&Izbriši ključa"
 msgstr[3] "&Izbriši ključe"
 
 #: keysmanager.cpp:1340
@@ -2323,10 +2323,10 @@ msgstr ""
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
-msgstr[0] "<qt>%1 javni ključ je bil uspešno izvožen v <br />%2</qt>"
-msgstr[1] "<qt>%1 javna ključa sta bila uspešno izvožena v <br />%2</qt>"
-msgstr[2] "<qt>%1 javni ključi so bili uspešno izvoženi v <br />%2</qt>"
-msgstr[3] "<qt>%1 javnih ključev je bilo uspešno izvoženih v <br />%2</qt>"
+msgstr[0] "<qt>%1 javnih ključev je bilo uspešno izvoženih v<br/>%2</qt>"
+msgstr[1] "<qt>%1 javni ključ je bil uspešno izvožen v<br/>%2</qt>"
+msgstr[2] "<qt>%1 javna ključa sta bila uspešno izvožena v<br/>%2</qt>"
+msgstr[3] "<qt>%1 javni ključi so bili uspešno izvoženi v<br/>%2</qt>"
 
 #: keysmanager.cpp:1494 keysmanager.cpp:1509 keysmanager.cpp:1523
 #, kde-format
@@ -2542,9 +2542,9 @@ msgstr "Podpiši"
 #, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
-msgstr[0] "Vsi podpisi za ta ključ so že v vaši zbirki ključev"
-msgstr[1] "Vsi podpisi za ta ključa so že v vaši zbirki ključev"
-msgstr[2] "Vsi podpisi za te ključe so že v vaši zbirki ključev"
+msgstr[0] "Vsi podpisi za te ključe so že v vaši zbirki ključev"
+msgstr[1] "Vsi podpisi za ta ključ so že v vaši zbirki ključev"
+msgstr[2] "Vsi podpisi za ta ključa so že v vaši zbirki ključev"
 msgstr[3] "Vsi podpisi za te ključe so že v vaši zbirki ključev"
 
 #: keysmanager.cpp:2181
@@ -2575,11 +2575,11 @@ msgid_plural ""
 "<qt>The key you are deleting is a member of the following key groups. Do you "
 "want to remove it from these groups?</qt>"
 msgstr[0] ""
-"<qt>Ključ, ki ga želite izbrisati, je del naslednje skupine ključev. Ali ga "
-"želite odstraniti iz te skupine?</qt>"
-msgstr[1] ""
 "<qt>Ključ, ki ga želite izbrisati, je del naslednjih skupin ključev. Ali ga "
 "želite odstraniti iz teh skupin?</qt>"
+msgstr[1] ""
+"<qt>Ključ, ki ga želite izbrisati, je del naslednje skupine ključev. Ali ga "
+"želite odstraniti iz te skupine?</qt>"
 msgstr[2] ""
 "<qt>Ključ, ki ga želite izbrisati, je del naslednjih skupin ključev. Ali ga "
 "želite odstraniti iz teh skupin?</qt>"
@@ -2658,10 +2658,10 @@ msgstr ""
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
-msgstr[0] "<qt><b>Izbrišem naslednji %1 javni ključ?</b></qt>"
-msgstr[1] "<qt><b>Izbrišem naslednja %1 javna ključa?</b></qt>"
-msgstr[2] "<qt><b>Izbrišem naslednji %1 javni ključi?</b></qt>"
-msgstr[3] "<qt><b>Izbrišem naslednjih %1 javnih ključev?</b></qt>"
+msgstr[0] "<qt><b>Izbrišem naslednjih %1 javnih ključev?</b></qt>"
+msgstr[1] "<qt><b>Izbrišem naslednji %1 javni ključ?</b></qt>"
+msgstr[2] "<qt><b>Izbrišem naslednja %1 javna ključa?</b></qt>"
+msgstr[3] "<qt><b>Izbrišem naslednje %1 javne ključe?</b></qt>"
 
 #: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
 #, kde-format
@@ -3205,8 +3205,8 @@ msgstr "Metoda stiskanja za arhiv:"
 #, kde-format
 msgid "Decryption of this file failed:"
 msgid_plural "Decryption of these files failed:"
-msgstr[0] "Dešifriranje te datoteke ni uspelo:"
-msgstr[1] "Dešifriranje teh datotek ni uspelo:"
+msgstr[0] "Dešifriranje teh datotek ni uspelo:"
+msgstr[1] "Dešifriranje te datoteke ni uspelo:"
 msgstr[2] "Dešifriranje teh datotek ni uspelo:"
 msgstr[3] "Dešifriranje teh datotek ni uspelo:"
 
@@ -3910,19 +3910,19 @@ msgstr "Zaupanje: %1"
 #, kde-format
 msgid "1 Key"
 msgid_plural "%1 Keys"
-msgstr[0] "%1 ključ"
-msgstr[1] "%1 ključa"
-msgstr[2] "%1 ključi"
-msgstr[3] "%1 ključev"
+msgstr[0] "%1 ključev"
+msgstr[1] "%1 ključ"
+msgstr[2] "%1 ključa"
+msgstr[3] "%1 ključi"
 
 #: model/kgpgitemmodel.cpp:284
 #, kde-format
 msgid "1 Group"
 msgid_plural "%1 Groups"
-msgstr[0] "%1 skupina"
-msgstr[1] "%1 skupini"
-msgstr[2] "%1 skupine"
-msgstr[3] "%1 skupin"
+msgstr[0] "%1 skupin"
+msgstr[1] "%1 skupina"
+msgstr[2] "%1 skupini"
+msgstr[3] "%1 skupine"
 
 #: model/kgpgitemmodel.cpp:286
 #, kde-format
@@ -3962,10 +3962,10 @@ msgstr "ID %1, %2-biten ključ %3, ustvarjen %4"
 #, kde-format
 msgid "One Photo ID"
 msgid_plural "%1 Photo IDs"
-msgstr[0] "%1 fotografski ID"
-msgstr[1] "%1 fotografska ID-ja"
-msgstr[2] "%1 fotografski ID-ji"
-msgstr[3] "%1 fotografskih ID-jev"
+msgstr[0] "%1 fotografskih ID-jev"
+msgstr[1] "%1 fotografski ID"
+msgstr[2] "%1 fotografska ID-ja"
+msgstr[3] "%1 fotografski ID-ji"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2)
 #: newkey.ui:20
@@ -4079,10 +4079,10 @@ msgstr "Izberite javni ključ za %1"
 #, kde-format
 msgid "Select Public Key for %2 and one more file"
 msgid_plural "Select Public Key for %2 and %1 more files"
-msgstr[0] "Izberite javni ključ za %2 in še %1 datoteko"
-msgstr[1] "Izberite javni ključ za %2 in še %1 datoteki"
-msgstr[2] "Izberite javni ključ za %2 in še %1 datoteke"
-msgstr[3] "Izberite javni ključ za %2 in še %1 datotek"
+msgstr[0] "Izberite javni ključ za %2 in še %1 datotek"
+msgstr[1] "Izberite javni ključ za %2 in še %1 datoteko"
+msgstr[2] "Izberite javni ključ za %2 in še %1 datoteki"
+msgstr[3] "Izberite javni ključ za %2 in še %1 datoteke"
 
 #: selectpublickeydialog.cpp:75
 #, kde-format
@@ -4179,17 +4179,17 @@ msgid_plural ""
 "How carefully have you checked that the %1 keys really belong to the people "
 "with whom you wish to communicate:"
 msgstr[0] ""
-"Kako pazljivo ste preverili, da %1 ključ zares pripada osebi, s katero "
-"želite komunicirati:"
+"Kako pazljivo ste preverili, da %1 ključev zares pripada osebam, s katerimi "
+"se želite sporazumevati:"
 msgstr[1] ""
-"Kako pazljivo ste preverili, da %1 ključa zares pripadata osebi, s katero se "
+"Kako pazljivo ste preverili, da %1 ključ zares pripada osebi, s katero se "
 "želite sporazumevati:"
 msgstr[2] ""
-"Kako pazljivo ste preverili, da %1 ključi zares pripadajo osebi, s katero se "
-"želite sporazumevati:"
+"Kako pazljivo ste preverili, da %1 ključa zares pripadata osebama, s "
+"katerima se želite sporazumevati:"
 msgstr[3] ""
-"Kako pazljivo ste preverili, da %1 ključi zares pripadajo osebi, s katero se "
-"želite sporazumevati:"
+"Kako pazljivo ste preverili, da %1 ključi zares pripadajo osebam, s katerimi "
+"se želite sporazumevati:"
 
 #: selectsecretkey.cpp:71
 #, kde-format
@@ -4368,20 +4368,20 @@ msgstr "Uvožen ni bil noben ključ.<br />Za več podrobnosti si oglejte dnevnik
 msgctxt "@info"
 msgid "<para>%1 key processed.</para>"
 msgid_plural "<para>%1 keys processed.</para>"
-msgstr[0] "<para>%1 obdelan ključ.</para>"
-msgstr[1] "<para>%1 obdelana ključa.</para>"
-msgstr[2] "<para>%1 obdelani ključi.</para>"
-msgstr[3] "<para>%1 obdelanih ključev.</para>"
+msgstr[0] "<para>%1 obdelanih ključev.</para>"
+msgstr[1] "<para>%1 obdelan ključ.</para>"
+msgstr[2] "<para>%1 obdelana ključa.</para>"
+msgstr[3] "<para>%1 obdelani ključi.</para>"
 
 #: transactions/kgpgimport.cpp:126
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key without ID.</para>"
 msgid_plural "<para>%1 keys without ID.</para>"
-msgstr[0] "<para>%1 ključ brez ID-ja.</para>"
-msgstr[1] "<para>%1 ključa brez ID-ja.</para>"
-msgstr[2] "<para>%1 ključi brez ID-ja.</para>"
-msgstr[3] "<para>%1 ključev brez ID-ja.</para>"
+msgstr[0] "<para>%1 ključev brez ID-ja.</para>"
+msgstr[1] "<para>%1 ključ brez ID-ja.</para>"
+msgstr[2] "<para>%1 ključa brez ID-ja.</para>"
+msgstr[3] "<para>%1 ključi brez ID-ja.</para>"
 
 #: transactions/kgpgimport.cpp:128
 #, kde-kuit-format
@@ -4389,81 +4389,81 @@ msgctxt "@info"
 msgid "<para><emphasis strong='true'>One key imported:</emphasis></para>"
 msgid_plural ""
 "<para><emphasis strong='true'>%1 keys imported:</emphasis></para>"
-msgstr[0] "<para><emphasis strong='true'>%1 uvožen ključ:</emphasis></para>"
-msgstr[1] "<para><emphasis strong='true'>%1 uvožena ključa:</emphasis></para>"
-msgstr[2] "<para><emphasis strong='true'>%1 uvoženi ključi:</emphasis></para>"
-msgstr[3] ""
+msgstr[0] ""
 "<para><emphasis strong='true'>%1 uvoženih ključev:</emphasis></para>"
+msgstr[1] "<para><emphasis strong='true'>%1 uvožen ključ:</emphasis></para>"
+msgstr[2] "<para><emphasis strong='true'>%1 uvožena ključa:</emphasis></para>"
+msgstr[3] "<para><emphasis strong='true'>%1 uvoženi ključi:</emphasis></para>"
 
 #: transactions/kgpgimport.cpp:130
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One RSA key imported.</para>"
 msgid_plural "<para>%1 RSA keys imported.</para>"
-msgstr[0] "<para>%1 uvožen ključ RSA.</para>"
-msgstr[1] "<para>%1 uvožena ključa RSA.</para>"
-msgstr[2] "<para>%1 uvoženi ključi RSA.</para>"
-msgstr[3] "<para>%1 uvoženih ključev RSA.</para>"
+msgstr[0] "<para>%1 uvoženih ključev RSA.</para>"
+msgstr[1] "<para>%1 uvožen ključ RSA.</para>"
+msgstr[2] "<para>%1 uvožena ključa RSA.</para>"
+msgstr[3] "<para>%1 uvoženi ključi RSA.</para>"
 
 #: transactions/kgpgimport.cpp:132
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key unchanged.</para>"
 msgid_plural "<para>%1 keys unchanged.</para>"
-msgstr[0] "<para>%1 nespremenjen ključ.</para>"
-msgstr[1] "<para>%1 nespremenjena ključa.</para>"
-msgstr[2] "<para>%1 nespremenjeni ključi.</para>"
-msgstr[3] "<para>%1 nespremenjenih ključev.</para>"
+msgstr[0] "<para>%1 nespremenjenih ključev.</para>"
+msgstr[1] "<para>%1 nespremenjen ključ.</para>"
+msgstr[2] "<para>%1 nespremenjena ključa.</para>"
+msgstr[3] "<para>%1 nespremenjeni ključi.</para>"
 
 #: transactions/kgpgimport.cpp:134
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One user ID imported.</para>"
 msgid_plural "<para>%1 user IDs imported.</para>"
-msgstr[0] "<para>%1 uvožen uporabniški ID.</para>"
-msgstr[1] "<para>%1 uvožena uporabniška ID-ja.</para>"
-msgstr[2] "<para>%1 uvoženi uporabniški ID-ji.</para>"
-msgstr[3] "<para>%1 uvoženih uporabniških ID-jev.</para>"
+msgstr[0] "<para>%1 uvoženih uporabniških ID-jev.</para>"
+msgstr[1] "<para>%1 uvožen uporabniški ID.</para>"
+msgstr[2] "<para>%1 uvožena uporabniška ID-ja.</para>"
+msgstr[3] "<para>%1 uvoženi uporabniški ID-ji.</para>"
 
 #: transactions/kgpgimport.cpp:136
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One subkey imported.</para>"
 msgid_plural "<para>%1 subkeys imported.</para>"
-msgstr[0] "<para>%1 uvožen podključ.</para>"
-msgstr[1] "<para>%1 uvožena podključa.</para>"
-msgstr[2] "<para>%1 uvoženi podključi.</para>"
-msgstr[3] "<para>%1 uvoženih podključev.</para>"
+msgstr[0] "<para>%1 uvoženih podključev.</para>"
+msgstr[1] "<para>%1 uvožen podključ.</para>"
+msgstr[2] "<para>%1 uvožena podključa.</para>"
+msgstr[3] "<para>%1 uvoženi podključi.</para>"
 
 #: transactions/kgpgimport.cpp:138
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One signature imported.</para>"
 msgid_plural "<para>%1 signatures imported.</para>"
-msgstr[0] "<para>%1 uvožen podpis.</para>"
-msgstr[1] "<para>%1 uvožena podpisa.</para>"
-msgstr[2] "<para>%1 uvoženi podpisi.</para>"
-msgstr[3] "<para>%1 uvoženih podpisov.</para>"
+msgstr[0] "<para>%1 uvoženih podpisov.</para>"
+msgstr[1] "<para>%1 uvožen podpis.</para>"
+msgstr[2] "<para>%1 uvožena podpisa.</para>"
+msgstr[3] "<para>%1 uvoženi podpisi.</para>"
 
 #: transactions/kgpgimport.cpp:140
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One revocation certificate imported.</para>"
 msgid_plural "<para>%1 revocation certificates imported.</para>"
-msgstr[0] "<para>%1 uvoženo potrdilo za preklic.</para>"
-msgstr[1] "<para>%1 uvoženi potrdili za preklic.</para>"
-msgstr[2] "<para>%1 uvožena  potrdila za preklic.</para>"
-msgstr[3] "<para>%1 uvoženih potrdil za preklic.</para>"
+msgstr[0] "<para>%1 uvoženih potrdil za preklic.</para>"
+msgstr[1] "<para>%1 uvoženo potrdilo za preklic.</para>"
+msgstr[2] "<para>%1 uvoženi potrdili za preklic.</para>"
+msgstr[3] "<para>%1 uvožena  potrdila za preklic.</para>"
 
 #: transactions/kgpgimport.cpp:142
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key processed.</para>"
 msgid_plural "<para>%1 secret keys processed.</para>"
-msgstr[0] "<para>%1 obdelan skrivni ključ.</para>"
-msgstr[1] "<para>%1 obdelana skrivna ključa.</para>"
-msgstr[2] "<para>%1 obdelani skrivni ključi.</para>"
-msgstr[3] "<para>%1 obdelanih skrivnih ključev.</para>"
+msgstr[0] "<para>%1 obdelanih skrivnih ključev.</para>"
+msgstr[1] "<para>%1 obdelan skrivni ključ.</para>"
+msgstr[2] "<para>%1 obdelana skrivna ključa.</para>"
+msgstr[3] "<para>%1 obdelani skrivni ključi.</para>"
 
 #: transactions/kgpgimport.cpp:144
 #, kde-kuit-format
@@ -4473,33 +4473,33 @@ msgid ""
 msgid_plural ""
 "<para><emphasis strong='true'>%1 secret keys imported.</emphasis></para>"
 msgstr[0] ""
-"<para><emphasis strong='true'>%1 uvožen skrivni ključ.</emphasis></para>"
-msgstr[1] ""
-"<para><emphasis strong='true'>%1 uvožena skrivna ključa.</emphasis></para>"
-msgstr[2] ""
-"<para><emphasis strong='true'>%1 uvoženi skrivni ključi.</emphasis></para>"
-msgstr[3] ""
 "<para><emphasis strong='true'>%1 uvoženih skrivnih ključev.</emphasis></para>"
+msgstr[1] ""
+"<para><emphasis strong='true'>%1 uvožen skrivni ključ.</emphasis></para>"
+msgstr[2] ""
+"<para><emphasis strong='true'>%1 uvožena skrivna ključa.</emphasis></para>"
+msgstr[3] ""
+"<para><emphasis strong='true'>%1 uvoženi skrivni ključi.</emphasis></para>"
 
 #: transactions/kgpgimport.cpp:146
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key unchanged.</para>"
 msgid_plural "<para>%1 secret keys unchanged.</para>"
-msgstr[0] "<para>%1 nespremenjen skrivni ključ.</para>"
-msgstr[1] "<para>%1 nespremenjena skrivna ključa.</para>"
-msgstr[2] "<para>%1 nespremenjeni skrivni ključi.</para>"
-msgstr[3] "<para>%1 nespremenjenih skrivnih ključev.</para>"
+msgstr[0] "<para>%1 nespremenjenih skrivnih ključev.</para>"
+msgstr[1] "<para>%1 nespremenjen skrivni ključ.</para>"
+msgstr[2] "<para>%1 nespremenjena skrivna ključa.</para>"
+msgstr[3] "<para>%1 nespremenjeni skrivni ključi.</para>"
 
 #: transactions/kgpgimport.cpp:148
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key not imported.</para>"
 msgid_plural "<para>%1 secret keys not imported.</para>"
-msgstr[0] "<para>%1 skrivni ključ ni bil uvožen.</para>"
-msgstr[1] "<para>%1 skrivna ključa nista bila uvožena.</para>"
-msgstr[2] "<para>%1 skrivni ključi niso bili uvoženi.</para>"
-msgstr[3] "<para>%1 skrivnih ključev ni bilo uvoženih.</para>"
+msgstr[0] "<para>%1 skrivnih ključev ni bilo uvoženih.</para>"
+msgstr[1] "<para>%1 skrivni ključ ni bil uvožen.</para>"
+msgstr[2] "<para>%1 skrivna ključa nista bila uvožena.</para>"
+msgstr[3] "<para>%1 skrivni ključi niso bili uvoženi.</para>"
 
 #: transactions/kgpgimport.cpp:151
 #, kde-kuit-format
@@ -4532,54 +4532,54 @@ msgstr "%1: %2 <email>%3</email>"
 #, kde-format
 msgid "New Key"
 msgid_plural "New Keys"
-msgstr[0] "Nov ključ"
-msgstr[1] "Nova ključa"
-msgstr[2] "Novi ključi"
+msgstr[0] "Novi ključi"
+msgstr[1] "Nov ključ"
+msgstr[2] "Nova ključa"
 msgstr[3] "Novi ključi"
 
 #: transactions/kgpgimport.cpp:224
 #, kde-format
 msgid "Key with new User Id"
 msgid_plural "Keys with new User Ids"
-msgstr[0] "Ključ z novim uporabniškim ID-jem"
-msgstr[1] "Ključa z novima uporabniškima ID-jema"
-msgstr[2] "Ključi z novimi uporabniškimi ID-ji"
+msgstr[0] "Ključi z novimi uporabniškimi ID-ji"
+msgstr[1] "Ključ z novim uporabniškim ID-jem"
+msgstr[2] "Ključa z novima uporabniškima ID-jema"
 msgstr[3] "Ključi z novimi uporabniškimi ID-ji"
 
 #: transactions/kgpgimport.cpp:227
 #, kde-format
 msgid "Key with new Signatures"
 msgid_plural "Keys with new Signatures"
-msgstr[0] "Ključ z novimi podpisi"
-msgstr[1] "Ključa  z novimi podpisi"
-msgstr[2] "Ključi z novimi podpisi"
+msgstr[0] "Ključi z novimi podpisi"
+msgstr[1] "Ključ z novimi podpisi"
+msgstr[2] "Ključa  z novimi podpisi"
 msgstr[3] "Ključi z novimi podpisi"
 
 #: transactions/kgpgimport.cpp:230
 #, kde-format
 msgid "Key with new Subkeys"
 msgid_plural "Keys with new Subkeys"
-msgstr[0] "Ključ z novimi podključi"
-msgstr[1] "Ključa z novimi podključi"
-msgstr[2] "Ključi z novimi podključi"
+msgstr[0] "Ključi z novimi podključi"
+msgstr[1] "Ključ z novimi podključi"
+msgstr[2] "Ključa z novimi podključi"
 msgstr[3] "Ključi z novimi podključi"
 
 #: transactions/kgpgimport.cpp:233
 #, kde-format
 msgid "New Private Key"
 msgid_plural "New Private Keys"
-msgstr[0] "Nov zasebni ključ"
-msgstr[1] "Nova zasebna ključa"
-msgstr[2] "Novi zasebni ključi"
+msgstr[0] "Novi zasebni ključi"
+msgstr[1] "Nov zasebni ključ"
+msgstr[2] "Nova zasebna ključa"
 msgstr[3] "Novi zasebni ključi"
 
 #: transactions/kgpgimport.cpp:249
 #, kde-format
 msgid "Unchanged Key"
 msgid_plural "Unchanged Keys"
-msgstr[0] "Nespremenjen ključ"
-msgstr[1] "Nespremenjena ključa"
-msgstr[2] "Nespremenjeni ključi"
+msgstr[0] "Nespremenjeni ključi"
+msgstr[1] "Nespremenjen ključ"
+msgstr[2] "Nespremenjena ključa"
 msgstr[3] "Nespremenjeni ključi"
 
 #: transactions/kgpgkeyservertransaction.cpp:87
@@ -4611,10 +4611,10 @@ msgstr "Vnesite šifrirno frazo za <b>%1</b>"
 #, kde-format
 msgid "<p><b>Bad passphrase</b>. You have 1 try left.</p>"
 msgid_plural "<p><b>Bad passphrase</b>. You have %1 tries left.</p>"
-msgstr[0] "<p><b>Napačna šifrirna fraza.</b> Imate še %1 poskus.</p>"
-msgstr[1] "<p><b>Napačna šifrirna fraza.</b> Imate še %1 poskusa.</p>"
-msgstr[2] "<p><b>Napačna šifrirna fraza.</b> Imate še %1 poskuse.</p>"
-msgstr[3] "<p><b>Napačna šifrirna fraza.</b> Imate še %1 poskusov.</p>"
+msgstr[0] "<p><b>Napačna šifrirna fraza.</b> Imate še %1 poskusov.</p>"
+msgstr[1] "<p><b>Napačna šifrirna fraza.</b> Imate še %1 poskus.</p>"
+msgstr[2] "<p><b>Napačna šifrirna fraza.</b> Imate še %1 poskusa.</p>"
+msgstr[3] "<p><b>Napačna šifrirna fraza.</b> Imate še %1 poskuse.</p>"
 
 #: transactions/kgpgtransactionprivate.cpp:82
 #, kde-format
