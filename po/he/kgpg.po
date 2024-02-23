@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-20 00:39+0000\n"
-"PO-Revision-Date: 2024-02-17 15:15+0200\n"
+"PO-Revision-Date: 2024-02-22 09:34+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -2684,7 +2684,7 @@ msgstr ""
 #: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
 msgid "No files given."
-msgstr ""
+msgstr "לא סופקו קבצים."
 
 #: kgpg.cpp:132
 #, kde-format
@@ -2818,7 +2818,7 @@ msgstr "לאפשר הצפנה עם מפתחות לא מהימנים."
 #: kgpg.kcfg:41
 #, kde-format
 msgid "Allow untrusted keys to become members of key groups."
-msgstr ""
+msgstr "לאפשר למפתחות מפוקפקים להפוך לחברים בקבוצות מפתחות."
 
 #. i18n: ectx: label, entry (HideUserID), group (Encryption)
 #: kgpg.kcfg:45
@@ -2958,7 +2958,7 @@ msgstr "הצגת תפריט השירות „פענוח קובץ”."
 #: kgpg.kcfg:176
 #, kde-format
 msgid "Show the systray icon"
-msgstr ""
+msgstr "הצגת סמל מגש המערכת"
 
 #. i18n: ectx: label, entry (RecentFiles), group (User Interface)
 #: kgpg.kcfg:180
@@ -3090,7 +3090,7 @@ msgstr ""
 #: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Start Assistant"
-msgstr ""
+msgstr "מסייע התחלה"
 
 #: kgpgexternalactions.cpp:427
 #, kde-format
@@ -3100,7 +3100,7 @@ msgstr "לא להתחיל"
 #: kgpgfirstassistant.cpp:35
 #, kde-format
 msgid "KGpg Assistant"
-msgstr ""
+msgstr "מסייע KGpg"
 
 #: kgpgfirstassistant.cpp:59
 #, fuzzy, kde-format
@@ -3117,7 +3117,7 @@ msgstr ""
 #: kgpgfirstassistant.cpp:67
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
-msgstr ""
+msgstr "ברוך בואך למסייע KGpg"
 
 #: kgpgfirstassistant.cpp:79
 #, fuzzy, kde-format
@@ -3247,17 +3247,17 @@ msgstr ""
 #: kgpgkeygenerate.cpp:57
 #, kde-format
 msgid "1024"
-msgstr ""
+msgstr "1024"
 
 #: kgpgkeygenerate.cpp:58
 #, kde-format
 msgid "2048"
-msgstr ""
+msgstr "2048"
 
 #: kgpgkeygenerate.cpp:59
 #, kde-format
 msgid "4096"
-msgstr ""
+msgstr "4096"
 
 #: kgpgkeygenerate.cpp:90
 #, kde-format
@@ -3267,12 +3267,12 @@ msgstr "יש לספק שם."
 #: kgpgkeygenerate.cpp:96
 #, kde-format
 msgid "The name must have at least 5 characters"
-msgstr ""
+msgstr "אורך השם חייב להיות 5 תווים לפחות"
 
 #: kgpgkeygenerate.cpp:102
 #, kde-format
 msgid "The name must not start with a digit"
-msgstr ""
+msgstr "השם לא יכול להתחיל בספרה"
 
 #: kgpgkeygenerate.cpp:109
 #, kde-format
@@ -3385,7 +3385,7 @@ msgstr "&אלגוריתם:"
 #: kgpgkeygenerate.ui:160 kgpgKeyInfo.ui:223
 #, kde-format
 msgid "Capabilities"
-msgstr ""
+msgstr "יכולות"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, capCert)
 #: kgpgkeygenerate.ui:172
