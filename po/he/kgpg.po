@@ -10,16 +10,16 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-20 00:39+0000\n"
-"PO-Revision-Date: 2024-03-01 16:38+0200\n"
+"PO-Revision-Date: 2024-03-03 00:42+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -93,10 +93,13 @@ msgid ""
 "No mail was sent for the following user id because it was already signed:"
 msgid_plural ""
 "No mail was sent for the following user ids because they were already signed:"
-msgstr[0] ""
+msgstr[0] "לא נשלחה הודעה בדוא״ל למזהה המשתמש הבא כיוון שהוא כבר היה חתום:"
 msgstr[1] ""
+"לא נשלחה הודעה בדוא״ל למזהי המשתמשים הבאים כיוון שהם כבר היו חתומים:"
 msgstr[2] ""
+"לא נשלחה הודעה בדוא״ל למזהי המשתמשים הבאים כיוון שהם כבר היו חתומים:"
 msgstr[3] ""
+"לא נשלחה הודעה בדוא״ל למזהי המשתמשים הבאים כיוון שהם כבר היו חתומים:"
 
 #: caff.cpp:312
 #, kde-format
@@ -118,17 +121,16 @@ msgstr "המפתח שלך %1"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel1_4_2)
 #: conf_decryption.ui:52
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt><b>Custom Decryption Command:</b><br />\n"
 "<p>This option allows the user to specify a custom command to be executed by "
 "GPG when decryption occurs. (This is recommended for advanced users only).</"
 "p></qt>"
 msgstr ""
-"<qt><b> פקודת הצפנה מותאמת אישית:</b><br />\n"
-"\t\t<p> אפשרות זאת מאפשרת למשתמש להגדיר פקודה מותאמת אישית שתופעל על ידי "
-"GPG, ברגע שהפענוח יחל. (מומלץ למשתמשים מתקדמים בלבד). </p>\n"
-"\t\t</qt>"
+"<qt><b>פקודת פענוח בהתאמה אישית:</b><br />\n"
+"<p>האפשרות הזאת מאפשרת למשתמש לציין פקודה משלו להפעלה על ידי GPG לביצוע "
+"פענוח. (מומלץ למשתמשים מתקדמים בלבד).</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4_2)
 #: conf_decryption.ui:55
@@ -145,16 +147,16 @@ msgstr "הצפנה"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AsciiArmor)
 #: conf_encryption.ui:31
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt><b>ASCII armored encryption:</b> <br /> \n"
 "<p>Checking this option outputs all encrypted files in a format that can be "
 "opened by a text editor and as such the output is suitable for placing in "
 "the body of an e-mail message.</p></qt>"
 msgstr ""
-"<qt><b> הצפנת קידוד ASCII משוריין: </b><br/>\n"
-"\t\t<p> סימון אפשרות זאת פולט את כל הקבצים המוצפנים בפורמט שיכול להיפתח "
-"בעורך טקסט, וככזה הפלט מתאים לשימוש בתוך גוף הודעת דוא\"ל. </p></qt>"
+"<qt><b>הצפנת ASCII משוריינת:</b> <br /> \n"
+"<p>סימון האפשרות הזאת יוציא את כל הקבצים המוצפנים בתצורה שאפשר לפתוח בעורך "
+"טקסט וככזה הפלט מתאים להצבה כתוכן של הודעת דוא״ל.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AsciiArmor)
 #: conf_encryption.ui:34 selectpublickeydialog.cpp:104
@@ -164,17 +166,17 @@ msgstr "הצפנת קידוד ASCII משוריין"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_PgpExtension)
 #: conf_encryption.ui:42
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt><b>Use *.pgp extension for encrypted files:</b><br />\n"
 "<p>Checking this option will append a .pgp extension to all encrypted files "
 "instead of a .gpg extension. This option will maintain compatibility with "
 "users of PGP (Pretty Good Privacy) software.</p></qt>"
 msgstr ""
-"<qt><b> השתמש בסיומת pgp.* לקבצים מוצפנים:</b><br />\n"
-"\t\t<p> סימון אפשרות זאת יוסיף את סיומת pgp. לכל הקבצים המוצפנים במקום סיומת "
-"gpg. האפשרות הזאת תשמור עם תאימות עם משתמשי תוכנת PGP (פרטיות טובה למדי = "
-"Pretty Good Privacy(. </p></qt>"
+"<qt><b>להשתמש בסיומת ‎*.pgp לקבצים מוצפנים:</b><br />\n"
+"<p>סימון האפשרות הזאת יוסיף סיומת ‎.pgp לכל הקבצים המוצפנים במקום סיומת .gpg. "
+"האפשרות הזאת תשמור על תאימות מול משתמשי תוכנת PGP ‏(Pretty Good Privacy = "
+"פרטיות טובה דיה).</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PgpExtension)
 #: conf_encryption.ui:45
@@ -461,13 +463,13 @@ msgstr "השתמש בבחירת העכבר במקום לוח העריכה"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_RemoteFileWarn)
 #: conf_misc.ui:70
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt><b>Display warning before creating temporary files:</b><br />\n"
 "<p></p></qt>"
 msgstr ""
-"<qt><b>:הצג אזהרה לפני יצירת קבצים זמניים </b><br />\n"
-"\t\t\t<p></p></qt>"
+"<qt><b>להציג אזהרה בטרם יצירת קבצים זמניים:</b><br />\n"
+"<p></p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RemoteFileWarn)
 #: conf_misc.ui:74
@@ -493,15 +495,15 @@ msgstr "תפריטי השרותים של Konqueror"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel1)
 #: conf_misc.ui:119
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt><b>Sign file service menu:</b><br />\n"
 "<p></p>\n"
 "</qt>"
 msgstr ""
-"<qt><b>:תפריט שירות סימון קובץ</b><br />\n"
-"\t\t\t\t\t<p></p>\n"
-"\t\t\t\t\t</qt>"
+"<qt><b>תפריט שירות חתימה על קבצים:</b><br />\n"
+"<p></p>\n"
+"</qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: conf_misc.ui:122
@@ -555,14 +557,13 @@ msgstr "יישומון מגש המערכת"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowSystray)
 #: conf_misc.ui:208
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt><b>Show system tray icon:</b><br />\n"
 "<p>If checked KGpg will minimize to an icon in the system tray.</p></qt>"
 msgstr ""
-"<qt><b> הפעל KGpg מיד עם הכניסה למערכת:</b><br />\n"
-"<p> אם אפשרות זו סומנה, תוכנת KGpg תופעל באופן אוטומטי בעת עליית KDE. </p></"
-"qt>"
+"<qt><b>להציג סמל במגש המערכת:</b><br />\n"
+"<p>אם האפשרות מסומנת KGpg ימוזער לסמל במגש המערכת.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSystray)
 #: conf_misc.ui:211
@@ -940,7 +941,7 @@ msgid "Signature"
 msgstr "חתימה"
 
 #: core/convert.cpp:121
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "key capability"
 msgid "Encryption"
 msgstr "הצפנה"
@@ -952,10 +953,10 @@ msgid "Authentication"
 msgstr "אימות"
 
 #: core/convert.cpp:125
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "key capability"
 msgid "Certification"
-msgstr "יצירה"
+msgstr "הסמכה"
 
 #: core/convert.cpp:127
 #, kde-format
@@ -2464,13 +2465,13 @@ msgid "Sign"
 msgstr "חתימה"
 
 #: keysmanager.cpp:2094
-#, fuzzy, kde-format
+#, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "כל החתימות למפתח הזה כבר נמצאות במחזיק המפתחות שלך"
-msgstr[1] "כל החתימות עבור מפתח זה כבר נמצאות בצרור־המפתחות שלך"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[1] "כל החתימות למפתחות האלה כבר נמצאות במחזיק המפתחות שלך"
+msgstr[2] "כל החתימות למפתחות האלה כבר נמצאות במחזיק המפתחות שלך"
+msgstr[3] "כל החתימות למפתחות האלה כבר נמצאות במחזיק המפתחות שלך"
 
 #: keysmanager.cpp:2181
 #, kde-format
@@ -2568,13 +2569,13 @@ msgid ""
 msgstr "<qt>אלו צמדי מפתחות סודיים:<br/><b>%1</b><br/>הם לא יימחקו.</qt>"
 
 #: keysmanager.cpp:2462
-#, fuzzy, kde-format
+#, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
-msgstr[0] "<qt><b>האם למחוק את המפתח הציבורי הבא?</b></qt>"
-msgstr[1] "<qt><b>האם למחק את %1 המפתחות הציבוריים הבאים?</b></qt>"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<qt><b>למחוק את המפתח הציבורי הבא?</b></qt>"
+msgstr[1] "<qt><b>למחוק את שני המפתחות הציבוריים הבאים?</b></qt>"
+msgstr[2] "<qt><b>למחוק את %1 המפתחות הציבוריים הבאים?</b></qt>"
+msgstr[3] "<qt><b>למחוק את %1 המפתחות הציבוריים הבאים?</b></qt>"
 
 #: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
 #, kde-format
@@ -2592,6 +2593,8 @@ msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
+"<qt>הטקסט שבלוח הגזירים לא נראה כמו מפתח, אך יותר כמו טקסט מוצפן.<br />לפענח "
+"אותו קודם ואז לנסות לייבא אותו?</qt>"
 
 #: keysmanager.cpp:2536
 #, kde-format
@@ -3056,7 +3059,7 @@ msgstr "זה תוכן ההודעה שנשלחת על ידי פעולה „חתי
 #: kgpgexternalactions.cpp:127
 #, kde-format
 msgid "Cannot create temporary file for folder compression."
-msgstr ""
+msgstr "לא ניתן ליצור קובץ זמני לדחיסת תיקייה."
 
 #: kgpgexternalactions.cpp:127 kgpgexternalactions.cpp:134
 #, kde-format
@@ -3079,13 +3082,13 @@ msgid "Compression method for archive:"
 msgstr "שיטת דחיסה לארכיון:"
 
 #: kgpgexternalactions.cpp:401
-#, fuzzy, kde-format
+#, kde-format
 msgid "Decryption of this file failed:"
 msgid_plural "Decryption of these files failed:"
-msgstr[0] "פענוח נכשל."
-msgstr[1] "פענוח נכשל."
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "פענוח הקובץ הזה נכשל:"
+msgstr[1] "פענוח הקבצים האלה נכשל:"
+msgstr[2] "פענוח הקבצים האלה נכשל:"
+msgstr[3] "פענוח הקבצים האלה נכשל:"
 
 #: kgpgexternalactions.cpp:425
 #, kde-format
@@ -3771,7 +3774,7 @@ msgstr "%1 <%2>: %3"
 #: model/kgpgitemmodel.cpp:179
 #, kde-format
 msgid "Trust: %1<br>Owner Trust: %2"
-msgstr ""
+msgstr "אמון: %1<br>אמון בעלים: %2"
 
 #: model/kgpgitemmodel.cpp:183
 #, kde-format
@@ -3946,13 +3949,13 @@ msgid "Select Public Key for %1"
 msgstr "נא לבחור מפתח ציבורי עבור %1"
 
 #: selectpublickeydialog.cpp:67
-#, fuzzy, kde-format
+#, kde-format
 msgid "Select Public Key for %2 and one more file"
 msgid_plural "Select Public Key for %2 and %1 more files"
-msgstr[0] "בחר מפתח ציבורי עבור %1"
-msgstr[1] "בחר מפתח ציבורי עבור %1"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "נא לבחור מפתח ציבורי עבור %2 ועבור קובץ נוסף"
+msgstr[1] "נא לבחור מפתח ציבורי עבור %2 ועבור שני קבצים נוספים"
+msgstr[2] "נא לבחור מפתח ציבורי עבור %2 ועבור %1 קבצים נוספים"
+msgstr[3] "נא לבחור מפתח ציבורי עבור %2 ועבור %1 קבצים נוספים"
 
 #: selectpublickeydialog.cpp:75
 #, kde-format
@@ -4035,18 +4038,21 @@ msgid "Choose secret key for signing:"
 msgstr "נא לבחור מפתח סודי להצפנה:"
 
 #: selectsecretkey.cpp:64
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "How carefully have you checked that the key really belongs to the person "
 "with whom you wish to communicate:"
 msgid_plural ""
 "How carefully have you checked that the %1 keys really belong to the people "
 "with whom you wish to communicate:"
-msgstr[0] "באיזו זהירות בדקת שהמפתח אכן שייך לאדם שאתה עומד להתקשר עמו:"
+msgstr[0] ""
+"עד כמה לעומק בדקת האם המפתח אכן שייך למי שמעניין אותך ליצור איתו או איתה קשר:"
 msgstr[1] ""
-"באיזו זהירות בדקת ש־ %1 המפתחות אכן שייכים לאנשים שאתה עומד לתקשר איתם:"
+"עד כמה לעומק בדקת האם שני המפתחות אכן שייכים למי שמעניין אותך ליצור איתם קשר:"
 msgstr[2] ""
+"עד כמה לעומק בדקת האם %1 המפתחות אכן שייכים למי שמעניין אותך ליצור איתם קשר:"
 msgstr[3] ""
+"עד כמה לעומק בדקת האם %1 המפתחות אכן שייכים למי שמעניין אותך ליצור איתם קשר:"
 
 #: selectsecretkey.cpp:71
 #, kde-format
@@ -4090,6 +4096,7 @@ msgstr "שרת מ&פתחות:"
 msgid ""
 "Enter the ids or fingerprints of the keys to import as space separated list."
 msgstr ""
+"נא לציין מזהים או טביעות אצבע של המפתחות לייבוא ברשימה שמופרדת ברווחים."
 
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
@@ -4107,18 +4114,18 @@ msgid "Do Not Use"
 msgstr "לא להשתמש"
 
 #: transactions/kgpgchangepass.cpp:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Enter old passphrase for <b>%1</b>"
-msgstr "הזן משפט־ססמה עבור <b>%1</b>"
+msgstr "נא למלא את מילת הצופן הישנה של <b>%1</b>"
 
 #: transactions/kgpgchangepass.cpp:57
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase "
 "all your encrypted files and messages will be inaccessible.</qt>"
 msgstr ""
-"<qt> הזן משפט־ססמה חדש עבור <b>%1</b><br>אם תשכח את משפט־הססמה, כל הקבצים "
-"וההודעות המוצפנות יאבדו!<br></qt>"
+"<qt>נא למלא מילת צופן עבור <b>%1</b><br />אם שכחת את מילת הצופן הזאת כל "
+"הקבצים וההודעות המוצפנים שלך לא יהיו נגישים עוד.</qt>"
 
 #: transactions/kgpgdecrypt.cpp:110
 #, kde-format
@@ -4138,22 +4145,22 @@ msgid "Generating New Key for %1"
 msgstr "נוצר מפתח חדש עבור %1"
 
 #: transactions/kgpggeneratekey.cpp:125
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<p><b>Enter passphrase for %1 &lt;%2&gt;</b>:<br />Passphrase should include "
 "non alphanumeric characters and random sequences.</p>"
 msgstr ""
-"<b>הזן משפט־ססמה עבור %1</b>:<br> רצוי שמשפט־הססמה יכיל סימנים שאינם אותיות "
-"או מספרים, וכן יכיל רצפים אקראיים"
+"<p><b>נא למלא מילת צופן עבור %1 &lt;%2&gt;</b>:<br />מילת הצופן צריכה להכיל "
+"תווים שאינם ספרות או אותיות ורצפים אקראיים.</p>"
 
 #: transactions/kgpggeneratekey.cpp:128
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<p><b>Enter passphrase for %1</b>:<br />Passphrase should include non "
 "alphanumeric characters and random sequences.</p>"
 msgstr ""
-"<b>הזן משפט־ססמה עבור %1</b>:<br> רצוי שמשפט־הססמה יכיל סימנים שאינם אותיות "
-"או מספרים, וכן יכיל רצפים אקראיים"
+"<p><b>נא למלא מילת צופן עבור %1</b>:<br />מילת הצופן צריכה להכיל תווים שאינם "
+"ספרות או אותיות ורצפים אקראיים.</p>"
 
 #: transactions/kgpggeneratekey.cpp:139
 #, kde-format
@@ -4188,6 +4195,9 @@ msgid ""
 "or typing at the keyboard. The easiest way is by using another application "
 "until the key generation continues."
 msgstr ""
+"מאגר האנטרופיה התרוקן. תהליך יצירת המפתחות יושהה עד שתופיע מספיק אנטרופיה. "
+"אפשר לייצר אנטרופיה על ידי הזזת העכבר או הקלדה במקלדת. הדרך הקלה ביותר היא "
+"להשתמש ביישום אחד עד שיצירת המפתח תמשיך."
 
 #: transactions/kgpggeneratekey.cpp:206
 #, kde-format
@@ -4195,19 +4205,19 @@ msgid "Key %1 generated"
 msgstr "נוצר מפתח %1"
 
 #: transactions/kgpggeneraterevoke.cpp:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "Generating Revocation Certificate for key %1"
-msgstr "צור אשרת ביטול־תוקף עבור"
+msgstr "נוצר אישור שלילה למפתח %1"
 
 #: transactions/kgpgimport.cpp:117
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "The import result string has an unsupported format in line %1.<nl/>Please "
 "see the detailed log for more information."
 msgstr ""
-"אף מפתח לא ייובא...\n"
-"בדוק את ה log למידע נוסף"
+"למחרוזת תוצאת הייבוא יש תבנית לא נתמכת בשורה %1.<nl/>נא לעיין ביומן המפורט "
+"לפרטים נוספים."
 
 #: transactions/kgpgimport.cpp:121
 #, kde-format
@@ -4225,14 +4235,14 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: transactions/kgpgimport.cpp:126
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key without ID.</para>"
 msgid_plural "<para>%1 keys without ID.</para>"
-msgstr[0] "<qt>מפתח אחד ללא מספר־זיהוי.<br></qt>"
-msgstr[1] "<qt>%1 מפתחות ללא מספר־זיהוי.<br></qt>"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<para>מפתח אחד ללא מזהה.</para>"
+msgstr[1] "<para>שני מפתחות ללא מזהה.</para>"
+msgstr[2] "<para>%1 מפתחות ללא מזהה.</para>"
+msgstr[3] "<para>%1 מפתחות ללא מזהה.</para>"
 
 #: transactions/kgpgimport.cpp:128
 #, kde-kuit-format
@@ -4256,44 +4266,44 @@ msgstr[2] "<para>יובאו %1 מפתחות RSA.</para>"
 msgstr[3] "<para>יובאו %1 מפתחות RSA.</para>"
 
 #: transactions/kgpgimport.cpp:132
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key unchanged.</para>"
 msgid_plural "<para>%1 keys unchanged.</para>"
-msgstr[0] "<qt>נותר מפתח אחד בלא שינוי.<br></qt>"
-msgstr[1] "<qt>נותרו %1 מפתחות בלא שינוי.<br></qt>"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<para>מפתח אחד לא השתנה.</para>"
+msgstr[1] "<para>שני מפתחות לא השתנו.</para>"
+msgstr[2] "<para>%1 מפתחות לא השתנו.</para>"
+msgstr[3] "<para>%1 מפתחות לא השתנו.</para>"
 
 #: transactions/kgpgimport.cpp:134
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One user ID imported.</para>"
 msgid_plural "<para>%1 user IDs imported.</para>"
-msgstr[0] "<qt>יובא מספר־זיהוי משתמש אחד.<br>"
-msgstr[1] "</qt><qt>יובאו %1 מספרי־זיהוי משתמשים.<br></qt>"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<para>מזהה משתמש אחד יובא.</para>"
+msgstr[1] "<para>שני מזהי משתמשים יובאו.</para>"
+msgstr[2] "<para>%1 מזהי משתמשים יובאו.</para>"
+msgstr[3] "<para>%1 מזהי משתמשים יובאו.</para>"
 
 #: transactions/kgpgimport.cpp:136
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One subkey imported.</para>"
 msgid_plural "<para>%1 subkeys imported.</para>"
-msgstr[0] "<qt>יובא תת־מפתח אחד.<br></qt>"
-msgstr[1] "<qt>יובאו %1 תת־מפתחות.<br></qt>"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<para>תת־מפתח אחד יובא.</para>"
+msgstr[1] "<para>שני תת־מפתחות יובאו.</para>"
+msgstr[2] "<para>%1 תת־מפתחות יובאו.</para>"
+msgstr[3] "<para>%1 תת־מפתחות יובאו.</para>"
 
 #: transactions/kgpgimport.cpp:138
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One signature imported.</para>"
 msgid_plural "<para>%1 signatures imported.</para>"
-msgstr[0] "<qt>יובאה חתימה אחת.<br></qt>"
-msgstr[1] "<qt>יובאו %1 חתימות.<br></qt>"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<para>חתימה אחת יובאה.</para>"
+msgstr[1] "<para>שתי חתימות יובאו.</para>"
+msgstr[2] "<para>%1 חתימות יובאו.</para>"
+msgstr[3] "<para>%1 חתימות יובאו.</para>"
 
 #: transactions/kgpgimport.cpp:140
 #, fuzzy, kde-kuit-format
@@ -4310,10 +4320,10 @@ msgstr[3] ""
 msgctxt "@info"
 msgid "<para>One secret key processed.</para>"
 msgid_plural "<para>%1 secret keys processed.</para>"
-msgstr[0] "<qt>טופל מפתח סודי אחד.<br></qt>"
-msgstr[1] "<qt>טופלו %1 מפתחות סודיים.<br></qt>"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<para>מפתח סודי אחד טופל.</para>"
+msgstr[1] "<para>שני מפתחות סודיים טופלו.</para>"
+msgstr[2] "<para>%1 מפתחות סודיים טופלו.</para>"
+msgstr[3] "<para>%1 מפתחות סודיים טופלו.</para>"
 
 #: transactions/kgpgimport.cpp:144
 #, kde-kuit-format
@@ -4322,10 +4332,13 @@ msgid ""
 "<para><emphasis strong='true'>One secret key imported.</emphasis></para>"
 msgid_plural ""
 "<para><emphasis strong='true'>%1 secret keys imported.</emphasis></para>"
-msgstr[0] ""
+msgstr[0] "<para><emphasis strong='true'>מפתח סודי אחד יובא.</emphasis></para>"
 msgstr[1] ""
+"<para><emphasis strong='true'>שני מפתחות סודיים יובאו.</emphasis></para>"
 msgstr[2] ""
+"<para><emphasis strong='true'>%1 מפתחות סודיים יובאו.</emphasis></para>"
 msgstr[3] ""
+"<para><emphasis strong='true'>%1 מפתחות סודיים יובאו.</emphasis></para>"
 
 #: transactions/kgpgimport.cpp:146
 #, kde-kuit-format
@@ -4348,7 +4361,7 @@ msgstr[2] "<para>%1 מפתחות סודיים לא יובאו.</para>"
 msgstr[3] "<para>%1 מפתחות סודיים לא יובאו.</para>"
 
 #: transactions/kgpgimport.cpp:151
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "<para><emphasis strong='true'>You have imported a secret key.</emphasis><nl/"
@@ -4356,10 +4369,10 @@ msgid ""
 "fully use this secret key for signing and encryption, you must edit the key "
 "(double click on it) and set its trust to Full or Ultimate.</para>"
 msgstr ""
-"<qt><br> <b>ביצעת ייבוא של מפתח סודי.</b><br> אנא שים לב שמפתחות מייבואים לא "
-"אמינים בברירת המחדל.<br> נסה להשתמש במפתח זה באופן מלא לצורך סימון והצפנה, "
-"עליך לערוך את המפתח (לחיצה כפולה עליו), ולשנות את ערך ה'אמון' ל'מלא' או "
-"ל'לחלוטין'.</qt>"
+"<para><emphasis strong='true'>ייבאת מפתח סודי.</emphasis><nl/>חשוב לשים לב "
+"שמפתחות סודיים מיובאים אינם אמינים כברירת מחדל.<nl/>כדי להשתמש במפתח הזה "
+"לחתימה ולהצפנה באופן מלא, צריך קודם לערוך את המפתח (לחיצה כפולה עליו) "
+"ולהגדיר את האמון שלו למלא או מוחלט.</para>"
 
 #: transactions/kgpgimport.cpp:175
 #, kde-kuit-format
