@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-20 00:39+0000\n"
-"PO-Revision-Date: 2024-03-03 00:42+0200\n"
+"PO-Revision-Date: 2024-03-03 15:53+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -83,9 +83,17 @@ msgid_plural ""
 "No mail was sent for the following user ids because they belong to keys "
 "without encryption capability:"
 msgstr[0] ""
+"לא נשלחה הודעה בדוא״ל למזהה המשתמש הבא כיוון שהוא שייך למפתח בלי יכולות "
+"הצפנה:"
 msgstr[1] ""
+"לא נשלחו הודעות בדוא״ל למזהי המשתמשים הבאים כיוון שהם שייכים למפתחות בלי "
+"יכולות הצפנה:"
 msgstr[2] ""
+"לא נשלחו הודעות בדוא״ל למזהי המשתמשים הבאים כיוון שהם שייכים למפתחות בלי "
+"יכולות הצפנה:"
 msgstr[3] ""
+"לא נשלחו הודעות בדוא״ל למזהי המשתמשים הבאים כיוון שהם שייכים למפתחות בלי "
+"יכולות הצפנה:"
 
 #: caff.cpp:179
 #, kde-format
@@ -273,6 +281,10 @@ msgid ""
 "the <em>Allow encryption with untrusted keys</em> option this allows "
 "untrusted keys to become member of a key group.</p></qt>"
 msgstr ""
+"<qt><b>לאפשר למפתחות מפוקפקים להיות חברים בקבוצות מפתחות:</b><br /><p>קבוצת "
+"מפתחות מאפשרים הצפנה פשוטה על מגוון נמענים בו־זמנית. בדומה לאפשרות <em>לאפשר "
+"הצפנה עם מפתחות מפוקפקים</em> זה מאפשר למפתחות מפוקפקים להפוך לחברים בקבוצת "
+"מפתחות.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowUntrustedGroupMembers)
 #: conf_encryption.ui:148
@@ -307,17 +319,17 @@ msgstr "הסתרת מזהה משתמש"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_PgpCompatibility)
 #: conf_encryption.ui:167
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt><b>PGP 6 compatibility:</b><br /> \n"
 "<p>Checking this option forces GnuPG to output encrypted packets that are as "
 "compliant with PGP (Pretty Good Privacy) 6 standards as possible thus "
 "allowing GnuPG users to inter operate with PGP 6 users.</p></qt>"
 msgstr ""
-"<qt><b> תאימות עם PGP 6:</b><br /> \n"
-"\t\t<p> סימון האפשרות הזאת מכריח את GnuPG לפלוט חבילות מוצפנות עם תאימות "
-"מרבית לתקנים של PGP 6 (פרטיות טובה למדי = Pretty Good Privacy(, באופן זה "
-"מאפשרת למשתמשי GnuPG לתקשר עם משתמשי PGP 6. </p></qt> "
+"<qt><b>תאימות מול PGP 6:</b><br /> \n"
+"<p>סימון האפשרות הזאת כופה על GnuPG להוציא מנות נתונים מוצפנות שתואמות "
+"לתקנים של PGP (Pretty Good Privacy = הצפנה טובה דיה) 6 עד כמה שניתן ובכך "
+"לאפשר למשתמש GnuPG ליצור שפה משותפת עם משתמשי PGP 6.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PgpCompatibility)
 #: conf_encryption.ui:170
@@ -351,6 +363,8 @@ msgid ""
 "configuration and the keyrings. If you have not changed it this is usually "
 "<em>~/.gnupg/</em></p>"
 msgstr ""
+"<b>מקום הבית</b><p>זאת התיקייה בה GnuPG מאחסן את ההגדרות ומחזיקי המפתחות "
+"שלו. אלא אם כן שינית את המקום הזה הוא בדרך כלל תחת <em>‎~/.gnupg/</em></p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5_2)
 #: conf_gpg.ui:33
@@ -366,6 +380,9 @@ msgid ""
 "the directory specified above. The default is <em>gnupg.conf</em> while "
 "older versions of GnuPG used <em>options</em>.</p>"
 msgstr ""
+"<b>קובץ הגדרות</b><p>זה שם קובץ ההגדרות בתיקייה שצוינה לעיל. ברירת המחדל היא "
+"<em>gnupg.conf</em> בעוד שגרסאות ישנות יותר של GnuPG השתמשו ב־<em>options</"
+"em>.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5_2_2)
 #: conf_gpg.ui:46
@@ -392,6 +409,8 @@ msgid ""
 "<b>Program path</b><p>This is the program that will be called for all GnuPG "
 "operations. The default of <em>gpg</em> will work on most systems.</p>"
 msgstr ""
+"<b>נתיב התוכנית</b><p>זאת התוכנית שתיקרא לביצוע כל פעולות GnuPG. ברירת המחדל "
+"<em>gpg</em> תעבוד ברוב המערכות.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6_2)
 #: conf_gpg.ui:117
@@ -2275,15 +2294,13 @@ msgstr ""
 "נא לבדוק את תקינות המפתח."
 
 #: keysmanager.cpp:1632
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
 "currently not usable.</p><p>Would you like to regenerate the public key?</p>"
 msgstr ""
-"המפתח הזה הוא מפתח סודי מיותם (מפתח סודי ללא מפתח ציבורי). כרגע הוא אינו "
-"שמיש.\n"
-"\n"
-"האם ברצונך ליצור מחדש את המפתח הציבורי?"
+"<p>המפתח הזה הוא מפתח ציבורי יתום (מפתח סודי ללא מפתח ציבורי.) הוא חסר תועלת "
+"כרגע.</p><p>האם לייצר לו את המפתח הציבורי?</p>"
 
 #: keysmanager.cpp:1634
 #, kde-format
@@ -2401,21 +2418,22 @@ msgstr ""
 "טביעת־האצבעות, אמינות התקשורת שלך עלולה להיפגע!</b></qt>"
 
 #: keysmanager.cpp:1854 keysmanager.cpp:2001
-#, fuzzy, kde-format
+#, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
-msgstr "אינך יכול לחתום על מפתחות ראשיים. אנא בחן את בחירתך מחדש."
+msgstr ""
+"מותר לך לחתום רק מזהי משתמשים ומזהי תמונות. נא לבדוק שההתקנה שלך תקינה."
 
 #: keysmanager.cpp:1868
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
 ">Fingerprint: <br /><b>%3</b>.<br /><br />You should check the key "
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications.</qt>"
 msgstr ""
-"<qt> אתה עומד לחתום על מפתח:<br><br> %1<br> מספר־זיהוי: %2<br> טביעת־אצבע: "
-"<br><b>%3</b><br><br> עליך לבדוק את טביעת־האצבע של המפתח בהתקשרות, או בפגישה "
-"עם בעל־המפתח על־מנת לוודא, שאף אחד אינו מנסה ליירט את ההתקשרויות שלך.</qt>"
+"<qt>פעולה זו תחתום על מזהה משתמש:<br /><br />%1<br />מזהה: %2<br />טביעת "
+"אצבע: <br /><b>%3</b>.<br /><br />כדי לאמת את טביעת האצבע בשיחה טלפונית או "
+"בפגישה עם הבעלים כדי לוודא שהתקשורת ביניכם לא מיורטת.</qt>"
 
 #: keysmanager.cpp:1872
 #, fuzzy, kde-format
@@ -2430,14 +2448,14 @@ msgstr ""
 "עם בעל־המפתח על־מנת לוודא, שאף אחד אינו מנסה ליירט את ההתקשרויות שלך.</qt>"
 
 #: keysmanager.cpp:1898
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
 "have not carefully checked all fingerprints, the security of your "
 "communications may be compromised.</b></qt>"
 msgstr ""
-"<qt> אתה עומד לחתום על המפתחות הבאים במעבר אחד<br><b> אם לא בדקת היטב את כל "
-"טביעת־האצבעות, אמינות התקשורת שלך עלולה להיפגע!</b></qt>"
+"<qt>פעולה זו תחתום על מזהי המשתמשים הבאים בבת אחת.<br/><b>אם לא בדקת בקפידה "
+"את כל טביעות האצבע, אבטחת התקשורת שלך יכולה להיפגע.</b></qt>"
 
 #: keysmanager.cpp:1967
 #, kde-format
@@ -2445,18 +2463,18 @@ msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>מילת הצופן שגויה, המפתח <b>%1 (%2)</b> לא נחתם.</qt>"
 
 #: keysmanager.cpp:1971
-#, fuzzy, kde-format
+#, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
-msgstr "<qt> משפט־ססמה לא תקין, מפתח <b>%1</b> לא נחתם.</qt>"
+msgstr "<qt>המפתח <b>%1 (%2)</b> כבר חתום.</qt>"
 
 #: keysmanager.cpp:1976
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
 "signing the key in console mode?</qt>"
 msgstr ""
-"<qt> החתימה על המפתח <b>%1</b>  עם מפתח <b>%2</b> נכשלה.<br> האם ברצונך "
-"לנסות ולחתום על המפתח דרך המסוף?</qt>"
+"<qt>חתימה על המפתח <b>%1</b> עם המפתח <b>%2</b> נכשלה.<br />לנסות לחתום על "
+"המפתח במצב מסוף?</qt>"
 
 #: keysmanager.cpp:1978
 #, kde-format
@@ -2479,12 +2497,13 @@ msgid "Edit key manually to delete a self-signature."
 msgstr "עריכת מפתח ידנית למחיקת חתימה עצמית."
 
 #: keysmanager.cpp:2185
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
 "id <b>%2</b><br />of key: <b>%3</b>?</qt>"
 msgstr ""
-"<qt> אם אתה בטוח שברצונך להסיר חתימה<br> ממפתח: <b>%1</b> <br><b>%2</b>?</qt>"
+"<qt>למחוק את החתימה<br /><b>%1</b><br />ממזהה המשתמש <b>%2</b><br />של "
+"המפתח: <b>%3</b>?</qt>"
 
 #: keysmanager.cpp:2207
 #, kde-format
@@ -2522,13 +2541,13 @@ msgstr ""
 "פעולה זו תסיר את המפתח האחרון מקבוצת המפתחות %1.<br/>למחוק גם את הקבוצה?"
 
 #: keysmanager.cpp:2332
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
 "you will never be able to decrypt files encrypted with this key again."
 msgstr ""
-"<p>?<b>%1</b><b>מפתחות סודיים</b>למחוק זוג</p> מחיקת זוג זה - משמעותה כי לא "
-"תוכל לעולם לפענח קבצים המוצפנים עם מפתח זה מחדש."
+"<p>למחוק את צמד המפתחות ה<b>סודיים</b> <b>%1</b>?</p>מחיקת צמד המפתחות הזה "
+"ימנע ממך לפענח קבצים שהוצפנו עם המפתח הזה."
 
 #: keysmanager.cpp:2343 keysmanager.cpp:2372
 #, kde-format
@@ -2682,16 +2701,16 @@ msgid "GnuPG error"
 msgstr "שגיאת GnuPG"
 
 #: kgpg.cpp:86
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>The use of <b>GnuPG Agent</b> is enabled in GnuPG's configuration file "
 "(%1).<br />However, the agent does not seem to be running. This could result "
 "in problems with signing/decryption.<br />Please disable GnuPG Agent from "
 "KGpg settings, or fix the agent.</qt>"
 msgstr ""
-"<qt>(%1) GnuPG מאופשר בקובץ ההגדרות של <b>GnuPG סוכן ה</b>השימוש ב<br> אך "
-"נראה שהסוכן אינו פועל. זה יכול להביא לבעיות עם סימון/פענוח<br> אנא עצור את "
-"הסוכן של GnuPG מתוך הגדרות ה KGpg, או עדכן את הסוכן. </qt>"
+"<qt>השימוש ב־<b>סוכן GnuPG</b> פעיל בקובץ ההגדרות של GnuPG (%1).<br />עם "
+"זאת, לא נראה שהסוכן פעיל. זה יכול לגרום לבעיות בחתימה/פענוח.<br />נא להשבית "
+"את GnuPG מההגדרות של KGpg או לתקן את הסוכן.</qt>"
 
 #: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
@@ -2900,21 +2919,21 @@ msgstr "הצגת ערך היצירה במנהל המפתחות."
 
 #. i18n: ectx: label, entry (ShowSecret), group (General Options)
 #: kgpg.kcfg:102
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show only secret keys in key manager."
-msgstr "הצג את ערך היצירה במנהל המפתחות."
+msgstr "להציג רק מפתחות סודיים במנהל המפתחות."
 
 #. i18n: ectx: label, entry (ShowLongKeyId), group (General Options)
 #: kgpg.kcfg:106
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show long key id in key manager."
-msgstr "הצג את ערך היצירה במנהל המפתחות."
+msgstr "להציג מזהה מפתח ארוך במנהל המפתחות."
 
 #. i18n: ectx: label, entry (TrustLevel), group (General Options)
 #: kgpg.kcfg:110
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show only keys with at least that trust level in key manager."
-msgstr "הצג את ערך האמינות במנהל המפתחות."
+msgstr "להציג רק מפתחות עם לפחות רמת האמון הזאת במנהל המפתחות."
 
 #. i18n: ectx: label, entry (UseMouseSelection), group (User Interface)
 #: kgpg.kcfg:124
@@ -3085,10 +3104,10 @@ msgstr "שיטת דחיסה לארכיון:"
 #, kde-format
 msgid "Decryption of this file failed:"
 msgid_plural "Decryption of these files failed:"
-msgstr[0] "פענוח הקובץ הזה נכשל:"
-msgstr[1] "פענוח הקבצים האלה נכשל:"
-msgstr[2] "פענוח הקבצים האלה נכשל:"
-msgstr[3] "פענוח הקבצים האלה נכשל:"
+msgstr[0] "פענוח הקובץ נכשל:"
+msgstr[1] "פענוח הקבצים האלה נכשלו:"
+msgstr[2] "פענוח הקבצים האלה נכשלו:"
+msgstr[3] "פענוח הקבצים האלה נכשלו:"
 
 #: kgpgexternalactions.cpp:425
 #, kde-format
@@ -3212,7 +3231,7 @@ msgstr "לא ליצור"
 #: kgpgfirstassistant.cpp:249
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
-msgstr ""
+msgstr "<qt><b>קובץ הגדרות GnuPG לא נמצא</b>.</qt>"
 
 #: kgpgfirstassistant.cpp:291
 #, kde-format
@@ -3235,11 +3254,13 @@ msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
 "versions before 1.4.0 is no longer guaranteed."
 msgstr ""
+"נראה שגרסת ה־GnuPG שלך (%1) ישנה מדי.<br />התאימות מול גרסאות טרום 1.4.0 "
+"אינה מובטחת עוד."
 
 #: kgpginterface.cpp:269
 #, kde-format
 msgid "An error occurred while scanning your keyring"
-msgstr ""
+msgstr "אירעה שגיאה בסריקת מחזיק המפתחות שלך"
 
 #: kgpgkeygenerate.cpp:48
 #, kde-format
@@ -3255,7 +3276,7 @@ msgstr "מעבר למצב למומחים"
 #, kde-format
 msgid ""
 "If you go to expert mode, you will use the command line to create your key."
-msgstr ""
+msgstr "מעבר למצב מומחה יאלץ אותך להשתמש בשורת הפקודה כדי ליצור את המפתח שלך."
 
 #: kgpgkeygenerate.cpp:57
 #, kde-format
@@ -3475,18 +3496,16 @@ msgstr "תמונה"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, m_photo)
 #: kgpgKeyInfo.ui:304
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt><b>Photo:</b><p>A photo can be included with a public key for extra "
 "security. The photo can be used as an additional method of authenticating "
 "the key. However, it should not be relied upon as the only form of "
 "authentication.</p></qt>"
 msgstr ""
-"<qt><b> תצלום:</b><br />\n"
-"\t\t\t<p> תצלום יכול להיות מצורף למפתח ציבורי לבטיחות נוספת. התצלום יכול "
-"להיות אמצעי נוסף לזיהוי המפתח. אך אי־אפשר להישען עליו כעל דרך יחידה לזיהוי. "
-"<p>\n"
-"\t\t\t</qt>"
+"<qt><b>תמונה:</b><p>אפשר לכלול תמונה במפתח ציבורי לשיפור האבטחה. אפשר להשתמש "
+"בתמונה כשיטה נוספת לאימות המפתח. עם זאת, לא כדאי להסתמך עליה כדרך האימות "
+"היחידה.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, m_photo)
 #: kgpgKeyInfo.ui:313
@@ -4225,14 +4244,14 @@ msgid "No key imported.<br />Please see the detailed log for more information."
 msgstr "לא יובא אף מפתח.<br />נא לעיין ביומן המפורט לפרטים נוספים."
 
 #: transactions/kgpgimport.cpp:123
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>%1 key processed.</para>"
 msgid_plural "<para>%1 keys processed.</para>"
-msgstr[0] "<qt>טופל מפתח %1. <br></qt>"
-msgstr[1] "<qt>טופלו %1 מפתחות.<br></qt>"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<para>מפתח אחד טופל.</para>"
+msgstr[1] "<para>שני מפתחות טופלו.</para>"
+msgstr[2] "<para>%1 מפתחות טופלו.</para>"
+msgstr[3] "<para>%1 מפתחות טופלו.</para>"
 
 #: transactions/kgpgimport.cpp:126
 #, kde-kuit-format
