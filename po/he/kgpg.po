@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-01-20 00:39+0000\n"
-"PO-Revision-Date: 2024-03-03 15:53+0200\n"
+"PO-Revision-Date: 2024-03-05 08:48+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -113,13 +113,13 @@ msgstr[3] ""
 #, kde-format
 msgctxt "Email template placeholder for key id"
 msgid "KEYID"
-msgstr ""
+msgstr "מזהה_מפתח"
 
 #: caff.cpp:313
 #, kde-format
 msgctxt "Email template placeholder for key id"
 msgid "UIDNAME"
-msgstr ""
+msgstr "שם_מזהה_משתמש"
 
 #: caff.cpp:346
 #, kde-format
@@ -194,17 +194,16 @@ msgstr "להשתמש בסיומת pgp.* עבור קבצים מוצפנים"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowCustomEncryptionOptions)
 #: conf_encryption.ui:69
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt><b>Custom encryption command:</b><br />\n"
 "<p>When activated, an entry field will be shown in the key selection dialog, "
 "enabling you to enter a custom command for encryption. This option is "
 "recommended for experienced users only.</p></qt>"
 msgstr ""
-"<qt><b> פקודת התאמה אישית: </b> <br />\n"
-"\t\t\t<p> כאשר אפשרות זאת מופעלת, תופיע שורת קלט בדיאלוג בחירת המפתח, שתאפשר "
-"לך להקליד פקודה אישית להצפנה. האפשרות הזאת מומלצת למשתמשים מנוסים בלבד.</p></"
-"qt>"
+"<qt><b>פקודת הצפנה משלך:</b><br />\n"
+"<p>כשהאפשרות פעילה, יופיע שדה מילוי תוכן בחלונית בחירת המפתח, שיאפשר לך "
+"להקליד פקודה משלך להצפנה. האפשרות הזאת מומלצת למשתמשים מנוסים בלבד.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowCustomEncryptionOptions)
 #: conf_encryption.ui:72
@@ -294,7 +293,7 @@ msgstr "לאפשר מפתחות מפוקפקים כחברים בקבוצות מ�
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUserID)
 #: conf_encryption.ui:156
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt><b>Hide user ID:</b><br /> \n"
 "<p>Checking this option will remove the keyid of the recipient from all "
@@ -304,12 +303,12 @@ msgid ""
 "secret keys before being able to decrypt the packets. This can be a lengthy "
 "process depending on the number of secret keys the receiver holds.</p></qt>"
 msgstr ""
-"<qt><b> הסתר מספר־זיהוי של משתמש:</b><br />\n"
-"\t\t<p> סימון האפשרות הזאת יגרום להסרת מספר־הזיהוי של מפתח המקבל מכל החבילות "
-"המוצפנות. היתרון: ניתוח התעבורה של החבילות המוצפנות לא יכול להתבצע ביתר קלות "
-"משום שזהות מקבל ההודעה אינה ידועה. החיסרון: המקבל של החבילות המוצפנות יהיה "
-"חייב לנסות את כל המפתחות הסודיים לפני שיוכל לפענח את החבילות. זה עלול להיות "
-"תהליך ארוך כתלות במספר המפתחות הסודיים שבבעלות המקבל.</p></qt>"
+"<qt><b>הסתרת מזהה משתמש:</b><br /> \n"
+"<p>סימון האפשרות הזאת יסיר את מזהה המפתח של המוען מכל מנות הנתונים המוצפנות. "
+"היתרון: ניתוח התעבורה של מנות הנתונים המוצפנות יהיה מסובך כי הנמען לא ידוע."
+"החיסרון: הנמען של מנות הנתונים המוצפנות ייאלץ לנסות את כלהמפתחות הסודיים "
+"לפני שיתאפשר לו לפענח את מנות הנתונים. זה יכול להיות תהליך מאוד ארוך כתלות "
+"בכמות המפתחות הסודיים שמוחזקים אצל הנמען.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUserID)
 #: conf_encryption.ui:159 selectpublickeydialog.cpp:119
@@ -427,6 +426,9 @@ msgid ""
 "key again while it is cached you do not have to enter it again. This is less "
 "secure than typing it every time.</p>"
 msgstr ""
+"<b>להשתמש בסוכן GnuPG</b><p>הסוכן של GnuPG מאחסן את סיסמאות המפתחות הסודיים "
+"שלך בזיכרון לזמן קצר. אם בחרת להשתמש במפתח הסודי שלך שוב בזמן שהיא בזיכרון "
+"לא צריך למלא את הסיסמה שוב. זה פחות מאובטח מלהקליד אותה כל פעם מחדש.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, use_agent)
 #: conf_gpg.ui:160
@@ -460,7 +462,7 @@ msgstr "הפעל KGpg מיד עם כניסה למערכת"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseMouseSelection)
 #: conf_misc.ui:53
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt><b>Use mouse selection instead of clipboard:</b><br />\n"
 "<p>If checked, clipboard operations in KGpg will use the selection "
@@ -468,11 +470,11 @@ msgid ""
 "right+left together) to paste. If this option is not checked, the clipboard "
 "will work with Key shortcuts (Ctrl-c, Ctrl-v).</p></qt> "
 msgstr ""
-"<qt><b>:השתמש בסימון על ידי עכבר במקום לוח העריכה</b> <br />\n"
-"\t\t\t<p> אם סומנה, פעולות לוח עריכה ב KGpg ישתמשו בסימון העכבר, כלומר, "
-"בחירת הטקסט להעתקה ועל ידי לחיצה על לחצן ימין (אם שמאל+ימין ביחד) להדבקה. אם "
-"האפשרות לא מסומנת, לוח העריכה לא יעבוד עם קיצורי הדרך (Ctrl-c, Ctrl-v). </"
-"p></qt>"
+"<qt><b>להשתמש בבחירה עם העכבר במקום בלוח הגזירים:</b><br />\n"
+"<p>אם האפשרות מסומנת, פעולות לוח גזירים ב־KGpg ישתמשו בלוח הגזירים על "
+"הבחירה, כלומר להדגיש את הטקסט להעתקה, ולחיצה על כפתור אמצעי (או ימני ושמאלי "
+"יחד) כדי להדביק. אם האפשרות הזאת לא מסומנת, לוח הגזירים יעבוד עם קיצורי "
+"מקלדת (Ctrl-c,‏ Ctrl-v).</p></qt> "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseMouseSelection)
 #: conf_misc.ui:56
@@ -630,6 +632,9 @@ msgid ""
 "with every other User Id you signed, only with the first Id you signed or to "
 "not send them at all."
 msgstr ""
+"כאן אפשר להגדיר איך מזהי משתמשים שלא מכילים כתובת דוא״ל (כגון מזהי תמונות) "
+"נשלחים לבעלי המפתחות. אפשר לבחור לשלוח אותם עם כל מזהה משתמש אחר שחתמת עליו "
+"או רק עם המזהה הראשון שחתמת עליו או לא לשלוח אותם בכלל."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: conf_misc.ui:317
@@ -670,6 +675,9 @@ msgid ""
 "The placeholders surrounded by the percent signs (like %KEYID%) will be "
 "replaced with the corresponding text for every single mail."
 msgstr ""
+"זה תוכן ההודעה שנשלחת על ידי הפעולה „חתימה ושליחת מזהה משתמש”.\n"
+"\n"
+"ממלאי המקום שתחומים בסימני אחוז (%ככה%) יוחלפו בטקסט המתאים לכל הודעה בנפרד."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
 #: conf_servers.ui:25
@@ -1514,6 +1522,8 @@ msgid ""
 "<qt>The left part is the algorithm used by the <b>signature</b> key. The "
 "right part is the algorithm used by the <b>encryption</b> key.</qt>"
 msgstr ""
+"<qt>החלק השמאלי הוא האלגוריתם בו משתמש מפתח ה<b>חתימה</b>. החלק הימני הוא "
+"האלגוריתם בו משתמש מפתח ה<b>הצפנה</b>.</qt>"
 
 #: keyinfodialog.cpp:217
 #, kde-format
@@ -1527,6 +1537,8 @@ msgid ""
 "<qt>The left part is the size of the <b>signature</b> key. The right part is "
 "the size of the <b>encryption</b> key.</qt>"
 msgstr ""
+"<qt>החלק השמאלי הוא גודל מפתח ה<b>חתימה</b>. החלק הימני הוא גודל מפתח "
+"ה<b>הצפנה</b>.</qt>"
 
 #: keyinfodialog.cpp:228
 #, kde-format
@@ -1601,7 +1613,7 @@ msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel2)
 #: keyserver.ui:61
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt><b>Text to search or ID of the key to import:</b><br />\n"
 "<p>There are multiple ways to search for a key, you can use a text or "
@@ -1611,13 +1623,12 @@ msgid ""
 "a key (example: searching for 0xED7585F4 would bring up the key associated "
 "with that ID).</p></qt>"
 msgstr ""
-"<qt><b> הטקסט לחיפוש או מספר הזיהוי של המפתח לייבוא:</b><br/> \n"
-"\t\t\t\t<p> יש דרכים רבות לחפש מפתח, אתה יכול להשתמש בטקסט או טקסט חלקי "
-"לחיפוש (למשל: אם הקלדה של Phil או Zimmerman תביא את כל המפתחות שבהם Phil או "
-"Zimmerman מופיעים). שאתה יכול לחפש גם באמצעות מספר־הזיהוי של מפתח. מספרי־"
-"הזיהוי של מפתחות הם מחרוזת של תווים ומספרים שבאופן חד-חד־ערכי מגדירים מפתח "
-"(למשל: חיפוש אחר 0xED7585F3 יביא למפתח המקושר למספר הזיהוי הזה). </p>\n"
-"\t\t\t\t</qt>"
+"<qt><b>טקסט לחיפוש או מזהה המפתח לייבוא:</b><br />\n"
+"<p>יש מגוון דרכים לחפש מפתח, אפשר להשתמש בחיפוש טקסט מלא או חלקי (למשל: "
+"הקלדת עדי או שמיר תציג את כל המפתחות בהם מופיעות המילים עדי או שמיר) או "
+"שאפשר לחפש לפי מזהי מפתחות. מזהי מפתחות הן מחרוזות שמורכבות מאותיות ומספרים "
+"לזיהוי חד־חד־ערכי של מפתח (למשל: חיפוש אחר 0xED7585F4 יעלה את המפתח שמשויך "
+"למזהה הזה).</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: keyserver.ui:70
@@ -2237,15 +2248,15 @@ msgid "Creation of the revocation certificate failed..."
 msgstr "יצירת אישור שלילה נכשלה…"
 
 #: keysmanager.cpp:1355
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
 "someone else can access this file, encryption with this key will be "
 "compromised.<br/>Continue key export?</qt>"
 msgstr ""
-"אין לשמור מפתחות סודיי במקום לא בטוח.\n"
-"אם מישהו אחר יוכל להגשת לקובץ זה, הצפינה עם מפתח תאבד את משמעותה!\n"
-"האם להמשיך בייצוא המפתח?"
+"<qt><b>רצוי מאוד שלא</b> לשמור מפתחות סודיים במקומות מפוקפקים.<br/>אם למישהו "
+"אחר תהיה גישה לקובץ הזה, הצפנה עם המפתח הזה תהיה חדירה.<br/>להמשיך בייצוא "
+"המפתח?</qt>"
 
 #: keysmanager.cpp:1367
 #, kde-format
@@ -2258,13 +2269,13 @@ msgid "*.asc|*.asc Files"
 msgstr "*.asc|קובצי ‎*.asc"
 
 #: keysmanager.cpp:1385
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
 "><b>Do not</b> leave it in an insecure place.</qt>"
 msgstr ""
-"המפתח הפרטי, ששייך לך \"%1\" ייוצא בהצלחה.\n"
-"אל תשאיר אותו במקום בלתי בטוח."
+"<qt>המפתח ה<b>פרטי</b> שלך „%1” יוצא בהצלחה אל<br/>%2.<br/><b>לא</b> להשאיר "
+"אותו במקום מפוקפק.</qt>"
 
 #: keysmanager.cpp:1388
 #, kde-format
@@ -2371,28 +2382,28 @@ msgid "You can only sign primary keys. Please check your selection."
 msgstr "אפשר לחתוך על מפתחות ראשיים בלבד. נא לעמת את בחירתך."
 
 #: keysmanager.cpp:1784
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
 "<br /><b>%3</b>.<br /><br />You should check the key fingerprint by phoning "
 "or meeting the key owner to be sure that someone is not trying to intercept "
 "your communications.</qt>"
 msgstr ""
-"<qt> אתה עומד לחתום על מפתח:<br><br> %1<br> מספר־זיהוי: %2<br> טביעת־אצבע: "
-"<br><b>%3</b><br><br> עליך לבדוק את טביעת־האצבע של המפתח בהתקשרות, או בפגישה "
-"עם בעל־המפתח על־מנת לוודא, שאף אחד אינו מנסה ליירט את ההתקשרויות שלך.</qt>"
+"<qt>פעולה זו תחתום על המפתח: <br /><br />%1<br />מזהה: %2<br />טביעת אצבע: "
+"<br /><b>%3</b>.<br /><br />כדי לאמת את טביעת האצבע בשיחה טלפונית או בפגישה "
+"עם הבעלים כדי לוודא שהתקשורת ביניכם לא מיורטת.</qt>"
 
 #: keysmanager.cpp:1789
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
 ">Fingerprint: <br /><b>%4</b>.<br /><br />You should check the key "
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications.</qt>"
 msgstr ""
-"<qt> אתה עומד לחתום על מפתח:<br><br> %1<br> מספר־זיהוי: %2<br> טביעת־אצבע: "
-"<br><b>%3</b><br><br> עליך לבדוק את טביעת־האצבע של המפתח בהתקשרות, או בפגישה "
-"עם בעל־המפתח על־מנת לוודא, שאף אחד אינו מנסה ליירט את ההתקשרויות שלך.</qt>"
+"<qt>פעולה זו תחתום על המפתח: <br /><br />%1 (%2)<br />מזהה: %3<br />טביעת "
+"אצבע: <br /><b>%4</b>.<br /><br />כדי לאמת את טביעת האצבע בשיחה טלפונית או "
+"בפגישה עם הבעלים כדי לוודא שהתקשורת ביניכם לא מיורטת.</qt>"
 
 #: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:276
 #: model/keylistproxymodel.cpp:181
@@ -2408,14 +2419,14 @@ msgid "%1 (%2): %3"
 msgstr "%1 (%2): %3"
 
 #: keysmanager.cpp:1812
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
 "not carefully checked all fingerprints, the security of your communications "
 "may be compromised.</b></qt>"
 msgstr ""
-"<qt> אתה עומד לחתום על המפתחות הבאים במעבר אחד<br><b> אם לא בדקת היטב את כל "
-"טביעת־האצבעות, אמינות התקשורת שלך עלולה להיפגע!</b></qt>"
+"<qt>פעולה זו תחתום על המפתחות הבאים בבת אחת.<br/><b>אם לא בדקת בקפידה את כל "
+"טביעות האצבע, אבטחת התקשורת שלך יכולה להיפגע.</b></qt>"
 
 #: keysmanager.cpp:1854 keysmanager.cpp:2001
 #, kde-format
@@ -2436,16 +2447,16 @@ msgstr ""
 "בפגישה עם הבעלים כדי לוודא שהתקשורת ביניכם לא מיורטת.</qt>"
 
 #: keysmanager.cpp:1872
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
 ">Fingerprint: <br /><b>%4</b>.<br /><br />You should check the key "
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications.</qt>"
 msgstr ""
-"<qt> אתה עומד לחתום על מפתח:<br><br> %1<br> מספר־זיהוי: %2<br> טביעת־אצבע: "
-"<br><b>%3</b><br><br> עליך לבדוק את טביעת־האצבע של המפתח בהתקשרות, או בפגישה "
-"עם בעל־המפתח על־מנת לוודא, שאף אחד אינו מנסה ליירט את ההתקשרויות שלך.</qt>"
+"<qt>פעולה זו תחתום על מזהה משתמש:<br /><br />%1 (%2)<br />מזהה: %3<br /"
+">טביעת אצבע: <br /><b>%4</b>.<br /><br />כדי לאמת את טביעת האצבע בשיחה "
+"טלפונית או בפגישה עם הבעלים כדי לוודא שהתקשורת ביניכם לא מיורטת.</qt>"
 
 #: keysmanager.cpp:1898
 #, kde-format
@@ -2522,8 +2533,14 @@ msgstr[0] ""
 "<qt>המפתח שבחרת למחוק הוא חבר בקבוצת המפתחות הבאה. להסיר אותו מהקבוצה הזאת?</"
 "qt>"
 msgstr[1] ""
+"<qt>המפתח שבחרת למחוק הוא חבר בקבוצות המפתחות האלו. להסיר אותו מהקבוצות האלו?"
+"</qt>"
 msgstr[2] ""
+"<qt>המפתח שבחרת למחוק הוא חבר בקבוצות המפתחות האלו. להסיר אותו מהקבוצות האלו?"
+"</qt>"
 msgstr[3] ""
+"<qt>המפתח שבחרת למחוק הוא חבר בקבוצות המפתחות האלו. להסיר אותו מהקבוצות האלו?"
+"</qt>"
 
 #: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
 #: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
@@ -2802,6 +2819,27 @@ msgid ""
 "\n"
 "If you have any questions, don't hesitate to ask.\n"
 msgstr ""
+"שלום,\n"
+"\n"
+"להודעה זו מצורף מזהה המשתמש '%שם_מזהה_משתמש%' של המפתח שלך %מזהה_מפתח% שאני "
+"חתמתי עליו. ההודעה הזאת חתומה עם המפתח הזה כדי לוודא שתיבת הדוא״ל והמפתח הם "
+"בשליטתך.\n"
+"\n"
+"אם יש לך מספר מזהי משתמשים, שלחתי את החתימה לכל מזהה משתמשבנפרד אל כתובת "
+"הדוא״ל שמשויכת למזהה המשתמש. אפשר לייבא את החתימות על ידי הפעלת הפקודה `gpg "
+"--import` על כל אחת מהן לאחר שפענחת אותן עם `gpg --decrypt`.\n"
+"\n"
+"אם אתה או את משתמשים ב־KGpg, יש לאחסן את הקובץ המצורף לכונן ואז לייבא אותו. "
+"פשוט לבחור ב־`ייבוא מפתח…` מתפריט `מפתחות` ולפתוח את הקובץ.\n"
+"\n"
+"Note that I did not upload your key to any keyservers. If you want this new "
+"signature to be available to others, please upload it yourself. With GnuPG "
+"this can be done using gpg --keyserver subkeys.pgp.net --send-key %KEYID%.\n"
+"\n"
+"With KGpg you can right click on the key once you imported all user ids and "
+"choose `Export Public Key...`.\n"
+"\n"
+"If you have any questions, don't hesitate to ask.\n"
 
 #. i18n: ectx: label, entry (CustomDecrypt), group (Decryption)
 #: kgpg.kcfg:13
@@ -3086,14 +3124,14 @@ msgid "Temporary File Creation"
 msgstr "יצירת קובץ זמני"
 
 #: kgpgexternalactions.cpp:132
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "<qt>KGpg will now create a temporary archive file:<br /><b>%1</b> to process "
 "the encryption. The file will be deleted after the encryption is finished.</"
 "qt>"
 msgstr ""
-"<qt>KGpg יצור כעת קובץ ארכיון זמני:<br><b>%1</b>  עבור תהליך ההצפנה. הקובץ "
-"ימחק לאחר תום ההצפנה.</qt>"
+"<qt>KGpg ייצור כעת קובץ ארכיון זמני:<br /><b>%1</b> כדי לעבד את ההצפנה. "
+"הקובץ יימחק לאחר סיום ההצפנה.</qt>"
 
 #: kgpgexternalactions.cpp:148
 #, kde-format
@@ -3135,16 +3173,15 @@ msgid "KGpg Assistant"
 msgstr "מסייע KGpg"
 
 #: kgpgfirstassistant.cpp:59
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
 "for KGpg to work properly. Next, it will allow you to create your own key "
 "pair, enabling you to encrypt your files and emails."
 msgstr ""
-"<h1>KGpg ברוך הבא לאשף ה</h1>\n"
-"ראשית האשף יצור מספר הגדרות בסיסיות הנדרשות ל KGpg על מנת לעבוד כיאות. לאחר "
-"מכן, הוא יאפשר לך ליצור זוג מפתחות משלך, ובכך יתיר לך להצפין את קבצים ודוא"
-"\"ל."
+"המסייע יגדיר כל מיני אפשרויות יסוד שנחוצות ל־KGpg כדי לעבוד כראוי. לאחר מכן, "
+"הוא יאפשר לך להגדיר צמד מפתחות משלך כדי לאפשר לך להצפין את הקבצים וההודעות "
+"שלך."
 
 #: kgpgfirstassistant.cpp:67
 #, kde-format
@@ -4325,17 +4362,17 @@ msgstr[2] "<para>%1 חתימות יובאו.</para>"
 msgstr[3] "<para>%1 חתימות יובאו.</para>"
 
 #: transactions/kgpgimport.cpp:140
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One revocation certificate imported.</para>"
 msgid_plural "<para>%1 revocation certificates imported.</para>"
-msgstr[0] "<qt>יובאה אשרת ביטול־תוקף אחת.<br></qt>"
-msgstr[1] "<qt>יובאו %1 אשרות ביטול־תוקף.<br></qt>"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "<para>יובא אישור שלילה אחד.</para>"
+msgstr[1] "<para>יובאו שני אישורי שלילה.</para>"
+msgstr[2] "<para>יובאו %1 אישורי שלילה.</para>"
+msgstr[3] "<para>יובאו %1 אישורי שלילה.</para>"
 
 #: transactions/kgpgimport.cpp:142
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key processed.</para>"
 msgid_plural "<para>%1 secret keys processed.</para>"
