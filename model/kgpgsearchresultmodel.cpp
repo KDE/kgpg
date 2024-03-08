@@ -14,7 +14,6 @@
 #include <QRegularExpression>
 #include <QScopedPointer>
 #include <QString>
-#include <QTextCodec>
 
 #include "core/convert.h"
 #include "core/kgpgkey.h"
@@ -186,7 +185,7 @@ KGpgSearchResultModelPrivate::urlDecode(const QString &line)
 		tmp.replace(pos, 3, n);
 	}
 
-	return QTextCodec::codecForName("utf8")->toUnicode(tmp);
+	return QString::fromUtf8(tmp);
 }
 
 KGpgSearchResultBackingModel::KGpgSearchResultBackingModel(QObject *parent)

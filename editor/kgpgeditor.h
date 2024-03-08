@@ -8,7 +8,6 @@
 
 #include <KXmlGuiWindow>
 #include <QUrl>
-#include <QTextCodec>
 
 class KToggleAction;
 class QAction;

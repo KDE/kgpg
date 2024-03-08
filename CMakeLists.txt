@@ -34,7 +34,6 @@ find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
   Gui
   PrintSupport
   Widgets
-  Core5Compat
 )
 
 
@@ -269,7 +268,6 @@ target_link_libraries(kgpg_lib
     KF6::WindowSystem
     KF6::StatusNotifierItem
     KPim6::AkonadiContactWidgets
-    Qt6::Core5Compat
     Qt6::PrintSupport
 )
 

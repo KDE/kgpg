@@ -47,6 +47,7 @@
 #include <QPainter>
 #include <QPrintDialog>
 #include <QPrinter>
+#include <QStringEncoder>
 #include <QTextStream>
 #include <QVBoxLayout>
 #include <QWidget>

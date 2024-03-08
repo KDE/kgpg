@@ -13,7 +13,7 @@
 
 #include <QDir>
 #include <QFileInfo>
-#include <QTextCodec>
+#include <QStringDecoder>
 
 #ifndef Q_OS_WIN
   #include <sys/stat.h>
@@ -250,14 +250,13 @@ GPGProc::recode(QByteArray a, const bool colons, const QByteArray &codec)
 		} while ((npos = a.indexOf(pattern, npos)) >= 0);
 	}
 
-	return QTextCodec::codecForName(textcodec)->toUnicode(a);
+	return QStringDecoder(textcodec).decode(a);
 }
 
 bool
 GPGProc::setCodec(const QByteArray &codec)
 {
-	const QList<QByteArray> codecs = QTextCodec::availableCodecs();
-	if (!codecs.contains(codec))
+	if (!QStringDecoder(codec.constData()).isValid())
 		return false;
 
 	m_codec = codec;
