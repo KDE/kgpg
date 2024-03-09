@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-20 00:39+0000\n"
+"POT-Creation-Date: 2024-03-09 00:40+0000\n"
 "PO-Revision-Date: 2024-01-04 10:42+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -615,7 +615,7 @@ msgstr "Gerente de clave"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #. i18n: ectx: attribute (title), widget (QWidget, tabEditor)
-#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:503
+#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:504
 #, kde-format
 msgid "Editor"
 msgstr "Editor"
@@ -1055,63 +1055,63 @@ msgstr "ID de photo"
 msgid "Info"
 msgstr "Info"
 
-#: editor/kgpgeditor.cpp:90 editor/kgpgeditor.cpp:240 editor/kgpgeditor.cpp:726
-#: editor/kgpgeditor.cpp:755
+#: editor/kgpgeditor.cpp:91 editor/kgpgeditor.cpp:241 editor/kgpgeditor.cpp:727
+#: editor/kgpgeditor.cpp:756
 #, kde-format
 msgid "Untitled"
 msgstr "Sin titulo"
 
-#: editor/kgpgeditor.cpp:186
+#: editor/kgpgeditor.cpp:187
 #, kde-format
 msgid "&Encrypt File..."
 msgstr "Cr&ypta file..."
 
-#: editor/kgpgeditor.cpp:190
+#: editor/kgpgeditor.cpp:191
 #, kde-format
 msgid "&Decrypt File..."
 msgstr "&Decrypta file..."
 
-#: editor/kgpgeditor.cpp:194
+#: editor/kgpgeditor.cpp:195
 #, kde-format
 msgid "&Open Key Manager"
 msgstr "&Aperi gerente de clave"
 
-#: editor/kgpgeditor.cpp:197
+#: editor/kgpgeditor.cpp:198
 #, kde-format
 msgid "&Generate Signature..."
 msgstr "&Genera signatura..."
 
-#: editor/kgpgeditor.cpp:201
+#: editor/kgpgeditor.cpp:202
 #, kde-format
 msgid "&Verify Signature..."
 msgstr "&Verifica signatura..."
 
-#: editor/kgpgeditor.cpp:204
+#: editor/kgpgeditor.cpp:205
 #, kde-format
 msgid "&Check MD5 Sum..."
 msgstr "Verifi&ca Summa MD5..."
 
-#: editor/kgpgeditor.cpp:207
+#: editor/kgpgeditor.cpp:208
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
 msgstr "Codificante &Unicode (utf-8)"
 
-#: editor/kgpgeditor.cpp:213
+#: editor/kgpgeditor.cpp:214
 #, kde-format
 msgid "En&crypt"
 msgstr "Cr&ypta"
 
-#: editor/kgpgeditor.cpp:217
+#: editor/kgpgeditor.cpp:218
 #, kde-format
 msgid "&Decrypt"
 msgstr "&Decrypta"
 
-#: editor/kgpgeditor.cpp:221
+#: editor/kgpgeditor.cpp:222
 #, kde-format
 msgid "S&ign/Verify"
 msgstr "S&igna/Verifica"
 
-#: editor/kgpgeditor.cpp:244
+#: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid ""
 "The document \"%1\" has changed.\n"
@@ -1120,12 +1120,12 @@ msgstr ""
 "Le documento \"%1\" ha modificate.\n"
 "Tu vole salveguardar lo?"
 
-#: editor/kgpgeditor.cpp:245
+#: editor/kgpgeditor.cpp:246
 #, kde-format
 msgid "Close the document"
 msgstr "Claude le documento"
 
-#: editor/kgpgeditor.cpp:291
+#: editor/kgpgeditor.cpp:292
 #, kde-format
 msgid ""
 "The document could not been saved, as the selected codec is not supported."
@@ -1133,7 +1133,7 @@ msgstr ""
 "Le documento non poteva esser salveguardate, proque le codec selectionate "
 "non es supportate."
 
-#: editor/kgpgeditor.cpp:300 editor/kgpgeditor.cpp:317
+#: editor/kgpgeditor.cpp:301 editor/kgpgeditor.cpp:318
 #, kde-format
 msgid ""
 "The document could not be saved, please check your permissions and disk "
@@ -1142,55 +1142,55 @@ msgstr ""
 "Le documento non poteva esser salveguardate, pro favor tu verifica tu "
 "permissiones e tu spatio de disco,"
 
-#: editor/kgpgeditor.cpp:342 editor/kgpgeditor.cpp:353 keyexport.cpp:37
+#: editor/kgpgeditor.cpp:343 editor/kgpgeditor.cpp:354 keyexport.cpp:37
 #, kde-format
 msgid "Overwrite existing file %1?"
 msgstr "Super scribe le file existente %1?"
 
-#: editor/kgpgeditor.cpp:467
+#: editor/kgpgeditor.cpp:468
 #, kde-format
 msgid "Open File to Encode"
 msgstr "Aperi file per codificar"
 
-#: editor/kgpgeditor.cpp:467 editor/kgpgeditor.cpp:476
-#: editor/kgpgeditor.cpp:611 editor/kgpgeditor.cpp:649
-#: editor/kgpgeditor.cpp:683
+#: editor/kgpgeditor.cpp:468 editor/kgpgeditor.cpp:477
+#: editor/kgpgeditor.cpp:612 editor/kgpgeditor.cpp:650
+#: editor/kgpgeditor.cpp:684
 #, kde-format
 msgid "*|All Files"
 msgstr "*|Omne files"
 
-#: editor/kgpgeditor.cpp:476
+#: editor/kgpgeditor.cpp:477
 #, kde-format
 msgid "Open File to Decode"
 msgstr "Aperi file per decodificar"
 
-#: editor/kgpgeditor.cpp:490
+#: editor/kgpgeditor.cpp:491
 #, kde-format
 msgid "Decrypt File To"
 msgstr "Crypta file in"
 
-#: editor/kgpgeditor.cpp:501 keyexport.cpp:20
+#: editor/kgpgeditor.cpp:502 keyexport.cpp:20
 #, kde-format
 msgid "Save File"
 msgstr "Salveguarda file"
 
-#: editor/kgpgeditor.cpp:527 kgpgexternalactions.cpp:204
+#: editor/kgpgeditor.cpp:528 kgpgexternalactions.cpp:204
 #: kgpgexternalactions.cpp:363 transactions/kgpgtransactionprivate.cpp:107
 #, kde-format
 msgid "File Already Exists"
 msgstr "File Ja existe"
 
-#: editor/kgpgeditor.cpp:611
+#: editor/kgpgeditor.cpp:612
 #, kde-format
 msgid "Open File to Sign"
 msgstr "Aperi file de signar"
 
-#: editor/kgpgeditor.cpp:649 editor/kgpgeditor.cpp:683
+#: editor/kgpgeditor.cpp:650 editor/kgpgeditor.cpp:684
 #, kde-format
 msgid "Open File to Verify"
 msgstr "Aperi file per verificar"
 
-#: editor/kgpgeditor.cpp:696 editor/kgpgtextedit.cpp:342
+#: editor/kgpgeditor.cpp:697 editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid ""
 "<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to "
@@ -1200,12 +1200,12 @@ msgstr ""
 "importar iste clave ex un servitor de clave?</qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
-#: editor/kgpgeditor.cpp:697 keyserver.ui:33 keytreeview.cpp:158
+#: editor/kgpgeditor.cpp:698 keyserver.ui:33 keytreeview.cpp:158
 #, kde-format
 msgid "Import"
 msgstr "Importa"
 
-#: editor/kgpgeditor.cpp:697 keytreeview.cpp:159
+#: editor/kgpgeditor.cpp:698 keytreeview.cpp:159
 #, kde-format
 msgid "Do Not Import"
 msgstr "Non Importa"
@@ -3916,12 +3916,12 @@ msgctxt "%1 = something like 7 keys, %2 = something like 2 groups"
 msgid "%1, %2"
 msgstr "%1, %2"
 
-#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:418
+#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:417
 #, kde-format
 msgid "Name"
 msgstr "Nomine"
 
-#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:420
+#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:419
 #, kde-format
 msgctxt "@title:column Title of a column of emails"
 msgid "Email"
@@ -3932,19 +3932,19 @@ msgstr "E-posta"
 msgid "ID"
 msgstr "ID"
 
-#: model/kgpgsearchresultmodel.cpp:147
+#: model/kgpgsearchresultmodel.cpp:146
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked"
 msgid "ID %1, %2-bit %3 key, created %4, revoked"
 msgstr "ID %1, %2-bit %3 clave, create %4, revocate"
 
-#: model/kgpgsearchresultmodel.cpp:152
+#: model/kgpgsearchresultmodel.cpp:151
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009"
 msgid "ID %1, %2-bit %3 key, created %4"
 msgstr "ID %1, %2-bit %3 clave, create %4"
 
-#: model/kgpgsearchresultmodel.cpp:285
+#: model/kgpgsearchresultmodel.cpp:284
 #, kde-format
 msgid "One Photo ID"
 msgid_plural "%1 Photo IDs"

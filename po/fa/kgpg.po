@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-20 00:39+0000\n"
+"POT-Creation-Date: 2024-03-09 00:40+0000\n"
 "PO-Revision-Date: 2012-01-13 10:54+0330\n"
 "Last-Translator: Mohammad Reza Mirdamadi <mohi@ubuntu.ir>\n"
 "Language-Team: Farsi (Persian) <>\n"
@@ -583,7 +583,7 @@ msgstr "مدیر کلید"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #. i18n: ectx: attribute (title), widget (QWidget, tabEditor)
-#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:503
+#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:504
 #, kde-format
 msgid "Editor"
 msgstr "ویرایشگر"
@@ -1031,63 +1031,63 @@ msgstr "شناسه عکس"
 msgid "Info"
 msgstr "اطلاعات"
 
-#: editor/kgpgeditor.cpp:90 editor/kgpgeditor.cpp:240 editor/kgpgeditor.cpp:726
-#: editor/kgpgeditor.cpp:755
+#: editor/kgpgeditor.cpp:91 editor/kgpgeditor.cpp:241 editor/kgpgeditor.cpp:727
+#: editor/kgpgeditor.cpp:756
 #, kde-format
 msgid "Untitled"
 msgstr "بدون عنوان"
 
-#: editor/kgpgeditor.cpp:186
+#: editor/kgpgeditor.cpp:187
 #, kde-format
 msgid "&Encrypt File..."
 msgstr "&رمزبندی پرونده...‌"
 
-#: editor/kgpgeditor.cpp:190
+#: editor/kgpgeditor.cpp:191
 #, kde-format
 msgid "&Decrypt File..."
 msgstr "&سرگشایی پرونده...‌"
 
-#: editor/kgpgeditor.cpp:194
+#: editor/kgpgeditor.cpp:195
 #, kde-format
 msgid "&Open Key Manager"
 msgstr "&باز کردن مدیر کلید‌"
 
-#: editor/kgpgeditor.cpp:197
+#: editor/kgpgeditor.cpp:198
 #, kde-format
 msgid "&Generate Signature..."
 msgstr "&تولید امضا...‌"
 
-#: editor/kgpgeditor.cpp:201
+#: editor/kgpgeditor.cpp:202
 #, kde-format
 msgid "&Verify Signature..."
 msgstr "&وارسی امضا...‌"
 
-#: editor/kgpgeditor.cpp:204
+#: editor/kgpgeditor.cpp:205
 #, kde-format
 msgid "&Check MD5 Sum..."
 msgstr "&علامت زدن مجموع MD5...‌"
 
-#: editor/kgpgeditor.cpp:207
+#: editor/kgpgeditor.cpp:208
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
 msgstr "کدبندی &یونیکد )utf-8("
 
-#: editor/kgpgeditor.cpp:213
+#: editor/kgpgeditor.cpp:214
 #, kde-format
 msgid "En&crypt"
 msgstr "&رمزبندی‌"
 
-#: editor/kgpgeditor.cpp:217
+#: editor/kgpgeditor.cpp:218
 #, kde-format
 msgid "&Decrypt"
 msgstr "&سرگشایی‌"
 
-#: editor/kgpgeditor.cpp:221
+#: editor/kgpgeditor.cpp:222
 #, kde-format
 msgid "S&ign/Verify"
 msgstr "&امضا/وارسی‌"
 
-#: editor/kgpgeditor.cpp:244
+#: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid ""
 "The document \"%1\" has changed.\n"
@@ -1096,12 +1096,12 @@ msgstr ""
 "سند »%1« تغییر یافته است.\n"
 "می‌خواهید آن را ذخیره کنید؟"
 
-#: editor/kgpgeditor.cpp:245
+#: editor/kgpgeditor.cpp:246
 #, kde-format
 msgid "Close the document"
 msgstr "بستن سند"
 
-#: editor/kgpgeditor.cpp:291
+#: editor/kgpgeditor.cpp:292
 #, fuzzy, kde-format
 #| msgid ""
 #| "The document could not been saved, as the selected encoding cannot encode "
@@ -1112,62 +1112,62 @@ msgstr ""
 "سند را نتوانست ذخیره کند، نظیرکدبندی برگزیده می‌تواند هر نویسه یونی‌کدی را در "
 "آن کدبندی کند."
 
-#: editor/kgpgeditor.cpp:300 editor/kgpgeditor.cpp:317
+#: editor/kgpgeditor.cpp:301 editor/kgpgeditor.cpp:318
 #, kde-format
 msgid ""
 "The document could not be saved, please check your permissions and disk "
 "space."
 msgstr "سند را نتوانست ذخیره کند. لطفاً، مجوزها و فضای دیسک خود را بررسی کنید."
 
-#: editor/kgpgeditor.cpp:342 editor/kgpgeditor.cpp:353 keyexport.cpp:37
+#: editor/kgpgeditor.cpp:343 editor/kgpgeditor.cpp:354 keyexport.cpp:37
 #, kde-format
 msgid "Overwrite existing file %1?"
 msgstr " پرونده موجود %1 جای‌نوشت شود؟"
 
-#: editor/kgpgeditor.cpp:467
+#: editor/kgpgeditor.cpp:468
 #, kde-format
 msgid "Open File to Encode"
 msgstr "باز کردن پرونده جهت رمزبندی"
 
-#: editor/kgpgeditor.cpp:467 editor/kgpgeditor.cpp:476
-#: editor/kgpgeditor.cpp:611 editor/kgpgeditor.cpp:649
-#: editor/kgpgeditor.cpp:683
+#: editor/kgpgeditor.cpp:468 editor/kgpgeditor.cpp:477
+#: editor/kgpgeditor.cpp:612 editor/kgpgeditor.cpp:650
+#: editor/kgpgeditor.cpp:684
 #, kde-format
 msgid "*|All Files"
 msgstr "*|کل پرونده‌ها"
 
-#: editor/kgpgeditor.cpp:476
+#: editor/kgpgeditor.cpp:477
 #, kde-format
 msgid "Open File to Decode"
 msgstr "باز کردن پرونده جهت سرگشایی"
 
-#: editor/kgpgeditor.cpp:490
+#: editor/kgpgeditor.cpp:491
 #, kde-format
 msgid "Decrypt File To"
 msgstr "سرگشایی پرونده جهت"
 
-#: editor/kgpgeditor.cpp:501 keyexport.cpp:20
+#: editor/kgpgeditor.cpp:502 keyexport.cpp:20
 #, kde-format
 msgid "Save File"
 msgstr "ذخیره پرونده"
 
-#: editor/kgpgeditor.cpp:527 kgpgexternalactions.cpp:204
+#: editor/kgpgeditor.cpp:528 kgpgexternalactions.cpp:204
 #: kgpgexternalactions.cpp:363 transactions/kgpgtransactionprivate.cpp:107
 #, kde-format
 msgid "File Already Exists"
 msgstr "در حال حاضر پرونده موجود است"
 
-#: editor/kgpgeditor.cpp:611
+#: editor/kgpgeditor.cpp:612
 #, kde-format
 msgid "Open File to Sign"
 msgstr "باز کردن پرونده جهت امضا"
 
-#: editor/kgpgeditor.cpp:649 editor/kgpgeditor.cpp:683
+#: editor/kgpgeditor.cpp:650 editor/kgpgeditor.cpp:684
 #, kde-format
 msgid "Open File to Verify"
 msgstr "باز کردن پرونده جهت واررسی"
 
-#: editor/kgpgeditor.cpp:696 editor/kgpgtextedit.cpp:342
+#: editor/kgpgeditor.cpp:697 editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid ""
 "<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to "
@@ -1177,12 +1177,12 @@ msgstr ""
 "از کارساز کلید وارد کنید؟</qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
-#: editor/kgpgeditor.cpp:697 keyserver.ui:33 keytreeview.cpp:158
+#: editor/kgpgeditor.cpp:698 keyserver.ui:33 keytreeview.cpp:158
 #, kde-format
 msgid "Import"
 msgstr "واردات"
 
-#: editor/kgpgeditor.cpp:697 keytreeview.cpp:159
+#: editor/kgpgeditor.cpp:698 keytreeview.cpp:159
 #, kde-format
 msgid "Do Not Import"
 msgstr "وارد نشود"
@@ -3903,12 +3903,12 @@ msgctxt "%1 = something like 7 keys, %2 = something like 2 groups"
 msgid "%1, %2"
 msgstr ""
 
-#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:418
+#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:417
 #, kde-format
 msgid "Name"
 msgstr "نام"
 
-#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:420
+#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:419
 #, kde-format
 msgctxt "@title:column Title of a column of emails"
 msgid "Email"
@@ -3919,19 +3919,19 @@ msgstr "رایانامه"
 msgid "ID"
 msgstr "شناسه"
 
-#: model/kgpgsearchresultmodel.cpp:147
+#: model/kgpgsearchresultmodel.cpp:146
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked"
 msgid "ID %1, %2-bit %3 key, created %4, revoked"
 msgstr ""
 
-#: model/kgpgsearchresultmodel.cpp:152
+#: model/kgpgsearchresultmodel.cpp:151
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009"
 msgid "ID %1, %2-bit %3 key, created %4"
 msgstr ""
 
-#: model/kgpgsearchresultmodel.cpp:285
+#: model/kgpgsearchresultmodel.cpp:284
 #, fuzzy, kde-format
 #| msgid "Photo ID"
 msgid "One Photo ID"

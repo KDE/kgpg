@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-20 00:39+0000\n"
+"POT-Creation-Date: 2024-03-09 00:40+0000\n"
 "PO-Revision-Date: 2024-01-04 19:35+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
@@ -607,7 +607,7 @@ msgstr "გასაღებების მმართველი"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #. i18n: ectx: attribute (title), widget (QWidget, tabEditor)
-#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:503
+#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:504
 #, kde-format
 msgid "Editor"
 msgstr "რედაქტორი"
@@ -1048,63 +1048,63 @@ msgstr "სურათის ID"
 msgid "Info"
 msgstr "ინფო"
 
-#: editor/kgpgeditor.cpp:90 editor/kgpgeditor.cpp:240 editor/kgpgeditor.cpp:726
-#: editor/kgpgeditor.cpp:755
+#: editor/kgpgeditor.cpp:91 editor/kgpgeditor.cpp:241 editor/kgpgeditor.cpp:727
+#: editor/kgpgeditor.cpp:756
 #, kde-format
 msgid "Untitled"
 msgstr "უსახელო"
 
-#: editor/kgpgeditor.cpp:186
+#: editor/kgpgeditor.cpp:187
 #, kde-format
 msgid "&Encrypt File..."
 msgstr "ფაილის &დაშიფვრა..."
 
-#: editor/kgpgeditor.cpp:190
+#: editor/kgpgeditor.cpp:191
 #, kde-format
 msgid "&Decrypt File..."
 msgstr "ფაილის &გაშიფვრა..."
 
-#: editor/kgpgeditor.cpp:194
+#: editor/kgpgeditor.cpp:195
 #, kde-format
 msgid "&Open Key Manager"
 msgstr "&გასაღებების მმართველის გახსნა"
 
-#: editor/kgpgeditor.cpp:197
+#: editor/kgpgeditor.cpp:198
 #, kde-format
 msgid "&Generate Signature..."
 msgstr "&ხელმოწერის გენერაცია..."
 
-#: editor/kgpgeditor.cpp:201
+#: editor/kgpgeditor.cpp:202
 #, kde-format
 msgid "&Verify Signature..."
 msgstr "&ხელმოწერის გადამოწმება..."
 
-#: editor/kgpgeditor.cpp:204
+#: editor/kgpgeditor.cpp:205
 #, kde-format
 msgid "&Check MD5 Sum..."
 msgstr "&MD5 ჯამის შემოწმება..."
 
-#: editor/kgpgeditor.cpp:207
+#: editor/kgpgeditor.cpp:208
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
 msgstr "&უნიკოდის (UTF-8) გამოყენება"
 
-#: editor/kgpgeditor.cpp:213
+#: editor/kgpgeditor.cpp:214
 #, kde-format
 msgid "En&crypt"
 msgstr "&დაშიფვრა"
 
-#: editor/kgpgeditor.cpp:217
+#: editor/kgpgeditor.cpp:218
 #, kde-format
 msgid "&Decrypt"
 msgstr "&გაშიფვრა"
 
-#: editor/kgpgeditor.cpp:221
+#: editor/kgpgeditor.cpp:222
 #, kde-format
 msgid "S&ign/Verify"
 msgstr "&ხელმოწერა/გადამოწმება"
 
-#: editor/kgpgeditor.cpp:244
+#: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid ""
 "The document \"%1\" has changed.\n"
@@ -1113,74 +1113,74 @@ msgstr ""
 "დოკუმენტი \"%1\" შეიცვალა.\n"
 "გსურთ მისი შენახვა?"
 
-#: editor/kgpgeditor.cpp:245
+#: editor/kgpgeditor.cpp:246
 #, kde-format
 msgid "Close the document"
 msgstr "დოკუმენტის დახურვა"
 
-#: editor/kgpgeditor.cpp:291
+#: editor/kgpgeditor.cpp:292
 #, kde-format
 msgid ""
 "The document could not been saved, as the selected codec is not supported."
 msgstr ""
 "დოკუმენტის შენახვა შეუძლებელია, რადგან არჩეული კოდეკი მხარდაჭერილი არაა."
 
-#: editor/kgpgeditor.cpp:300 editor/kgpgeditor.cpp:317
+#: editor/kgpgeditor.cpp:301 editor/kgpgeditor.cpp:318
 #, kde-format
 msgid ""
 "The document could not be saved, please check your permissions and disk "
 "space."
 msgstr "დოკუმენტი ვერ შევინახე. შეამოწმეთ წვდომები და ადგილი დისკზე."
 
-#: editor/kgpgeditor.cpp:342 editor/kgpgeditor.cpp:353 keyexport.cpp:37
+#: editor/kgpgeditor.cpp:343 editor/kgpgeditor.cpp:354 keyexport.cpp:37
 #, kde-format
 msgid "Overwrite existing file %1?"
 msgstr "გადავაწერო არსებულ ფაილს %1?"
 
-#: editor/kgpgeditor.cpp:467
+#: editor/kgpgeditor.cpp:468
 #, kde-format
 msgid "Open File to Encode"
 msgstr "გახსენით დასაშიფრი ფაილი"
 
-#: editor/kgpgeditor.cpp:467 editor/kgpgeditor.cpp:476
-#: editor/kgpgeditor.cpp:611 editor/kgpgeditor.cpp:649
-#: editor/kgpgeditor.cpp:683
+#: editor/kgpgeditor.cpp:468 editor/kgpgeditor.cpp:477
+#: editor/kgpgeditor.cpp:612 editor/kgpgeditor.cpp:650
+#: editor/kgpgeditor.cpp:684
 #, kde-format
 msgid "*|All Files"
 msgstr "*|ყველა ფაილი"
 
-#: editor/kgpgeditor.cpp:476
+#: editor/kgpgeditor.cpp:477
 #, kde-format
 msgid "Open File to Decode"
 msgstr "გახსენით გასაშიფრი ფაილი"
 
-#: editor/kgpgeditor.cpp:490
+#: editor/kgpgeditor.cpp:491
 #, kde-format
 msgid "Decrypt File To"
 msgstr "ფაილის გაშიფვრა"
 
-#: editor/kgpgeditor.cpp:501 keyexport.cpp:20
+#: editor/kgpgeditor.cpp:502 keyexport.cpp:20
 #, kde-format
 msgid "Save File"
 msgstr "ფაილის შენახვა"
 
-#: editor/kgpgeditor.cpp:527 kgpgexternalactions.cpp:204
+#: editor/kgpgeditor.cpp:528 kgpgexternalactions.cpp:204
 #: kgpgexternalactions.cpp:363 transactions/kgpgtransactionprivate.cpp:107
 #, kde-format
 msgid "File Already Exists"
 msgstr "ფაილი უკვე არსებობს"
 
-#: editor/kgpgeditor.cpp:611
+#: editor/kgpgeditor.cpp:612
 #, kde-format
 msgid "Open File to Sign"
 msgstr "გახსენით ხელმოსაწერი ფაილი"
 
-#: editor/kgpgeditor.cpp:649 editor/kgpgeditor.cpp:683
+#: editor/kgpgeditor.cpp:650 editor/kgpgeditor.cpp:684
 #, kde-format
 msgid "Open File to Verify"
 msgstr "გახსენით გადასამოწმებელი ფაილი"
 
-#: editor/kgpgeditor.cpp:696 editor/kgpgtextedit.cpp:342
+#: editor/kgpgeditor.cpp:697 editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid ""
 "<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to "
@@ -1190,12 +1190,12 @@ msgstr ""
 "შემოვიტანო ეს გასაღები გასაღებების სერვერიდან?</qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
-#: editor/kgpgeditor.cpp:697 keyserver.ui:33 keytreeview.cpp:158
+#: editor/kgpgeditor.cpp:698 keyserver.ui:33 keytreeview.cpp:158
 #, kde-format
 msgid "Import"
 msgstr "იმპორტი"
 
-#: editor/kgpgeditor.cpp:697 keytreeview.cpp:159
+#: editor/kgpgeditor.cpp:698 keytreeview.cpp:159
 #, kde-format
 msgid "Do Not Import"
 msgstr "არ შემოიტანო"
@@ -3886,12 +3886,12 @@ msgctxt "%1 = something like 7 keys, %2 = something like 2 groups"
 msgid "%1, %2"
 msgstr "%1, %2"
 
-#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:418
+#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:417
 #, kde-format
 msgid "Name"
 msgstr "სახელი"
 
-#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:420
+#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:419
 #, kde-format
 msgctxt "@title:column Title of a column of emails"
 msgid "Email"
@@ -3902,19 +3902,19 @@ msgstr "ელ-ფოსტა"
 msgid "ID"
 msgstr "ID"
 
-#: model/kgpgsearchresultmodel.cpp:147
+#: model/kgpgsearchresultmodel.cpp:146
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked"
 msgid "ID %1, %2-bit %3 key, created %4, revoked"
 msgstr "ID %1, %2-ბიტიანი %3 გასაღები, შეიქმნა %4, გაუქმდა"
 
-#: model/kgpgsearchresultmodel.cpp:152
+#: model/kgpgsearchresultmodel.cpp:151
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009"
 msgid "ID %1, %2-bit %3 key, created %4"
 msgstr "ID %1, %2-ბიტიანი %3 გასაღები, შეიქმნა %4"
 
-#: model/kgpgsearchresultmodel.cpp:285
+#: model/kgpgsearchresultmodel.cpp:284
 #, kde-format
 msgid "One Photo ID"
 msgid_plural "%1 Photo IDs"

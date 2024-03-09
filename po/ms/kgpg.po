@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mimos\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-20 00:39+0000\n"
+"POT-Creation-Date: 2024-03-09 00:40+0000\n"
 "PO-Revision-Date: 2005-11-17 23:25+0800\n"
 "Last-Translator: MIMOS Open Source <opensource@mimos.my>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -651,7 +651,7 @@ msgstr "Pengurus Kunci"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #. i18n: ectx: attribute (title), widget (QWidget, tabEditor)
-#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:503
+#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:504
 #, kde-format
 msgid "Editor"
 msgstr "Editor"
@@ -1109,75 +1109,75 @@ msgstr "Id foto"
 msgid "Info"
 msgstr "Maklumat"
 
-#: editor/kgpgeditor.cpp:90 editor/kgpgeditor.cpp:240 editor/kgpgeditor.cpp:726
-#: editor/kgpgeditor.cpp:755
+#: editor/kgpgeditor.cpp:91 editor/kgpgeditor.cpp:241 editor/kgpgeditor.cpp:727
+#: editor/kgpgeditor.cpp:756
 #, fuzzy, kde-format
 msgid "Untitled"
 msgstr "tak bertajuk"
 
-#: editor/kgpgeditor.cpp:186
+#: editor/kgpgeditor.cpp:187
 #, kde-format
 msgid "&Encrypt File..."
 msgstr "&Sulitkan Fail..."
 
-#: editor/kgpgeditor.cpp:190
+#: editor/kgpgeditor.cpp:191
 #, kde-format
 msgid "&Decrypt File..."
 msgstr "&Nyahsulitkan Fail..."
 
-#: editor/kgpgeditor.cpp:194
+#: editor/kgpgeditor.cpp:195
 #, kde-format
 msgid "&Open Key Manager"
 msgstr "&Buka Pengurus Kunci"
 
-#: editor/kgpgeditor.cpp:197
+#: editor/kgpgeditor.cpp:198
 #, kde-format
 msgid "&Generate Signature..."
 msgstr "&Hasilkan Tandatangan..."
 
-#: editor/kgpgeditor.cpp:201
+#: editor/kgpgeditor.cpp:202
 #, kde-format
 msgid "&Verify Signature..."
 msgstr "&Sahkan Tandatangan..."
 
-#: editor/kgpgeditor.cpp:204
+#: editor/kgpgeditor.cpp:205
 #, kde-format
 msgid "&Check MD5 Sum..."
 msgstr "&Semak Jumlah MD5..."
 
-#: editor/kgpgeditor.cpp:207
+#: editor/kgpgeditor.cpp:208
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
 msgstr ""
 
-#: editor/kgpgeditor.cpp:213
+#: editor/kgpgeditor.cpp:214
 #, kde-format
 msgid "En&crypt"
 msgstr "&Sulitkan"
 
-#: editor/kgpgeditor.cpp:217
+#: editor/kgpgeditor.cpp:218
 #, kde-format
 msgid "&Decrypt"
 msgstr "&Nyahsulit"
 
-#: editor/kgpgeditor.cpp:221
+#: editor/kgpgeditor.cpp:222
 #, kde-format
 msgid "S&ign/Verify"
 msgstr "&Tandatangan/Sah"
 
-#: editor/kgpgeditor.cpp:244
+#: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid ""
 "The document \"%1\" has changed.\n"
 "Do you want to save it?"
 msgstr ""
 
-#: editor/kgpgeditor.cpp:245
+#: editor/kgpgeditor.cpp:246
 #, kde-format
 msgid "Close the document"
 msgstr ""
 
-#: editor/kgpgeditor.cpp:291
+#: editor/kgpgeditor.cpp:292
 #, fuzzy, kde-format
 #| msgid ""
 #| "The document could not been saved, as the selected encoding cannot encode "
@@ -1188,7 +1188,7 @@ msgstr ""
 "Dokumen tidak dapat disimpan, kerana pengekodan yang dipilih tidak dapat "
 "mengekod setiap aksara ekakod di dalamnya."
 
-#: editor/kgpgeditor.cpp:300 editor/kgpgeditor.cpp:317
+#: editor/kgpgeditor.cpp:301 editor/kgpgeditor.cpp:318
 #, kde-format
 msgid ""
 "The document could not be saved, please check your permissions and disk "
@@ -1196,55 +1196,55 @@ msgid ""
 msgstr ""
 "Dokumen tidak dapat disimpan, sila semak keizinan anda dan ruang cakera."
 
-#: editor/kgpgeditor.cpp:342 editor/kgpgeditor.cpp:353 keyexport.cpp:37
+#: editor/kgpgeditor.cpp:343 editor/kgpgeditor.cpp:354 keyexport.cpp:37
 #, kde-format
 msgid "Overwrite existing file %1?"
 msgstr "Tulis ganti fail sedia ada %1?"
 
-#: editor/kgpgeditor.cpp:467
+#: editor/kgpgeditor.cpp:468
 #, kde-format
 msgid "Open File to Encode"
 msgstr "Buka Fail untuk Mengekod"
 
-#: editor/kgpgeditor.cpp:467 editor/kgpgeditor.cpp:476
-#: editor/kgpgeditor.cpp:611 editor/kgpgeditor.cpp:649
-#: editor/kgpgeditor.cpp:683
+#: editor/kgpgeditor.cpp:468 editor/kgpgeditor.cpp:477
+#: editor/kgpgeditor.cpp:612 editor/kgpgeditor.cpp:650
+#: editor/kgpgeditor.cpp:684
 #, kde-format
 msgid "*|All Files"
 msgstr "*|Semua Fail"
 
-#: editor/kgpgeditor.cpp:476
+#: editor/kgpgeditor.cpp:477
 #, kde-format
 msgid "Open File to Decode"
 msgstr "Buka Fail untuk Nyahkod"
 
-#: editor/kgpgeditor.cpp:490
+#: editor/kgpgeditor.cpp:491
 #, kde-format
 msgid "Decrypt File To"
 msgstr "Nyahsulit Fail Ke"
 
-#: editor/kgpgeditor.cpp:501 keyexport.cpp:20
+#: editor/kgpgeditor.cpp:502 keyexport.cpp:20
 #, kde-format
 msgid "Save File"
 msgstr "Simpan Fail"
 
-#: editor/kgpgeditor.cpp:527 kgpgexternalactions.cpp:204
+#: editor/kgpgeditor.cpp:528 kgpgexternalactions.cpp:204
 #: kgpgexternalactions.cpp:363 transactions/kgpgtransactionprivate.cpp:107
 #, kde-format
 msgid "File Already Exists"
 msgstr "Fail Sudah Wujud"
 
-#: editor/kgpgeditor.cpp:611
+#: editor/kgpgeditor.cpp:612
 #, kde-format
 msgid "Open File to Sign"
 msgstr "Buka Fail untuk Tandatangan"
 
-#: editor/kgpgeditor.cpp:649 editor/kgpgeditor.cpp:683
+#: editor/kgpgeditor.cpp:650 editor/kgpgeditor.cpp:684
 #, kde-format
 msgid "Open File to Verify"
 msgstr "Buka Fail untuk Pengesahan"
 
-#: editor/kgpgeditor.cpp:696 editor/kgpgtextedit.cpp:342
+#: editor/kgpgeditor.cpp:697 editor/kgpgtextedit.cpp:342
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt><b>Missing signature:</b><br>Key id: %1<br><br>Do you want to import "
@@ -1257,12 +1257,12 @@ msgstr ""
 "kunci ini dari pelayan kunci?</qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
-#: editor/kgpgeditor.cpp:697 keyserver.ui:33 keytreeview.cpp:158
+#: editor/kgpgeditor.cpp:698 keyserver.ui:33 keytreeview.cpp:158
 #, fuzzy, kde-format
 msgid "Import"
 msgstr "&Import"
 
-#: editor/kgpgeditor.cpp:697 keytreeview.cpp:159
+#: editor/kgpgeditor.cpp:698 keytreeview.cpp:159
 #, fuzzy, kde-format
 msgid "Do Not Import"
 msgstr "Import Kunci"
@@ -4096,12 +4096,12 @@ msgctxt "%1 = something like 7 keys, %2 = something like 2 groups"
 msgid "%1, %2"
 msgstr ""
 
-#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:418
+#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:417
 #, kde-format
 msgid "Name"
 msgstr "Nama"
 
-#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:420
+#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:419
 #, fuzzy, kde-format
 #| msgid "Email"
 msgctxt "@title:column Title of a column of emails"
@@ -4113,19 +4113,19 @@ msgstr "E-mel"
 msgid "ID"
 msgstr "ID"
 
-#: model/kgpgsearchresultmodel.cpp:147
+#: model/kgpgsearchresultmodel.cpp:146
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked"
 msgid "ID %1, %2-bit %3 key, created %4, revoked"
 msgstr ""
 
-#: model/kgpgsearchresultmodel.cpp:152
+#: model/kgpgsearchresultmodel.cpp:151
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009"
 msgid "ID %1, %2-bit %3 key, created %4"
 msgstr ""
 
-#: model/kgpgsearchresultmodel.cpp:285
+#: model/kgpgsearchresultmodel.cpp:284
 #, fuzzy, kde-format
 #| msgid "Photo ID"
 msgid "One Photo ID"

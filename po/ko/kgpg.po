@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-01-20 00:39+0000\n"
+"POT-Creation-Date: 2024-03-09 00:40+0000\n"
 "PO-Revision-Date: 2024-02-09 23:41+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -587,7 +587,7 @@ msgstr "키 관리자"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #. i18n: ectx: attribute (title), widget (QWidget, tabEditor)
-#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:503
+#: conf_misc.ui:245 conf_misc.ui:272 editor/kgpgeditor.cpp:504
 #, kde-format
 msgid "Editor"
 msgstr "편집기"
@@ -1023,63 +1023,63 @@ msgstr "사진 ID"
 msgid "Info"
 msgstr "정보"
 
-#: editor/kgpgeditor.cpp:90 editor/kgpgeditor.cpp:240 editor/kgpgeditor.cpp:726
-#: editor/kgpgeditor.cpp:755
+#: editor/kgpgeditor.cpp:91 editor/kgpgeditor.cpp:241 editor/kgpgeditor.cpp:727
+#: editor/kgpgeditor.cpp:756
 #, kde-format
 msgid "Untitled"
 msgstr "제목 없음"
 
-#: editor/kgpgeditor.cpp:186
+#: editor/kgpgeditor.cpp:187
 #, kde-format
 msgid "&Encrypt File..."
 msgstr "파일 암호화(&E)..."
 
-#: editor/kgpgeditor.cpp:190
+#: editor/kgpgeditor.cpp:191
 #, kde-format
 msgid "&Decrypt File..."
 msgstr "파일 복호화(&D)..."
 
-#: editor/kgpgeditor.cpp:194
+#: editor/kgpgeditor.cpp:195
 #, kde-format
 msgid "&Open Key Manager"
 msgstr "키 관리자 열기(&O)"
 
-#: editor/kgpgeditor.cpp:197
+#: editor/kgpgeditor.cpp:198
 #, kde-format
 msgid "&Generate Signature..."
 msgstr "서명 생성(&G)..."
 
-#: editor/kgpgeditor.cpp:201
+#: editor/kgpgeditor.cpp:202
 #, kde-format
 msgid "&Verify Signature..."
 msgstr "서명 검증(&V)..."
 
-#: editor/kgpgeditor.cpp:204
+#: editor/kgpgeditor.cpp:205
 #, kde-format
 msgid "&Check MD5 Sum..."
 msgstr "MD5 체크섬 검사(&C)..."
 
-#: editor/kgpgeditor.cpp:207
+#: editor/kgpgeditor.cpp:208
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
 msgstr "유니코드 (UTF-8) 인코딩(&U)"
 
-#: editor/kgpgeditor.cpp:213
+#: editor/kgpgeditor.cpp:214
 #, kde-format
 msgid "En&crypt"
 msgstr "암호화(&C)"
 
-#: editor/kgpgeditor.cpp:217
+#: editor/kgpgeditor.cpp:218
 #, kde-format
 msgid "&Decrypt"
 msgstr "복호화(&D)"
 
-#: editor/kgpgeditor.cpp:221
+#: editor/kgpgeditor.cpp:222
 #, kde-format
 msgid "S&ign/Verify"
 msgstr "서명/검증(&I)"
 
-#: editor/kgpgeditor.cpp:244
+#: editor/kgpgeditor.cpp:245
 #, kde-format
 msgid ""
 "The document \"%1\" has changed.\n"
@@ -1088,73 +1088,73 @@ msgstr ""
 "문서 \"%1\"이(가) 변경되었습니다.\n"
 "저장하시겠습니까?"
 
-#: editor/kgpgeditor.cpp:245
+#: editor/kgpgeditor.cpp:246
 #, kde-format
 msgid "Close the document"
 msgstr "문서 닫기"
 
-#: editor/kgpgeditor.cpp:291
+#: editor/kgpgeditor.cpp:292
 #, kde-format
 msgid ""
 "The document could not been saved, as the selected codec is not supported."
 msgstr "선택한 코덱은 지원하지 않으므로 문서를 저장할 수 없습니다."
 
-#: editor/kgpgeditor.cpp:300 editor/kgpgeditor.cpp:317
+#: editor/kgpgeditor.cpp:301 editor/kgpgeditor.cpp:318
 #, kde-format
 msgid ""
 "The document could not be saved, please check your permissions and disk "
 "space."
 msgstr "문서를 저장할 수 없습니다. 권한과 디스크 공간을 확인하십시오."
 
-#: editor/kgpgeditor.cpp:342 editor/kgpgeditor.cpp:353 keyexport.cpp:37
+#: editor/kgpgeditor.cpp:343 editor/kgpgeditor.cpp:354 keyexport.cpp:37
 #, kde-format
 msgid "Overwrite existing file %1?"
 msgstr "존재하는 파일 %1을(를) 덮어쓰시겠습니까?"
 
-#: editor/kgpgeditor.cpp:467
+#: editor/kgpgeditor.cpp:468
 #, kde-format
 msgid "Open File to Encode"
 msgstr "인코드할 파일 열기"
 
-#: editor/kgpgeditor.cpp:467 editor/kgpgeditor.cpp:476
-#: editor/kgpgeditor.cpp:611 editor/kgpgeditor.cpp:649
-#: editor/kgpgeditor.cpp:683
+#: editor/kgpgeditor.cpp:468 editor/kgpgeditor.cpp:477
+#: editor/kgpgeditor.cpp:612 editor/kgpgeditor.cpp:650
+#: editor/kgpgeditor.cpp:684
 #, kde-format
 msgid "*|All Files"
 msgstr "*|모든 파일"
 
-#: editor/kgpgeditor.cpp:476
+#: editor/kgpgeditor.cpp:477
 #, kde-format
 msgid "Open File to Decode"
 msgstr "디코드할 파일 열기"
 
-#: editor/kgpgeditor.cpp:490
+#: editor/kgpgeditor.cpp:491
 #, kde-format
 msgid "Decrypt File To"
 msgstr "다음으로 파일 복호화"
 
-#: editor/kgpgeditor.cpp:501 keyexport.cpp:20
+#: editor/kgpgeditor.cpp:502 keyexport.cpp:20
 #, kde-format
 msgid "Save File"
 msgstr "파일 저장"
 
-#: editor/kgpgeditor.cpp:527 kgpgexternalactions.cpp:204
+#: editor/kgpgeditor.cpp:528 kgpgexternalactions.cpp:204
 #: kgpgexternalactions.cpp:363 transactions/kgpgtransactionprivate.cpp:107
 #, kde-format
 msgid "File Already Exists"
 msgstr "파일이 이미 존재함"
 
-#: editor/kgpgeditor.cpp:611
+#: editor/kgpgeditor.cpp:612
 #, kde-format
 msgid "Open File to Sign"
 msgstr "서명할 파일 열기"
 
-#: editor/kgpgeditor.cpp:649 editor/kgpgeditor.cpp:683
+#: editor/kgpgeditor.cpp:650 editor/kgpgeditor.cpp:684
 #, kde-format
 msgid "Open File to Verify"
 msgstr "검증할 파일 열기"
 
-#: editor/kgpgeditor.cpp:696 editor/kgpgtextedit.cpp:342
+#: editor/kgpgeditor.cpp:697 editor/kgpgtextedit.cpp:342
 #, kde-format
 msgid ""
 "<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to "
@@ -1164,12 +1164,12 @@ msgstr ""
 "져오시겠습니까?</qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
-#: editor/kgpgeditor.cpp:697 keyserver.ui:33 keytreeview.cpp:158
+#: editor/kgpgeditor.cpp:698 keyserver.ui:33 keytreeview.cpp:158
 #, kde-format
 msgid "Import"
 msgstr "가져오기"
 
-#: editor/kgpgeditor.cpp:697 keytreeview.cpp:159
+#: editor/kgpgeditor.cpp:698 keytreeview.cpp:159
 #, kde-format
 msgid "Do Not Import"
 msgstr "가져오지 않기"
@@ -3788,12 +3788,12 @@ msgctxt "%1 = something like 7 keys, %2 = something like 2 groups"
 msgid "%1, %2"
 msgstr "%1, %2"
 
-#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:418
+#: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:417
 #, kde-format
 msgid "Name"
 msgstr "이름"
 
-#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:420
+#: model/kgpgitemmodel.cpp:383 model/kgpgsearchresultmodel.cpp:419
 #, kde-format
 msgctxt "@title:column Title of a column of emails"
 msgid "Email"
@@ -3804,19 +3804,19 @@ msgstr "이메일 주소"
 msgid "ID"
 msgstr "ID"
 
-#: model/kgpgsearchresultmodel.cpp:147
+#: model/kgpgsearchresultmodel.cpp:146
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked"
 msgid "ID %1, %2-bit %3 key, created %4, revoked"
 msgstr "ID %1, %2비트 %3 키, %4에 생성됨, 철회됨"
 
-#: model/kgpgsearchresultmodel.cpp:152
+#: model/kgpgsearchresultmodel.cpp:151
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009"
 msgid "ID %1, %2-bit %3 key, created %4"
 msgstr "ID %1, %2비트 %3 키, %4에 생성됨"
 
-#: model/kgpgsearchresultmodel.cpp:285
+#: model/kgpgsearchresultmodel.cpp:284
 #, kde-format
 msgid "One Photo ID"
 msgid_plural "%1 Photo IDs"
