@@ -1,3 +1,4 @@
+# SPDX-FileCopyrightText: 2010, 2024 Johannes Obermayr <johannesobermayr@gmx.de>
 # Christoph Thielecke <crissi99@gmx.de>, 2002, 2003.
 # Gregor Zumstein <zumstein@ssd.ethz.ch>, 2003, 2004, 2005.
 # Thomas Diehl <thd@kde.org>, 2003, 2004.
@@ -8,7 +9,6 @@
 # Gregor Zumstein <gz@orchester-bremgarten.ch>, 2007, 2009.
 # Burkhard Lück <lueck@hube-lueck.de>, 2009, 2011, 2013, 2014, 2015, 2016, 2017, 2019, 2021.
 # Frederik Schwarzer <schwarzer@kde.org>, 2009, 2010, 2011, 2013, 2023.
-# Johannes Obermayr <johannesobermayr@gmx.de>, 2010.
 # Jonathan Raphael Joachim Kolberg <bulldog98@freenet.de>, 2011.
 # Frank Steinmetzger <dev-kde@felsenfleischer.de>, 2022.
 msgid ""
@@ -16,15 +16,15 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 00:40+0000\n"
-"PO-Revision-Date: 2023-08-14 21:31+0200\n"
-"Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
+"PO-Revision-Date: 2024-03-20 21:07+0100\n"
+"Last-Translator: Johannes Obermayr <johannesobermayr@gmx.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 24.02.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1302,19 +1302,16 @@ msgid "Key file dropped on Editor"
 msgstr "Schlüsseldatei an den Editor übergeben"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "Years"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr "Jahre"
+msgstr "Ja"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgctxt "No trust in key"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "keines"
+msgstr "Nein"
 
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
@@ -2531,11 +2528,10 @@ msgstr ""
 "Befehlszeile zu signieren?</qt>"
 
 #: keysmanager.cpp:1978
-#, fuzzy, kde-format
-#| msgid "Signature"
+#, kde-format
 msgctxt "@action:button"
 msgid "Sign"
-msgstr "Signatur"
+msgstr "Signieren"
 
 #: keysmanager.cpp:2094
 #, kde-format
