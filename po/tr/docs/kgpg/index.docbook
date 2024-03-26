@@ -550,7 +550,7 @@
 </screenshot>
 
 <para
->Artık güven ağının nasıl örüldüğünü, sahip ve anahtar güven değerlerinin ne için olduğunu ve kimlikleri denetlerken neden her zaman çok dikkatli olmanız gerektiğini biliyor olmalısınız. Başkaları size güveniyor olabilir; ancak süreçteki bir öge hala doğrulanmadı: İmzaladığınız anahtarlardaki e-posta adresleri. Anahtarınızda Ayça veya Bilge’nin e-posta adresleri ile yeni bir kimlik oluşturmak normalde yalnızca birkaç fare tıklaması alır. Bilge’nin gerçekten anahtarına sahip olduğunu doğruladınız. Ancak şimdiye kadar kimsenin aklına Bilge’nin kullanıcı kimliklerindeki e-posta adresine erişimi olup olmadığını denetlemek gelmedi.</para>
+>Artık güven ağının nasıl örüldüğünü, sahip ve anahtar güven değerlerinin ne için olduğunu ve kimlikleri denetlerken neden her zaman çok dikkatli olmanız gerektiğini biliyor olmalısınız. Başkaları size güveniyor olabilir; ancak süreçteki bir öge hâlâ doğrulanmadı: İmzaladığınız anahtarlardaki e-posta adresleri. Anahtarınızda Ayça veya Bilge’nin e-posta adresleri ile yeni bir kimlik oluşturmak normalde yalnızca birkaç fare tıklaması alır. Bilge’nin gerçekten anahtarına sahip olduğunu doğruladınız. Ancak şimdiye kadar kimsenin aklına Bilge’nin kullanıcı kimliklerindeki e-posta adresine erişimi olup olmadığını denetlemek gelmedi.</para>
 
 <para
 >Menüden <guimenuitem
@@ -666,7 +666,7 @@
 ><para
 ><guilabel
 >Kullanıcı kimliğini gizle</guilabel
->: Bu, alıcının tüm bilgisini şifreli dosyadan siler. Eğer aktarım bölünürse kimse dosyadan alıcıyla ilgili bilgi bulamaz. Alıcının birden fazla anahtarı varsa hangisinin kullanıldığını deneyerek öğrenebilir.</para
+>: Bu, alıcının tüm bilgisini şifreli dosyadan kaldırır. Eğer aktarım bölünürse kimse dosyadan alıcıyla ilgili bilgi bulamaz. Alıcının birden fazla anahtarı varsa hangisinin kullanıldığını deneyerek öğrenebilir.</para
 ></listitem>
 <listitem
 ><para
