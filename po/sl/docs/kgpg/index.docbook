@@ -1,0 +1,794 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Slovenian "INCLUDE">
+]>
+
+<book id="kgpg" lang="&language;">
+
+<bookinfo>
+<title
+>Priročnik za &kgpg;</title>
+
+<authorgroup>
+<author
+><firstname
+>Jean-Baptiste</firstname
+> <surname
+>Mardelle</surname
+> <affiliation
+> <address
+><email
+>bj@altern.org</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Rolf Eike</firstname
+> <surname
+>Beer</surname
+> <affiliation
+> <address
+><email
+>kde@opensource.sf-tec.de</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="translator"
+><firstname
+>Matjaž</firstname
+><surname
+>Jeran</surname
+><affiliation
+><address
+><email
+>matjaz.jeran@amis.net</email
+></address
+></affiliation
+><contrib
+>Prevod</contrib
+></othercredit
+> 
+
+</authorgroup>
+
+<copyright>
+<year
+>2002</year>
+<year
+>2007</year>
+<year
+>2008</year>
+<year
+>2009</year>
+<year
+>2010</year>
+<holder
+>Jean-Baptiste Mardelle</holder>
+<holder
+>Rolf Eike Beer</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>10.10.2016</date>
+<releaseinfo
+>Applications 16.12</releaseinfo>
+
+<abstract>
+<para
+>&kgpg; je preprost grafični vmesnik za GnuPG (<ulink url="https://gnupg.org"
+>https://gnupg.org</ulink
+>). </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>KGpg</keyword>
+<keyword
+>šifriranje</keyword>
+<keyword
+>gpg</keyword>
+<keyword
+>pgp</keyword>
+<keyword
+>varnost</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Uvod</title>
+
+
+<para
+>&kgpg; je enostaven vmesnik za GnuPG, ki je zmogljiv pripomoček za šifriranje. GnuPG (znan tudi kot gpg) je vključen v večini distribucijah in bi že moral biti nameščen na vašem sistemu. Najnovejšo različico dobite na <ulink url="https://gnupg.org"
+>https://gnupg.org</ulink
+>.</para>
+
+<para
+>Z &kgpg; boste lahko šifrirali in dešifrirali vaše datoteke in elektronska sporočila in s tem zagotovili precej bolj varno komunikacijo. Kratka navodila za uporabo gpg-ja so dostopna na <ulink url="https://www.gnupg.org/documentation/howtos.en.html"
+>Spletni strani GnuPG</ulink
+>. </para>
+
+<para
+>Pri &kgpg; vam ne bo potrebno zapomniti se gpg-jevih ukaznih vrstic in njegovih možnosti. Skoraj vse lahko storite z nekaj kliki na miško. </para>
+</chapter>
+
+<chapter id="getting-started">
+<title
+>Začetek</title>
+
+<para
+>Tu je seznam glavnih komponent &kgpg;-ja:</para>
+
+<variablelist>
+
+<varlistentry>
+<term
+>Ikona v Sistemski Vrstici </term>
+<listitem>
+
+<screenshot>
+<screeninfo
+>aplet sistemske vrstice &kgpg;-ja</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="systray.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Ko zaženete &kgpg;, se bo v sistemski vrstici prikazala ikona. Z levim klikom odprete okno Upravljalnika s Ključi, z desnim klikom pa odprete meni, ki omogoča hitri dostop do nekaj pomembnih funkcij. Če bi raje videli, da ima vaš levi klik drugačno dejanje, npr. da prikaže urejevalnik ali onemogoči sistemski pladenj, lahko to spremenite z <link linkend="conf-misc"
+>nastavitvenim pogovornim oknom</link
+>. </para>
+<para
+>Upoštevajte, da je ikona &kgpg;-ja v sistemski vrstici označena kot &quot;nedejavna&quot; cel čas. Ker programček sistemske vrstice ponavadi skrije nedejavne ikone, bo tudi ikona &kgpg;-ja skrita dokler je ne boste izrecno zahtevali. Za več podrobnosti si poglejte dokumentacijo za &plasma;. </para>
+</listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term
+>Okno Upravljalnika s Ključi</term>
+<listitem>
+
+<screenshot>
+<screeninfo
+>Okno upravljalnika s ključi</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="keymanage.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para
+>To je mesto, kjer upravljate s svojimi ključi. Da odprete <link linkend="keymanager"
+>okno Upravljalnika s Ključi</link
+>, kliknite z levim klikom na &kgpg;-jevo ikono v sistemski vrstici. Svoje ključe lahko uvozite, izvozite in urejate. Večino dejanj se izvede z desnim klikom na ključ. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Okno Urejevalnika</term>
+<listitem>
+
+<screenshot>
+<screeninfo
+>Okno urejevalnika</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="editor.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para
+>To je enostaven urejevalnik besedila, kjer lahko vtipkate ali prilepite besedilo, ki ga želite šifrirati/dešifrirati. Da odprete <link linkend="editor"
+>urejevalnik</link
+>, lahko kliknete z desnim klikom na &kgpg;-jevo ikono v sistemski vrstici. </para>
+</listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term
+>Integracija upravljalnika z datotekami</term>
+<listitem>
+
+<para
+>&kgpg; je integriran v &konqueror; in &dolphin;. To pomeni, da ko kliknete z desnim klikom na datoteko, lahko iz menija izberete <menuchoice
+><guimenu
+>Dejavnosti</guimenu
+><guimenuitem
+>Šifriraj Datoteko</guimenuitem
+></menuchoice
+>. Datoteko lahko dešifrirate z &LMB; klikom. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</chapter>
+
+<chapter id="using-kgpg">
+<title
+>Uporaba &kgpg;</title>
+
+<para
+>Obstajata dva načina da šifrirate svoje podatke: <itemizedlist>
+<listitem
+><para
+>Simetrično kriptiranje: vaši podatki so zašifrirani le z geslom. Vsakdo, ki ima računalnik z gpg-jem lahko dešifrira vaše sporočilo, če dobi vaše geslo. Da izvedete simetrično kriptiranje, izberite "simetrično šifriranje" med možnostmi, ko ste povprašani po izbiri enkripcijskega ključa.</para
+></listitem>
+<listitem
+><para
+>Kriptiranje s ključi: najprej morate ustvariti svoj par ključev (zasebni in javni ključ) in podati šifrirno frazo. Svoj zasebni ključ skrbno shranite, javni ključ pa izmenjajte s svojimi prijatelji. Če želite poslati sporočilo npr. Alešu, morate šifrirati svoje sporočilo z Aleševim javnim ključem. Tako bo moral prejemnik uporabiti Alešev zasebni ključ in Šifrirno frazo, da dešifrira vaše sporočilo.</para
+></listitem>
+</itemizedlist>
+</para>
+<para
+>Kriptiranje s ključi je nekoliko zahtevnejše (svoje javne ključe morate izmenjati s svojimi prijatelji), vendar je varneje. Če šifrirate sporočilo z javnim ključem nekoga drugega, ga vi sami ne boste mogli dešifrirati. Vi lahko dešifrirate le tista sporočila, ki so bila šifrirana z vašim javnim ključem.</para>
+
+<sect1 id="key-generation">
+<title
+>Ustvarjanje ključa</title>
+
+<para
+>Če še nimate ključa, se vam bo ob prvem zagonu samodejno pojavilo pogovorno okno &kgpg;-ja za ustvarjanje ključa. Do tega pogovornega okna lahko dostopate tudi sami iz menija Upravljalnika Ključev pod <menuchoice
+><guimenu
+>Ključi</guimenu
+><guimenuitem
+>Ustvari par ključev</guimenuitem
+></menuchoice
+>.</para>
+
+<screenshot>
+<screeninfo
+>Pogovorno okno za ustvarjanje ključa</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="keygen.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Vnesite svoje ime, E-poštni naslov in kliknite <guibutton
+>V redu</guibutton
+>. S tem boste ustvarili standardni gpg ključ. Če želite več možnosti, lahko kliknete na gumb <guibutton
+>Napredni Način</guibutton
+>, ki odpre okno &konsole; z vsemi gpg možnostmi.</para>
+<para
+>Mnogi ljudje se poigravajo s svojim prvim ključem, ustvarjajo napačne uporabniške ID-je, dodajajo komentarje, ki jih pozneje obžalujejo, ali preprosto pozabijo svojo šifrirno frazo. Da bi preprečili, da bi takšni ključi ostali veljavni za vedno, je običajno dobro, da omejite življenjsko dobo na približno 12 mesecev. Pozneje lahko spremenite življenjsko dobo svojih skrivnih ključev z uporabo <link linkend="keyproperties"
+>okna Lastnosti ključa</link
+>.</para>
+
+</sect1>
+
+<sect1 id="key-revoke">
+<title
+>Preklic ključa</title>
+
+<para
+>Pretečeni ključ se da ponovno obnoviti in uporabljati, dokler imate dostop do zasebnega ključa in šifrirne fraze. Če želite zanesljivo narediti ključ neuporaben, ga morate preklicati. Preklic se izvede tako, da se ključu doda poseben preklicni podpis.</para>
+
+<para
+>Ta podpis preklica lahko ustvarite skupaj s ključem. V tem primeru je shranjen v ločeni datoteki. To datoteko je mogoče pozneje uvoziti v shrambo za ključe in jo nato priložiti ključu, zaradi česar postane neuporaben. Upoštevajte, da za uvoz tega podpisa v ključ ni potrebno geslo. Zato morate ta podpis preklica shraniti na varno mesto, običajno na mesto, ki se razlikuje od vašega para ključev. Priporočljivo je, da uporabite mesto, ki je ločeno od računalnika, na primer kopirajte ga na zunanjo napravo za shranjevanje, kot je ključek USB, ali ga natisnite.</para>
+
+<para
+>Če niste ustvarili takšnega ločenega preklica med ustvarjanjem ključa, lahko to storite kadarkoli tako, da v meniju izberete <menuchoice
+><guimenu
+>Ključi</guimenu
+> <guimenuitem
+>Prekliči ključ</guimenuitem
+></menuchoice
+> in ga neobvezno takoj uvozite v svojo zbirko ključev.</para>
+
+</sect1>
+
+<sect1 id="encryption">
+<title
+>Šifriranje Vaših Podatkov</title>
+
+<sect2 id="konqui">
+
+<title
+>Šifriranje datoteke preko &konqueror;-ja ali Dolphin-a</title>
+
+<para
+>Z desnim klikom kliknite na datoteko, ki jo želite enkriptirati. Izberite <menuchoice
+><guimenu
+>Dejavnosti</guimenu
+><guimenuitem
+>Šifiriraj Datoteko</guimenuitem
+></menuchoice
+> v prikazanem meniju. Nato boste pozvani s pogovornim oknom za izbiro javnega ključa. Izberite ključ prejemnika in kliknite <guibutton
+>V redu</guibutton
+>. Šifrirana datoteka bo shranjena s končnico <literal role="extension"
+>.asc</literal
+> ali <literal role="extension"
+>.gpg</literal
+>, odvisno, ali ste izbrali <guilabel
+>Šifriranje na podlagi ASCII</guilabel
+> ali ne. Datoteke, šifrirane na podlagi ASCII, uporabljajo le berljive znake za predstavitev podatkov, kar napravi datoteke bolj robustne in odporne na spremembe, ko se jih kopira naokoli ali pošilja prek e-pošte, vendar so za tretjino večje.</para>
+
+<screenshot>
+<screeninfo
+>Tu je posnetek zaslona okna za izbiro ključa</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="keys.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="drop">
+<title
+>Šifriranje besedila z &kgpg;-jevim apletom v sistemski vrstici</title>
+
+<para
+>Vsebino odložišča lahko zašifrirate tako, da izberete <guimenuitem
+>Šifriraj odložišče</guimenuitem
+> v meniju apleta v sistemski vrstici. Če namesto izberete <guimenuitem
+>Podpiši odložišče</guimenuitem
+>, bo besedilo podpisano. Obe dejanji uvozita trenutno vsebino odložišča v <link linkend="editor"
+>okno urejevalnika</link
+>, nato se izvede zahtevano dejanje, vsebina pa se prilepi nazaj v urejevalnik.</para>
+
+</sect2>
+
+<sect2 id="editor">
+<title
+>Šifriranje besedila iz &kgpg;-jevega urejevalnika</title>
+
+<para
+>To se naredi preprosto s klikom na gumb <guibutton
+>Šifriraj</guibutton
+>. Nato boste pozvani z pogovornim oknom za Izbiro javnega ključa. Izberite ključ in kliknite <guibutton
+>V redu</guibutton
+>. Šifrirano besedilo se bo prikazalo v oknu urejevalnika.</para>
+
+<para
+>Običajno lahko datoteke šifrirate samo s ključi, ki jim zaupate. Ker želite včasih poslati samozavestno sporočilo nekaterim naključnim osebam, za katere veste, da imajo ključ GPG, lahko nastavite možnost <guilabel
+>Dovoli šifriranje s ključi, ki niso zaupanja vredni</guilabel
+>.</para>
+
+<para
+>Če želite zagotoviti, da lahko dešifrirate vsako datoteko, ki ste jo šifrirali, tudi če je šifrirana s ključem nekoga drugega, lahko uporabite možnosti <guilabel
+>Vedno šifriraj z</guilabel
+> in <guilabel
+>Šifriraj datoteke z</guilabel
+>, ki sta dostopni v <link linkend="conf-encryption"
+>Nastavi KGpg</link
+>.</para>
+
+<para
+>Za več informacij o enkripcijskih možnostih <guilabel
+>ASCII oklep</guilabel
+>, <guilabel
+>Dovoli šifriranje s ključi, ki niso zaupanja vredni</guilabel
+> in <guilabel
+>Simetrično šifriranje</guilabel
+>, se obrnite na gpg-jevo dokumentacijo ali <ulink url="man:gpg"
+>strani priročnika</ulink
+>.</para>
+</sect2>
+
+</sect1>
+
+<sect1 id="decryption">
+<title
+>Dešifriranje Vaših podatkov</title>
+
+
+<sect2 id="konq-dec">
+<title
+>Dešifriranje datoteke iz &konqueror;-ja ali &dolphin;</title>
+<para
+>Kliknite z <mousebutton
+>levim</mousebutton
+> klikom na datoteko, ki jo želite dešifrirati. Vnesite šifrirno frazo in datoteka bo dešifrirana. Prav tako lahko povlečete dešifrirane besedilne datoteke in jih spustite v &kgpg;-jev urejevalnik. Ta vas bo nato povprašal po šifrirni frazi in nato odprl dešifrirano besedilo. To lahko naredite celo z oddaljenimi datotekami! Uporabite lahko tudi <menuchoice
+><guimenu
+>Datoteka</guimenu
+><guimenuitem
+>Odšifriraj datoteko</guimenuitem
+></menuchoice
+> in izberete datoteko, ki jo želite dešifrirati.</para>
+
+</sect2>
+
+<sect2 id="applet-dec">
+<title
+>Dešifriranje besedila z &kgpg;-jevim apletom</title>
+
+<para
+>Dešifrirate lahko tudi vsebino odložišča tako, da izberete <guimenuitem
+>Odšifriraj Odložišče</guimenuitem
+> v meniju &kgpg;-jevega apleta v sistemski vrstici. Prikazalo se bo <link linkend="editor"
+>okno urejevalnika</link
+> z dešifriranim besedilom.</para>
+
+</sect2>
+
+<sect2 id="editor-dec">
+<title
+>Dešifriranje besedila iz urejevalnika</title>
+
+<para
+>Kopirajte ali povlecite besedilo v urejevalnik in kliknite na gumb <guibutton
+>Odšifriraj</guibutton
+>. Ponovno boste povprašani po šifrirni frazi. </para>
+</sect2>
+
+</sect1>
+
+<sect1 id="manage">
+<title
+>Upravljanje s ključi</title>
+
+<para
+>Vse osnovne možnosti upravljanja se da izvesti preko &kgpg;-ja. Da odprete okno za upravljanje s ključi, kliknite z levim klikom na &kgpg;-jev aplet. Večina možnosti je dostopnih z <mousebutton
+>desnim</mousebutton
+> klikom na ključ. Da uvozite/izvozite javne ključe, lahko to storite da jih povlečete z miško ali uporabite bljižnice za kopiranje/prilepljenje.</para>
+
+<para
+>Javni ključ lahko izvozite v odložišče, v strežnik s ključi, v lokalno datoteko ali po e-pošti. Uporabite možnosti v pogovornem oknu za izvoz, da izvozite celoten ključ, izvozite brez atributov (fotografskih ID_jev) ali pa izvozite čisti ključ &ie; sam ključ, vključno s podključi, vendar brez kakršnih koli podpisov. </para>
+
+<sect2 id="keymanager">
+<title
+>Upravljalnik Ključev</title>
+
+<screenshot>
+<screeninfo
+>Tu je posnetek zaslona upravljalnika ključev</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="keymanage.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para
+>V tem primeru vidite skupino ključev, ki vsebuje dva ključa, dva para ključev in tri javne ključe. Tretji stolpec prikazuje vaše zaupanje v ključe. Prvi par ključev je popolno zaupanja vreden in je tudi nastavljen kot privzeti ključ (krepka pisava), drugi pa je potekel. Dvema javnima ključema se polno zaupa, medtem ko je zaupanje zadnjega ključa delno. Zadnji ključ je razširjen in prikazuje svoj podključ ElGamal, dodatni ID uporabnika, oba tudi z delnim zaupanjem, in nekaj njegovih podpisov.</para>
+<para
+>Podpisi omogočajo navigacijo po vaši shrambi ključev. Dvojni klik na podpis ali ključ, prikazan kot član skupine, bo skočil neposredno na ustrezni primarni ključ.</para>
+</sect2>
+
+<sect2 id="keyproperties">
+<title
+>Lastnosti ključa</title>
+
+<screenshot>
+<screeninfo
+>Okno z lastnostmi ključa</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="keyprop.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Medtem ko vam upravitelj ključev omogoča izvajanje splošnih dejanj z enim ali več ključi, skupinami ključev ali podpisi, vam okno z lastnostmi ključev omogoča dostop do enega ključa. Do njega pridete tako, da v upravitelju ključev pritisnete enter ali dvakrat kliknete na ključ.</para>
+<para
+>V tem oknu lahko spremenite šifrirno frazo ključa in datum poteka vašega skrivnega ključa. Za vse ključe lahko nastavite tudi stopnjo zaupanja lastniku.</para>
+<para
+>Ta vrednost označuje, koliko zaupate lastniku tega ključa, da bo pravilno preveril identiteto ključev, ki jih podpiše. Upoštevanje zaupanja lastnika gpg ustvari vašo lastno mrežo zaupanja. Zaupate ključem, ki ste jih podpisali. Če tem osebam dodelite zaupanje, boste zaupali tudi ključem, ki so jih podpisali, ne da bi morali najprej podpisati tudi njihove ključe.</para>
+</sect2>
+
+<sect2 id="keysigning">
+<title
+>Podpisovanje ključev</title>
+
+<para
+>Ko podpišete ključ nekoga drugega (recimo ji Ana), sporočate, da ste prepričani, da ta ključ res pripada tej osebi in da ključu lahko zaupate. Seveda bi to res morali preveriti. To običajno pomeni, da se morate srečati z Ana, preveriti vsaj eno osebno izkaznico in dobiti celoten prstni odtis ključa ali kopijo njenega ključa. Potem greste domov in podpišete tisti ključ. Običajno boste pozneje naložili novo podpisani ključ na <link linkend="keyserver"
+>strežnik s ključi</link
+>, tako da vsi vedo, da ste preverili ta ključ in lastniku lahko zaupate. Ana bo verjetno storila enako, tako da bosta ključe podpisala oba. Če eden od vaju nima pri roki osebne izkaznice, ni problema, če se podpis zgodi samo v eni smeri.</para>
+
+<para
+>Zdaj pa pomislite, kaj se zgodi, če Ana živi na drugem koncu sveta. Z njo lahko redno komunicirate, vendar ni možnosti, da bi se z njo lahko v kratkem dobili v živo. Kako lahko zaupate njenemu ključu?</para>
+
+<para
+>Ko izberete njen ključ in nato <guimenuitem
+>Podpiši Ključ...</guimenuitem
+>, se vam bo odprlo pogovorno okno, ki vam omogoča, da izberete možnosti, kako želite podpisati ta ključ.</para>
+
+<screenshot>
+<screeninfo
+>Izbira Skrivnega Ključa za Podpis</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="select-secret-key.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Najprej lahko izberete ključ, s katerim boste podpisali ključ. Nato lahko vnesete, kako natančno ste preverili, ali je res oseba, za katero se predstavlja. Te informacije bodo shranjene skupaj s podpisom, tako da so vodilo za vse ostale, ki morda potrebujejo ta podpis (več o tem spodaj). In potem pride možnost, ki bi vam pomagala, če Ane ne morete osebno srečati: <guilabel
+>Lokalni podpis (ni mogoče izvoziti)</guilabel
+>. Ko aktivirate to možnost, se ustvari posebna različica podpisa, ki nikoli niti slučajno ne more zapustiti vaše shrambe s ključi.</para>
+
+<para
+>Toda zakaj je pomembno, kako skrbno ste preverili Anino identiteto? Komu bi moralo biti mar? Obstaja drugačen način za rešitev vaše težave z identiteto Ane. Če ne morete kmalu obiskati Ane, samo pomislite na Tomaža. Veste, da ima tudi Tomaž par ključev. In Tomaž je svetovni popotnik, saj je vsaj dvakrat na mesec na drugi celini. Če boste imeli srečo, bo kmalu prišel blizu Ane. Torej se boste srečali s Tomažem, da podpišete ključe. Nato boste Ani poslali sporočilo, da bo Tomaž kmalu pri njej, in jo vprašali, ali se lahko sreča tudi z njim, da podpišeta ključe. Ko se je vse to zgodilo, veste, da lahko zaupate Tomaževemu ključu in Tomaž ve, da lahko zaupate Aninemu ključu. Če zaupate Tomažu, da je skrbno preveril Anino identiteto, potem lahko zaupate tudi njenemu ključu.</para>
+
+<para
+>Ti odnosi med ključi in njihovimi lastniki tvorijo tako imenovano mrežo zaupanja. V tej mreži je nekaj pomembnih vrednosti, ki določajo, kako zaupanja vreden je določen ključ. Prva stvar je, kako natančno je bila preverjena identiteta lastnika ključa. To je vrednost, ki ste jo videli zgoraj v oknu za izbiro skrivnega ključa. Verjetno boste na primer vedeli, kako preveriti osebno izkaznico iz svoje lokalne države, vendar bo osebno izkaznico iz popolnoma druge države morda težko preveriti. Torej bi lahko rekli, da ste zelo skrbno preverili Tomaževo identiteto, ker ste videli njegovo osebno izkaznico in je videti zelo podobna vaši. Toda Tomaž, čeprav je videl Anino osebno izkaznico in vozniško dovoljenje, bi lahko rekel, da je le navadno preveril njeno identiteto, saj ni povsem prepričan o dokumentih iz tistega dela sveta.</para>
+
+<para
+>Naslednja pomembna vrednost je, koliko zaupate drugi osebi pri preverjanju dokumentov. Veste, da je Tomaž dober v tem. Toda Gregor na primer ni nekdo, ki bi ga označili za pametnega. Komaj je pogledal vašo osebno izkaznico, ko ste se srečali z njim za podpisovanje ključev. Prepričani ste, da je Gregor oseba, za katero se predstavlja, saj ste natančno pregledali njegove dokumente. Vendar se zdi, da ni tako pazljiv, ko sam preverja druge ljudi, tako da boste zelo zaupali ključu Gregorja, vendar zelo malo zaupali podpisom Gregorja. Če odprete <link linkend="keyproperties"
+>lastnosti</link
+> ključa, boste našli polje <guilabel
+>Zaupanje lastniku</guilabel
+>. To je, koliko zaupate lastniku ključa, ko podpiše ključe. Ta vrednost ne bo izvožena, popolnoma je odvisna od vaših osebnih preferenc.</para>
+
+<screenshot>
+<screeninfo
+>Okno z lastnostmi ključa</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="keyprop.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Zdaj bi morali razumeti, kako je zgrajena mreža zaupanja, čemu so namenjene vrednosti zaupanja lastniku in ključem, ter zakaj morate biti vedno zelo previdni pri preverjanju identitete: drugi ljudje se morda zanašajo na vas. Toda en element v procesu še vedno ni preverjen: e-poštni naslovi v ključih, ki ste jih podpisali. Ustvarjanje nove uporabniške identitete v vašem ključu z e-poštnim naslovom Ane ali Tomaža bo trajalo le nekaj klikov. Preverili ste, da je Tomaž res lastnik svojega ključa. Toda nihče do sedaj ni preveril, ali Tomaž res nadzoruje elektronske naslove na svojih uporabniških identitetah.</para>
+
+<para
+>Če namesto tega v meniju izberete <guimenuitem
+>Podpiši in pošlji ID uporabnika ...</guimenuitem
+>, lahko zapolniš to vrzel. Ideja je, da boste ključ podpisali kot običajno, nato pa bo razdeljen na dele. Vsak kos bo vseboval samo eno uporabniško identiteto Tomaževega ključa in vaš podpis. To bo šifrirano s Tomaževim ključem in poslano samo na e-poštni naslov, naveden v tej identiteti. Samo če lahko Tomaž prejme to pošto in dešifrira sporočilo, bo lahko uvozil ta podpis v svojo shrambo s ključi. Vi ne boste naložili svojih podpisov, to je v celoti odvisno od njega. Če se bo vaš podpis pojavil na strežniku s ključi, ste lahko prepričani, da Tomaž resnično nadzoruje tako svoj ključ kot tudi e-poštni naslov, ki ste ga podpisali. Podpisi, ki jih naredite v tem procesu, tudi ne bodo del vaše shrambe s ključi. Takoj po tem, ko podpišete Tomažev ključ, bo v vaši shrambi s ključi še vedno prikazan kot nevreden zaupanja. Ko Tomaž prejme vašo pošto in uvozi vaš podpis v svojo shrambo s ključi, jih lahko naloži na strežnik s ključi. Ko osvežite njegov ključ s strežnika s ključi, boste dobili nove podpise. Čeprav se to najprej morda sliši neprijetno, zagotavlja, da ne boste slučajno imeli eno od njegovih identitet, ki je morda sploh ne nadzoruje, za zaupanja vredno. Samo podpisi, ki se prikažejo na strežniku s ključi, so tisti, pri katerih so lahko vsi, vključno z vami, prepričani, da on resnično nadzoruje navedene e-poštne naslove.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="keyserver">
+<title
+>Delo z strežniki s ključi</title>
+
+<sect2>
+<title
+>Komunikacija s strežniki s ključi</title>
+
+<para
+>Javni del para ključev je ponavadi shranjen na strežniku s ključi. Ti strežniki dopuščajo komur koli, da poišče ključ, ki pripada določeni osebi ali e-poštnem naslovu. Na teh strežnikih so shranjeni tudi podpisi.</para>
+
+<screenshot>
+<screeninfo
+>Tukaj je posnetek zaslona okna strežnika s ključi.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="keyserver.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para
+>To pogovorno okno vam omogoča dostop do strežnikov s ključi. Tu lahko iščete in uvažate ključe iz strežnikov, kot tudi nalagate ključe na strežnik. Ključe se išče in uvaža, ko npr. želite poslati e-sporočilo nekomu novemu. Če želite zašifrirati sporočilo, ki ga pošiljate svojemu kontaktu, lahko na strežniku poiščete, če ima na njem ta oseba svoj javni ključ. Če ste ustvarili nov par ali ste podpisali ključ nekoga drugega, je pametno, da javni ključ izvozite (po možnosti z novimi podpisi) na strežnik s ključi.</para>
+<para
+>Večina strežnikov s ključi sinhronizira svoje podatke med sabo, zato boste dobili podobne rezultate ne glede na to, kateri strežnik uporabljate. Ker pa obstajajo izjeme, lahko sami izberete strežnik, ki ga boste uporabljali v tem pogovoru. Ponavadi je pametno izbrati privzeti strežnik, ki se nahaja blizu vam (i.e. v vaši državi ali celini), ker se običajno odzivajo hitreje vašim zahtevam.</para>
+<para
+>Upoštevajte, da vse kar naložite na strežnik s ključi, ponavadi tam ostane za vedno. To je eden od razlogov, zakaj je dobro omejiti uporabnost vaših ključev. Upoštevajte tudi, da te strežnike velikokrat skenirajo pošiljatelji nezaželene pošte za e-naslove.</para>
+</sect2>
+
+<sect2 id="keyserver-results">
+<title
+>Rezultati iskanja na strežniku s ključi</title>
+<screenshot>
+<screeninfo
+>To je primer rezultatov iskanja po strežniku ključev.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="keyserver-search.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Vsi rezultati vašega iskanja so prikazani v tem oknu. Ta slika prikazuje iskanje naslovov &quot;@kde.org&quot;, ki je pokazalo 244 ujemanj. Z uporabo polja za iskanje se je prikazani seznam zmanjšal na en sam ključ. Ta ključ ima dve ujemanji: ID prvotnega uporabnika se ujema z iskalnim nizom kot tudi eden izmed drugih ID-jev uporabnika.</para>
+
+<para
+>Izberete lahko enega ali več ključev za uvoz. ID-ji teh ključev so prikazani v polju <guilabel
+>Ključi za uvoz</guilabel
+> na dnu okna. Ko kliknete na gumb <guibutton
+>Uvozi</guibutton
+>, se ponovno kontaktira strežnik in ključi so pridobljeni v vašo shrambo s ključi.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="options">
+<title
+>Konfiguriranje &kgpg;</title>
+
+<para
+>Konfiguracija je dostopna preko &kgpg;-jevega aplet menija (desni klik na aplet) ali preko glavnega menija (<menuchoice
+><guimenu
+>Nastavitve</guimenu
+><guimenuitem
+>Konfiguriraj KGpg</guimenuitem
+></menuchoice
+>). Nastavite lahko privzete parametre za šifriranje, dešifriranje, uporabniški vmesnik in aplet. Večina šifrirnih možnosti so neposredno povezane z gpg-jem in so dokumentirane v <ulink url="man:gpg"
+>straneh priročnika</ulink
+>.</para>
+
+<sect2 id="conf-encryption">
+<title
+>Šifriranje</title>
+<screenshot>
+<screeninfo
+>Posnetek zaslona pogovornega okna z možnostmi z odprtim zavihkom Šifriranje</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="options.png" format="PNG"/></imageobject>
+</mediaobject>
+</screenshot>
+<para
+>Tukaj lahko konfigurirate posebne možnosti, s katerimi spremenite delovanje GnuPG. Za podroben opis si poglejte priročnik za GnuPG.</para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Šifriranje na podlagi ASCII</guilabel
+>: ta možnost povzroči, da so šifrirane datoteke shranjene v formatu, ki uporablja le natisljive znake in ima kratke vrstice. Take datoteke so večje kot tiste v binarnem formatu, vendar jih je lažje pošiljati &eg; po e-pošti.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>Dovoli šifriranje s ključi, ki niso zaupanja vredni</guilabel
+>: to vam omogoča, da šifrirate datoteke tudi s ključi, ki jim vi ne zaupate.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>Združljivost s PGP 6</guilabel
+>: šifrirane datoteke bodo združljive z starejšimi PGP6 standardi. Ta možnost bo onemogočila nekatere funkcije, zato jo uporabljajte le, če jo res potrebujete.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>Skrij uporabniški ID</guilabel
+>: to odstrani vse dokaze o prejemniku iz šifrirane datoteke. V primeru, da bi bil prenos prestrežen, ne more nihče pridobiti informacij o prejemniku iz datoteke. Če ima prejemnik več ključev, bo moral poskusiti, kateri je bil uporabljen.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>Vedno šifriraj z</guilabel
+>: vsa že zašifrirana sporočila bodo še dodatno šifrirane s tem ključem. Če za ta ključ določite enega vaših zasebnih ključev, vam to zagotovi, da boste lahko prebrali vse podatke, ki ste jih šifrirali, vendar za ceno večjih sporočil.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>Šifriraj datoteke z</guilabel
+>: obnaša se kot <guilabel
+>Vedno šifriraj z</guilabel
+>, le da za šifriranje datotek.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>Ukaz šifriranja po meri</guilabel
+>: če morate vnesti nekaj nenavadnih možnosti v GnuPG, lahko tukaj določite ukazno vrstico. Večina uporabnikov tega ne potrebuje.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>Uporabi pripono *.pgp za šifriranje datotek</guilabel
+>: Če obkljukate to možnost, bodo zašifrirane datoteke poimenovane kot vhodne z dodano pripono <literal role="extension"
+>.pgp</literal
+>. V nasprotnem primeru bo uporabljena pripona <literal role="extension"
+>.gpg</literal
+>.</para
+></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2 id="conf-decryption">
+<title
+>Dešifriranje</title>
+
+<para
+>Tukaj lahko določite poljuben ukaz za dešifriranje. Ta možnost je redko rabljena in uporabna le za napredne uporabnike, ki poznajo GnuPG-jeve možnosti ukazne vrstice.</para>
+</sect2>
+
+<sect2 id="conf-appearance">
+<title
+>Izgled</title>
+<para
+>Tukaj lahko prilagodite izgled &kgpg;-ja. Možne nastavitve so barve, ki odražajo stopnjo zaupanja v ključ v <link linkend="keymanager"
+>upravljalniku ključev</link
+> in nastavitve vrste pisave za <link linkend="editor"
+>urejevalnik</link
+>.</para>
+</sect2>
+
+<sect2 id="conf-gnupg">
+<title
+>GnuPG Nastavitve</title>
+<para
+>Tukaj lahko prilagodite, katere binarne datoteke in katere <guilabel
+>konfiguracijske datoteke</guilabel
+> bodo uporabljene in katera mapa bo uporabljena za domačo. Te vrednosti so samodejno zaznane ob prvem zagonu in bi morale že delovati.</para>
+<para
+>Delo z GnuPG bo bolj udobno, če boste uporabljali <ulink url="man:gpg-agent"
+>GnuPG agent</ulink
+>, saj vam ne bo treba za vsako dejavnost vnašati gesla. Geslo bo začasno shranjeno v spominu, zato bo vsako dejanje, za katerega potrebujete geslo, v hipu narejeno. Upoštevajte, da lahko to omogoči drugim, da uporabljajo vaše zasebne ključe, če jim pustite dostop do vaše seje.</para>
+</sect2>
+
+<sect2 id="conf-keyservers">
+<title
+>Strežniki s Ključi</title>
+<para
+>Tukaj lahko ustvarite seznam strežnikov s ključi, ki bodo prikazani, ko boste odprli <link linkend="keyserver"
+>pogovorno okno za strežnike s ključi</link
+>. Če boste zagnali GnuPG iz ukazne vrstice, bo uporabljen le privzet strežnik.</para>
+<para
+>Protokol uporabljen za komunikacijo s strežniki s ključi je zasnovan na &HTTP;, zato je v nekaterih okoliščinah smiselno <guilabel
+>upoštevati &HTTP; proxy strežnik, ko je ta na voljo</guilabel
+>.</para>
+</sect2>
+
+<sect2 id="conf-misc">
+<title
+>Razno</title>
+<para
+>Ta razdelek omogoča nastavitev nekaj  različnih funkcij, ki ne spadajo pod druge razdelke. Tu lahko na primer nastavite, da se bo <guilabel
+>KGpg zagnal samodejno ob vpisu</guilabel
+>. Možnost <guilabel
+>uporabi miškino izbiro namesto odložišča</guilabel
+> se spremeni, če izbiranje poteka z miško in prilepljenje s srednjim gumbom miške ali če se vse operacije izvajajo z bližnjicami na tipkovnici.</para>
+<para
+>Prav tako lahko spremenite, ali bo &kgpg; ikona prikazana v sistemski vrstici ali ne in katero dejanje se izvede, če je ikona kliknjena z levim klikom. Če je prikaz ikone sistemske vrstice omogočen, bo izhod iz okna &kgpg;-ja minimiziral aplikacijo v sistemsko vrstico. Če je prikaz onemogočen, se bo &kgpg; ustavil, ko bodo zaprta vsa okna.</para>
+</sect2>
+
+</sect1>
+
+</chapter>
+
+
+<chapter id="credits">
+
+<title
+>Zasluge in licenca</title>
+
+<para
+>&kgpg; </para>
+
+<para
+>Avtorske pravice programa &copy; 2002-2003 Jean-Baptiste Mardelle <email
+>bj@altern.org</email
+>.</para>
+
+<para
+>&copy; 2006-2007 Jimmy Gilles <email
+>jimmygilles@gmail.com</email
+></para>
+
+<para
+>&copy; 2006,2007,2008,2009,2010 Rolf Eike Beer <email
+>kde@opensource.sf-tec.de</email
+> </para>
+
+<para
+>Prevod: Matjaž Jeran<email
+>matjaz.jeran@amis.net</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes: nil
+sgml-general-insert-case: lower
+sgml-intent-step:0
+sgml-indent-data:nil
+End:
+-->
