@@ -89,3 +89,5 @@ GpgServerModel::slotRowsRemoved(const QModelIndex &, int start, int end)
 			setDefault(0);
 	}
 }
+
+#include "moc_gpgservermodel.cpp"

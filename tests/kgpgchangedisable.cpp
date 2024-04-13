@@ -46,3 +46,5 @@ void KGpgChangeDisableTest::testEnableKey()
 }
 
 QTEST_GUILESS_MAIN(KGpgChangeDisableTest)
+
+#include "moc_kgpgchangedisable.cpp"

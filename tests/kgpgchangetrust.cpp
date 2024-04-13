@@ -38,3 +38,5 @@ void KGpgChangeTrustTest::testChangeTrust_data()
 }
 
 QTEST_GUILESS_MAIN(KGpgChangeTrustTest)
+
+#include "moc_kgpgchangetrust.cpp"

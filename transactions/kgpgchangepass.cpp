@@ -85,3 +85,5 @@ KGpgChangePass::hintLine(const KGpgTransaction::ts_hintType hint, const QString 
 		return KGpgTransaction::hintLine(hint, args);
 	}
 }
+
+#include "moc_kgpgchangepass.cpp"

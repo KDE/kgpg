@@ -80,3 +80,5 @@ void KGpgExportTest::testExportPublicKeyToStdOutput()
 }
 
 QTEST_GUILESS_MAIN(KGpgExportTest)
+
+#include "moc_kgpgexport.cpp"

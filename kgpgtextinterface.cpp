@@ -94,3 +94,5 @@ KGpgTextInterface::slotSignFinished()
 {
 	Q_EMIT fileSignFinished();
 }
+
+#include "moc_kgpgtextinterface.cpp"

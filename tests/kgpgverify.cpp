@@ -78,3 +78,5 @@ void KGpgVerifyTest::testVerifyReturnBadSignature()
 }
 
 QTEST_GUILESS_MAIN(KGpgVerifyTest)
+
+#include "moc_kgpgverify.cpp"

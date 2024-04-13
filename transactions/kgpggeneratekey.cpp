@@ -247,3 +247,5 @@ KGpgGenerateKey::gpgErrorMessage() const
 {
 	return m_errorOutput.join(QLatin1Char('\n'));
 }
+
+#include "moc_kgpggeneratekey.cpp"

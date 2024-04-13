@@ -203,3 +203,5 @@ void KGpgApp::slotDBusActivation(const QStringList &arguments, const QString &wo
 
 	handleArguments(parser, QDir(workingDirectory));
 }
+
+#include "moc_kgpg.cpp"

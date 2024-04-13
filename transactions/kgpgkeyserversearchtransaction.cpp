@@ -62,3 +62,5 @@ KGpgKeyserverSearchTransaction::setPattern(const QString &pattern)
 {
 	replaceArgument(m_patternPos, pattern);
 }
+
+#include "moc_kgpgkeyserversearchtransaction.cpp"

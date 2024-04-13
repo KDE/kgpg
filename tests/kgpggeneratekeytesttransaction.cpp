@@ -18,3 +18,5 @@ void KGpgGenerateKeyTestTransaction::askNewPassphrase(const QString &)
 	write(m_passphrase);
 	newPassphraseEntered();
 }
+
+#include "moc_kgpggeneratekeytesttransaction.cpp"

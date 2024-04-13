@@ -70,3 +70,5 @@ KGpgSignText::signedText() const
 
 	return result;
 }
+
+#include "moc_kgpgsigntext.cpp"

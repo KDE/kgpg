@@ -22,3 +22,5 @@ void SrcSelect::checkServer_toggled(bool isOn)
 {
 	keyIds->setEnabled(isOn);
 }
+
+#include "moc_sourceselect.cpp"

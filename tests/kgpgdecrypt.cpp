@@ -35,3 +35,5 @@ void KGpgDecryptTest::testDecrypt_data(){
 }
 
 QTEST_GUILESS_MAIN(KGpgDecryptTest)
+
+#include "moc_kgpgdecrypt.cpp"

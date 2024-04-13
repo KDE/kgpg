@@ -180,3 +180,5 @@ KGpgTextOrFileTransaction::getInputFiles() const
 {
 	return m_inpfiles;
 }
+
+#include "moc_kgpgtextorfiletransaction.cpp"

@@ -95,3 +95,5 @@ KGpgKeyserverTransaction::setProgressEnable(const bool b)
 		connect(m_progress, &QProgressDialog::canceled, this, &KGpgKeyserverTransaction::slotAbort);
 	}
 }
+
+#include "moc_kgpgkeyservertransaction.cpp"

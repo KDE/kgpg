@@ -43,3 +43,5 @@ void KeyExport::accept()
 
 	QDialog::accept();
 }
+
+#include "moc_keyexport.cpp"

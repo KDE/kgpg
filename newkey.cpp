@@ -16,3 +16,5 @@ void newKey::CBsave_toggled(bool isOn)
 {
     kURLRequester1->setEnabled(isOn);
 }
+
+#include "moc_newkey.cpp"

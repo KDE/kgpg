@@ -51,3 +51,5 @@ KGpgAddPhoto::setImagePath(const QString &photourl)
 {
 	m_photourl = photourl;
 }
+
+#include "moc_kgpgaddphoto.cpp"

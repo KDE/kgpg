@@ -578,3 +578,5 @@ KeyListProxyModel::flags(const QModelIndex &index) const
 
 	return flags;
 }
+
+#include "moc_keylistproxymodel.cpp"

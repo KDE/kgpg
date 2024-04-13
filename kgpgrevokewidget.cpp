@@ -108,3 +108,5 @@ QUrl KGpgRevokeDialog::revokeUrl(const QString& name, const QString& email)
 
 	return QUrl::fromLocalFile(revurl + QLatin1String( ".revoke" ));
 }
+
+#include "moc_kgpgrevokewidget.cpp"

@@ -114,3 +114,5 @@ KGpgSignUid::replaceCmd(const QString &cmd)
 {
 	replaceArgument(m_cmdPos, cmd);
 }
+
+#include "moc_kgpgsignuid.cpp"

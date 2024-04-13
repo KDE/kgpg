@@ -142,3 +142,5 @@ void KgpgSelectSecretKey::slotOk()
     if (m_keyslist->selectionModel()->hasSelection())
         accept();
 }
+
+#include "moc_selectsecretkey.cpp"

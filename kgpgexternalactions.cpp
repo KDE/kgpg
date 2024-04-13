@@ -484,3 +484,5 @@ QKeySequence KGpgExternalActions::goDefaultKey() const
 {
 	return QKeySequence(qobject_cast<QAction *>(m_keysmanager->actionCollection()->action(QLatin1String( "go_default_key" )))->shortcut());
 }
+
+#include "moc_kgpgexternalactions.cpp"

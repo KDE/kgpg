@@ -72,3 +72,5 @@ void KGpgGenerateKeyTest::testDeleteKey_data()
 }
 
 QTEST_MAIN(KGpgGenerateKeyTest)
+
+#include "moc_kgpggeneratekey.cpp"

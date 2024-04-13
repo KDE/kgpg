@@ -34,3 +34,5 @@ KGpgChangeDisable::preStart()
 
 	return true;
 }
+
+#include "moc_kgpgchangedisable.cpp"

@@ -71,3 +71,5 @@ KGpgSignKey::replaceCmd(const QString &cmd)
 {
 	replaceCommand(cmd);
 }
+
+#include "moc_kgpgsignkey.cpp"

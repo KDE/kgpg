@@ -77,3 +77,5 @@ void KGpgAddUidTest::testAddUidInvalid()
 }
 
 QTEST_GUILESS_MAIN(KGpgAddUidTest)
+
+#include "moc_kgpgadduid.cpp"

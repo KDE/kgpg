@@ -148,3 +148,5 @@ bool KGpgDecrypt::closeInputAfterText() const
 	// but doesn't hurt on older versions as well
 	return true;
 }
+
+#include "moc_kgpgdecrypt.cpp"

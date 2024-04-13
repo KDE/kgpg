@@ -152,3 +152,5 @@ KGpgRootNode::findKeyRow(const KGpgKeyNode *key)
 	}
 	return -1;
 }
+
+#include "moc_KGpgRootNode.cpp"

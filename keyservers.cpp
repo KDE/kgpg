@@ -382,3 +382,5 @@ void KeyServer::slotUpdateLabelOnFilterChange()
 		}
 	}
 }
+
+#include "moc_keyservers.cpp"

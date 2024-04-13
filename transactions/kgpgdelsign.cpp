@@ -121,3 +121,5 @@ KGpgDelSign::boolQuestion(const QString &line)
 		return KGpgTransaction::boolQuestion(line);
 	}
 }
+
+#include "moc_kgpgdelsign.cpp"

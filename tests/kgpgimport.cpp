@@ -136,3 +136,5 @@ void KGpgImportTest::testImportSecretKey()
 }
 
 QTEST_GUILESS_MAIN(KGpgImportTest)
+
+#include "moc_kgpgimport.cpp"

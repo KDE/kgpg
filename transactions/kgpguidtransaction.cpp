@@ -77,3 +77,5 @@ KGpgUidTransaction::setUid(const unsigned int uid)
 {
 	setUid(QString::number(uid));
 }
+
+#include "moc_kgpguidtransaction.cpp"

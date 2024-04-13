@@ -542,3 +542,5 @@ KGpgSearchResultModel::filterAcceptsRow(int sourceRow, const QModelIndex &source
 	QModelIndex currentKeyIndex = backingModel->index(sourceRow, 0, sourceParent);
 	return backingModel->resultForIndex(currentKeyIndex)->valid();
 }
+
+#include "moc_kgpgsearchresultmodel.cpp"

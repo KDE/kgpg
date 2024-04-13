@@ -145,3 +145,5 @@ void KGpgEncryptTest::testSymmetricEncryption()
 }
 
 QTEST_GUILESS_MAIN(KGpgEncryptTest)
+
+#include "moc_kgpgencrypt.cpp"

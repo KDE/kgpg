@@ -21,3 +21,5 @@ void CustomStyledItemDelegate::paint(QPainter *painter,
 
 	QStyledItemDelegate::paint(painter, opt, index);
 }
+
+#include "moc_customstyleditemdelegate.cpp"

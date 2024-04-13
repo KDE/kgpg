@@ -134,3 +134,5 @@ KGpgRefNode::getRefNode() const
 {
 	return m_keynode;
 }
+
+#include "moc_KGpgRefNode.cpp"

@@ -186,3 +186,5 @@ KGpgVerify::missingId() const
 {
 	return m_missingId;
 }
+
+#include "moc_kgpgverify.cpp"

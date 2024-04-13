@@ -218,3 +218,5 @@ KeyTreeView::isEditing() const
 {
 	return (state() == EditingState);
 }
+
+#include "moc_keytreeview.cpp"

@@ -91,3 +91,5 @@ KGpgEditKeyTransaction::replaceCommand(const QString &cmd)
 {
 	replaceArgument(m_cmdpos, cmd);
 }
+
+#include "moc_kgpgeditkeytransaction.cpp"

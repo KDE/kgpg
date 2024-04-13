@@ -44,3 +44,5 @@ void KGpgDelKeyTest::testDeleteKey_data()
 }
 
 QTEST_GUILESS_MAIN(KGpgDelKeyTest)
+
+#include "moc_kgpgdelkey.cpp"

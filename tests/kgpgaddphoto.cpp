@@ -27,3 +27,5 @@ void KGpgAddPhotoTest::testAddPhoto()
 }
 
 QTEST_GUILESS_MAIN(KGpgAddPhotoTest)
+
+#include "moc_kgpgaddphoto.cpp"

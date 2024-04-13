@@ -39,3 +39,5 @@ void KGpgInterfaceTest::testReadEmptyKeyring()
 }
 
 QTEST_GUILESS_MAIN(KGpgInterfaceTest)
+
+#include "moc_kgpginterface.cpp"

@@ -73,3 +73,5 @@ KGpgTransactionJob::doKill()
 
 	return true;
 }
+
+#include "moc_kgpgtransactionjob.cpp"

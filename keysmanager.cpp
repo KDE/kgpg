@@ -2815,3 +2815,5 @@ KeysManager::clipSign()
 	kgpgtxtedit->m_editor->signVerifyText(cliptext);
 	kgpgtxtedit->show();
 }
+
+#include "moc_keysmanager.cpp"

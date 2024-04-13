@@ -67,3 +67,5 @@ KGpgExpandableNode::deleteChild(KGpgNode *child)
 {
 	children.removeAll(child);
 }
+
+#include "moc_KGpgExpandableNode.cpp"

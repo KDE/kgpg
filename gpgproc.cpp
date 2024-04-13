@@ -400,3 +400,5 @@ GPGProc::getGpgHomeArguments(const QString &binary)
 
 	return options;
 }
+
+#include "moc_gpgproc.cpp"

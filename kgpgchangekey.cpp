@@ -179,3 +179,5 @@ void KGpgChangeKey::setParentWidget(QWidget *widget)
 	if (m_current != nullptr)
 		m_current->setParent(widget);
 }
+
+#include "moc_kgpgchangekey.cpp"

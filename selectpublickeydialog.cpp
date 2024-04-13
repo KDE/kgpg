@@ -265,3 +265,5 @@ void KgpgSelectPublicKeyDlg::toggleDetails()
     optionsbox->setVisible(!isVisible);
     m_detailsButton->setText(i18n("&Options") + (isVisible ? QStringLiteral(" >>") : QStringLiteral(" <<")));
 }
+
+#include "moc_selectpublickeydialog.cpp"

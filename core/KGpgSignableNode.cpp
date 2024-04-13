@@ -77,3 +77,5 @@ KGpgSignableNode::operator<(const KGpgSignableNode *other) const
 	}
 	}
 }
+
+#include "moc_KGpgSignableNode.cpp"

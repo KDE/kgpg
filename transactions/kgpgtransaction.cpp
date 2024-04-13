@@ -391,3 +391,5 @@ void
 KGpgTransaction::newPassphraseEntered()
 {
 }
+
+#include "moc_kgpgtransaction.cpp"
