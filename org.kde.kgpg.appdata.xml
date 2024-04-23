@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>KGpg</name>
+  <name xml:lang="ast">KGpg</name>
   <name xml:lang="bg">KGpg</name>
   <name xml:lang="bs">KGpg</name>
   <name xml:lang="ca">KGpg</name>
@@ -20,6 +21,7 @@
   <name xml:lang="fi">KGpg</name>
   <name xml:lang="fr">KGpg</name>
   <name xml:lang="gl">KGpg</name>
+  <name xml:lang="he">KGpg</name>
   <name xml:lang="hu">KGpg</name>
   <name xml:lang="ia">KGpg</name>
   <name xml:lang="id">KGpg</name>
@@ -66,6 +68,7 @@
   <summary xml:lang="fi">Salaustyökalu</summary>
   <summary xml:lang="fr">Outil de chiffrement</summary>
   <summary xml:lang="gl">Ferramenta de cifrado</summary>
+  <summary xml:lang="he">כלי הצפנה</summary>
   <summary xml:lang="hu">Titkosító eszköz</summary>
   <summary xml:lang="ia">Instrumento per cryptar</summary>
   <summary xml:lang="id">Alat Enkripsi</summary>
@@ -115,6 +118,7 @@
     <p xml:lang="fi">KGpg on yksinkertainen käyttöliittymä GnuPG:lle, tehokkaalle salaustyökalulle. KGpg auttaa avainten luomisessa, hallinnoinnissa, tuomisessa ja viennissä. KGpg:llä voi myös katsella avainten allekirjoituksia, luotettavuutta sekä vanhentumispäiviä.</p>
     <p xml:lang="fr">KGpg est une interface simple pour GnuPG, un puissant utilitaire de chiffrement. Il peut vous aider à créer et gérer vos clés, importer et exporter des clés, afficher des signatures de clés, des états de confiance et des dates d'expiration.</p>
     <p xml:lang="gl">KGpg é unha interface sinxela para GnuPG, unha potente ferramenta de cifrado. Pode axudalo a crear e xestionar chaves, importar e exportar chaves e ver as sinaturas, o estado de confianza e a data de caducidade das chaves.</p>
+    <p xml:lang="he">KGpg הוא ממשק פשוט ל־GnuPG, כלי הצפנה רב עוצמה. הוא יכול לסייע לך להגדיר ולנהל את המפתחות שלך, לייבוא ולייצא מפתחות, לצפות בחתימות מפתחות, מצב אמינות ותאריכי תפוגת תוקף.</p>
     <p xml:lang="hu">A KGpg egy egyszerű felület a GnuPG-hez, a hatékony titkosító segédprogramhoz. Segíthet a kulcsok beállításában és kezelésében, kulcsok importálásában és exportálásában, kulcsaláírások, megbízhatósági állapot és lejárati idők megtekintésében.</p>
     <p xml:lang="ia">Kgpg es un simple interface per GnuPG, un instrumento potente per cryptar. Il pote adjutar te per configurar e gerer tu claves, importar e exportar claves, vider signaturas de clave, le stato de confidentia e le datas de expiration.</p>
     <p xml:lang="id">KGpg adalah antarmuka sederhana untuk GnuPG, utilitas enkripsi yang unggul. Ini bisa membantu kamu menyiapkan dan mengelola kuncimu, mengimpor dan mengekspor kunci, melihat tandatangan kunci, status kepercayaan, dan tanggal kedaluwarsa.</p>
@@ -166,6 +170,7 @@
       <caption xml:lang="fi">Avainten hallinta KGpg:ssä</caption>
       <caption xml:lang="fr">Gestion des clés dans KGpg</caption>
       <caption xml:lang="gl">Xestión de chaves en KGpg</caption>
+      <caption xml:lang="he">ניהול מפתחות ב־KGpg</caption>
       <caption xml:lang="ia">Gerente de clave in KGpg</caption>
       <caption xml:lang="id">Pengelolaan kunci di KGpg</caption>
       <caption xml:lang="ie">Gerentie de claves med KGpg</caption>
