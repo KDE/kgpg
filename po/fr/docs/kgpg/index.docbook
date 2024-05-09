@@ -208,7 +208,7 @@
 >Il y a deux manières de chiffrer vos données : <itemizedlist>
 <listitem
 ><para
->Chiffrement symétrique : vos données sont juste chiffrées avec un mot de passe. N'importe qui, avec un ordinateur et Gnupg, peut déchiffrer votre message si vous lui fournissez le mot de passe. Pour utiliser un chiffrement symétrique, choisissez « chiffrement symétrique » dans la liste des options quand vous devez choisir une clé de chiffrement.</para
+>Chiffrement symétrique : vos données sont juste chiffrées avec un mot de passe. N'importe qui, avec un ordinateur et un logiciel « GPG », peut déchiffrer votre message si vous lui fournissez le mot de passe. Pour utiliser un chiffrement symétrique, veuillez sélectionner « Chiffrement symétrique » dans la liste déroulante des options quand une clé de chiffrement vous sera demandée.</para
 ></listitem>
 <listitem
 ><para
@@ -244,7 +244,7 @@
 <para
 >Donnez simplement votre nom, votre adresse électronique et cliquez sur le bouton <guibutton
 >Ok</guibutton
->. Cela générera votre paire de clés gpg standard. Si vous voulez plus d'options, vous pouvez cliquer que le bouton mode expert, qui affichera une fenêtre de &konsole; avec toutes les options de Gnupg.</para>
+>. Cela générera votre paire de clés gpg standard. Si vous voulez plus d'options, vous pouvez cliquer que le bouton mode expert, qui affichera une fenêtre de &konsole; avec toutes les options de GNUPG.</para>
 <para
 >De nombreuses personnes jouent avec leurs premières clés, génèrent de mauvais identifiants d'utilisateur, ajoutent des commentaires qu'ils regrettent plus tard ou tout simplement oublient leurs mots de passe. Pour éviter que de telles clés restent valables pour toujours, une bonne idée est de limiter leurs durées de vie à 12 mois par exemple. Vous pouvez modifier la durée de vie de vos clés secrètes plus tard en utilisant la <link linkend="keyproperties"
 >fenêtre de propriétés des clés</link
