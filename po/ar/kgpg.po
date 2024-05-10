@@ -6,14 +6,14 @@
 # خالد حسنى <khaledhosny@eglug.org>, 2006.
 # Fahad Al-Saidi <fahad.alsaidi@gmail.com>, 2007.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
-# Zayed Al-Saidi <zayed.alsaidi@gmail.com>, 2010, 2022.
+# SPDX-FileCopyrightText: 2010, 2022, 2024 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 # Abdalrahim Fakhouri <abdilra7eem@yahoo.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 00:40+0000\n"
-"PO-Revision-Date: 2022-01-13 11:26+0400\n"
+"PO-Revision-Date: 2024-05-09 10:07+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Lokalize 21.07.70\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -763,9 +763,9 @@ msgstr "قائمة المفاتيح"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBoxSorting)
 #: conf_ui2.ui:236
-#, kde-format
+#, fuzzy, kde-format
 msgid "Sort Order"
-msgstr ""
+msgstr "ترتيب الفرز"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:253 kgpgoptions.cpp:100
@@ -1265,19 +1265,16 @@ msgid "Key file dropped on Editor"
 msgstr "أسقط ملف المفتاح في المحرر"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "Years"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr "سنوات"
+msgstr "نعم"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgctxt "No trust in key"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "بدون"
+msgstr "لا"
 
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
@@ -1364,7 +1361,7 @@ msgstr "جارى فك تشفير %1"
 #, fuzzy, kde-format
 msgctxt "Status message 'Encrypted <filename>' (operation was completed)"
 msgid "Encrypted %1"
-msgstr "جارى فك تشفير %1"
+msgstr "مشفّر"
 
 #: foldercompressjob.cpp:167
 #, kde-format
@@ -1427,14 +1424,14 @@ msgstr "تصدير المفتاح العام"
 #| msgid "E&mail:"
 msgctxt "Export a key via email"
 msgid "E&mail"
-msgstr "ال&بريد الإلكتروني:"
+msgstr "البريد الإلكترونيّ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkClipboard)
 #: keyexport.ui:48 sourceselect.ui:35
 #, fuzzy, kde-format
 #| msgid "Clipboard"
 msgid "C&lipboard"
-msgstr "حافظة"
+msgstr "الحافظة"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, checkServer)
 #: keyexport.ui:58
@@ -1525,10 +1522,10 @@ msgid ""
 msgstr ""
 
 #: keyinfodialog.cpp:228
-#, kde-format
+#, fuzzy, kde-format
 msgctxt "no key comment"
 msgid "<em>none</em>"
-msgstr ""
+msgstr "بدون"
 
 #: keyinfodialog.cpp:314
 #, kde-format
@@ -1820,7 +1817,7 @@ msgstr "استور&د مفتاح..."
 #, fuzzy, kde-format
 #| msgid "Send with every Email"
 msgid "Send Ema&il"
-msgstr "ارسل مع كل بريد إلكتروني"
+msgstr "أرسل بريدًا"
 
 #: keysmanager.cpp:198
 #, kde-format
@@ -1840,7 +1837,7 @@ msgstr "احذف &مجموعة"
 #: keysmanager.cpp:211
 #, fuzzy, kde-format
 msgid "&Rename Group"
-msgstr "احذف &مجموعة"
+msgstr "أعد تسمية المجموعة..."
 
 #: keysmanager.cpp:220
 #, kde-format
@@ -2234,10 +2231,10 @@ msgstr[4] "استورد مفتاحا من خادم المفاتيح"
 msgstr[5] "استورد مفتاحا من خادم المفاتيح"
 
 #: keysmanager.cpp:1217
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
-msgstr[0] "اح&ذف المفاتيح"
+msgstr[0] "مفتاح الحذف"
 msgstr[1] "اح&ذف المفاتيح"
 msgstr[2] "اح&ذف المفاتيح"
 msgstr[3] "اح&ذف المفاتيح"
@@ -2409,9 +2406,10 @@ msgid ""
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications.</qt>"
 msgstr ""
-"<qt>أنت مقبل على توقيع المفتاح:<br><br>%1<br>رقم الهوية: %2<br>بصمة الأصبعة: "
-"<br><b>%3</b>.<br><br>ينبغي أن تتحقق من بصمة المفتاح بالاتصال هاتفيا أو "
-"مقابلة مالك المفتاح لتكون متأكدا من أنه لا يوجد من يحاول إعتراض اتصالاتك</qt>"
+"<qt>أنت مقبل على توقيع المفتاح:<br /><br />%1<br />رقم الهوية: %2<br />بصمة "
+"الأصبع: <br /><b>%3</b><br /><br />ينبغي أن تتحقق من بصمة المفتاح بالاتصال "
+"هاتفيا أو مقابلة مالك المفتاح لتكون متأكدا من أنه لا يوجد من يحاول إعتراض "
+"اتصالاتك</qt>"
 
 #: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:276
 #: model/keylistproxymodel.cpp:181
@@ -2462,9 +2460,10 @@ msgid ""
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications.</qt>"
 msgstr ""
-"<qt>أنت مقبل على توقيع المفتاح:<br><br>%1<br>رقم الهوية: %2<br>بصمة الأصبعة: "
-"<br><b>%3</b>.<br><br>ينبغي أن تتحقق من بصمة المفتاح بالاتصال هاتفيا أو "
-"مقابلة مالك المفتاح لتكون متأكدا من أنه لا يوجد من يحاول إعتراض اتصالاتك</qt>"
+"<qt>أنت مقبل على توقيع هوية مستخد:<br /><br />%1<br />رقم الهوية: %2<br /"
+">بصمة الأصبع: <br /><b>%3</b>.<br /><br />ينبغي أن تتحقق من بصمة المفتاح "
+"بالاتصال هاتفيا أو مقابلة مالك المفتاح لتكون متأكدا من أنه لا يوجد من يحاول "
+"إعتراض اتصالاتك</qt>"
 
 #: keysmanager.cpp:1898
 #, fuzzy, kde-format
@@ -3197,7 +3196,7 @@ msgstr "ملف ثنائي GnuPG"
 #, fuzzy, kde-format
 #| msgid "*|All Files"
 msgid "All files"
-msgstr "*|كافة الملفات"
+msgstr "كلّ الملفّات"
 
 #: kgpgfirstassistant.cpp:134
 #, kde-format
@@ -3360,7 +3359,7 @@ msgstr "توليد زوج مفاتيح"
 #| msgctxt "Name of key owner"
 #| msgid "&Name:"
 msgid "&Name:"
-msgstr "&الإسم:"
+msgstr "الا&سم:"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, m_kname)
 #: kgpgkeygenerate.ui:42
@@ -3447,7 +3446,7 @@ msgstr "ال&خوارزمية:"
 #: kgpgkeygenerate.ui:160 kgpgKeyInfo.ui:223
 #, kde-format
 msgid "Capabilities"
-msgstr ""
+msgstr "الإمكانيات"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, capCert)
 #: kgpgkeygenerate.ui:172
@@ -3460,14 +3459,14 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Creation"
 msgid "Certification"
-msgstr "إنشاء"
+msgstr "شهادة الاعتماد"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capAuth)
 #: kgpgkeygenerate.ui:195
 #, fuzzy, kde-format
 #| msgid "Creation"
 msgid "Authentication"
-msgstr "إنشاء"
+msgstr "الاستيثاق"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, kgpgKeyInfo)
 #: kgpgKeyInfo.ui:14
@@ -3734,10 +3733,10 @@ msgid "Import into keyring"
 msgstr "استورد إلى حلقة المفتاح"
 
 #: main.cpp:27
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
-msgstr ""
+msgstr "KGpg"
 
 #: main.cpp:29
 #, kde-kuit-format
@@ -3763,21 +3762,19 @@ msgstr "Rolf Eike Beer"
 #| msgid "Maintainer"
 msgctxt "@info:credit"
 msgid "Maintainer"
-msgstr "مشرف المشروع"
+msgstr "المشرف"
 
 #: main.cpp:34
-#, fuzzy, kde-kuit-format
-#| msgid "Jean-Baptiste Mardelle"
+#, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
-msgstr "Jean-Baptiste Mardelle"
+msgstr "جان بابتيست ماردل"
 
 #: main.cpp:34
-#, fuzzy, kde-format
-#| msgid "Author and former maintainer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
-msgstr "المؤلف و المشرف السابق"
+msgstr "المؤلف والمشرف السابق"
 
 #: main.cpp:35
 #, fuzzy, kde-kuit-format
@@ -3790,14 +3787,13 @@ msgstr "Jimmy Gilles"
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Andrius Štikonas"
-msgstr ""
+msgstr "Andrius Štikonas"
 
 #: main.cpp:36
-#, fuzzy, kde-format
-#| msgid "Key Import"
+#, kde-format
 msgctxt "@info:credit"
 msgid "KF5 port"
-msgstr "استورد مفتاح"
+msgstr "النقل إلى KF5"
 
 #: model/gpgservermodel.cpp:73
 #, kde-format
@@ -4003,7 +3999,7 @@ msgstr "غير محدود"
 #, fuzzy, kde-format
 #| msgid "O&ptions"
 msgid "&Options"
-msgstr "الخيا&رات"
+msgstr "&خيارات"
 
 #: selectpublickeydialog.cpp:61
 #, kde-format
@@ -4161,7 +4157,7 @@ msgstr "لا توقع كل أرقام هويات المستخدم (فتح الط
 #, fuzzy, kde-format
 #| msgid "Keyserver:"
 msgid "&Keyserver:"
-msgstr "خادم المفاتيح:"
+msgstr "خادم المفاتيح"
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, keyIds)
 #: sourceselect.ui:81
@@ -4322,17 +4318,17 @@ msgstr[4] ""
 msgstr[5] ""
 
 #: transactions/kgpgimport.cpp:128
-#, kde-kuit-format
+#, fuzzy, kde-kuit-format
 msgctxt "@info"
 msgid "<para><emphasis strong='true'>One key imported:</emphasis></para>"
 msgid_plural ""
 "<para><emphasis strong='true'>%1 keys imported:</emphasis></para>"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
-msgstr[5] ""
+msgstr[0] "استورد مفتاح"
+msgstr[1] "استورد مفتاح واحد "
+msgstr[2] "استورد مفتاحين"
+msgstr[3] "استورد %1 مفاتيح"
+msgstr[4] "استورد %1 مفتاحاً"
+msgstr[5] "استورد %1 مفتاح"
 
 #: transactions/kgpgimport.cpp:130
 #, fuzzy, kde-kuit-format
@@ -4625,7 +4621,7 @@ msgstr ""
 #| msgid "No signature found."
 msgctxt "@info"
 msgid "No signature found."
-msgstr "لم يتم العثور على توقيع."
+msgstr "لم يُعثر على أيّ توقيع"
 
 #: transactions/kgpgverify.cpp:156
 #, fuzzy, kde-kuit-format
@@ -4658,7 +4654,7 @@ msgstr ""
 #| msgid "<qt>The signature is valid, but the key is untrusted<br /></qt>"
 msgctxt "@info"
 msgid "<para>The signature is valid, but the key is untrusted</para>"
-msgstr "<qt>التوقيع صحيح، لكن المفتاح غير موثوق<br /></qt>"
+msgstr "التّوقيع صالح، إلّا أنّ المفتاح غير موثوق."
 
 #: transactions/kgpgverify.cpp:177
 #, fuzzy, kde-kuit-format
@@ -4666,7 +4662,7 @@ msgstr "<qt>التوقيع صحيح، لكن المفتاح غير موثوق<br
 #| "<qt>The signature is valid, and the key is ultimately trusted<br /></qt>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
-msgstr "<qt>التوقيع صحيح، والمفتاح موثوق تماماً<br /></qt>"
+msgstr "التّوقيع صالح والمفتاح موثوق بالمطلق."
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "
