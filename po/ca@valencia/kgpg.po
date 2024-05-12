@@ -156,9 +156,9 @@ msgid ""
 "the body of an e-mail message.</p></qt>"
 msgstr ""
 "<qt><b>Encriptació en armadura ASCII</b> <br /> \n"
-"<p>Seleccionant esta opció s'encripten tots els fitxers en un format que es "
-"pot obrir en un editor de text i, per tant, l'eixida és vàlida per a posar-"
-"la en el cos d'un missatge de correu electrònic.</p></qt>"
+"<p>Marcant esta opció s'encripten tots els fitxers en un format que es pot "
+"obrir en un editor de text i, per tant, l'eixida és vàlida per a posar-la en "
+"el cos d'un missatge de correu electrònic.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AsciiArmor)
 #: conf_encryption.ui:34 selectpublickeydialog.cpp:104
@@ -176,7 +176,7 @@ msgid ""
 "users of PGP (Pretty Good Privacy) software.</p></qt>"
 msgstr ""
 "<qt><b>Utilitza l'extensió *.pgp per als fitxers encriptats:</b><br />\n"
-"<p>Seleccionant esta opció s'afegirà una extensió «.pgp» a tots els fitxers "
+"<p>Marcant esta opció s'afegirà una extensió «.pgp» a tots els fitxers "
 "encriptats en comptes d'una extensió «.gpg». Esta opció mantindrà la "
 "compatibilitat amb els usuaris del programari PGP (Pretty Good Privacy).</"
 "p></qt>"
@@ -238,7 +238,7 @@ msgid ""
 "the default key will be bypassed.</p></qt>"
 msgstr ""
 "<qt><b>Encripta fitxers amb:</b><br />\n"
-"<p>Quan se selecciona esta opció i se selecciona una clau, es forçarà que "
+"<p>Quan es marca esta opció, i se selecciona una clau, es forçarà que "
 "qualsevol operació d'encriptació de fitxers utilitze esta clau. KGpg no "
 "demanarà un destinatari i la clau predeterminada serà omesa.</p></qt>"
 
@@ -261,7 +261,7 @@ msgstr ""
 "<qt><b>Permet l'encriptació amb claus que no siguen de confiança:</b> <br/>\n"
 "<p>Quan s'importa una clau pública es marca com que no és de confiança i no "
 "podreu utilitzar-la a menys que la signeu amb la clau predeterminada (per a "
-"fer-la «de confiança»). Si seleccioneu esta casella, podreu emprar qualsevol "
+"fer-la «de confiança»). Si marqueu esta casella, podreu emprar qualsevol "
 "clau, encara que no siga de confiança.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowUntrustedKeys)
@@ -304,9 +304,9 @@ msgid ""
 "process depending on the number of secret keys the receiver holds.</p></qt>"
 msgstr ""
 "<qt><b>Oculta l'identificador d'usuari:</b><br />\n"
-"<p>Seleccionant esta opció s'eliminarà l'identificador de la clau del "
-"destinatari de tots els paquets encriptats. L'avantatge és que l'anàlisi del "
-"trànsit dels paquets encriptats no es pot realitzar amb facilitat perquè el "
+"<p>Marcant esta opció s'eliminarà l'identificador de la clau del destinatari "
+"de tots els paquets encriptats. L'avantatge és que l'anàlisi del trànsit "
+"dels paquets encriptats no es pot realitzar amb facilitat perquè el "
 "destinatari és desconegut. El desavantatge és que el destinatari dels "
 "paquets encriptats està obligat a provar totes les claus secretes abans de "
 "poder desencriptar els paquets. Açò pot ser un procés molt llarg depenent "
@@ -328,10 +328,10 @@ msgid ""
 "allowing GnuPG users to inter operate with PGP 6 users.</p></qt>"
 msgstr ""
 "<qt><b>Compatibilitat PGP 6:</b><br /> \n"
-"<p>Seleccionant esta opció es força que GnuPG retorne paquets encriptats que "
-"són tan compatibles com siga possible amb l'estàndard PGP (Pretty Good "
-"Privacy) 6 i, per tant, permet als usuaris de GnuPG interoperar amb els del "
-"PGP 6.</p></qt>"
+"<p>Marcant esta opció es força que GnuPG retorne paquets encriptats que són "
+"tan compatibles com siga possible amb l'estàndard PGP (Pretty Good Privacy) "
+"6 i, per tant, permet als usuaris de GnuPG interoperar amb els del PGP 6.</"
+"p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PgpCompatibility)
 #: conf_encryption.ui:170
@@ -397,7 +397,7 @@ msgstr "Fitxer de configuració:"
 #: conf_gpg.ui:96
 #, kde-format
 msgid "Change..."
-msgstr "Canvia..."
+msgstr "Canvia…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
@@ -458,7 +458,7 @@ msgid ""
 "p></qt>"
 msgstr ""
 "<qt><b>Inicia KGpg automàticament en iniciar KDE:</b><br />\n"
-"<p>Si se selecciona, KGpg s'iniciarà automàticament cada vegada que s'inicie "
+"<p>Si està marcada, KGpg s'iniciarà automàticament cada vegada que s'inicie "
 "KDE.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoStart)
@@ -479,11 +479,11 @@ msgid ""
 msgstr ""
 "<qt><b>Utilitza la selecció del ratolí en comptes del porta-retalls:</b> "
 "<br />\n"
-"<p>Si se selecciona, les operacions del porta-retalls a KGpg utilitzaran la "
+"<p>Si està marcada, les operacions del porta-retalls a KGpg utilitzaran la "
 "selecció del porta-retalls, és a dir, es ressaltarà el text que es copiarà i "
 "amb el botó del mig del ratolí (o els botons dret+esquerre a la vegada) per "
-"a apegar. Si no se selecciona, el porta-retalls funcionarà amb les dreceres "
-"(«Ctrl+C», «Ctrl+V»).</p></qt> "
+"a apegar. Si no es marca esta opció, el porta-retalls funcionarà amb les "
+"dreceres («Ctrl+C», «Ctrl+V»).</p></qt> "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseMouseSelection)
 #: conf_misc.ui:56
@@ -593,7 +593,7 @@ msgid ""
 "<p>If checked KGpg will minimize to an icon in the system tray.</p></qt>"
 msgstr ""
 "<qt><b>Mostra una icona en la safata del sistema:</b><br />\n"
-"<p>Si se selecciona, KGpg es minimitzarà en una icona en la safata del "
+"<p>Si està marcada, KGpg es minimitzarà en una icona en la safata del "
 "sistema.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSystray)
@@ -720,7 +720,7 @@ msgstr "E&stablix com a predeterminat"
 #: conf_servers.ui:56
 #, kde-format
 msgid "&Add..."
-msgstr "Afi&g..."
+msgstr "Afi&g…"
 
 #. i18n: ectx: property (text), widget (QPushButton, server_del)
 #: conf_servers.ui:66
@@ -732,7 +732,7 @@ msgstr "Sup&rimix"
 #: conf_servers.ui:73
 #, kde-format
 msgid "&Edit..."
-msgstr "E&dita..."
+msgstr "E&dita…"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: conf_ui2.ui:32
@@ -1064,12 +1064,12 @@ msgstr "Sense títol"
 #: editor/kgpgeditor.cpp:187
 #, kde-format
 msgid "&Encrypt File..."
-msgstr "&Encripta fitxer..."
+msgstr "&Encripta fitxer…"
 
 #: editor/kgpgeditor.cpp:191
 #, kde-format
 msgid "&Decrypt File..."
-msgstr "&Desencripta fitxer..."
+msgstr "&Desencripta fitxer…"
 
 #: editor/kgpgeditor.cpp:195
 #, kde-format
@@ -1079,17 +1079,17 @@ msgstr "O&bri el gestor de claus"
 #: editor/kgpgeditor.cpp:198
 #, kde-format
 msgid "&Generate Signature..."
-msgstr "&Genera signatura..."
+msgstr "&Genera signatura…"
 
 #: editor/kgpgeditor.cpp:202
 #, kde-format
 msgid "&Verify Signature..."
-msgstr "&Verifica signatura..."
+msgstr "&Verifica signatura…"
 
 #: editor/kgpgeditor.cpp:205
 #, kde-format
 msgid "&Check MD5 Sum..."
-msgstr "&Comprova la suma MD5..."
+msgstr "&Comprova la suma MD5…"
 
 #: editor/kgpgeditor.cpp:208
 #, kde-format
@@ -1764,7 +1764,7 @@ msgstr "Importeu una clau des del servidor de claus"
 #: keyservers.cpp:206
 #, kde-format
 msgid "Connecting to the server..."
-msgstr "S'està connectant amb el servidor..."
+msgstr "S'està connectant amb el servidor…"
 
 #: keyservers.cpp:312
 #, kde-format
@@ -1846,12 +1846,12 @@ msgstr "Edita la clau a un &terminal"
 #: keysmanager.cpp:180
 #, kde-format
 msgid "&Generate Key Pair..."
-msgstr "&Genera el parell de claus..."
+msgstr "&Genera el parell de claus…"
 
 #: keysmanager.cpp:189
 #, kde-format
 msgid "&Import Key..."
-msgstr "&Importa una clau..."
+msgstr "&Importa una clau…"
 
 #: keysmanager.cpp:194
 #, kde-format
@@ -1866,7 +1866,7 @@ msgstr "&Crea un contacte nou en la Llibreta d'adreces"
 #: keysmanager.cpp:204
 #, kde-format
 msgid "&Edit Group..."
-msgstr "&Edita el grup..."
+msgstr "&Edita el grup…"
 
 #: keysmanager.cpp:207
 #, kde-format
@@ -1886,17 +1886,17 @@ msgstr "Establix com a clau pre&determinat"
 #: keysmanager.cpp:223
 #, kde-format
 msgid "&Add Photo..."
-msgstr "Afi&g una foto..."
+msgstr "Afi&g una foto…"
 
 #: keysmanager.cpp:226
 #, kde-format
 msgid "&Add User Id..."
-msgstr "Afi&g l'identificador d'usuari..."
+msgstr "Afi&g l'identificador d'usuari…"
 
 #: keysmanager.cpp:229
 #, kde-format
 msgid "Export Secret Key..."
-msgstr "Exporta la clau secreta..."
+msgstr "Exporta la clau secreta…"
 
 #: keysmanager.cpp:232
 #, kde-format
@@ -1906,7 +1906,7 @@ msgstr "Suprimix el parell de claus"
 #: keysmanager.cpp:236
 #, kde-format
 msgid "Revoke Key..."
-msgstr "Clau de revocació..."
+msgstr "Clau de revocació…"
 
 #: keysmanager.cpp:239
 #, kde-format
@@ -2182,22 +2182,22 @@ msgstr "Membre del grup"
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
-msgstr[0] "&Signa l'identificador de l'usuari..."
-msgstr[1] "&Signa els identificadors de l'usuari..."
+msgstr[0] "&Signa l'identificador de l'usuari…"
+msgstr[1] "&Signa els identificadors de l'usuari…"
 
 #: keysmanager.cpp:1209
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
-msgstr[0] "Signa i e&nvia l'ID de l'usuari..."
-msgstr[1] "Signa i e&nvia els ID dels usuaris..."
+msgstr[0] "Signa i e&nvia l'ID de l'usuari…"
+msgstr[1] "Signa i e&nvia els ID dels usuaris…"
 
 #: keysmanager.cpp:1210
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
-msgstr[0] "E&xporta la clau pública..."
-msgstr[1] "E&xporta les claus públiques..."
+msgstr[0] "E&xporta la clau pública…"
+msgstr[1] "E&xporta les claus públiques…"
 
 #: keysmanager.cpp:1211
 #, kde-format
@@ -2210,15 +2210,15 @@ msgstr[1] "Act&ualitza les claus des del servidor de claus"
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
-msgstr[0] "&Crea un grup amb la clau seleccionada..."
-msgstr[1] "&Crea un grup amb les claus seleccionades..."
+msgstr[0] "&Crea un grup amb la clau seleccionada…"
+msgstr[1] "&Crea un grup amb les claus seleccionades…"
 
 #: keysmanager.cpp:1213
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
-msgstr[0] "&Signa la clau..."
-msgstr[1] "&Signa les claus..."
+msgstr[0] "&Signa la clau…"
+msgstr[1] "&Signa les claus…"
 
 #: keysmanager.cpp:1214
 #, kde-format
@@ -2251,7 +2251,7 @@ msgstr[1] "Sup&rimix les claus"
 #: keysmanager.cpp:1340
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
-msgstr "La creació del certificat de revocació ha fallat..."
+msgstr "La creació del certificat de revocació ha fallat…"
 
 #: keysmanager.cpp:1355
 #, kde-format
@@ -2662,7 +2662,7 @@ msgstr "Importa des del porta-retalls"
 #: keysmanager.cpp:2556
 #, kde-format
 msgid "Importing..."
-msgstr "S'està important..."
+msgstr "S'està important…"
 
 #: keysmanager.cpp:2568
 #, kde-format
@@ -2860,8 +2860,7 @@ msgstr ""
 "desencriptar-les amb «gpg --decrypt».\n"
 "\n"
 "Si esteu utilitzant KGpg, guardeu l'adjunt al disc i després importeu-lo. "
-"Cal seleccionar «Importa una clau...» des del menú «Claus» i obrir el "
-"fitxer.\n"
+"Cal seleccionar «Importa una clau…» des del menú «Claus» i obrir el fitxer.\n"
 "\n"
 "Cal tindre en compte que no he actualitzat la clau a cap servidor de claus. "
 "Si voleu que esta signatura nova estiga disponible per a tercers, pugeu-la "
@@ -2869,7 +2868,7 @@ msgstr ""
 "net --send-key %ID_CLAU%.\n"
 "\n"
 "Amb KGpg podeu fer clic dret damunt de la clau després d'haver importat tots "
-"els ID d'usuari i seleccionar «Exporta la clau pública...».\n"
+"els ID d'usuari i seleccionar «Exporta la clau pública…».\n"
 "\n"
 "Si cal qualsevol aclariment, no dubteu a preguntar.\n"
 
@@ -3976,8 +3975,8 @@ msgid ""
 "pair.</p></qt>"
 msgstr ""
 "<qt><b>Establix com a clau predeterminada:</b><br />\n"
-"<p>Seleccionant esta opció s'establirà el parell de claus nou com a parell "
-"de claus predeterminat.</p></qt>"
+"<p>Marcant esta opció s'establirà el parell de claus nou com a parell de "
+"claus predeterminat.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CBdefault)
 #: newkey.ui:140
@@ -4090,9 +4089,8 @@ msgid ""
 msgstr ""
 "<b>Permet l'encriptació amb claus que no siguen de confiança</b>: quan "
 "s'importa una clau pública es marca com que no és de confiança i no podreu "
-"utilitzar-la a menys que la signeu per a fer-la «de confiança». Si "
-"seleccioneu esta casella, podreu emprar qualsevol clau, encara que no haja "
-"estat signada."
+"utilitzar-la a menys que la signeu per a fer-la «de confiança». Si marqueu "
+"esta casella, podreu emprar qualsevol clau, encara que no haja estat signada."
 
 #: selectpublickeydialog.cpp:122
 #, kde-format
@@ -4520,7 +4518,7 @@ msgstr[1] "Claus sense canvis"
 #: transactions/kgpgkeyservertransaction.cpp:87
 #, kde-format
 msgid "<b>Connecting to the server...</b>"
-msgstr "<b>S'està connectant amb el servidor...</b>"
+msgstr "<b>S'està connectant amb el servidor…</b>"
 
 #: transactions/kgpgkeyservertransaction.cpp:88
 #, kde-format
