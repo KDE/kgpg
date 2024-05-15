@@ -51,7 +51,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string comment="KDE::DoNotExtract">textLabel7</string>
+           <string notr="true">textLabel7</string>
           </property>
           <property name="wordWrap">
            <bool>false</bool>
@@ -75,7 +75,7 @@
         <item>
          <widget class="QLabel" name="TLemail">
           <property name="text">
-           <string comment="KDE::DoNotExtract">textLabel8</string>
+           <string notr="true">textLabel8</string>
           </property>
           <property name="wordWrap">
            <bool>false</bool>
@@ -99,7 +99,7 @@
         <item>
          <widget class="QLabel" name="TLid">
           <property name="text">
-           <string comment="KDE::DoNotExtract">textLabel10</string>
+           <string notr="true">textLabel10</string>
           </property>
           <property name="wordWrap">
            <bool>false</bool>
