@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 00:40+0000\n"
-"PO-Revision-Date: 2024-05-09 10:07+0400\n"
+"PO-Revision-Date: 2024-05-16 14:06+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -3186,15 +3186,13 @@ msgstr ""
 "مالم تكن تريد تجربة بعض الإعدادات غير المعتادة، فقط انقر على زر \"التالي\"."
 
 #: kgpgfirstassistant.cpp:102
-#, fuzzy, kde-format
-#| msgid "GnuPG Binary"
+#, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "ملف ثنائي GnuPG"
 
 #: kgpgfirstassistant.cpp:103
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "All files"
 msgstr "كلّ الملفّات"
 
@@ -3355,9 +3353,7 @@ msgstr "توليد زوج مفاتيح"
 #. i18n: Name of key owner
 #. i18n: ectx: property (text), widget (QLabel, nameLabel)
 #: kgpgkeygenerate.ui:32
-#, fuzzy, kde-format
-#| msgctxt "Name of key owner"
-#| msgid "&Name:"
+#, kde-format
 msgid "&Name:"
 msgstr "الا&سم:"
 
@@ -3456,23 +3452,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, capCert)
 #: kgpgkeygenerate.ui:175
-#, fuzzy, kde-format
-#| msgid "Creation"
+#, kde-format
 msgid "Certification"
 msgstr "شهادة الاعتماد"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capAuth)
 #: kgpgkeygenerate.ui:195
-#, fuzzy, kde-format
-#| msgid "Creation"
+#, kde-format
 msgid "Authentication"
 msgstr "الاستيثاق"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, kgpgKeyInfo)
 #: kgpgKeyInfo.ui:14
-#, fuzzy, kde-format
+#, kde-format
 msgid "Kgpg"
-msgstr "KGpg"
+msgstr "Kgpg"
 
 #. i18n: ectx: property (text), widget (QLabel, tl_id)
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
@@ -3733,10 +3727,10 @@ msgid "Import into keyring"
 msgstr "استورد إلى حلقة المفتاح"
 
 #: main.cpp:27
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
-msgstr "KGpg"
+msgstr "<application>KGpg</application>"
 
 #: main.cpp:29
 #, kde-kuit-format
@@ -3758,11 +3752,10 @@ msgid "Rolf Eike Beer"
 msgstr "Rolf Eike Beer"
 
 #: main.cpp:33
-#, fuzzy, kde-format
-#| msgid "Maintainer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
-msgstr "المشرف"
+msgstr "المصين"
 
 #: main.cpp:34
 #, kde-kuit-format
@@ -3808,20 +3801,16 @@ msgid "%1: %2"
 msgstr "%1: %2"
 
 #: model/keylistproxymodel.cpp:178
-#, fuzzy, kde-format
-#| msgctxt "Name: ID"
-#| msgid "%1: %2"
+#, kde-format
 msgctxt "ID: Name <Email>"
 msgid "%1: %2 <%3>"
-msgstr "%1: %2"
+msgstr "%1: %2 <%3>"
 
 #: model/keylistproxymodel.cpp:183
-#, fuzzy, kde-format
-#| msgctxt "Name (Email): ID"
-#| msgid "%1 (%2): %3"
+#, kde-format
 msgctxt "Name <Email>: ID"
 msgid "%1 <%2>: %3"
-msgstr "%1 (%2): %3"
+msgstr "%1 <%2>: %3"
 
 #: model/kgpgitemmodel.cpp:179
 #, kde-format
@@ -3996,8 +3985,7 @@ msgid "Unlimited"
 msgstr "غير محدود"
 
 #: selectpublickeydialog.cpp:48 selectpublickeydialog.cpp:266
-#, fuzzy, kde-format
-#| msgid "O&ptions"
+#, kde-format
 msgid "&Options"
 msgstr "&خيارات"
 
@@ -4617,11 +4605,10 @@ msgid ""
 msgstr ""
 
 #: transactions/kgpgverify.cpp:139
-#, fuzzy, kde-kuit-format
-#| msgid "No signature found."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "No signature found."
-msgstr "لم يُعثر على أيّ توقيع"
+msgstr "لم يُعثر على أيّ توقيع."
 
 #: transactions/kgpgverify.cpp:156
 #, fuzzy, kde-kuit-format
@@ -4650,11 +4637,10 @@ msgid ""
 msgstr ""
 
 #: transactions/kgpgverify.cpp:175
-#, fuzzy, kde-kuit-format
-#| msgid "<qt>The signature is valid, but the key is untrusted<br /></qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>The signature is valid, but the key is untrusted</para>"
-msgstr "التّوقيع صالح، إلّا أنّ المفتاح غير موثوق."
+msgstr "<para>التّوقيع صالح، إلّا أنّ المفتاح غير موثوق</para>"
 
 #: transactions/kgpgverify.cpp:177
 #, fuzzy, kde-kuit-format
