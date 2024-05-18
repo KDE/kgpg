@@ -1,15 +1,15 @@
 # Translation of kgpg into esperanto.
 # Copyright (C) 2009 Free Software Foundation, Inc.
 # Axel Rousseau <axel@esperanto-jeunes.org>, 2009.
-# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
+# Oliver Kellogg <olivermkellogg@gmail.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 00:40+0000\n"
-"PO-Revision-Date: 2024-01-07 16:52+0100\n"
-"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
+"PO-Revision-Date: 2024-05-15 23:33+0100\n"
+"Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgstr "Axel Rousseau, Oliver Kellogg"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "axel@esperanto-jeunes.org,okellogg@users.sourceforge.net"
+msgstr "axel@esperanto-jeunes.org,olivermkellogg@gmail.com"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: adduid.ui:17
@@ -982,7 +982,7 @@ msgstr "Ĉifrado"
 #, kde-format
 msgctxt "key capability"
 msgid "Authentication"
-msgstr "Aŭtentigo"
+msgstr "Aŭtentikigo"
 
 #: core/convert.cpp:125
 #, kde-format
@@ -2755,7 +2755,7 @@ msgstr "Ne povas subskribi dosierujon."
 #: kgpg.cpp:146
 #, kde-format
 msgid "Cannot verify folder."
-msgstr "Ne povas kontroli la dosierujon."
+msgstr "Ne eblas konfirmi dosierujon."
 
 #: kgpg.cpp:149
 #, kde-format
@@ -2796,7 +2796,7 @@ msgstr "Subskribi Dosieron"
 #: kgpg.cpp:192
 #, kde-format
 msgid "Verify signature"
-msgstr "Kontroli subskribon"
+msgstr "Konfirmi subskribon"
 
 #: kgpg.cpp:193
 #, kde-format
