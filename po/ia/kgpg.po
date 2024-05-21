@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 00:40+0000\n"
-"PO-Revision-Date: 2024-01-04 10:42+0100\n"
+"PO-Revision-Date: 2024-05-20 14:50+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -82,7 +82,7 @@ msgstr[0] ""
 "Necun message de e-posta esseva inviate pro le sequente id de usator proque "
 "il pertine a un clave sin capabilitate de cryptation:"
 msgstr[1] ""
-"Necun meggase de e-posta esseva inviate pro le sequente ids de usator proque "
+"Necun message de e-posta esseva inviate pro le sequente ids de usator proque "
 "illos pertine a claves sin capabilitate de cryptation:"
 
 #: caff.cpp:179
@@ -134,7 +134,7 @@ msgstr ""
 #: conf_decryption.ui:55
 #, kde-format
 msgid "Custom decryption command:"
-msgstr "Commando de description personalisate:"
+msgstr "Commando de decryptation personalisate:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Encryption)
 #. i18n: ectx: property (text), widget (QCheckBox, capEncrypt)
@@ -1363,7 +1363,7 @@ msgstr "Clave mancante"
 #: foldercompressjob.cpp:36
 #, kde-format
 msgid "Processing folder compression and encryption"
-msgstr "Processante compression de dossier e encryption"
+msgstr "Processante compression de dossier e cryptation"
 
 #: foldercompressjob.cpp:63 foldercompressjob.cpp:114 foldercompressjob.cpp:133
 #: foldercompressjob.cpp:135 transactions/kgpgtransactionjob.cpp:59
