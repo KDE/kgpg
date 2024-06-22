@@ -759,7 +759,7 @@ msgstr "排序顺序"
 #: conf_ui2.ui:253 kgpgoptions.cpp:100
 #, kde-format
 msgid "Left to right, account first"
-msgstr "从左到右，账号靠前排列"
+msgstr "从左到右，账户靠前排列"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:258 kgpgoptions.cpp:101
