@@ -252,7 +252,7 @@ void KGpgExternalActions::verifyFile(QUrl url)
 		sigfile.chop(4);
 	}
 
-	KGpgVerify *kgpv = new KGpgVerify(parent(), QList<QUrl>({QUrl(sigfile)}));
+	KGpgVerify *kgpv = new KGpgVerify(parent(), QList<QUrl>({QUrl::fromLocalFile(sigfile)}));
 	connect(kgpv, &KGpgVerify::done, this, &KGpgExternalActions::slotVerificationDone);
 	kgpv->start();
 }
