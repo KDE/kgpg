@@ -19,7 +19,6 @@
 int main(int argc, char *argv[])
 {
     KGpgApp app(argc, argv);
-    KCrash::initialize();
     KLocalizedString::setApplicationDomain("kgpg");
 
     KAboutData about (
@@ -41,6 +40,7 @@ int main(int argc, char *argv[])
     about.setProductName(QByteArray("kgpg"));
 
     KAboutData::setApplicationData(about);
+    KCrash::initialize();
 
     QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("kgpg")));
 
