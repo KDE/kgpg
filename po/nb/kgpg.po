@@ -1285,15 +1285,12 @@ msgstr "Nøkkelfil sluppet på en tekstredigering"
 
 #: editor/kgpgtextedit.cpp:138
 #, fuzzy, kde-format
-#| msgid "Years"
 msgctxt "@action:button"
 msgid "Yes"
 msgstr "År"
 
 #: editor/kgpgtextedit.cpp:138
 #, fuzzy, kde-format
-#| msgctxt "No trust in key"
-#| msgid "None"
 msgctxt "@action:button"
 msgid "No"
 msgstr "Ingen"
@@ -2491,7 +2488,6 @@ msgstr ""
 
 #: keysmanager.cpp:1978
 #, fuzzy, kde-format
-#| msgid "Signature"
 msgctxt "@action:button"
 msgid "Sign"
 msgstr "Signatur"
