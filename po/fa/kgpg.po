@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 00:40+0000\n"
-"PO-Revision-Date: 2024-08-14 00:32+0330\n"
+"PO-Revision-Date: 2024-09-06 22:32+0330\n"
 "Last-Translator: Mohi Mirdamadi <mohi.pub@gmail.com>\n"
 "Language-Team: fa\n"
 "Language: fa\n"
@@ -550,7 +550,7 @@ msgstr "فعال‌سازی پرونده‌های رمزبندی‌شده"
 #: conf_misc.ui:201
 #, kde-format
 msgid "System Tray Applet"
-msgstr "برنامک سینی سیستم"
+msgstr "برنامک سینی سامانه"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowSystray)
 #: conf_misc.ui:208
@@ -567,7 +567,7 @@ msgstr ""
 #: conf_misc.ui:211
 #, fuzzy, kde-format
 msgid "Show system tray icon"
-msgstr "نمایش شمایل &سینی سیستم‌"
+msgstr "نمایش شمایل &سینی سامانه‌"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: conf_misc.ui:223
@@ -3029,7 +3029,7 @@ msgstr "نمایش گزینگان خدمت »سرگشایی پرونده«."
 #: kgpg.kcfg:176
 #, fuzzy, kde-format
 msgid "Show the systray icon"
-msgstr "نمایش شمایل &سینی سیستم‌"
+msgstr "نمایش شمایل &سینی سامانه‌"
 
 #. i18n: ectx: label, entry (RecentFiles), group (User Interface)
 #: kgpg.kcfg:180
