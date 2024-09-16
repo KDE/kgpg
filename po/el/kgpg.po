@@ -3290,8 +3290,7 @@ msgstr ""
 "κλικ στο κουμπί \"Επόμενο\"."
 
 #: kgpgfirstassistant.cpp:102
-#, fuzzy, kde-format
-#| msgid "GnuPG binary"
+#, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "Εκτελέσιμο του GnuPG"
