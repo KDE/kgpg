@@ -1092,7 +1092,7 @@ msgstr "&Αποκρυπτογράφηση αρχείου..."
 #: editor/kgpgeditor.cpp:195
 #, kde-format
 msgid "&Open Key Manager"
-msgstr "&Άνοιγμα διαχειριστή κλειδιών"
+msgstr "Άνοι&γμα διαχειριστή κλειδιών"
 
 #: editor/kgpgeditor.cpp:198
 #, kde-format
@@ -1861,7 +1861,7 @@ msgstr "Ιδιότητες κλ&ειδιού"
 #: keysmanager.cpp:171
 #, kde-format
 msgid "&Open Key URL"
-msgstr "&Άνοιγμα URL κλειδιού"
+msgstr "Άνοιγμα U&RL κλειδιού"
 
 #: keysmanager.cpp:175
 #, kde-format
