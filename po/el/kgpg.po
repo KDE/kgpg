@@ -3296,10 +3296,9 @@ msgid "GnuPG binary"
 msgstr "Εκτελέσιμο του GnuPG"
 
 #: kgpgfirstassistant.cpp:103
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "All files"
-msgstr "*|Όλα τα αρχεία"
+msgstr "Όλα τα αρχεία"
 
 #: kgpgfirstassistant.cpp:134
 #, kde-format
