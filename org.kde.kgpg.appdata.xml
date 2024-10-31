@@ -30,6 +30,7 @@
   <name xml:lang="ka">KGpg</name>
   <name xml:lang="ko">KGpg</name>
   <name xml:lang="lt">KGpg</name>
+  <name xml:lang="lv">KGpg</name>
   <name xml:lang="nb">KGpg</name>
   <name xml:lang="nds">KGpg</name>
   <name xml:lang="nl">KGpg</name>
@@ -77,6 +78,7 @@
   <summary xml:lang="ka">დაშიფვრის ხელსაწყო</summary>
   <summary xml:lang="ko">암호화 도구</summary>
   <summary xml:lang="lt">Šifravimo įrankis</summary>
+  <summary xml:lang="lv">Šifrēšanas rīks</summary>
   <summary xml:lang="nb">Krypteringsverktøy</summary>
   <summary xml:lang="nds">Verslötel-Warktüüch</summary>
   <summary xml:lang="nl">Hulpmiddel voor versleuteling</summary>
@@ -126,6 +128,7 @@
     <p xml:lang="it">KGpg è un'interfaccia semplice per GnuPG, un potente strumento di cifratura. Ti aiuta a configurare e gestire le tue chiavi, importare ed esportare le chiavi, visualizzarne le firme, lo stato di affidabilità e la data di scadenza.</p>
     <p xml:lang="ka">KGpg მარტივი ინტერფეისია GnuPG-სთვის, შიფრაციის მძლავრი ხელსაწყოსთვის. მას შეუძლია დაგეხმაროთ ააწყოთ და მართოთ, შემოიტანოთ და გაიტანოთ გასაღებები, ნახოთ გასაღების ხელმოწერები, ნდობის მდგომარეობა და ვადის ამოწურვის თარიღები.</p>
     <p xml:lang="ko">KGpg는 강력한 암호화 유틸리티 GnuPG의 GUI 인터페이스입니다. 키를 설정하고 관리할 수 있으며, 키를 내보내고 가져오고, 키 서명, 신뢰 상태, 만료일을 볼 수 있습니다.</p>
+    <p xml:lang="lv">„KGpg“ ir vienkārši lietojama jaudīgā šifrēšanas rīka „GnuPG“ saskarne. Šī programma var palīdzēt izveidot un pārvaldīt jūsu atslēgas, tās importēt un eksportēt, apskatīt atslēgu parakstus, to uzticamības statusu un derīguma termiņu.</p>
     <p xml:lang="nb">KGpg er en enkel brukerflate for GnuPG, et kraftig krypteringsverktøy. Det kan hjelpe til å opprette og håndtere nøkler, importere og eksportere nøkler, vise nøkkelsignaturer, tillitsstatus og utløpsdatoer.</p>
     <p xml:lang="nds">KGpg is en eenfach Böversiet för GnuPGP, en deegt Verslötelwarktüüch. Dat kann Di bi't Opstellen un Plegen vun Dien Slötels hölpen, Slötels im- un exporteren un Slötelünnerschriften, Totroenstatus un Aflooptieden wiesen.</p>
     <p xml:lang="nl">KGpg is een eenvoudig interface voor GnuPG, een krachtig hulpmiddel voor versleuteling. Het kan u helpen met het instellen en beheren van uw sleutels, sleutels im- en exporteren, ondertekening met sleutels, de vertrouwensstatus en verloopdatums bekijken.</p>
@@ -177,6 +180,7 @@
       <caption xml:lang="it">Gestione delle chiavi con KGpg</caption>
       <caption xml:lang="ka">გასაღებების მართვა KGpg-ში</caption>
       <caption xml:lang="ko">KGpg로 키 관리</caption>
+      <caption xml:lang="lv">Atslēgu pārvaldība ar „KGpg“</caption>
       <caption xml:lang="nl">Sleutelbeheer in KGpg</caption>
       <caption xml:lang="nn">Nøkkelhandsaming i KGpg</caption>
       <caption xml:lang="pa">KGpg ਵਿੱਚ ਕੁੰਜੀ ਪਰਬੰਧ</caption>
