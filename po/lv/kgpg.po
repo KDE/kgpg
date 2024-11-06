@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2024-10-28 22:22+0200\n"
+"PO-Revision-Date: 2024-11-04 16:20+0200\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
 "Language: lv\n"
@@ -2394,9 +2394,9 @@ msgid ""
 "or meeting the key owner to be sure that someone is not trying to intercept "
 "your communications.</qt>"
 msgstr ""
-"<qt>Jūs grasāties parakstīt atslēgu:<br /><br />%1<br />ID: %2<br />Pirkstu "
-"nospiedums: <br /><b>%3</b>.<br /><br />Jums jāpārbauda atslēgas pirkstu "
-"nospiedums sazvanoties vai satiekoties ar atslēgas īpašnieku, lai "
+"<qt>Jūs grasāties parakstīt atslēgu:<br /><br />%1<br />ID: %2<br /"
+">Digitālais nospiedums: <br /><b>%3</b>.<br /><br />Jums jāpārbauda atslēgas "
+"digitālais nospiedums sazvanoties vai satiekoties ar atslēgas īpašnieku, lai "
 "pārliecinātos, ka kāds nemēģina pārtvert jūsu komunikāciju.</qt>"
 
 #: keysmanager.cpp:1789
@@ -2407,10 +2407,10 @@ msgid ""
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications.</qt>"
 msgstr ""
-"<qt>Jūs grasāties parakstīt atslēgu::<br /><br />%1 (%2)<br />ID: %3<br /"
-">Pirkstu nospiedums: <br /><b>%4</b>.<br /><br />Jums jāpārbauda atslēgas "
-"pirkstu nospiedums, sazvanoties vai satiekoties ar atslēgas īpašnieku, lai "
-"pārliecinātos, ka kāds nemēģina pārtvert jūsu komunikāciju.</qt>"
+"<qt>Jūs grasāties parakstīt atslēgu:<br /><br />%1 (%2)<br />ID: %3<br /"
+">Digitālais nospiedums: <br /><b>%4</b>.<br /><br />Jums jāpārbauda atslēgas "
+"digitālais nospiedums, sazvanoties vai satiekoties ar atslēgas īpašnieku, "
+"lai pārliecinātos, ka kāds nemēģina pārtvert jūsu komunikāciju.</qt>"
 
 #: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:276
 #: model/keylistproxymodel.cpp:181
@@ -2433,7 +2433,7 @@ msgid ""
 "may be compromised.</b></qt>"
 msgstr ""
 "<qt>Jūs grasāties parakstīt šīs atslēgas vienā operācijā.<br/><b>Ja jūs "
-"neesat uzmanīgi pārbaudījis visu atslēgu pirkstu nospiedumus, jūsu "
+"neesat uzmanīgi pārbaudījis visu atslēgu digitālos nospiedumus, jūsu "
 "komunikāciju drošība var būt apdraudēta.</b></qt>"
 
 #: keysmanager.cpp:1854 keysmanager.cpp:2001
@@ -2450,9 +2450,10 @@ msgid ""
 "not trying to intercept your communications.</qt>"
 msgstr ""
 "<qt>Jūs grasāties parakstīt lietotāja id:<br /><br />%1<br />ID: %2<br /"
-">Pirkstu nospiedums: <br /><b>%3</b>.<br /><br />Jums ir jāpārbauda atslēgas "
-"pirkstu nospiedums, sazvanoties vai satiekoties ar atslēgas īpašnieku, lai "
-"pārliecinātos, ka kāds nemēģina pārtvert jūsu komunikāciju.</qt>"
+">Digitālais nospiedums: <br /><b>%3</b>.<br /><br />Jums ir jāpārbauda "
+"atslēgas digitālais nospiedums, sazvanoties vai satiekoties ar atslēgas "
+"īpašnieku, lai pārliecinātos, ka kāds nemēģina pārtvert jūsu komunikāciju.</"
+"qt>"
 
 #: keysmanager.cpp:1872
 #, kde-format
@@ -2462,9 +2463,9 @@ msgid ""
 "fingerprint by phoning or meeting the key owner to be sure that someone is "
 "not trying to intercept your communications.</qt>"
 msgstr ""
-"<qt>Jūs grasāties parakstīt atslēgu:<br /><br />%1 (%2)<br />ID: %3<br /"
-">Pirkstu nospiedums: <br /><b>%4</b>.<br /><br />Jums būtu jāpārbauda "
-"atslēgas pirkstu nospiedums, sazvanoties vai satiekoties ar atslēgas "
+"<qt>Jūs grasāties parakstīt lietotāja id:<br /><br />%1 (%2)<br />ID: %3<br /"
+">Digitālais nospiedums: <br /><b>%4</b>.<br /><br />Jums būtu jāpārbauda "
+"atslēgas digitālais nospiedums, sazvanoties vai satiekoties ar atslēgas "
 "īpašnieku, lai būtu drošs, ka kāds nemēģina pārtvert jūsu komunikāciju.</qt>"
 
 #: keysmanager.cpp:1898
@@ -2475,7 +2476,7 @@ msgid ""
 "communications may be compromised.</b></qt>"
 msgstr ""
 "<qt>Jūs grasāties parakstīt šīs atslēgas vienā operācijā.<br/><b>Ja jūs "
-"uzmanīgi nepārbaudījāt visu atslēgu pirkstu nospiedumus, jūsu komunikāciju "
+"uzmanīgi nepārbaudījāt visu atslēgu digitālos nospiedumus, jūsu komunikāciju "
 "drošība var būt apdraudēta.</b></qt>"
 
 #: keysmanager.cpp:1967
@@ -3598,7 +3599,7 @@ msgstr "Mainīt paroli"
 #: kgpgKeyInfo.ui:390
 #, kde-format
 msgid "Fingerprint"
-msgstr "Pirkstu nospiedums"
+msgstr "Digitālais nospiedums"
 
 #: kgpgoptions.cpp:107
 #, kde-format
@@ -3943,7 +3944,7 @@ msgstr "Vārds:"
 #: newkey.ui:116
 #, kde-format
 msgid "Fingerprint:"
-msgstr "Pirkstu nospiedums:"
+msgstr "Digitālais nospiedums:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, CBdefault)
 #: newkey.ui:137
@@ -4182,7 +4183,8 @@ msgstr "&Atslēgu serveris:"
 msgid ""
 "Enter the ids or fingerprints of the keys to import as space separated list."
 msgstr ""
-"Ievadiet atslēgu ID vai pirkstu nospiedumus kā ar atstarpi atdalītu sarakstu."
+"Ievadiet atslēgu ID vai digitālos nospiedumus kā ar atstarpi atdalītu "
+"sarakstu."
 
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
