@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-09 00:40+0000\n"
-"PO-Revision-Date: 2024-11-06 23:19+0100\n"
+"PO-Revision-Date: 2024-11-07 18:44+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -2031,7 +2031,7 @@ msgstr "Генериране на нова двойка ключове"
 #: keysmanager.cpp:523
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
-msgstr "Не може да се стартира \" konsole \" за експертен режим."
+msgstr "Не може да се стартира \"konsole\" за експертен режим."
 
 #: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
 #, kde-format
