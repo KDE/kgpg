@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2024-10-26 19:03+0200\n"
+"PO-Revision-Date: 2024-11-10 14:53+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -2253,8 +2253,8 @@ msgid ""
 "compromised.<br/>Continue key export?</qt>"
 msgstr ""
 "<qt>Секретните ключове <b> не трябва</b> да се съхраняват на несигурно "
-"място. <br/> Аконякой получи достъп до този файл, криптирането с този ключ "
-"ще бъдекомпрометирано. <br/> Да се продължи ли експортирането на ключа?</qt>"
+"място. <br/> Ако някой получи достъп до този файл, криптирането с този ключ "
+"ще бъде компрометирано. <br/> Да се продължи ли експортирането на ключа?</qt>"
 
 #: keysmanager.cpp:1367
 #, kde-format
@@ -2525,7 +2525,7 @@ msgid ""
 "id <b>%2</b><br />of key: <b>%3</b>?</qt>"
 msgstr ""
 "<qt>Сигурни ли сте, че искате да бъде изтрит подписа <br /><b>%1</b><br />от "
-"потреб,  идентификатор <b>%2</b><br />на ключ: <b>%3</b>?</qt>"
+"потребителски идентификатор <b>%2</b><br />на ключ: <b>%3</b>?</qt>"
 
 #: keysmanager.cpp:2207
 #, kde-format
