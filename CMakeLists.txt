@@ -26,8 +26,6 @@ include(CMakeFindDependencyMacro)
 include(ECMQtDeclareLoggingCategory)
 include(ECMDeprecationSettings)
 
-set(KF_MAJOR_VERSION "6")
-
 find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
   Core
   DBus
