@@ -4,18 +4,18 @@
 # Author: Artnay
 # Author: Lliehu
 # Author: Niklas Laxström
+# SPDX-FileCopyrightText: 2010, 2012, 2017, 2018, 2021, 2023, 2024 Tommi Nieminen <translator@legisign.org>
 # Tapio Kautto <eleknader@phnet.fi>, 2004.
 # Ilpo Kantonen <ilpo@iki.fi>, 2005, 2006.
 # Mikko Piippo <piippo@cc.helsinki.fi>, 2007.
 # Teemu Rytilahti <teemu.rytilahti@kde-fi.org>, 2008.
-# Tommi Nieminen <translator@legisign.org>, 2010, 2012, 2017, 2018, 2021, 2023, 2024.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2010, 2012, 2013, 2014, 2015.
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2024-04-18 16:05+0300\n"
+"PO-Revision-Date: 2024-11-10 11:13+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -23,8 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-POT-Import-Date: 2012-12-01 22:25:41+0000\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 24.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -764,7 +763,7 @@ msgstr "Vanhentuneet avaimet:"
 #: conf_ui2.ui:82
 #, kde-format
 msgid "Revoked keys:"
-msgstr "Perutut avaimet:"
+msgstr "Mitätöidyt avaimet:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustUnknown)
 #: conf_ui2.ui:92
@@ -926,7 +925,7 @@ msgstr "Ei käytössä"
 #: core/convert.cpp:95
 #, kde-format
 msgid "Revoked"
-msgstr "Kumottu"
+msgstr "Mitätöity"
 
 #: core/convert.cpp:97 model/groupeditproxymodel.cpp:95
 #, kde-format
@@ -1899,7 +1898,7 @@ msgstr "Poista avainpari"
 #: keysmanager.cpp:236
 #, kde-format
 msgid "Revoke Key..."
-msgstr "Peru avain…"
+msgstr "Mitätöi avain…"
 
 #: keysmanager.cpp:239
 #, kde-format
@@ -2152,7 +2151,7 @@ msgstr "Käyttäjätunnus"
 #: keysmanager.cpp:1094
 #, kde-format
 msgid "Revocation Signature"
-msgstr "Perumisen allekirjoitus"
+msgstr "Mitätöi allekirjoitus"
 
 #: keysmanager.cpp:1097
 #, kde-format
@@ -2242,7 +2241,7 @@ msgstr[1] "&Poista avaimet"
 #: keysmanager.cpp:1340
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
-msgstr "Perumisvarmenteen luonti epäonnistui…"
+msgstr "Mitätöintivarmenteen luominen epäonnistui…"
 
 #: keysmanager.cpp:1355
 #, kde-format
@@ -3059,7 +3058,7 @@ msgstr "Luotettujen avainten väri."
 #: kgpg.kcfg:191
 #, kde-format
 msgid "Color used for revoked keys."
-msgstr "Peruttujen avainten väri."
+msgstr "Mitätöityjen avainten väri."
 
 #. i18n: ectx: label, entry (ColorUnknown), group (Key Colors)
 #: kgpg.kcfg:195
@@ -3711,13 +3710,13 @@ msgstr "Pura tiedoston salaus"
 #: kgpgrevokewidget.cpp:38
 #, kde-format
 msgid "Create Revocation Certificate"
-msgstr "Luo perumisvarmenne"
+msgstr "Luo mitätöintivarmenne"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: kgpgrevokewidget.ui:18
 #, kde-format
 msgid "Create revocation certificate for"
-msgstr "Luo perumisvarmenne avaimelle"
+msgstr "Luo mitätöintivarmenne avaimelle"
 
 #. i18n: ectx: property (text), widget (QLabel, keyID)
 #: kgpgrevokewidget.ui:28
@@ -3729,7 +3728,7 @@ msgstr "avaintunnus"
 #: kgpgrevokewidget.ui:45
 #, kde-format
 msgid "Reason for revocation:"
-msgstr "Perumisen syy:"
+msgstr "Mitätöintisyy:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, comboBox1)
 #: kgpgrevokewidget.ui:56
@@ -3913,7 +3912,7 @@ msgstr "Tunnus"
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked"
 msgid "ID %1, %2-bit %3 key, created %4, revoked"
-msgstr "Tunnus %1, %2-bittinen %3-avain, luotu %4, peruttu"
+msgstr "Tunnus %1, %2-bittinen %3-avain, luotu %4, mitätöity"
 
 #: model/kgpgsearchresultmodel.cpp:151
 #, kde-format
@@ -3973,7 +3972,7 @@ msgstr "Aseta oletusavaimeksi"
 #: newkey.ui:152
 #, kde-format
 msgid "Revocation Certificate"
-msgstr "Perumisvarmenne"
+msgstr "Mitätöintivarmenne"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: newkey.ui:158
@@ -3982,8 +3981,8 @@ msgid ""
 "It is recommended to save or print a revocation certificate in case your key "
 "is compromised."
 msgstr ""
-"On suositeltavaa tallentaa tai tulostaa perumisvarmenne, jota voit käyttää, "
-"jos avaimesi paljastuu."
+"On suositeltavaa tallentaa tai tulostaa mitätöintivarmenne, jota voi "
+"käyttää, jos avain vaarantuu."
 
 #. i18n: ectx: property (text), widget (QCheckBox, CBsave)
 #: newkey.ui:170
@@ -4300,7 +4299,7 @@ msgstr "Avain %1 luotu"
 #: transactions/kgpggeneraterevoke.cpp:38
 #, kde-format
 msgid "Generating Revocation Certificate for key %1"
-msgstr "Luodaan perumisvarmennetta avaimelle %1"
+msgstr "Luodaan mitätöintivarmennetta avaimelle %1"
 
 #: transactions/kgpgimport.cpp:117
 #, kde-kuit-format
@@ -4387,8 +4386,8 @@ msgstr[1] "<para>Tuotiin %1 allekirjoitusta.</para>"
 msgctxt "@info"
 msgid "<para>One revocation certificate imported.</para>"
 msgid_plural "<para>%1 revocation certificates imported.</para>"
-msgstr[0] "<para>Tuotiin yksi perumisvarmenne.</para>"
-msgstr[1] "<para>Tuotiin %1 perumisvarmennetta.</para>"
+msgstr[0] "<para>Tuotiin yksi mitätöintivarmenne.</para>"
+msgstr[1] "<para>Tuotiin %1 mitätöintivarmennetta.</para>"
 
 #: transactions/kgpgimport.cpp:142
 #, kde-kuit-format
