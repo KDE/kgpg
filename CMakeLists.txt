@@ -38,7 +38,6 @@ find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
 # Load the frameworks we need
 find_package(KF6 ${KF_MIN_VERSION} REQUIRED
   Archive
-  DocTools
   Codecs
   CoreAddons
   Crash
@@ -58,6 +57,12 @@ find_package(KF6 ${KF_MIN_VERSION} REQUIRED
 
 find_package(KPim6AkonadiContactWidgets 5.24.40 REQUIRED)
 
+find_package(KF6DocTools ${KF_MIN_VERSION})
+set_package_properties(KF6DocTools PROPERTIES
+  DESCRIPTION "Tools to generate documentation"
+  TYPE OPTIONAL
+)
+
 # only headers are used
 find_package(Gpgme REQUIRED)
 
@@ -66,7 +71,6 @@ ecm_set_disabled_deprecation_versions(
     )
 
 add_subdirectory( icons )
-add_subdirectory( doc )
 include_directories(  ${KDEPIMLIBS_INCLUDE_DIR} ${GPGME_INCLUDES} )
 
 option(KGPG_DEBUG_TRANSACTIONS "show commands and results of gpg calls in debug log" Off)
@@ -302,7 +306,12 @@ ecm_install_icons(ICONS
 )
 
 ecm_qt_install_logging_categories(EXPORT KGPG FILE kgpg.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
+
+if (KF6DocTools_FOUND)
+    add_subdirectory(doc)
+    kdoctools_install(po)
+endif()
+
 ki18n_install(po)
-kdoctools_install(po)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
