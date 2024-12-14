@@ -40,6 +40,7 @@
   <name xml:lang="pt">KGpg</name>
   <name xml:lang="pt-BR">KGpg</name>
   <name xml:lang="ru">KGpg</name>
+  <name xml:lang="sa">केजीपीजी</name>
   <name xml:lang="sk">KGpg</name>
   <name xml:lang="sl">KGpg</name>
   <name xml:lang="sr">КГПГ</name>
@@ -88,6 +89,7 @@
   <summary xml:lang="pt">Ferramenta de Cifra</summary>
   <summary xml:lang="pt-BR">Ferramenta de criptografia</summary>
   <summary xml:lang="ru">Утилита шифрования</summary>
+  <summary xml:lang="sa">एन्क्रिप्शन टूल्</summary>
   <summary xml:lang="sk">Šifrovací nástroj</summary>
   <summary xml:lang="sl">Orodje za šifriranje</summary>
   <summary xml:lang="sr">Алатка за шифровање</summary>
@@ -137,6 +139,7 @@
     <p xml:lang="pt">O KGpg é uma interface simples para o GnuPG, um utilitário poderoso de cifra ou encriptação. Podê-lo-á ajudar a configurar e a gerir as suas chaves, importá-las e exportá-las, ver as assinaturas das chaves, o estado e as datas de validade.</p>
     <p xml:lang="pt-BR">KGpg é uma interface simples para o GnuPG, um utilitário de criptografia poderoso. Ele pode ajudá-lo a configurar e a gerenciar as suas chaves, importá-las e exportá-las, ver as assinaturas das chaves, o estado e as datas de validade.</p>
     <p xml:lang="ru">KGpg представляет собой простой в использовании графический интерфейс к программе GnuPG — программе для шифрования с расширенными возможностями. Приложение KGpg предназначено для создания и управления собственными ключами шифрования, экспорта и импорта ключей, просмотра подписей, уровня доверия и сроков окончания действия ключей.</p>
+    <p xml:lang="sa">KGpg GnuPG इत्यस्य सरलं अन्तरफलकं अस्ति, यत् एकं शक्तिशालीं एन्क्रिप्शन-उपयोगिता अस्ति । एतत् भवतः कुञ्जीस्थापनं प्रबन्धनं च कर्तुं, कुञ्जीम् आयातयितुं निर्यातयितुं च, कुञ्जीहस्ताक्षराणि, विश्वासस्य स्थितिं, अवधिसमाप्तितिथिः च द्रष्टुं साहाय्यं कर्तुं शक्नोति ।</p>
     <p xml:lang="sk">KGpg je jednoduché rozhranie pre GnuPG, silný šifrovací nástroj. Môže vám pomôcť nastaviť a spravovať vaše kľúče, importovať a exportovať kľúče, prezerať podpisy kľúčov, stav dôveryhodnosti a dátumy expirácie.</p>
     <p xml:lang="sl">KGpg je preprost vmesnik za močno šifrirno orodje GnuPG. Pomaga vam lahko pri nastavljanju, upravljanju in uvažanju/izvažanju ključev. Z njim si lahko ogledate podpise ključev ter njihovo stanje zaupanja in datum preteka.</p>
     <p xml:lang="sr">КГПГ је једноставно сучеље за ГнуПГ, моћну алатку за шифровање. Може вам помоћи да постављате кључеве, управљате њима, увозите их и извозите, као и да приказујете отиске, поузданост и датуме истицања кључева.</p>
@@ -188,6 +191,7 @@
       <caption xml:lang="pt">Gestão de chaves no KGpg</caption>
       <caption xml:lang="pt-BR">Gerenciamento de chaves no KGpg</caption>
       <caption xml:lang="ru">Управление ключами в KGpg</caption>
+      <caption xml:lang="sa">केजीपीजी इत्यस्मिन् प्रमुखप्रबन्धनम्</caption>
       <caption xml:lang="sk">Správa kľúčov v KGpg</caption>
       <caption xml:lang="sl">Upravljanje ključev KGpg</caption>
       <caption xml:lang="sv">Nyckelhantering i Kgpg</caption>
