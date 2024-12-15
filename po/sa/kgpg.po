@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2024-12-13 20:22+0530\n"
+"PO-Revision-Date: 2024-12-14 09:28+0530\n"
 "Last-Translator: kali <skkalwar999@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n>2);\n"
-"X-Generator: Lokalize 24.08.2\n"
+"X-Generator: Poedit 3.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "भवतः नामानि"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "भवतः ईमेलपत्राणि"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: adduid.ui:17
@@ -62,7 +62,7 @@ msgstr ""
 #, kde-format
 msgctxt "%1 is the key id, %2 is the name and comment of the key or uid"
 msgid "%1: %2"
-msgstr ""
+msgstr "%1: %2"
 
 #: caff.cpp:158 caff.cpp:176
 #, kde-format
@@ -70,7 +70,7 @@ msgctxt ""
 "%1 is the key id, %2 is the name and comment of the key or uid, %3 is the "
 "email address of the uid"
 msgid "%1: %2 &lt;%3&gt;"
-msgstr ""
+msgstr "%1: %2 &lt;%3&gt;"
 
 #: caff.cpp:161
 #, kde-format
@@ -81,7 +81,11 @@ msgid_plural ""
 "No mail was sent for the following user ids because they belong to keys "
 "without encryption capability:"
 msgstr[0] ""
+"निम्नलिखित उपयोक्तृ-id कृते कोऽपि मेलः न प्रेषितः यतः एतत् एन्क्रिप्शन-क्षमतां विना कीलस्य "
+"अस्ति:"
 msgstr[1] ""
+"निम्नलिखित उपयोक्तृ-ids कृते कोऽपि मेलः न प्रेषितः यतः ते एन्क्रिप्शन-क्षमतां विना कीलानां "
+"सन्ति:"
 
 #: caff.cpp:179
 #, kde-format
@@ -90,25 +94,27 @@ msgid ""
 msgid_plural ""
 "No mail was sent for the following user ids because they were already signed:"
 msgstr[0] ""
+"निम्नलिखित उपयोक्तृ-id कृते कोऽपि मेलः न प्रेषितः यतः एतत् पूर्वमेव हस्ताक्षरितम् आसीत्:"
 msgstr[1] ""
+"निम्नलिखित उपयोक्तृ-ids कृते कोऽपि मेलः न प्रेषितः यतः ते पूर्वमेव हस्ताक्षरिताः आसन्:"
 
 #: caff.cpp:312
 #, kde-format
 msgctxt "Email template placeholder for key id"
 msgid "KEYID"
-msgstr ""
+msgstr "KEYED इति"
 
 #: caff.cpp:313
 #, kde-format
 msgctxt "Email template placeholder for key id"
 msgid "UIDNAME"
-msgstr ""
+msgstr "UIDNAME इति"
 
 #: caff.cpp:346
 #, kde-format
 msgctxt "%1 is 64 bit key id (in hex), text is used as email subject"
 msgid "Your key %1"
-msgstr ""
+msgstr "भवतः कुञ्जी %1"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel1_4_2)
 #: conf_decryption.ui:52
@@ -788,61 +794,61 @@ msgstr "दक्षिणतः वामतः, प्रथमं FQDN"
 #, kde-format
 msgctxt "Encryption algorithm"
 msgid "RSA"
-msgstr ""
+msgstr "आर एस ए"
 
 #: core/convert.cpp:47
 #, kde-format
 msgctxt "Encryption algorithm"
 msgid "DSA"
-msgstr ""
+msgstr "DSA"
 
 #: core/convert.cpp:49
 #, kde-format
 msgctxt "Encryption algorithm"
 msgid "ElGamal"
-msgstr ""
+msgstr "एलगमाल"
 
 #: core/convert.cpp:51
 #, kde-format
 msgctxt "Encryption algorithm"
 msgid "DSA & ElGamal"
-msgstr ""
+msgstr "डीएसए एवं एलगमाल"
 
 #: core/convert.cpp:53
 #, kde-format
 msgctxt "Encryption algorithm RSA, Signing algorithm RSA"
 msgid "RSA & RSA"
-msgstr ""
+msgstr "आरएसए एवं आरएसए"
 
 #: core/convert.cpp:55
 #, kde-format
 msgctxt "Encryption algorithm"
 msgid "ECC"
-msgstr ""
+msgstr "इत्यादि"
 
 #: core/convert.cpp:57
 #, kde-format
 msgctxt "Signing algorithm"
 msgid "ECDSA"
-msgstr ""
+msgstr "ईसीडीएसए"
 
 #: core/convert.cpp:59
 #, kde-format
 msgctxt "Encryption algorithm"
 msgid "ECDH"
-msgstr ""
+msgstr "ईसीडीएच"
 
 #: core/convert.cpp:61
 #, kde-format
 msgctxt "Signing algorithm"
 msgid "EdDSA"
-msgstr ""
+msgstr "एड्डीएसए"
 
 #: core/convert.cpp:64
 #, kde-format
 msgctxt "Unknown algorithm"
 msgid "Unknown"
-msgstr ""
+msgstr "अज्ञात"
 
 #: core/convert.cpp:72
 #, kde-format
@@ -873,19 +879,19 @@ msgstr "अन्ततः"
 #, kde-format
 msgctxt "Unknown trust in key owner"
 msgid "Unknown"
-msgstr ""
+msgstr "अज्ञात"
 
 #: core/convert.cpp:91
 #, kde-format
 msgctxt "Invalid key"
 msgid "Invalid"
-msgstr ""
+msgstr "अप्रतिषेध"
 
 #: core/convert.cpp:93
 #, kde-format
 msgctxt "Disabled key"
 msgid "Disabled"
-msgstr ""
+msgstr "अक्षमित"
 
 #: core/convert.cpp:95
 #, kde-format
@@ -896,43 +902,43 @@ msgstr "निरस्त"
 #, kde-format
 msgctxt "Expired key"
 msgid "Expired"
-msgstr ""
+msgstr "परीत"
 
 #: core/convert.cpp:99
 #, kde-format
 msgctxt "Undefined key trust"
 msgid "Undefined"
-msgstr ""
+msgstr "अनिर्दिष्टम्"
 
 #: core/convert.cpp:101
 #, kde-format
 msgctxt "No trust in key"
 msgid "None"
-msgstr ""
+msgstr "न कश्चित्"
 
 #: core/convert.cpp:103
 #, kde-format
 msgctxt "Marginal trust in key"
 msgid "Marginal"
-msgstr ""
+msgstr "सीमान्त"
 
 #: core/convert.cpp:105
 #, kde-format
 msgctxt "Full trust in key"
 msgid "Full"
-msgstr ""
+msgstr "पूर्ण"
 
 #: core/convert.cpp:107
 #, kde-format
 msgctxt "Ultimate trust in key"
 msgid "Ultimate"
-msgstr ""
+msgstr "अंतिम"
 
 #: core/convert.cpp:110
 #, kde-format
 msgctxt "Unknown trust in key"
 msgid "Unknown"
-msgstr ""
+msgstr "अज्ञात"
 
 #: core/convert.cpp:119
 #, kde-format
@@ -962,33 +968,33 @@ msgstr "प्रमाणीकरण"
 #, kde-format
 msgctxt "used to join a list of key types, e.g. 'encryption, signature'"
 msgid ", "
-msgstr ""
+msgstr ", ९. "
 
 #: core/KGpgGroupNode.cpp:154
 #, kde-format
 msgid "1 key"
 msgid_plural "%1 keys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "१ कीलम्"
+msgstr[1] "%1 कीलानि"
 
 #: core/KGpgKeyNode.cpp:72
 #, kde-format
 msgctxt "size of signing key / size of encryption key"
 msgid "%1 / %2"
-msgstr ""
+msgstr "%1 / %2"
 
 #: core/KGpgKeyNode.cpp:156 core/KGpgSignableNode.cpp:31
 #, kde-format
 msgid "1 signature"
 msgid_plural "%1 signatures"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "१ हस्ताक्षरम्"
+msgstr[1] "%1 हस्ताक्षराणि"
 
 #: core/KGpgNode.cpp:43
 #, kde-format
 msgctxt "Name of uid (comment)"
 msgid "%1 (%2)"
-msgstr ""
+msgstr "%1 (%2) २."
 
 #: core/KGpgRefNode.cpp:115 transactions/kgpgtransaction.cpp:277
 #, kde-format
@@ -1256,13 +1262,13 @@ msgstr "Editor इत्यत्र कीलसञ्चिका पाति
 #, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr ""
+msgstr "आम्‌"
 
 #: editor/kgpgtextedit.cpp:138
 #, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr ""
+msgstr "नहि"
 
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
@@ -1288,7 +1294,7 @@ msgstr "हस्ताक्षरं सम्भवं नास्ति: �
 #, kde-format
 msgctxt "Caption of message box"
 msgid "Verification Finished"
-msgstr ""
+msgstr "सत्यापन समाप्त"
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonimport)
 #: editor/kgpgtextedit.cpp:331 keyserver.ui:145 keyservers.cpp:201
@@ -1326,13 +1332,13 @@ msgstr "फोल्डर् संपीडनं एन्क्रिप्�
 #, kde-format
 msgctxt "State of operation as in status"
 msgid "State"
-msgstr ""
+msgstr "राज्यम्‌"
 
 #: foldercompressjob.cpp:63 transactions/kgpgtransactionjob.cpp:32
 #, kde-format
 msgctxt "Job is started up"
 msgid "Startup"
-msgstr ""
+msgstr "स्टार्टअप"
 
 #: foldercompressjob.cpp:96
 #, kde-format
@@ -1343,13 +1349,13 @@ msgstr "अस्थायीसञ्चिकां निर्मातु�
 #, kde-format
 msgctxt "Status message 'Encrypting <filename>' (operation starts)"
 msgid "Encrypting %1"
-msgstr ""
+msgstr "%1 एन्क्रिप्टिङ्ग् करणम्"
 
 #: foldercompressjob.cpp:136 transactions/kgpgencrypt.cpp:95
 #, kde-format
 msgctxt "Status message 'Encrypted <filename>' (operation was completed)"
 msgid "Encrypted %1"
-msgstr ""
+msgstr "एन्क्रिप्टेड् %1"
 
 #: foldercompressjob.cpp:167
 #, kde-format
@@ -1410,7 +1416,7 @@ msgstr "सार्वजनिक कुंजी निर्यात"
 #, kde-format
 msgctxt "Export a key via email"
 msgid "E&mail"
-msgstr ""
+msgstr "ई-मेल"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkClipboard)
 #: keyexport.ui:48 sourceselect.ui:35
@@ -1463,7 +1469,7 @@ msgctxt ""
 "@option:radio Exports the smallest key possible. Maps to export-minimal "
 "option of gpg"
 msgid "Clean key"
-msgstr ""
+msgstr "कुञ्जी स्वच्छं कुर्वन्तु"
 
 #: keyinfodialog.cpp:175
 #, kde-format
@@ -1483,7 +1489,7 @@ msgstr "कीलं न लब्धम्"
 #, kde-format
 msgctxt "no email address"
 msgid "none"
-msgstr ""
+msgstr "न कश्चित्"
 
 #: keyinfodialog.cpp:214
 #, kde-format
@@ -1498,7 +1504,7 @@ msgstr ""
 #, kde-format
 msgctxt "Unlimited key lifetime"
 msgid "Unlimited"
-msgstr ""
+msgstr "असीमित"
 
 #: keyinfodialog.cpp:223
 #, kde-format
@@ -1513,7 +1519,7 @@ msgstr ""
 #, kde-format
 msgctxt "no key comment"
 msgid "<em>none</em>"
-msgstr ""
+msgstr "<em>न कश्चित्</em>"
 
 #: keyinfodialog.cpp:314
 #, kde-format
@@ -1688,7 +1694,7 @@ msgstr "न कीलसर्वरः परिभाषितः"
 #, kde-format
 msgctxt "Caption of message box"
 msgid "Key Import Finished"
-msgstr ""
+msgstr "कील आयात समाप्त"
 
 #: keyservers.cpp:170
 #, kde-format
@@ -1704,7 +1710,7 @@ msgstr "keyserver इत्यत्र अपलोड् करणं वि�
 #, kde-format
 msgctxt "Window title"
 msgid "Import Key From Keyserver"
-msgstr ""
+msgstr "कीसर्वरतः कीलम् आयातयन्तु"
 
 #: keyservers.cpp:206
 #, kde-format
@@ -1725,8 +1731,8 @@ msgstr "न मेलनं कुञ्जी लब्धम्"
 #, kde-format
 msgid "Found 1 matching key"
 msgid_plural "Found %1 matching keys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 मेलकर्ता कुञ्जी प्राप्ता"
+msgstr[1] "%1 मेलकुञ्जिकाः प्राप्ताः"
 
 #: keyservers.cpp:378
 #, kde-format
@@ -1907,19 +1913,19 @@ msgstr "&फोटो आईडी's"
 #, kde-format
 msgctxt "small picture"
 msgid "Small"
-msgstr ""
+msgstr "लघु"
 
 #: keysmanager.cpp:298
 #, kde-format
 msgctxt "medium picture"
 msgid "Medium"
-msgstr ""
+msgstr "मध्यम"
 
 #: keysmanager.cpp:299
 #, kde-format
 msgctxt "large picture"
 msgid "Large"
-msgstr ""
+msgstr "बृहत्‌"
 
 #: keysmanager.cpp:303
 #, kde-format
@@ -1930,31 +1936,31 @@ msgstr "न्यूनतम &विश्वास"
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
-msgstr ""
+msgstr "&न कश्चित्"
 
 #: keysmanager.cpp:307
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
-msgstr ""
+msgstr "&सक्रियं"
 
 #: keysmanager.cpp:308
 #, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
-msgstr ""
+msgstr "&सीमान्त"
 
 #: keysmanager.cpp:309
 #, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
-msgstr ""
+msgstr "&पूर्ण"
 
 #: keysmanager.cpp:310
 #, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
-msgstr ""
+msgstr "&अंतिम"
 
 #: keysmanager.cpp:335
 #, kde-format
@@ -1965,7 +1971,7 @@ msgstr "&Show Only गुप्त कुञ्जी"
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
-msgstr ""
+msgstr "फोकस अन्वेषण रेखा"
 
 #: keysmanager.cpp:483
 #, kde-format
@@ -1990,7 +1996,7 @@ msgstr "विशेषज्ञविधानाय \"konsole\" अनुप�
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
-msgstr ""
+msgstr "आत्त"
 
 #: keysmanager.cpp:574 transactions/kgpggeneratekey.cpp:194
 #, kde-format
@@ -2124,71 +2130,71 @@ msgstr "समूह सदस्य"
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "&उपयोक्तृपरिचयस्य हस्ताक्षरं कुर्वन्तु ..."
+msgstr[1] "&उपयोक्तृपरिचयेषु हस्ताक्षरं कुर्वन्तु ..."
 
 #: keysmanager.cpp:1209
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "हस्ताक्षरं तथा &मेल उपयोक्तृपरिचयः ..."
+msgstr[1] "उपयोक्तृपरिचयस्य हस्ताक्षरं &मेलं च ..."
 
 #: keysmanager.cpp:1210
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "E&xport सार्वजनिक कुंजी..."
+msgstr[1] "E&xport सार्वजनिक कुंजी..."
 
 #: keysmanager.cpp:1211
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "&Refresh Key From Keyserver इति"
+msgstr[1] "&कीसर्वरतः कुञ्जी ताजगं कुर्वन्तु"
 
 #: keysmanager.cpp:1212
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "&चयनितकुंजी सह समूहं रचयन्तु..."
+msgstr[1] "&चयनितकुंजीभिः सह समूहं रचयन्तु..."
 
 #: keysmanager.cpp:1213
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "&साइन की..."
+msgstr[1] "&साइन कीज..."
 
 #: keysmanager.cpp:1214
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "&उपयोक्तृ आईडी विलोपयन्तु"
+msgstr[1] "&उपयोक्तृ आईडी विलोपयन्तु"
 
 #: keysmanager.cpp:1215
 #, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Sign&ature विलोपयतु"
+msgstr[1] "Sign&atures विलोपयन्तु"
 
 #: keysmanager.cpp:1216
 #, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "कीसर्वरतः कीलम् आयातयन्तु"
+msgstr[1] "Keyserver तः कील आयात करें"
 
 #: keysmanager.cpp:1217
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "&Delete Key"
+msgstr[1] "&Delete Keys"
 
 #: keysmanager.cpp:1340
 #, kde-format
@@ -2238,8 +2244,8 @@ msgstr ""
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<qt>सार्वजनिककुञ्जी सफलतया निर्यातिता<br/> %2</qt>"
+msgstr[1] "<qt>%1 सार्वजनिककुंजीः सफलतया निर्यातिताः<br/> %2</qt>"
 
 #: keysmanager.cpp:1494 keysmanager.cpp:1509 keysmanager.cpp:1523
 #, kde-format
@@ -2291,7 +2297,7 @@ msgstr ""
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
-msgstr ""
+msgstr "%1 (%2) ID: %3"
 
 #: keysmanager.cpp:1715
 #, kde-format
@@ -2302,7 +2308,7 @@ msgstr "New Group रचयन्तु"
 #, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
-msgstr ""
+msgstr "नूतनं समूहनाम प्रविष्टं कुर्वन्तु:"
 
 #: keysmanager.cpp:1721
 #, kde-format
@@ -2363,13 +2369,13 @@ msgstr ""
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
-msgstr ""
+msgstr "%1: %2"
 
 #: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:278
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
-msgstr ""
+msgstr "%1 (%2): %3"
 
 #: keysmanager.cpp:1812
 #, kde-format
@@ -2449,14 +2455,14 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Sign"
-msgstr ""
+msgstr "चिह्नम्‌"
 
 #: keysmanager.cpp:2094
 #, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "अस्य कीलस्य सर्वाणि हस्ताक्षराणि पूर्वमेव भवतः कीलमण्डले सन्ति"
+msgstr[1] "अस्य कीलस्य सर्वाणि हस्ताक्षराणि पूर्वमेव भवतः कीलमण्डले सन्ति"
 
 #: keysmanager.cpp:2181
 #, kde-format
@@ -2486,7 +2492,11 @@ msgid_plural ""
 "<qt>The key you are deleting is a member of the following key groups. Do you "
 "want to remove it from these groups?</qt>"
 msgstr[0] ""
+"<qt>भवन्तः यत् कुञ्जी विलोपयन्ति तत् निम्नलिखितस्य कीलसमूहस्य सदस्यः अस्ति । अस्मात् समूहात् "
+"अपसारयितुम् इच्छसि वा ?</qt>"
 msgstr[1] ""
+"<qt>भवन्तः यत् कुञ्जी विलोपयन्ति तत् निम्नलिखितकुञ्जीसमूहानां सदस्यः अस्ति । एतेभ्यः समूहेभ्यः "
+"अपसारयितुम् इच्छसि वा ?</qt>"
 
 #: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
 #: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
@@ -2557,8 +2567,8 @@ msgstr ""
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<qt><b>निम्नलिखित सार्वजनिककुंजी विलोपयन्तु?</b></qt>"
+msgstr[1] "<qt><b>निम्नलिखित %1 सार्वजनिककुंजीः विलोपयन्तु?</b></qt>"
 
 #: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
 #, kde-format
@@ -3095,8 +3105,8 @@ msgstr "संग्रहणार्थं संपीडनविधिः :
 #, kde-format
 msgid "Decryption of this file failed:"
 msgid_plural "Decryption of these files failed:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "अस्याः सञ्चिकायाः विगुप्तीकरणं विफलम् अभवत् :"
+msgstr[1] "एतेषां सञ्चिकानां विगुप्तीकरणं विफलम् अभवत् :"
 
 #: kgpgexternalactions.cpp:425
 #, kde-format
@@ -3157,7 +3167,7 @@ msgstr ""
 #, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
-msgstr ""
+msgstr "GnuPG द्विचक्रीय"
 
 #: kgpgfirstassistant.cpp:103
 #, kde-format
@@ -3368,7 +3378,7 @@ msgstr "अवधिः समाप्तः : १."
 #, kde-format
 msgctxt "Key will not expire"
 msgid "Never"
-msgstr ""
+msgstr "कदापि न"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, m_keyexp)
 #: kgpgkeygenerate.ui:103
@@ -3620,7 +3630,7 @@ msgstr "सर्वर URL: 1.1."
 #, kde-format
 msgctxt "no key available"
 msgid "none"
-msgstr ""
+msgstr "न कश्चित्"
 
 #: kgpgoptions.cpp:488
 #, kde-format
@@ -3702,85 +3712,85 @@ msgstr "कीलिंग् मध्ये आयातं कुर्वन
 #, kde-kuit-format
 msgctxt "@title"
 msgid "<application>KGpg</application>"
-msgstr ""
+msgstr "<application>KGpg</application> इति"
 
 #: main.cpp:28
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
-msgstr ""
+msgstr "KGpg - GnuPG कृते सरलं gui"
 
 #: main.cpp:30
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
-msgstr ""
+msgstr "& प्रतिलिपि; २००३-२०१६, द केजीपीजी डेवलपर्स"
 
 #: main.cpp:32
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Rolf Eike Beer"
-msgstr ""
+msgstr "रोल्फ ओक भालू"
 
 #: main.cpp:32
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
-msgstr ""
+msgstr "परिपालकः"
 
 #: main.cpp:33
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
-msgstr ""
+msgstr "जीन-बैप्टिस्ट मार्डेले"
 
 #: main.cpp:33
 #, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
-msgstr ""
+msgstr "लेखक एवं पूर्व परिपालक"
 
 #: main.cpp:34
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jimmy Gilles"
-msgstr ""
+msgstr "जिम्मी गिल्स"
 
 #: main.cpp:35
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Andrius Štikonas"
-msgstr ""
+msgstr "आन्द्रियः ष्टिकोनसः"
 
 #: main.cpp:35
 #, kde-format
 msgctxt "@info:credit"
 msgid "KF5 port"
-msgstr ""
+msgstr "KF5 पोर्ट्"
 
 #: model/gpgservermodel.cpp:73
 #, kde-format
 msgctxt "Mark default keyserver in GUI"
 msgid "%1 (Default)"
-msgstr ""
+msgstr "%1 (पूर्वनिर्धारितम्) ."
 
 #: model/keylistproxymodel.cpp:176
 #, kde-format
 msgctxt "ID: Name"
 msgid "%1: %2"
-msgstr ""
+msgstr "%1: %2"
 
 #: model/keylistproxymodel.cpp:178
 #, kde-format
 msgctxt "ID: Name <Email>"
 msgid "%1: %2 <%3>"
-msgstr ""
+msgstr "%1: %2 <%3>"
 
 #: model/keylistproxymodel.cpp:183
 #, kde-format
 msgctxt "Name <Email>: ID"
 msgid "%1 <%2>: %3"
-msgstr ""
+msgstr "%1 <%2>: %3"
 
 #: model/kgpgitemmodel.cpp:179
 #, kde-format
@@ -3796,21 +3806,21 @@ msgstr "विश्वासः %1"
 #, kde-format
 msgid "1 Key"
 msgid_plural "%1 Keys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "१ कीलम्"
+msgstr[1] "%1 कीलानि"
 
 #: model/kgpgitemmodel.cpp:284
 #, kde-format
 msgid "1 Group"
 msgid_plural "%1 Groups"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "१ समूहः"
+msgstr[1] "%1 समूहाः"
 
 #: model/kgpgitemmodel.cpp:286
 #, kde-format
 msgctxt "%1 = something like 7 keys, %2 = something like 2 groups"
 msgid "%1, %2"
-msgstr ""
+msgstr "%1, %2"
 
 #: model/kgpgitemmodel.cpp:382 model/kgpgsearchresultmodel.cpp:417
 #, kde-format
@@ -3821,7 +3831,7 @@ msgstr "नामः"
 #, kde-format
 msgctxt "@title:column Title of a column of emails"
 msgid "Email"
-msgstr ""
+msgstr "ईमेल"
 
 #: model/kgpgitemmodel.cpp:388
 #, kde-format
@@ -3832,20 +3842,20 @@ msgstr "आईडी"
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked"
 msgid "ID %1, %2-bit %3 key, created %4, revoked"
-msgstr ""
+msgstr "ID %1, %2-बिट %3 कीलम्, %4 निर्मितम्, निरस्तम्"
 
 #: model/kgpgsearchresultmodel.cpp:151
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009"
 msgid "ID %1, %2-bit %3 key, created %4"
-msgstr ""
+msgstr "ID %1, %2-बिट %3 कीलम्, %4 निर्मितम्"
 
 #: model/kgpgsearchresultmodel.cpp:284
 #, kde-format
 msgid "One Photo ID"
 msgid_plural "%1 Photo IDs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "एकं Photo ID"
+msgstr[1] "%1 फोटो आईडी"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2)
 #: newkey.ui:20
@@ -3935,7 +3945,7 @@ msgstr "New Expiration इति चिनोतु"
 #, kde-format
 msgctxt "Key has unlimited lifetime"
 msgid "Unlimited"
-msgstr ""
+msgstr "असीमित"
 
 #: selectpublickeydialog.cpp:48 selectpublickeydialog.cpp:266
 #, kde-format
@@ -3956,8 +3966,8 @@ msgstr "%1 कृते सार्वजनिककुंजी चिनो�
 #, kde-format
 msgid "Select Public Key for %2 and one more file"
 msgid_plural "Select Public Key for %2 and %1 more files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 कृते Public Key चिनोतु तथा च एकं अधिकं सञ्चिकां चिनोतु"
+msgstr[1] "%2 तथा %1 अधिकसञ्चिकानां कृते Public Key चिनोतु"
 
 #: selectpublickeydialog.cpp:75
 #, kde-format
@@ -4051,7 +4061,11 @@ msgid_plural ""
 "How carefully have you checked that the %1 keys really belong to the people "
 "with whom you wish to communicate:"
 msgstr[0] ""
+"भवन्तः कियत् सावधानीपूर्वकं परीक्षितवन्तः यत् कुञ्जी वास्तवतः तस्य व्यक्तिस्य एव अस्ति यस्य "
+"सह भवन्तः संवादं कर्तुम् इच्छन्ति:"
 msgstr[1] ""
+"भवता कियत् सावधानीपूर्वकं परीक्षितं यत् %1 कीलानि वास्तवतः तेषां जनानां सन्ति येषां सह "
+"भवान् संवादं कर्तुम् इच्छति:"
 
 #: selectsecretkey.cpp:71
 #, kde-format
@@ -4129,13 +4143,13 @@ msgstr ""
 #, kde-format
 msgctxt "Status message 'Decrypting <filename>' (operation starts)"
 msgid "Decrypting %1"
-msgstr ""
+msgstr "%1 विगुप्तीकरणम्"
 
 #: transactions/kgpgdecrypt.cpp:113
 #, kde-format
 msgctxt "Status message 'Decrypted <filename>' (operation was completed)"
 msgid "Decrypted %1"
-msgstr ""
+msgstr "विगुप्तं %1"
 
 #: transactions/kgpggeneratekey.cpp:52
 #, kde-format
@@ -4214,6 +4228,8 @@ msgid ""
 "The import result string has an unsupported format in line %1.<nl/>Please "
 "see the detailed log for more information."
 msgstr ""
+"आयातपरिणामतारस्य %1 पङ्क्तौ असमर्थितं प्रारूपम् अस्ति ।<nl/>अधिकसूचनार्थं कृपया विस्तृतं लॉग् "
+"पश्यन्तु ।"
 
 #: transactions/kgpgimport.cpp:121
 #, kde-format
@@ -4225,16 +4241,16 @@ msgstr "न कुञ्जी आयातिता।<br /> अधिकवि
 msgctxt "@info"
 msgid "<para>%1 key processed.</para>"
 msgid_plural "<para>%1 keys processed.</para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para>%1 कीलं संसाधितम्।</para>"
+msgstr[1] "<para>%1 कीलानि संसाधितानि।</para>"
 
 #: transactions/kgpgimport.cpp:126
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key without ID.</para>"
 msgid_plural "<para>%1 keys without ID.</para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para>ID विना एकं कीलम्।</para>"
+msgstr[1] "<para>%1 ID विना कीलानि।</para>"
 
 #: transactions/kgpgimport.cpp:128
 #, kde-kuit-format
@@ -4242,64 +4258,64 @@ msgctxt "@info"
 msgid "<para><emphasis strong='true'>One key imported:</emphasis></para>"
 msgid_plural ""
 "<para><emphasis strong='true'>%1 keys imported:</emphasis></para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para><emphasis strong='true'>एकं कीलम् आयातम्:</emphasis></para>"
+msgstr[1] "<para><emphasis strong='true'>%1 कीलानि आयातानि:</emphasis></para>"
 
 #: transactions/kgpgimport.cpp:130
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One RSA key imported.</para>"
 msgid_plural "<para>%1 RSA keys imported.</para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para>एकं RSA कुञ्जी आयातम्।</para>"
+msgstr[1] "<para>%1 RSA कीलानि आयातानि।</para>"
 
 #: transactions/kgpgimport.cpp:132
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key unchanged.</para>"
 msgid_plural "<para>%1 keys unchanged.</para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para>एकं कीलम् अपरिवर्तितम्।</para>"
+msgstr[1] "<para>%1 कीलानि अपरिवर्तितानि।</para>"
 
 #: transactions/kgpgimport.cpp:134
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One user ID imported.</para>"
 msgid_plural "<para>%1 user IDs imported.</para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para>एकः उपयोक्तृ-ID आयातः ।</para>"
+msgstr[1] "<para>%1 उपयोक्तृ-ID आयाताः ।</para>"
 
 #: transactions/kgpgimport.cpp:136
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One subkey imported.</para>"
 msgid_plural "<para>%1 subkeys imported.</para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para>एकं उपकुंजी आयातितम्।</para>"
+msgstr[1] "<para>%1 उपकुंजी आयाताः ।</para>"
 
 #: transactions/kgpgimport.cpp:138
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One signature imported.</para>"
 msgid_plural "<para>%1 signatures imported.</para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para>एकः हस्ताक्षरः आयातितः।</para>"
+msgstr[1] "<para>%1 हस्ताक्षराणि आयातानि।</para>"
 
 #: transactions/kgpgimport.cpp:140
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One revocation certificate imported.</para>"
 msgid_plural "<para>%1 revocation certificates imported.</para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para>एकं निरसनप्रमाणपत्रम् आयातम् ।</para>"
+msgstr[1] "<para>%1 निरसनप्रमाणपत्राणि आयातानि।</para>"
 
 #: transactions/kgpgimport.cpp:142
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key processed.</para>"
 msgid_plural "<para>%1 secret keys processed.</para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para>एकं गुप्तं कीलं संसाधितम्।</para>"
+msgstr[1] "<para>%1 गुप्तकुंजीः संसाधिताः।</para>"
 
 #: transactions/kgpgimport.cpp:144
 #, kde-kuit-format
@@ -4308,24 +4324,25 @@ msgid ""
 "<para><emphasis strong='true'>One secret key imported.</emphasis></para>"
 msgid_plural ""
 "<para><emphasis strong='true'>%1 secret keys imported.</emphasis></para>"
-msgstr[0] ""
+msgstr[0] "<para><emphasis strong='true'>एकं गुप्तकुंजी आयातितम्।</emphasis></para>"
 msgstr[1] ""
+"<para><emphasis strong='true'>%1 गुप्तकुंजी आयातितानि।</emphasis></para>"
 
 #: transactions/kgpgimport.cpp:146
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key unchanged.</para>"
 msgid_plural "<para>%1 secret keys unchanged.</para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para>एकं गुप्तं कीलम् अपरिवर्तितम्।</para>"
+msgstr[1] "<para>%1 गुप्तकीलानि अपरिवर्तितानि।</para>"
 
 #: transactions/kgpgimport.cpp:148
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key not imported.</para>"
 msgid_plural "<para>%1 secret keys not imported.</para>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<para>एकं गुप्तकुंजी आयातितं नास्ति।</para>"
+msgstr[1] "<para>%1 गुप्तकुञ्जिकाः आयाताः न कृताः ।</para>"
 
 #: transactions/kgpgimport.cpp:151
 #, kde-kuit-format
@@ -4336,60 +4353,64 @@ msgid ""
 "fully use this secret key for signing and encryption, you must edit the key "
 "(double click on it) and set its trust to Full or Ultimate.</para>"
 msgstr ""
+"<para><emphasis strong='true'>भवता गुप्तकुंजी आयातिता।</emphasis><nl/>कृपया "
+"ज्ञातव्यं यत् आयातितगुप्तकुंजी पूर्वनिर्धारितरूपेण विश्वसनीयाः न सन्ति।<nl/>हस्ताक्षरार्थं एतत् "
+"गुप्तकुंजी पूर्णतया उपयोक्तुं तथा एन्क्रिप्शनं, भवद्भिः कीलं सम्पादयितव्यं (तस्मिन् द्विवारं क्लिक् "
+"कुर्वन्तु) तस्य विश्वासं च Full अथवा Ultimate इति सेट् कर्तव्यम् ।</para>"
 
 #: transactions/kgpgimport.cpp:175
 #, kde-kuit-format
 msgctxt "@item ID: Name"
 msgid "%1: %2"
-msgstr ""
+msgstr "%1: %2"
 
 #: transactions/kgpgimport.cpp:177
 #, kde-kuit-format
 msgctxt "@item ID: Name <Email>"
 msgid "%1: %2 <email>%3</email>"
-msgstr ""
+msgstr "%1: %2 <email>%3</email>"
 
 #: transactions/kgpgimport.cpp:221
 #, kde-format
 msgid "New Key"
 msgid_plural "New Keys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "नवीन कुञ्जी"
+msgstr[1] "नवीन कुञ्जी"
 
 #: transactions/kgpgimport.cpp:224
 #, kde-format
 msgid "Key with new User Id"
 msgid_plural "Keys with new User Ids"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "नूतनेन User Id इत्यनेन सह कीलम्"
+msgstr[1] "नवीन User Ids सह कुञ्जी"
 
 #: transactions/kgpgimport.cpp:227
 #, kde-format
 msgid "Key with new Signatures"
 msgid_plural "Keys with new Signatures"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "नवीनहस्ताक्षरैः सह कीलम्"
+msgstr[1] "नवीनहस्ताक्षरयुक्ताः कीलानि"
 
 #: transactions/kgpgimport.cpp:230
 #, kde-format
 msgid "Key with new Subkeys"
 msgid_plural "Keys with new Subkeys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "नवीन उपकुंजीभिः सह कीलम्"
+msgstr[1] "नवीन उपकुंजीभिः सह कीलानि"
 
 #: transactions/kgpgimport.cpp:233
 #, kde-format
 msgid "New Private Key"
 msgid_plural "New Private Keys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "नवीन निजी कुञ्जी"
+msgstr[1] "नवीन निजी कुञ्जी"
 
 #: transactions/kgpgimport.cpp:249
 #, kde-format
 msgid "Unchanged Key"
 msgid_plural "Unchanged Keys"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "अपरिवर्तित कील"
+msgstr[1] "अपरिवर्तित कील"
 
 #: transactions/kgpgkeyservertransaction.cpp:87
 #, kde-format
@@ -4420,8 +4441,8 @@ msgstr "<b>%1</b> कृते गुप्तवाक्यं प्रवि
 #, kde-format
 msgid "<p><b>Bad passphrase</b>. You have 1 try left.</p>"
 msgid_plural "<p><b>Bad passphrase</b>. You have %1 tries left.</p>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<p><b>दुष्टं गुप्तवाक्यम्</b> . भवतः १ प्रयासः अवशिष्टः अस्ति ।</p>"
+msgstr[1] "<p><b>दुष्टं गुप्तवाक्यम्</b> . भवतः %1 प्रयासाः अवशिष्टाः सन्ति ।</p>"
 
 #: transactions/kgpgtransactionprivate.cpp:82
 #, kde-format
@@ -4433,7 +4454,7 @@ msgstr "गोट पासफ्रेज"
 msgctxt ""
 "@info first argument is formatted date, second argument is formatted time"
 msgid "<para>The signature was created at %1 %2</para>"
-msgstr ""
+msgstr "<para>हस्ताक्षरं %1 %2</para> इत्यत्र निर्मितम्"
 
 #: transactions/kgpgverify.cpp:122
 #, kde-kuit-format
@@ -4442,6 +4463,8 @@ msgid ""
 "<para>Good signature from:<nl/><emphasis strong='true'>%1</emphasis><nl/>Key "
 "ID: %2<nl/></para>"
 msgstr ""
+"<para>उत्तमहस्ताक्षरम् :<nl/><emphasis strong='true'>%1</emphasis><nl/>कुंजी-ID: "
+"%2<nl/></para>"
 
 #: transactions/kgpgverify.cpp:126
 #, kde-kuit-format
@@ -4450,12 +4473,14 @@ msgid ""
 "<para>Good signature from:<nl/><emphasis strong='true'>%1 <email>%2</email></"
 "emphasis><nl/>Key ID: %3</para>"
 msgstr ""
+"<para>उत्तमहस्ताक्षरम् :<nl/><emphasis strong='true'>%1 <email>%2</email></"
+"emphasis><nl/>कुंजी-ID: %3</para>"
 
 #: transactions/kgpgverify.cpp:139
 #, kde-kuit-format
 msgctxt "@info"
 msgid "No signature found."
-msgstr ""
+msgstr "हस्ताक्षरं न लब्धम्।"
 
 #: transactions/kgpgverify.cpp:156
 #, kde-kuit-format
@@ -4464,6 +4489,8 @@ msgid ""
 "<para>Good signature from:<nl/><emphasis strong='true'>%1</emphasis><nl/>Key "
 "ID: %2<nl/></para>"
 msgstr ""
+"<para>उत्तमहस्ताक्षरम् :<nl/><emphasis strong='true'>%1</emphasis><nl/>कुंजी-ID: "
+"%2<nl/></para>"
 
 #: transactions/kgpgverify.cpp:160
 #, kde-kuit-format
@@ -4472,6 +4499,8 @@ msgid ""
 "<para>Good signature from:<nl/><emphasis strong='true'>%1 <email>%2</email></"
 "emphasis><nl/>Key ID: %3<nl/></para>"
 msgstr ""
+"<para>उत्तमहस्ताक्षरम् :<nl/><emphasis strong='true'>%1 <email>%2</email></"
+"emphasis><nl/>कुंजी-ID: %3<nl/></para >"
 
 #: transactions/kgpgverify.cpp:172
 #, kde-kuit-format
@@ -4481,15 +4510,17 @@ msgid ""
 "ID: %2<nl/><nl/><emphasis strong='true'>The file is corrupted</emphasis></"
 "para>"
 msgstr ""
+"<para><emphasis strong='true'>BAD हस्ताक्षर</emphasis> from:<nl/> %1<nl/>कुंजी "
+"ID: %2<nl/><nl/><emphasis strong='true'> सञ्चिका दूषिता</emphasis></para> अस्ति"
 
 #: transactions/kgpgverify.cpp:175
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>The signature is valid, but the key is untrusted</para>"
-msgstr ""
+msgstr "<para>हस्ताक्षरं वैधं, किन्तु कीलम् अविश्वासः</para>"
 
 #: transactions/kgpgverify.cpp:177
 #, kde-kuit-format
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
-msgstr ""
+msgstr "<para>हस्ताक्षरं वैधं, कुञ्जी च अन्ते विश्वसिति</para>"
