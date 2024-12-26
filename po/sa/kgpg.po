@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2024-12-24 20:39+0530\n"
+"PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
 "Language: sa\n"
@@ -1325,7 +1325,7 @@ msgstr "लुप्त कुञ्जी"
 #: foldercompressjob.cpp:36
 #, kde-format
 msgid "Processing folder compression and encryption"
-msgstr "फोल्डर् संपीडनं एन्क्रिप्शनं च प्रसंस्करणम्"
+msgstr "समुच्चय संपीडनं एन्क्रिप्शनं च प्रसंस्करणम्"
 
 #: foldercompressjob.cpp:63 foldercompressjob.cpp:114 foldercompressjob.cpp:133
 #: foldercompressjob.cpp:135 transactions/kgpgtransactionjob.cpp:59
