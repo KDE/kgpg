@@ -69,6 +69,6 @@ Name[uk]=Зробити архів теки і зашифрувати
 Name[vi]=Đóng Gói & Mã Hoá Thư Mục
 Name[x-test]=xxArchive & Encrypt Folderxx
 Name[zh_CN]=存档并加密文件夹
-Name[zh_TW]=壓縮並加密資料夾
+Name[zh_TW]=封存並加密資料夾
 Icon=document-encrypt
 Exec=kgpg -e %F
