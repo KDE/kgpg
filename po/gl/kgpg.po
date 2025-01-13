@@ -6,14 +6,14 @@
 # Marce Villarino <mvillarino@kde-espana.es>, 2008.
 # Marce Villarino <mvillarino@kde-espana.es>, 2009, 2010, 2013, 2014.
 # Adrian Chaves Fernandez <adriyetichaves@gmail.com>, 2013, 2015, 2017.
-# SPDX-FileCopyrightText: 2017, 2018, 2019, 2023, 2024 Adrián Chaves <adrian@chaves.io>
+# SPDX-FileCopyrightText: 2017, 2018, 2019, 2023, 2024, 2025 Adrián Chaves <adrian@chaves.io>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2024-12-17 22:59+0100\n"
+"PO-Revision-Date: 2025-01-12 16:37+0100\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
 "Language: gl\n"
@@ -1498,6 +1498,7 @@ msgstr "Configuración de exportación"
 msgid "E&xport everything"
 msgstr "E&xportalo todo"
 
+# skip-rule: trasno-login2_reverse
 #. i18n: ectx: property (text), widget (QRadioButton, checkAttrPhoto)
 #: keyexport.ui:111
 #, kde-format
