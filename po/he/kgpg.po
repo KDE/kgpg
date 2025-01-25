@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2024-05-05 12:14+0300\n"
+"PO-Revision-Date: 2025-01-24 09:27+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1800,7 +1800,7 @@ msgstr "הצגת המדריך של GnuPG"
 #: keysmanager.cpp:158
 #, kde-format
 msgid "&Refresh List"
-msgstr "&רענון רשימה"
+msgstr "&ריענון רשימה"
 
 #: keysmanager.cpp:162
 #, kde-format
@@ -2183,10 +2183,10 @@ msgstr[3] "יי&צוא מפתחות ציבוריים…"
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
-msgstr[0] "&רענון מפתח משרת מפתחות"
-msgstr[1] "&רענון מפתחות משרת מפתחות"
-msgstr[2] "&רענון מפתחות משרת מפתחות"
-msgstr[3] "&רענון מפתחות משרת מפתחות"
+msgstr[0] "&ריענון מפתח משרת מפתחות"
+msgstr[1] "&ריענון מפתחות משרת מפתחות"
+msgstr[2] "&ריענון מפתחות משרת מפתחות"
+msgstr[3] "&ריענון מפתחות משרת מפתחות"
 
 #: keysmanager.cpp:1212
 #, kde-format
