@@ -11,13 +11,13 @@
 # obsoleteman <tulliana@gmail.com>, 2010,2012.
 # Serkan Arıkuşu <kde-l10n-tr@kde.org>, 2004.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014.
-# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
+# SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2024-03-22 16:14+0300\n"
+"PO-Revision-Date: 2025-02-15 21:48+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.02.1\n"
+"X-Generator: Lokalize 25.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -222,9 +222,9 @@ msgid ""
 msgstr ""
 "<qt><b>Her zaman şununla şifrele:</b><br/>\n"
 "<p>Bu seçenek, tüm dosya ve iletilerin seçilen anahtar ile şifrelenmesini "
-"sağlar. Bununla birlikte, eğer \"Dosyaları bununla şifrele:\" seçeneği "
-"seçili ise burada seçilen anahtar \"Her zaman bu anahtarla şifrele:\" "
-"seçeneğinden öncelikli hale gelir.</p></qt>"
+"sağlar. Bununla birlikte, eğer “Dosyaları bununla şifrele:” seçeneği seçili "
+"ise burada seçilen anahtar “Her zaman bu anahtarla şifrele:” seçeneğinden "
+"öncelikli hale gelir.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, encrypt_to_always)
 #: conf_encryption.ui:116
@@ -331,7 +331,7 @@ msgid ""
 "allowing GnuPG users to inter operate with PGP 6 users.</p></qt>"
 msgstr ""
 "<qt><b>PGP 6 uyumluluğu:</b><br /> \n"
-"<p>Bu seçeneği işaretlemek, GnuPG'nin şifrelenmiş paketleri PGP (Pretty Good "
+"<p>Bu seçeneği işaretlemek, GnuPG’nin şifrelenmiş paketleri PGP (Pretty Good "
 "Privacy) 6 standartları ile uyumlu kılar ve GnuPG kullanıcılarının PGP 6 "
 "kullanıcıları ile beraber işlemler yapabilmesini sağlar.</p></qt>"
 
@@ -367,7 +367,7 @@ msgid ""
 "configuration and the keyrings. If you have not changed it this is usually "
 "<em>~/.gnupg/</em></p>"
 msgstr ""
-"<b>Ev Konumu</b><p>GnuPg'nin anahtarlıkları ve yapılandırma dosyalarını "
+"<b>Ana Konum</b><p>GnuPG’nin anahtarlıkları ve yapılandırma dosyalarını "
 "sakladığı dizindir. Değiştirmediyseniz eğer <em>~/.gnupg/</em> olarak "
 "tanımlıdır.</p>"
 
@@ -387,8 +387,7 @@ msgid ""
 msgstr ""
 "<b>Yapılandırma Dosyası</b><p>Yukarıda belirtilen dizindeki yapılandırma "
 "dosyasının adıdır. Öntanımlı olarak <em>gnupg.conf</em> dosyasıdır ancak "
-"GnuPG'nin eski sürümlerinde  <em>options</em> dosyası da kullanılmaktadır.</"
-"p>"
+"GnuPG’nin eski sürümlerinde <em>options</em> dosyası da kullanılmaktadır.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5_2_2)
 #: conf_gpg.ui:46
@@ -400,7 +399,7 @@ msgstr "Yapılandırma dosyası:"
 #: conf_gpg.ui:96
 #, kde-format
 msgid "Change..."
-msgstr "Değiştir..."
+msgstr "Değiştir…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
@@ -459,7 +458,7 @@ msgid ""
 "<p>If checked KGpg will start automatically each time that KDE starts up.</"
 "p></qt>"
 msgstr ""
-"<qt><b>K GPG'yi KDE başlangıcında kendiliğinden başlat:</b><br />\n"
+"<qt><b>K GPG’yi KDE başlangıcında kendiliğinden başlat:</b><br />\n"
 "<p>İşaretliyse K GPG, her KDE açılışında kendiliğinden başlayacaktır.</p></"
 "qt>"
 
@@ -467,7 +466,7 @@ msgstr ""
 #: conf_misc.ui:36
 #, kde-format
 msgid "Start KGpg automatically at login"
-msgstr "Oturum açılışında K GPG'yi kendiliğinden başlat"
+msgstr "Oturum açılışında K GPG’yi kendiliğinden başlat"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseMouseSelection)
 #: conf_misc.ui:53
@@ -687,8 +686,8 @@ msgid ""
 "The placeholders surrounded by the percent signs (like %KEYID%) will be "
 "replaced with the corresponding text for every single mail."
 msgstr ""
-"\"Kullanıcı Kimliğini İmzala ve Postala\" eylemi tarafından gönderilen e-"
-"posta metni.\n"
+"“Kullanıcı Kimliğini İmzala ve Postala” eylemi tarafından gönderilen e-posta "
+"metni.\n"
 "\n"
 "Yüzde işaretleriyle çevrili özel ifadeler (%KEYID% gibi) her e-posta "
 "metninde gerçek değerleriyle değiştirilir."
@@ -721,7 +720,7 @@ msgstr "Ö&ntanımlı Olarak Ayarla"
 #: conf_servers.ui:56
 #, kde-format
 msgid "&Add..."
-msgstr "&Ekle..."
+msgstr "&Ekle…"
 
 #. i18n: ectx: property (text), widget (QPushButton, server_del)
 #: conf_servers.ui:66
@@ -733,7 +732,7 @@ msgstr "&Sil"
 #: conf_servers.ui:73
 #, kde-format
 msgid "&Edit..."
-msgstr "Dü&zenle..."
+msgstr "Dü&zenle…"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: conf_ui2.ui:32
@@ -1065,12 +1064,12 @@ msgstr "Adsız"
 #: editor/kgpgeditor.cpp:187
 #, kde-format
 msgid "&Encrypt File..."
-msgstr "&Dosyayı Şifrele..."
+msgstr "&Dosyayı Şifrele…"
 
 #: editor/kgpgeditor.cpp:191
 #, kde-format
 msgid "&Decrypt File..."
-msgstr "&Dosyanın Şifresini Çöz..."
+msgstr "&Dosyanın Şifresini Çöz…"
 
 #: editor/kgpgeditor.cpp:195
 #, kde-format
@@ -1080,22 +1079,22 @@ msgstr "Anahtar Yöneticisini &Aç"
 #: editor/kgpgeditor.cpp:198
 #, kde-format
 msgid "&Generate Signature..."
-msgstr "&İmza Üret..."
+msgstr "&İmza Üret…"
 
 #: editor/kgpgeditor.cpp:202
 #, kde-format
 msgid "&Verify Signature..."
-msgstr "İ&mzayı Onayla..."
+msgstr "İ&mzayı Onayla…"
 
 #: editor/kgpgeditor.cpp:205
 #, kde-format
 msgid "&Check MD5 Sum..."
-msgstr "MD5 &Toplamını Denetle..."
+msgstr "MD5 &Toplamını Denetle…"
 
 #: editor/kgpgeditor.cpp:208
 #, kde-format
 msgid "&Unicode (utf-8) Encoding"
-msgstr "&Unicode (utf-8) Kodlaması"
+msgstr "&Unicode (UTF-8) Kodlaması"
 
 #: editor/kgpgeditor.cpp:214
 #, kde-format
@@ -1118,7 +1117,7 @@ msgid ""
 "The document \"%1\" has changed.\n"
 "Do you want to save it?"
 msgstr ""
-"\"%1\" belgesi değiştirildi.\n"
+"“%1” belgesi değiştirildi.\n"
 "Kaydetmek istiyor musunuz?"
 
 #: editor/kgpgeditor.cpp:246
@@ -1601,11 +1600,11 @@ msgstr ""
 "<qt><b>Anahtar Sunucusu:</b><br /> <p> Anahtar sunucusu PGP/GnuPG "
 "anahtarlarının merkezi olarak bulunduğu ve istenilen anahtarların internet "
 "aracılığıyla uygun bir şekilde erişilebildiği bir yapıdır. Listeden hangi "
-"anahtar sunucusunun kulllanılacağını seçin.</p> <p> Çoğu zaman bu anahtarlar "
-"kullanıcının hiç tanımadığı kişilere aiittir ve en iyi ihtimalle "
-"güvenilirlik şüphelidir denilebilir. GnuPG'nin güvenirlik doğrulaması "
-"sorununu nasıl ele aldığını bulmak için GnuPG kılavuzunun \"Güvenilirlik-Ağı"
-"\" bölümüne bakın.</p> </qt>"
+"anahtar sunucusunun kullanılacağını seçin.</p> <p> Çoğu zaman bu anahtarlar "
+"kullanıcının hiç tanımadığı kişilere aittir ve en iyi olasılıkla "
+"güvenilirlik şüphelidir denilebilir. GnuPG’nin güvenirlik doğrulaması "
+"sorununu nasıl ele aldığını bulmak için GnuPG kılavuzunun “Güvenilirlik-Ağı” "
+"bölümüne bakın.</p> </qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
@@ -1761,7 +1760,7 @@ msgstr "Anahtar Sunucusundan Anahtar İçe Aktar"
 #: keyservers.cpp:206
 #, kde-format
 msgid "Connecting to the server..."
-msgstr "Sunucuya bağlanıyor..."
+msgstr "Sunucuya bağlanıyor…"
 
 #: keyservers.cpp:312
 #, kde-format
@@ -1833,7 +1832,7 @@ msgstr "A&nahtar Özellikleri"
 #: keysmanager.cpp:171
 #, kde-format
 msgid "&Open Key URL"
-msgstr "Anahtar URL'sini &Aç"
+msgstr "Anahtar URL’si &Aç"
 
 #: keysmanager.cpp:175
 #, kde-format
@@ -1843,12 +1842,12 @@ msgstr "Anahtarı Uçbirimde &Düzenle"
 #: keysmanager.cpp:180
 #, kde-format
 msgid "&Generate Key Pair..."
-msgstr "Anahtar Çifti &Üret..."
+msgstr "Anahtar Çifti &Üret…"
 
 #: keysmanager.cpp:189
 #, kde-format
 msgid "&Import Key..."
-msgstr "Anahtar &İçe Aktar..."
+msgstr "Anahtar &İçe Aktar…"
 
 #: keysmanager.cpp:194
 #, kde-format
@@ -1863,7 +1862,7 @@ msgstr "Adres Defterinde Yeni &Kişi Oluştur"
 #: keysmanager.cpp:204
 #, kde-format
 msgid "&Edit Group..."
-msgstr "Grubu Dü&zenle..."
+msgstr "Grubu Dü&zenle…"
 
 #: keysmanager.cpp:207
 #, kde-format
@@ -1883,17 +1882,17 @@ msgstr "Ö&ntanımlı Anahtar Olarak Ayarla"
 #: keysmanager.cpp:223
 #, kde-format
 msgid "&Add Photo..."
-msgstr "Fotoğraf E&kle..."
+msgstr "Fotoğraf E&kle…"
 
 #: keysmanager.cpp:226
 #, kde-format
 msgid "&Add User Id..."
-msgstr "Kullanıcı Kimliği &Ekle..."
+msgstr "Kullanıcı Kimliği &Ekle…"
 
 #: keysmanager.cpp:229
 #, kde-format
 msgid "Export Secret Key..."
-msgstr "Gizli Anahtarı Dışa Aktar..."
+msgstr "Gizli Anahtarı Dışa Aktar…"
 
 #: keysmanager.cpp:232
 #, kde-format
@@ -1903,7 +1902,7 @@ msgstr "Anahtar Çiftini Sil"
 #: keysmanager.cpp:236
 #, kde-format
 msgid "Revoke Key..."
-msgstr "Anahtarı Yürürlükten Kaldır..."
+msgstr "Anahtarı Yürürlükten Kaldır…"
 
 #: keysmanager.cpp:239
 #, kde-format
@@ -2036,7 +2035,7 @@ msgstr "Yeni anahtar çifti üretiliyor"
 #: keysmanager.cpp:523
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
-msgstr "Uzman kipi için \"konsole\" uygulaması başlatılamadı."
+msgstr "Uzman kipi için “konsole” uygulaması başlatılamadı."
 
 #: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
 #, kde-format
@@ -2113,7 +2112,7 @@ msgid ""
 msgstr ""
 "Görsel bir JPEG dosyası olmalıdır. Görselin genel anahtarınızda saklandığını "
 "unutmayın; dolayısıyla çok büyük bir görsel kullanırsanız anahtarınız da çok "
-"büyük olacaktır. Boyut 6 KiB'yi geçmemelidir. Yaklaşık 240 × 288'lik bir "
+"büyük olacaktır. Boyut 6 KiB’yi geçmemelidir. Yaklaşık 240 × 288’lik bir "
 "görsel boyutu, kullanım için iyi bir boyuttur."
 
 #: keysmanager.cpp:938
@@ -2180,22 +2179,22 @@ msgstr "Grup üyesi"
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
-msgstr[0] "&Kullanıcı Kimliklerini İmzala ..."
-msgstr[1] "&Kullanıcı Kimliklerini İmzala ..."
+msgstr[0] "&Kullanıcı Kimliklerini İmzala …"
+msgstr[1] "&Kullanıcı Kimliklerini İmzala …"
 
 #: keysmanager.cpp:1209
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
-msgstr[0] "Kullanıcı Kimliğini İmzala ve &Postala..."
-msgstr[1] "Kullanıcı Kimliklerini İmzala ve &Postala..."
+msgstr[0] "Kullanıcı Kimliğini İmzala ve &Postala…"
+msgstr[1] "Kullanıcı Kimliklerini İmzala ve &Postala…"
 
 #: keysmanager.cpp:1210
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
-msgstr[0] "&Genel Anahtarı Dışa Aktar..."
-msgstr[1] "&Genel Anahtarları Dışa Aktar..."
+msgstr[0] "&Genel Anahtarı Dışa Aktar…"
+msgstr[1] "&Genel Anahtarları Dışa Aktar…"
 
 #: keysmanager.cpp:1211
 #, kde-format
@@ -2208,15 +2207,15 @@ msgstr[1] "Anahta&rları Anahtar Sunucusundan Yenile"
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
-msgstr[0] "&Seçili Anahtarlar ile Grup Oluştur..."
-msgstr[1] "&Seçili Anahtarlar ile Grup Oluştur..."
+msgstr[0] "&Seçili Anahtarlar ile Grup Oluştur…"
+msgstr[1] "&Seçili Anahtarlar ile Grup Oluştur…"
 
 #: keysmanager.cpp:1213
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
-msgstr[0] "A&nahtarları İmzala..."
-msgstr[1] "A&nahtarları İmzala..."
+msgstr[0] "A&nahtarları İmzala…"
+msgstr[1] "A&nahtarları İmzala…"
 
 #: keysmanager.cpp:1214
 #, kde-format
@@ -2249,7 +2248,7 @@ msgstr[1] "&Anahtarları Sil"
 #: keysmanager.cpp:1340
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
-msgstr "Yürürlükten kaldırma sertifikası oluşturulamadı..."
+msgstr "Yürürlükten kaldırma sertifikası oluşturulamadı…"
 
 #: keysmanager.cpp:1355
 #, kde-format
@@ -2278,8 +2277,8 @@ msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
 "><b>Do not</b> leave it in an insecure place.</qt>"
 msgstr ""
-"<qt><b>Özel</b> anahtarınız \"%1\", başarılı bir biçimde <br/>%2 konumuna "
-"dışa aktarıldı.<br/><b>Güvenli olmayan</b> bir yerde saklamayın.</qt>"
+"<qt><b>Özel</b> anahtarınız “%1”, başarılı bir biçimde <br/>%2 konumuna dışa "
+"aktarıldı.<br/><b>Güvenli olmayan</b> bir yerde saklamayın.</qt>"
 
 #: keysmanager.cpp:1388
 #, kde-format
@@ -2654,7 +2653,7 @@ msgstr "Panodan İçe Aktar"
 #: keysmanager.cpp:2556
 #, kde-format
 msgid "Importing..."
-msgstr "İçe Aktarılıyor..."
+msgstr "İçe Aktarılıyor…"
 
 #: keysmanager.cpp:2568
 #, kde-format
@@ -2666,7 +2665,7 @@ msgstr ""
 #: keysmanager.cpp:2621
 #, kde-format
 msgid "KGpg - encryption tool"
-msgstr "K GPG - şifreleme aracı"
+msgstr "K GPG — şifreleme aracı"
 
 #: keysmanager.cpp:2644
 #, kde-format
@@ -2744,7 +2743,7 @@ msgid ""
 "in problems with signing/decryption.<br />Please disable GnuPG Agent from "
 "KGpg settings, or fix the agent.</qt>"
 msgstr ""
-"<qt><b>GnuPG Aracısı</b>'nın kullanımı GnuPG yapılandırma dosyasında (%1) "
+"<qt><b>GnuPG Aracısı</b>’nın kullanımı GnuPG yapılandırma dosyasında (%1) "
 "etkinleştirilmiş .<br />Bununla birlikte, aracı çalışmıyor gibi görünüyor. "
 "Bu şifre işlemleri sırasında sorunlara yol açabilir.<br />Lütfen K GPG "
 "ayarlarında GnuPG aracısını devre dışı bırakın veya çalışmasını sağlayın.</"
@@ -2843,25 +2842,25 @@ msgid ""
 msgstr ""
 "Merhabalar,\n"
 "\n"
-"İmzaladığım %KEYID% anahtarının '%UIDNAME%' kullanıcı kimliği ektedir. Bu "
+"İmzaladığım %KEYID% anahtarının “%UIDNAME%” kullanıcı kimliği ektedir. Bu "
 "posta, e-posta adresini ve anahtarı denetleyebildiğinizden emin olabilmek "
 "için şifrelendi.\n"
 "\n"
 "Eğer birden fazla kullanıcı kimliğiniz varsa her kullanıcı için imzayı kendi "
 "ilişkili e-posta adreslerine ayrı olarak gönderdim. İmzaları, her biri için "
-"`gpg --decrypt` kullanarak şifresini çözdükten sonra, `gpg --import` ile içe "
+"“gpg --decrypt” kullanarak şifresini çözdükten sonra, “gpg --import” ile içe "
 "aktarabilirsiniz.\n"
 "\n"
-"Eğer K GPG kullanıyorsanız eki diske kaydedin ve içe aktarın. `Anahtarlar` "
-"menüsünden `Anahtar İçe Aktar...` seçeneğini seçin ve dosyayı açın.\n"
+"Eğer K GPG kullanıyorsanız eki diske kaydedin ve içe aktarın. “Anahtarlar” "
+"menüsünden “Anahtar İçe Aktar…” seçeneğini seçin ve dosyayı açın.\n"
 "\n"
 "Anahtarınızı hiçbir anahtar sunucusuna göndermediğimi unutmayın. Eğer bu "
 "yeni imzanın diğerleri için de kullanılmasını istiyorsanız karşıya yükleme "
-"işlemini kendinizin yapması gerekiyor. GnuPG kullanarak bu işlem gpg --"
-"keyserver subkeys.pgp.net --send-key %KEYID% komutu ile yapılabilir.\n"
+"işlemini kendinizin yapması gerekiyor. GnuPG kullanarak bu işlem “gpg --"
+"keyserver subkeys.pgp.net --send-key %KEYID%” komutu ile yapılabilir.\n"
 "\n"
 "K GPG ile, tüm kullanıcı kimlikleri içe aktarıldıktan sonra anahtara sağ "
-"tıklayarak `Genel Anahtarı Dışa Aktar...` seçeneğini seçin.\n"
+"tıklayarak “Genel Anahtarı Dışa Aktar…” seçeneğini seçin.\n"
 "\n"
 "Eğer bir sorunuz varsa sormaktan çekinmeyin.\n"
 
@@ -3009,7 +3008,7 @@ msgstr "Pano yerine fare ile seçmeyi kullan."
 #: kgpg.kcfg:128 kgpgfirstassistant.cpp:223
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
-msgstr "KDE başlangıcında K GPG'yi kendiliğinden başlat"
+msgstr "KDE başlangıcında K GPG’yi kendiliğinden başlat"
 
 #. i18n: ectx: label, entry (RemoteFileWarn), group (User Interface)
 #: kgpg.kcfg:132
@@ -3025,7 +3024,7 @@ msgstr ""
 #: kgpg.kcfg:136
 #, kde-format
 msgid "Choose default left-click behavior"
-msgstr "Öntanımlı sol-tıklama davranışını seçin"
+msgstr "Öntanımlı sol tık davranışını seçin"
 
 #. i18n: ectx: label, entry (EncryptedDropEvent), group (User Interface)
 #: kgpg.kcfg:143
@@ -3043,13 +3042,13 @@ msgstr "Şifrelenmemiş bırakmaları karşıla"
 #: kgpg.kcfg:159
 #, kde-format
 msgid "Show the \"sign file\" service menu."
-msgstr "\"Dosya İmzala\" hizmet menüsünü gösterin."
+msgstr "“Dosya İmzala” hizmet menüsünü gösterin."
 
 #. i18n: ectx: label, entry (DecryptMenu), group (User Interface)
 #: kgpg.kcfg:167
 #, kde-format
 msgid "Show the \"decrypt file\" service menu."
-msgstr "\"Dosyanın Şifresini Çöz\" hizmet menüsünü gösterin."
+msgstr "“Dosyanın Şifresini Çöz” hizmet menüsünü gösterin."
 
 #. i18n: ectx: label, entry (ShowSystray), group (User Interface)
 #: kgpg.kcfg:176
@@ -3127,7 +3126,7 @@ msgid ""
 "List of URLs that show details and analysis of the given key. The first "
 "server in the list is the default server."
 msgstr ""
-"Belirtilen anahtarın analizini yapan ve ayrıntıları gösteren URL'lerin "
+"Belirtilen anahtarın analizini yapan ve ayrıntıları gösteren URL’lerin "
 "listesi. Listedeki ilk sunucu öntanımlı sunucudur."
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
@@ -3142,8 +3141,8 @@ msgstr "Olanaklıysa HTTP vekili kullan."
 msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
 msgstr ""
-"\"Kullanıcı Kimliğini İmzala ve Postala\" eylemi tarafından gönderilen e-"
-"posta metni."
+"“Kullanıcı Kimliğini İmzala ve Postala” eylemi tarafından gönderilen e-posta "
+"metni."
 
 #: kgpgexternalactions.cpp:127
 #, kde-format
@@ -3211,7 +3210,7 @@ msgid ""
 "for KGpg to work properly. Next, it will allow you to create your own key "
 "pair, enabling you to encrypt your files and emails."
 msgstr ""
-"Bu sihirbaz ilk önce K GPG'nin düzgün çalışması için gerekli temel "
+"Bu sihirbaz ilk önce K GPG’nin düzgün çalışması için gerekli temel "
 "yapılandırma seçeneklerini ayarlar. Daha sonra, dosyalarınızı ve e-"
 "postalarınızı şifrelerken kullanacağınız kendi anahtar çiftinizi "
 "oluşturmanızı sağlar."
@@ -3233,7 +3232,7 @@ msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
 "button."
 msgstr ""
-"Farklı bir ayar yapmayı düşünmüyorsanız yalnızca \"İleri\" düğmesine basın."
+"Farklı bir ayar yapmayı düşünmüyorsanız yalnızca “İleri” düğmesine basın."
 
 #: kgpgfirstassistant.cpp:102
 #, kde-format
@@ -3682,7 +3681,7 @@ msgstr ""
 #: kgpgoptions.cpp:199
 #, kde-format
 msgid "Key server URLs may not contain whitespace."
-msgstr "Anahtar sunucusunun URL'si boşluklar içeremez."
+msgstr "Anahtar sunucusunun URL’si boşluklar içeremez."
 
 #: kgpgoptions.cpp:204
 #, kde-format
@@ -3697,7 +3696,7 @@ msgstr "Yeni Anahtar Sunucu Ekle"
 #: kgpgoptions.cpp:213
 #, kde-format
 msgid "Server URL:"
-msgstr "Sunucu URL'si:"
+msgstr "Sunucu URL’si:"
 
 #: kgpgoptions.cpp:466 kgpgoptions.cpp:468
 #, kde-format
@@ -3791,13 +3790,13 @@ msgstr "<application>K GPG</application>"
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
-msgstr "K GPG - GnuPG için basit bir grafik kullanıcı arayüzü"
+msgstr "K GPG — GnuPG için basit bir grafik kullanıcı arayüzü"
 
 #: main.cpp:30
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
-msgstr "&copy; 2003-2016, K GPG Geliştiricileri"
+msgstr "© 2003–2016, K GPG Geliştiricileri"
 
 #: main.cpp:32
 #, kde-kuit-format
@@ -4504,7 +4503,7 @@ msgstr[1] "Değişmemiş Anahtarlar"
 #: transactions/kgpgkeyservertransaction.cpp:87
 #, kde-format
 msgid "<b>Connecting to the server...</b>"
-msgstr "<b>Sunucuya bağlantı kuruluyor...</b>"
+msgstr "<b>Sunucuya bağlantı kuruluyor…</b>"
 
 #: transactions/kgpgkeyservertransaction.cpp:88
 #, kde-format
@@ -4552,8 +4551,8 @@ msgid ""
 "<para>Good signature from:<nl/><emphasis strong='true'>%1</emphasis><nl/>Key "
 "ID: %2<nl/></para>"
 msgstr ""
-"<para>Doğru imza:<nl/><emphasis strong='true'>%1</emphasis><nl/>anahtar ID: "
-"%2<nl/></para>"
+"<para>Doğru imza:<nl/><emphasis strong='true'>%1</emphasis><nl/>Anahtar "
+"kimliği: %2<nl/></para>"
 
 #: transactions/kgpgverify.cpp:126
 #, kde-kuit-format
@@ -4563,7 +4562,7 @@ msgid ""
 "emphasis><nl/>Key ID: %3</para>"
 msgstr ""
 "<para>Doğru imza:<nl/><emphasis strong='true'>%1 <email>%2</email></"
-"emphasis><nl/>Anahtar ID: %3</para>"
+"emphasis><nl/>Anahtar kimliği: %3</para>"
 
 #: transactions/kgpgverify.cpp:139
 #, kde-kuit-format
@@ -4578,8 +4577,8 @@ msgid ""
 "<para>Good signature from:<nl/><emphasis strong='true'>%1</emphasis><nl/>Key "
 "ID: %2<nl/></para>"
 msgstr ""
-"<para>Doğru imza:<nl/><emphasis strong='true'>%1</emphasis><nl/>Anahtar ID: "
-"%2<nl/></para>"
+"<para>Doğru imza:<nl/><emphasis strong='true'>%1</emphasis><nl/>Anahtar "
+"kimliği: %2<nl/></para>"
 
 #: transactions/kgpgverify.cpp:160
 #, kde-kuit-format
@@ -4589,7 +4588,7 @@ msgid ""
 "emphasis><nl/>Key ID: %3<nl/></para>"
 msgstr ""
 "<para>Doğru imza:<nl/><emphasis strong='true'>%1 <email>%2</email></"
-"emphasis><nl/>Anahtar ID: %3<nl/></para>"
+"emphasis><nl/>Anahtar kimliği: %3<nl/></para>"
 
 #: transactions/kgpgverify.cpp:172
 #, kde-kuit-format
@@ -4600,7 +4599,7 @@ msgid ""
 "para>"
 msgstr ""
 "<para><emphasis strong='true'>Kötü imza</emphasis> from:<nl/> %1<nl/>Anahtar "
-"ID: %2<nl/><nl/><emphasis strong='true'>Dosya bozuk</emphasis></para>"
+"kimliği: %2<nl/><nl/><emphasis strong='true'>Dosya bozuk</emphasis></para>"
 
 #: transactions/kgpgverify.cpp:175
 #, kde-kuit-format
