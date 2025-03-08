@@ -4,6 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>KGpg</name>
+  <name xml:lang="ar">مفتاح</name>
   <name xml:lang="ast">KGpg</name>
   <name xml:lang="bg">KGpg</name>
   <name xml:lang="bs">KGpg</name>
@@ -53,6 +54,7 @@
   <name xml:lang="zh-CN">KGpg</name>
   <name xml:lang="zh-TW">KGpg</name>
   <summary>Encryption Tool</summary>
+  <summary xml:lang="ar">أداة تعمية</summary>
   <summary xml:lang="bg">Програма за шифроване</summary>
   <summary xml:lang="bs">Kriptografski alat</summary>
   <summary xml:lang="ca">Eina d'encriptatge</summary>
@@ -105,6 +107,7 @@
       KGpg is a simple interface for GnuPG, a powerful encryption utility.
       It can help you set up and manage your keys, import and export keys, view key signatures, trust status and expiry dates.
     </p>
+    <p xml:lang="ar">مفتاح عبارة عن واجهة بسيطة لبرنامج GnuPG، وهو أداة تعمية قوية. يمكنها مساعدتك في إعداد وإدارة مفاتيحك، واستيراد وتصدير المفاتيح، وعرض توقيعات المفاتيح، وحالة الثقة وتواريخ انتهاء الصلاحية.</p>
     <p xml:lang="bg">KGpg е прост интерфейс за GnuPG, мощна програма за криптиране. Той може да ви помогне да настроите и управлявате вашите ключове, да импортирате и експортирате ключове, да преглеждате ключове подписи, състояние на доверие и дати на изтичане на валидността.</p>
     <p xml:lang="bs">KGpg je jednostavan interfejs za GnuPG, moćnog alata za šifrovanje. On vam može pomoći za postavljanje i upravljanje vašim ključevima, uvoz i izvoz ključeva, da vidite ključne potpise, status poverenja i rok trajanja.</p>
     <p xml:lang="ca">El KGpg és una interfície senzilla per al GnuPG, una utilitat potent d'encriptatge. Pot ajudar a configurar i gestionar les vostres claus, importar i exportar les claus, veure les signatures de les claus, l'estat de confiança i les dates de venciment.</p>
@@ -158,6 +161,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>Key management in KGpg</caption>
+      <caption xml:lang="ar">إدارة المفاتيح في مفتاح</caption>
       <caption xml:lang="bg">Администриране на ключове в KGpg</caption>
       <caption xml:lang="ca">Gestió de claus al KGpg</caption>
       <caption xml:lang="ca-valencia">Gestió de claus a KGpg</caption>
