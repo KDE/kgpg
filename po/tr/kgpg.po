@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2025-02-15 21:48+0300\n"
+"PO-Revision-Date: 2025-03-07 23:29+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3808,7 +3808,7 @@ msgstr "Rolf Eike Beer"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
-msgstr "Projeyi Yürütücüsü"
+msgstr "Bakımcı"
 
 #: main.cpp:33
 #, kde-kuit-format
@@ -3820,7 +3820,7 @@ msgstr "Jean-Baptiste Mardelle"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
-msgstr "Yazar ve eski proje yürütücüsü"
+msgstr "Yazar ve önceki bakımcı"
 
 #: main.cpp:34
 #, kde-kuit-format
