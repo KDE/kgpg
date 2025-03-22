@@ -94,9 +94,10 @@ bool KGpgApp::newInstance()
 void KGpgApp::handleArguments(const QCommandLineParser &parser, const QDir &workingDirectory)
 {
 	// parsing of command line args
-    if (parser.isSet(QStringLiteral("k")) || (!KGpgSettings::showSystray() && parser.positionalArguments().isEmpty() && !parser.isSet(QStringLiteral("d")))) {
+    if (parser.positionalArguments().isEmpty() && !parser.isSet(QStringLiteral("d")) && !parser.isSet(QStringLiteral("t"))) {
 		s_keyManager->show();
 		s_keyManager->raise();  // set on top
+		s_keyManager->activateWindow();
     } else if (parser.isSet(QStringLiteral("d"))) {
 		s_keyManager->slotOpenEditor();
 		s_keyManager->hide();
@@ -185,7 +186,7 @@ void KGpgApp::handleArguments(const QCommandLineParser &parser, const QDir &work
 void KGpgApp::setupCmdlineParser(QCommandLineParser& parser)
 {
 	parser.addOption(QCommandLineOption(QStringList() << QLatin1String("e"), i18n("Encrypt file")));
-	parser.addOption(QCommandLineOption(QStringList() << QLatin1String("k"), i18n("Open key manager")));
+	parser.addOption(QCommandLineOption(QStringList() << QLatin1String("t"), i18n("Start program in system tray only")));
 	parser.addOption(QCommandLineOption(QStringList() << QLatin1String("d"), i18n("Open editor")));
 	parser.addOption(QCommandLineOption(QStringList() << QLatin1String("s"), i18n("Show encrypted file")));
 	parser.addOption(QCommandLineOption(QStringList() << QLatin1String("S"), i18n("Sign File")));

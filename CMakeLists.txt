@@ -284,7 +284,7 @@ install(TARGETS kgpg  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 install( PROGRAMS org.kde.kgpg.desktop  DESTINATION ${KDE_INSTALL_APPDIR})
 install( FILES org.kde.kgpg.appdata.xml  DESTINATION ${KDE_INSTALL_METAINFODIR})
 install( FILES kgpg.kcfg  DESTINATION ${KDE_INSTALL_KCFGDIR})
-install( FILES org.kde.kgpg.desktop  DESTINATION ${KDE_INSTALL_AUTOSTARTDIR} )
+install( FILES kgpg.autostart.desktop  DESTINATION ${KDE_INSTALL_AUTOSTARTDIR} )
 
 install( PROGRAMS kgpg_encryptfile.desktop kgpg_encryptfolder.desktop kgpg_viewdecrypted.desktop  DESTINATION ${KDE_INSTALL_DATADIR}/kio/servicemenus )
 install( FILES org.kde.kgpg.Key.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR})
