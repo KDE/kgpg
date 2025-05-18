@@ -1,16 +1,16 @@
-# translation of kgpg.po to Spanish
-# Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+# Spanish translations for kgpg.po package.
+# Copyright (C) 2003-2025 This file is copyright:
+# This file is distributed under the same license as the kgpg package.
 #
-# SPDX-FileCopyrightText: 2003, 2004, 2024 Eloy Cuadra <ecuadra@eloihr.net>
-# Eloy Cuadra <ecuadra@eloihr.net>, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2021, 2023.
-# Pablo de Vicente <pablo.devicente@gmail.com>, 2005.
-# Javier Viñal <fjvinal@gmail.com>, 2013.
+# SPDX-FileCopyrightText: 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2019, 2021, 2023, 2024, 2025 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2005 Pablo de Vicente <pablo.devicente@gmail.com>
+# SPDX-FileCopyrightText: 2013 Javier Viñal <fjvinal@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2024-01-11 02:11+0100\n"
+"PO-Revision-Date: 2025-05-17 13:03+0100\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -400,7 +400,7 @@ msgstr "Archivo de configuración:"
 #: conf_gpg.ui:96
 #, kde-format
 msgid "Change..."
-msgstr "Cambiar..."
+msgstr "Cambiar…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
@@ -724,7 +724,7 @@ msgstr "Es&tablecer por omisión"
 #: conf_servers.ui:56
 #, kde-format
 msgid "&Add..."
-msgstr "&Añadir..."
+msgstr "&Añadir…"
 
 #. i18n: ectx: property (text), widget (QPushButton, server_del)
 #: conf_servers.ui:66
@@ -736,7 +736,7 @@ msgstr "&Borrar"
 #: conf_servers.ui:73
 #, kde-format
 msgid "&Edit..."
-msgstr "&Editar..."
+msgstr "&Editar…"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: conf_ui2.ui:32
@@ -1068,12 +1068,12 @@ msgstr "Sin título"
 #: editor/kgpgeditor.cpp:187
 #, kde-format
 msgid "&Encrypt File..."
-msgstr "&Cifrar archivo..."
+msgstr "&Cifrar archivo…"
 
 #: editor/kgpgeditor.cpp:191
 #, kde-format
 msgid "&Decrypt File..."
-msgstr "&Descifrar archivo..."
+msgstr "&Descifrar archivo…"
 
 #: editor/kgpgeditor.cpp:195
 #, kde-format
@@ -1083,17 +1083,17 @@ msgstr "&Abrir el gestor de claves"
 #: editor/kgpgeditor.cpp:198
 #, kde-format
 msgid "&Generate Signature..."
-msgstr "&Generar firma..."
+msgstr "&Generar firma…"
 
 #: editor/kgpgeditor.cpp:202
 #, kde-format
 msgid "&Verify Signature..."
-msgstr "&Verificar firma..."
+msgstr "&Verificar firma…"
 
 #: editor/kgpgeditor.cpp:205
 #, kde-format
 msgid "&Check MD5 Sum..."
-msgstr "&Comprobar la suma MD5..."
+msgstr "&Comprobar la suma MD5…"
 
 #: editor/kgpgeditor.cpp:208
 #, kde-format
@@ -1770,7 +1770,7 @@ msgstr "Importar clave del servidor de claves"
 #: keyservers.cpp:206
 #, kde-format
 msgid "Connecting to the server..."
-msgstr "Conectando al servidor..."
+msgstr "Conectando al servidor…"
 
 #: keyservers.cpp:312
 #, kde-format
@@ -1852,12 +1852,12 @@ msgstr "Editar clave en &terminal"
 #: keysmanager.cpp:180
 #, kde-format
 msgid "&Generate Key Pair..."
-msgstr "&Generar pareja de claves..."
+msgstr "&Generar pareja de claves…"
 
 #: keysmanager.cpp:189
 #, kde-format
 msgid "&Import Key..."
-msgstr "&Importar clave..."
+msgstr "&Importar clave…"
 
 #: keysmanager.cpp:194
 #, kde-format
@@ -1872,7 +1872,7 @@ msgstr "&Crear nuevo contacto en la libreta de direcciones"
 #: keysmanager.cpp:204
 #, kde-format
 msgid "&Edit Group..."
-msgstr "&Editar grupo..."
+msgstr "&Editar grupo…"
 
 #: keysmanager.cpp:207
 #, kde-format
@@ -1892,17 +1892,17 @@ msgstr "Establecer como clave pre&determinada"
 #: keysmanager.cpp:223
 #, kde-format
 msgid "&Add Photo..."
-msgstr "&Añadir foto..."
+msgstr "&Añadir foto…"
 
 #: keysmanager.cpp:226
 #, kde-format
 msgid "&Add User Id..."
-msgstr "&Añadir ID de usuario..."
+msgstr "&Añadir ID de usuario…"
 
 #: keysmanager.cpp:229
 #, kde-format
 msgid "Export Secret Key..."
-msgstr "Exportar clave privada..."
+msgstr "Exportar clave privada…"
 
 #: keysmanager.cpp:232
 #, kde-format
@@ -1912,7 +1912,7 @@ msgstr "Borrar la pareja de claves"
 #: keysmanager.cpp:236
 #, kde-format
 msgid "Revoke Key..."
-msgstr "Revocar clave..."
+msgstr "Revocar clave…"
 
 #: keysmanager.cpp:239
 #, kde-format
@@ -2193,22 +2193,22 @@ msgstr "Miembro del grupo"
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
-msgstr[0] "&Firmar ID de usuario..."
-msgstr[1] "&Firmar ID de usuario..."
+msgstr[0] "&Firmar ID de usuario…"
+msgstr[1] "&Firmar ID de usuario…"
 
 #: keysmanager.cpp:1209
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
-msgstr[0] "Fir&mar y enviar por correo ID de usuario..."
-msgstr[1] "Fir&mar y enviar por correo ID de usuarios..."
+msgstr[0] "Fir&mar y enviar por correo ID de usuario…"
+msgstr[1] "Fir&mar y enviar por correo ID de usuarios…"
 
 #: keysmanager.cpp:1210
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
-msgstr[0] "E&xportar clave pública..."
-msgstr[1] "E&xportar claves públicas..."
+msgstr[0] "E&xportar clave pública…"
+msgstr[1] "E&xportar claves públicas…"
 
 #: keysmanager.cpp:1211
 #, kde-format
@@ -2221,15 +2221,15 @@ msgstr[1] "&Refrescar claves desde el servidor de claves"
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
-msgstr[0] "&Crear grupo con la clave seleccionada..."
-msgstr[1] "&Crear grupo con las claves seleccionadas..."
+msgstr[0] "&Crear grupo con la clave seleccionada…"
+msgstr[1] "&Crear grupo con las claves seleccionadas…"
 
 #: keysmanager.cpp:1213
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
-msgstr[0] "&Firmar clave..."
-msgstr[1] "&Firmar claves..."
+msgstr[0] "&Firmar clave…"
+msgstr[1] "&Firmar claves…"
 
 #: keysmanager.cpp:1214
 #, kde-format
@@ -2262,7 +2262,7 @@ msgstr[1] "&Borrar claves"
 #: keysmanager.cpp:1340
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
-msgstr "La creación del certificado de revocación ha fallado..."
+msgstr "La creación del certificado de revocación ha fallado…"
 
 #: keysmanager.cpp:1355
 #, kde-format
@@ -2674,7 +2674,7 @@ msgstr "Importar desde el portapapeles"
 #: keysmanager.cpp:2556
 #, kde-format
 msgid "Importing..."
-msgstr "Importando..."
+msgstr "Importando…"
 
 #: keysmanager.cpp:2568
 #, kde-format
@@ -2874,7 +2874,7 @@ msgstr ""
 "descifrado previamente con «gpg --decrypt».\n"
 "\n"
 "Si está usando KGpg, guarde el adjunto en disco y luego impórtelo. Solo "
-"tiene que seleccionar «Importar clave...» en el menú «Claves» y abrir el "
+"tiene que seleccionar «Importar clave…» en el menú «Claves» y abrir el "
 "archivo.\n"
 "\n"
 "Tenga en cuenta que no he enviado su clave a ningún servidor de claves. Si "
@@ -2884,7 +2884,7 @@ msgstr ""
 "\n"
 "Si está usando KGpg, tras haber importado todas las identidades de usuario "
 "puede hacer clic sobre la clave con el botón derecho del ratón y escoger la "
-"opción «Exportar clave pública...».\n"
+"opción «Exportar clave pública…».\n"
 "\n"
 "Si tiene alguna pregunta, no dude en preguntar.\n"
 
@@ -4535,7 +4535,7 @@ msgstr[1] "Claves sin cambios"
 #: transactions/kgpgkeyservertransaction.cpp:87
 #, kde-format
 msgid "<b>Connecting to the server...</b>"
-msgstr "<b>Conectando al servidor...</b>"
+msgstr "<b>Conectando al servidor…</b>"
 
 #: transactions/kgpgkeyservertransaction.cpp:88
 #, kde-format
@@ -4645,250 +4645,3 @@ msgstr "<para>La firma es válida, pero la clave no es de confianza</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>La firma es válida y la clave es de total confianza</para>"
-
-#~ msgid ""
-#~ "The document could not been saved, as the selected encoding cannot encode "
-#~ "every unicode character in it."
-#~ msgstr ""
-#~ "El documento no puede ser guardado debido a que la codificación "
-#~ "seleccionada no puede codificar todos los caracteres unicode que contiene."
-
-#~ msgid "Tip of the &Day"
-#~ msgstr "&Sugerencia del día"
-
-#~ msgid "Show tip of the day."
-#~ msgstr "Mostrar la sugerencia del día."
-
-#~ msgid ""
-#~ "<p>If you want to decrypt a text file, simply drag and drop it into the "
-#~ "editor window. KGpg will do the rest. Even remote files can be dropped.</"
-#~ "p>\n"
-#~ "<p>Drag a public key into the editor window and kgpg will automatically "
-#~ "import it if you want.</p>\n"
-#~ msgstr ""
-#~ "<p>Si desea descifrar un archivo de texto, solo tiene que arrastrarlo y "
-#~ "soltarlo en la ventana del editor. KGpg hará el resto. Puede soltar "
-#~ "incluso archivos remotos.</p>\n"
-#~ "<p>Arrastre una clave pública al editor y KGpg la importará "
-#~ "automáticamente si así lo desea.</p>\n"
-
-#~ msgid ""
-#~ "<p>The easiest way to encrypt a file: simply right click on the file, and "
-#~ "you have an encrypt option in the contextual menu.\n"
-#~ "This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
-#~ msgstr ""
-#~ "<p>El método más sencillo para cifrar un archivo: solo tiene que hacer "
-#~ "clic sobre él con el botón derecho del ratón y dispondrá de una opción "
-#~ "para cifrarlo en el menú contextual.\n"
-#~ "Esto funciona tanto en <strong>Konqueror</strong> como en su escritorio.</"
-#~ "p>\n"
-
-#~ msgid ""
-#~ "<p>If you want to encrypt a message for several persons, just select "
-#~ "several encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
-#~ msgstr ""
-#~ "<p>Si desea cifrar un mensaje para varias personas, solo tiene que "
-#~ "seleccionar varias claves de cifrado manteniendo pulsada la tecla «Ctrl»."
-#~ "</p>\n"
-
-#~ msgid ""
-#~ "<p><strong>You do not have to be an expert in encryption to use this tool?"
-#~ "</strong><br>\n"
-#~ "Simply create yourself a key pair in the key management window. Then, "
-#~ "export your public key and mail it to your friends.<br>\n"
-#~ "Ask them to do the same and import their public keys. Finally, to send an "
-#~ "encrypted message, type it in the KGpg editor, then click &quot;"
-#~ "encrypt&quot;. Choose\n"
-#~ "your friend's key and click &quot;encrypt&quot; again. The message will "
-#~ "be encrypted, ready to be sent by email.</p>\n"
-#~ msgstr ""
-#~ "<p><strong>¿Usted no tiene que ser un experto en cifrado para usar esta "
-#~ "herramienta?</strong><br />\n"
-#~ "Solo tiene que generar una pareja de claves en la ventana de gestión de "
-#~ "claves. Luego, exporte su clave pública y envíela a sus amigos.<br />\n"
-#~ "Pídales que hagan lo mismo e importe sus claves públicas. Por último, "
-#~ "para enviar un mensaje cifrado, escríbalo en el editor de KGpg y pulse "
-#~ "«Cifrar». Elija\n"
-#~ "la clave de su amigo y pulse el botón «Cifrar» otra vez. El mensaje se "
-#~ "cifrará y quedará listo para ser enviado por correo electrónico.</p>\n"
-
-#~ msgid ""
-#~ "<p>To perform an operation on a key, open the key management window and "
-#~ "right click on the key. A popup menu with all available options will "
-#~ "appear.</p>\n"
-#~ msgstr ""
-#~ "<p>Para realizar una operación sobre una clave, abra la ventana de "
-#~ "gestión de claves y haga clic con el botón derecho del ratón sobre la "
-#~ "clave. Se mostrará un menú emergente con todas las opciones disponibles.</"
-#~ "p>\n"
-
-#~ msgid ""
-#~ "<p>Decrypt a file with a single mouse click on it. You will then be "
-#~ "prompted for password, and then that is it!</p>\n"
-#~ msgstr ""
-#~ "<p>Descifre un archivo con un simple clic del ratón sobre él. Se le "
-#~ "pedirá una contraseña. Eso es todo.</p>\n"
-
-#~ msgid ""
-#~ "<p>If you only want to open the key manager, type this in the command "
-#~ "line prompt: <pre>kgpg -k</pre>\n"
-#~ "The editor can be reached by: <pre>kgpg -d</pre></p>\n"
-#~ msgstr ""
-#~ "<p>Si solo quiere abrir el gestor de claves, escriba esto en la línea de "
-#~ "órdenes: <pre>kgpg -k</pre>\n"
-#~ "Puede lanzar el editor usando: <pre>kgpg -d</pre></p>\n"
-
-#~ msgid ""
-#~ "<p>To open a file in the KGpg's editor and immediately decrypt it type: "
-#~ "<pre>kgpg -s filename</pre></p>\n"
-#~ msgstr ""
-#~ "<p>Para abrir un archivo en el editor de KGpg y descifrarlo a "
-#~ "continuación, escriba: <pre>kgpg -s archivo</pre></p>\n"
-
-#~ msgid ""
-#~ "<p>If you want to change the password or expiration of a secret key "
-#~ "simply double click on it to get the key properties dialog.</p>\n"
-#~ msgstr ""
-#~ "<p>Si quiere cambiar la expiración de una contraseña privada, solo tiene "
-#~ "que hacer un doble clic sobre ella para mostrar el diálogo de propiedades "
-#~ "de la clave.</p>\n"
-
-#~ msgid ""
-#~ "<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in "
-#~ "the key manager.</p>\n"
-#~ msgstr ""
-#~ "<p>Puede acceder a sus claves predeterminadas pulsando «Ctrl+Inicio» en "
-#~ "el gestor de claves.</p>\n"
-
-#~ msgid ""
-#~ "<p>The number of signatures is shown as a tooltip if you hover the mouse "
-#~ "on the size column in key manager. A key has to be expanded once for this "
-#~ "to work.</p>\n"
-#~ msgstr ""
-#~ "<p>El número de firmas se muestra en una ayuda emergente si sitúa el "
-#~ "ratón en la columna del tamaño en el gestor de claves. Para que esto "
-#~ "funcione, la clave debe de haber sido expandida una vez.</p>\n"
-
-#~ msgctxt "search filter for gpg binary"
-#~ msgid ""
-#~ "gpg|GnuPG binary\n"
-#~ "*|All files"
-#~ msgstr ""
-#~ "gpg|Binario de GnuPG\n"
-#~ "*|Todos los archivos"
-
-#~ msgid ""
-#~ "<qt>A viewer for JPEG images is not specified.<br/>Please check your "
-#~ "installation.</qt>"
-#~ msgstr ""
-#~ "<qt>No se ha especificado un visor de imágenes JPEG.<br/>Compruebe su "
-#~ "instalación.</qt>"
-
-#~ msgid "Show photo"
-#~ msgstr "Mostrar foto"
-
-#~ msgid "Passphrase for the key was changed"
-#~ msgstr "La frase secreta de la clave ha sido cambiada"
-
-#~ msgid "Do not Know"
-#~ msgstr "No se sabe"
-
-#~ msgid "Do NOT Trust"
-#~ msgstr "No confiar"
-
-#~ msgid "0"
-#~ msgstr "0"
-
-#~ msgid "Id"
-#~ msgstr "ID"
-
-#~ msgctxt "Export a key via email"
-#~ msgid "Email"
-#~ msgstr "Correo electrónico"
-
-#~ msgctxt ""
-#~ "Name of the action that is a search line, shown for example in the "
-#~ "toolbar configuration dialog"
-#~ msgid "Search Line"
-#~ msgstr "Línea de búsqueda"
-
-#~ msgid ""
-#~ "KGpg - simple gui for gpg\n"
-#~ "\n"
-#~ "KGpg was designed to make gpg very easy to use.\n"
-#~ "I tried to make it as secure as possible.\n"
-#~ "Hope you enjoy it."
-#~ msgstr ""
-#~ "Kgpg - un sencillo entorno gráfico para gpg\n"
-#~ "\n"
-#~ "Kgpg ha sido diseñado para hacer que gpg sea más fácil de usar.\n"
-#~ "He intentado hacerlo tan seguro como me ha sido posible.\n"
-#~ "Espero qué le guste."
-
-#~ msgid "KGpg"
-#~ msgstr "KGpg"
-
-#~ msgid "(C) 2003 Jean-Baptiste Mardelle"
-#~ msgstr "(C) 2003 Jean-Baptiste Mardelle"
-
-#~ msgctxt "ID: Name <Email>"
-#~ msgid "%1: %2 &lt;%3&gt;"
-#~ msgstr "%1: %2 &lt;%3&gt;"
-
-#~ msgctxt "Name <Email>: ID"
-#~ msgid "%1 &lt;%2&gt;: %3"
-#~ msgstr "%1 &lt;%2&gt;: %3"
-
-#~ msgid "Keys"
-#~ msgstr "Claves"
-
-#~ msgid "<qt><br /><b>One key imported:</b></qt>"
-#~ msgid_plural "<qt><br /><b>%1 keys imported:</b></qt>"
-#~ msgstr[0] "<qt><br /><b>Una clave importada:</b></qt>"
-#~ msgstr[1] "<qt><br /><b>%1 claves importadas:</b></qt>"
-
-#~ msgid "<qt><br /><b>One secret key imported.</b></qt>"
-#~ msgid_plural "<qt><br /><b>%1 secret keys imported.</b></qt>"
-#~ msgstr[0] "<qt><br /><b>Una clave privada importada.</b></qt>"
-#~ msgstr[1] "<qt><br /><b>%1 claves privadas importadas.</b></qt>"
-
-#~ msgctxt "Good signature from: NAME <EMAIL>, Key ID: HEXID"
-#~ msgid ""
-#~ "<qt>Good signature from:<br /><b>%1 &lt;%2&gt;</b><br />Key ID: %3<br /></"
-#~ "qt>"
-#~ msgstr ""
-#~ "<qt>Firma correcta de:<br /><b>%1 &lt;%2&gt;</b><br />ID de la clave: "
-#~ "%3<br /></qt>"
-
-#~ msgid ""
-#~ "<qt><b>BAD signature</b> from:<br /> %1<br />Key id: %2<br /><br /><b>The "
-#~ "file is corrupted</b><br /></qt>"
-#~ msgstr ""
-#~ "<qt><b>Firma NO VÁLIDA</b> de:<br /> %1<br />ID de la clave: %2<br /><br /"
-#~ "><b>El archivo está dañado.</b><br /></qt>"
-
-#~ msgid "Edit Key Server"
-#~ msgstr "Editar servidor de claves"
-
-#~ msgctxt "Mark default keyserver in GUI"
-#~ msgid "(Default)"
-#~ msgstr "(Por omisión)"
-
-#~ msgctxt "Remove default marker from GUI if it is there"
-#~ msgid "(Default)"
-#~ msgstr "(Por omisión)"
-
-#~ msgid "Authentification"
-#~ msgstr "Autenticación"
-
-#~ msgid "768"
-#~ msgstr "768"
-
-#~ msgctxt "no key comment"
-#~ msgid "none"
-#~ msgstr "ninguno"
-
-#~ msgid "Unable to contact the address book. Please check your installation."
-#~ msgstr ""
-#~ "No se puede comunicar con la libreta de direcciones. Compruebe su "
-#~ "instalación."
