@@ -1604,7 +1604,7 @@ msgid ""
 msgstr ""
 "<qt><b>Servidor de claus:</b><br /> <p>Un servidor de claus és un repositori "
 "de claus PGP/GnuPG connectat amb Internet al qual es pot accedir a "
-"conveniència per a obtindre o depositar claus. Trieu de la llista quin "
+"conveniència per a obtindre o depositar claus. Tria de la llista quin "
 "servidor s'hauria d'utilitzar.</p> <p>Sovint les claus són de persones que "
 "l'usuari mai ha conegut i la seua autenticitat és dubtosa en el millor dels "
 "casos. Consulteu la secció «Web-of-trust» del manual de GnuPG per a "
@@ -3033,7 +3033,7 @@ msgstr ""
 #: kgpg.kcfg:136
 #, kde-format
 msgid "Choose default left-click behavior"
-msgstr "Escolliu el comportament predeterminat d'un clic esquerre"
+msgstr "Trieu el comportament predeterminat d'un clic esquerre"
 
 #. i18n: ectx: label, entry (EncryptedDropEvent), group (User Interface)
 #: kgpg.kcfg:143
@@ -4091,7 +4091,7 @@ msgstr ""
 "<b>Permet l'encriptació amb claus que no siguen de confiança</b>: quan "
 "s'importa una clau pública es marca com que no és de confiança i no podreu "
 "utilitzar-la a menys que la signeu per a fer-la «de confiança». Si marqueu "
-"esta casella, podreu emprar qualsevol clau, encara que no haja estat signada."
+"esta casella, podreu emprar qualsevol clau, encara que no haja sigut signada."
 
 #: selectpublickeydialog.cpp:122
 #, kde-format
@@ -4143,7 +4143,7 @@ msgstr "Llista de claus privades"
 #: selectsecretkey.cpp:49
 #, kde-format
 msgid "Choose secret key for signing:"
-msgstr "Escolliu la clau secreta per a signar:"
+msgstr "Trieu la clau secreta per a signar:"
 
 #: selectsecretkey.cpp:64
 #, kde-format
