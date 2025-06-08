@@ -496,7 +496,7 @@
 
 <para
 >Cuando usted selecciona su clave y elige <guimenuitem
->Firmar clave...</guimenuitem
+>Firmar clave…</guimenuitem
 > obtendrá el diálogo que le permitirá escoger las opciones sobre cómo desea firmar dicha clave.</para>
 
 <screenshot>
@@ -540,7 +540,7 @@
 
 <para
 >Si usted elige <guimenuitem
->Firmar y enviar por correo ID de usuario...</guimenuitem
+>Firmar y enviar por correo ID de usuario…</guimenuitem
 > en el menú, habrá cerrado este agujero. La idea es que usted firmará la clave como siempre y que después sea dividida en varias partes. Cada parte contendrá únicamente una identidad de usuario de la clave de Juan y la firma de usted, y será cifrada con la clave de Juan y enviada solo a la dirección de correo electrónico que contiene dicha identidad. Juan solo podrá importar esta firma en su anillo de claves si es capaz de recibir este mensaje y descifrarlo. Usted no enviará sus firmas, ya que esto le corresponde a él. Si la firma de usted se muestra en un servidor de claves, podrá estar seguro de que Juan controla tanto su clave como la dirección de correo electrónico que usted firmó. Las firmas que haga en este proceso tampoco serán parte de su anillo de claves. De modo que, tras firmar la clave de Juan, todavía seguirá apareciendo sin confianza en su anillo de claves. Una vez que Juan haya recibido su mensaje y haya importado su firma en su propio anillo de claves, podrá enviarla a un servidor de claves. Cuando usted actualice la clave de Juan de un servidor de claves obtendrá las nuevas firmas. Aunque esto pueda parecer inconveniente a primera vista, asegura que usted no vea como fiables por accidente alguna de las identidades que él no controle. Solo las firmas que se muestran en un servidor de claves son las que todo el mundo, incluido usted, puede estar seguro de que son las que Juan controla las correspondientes direcciones de correo electrónico.</para>
 
 </sect2>
