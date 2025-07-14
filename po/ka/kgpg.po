@@ -707,7 +707,7 @@ msgstr "HTTP პროქსის გამოყენება. თუ ის
 #: conf_servers.ui:49
 #, kde-format
 msgid "&Set as Default"
-msgstr "ნაგულისხმებად &დაყენება"
+msgstr "ნაგულისხმევად &დაყენება"
 
 #. i18n: ectx: property (text), widget (QPushButton, server_add)
 #: conf_servers.ui:56
@@ -1798,7 +1798,7 @@ msgstr "&გასაღების სერვერის ფანჯარ
 #: keysmanager.cpp:140 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
-msgstr "&ნაგულისხმებ გასაღებზე გადასვლა"
+msgstr "&ნაგულისხმევ გასაღებზე გადასვლა"
 
 #: keysmanager.cpp:153
 #, kde-format
@@ -1868,7 +1868,7 @@ msgstr "&ჯგუფის გადარქმევა"
 #: keysmanager.cpp:220
 #, kde-format
 msgid "Set as De&fault Key"
-msgstr "&ნაგულისხმებ გასაღებად დაყენება"
+msgstr "&ნაგულისხმევ გასაღებად დაყენება"
 
 #: keysmanager.cpp:223
 #, kde-format
@@ -3254,12 +3254,12 @@ msgstr "კონფიგურაციის ფაილი"
 #: kgpgfirstassistant.cpp:173
 #, kde-format
 msgid "Your default key:"
-msgstr "თქვენი ნაგულისხმები გასაღები:"
+msgstr "თქვენი ნაგულისხმევი გასაღები:"
 
 #: kgpgfirstassistant.cpp:192
 #, kde-format
 msgid "Default Key"
-msgstr "ნაგულისხმები გასაღები"
+msgstr "ნაგულისხმევი გასაღები"
 
 #: kgpgfirstassistant.cpp:213
 #, kde-format
@@ -3308,7 +3308,7 @@ msgstr "თქვენი GnuPG-ის ვერსიაა: %1"
 #: kgpgfirstassistant.cpp:309
 #, kde-format
 msgid "Your default key is: %1"
-msgstr "თქვენი ნაგულისხმები გასაღები %1"
+msgstr "თქვენი ნაგულისხმევი გასაღები %1"
 
 #: kgpgfirstassistant.cpp:360
 #, kde-format
@@ -3836,7 +3836,7 @@ msgstr "KF5-ზე პორტი"
 #, kde-format
 msgctxt "Mark default keyserver in GUI"
 msgid "%1 (Default)"
-msgstr "%1 (ნაგულისხმები)"
+msgstr "%1 (ნაგულისხმევი)"
 
 #: model/keylistproxymodel.cpp:176
 #, kde-format
@@ -3961,7 +3961,7 @@ msgstr ""
 #: newkey.ui:140
 #, kde-format
 msgid "Set as your default key"
-msgstr "თქვენს ნაგულისხმებ გასაღებად დაყენება"
+msgstr "თქვენს ნაგულისხმევ გასაღებად დაყენება"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: newkey.ui:152
