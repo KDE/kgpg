@@ -273,10 +273,6 @@ target_link_libraries(kgpg_lib
     Qt6::PrintSupport
 )
 
-if (QT_MAJOR_VERSION STREQUAL "6")
-    target_link_libraries(kgpg_lib
-    )
-endif()
 if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
