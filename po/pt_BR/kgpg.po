@@ -1,7 +1,7 @@
 # Translation of kgpg.po to Brazilian Portuguese
 # Copyright (C) 2003, 2004, 2005, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2017, 2018 Free Software Foundation, Inc.
 #
-# Marcus Gama <marcus.gama@gmail.com>, 2003, 2011, 2012.
+# SPDX-FileCopyrightText: 2003, 2011, 2012, 2025 Marcus Gama <marcus.gama@gmail.com>
 # Lisiane Sztoltz <lisiane@conectiva.com.br>, 2003.
 # Lisiane Sztoltz Teixeira <lisiane@conectiva.com.br>, 2004.
 # Henrique Pinto <henrique.pinto@kdemail.net>, 2005.
@@ -14,15 +14,15 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2024-01-11 20:47-0300\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
+"PO-Revision-Date: 2025-07-27 15:24-0300\n"
+"Last-Translator: Marcus Gama <marcus.gama@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 25.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -436,7 +436,7 @@ msgid ""
 msgstr ""
 "<b>Usar o agente do GnuPG</b><p>O agente do GnuPG armazena as senhas das "
 "suas chaves secretas em memória durante um período limitado de tempo. Se "
-"você usar a sua chave secreta novamente, enquanto estiver em 'cache', você "
+"você usar a sua chave privada novamente, enquanto estiver em 'cache', você "
 "não precisará digitá-la outra vez. Isto é menos seguro que escrevê-la sempre."
 "</p>"
 
@@ -1898,7 +1898,7 @@ msgstr "&Adicionar ID de usuário..."
 #: keysmanager.cpp:229
 #, kde-format
 msgid "Export Secret Key..."
-msgstr "Exportar chave secreta..."
+msgstr "Exportar chave privada..."
 
 #: keysmanager.cpp:232
 #, kde-format
@@ -2177,7 +2177,7 @@ msgstr "ID da foto"
 #: keysmanager.cpp:1100
 #, kde-format
 msgid "Orphaned Secret Key"
-msgstr "Chave secreta órfã"
+msgstr "Chave privada órfã"
 
 #: keysmanager.cpp:1105
 #, kde-format
@@ -2295,7 +2295,7 @@ msgid ""
 "Your secret key could not be exported.\n"
 "Check the key."
 msgstr ""
-"Sua chave secreta não pode ser exportada.\n"
+"Sua chave privada não pode ser exportada.\n"
 "Verifique-a."
 
 #: keysmanager.cpp:1490
@@ -2321,7 +2321,7 @@ msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
 "currently not usable.</p><p>Would you like to regenerate the public key?</p>"
 msgstr ""
-"<p>Esta é uma chave secreta órfã (chave secreta sem a chave pública). Ela "
+"<p>Esta é uma chave privada órfã (chave privada sem a chave pública). Ela "
 "não pode ser atualmente utilizada.</p><p>Gostaria de gerar a chave pública "
 "novamente?</p>"
 
@@ -4151,7 +4151,7 @@ msgstr "Lista de chaves privadas"
 #: selectsecretkey.cpp:49
 #, kde-format
 msgid "Choose secret key for signing:"
-msgstr "Escolha uma chave secreta para assinatura:"
+msgstr "Escolha uma chave privada para assinatura:"
 
 #: selectsecretkey.cpp:64
 #, kde-format
@@ -4423,7 +4423,7 @@ msgstr[1] "<para>%1 certificados de revogação importados.</para>"
 msgctxt "@info"
 msgid "<para>One secret key processed.</para>"
 msgid_plural "<para>%1 secret keys processed.</para>"
-msgstr[0] "<para>Uma chave secreta processada.</para>"
+msgstr[0] "<para>Uma chave privada processada.</para>"
 msgstr[1] "<para>%1 chaves secretas processadas.</para>"
 
 #: transactions/kgpgimport.cpp:144
@@ -4434,7 +4434,7 @@ msgid ""
 msgid_plural ""
 "<para><emphasis strong='true'>%1 secret keys imported.</emphasis></para>"
 msgstr[0] ""
-"<para><emphasis strong='true'>Uma chave secreta foi importada.</emphasis></"
+"<para><emphasis strong='true'>Uma chave privada foi importada.</emphasis></"
 "para>"
 msgstr[1] ""
 "<para><emphasis strong='true'>%1 chaves secreta foram importadas.</"
@@ -4445,7 +4445,7 @@ msgstr[1] ""
 msgctxt "@info"
 msgid "<para>One secret key unchanged.</para>"
 msgid_plural "<para>%1 secret keys unchanged.</para>"
-msgstr[0] "<para>Uma chave secreta não foi modificada.</para>"
+msgstr[0] "<para>Uma chave privada não foi modificada.</para>"
 msgstr[1] "<para>%1 chaves secretas não foram modificadas.</para>"
 
 #: transactions/kgpgimport.cpp:148
@@ -4453,7 +4453,7 @@ msgstr[1] "<para>%1 chaves secretas não foram modificadas.</para>"
 msgctxt "@info"
 msgid "<para>One secret key not imported.</para>"
 msgid_plural "<para>%1 secret keys not imported.</para>"
-msgstr[0] "<para>Uma chave secreta não foi importada.</para>"
+msgstr[0] "<para>Uma chave privada não foi importada.</para>"
 msgstr[1] "<para>%1 chaves secretas não foram importadas.</para>"
 
 #: transactions/kgpgimport.cpp:151
@@ -4465,9 +4465,9 @@ msgid ""
 "fully use this secret key for signing and encryption, you must edit the key "
 "(double click on it) and set its trust to Full or Ultimate.</para>"
 msgstr ""
-"<para><emphasis strong='true'>Você importou uma chave secreta.</emphasis><nl/"
+"<para><emphasis strong='true'>Você importou uma chave privada.</emphasis><nl/"
 ">Por favor, note que as chaves secretas importadas não são confiáveis por "
-"padrão.<nl/>Para usar esta chave secreta plenamente, para assinatura e "
+"padrão.<nl/>Para usar esta chave privada plenamente, para assinatura e "
 "criptografia, você deve editar a chave (com um clique duplo sobre ela) e "
 "configurar a sua confiabilidade para completamente ou definitivamente.</para>"
 
