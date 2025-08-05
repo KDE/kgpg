@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2025-08-03 15:29+0400\n"
+"PO-Revision-Date: 2025-08-04 18:47+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -464,14 +464,14 @@ msgid ""
 "<p>If checked KGpg will start automatically each time that KDE starts up.</"
 "p></qt>"
 msgstr ""
-"<qt><b>بدأ «مفتاح» تلقائيا عند تسجيل الدخول:</b><br />\n"
-"<p>إذا كان محددا سيبدأ «مفتاح» تلقائيا في كل مرة تبدأ فيها كدى.</p></qt>"
+"<qt><b>بدأ «مفتاح» آليّا عند تسجيل الدخول:</b><br />\n"
+"<p>إذا كان محددا سيبدأ «مفتاح» آليّا في كل مرة تبدأ فيها كدى.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AutoStart)
 #: conf_misc.ui:36
 #, kde-format
 msgid "Start KGpg automatically at login"
-msgstr "ابدأ «مفتاح» تلقائيا عند الولوج"
+msgstr "ابدأ «مفتاح» آليّا عند الولوج"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_UseMouseSelection)
 #: conf_misc.ui:53
@@ -3050,7 +3050,7 @@ msgstr "استخدم تحديد الفأرة بدلا من الحافظة."
 #: kgpg.kcfg:128 kgpgfirstassistant.cpp:223
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
-msgstr "شغّل «مفتاح» تلقائيا عند بدأ كيدى."
+msgstr "شغّل «مفتاح» آليّا عند بدأ كيدى."
 
 #. i18n: ectx: label, entry (RemoteFileWarn), group (User Interface)
 #: kgpg.kcfg:132
@@ -3358,7 +3358,7 @@ msgstr "لديك إصدار GnuPG  : %1"
 #: kgpgfirstassistant.cpp:309
 #, kde-format
 msgid "Your default key is: %1"
-msgstr "مفتاحك الافتراضي: %1"
+msgstr "مفتاحك المبدئي: %1"
 
 #: kgpgfirstassistant.cpp:360
 #, kde-format
@@ -3537,7 +3537,7 @@ msgstr "الإمكانيات"
 #: kgpgkeygenerate.ui:172
 #, kde-format
 msgid "Certification is automatically enabled for all keys"
-msgstr "تُفعّل الشهادة آلياً لجميع المفاتيح"
+msgstr "تُمكّن الشهادة آليّاً لجميع المفاتيح"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capCert)
 #: kgpgkeygenerate.ui:175
@@ -4019,7 +4019,7 @@ msgstr ""
 #: newkey.ui:140
 #, kde-format
 msgid "Set as your default key"
-msgstr "التعين كمفتاح الافتراضي لك"
+msgstr "التعين كمفتاح المبدئي لك"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: newkey.ui:152
