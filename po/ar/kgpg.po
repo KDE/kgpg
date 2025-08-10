@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2025-08-04 18:47+0400\n"
+"PO-Revision-Date: 2025-08-09 22:13+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -704,7 +704,7 @@ msgid ""
 "all others will be stored for use by KGpg only."
 msgstr ""
 "<b>معلومات</b>:\n"
-"سيتم فقط تخزين الخادم المبدئي في ملف ضبط GnuPG, \n"
+"سيُخزن الخادم المبدئي فقط في ملف ضبط GnuPG, \n"
 "وكل البقية ستخزن لتستخدم بواسطة «مفتاح» فقط."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseProxy)
@@ -1157,7 +1157,7 @@ msgstr "الكتابة على الملف الحالي %1؟"
 #: editor/kgpgeditor.cpp:468
 #, kde-format
 msgid "Open File to Encode"
-msgstr "افتح ملف ليتم ترميزه"
+msgstr "افتح ملف لترميزه"
 
 #: editor/kgpgeditor.cpp:468 editor/kgpgeditor.cpp:477
 #: editor/kgpgeditor.cpp:612 editor/kgpgeditor.cpp:650
@@ -1169,7 +1169,7 @@ msgstr "*|كافة الملفات"
 #: editor/kgpgeditor.cpp:477
 #, kde-format
 msgid "Open File to Decode"
-msgstr "افتح ملف ليتم فك ترميزه"
+msgstr "افتح ملف ليُفك ترميزه"
 
 #: editor/kgpgeditor.cpp:491
 #, kde-format
@@ -1271,8 +1271,8 @@ msgid ""
 "temporary file to process requested operation. This temporary file will be "
 "deleted after operation.</qt>"
 msgstr ""
-"<qt><b>أسقط الملف البعيد</b>.<br />الملف البعيد سيتم الآن نسخه إلى ملف مؤقت "
-"لمعالجة العملية المطلوبة. هذا الملف المؤقت سيتم حذفه بعد العملية.</qt>"
+"<qt><b>أسقط الملف البعيد</b>.<br />الملف البعيد سيُنسخ الآن إلى ملف مؤقت "
+"لمعالجة العملية المطلوبة. وسيحذف هذا الملف المؤقت بعد العملية.</qt>"
 
 #: editor/kgpgtextedit.cpp:94
 #, kde-format
@@ -1332,7 +1332,7 @@ msgstr "فشلت التعمية."
 #: editor/kgpgtextedit.cpp:290
 #, kde-format
 msgid "Signing not possible: bad passphrase or missing key"
-msgstr "لا يمكن التوقيع: كلمة مرور خاطئة أو مفتاح مفقود"
+msgstr "لا يمكن التوقيع: عبارة المرور خاطئة أو مفتاح مفقود"
 
 #: editor/kgpgtextedit.cpp:325 kgpgexternalactions.cpp:282
 #, kde-format
@@ -1662,7 +1662,7 @@ msgstr "النص المراد بحثه أو هوية المفتاح المراد
 #: keyserver.ui:92 keyserver.ui:222
 #, kde-format
 msgid "Honor HTTP proxy:"
-msgstr "استخدم ميفاق HTTP"
+msgstr "استخدم وكيل ميفاق HTTP:"
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonsearch)
 #: keyserver.ui:135
@@ -1773,7 +1773,7 @@ msgstr "يجب عليك اختيار مفتاح."
 #: keyservers.cpp:372
 #, kde-format
 msgid "No matching keys found"
-msgstr "لم يتم العثور على مفاتيح مطابقة"
+msgstr "لم يعثر على مفاتيح مطابقة"
 
 #: keyservers.cpp:375
 #, kde-format
@@ -2665,8 +2665,7 @@ msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
 "deleted.</qt>"
 msgstr ""
-"<qt>المفاتيح التالية هي أزواج مفاتيح سرية:<br/><b>%1</b><br/>فلن يتم حذفها. "
-"</qt>"
+"<qt>المفاتيح التالية هي أزواج مفاتيح سرية:<br/><b>%1</b><br/>فلن تحذف. </qt>"
 
 #: keysmanager.cpp:2462
 #, kde-format
@@ -2990,7 +2989,7 @@ msgstr "المسار لملف الثنائي gpg المستخدم بواسطة �
 #: kgpg.kcfg:79
 #, kde-format
 msgid "Is the first time the application runs."
-msgstr "هذه هي المرة الأولى التي يتم فيها تشغيل التطبيق."
+msgstr "هذه هي المرة الأولى التي يشغّل التطبيق."
 
 #. i18n: ectx: label, entry (EditorGeometry), group (General Options)
 #: kgpg.kcfg:83
@@ -3173,7 +3172,7 @@ msgstr ""
 #: kgpg.kcfg:252
 #, kde-format
 msgid "Use HTTP proxy when available."
-msgstr "استخدم ميفاق HTTP إذا كان متوفرًا."
+msgstr "استخدم وكيل ميفاق HTTP إذا كان متوفرًا."
 
 #. i18n: ectx: label, entry (EmailTemplate), group (Key Signing)
 #: kgpg.kcfg:259
@@ -3327,8 +3326,8 @@ msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
 "create a config file ?</qt>"
 msgstr ""
-"<qt><b> لم يتم العثور على ملف إعداد GnuPG</b>. هل تريد أن يحاول «مفتاح» "
-"إنشاء ملف إعداد ؟ </qt>"
+"<qt><b> لم يعثر على ملف إعداد GnuPG</b>. هل تريد أن يحاول «مفتاح» إنشاء ملف "
+"إعداد ؟ </qt>"
 
 #: kgpgfirstassistant.cpp:241
 #, kde-format
@@ -4126,8 +4125,8 @@ msgid ""
 "even if it has not be signed."
 msgstr ""
 "<b>السماح بالتعمية بمفاتيح غير موثوقة</b>: عندما تقوم باستيراد مفتاح عام، "
-"يتم تعليمه عادة كمفتاح غير موثوق ولا يمكنك استخدامه ما لم توقّعه لتجعله "
-"'موثّقا'. تحديد هذا الخيار يمكنك من استخدام أي مفتاح حتى إذا لم يتم توقيعه."
+"سيُعلم عادة كمفتاح غير موثوق ولا يمكنك استخدامه ما لم توقّعه لتجعله 'موثّقا'. "
+"تحديد هذا الخيار يمكنك من استخدام أي مفتاح حتى إذا لم يُوقع."
 
 #: selectpublickeydialog.cpp:122
 #, kde-format
@@ -4268,7 +4267,7 @@ msgstr "لا تستخدمها"
 #: transactions/kgpgchangepass.cpp:55
 #, kde-format
 msgid "Enter old passphrase for <b>%1</b>"
-msgstr "أدخل عبارة مرور القديمة لـ <b>%1</b>"
+msgstr "أدخل عبارة المرور القديمة لـ <b>%1</b>"
 
 #: transactions/kgpgchangepass.cpp:57
 #, kde-format
@@ -4276,7 +4275,7 @@ msgid ""
 "<qt>Enter new passphrase for <b>%1</b><br />If you forget this passphrase "
 "all your encrypted files and messages will be inaccessible.</qt>"
 msgstr ""
-"<qt>أدخل عبارة مرور جديدة لـ <b>%1</b><br />إذا نسيت عبارة السر هذه، فلن "
+"<qt>أدخل عبارة مرور جديدة لـ <b>%1</b><br />إذا نسيت عبارة المرور هذه، فلن "
 "تتمكن من الوصول إلى جميع ملفاتك ورسائلك المعماة.</qt>"
 
 #: transactions/kgpgdecrypt.cpp:110
@@ -4658,7 +4657,7 @@ msgstr " أو "
 #: transactions/kgpgtransaction.cpp:281
 #, kde-format
 msgid "Enter passphrase for <b>%1</b>"
-msgstr "أدخل عبارة مرور لـ <b>%1</b>"
+msgstr "أدخل عبارة المرور لـ <b>%1</b>"
 
 #: transactions/kgpgtransaction.cpp:295
 #, kde-format
