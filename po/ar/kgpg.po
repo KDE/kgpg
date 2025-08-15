@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2025-08-09 22:13+0400\n"
+"PO-Revision-Date: 2025-08-14 11:42+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -253,8 +253,8 @@ msgid ""
 msgstr ""
 "<qt><b>عمِّ الملفات باستخدام:</b><br />\n"
 "<p>يؤدي تحديد هذا الخيار واختيار مفتاح إلى إجبار أي عملية تعمية ملفات على "
-"استخدام المفتاح المحدد. لن يقوم «مفتاح» بالاستعلام عن مستلم وسيتجاوز المفتاح "
-"المبدئي.</p></qt>"
+"استخدام المفتاح المحدد. لن يستعلم «مفتاح» عن مستلم وسيتجاوز المفتاح المبدئي."
+"</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EncryptFilesTo)
 #: conf_encryption.ui:127
@@ -439,10 +439,10 @@ msgid ""
 "key again while it is cached you do not have to enter it again. This is less "
 "secure than typing it every time.</p>"
 msgstr ""
-"<b>استخدم وكيل GnuPG</b><p>يقوم وكيل GnuPG بتخزين كلمات السر الخاصة بمفاتيحك "
-"السرية في الذاكرة لفترة زمنية محدودة. إذا كنت تستخدم مفتاحك السري مرة أخرى "
-"أثناء تخزينه مؤقتًا فلن تضطر إلى إدخاله مرة أخرى. هذا أقل أمانًا من كتابته في "
-"كل مرة. </p>></p>"
+"<b>استخدم وكيل GnuPG</b><p>يخزن وكيل GnuPG كلمات السر الخاصة بمفاتيحك السرية "
+"في الذاكرة لفترة زمنية محدودة. إذا كنت تستخدم مفتاحك السري مرة أخرى أثناء "
+"تخزينه مؤقتًا فلن تضطر إلى إدخاله مرة أخرى. هذا أقل أمانًا من كتابته في كل "
+"مرة. </p>></p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, use_agent)
 #: conf_gpg.ui:160
@@ -2574,7 +2574,7 @@ msgstr ""
 #: keysmanager.cpp:2207
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
-msgstr "لم تنجح العملية المطلوبة، فضلا قم بتحرير المفتاح يدويا."
+msgstr "لم تنجح العملية المطلوبة، فضلا حرّر المفتاح يدويا."
 
 #: keysmanager.cpp:2291
 #, kde-format
@@ -2792,7 +2792,7 @@ msgid ""
 msgstr ""
 "<qt> مُكن استخدام <b>عميل GnuPG</b> في ملف إعداد  GnuPG (%1).<br />مع ذلك, لا "
 "يبدو أن العميل يعمل. قد يؤدى هذا إلى مشاكل في توقيع/فك التعمية.<br /> فضلا "
-"عطل عميل GnuPG من إعدادات «مفتاح»، أو قم بإصلاح العميل.</qt>"
+"عطل عميل GnuPG من إعدادات «مفتاح»، أو أصلح العميل.</qt>"
 
 #: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
@@ -3200,8 +3200,8 @@ msgid ""
 "the encryption. The file will be deleted after the encryption is finished.</"
 "qt>"
 msgstr ""
-"<qt>سوف يقوم «مفتاح» الآن بإنشاء ملف أرشيف مؤقت:<br/><b>%1</b>للبدء في "
-"التعمية. سوف سيحذف الملف بعد الانتهاء من التعمية.</qt>"
+"<qt>سوف ينشئ «مفتاح» الآن ملف أرشيف مؤقت:<br/><b>%1</b>للبدء في التعمية. سوف "
+"سيحذف الملف بعد الانتهاء من التعمية.</qt>"
 
 #: kgpgexternalactions.cpp:148
 #, kde-format
@@ -3252,9 +3252,9 @@ msgid ""
 "for KGpg to work properly. Next, it will allow you to create your own key "
 "pair, enabling you to encrypt your files and emails."
 msgstr ""
-"سيقوم هذا المساعد أولاً بإعداد بعض خيارات الضبط الأساسية المطلوبة لكي يعمل "
-"«مفتاح» بشكل صحيح. بعد ذلك، سيسمح لك بإنشاء زوج المفاتيح الخاص بك، مما يتيح "
-"لك بتعمية ملفاتك ورسائل البريد الإلكتروني الخاصة بك."
+"سيعد هذا المساعد أولاً بعض خيارات الضبط الأساسية المطلوبة لكي يعمل «مفتاح» "
+"بشكل صحيح. بعد ذلك، سيسمح لك بإنشاء زوج المفاتيح الخاص بك، مما يتيح لك "
+"بتعمية ملفاتك ورسائل البريد الإلكتروني الخاصة بك."
 
 #: kgpgfirstassistant.cpp:67
 #, kde-format
@@ -4196,13 +4196,13 @@ msgstr[2] ""
 "ما مدى حرصك على التأكد من أن المفتاحين يتبعان حقًا إلى الشخص الذي ترغب في "
 "التواصل معه:"
 msgstr[3] ""
-"ما مدى حرصك على التأكد من أن %1 المفاتيح تتبع بالفعل إلى الأشخاص الذين ترغب "
-"في التواصل معهم:"
+"ما مدى حرصك على التأكد من أن %1 المفاتيح تتبع فعلًا إلى الأشخاص الذين ترغب في "
+"التواصل معهم:"
 msgstr[4] ""
-"ما مدى حرصك على التأكد من أن %1 مفتاحًا تتبع بالفعل إلى الأشخاص الذين ترغب في "
+"ما مدى حرصك على التأكد من أن %1 مفتاحًا تتبع فعلًا إلى الأشخاص الذين ترغب في "
 "التواصل معهم:"
 msgstr[5] ""
-"ما مدى حرصك على التأكد من أن %1 مفتاح تتبع بالفعل إلى الأشخاص الذين ترغب في "
+"ما مدى حرصك على التأكد من أن %1 مفتاح تتبع فعلًا إلى الأشخاص الذين ترغب في "
 "التواصل معهم:"
 
 #: selectsecretkey.cpp:71
@@ -4218,12 +4218,12 @@ msgstr "لم أتحقق على الإطلاق"
 #: selectsecretkey.cpp:73
 #, kde-format
 msgid "I Have Done Casual Checking"
-msgstr "قمت بتحقق عادي"
+msgstr "تحققت بشكل عادي"
 
 #: selectsecretkey.cpp:74
 #, kde-format
 msgid "I Have Done Very Careful Checking"
-msgstr "قمت بالتحقق بحرص شديد"
+msgstr "تحققت بحرص شديد"
 
 #: selectsecretkey.cpp:79
 #, kde-format
