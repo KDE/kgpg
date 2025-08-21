@@ -5,7 +5,7 @@ Actions=encrypt;
 
 [Desktop Action encrypt]
 Name=Archive & Encrypt Folder
-Name[ar]=أرشفة و تشفير مجلّد
+Name[ar]=أرشفة و عمِّ مجلّد
 Name[bg]=Архивиране и шифроване на директория
 Name[bs]=Arhiviraj i šifruj direktorij
 Name[ca]=Arxiva i encripta la carpeta

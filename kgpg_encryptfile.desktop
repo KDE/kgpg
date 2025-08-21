@@ -6,7 +6,7 @@ Actions=encrypt;
 
 [Desktop Action encrypt]
 Name=Encrypt File
-Name[ar]=تشفير ملف
+Name[ar]=عمِّ ملف
 Name[bg]=Шифроване на файл
 Name[bs]=Šifruj datoteku
 Name[ca]=Encripta el fitxer
