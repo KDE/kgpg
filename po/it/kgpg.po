@@ -5,14 +5,14 @@
 # Andrea Rizzi <rizzi@kde.org>, 2004.
 # Giovanni Venturi <jumpyj@tiscali.it>, 2004.
 # Nicola Ruggero <nicola@nxnt.org>, 2005, 2006, 2008, 2009, 2010, 2011, 2012, 2013.
-# Luigi Toscano <luigi.toscano@tiscali.it>, 2015, 2016, 2017, 2021, 2023, 2024.
+# SPDX-FileCopyrightText: 2015, 2016, 2017, 2021, 2023, 2024, 2025 Luigi Toscano <luigi.toscano@tiscali.it>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-08-11 00:43+0000\n"
-"PO-Revision-Date: 2024-01-04 13:30+0100\n"
+"PO-Revision-Date: 2025-08-27 18:33+0200\n"
 "Last-Translator: Luigi Toscano <luigi.toscano@tiscali.it>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 25.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -368,7 +368,7 @@ msgid ""
 "<em>~/.gnupg/</em></p>"
 msgstr ""
 "<b>Indirizzo home</b><p>Questa è la cartella dove GnuPG salva la sua "
-"configurazione ed i mazzi di chiavi. Se non l'hai cambiato, solitamente è:  "
+"configurazione ed i portachiavi. Se non l'hai cambiato, solitamente è:  "
 "<em>~/.gnupg/</em></p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5_2)
@@ -1520,7 +1520,7 @@ msgid ""
 "<qt>The requested key is not present in the keyring anymore.<br />Perhaps it "
 "was deleted by another application</qt>"
 msgstr ""
-"<qt>La chiave richiesta non è più presente nel mazzo di chiavi.<br />Forse è "
+"<qt>La chiave richiesta non è più presente nel portachiavi.<br />Forse è "
 "stata cancellata da un'altra applicazione</qt>"
 
 #: keyinfodialog.cpp:175
@@ -1633,7 +1633,7 @@ msgid ""
 msgstr ""
 "<b>Scelta del server delle chiavi:</b>\n"
 "Permette all'utente di selezionare il server delle chiavi da usare per "
-"importare le chiavi GnuPG/GPG nel proprio mazzo di chiavi."
+"importare le chiavi GnuPG/GPG nel proprio portachiavi."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel2)
 #: keyserver.ui:61
@@ -2528,8 +2528,8 @@ msgstr "Firma"
 #, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
-msgstr[0] "Tutte le firme per questa chiave sono già nel tuo mazzo di chiavi"
-msgstr[1] "Tutte le firme per queste chiavi sono già nel tuo mazzo di chiavi"
+msgstr[0] "Tutte le firme per questa chiave sono già nel tuo portachiavi"
+msgstr[1] "Tutte le firme per queste chiavi sono già nel tuo portachiavi"
 
 #: keysmanager.cpp:2181
 #, kde-format
@@ -3350,7 +3350,7 @@ msgstr ""
 #: kgpginterface.cpp:269
 #, kde-format
 msgid "An error occurred while scanning your keyring"
-msgstr "Errore durante la scansione del mazzo di chiavi"
+msgstr "Errore durante la scansione del portachiavi"
 
 #: kgpgkeygenerate.cpp:48
 #, kde-format
@@ -3800,7 +3800,7 @@ msgstr "Stampa certificato"
 #: kgpgrevokewidget.ui:121
 #, kde-format
 msgid "Import into keyring"
-msgstr "Importa nel mazzo di chiavi"
+msgstr "Importa nel portachiavi"
 
 #: main.cpp:26
 #, kde-kuit-format
