@@ -218,9 +218,9 @@ msgid ""
 msgstr ""
 "<qt><b>Encripta sempre amb:</b><br />\n"
 "<p>Açò assegura que tots els fitxers i missatges seran encriptats amb la "
-"clau seleccionada. Malgrat açò, si se selecciona l'opció «Encripta fitxers "
-"amb:», la clau seleccionada passarà per damunt a la indicada en «Encripta "
-"sempre amb:»</p></qt>"
+"clau seleccionada. Malgrat açò, si es tria l'opció «Encripta fitxers amb:», "
+"la clau seleccionada passarà per damunt a la indicada en «Encripta sempre "
+"amb:»</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, encrypt_to_always)
 #: conf_encryption.ui:116
@@ -238,9 +238,9 @@ msgid ""
 "the default key will be bypassed.</p></qt>"
 msgstr ""
 "<qt><b>Encripta fitxers amb:</b><br />\n"
-"<p>Quan es marca esta opció, i se selecciona una clau, es forçarà que "
-"qualsevol operació d'encriptació de fitxers utilitze esta clau. KGpg no "
-"demanarà un destinatari i la clau predeterminada serà omesa.</p></qt>"
+"<p>Quan es marca esta opció, i es tria una clau, es forçarà que qualsevol "
+"operació d'encriptació de fitxers utilitze esta clau. KGpg no demanarà un "
+"destinatari i la clau predeterminada serà omesa.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EncryptFilesTo)
 #: conf_encryption.ui:127
@@ -2784,7 +2784,7 @@ msgid ""
 "folders."
 msgstr ""
 "No s'ha pogut realitzar l'operació requerida.\n"
-"Seleccioneu només una carpeta o diversos fitxers, però no barregeu fitxers i "
+"Trieu només una carpeta o diversos fitxers, però no barregeu fitxers i "
 "carpetes."
 
 #: kgpg.cpp:187
@@ -2868,7 +2868,7 @@ msgstr ""
 "net --send-key %ID_CLAU%.\n"
 "\n"
 "Amb KGpg podeu fer clic dret damunt de la clau després d'haver importat tots "
-"els ID d'usuari i seleccionar «Exporta la clau pública…».\n"
+"els ID d'usuari i triar «Exporta la clau pública…».\n"
 "\n"
 "Si cal qualsevol aclariment, no dubteu a preguntar.\n"
 
@@ -4028,7 +4028,7 @@ msgstr "Clau que s'ha d'importar:"
 #: selectexpirydate.cpp:23
 #, kde-format
 msgid "Choose New Expiration"
-msgstr "Seleccioneu el nou venciment"
+msgstr "Trieu el venciment nou"
 
 #: selectexpirydate.cpp:37
 #, kde-format
@@ -4044,19 +4044,19 @@ msgstr "&Opcions"
 #: selectpublickeydialog.cpp:61
 #, kde-format
 msgid "Select Public Key"
-msgstr "Selecciona clau pública"
+msgstr "Tria la clau pública"
 
 #: selectpublickeydialog.cpp:64
 #, kde-format
 msgid "Select Public Key for %1"
-msgstr "Selecciona clau pública per a %1"
+msgstr "Tria la clau pública per a %1"
 
 #: selectpublickeydialog.cpp:67
 #, kde-format
 msgid "Select Public Key for %2 and one more file"
 msgid_plural "Select Public Key for %2 and %1 more files"
-msgstr[0] "Seleccioneu la clau pública per a %2 i un fitxer més"
-msgstr[1] "Seleccioneu la clau pública per a %2 i %1 fitxers més"
+msgstr[0] "Trieu la clau pública per a %2 i un fitxer més"
+msgstr[1] "Trieu la clau pública per a %2 i %1 fitxers més"
 
 #: selectpublickeydialog.cpp:75
 #, kde-format
