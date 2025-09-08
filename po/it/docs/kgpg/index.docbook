@@ -38,6 +38,20 @@
 
 <othercredit role="translator"
 ><firstname
+>Luigi</firstname
+><surname
+>Toscano</surname
+><affiliation
+><address
+><email
+>luigi.toscano@tiscali.it</email
+></address
+></affiliation
+><contrib
+>Traduzione della documentazione in italiano</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
 >Nicola</firstname
 ><surname
 >Ruggero</surname
@@ -296,7 +310,7 @@
 >Una coppia di chiavi scaduta può essere riportata in uno stato operativo se hai accesso alla chiave privata e alla frase segreta. Per rendere non usabile in modo affidabile una chiave devi revocarla. La revoca viene effettuata aggiungendo una speciale firma di revoca alla chiave.</para>
 
 <para
->Questa firma di revoca può essere creata assieme alla chiave. In questo caso è memorizzata in un file separato. Questo file può essere importato in seguito nel mazzo di chiavi associandolo quindi alla chiave, rendendola non usabile. Nota che per importare questa firma nella chiave non è necessaria alcuna password. Per questo, dovresti memorizzare questa firma di revoca in un posto sicuro, di solito diverso da quello che contiene la coppia di chiavi. Un buon suggerimento è di usare un posto separato dal tuo computer, copiando la coppia di chiavi in un dispositivo di memorizzazione esterno come una chiavetta USB oppure stampandola.</para>
+>Questa firma di revoca può essere creata assieme alla chiave. In questo caso è memorizzata in un file separato. Questo file può essere importato in seguito nel portachiavi associandolo quindi alla chiave, rendendola non usabile. Nota che per importare questa firma nella chiave non è necessaria alcuna password. Per questo, dovresti memorizzare questa firma di revoca in un posto sicuro, di solito diverso da quello che contiene la coppia di chiavi. Un buon suggerimento è di usare un posto separato dal tuo computer, copiando la coppia di chiavi in un dispositivo di memorizzazione esterno come una chiavetta USB oppure stampandola.</para>
 
 <para
 >Se non hai creato una revoca separata durante la creazione della chiave puoi creare una firma di revoca in qualunque momento scegliendo <menuchoice
@@ -305,7 +319,7 @@
 > <guimenuitem
 >Revoca chiave</guimenuitem
 ></menuchoice
->, opzionalmente importandola immediatamente nel mazzo di chiavi.</para>
+>, opzionalmente importandola immediatamente nel portachiavi.</para>
 
 </sect1>
 
@@ -474,7 +488,7 @@
 <para
 >In questo esempio vedi un gruppo di chiavi contenente due chiavi, due paia di chiavi e tre chiavi pubbliche. La terza colonna mostra la fiducia che hai nelle chiavi. La prima coppia di chiavi ha fiducia definitiva ed è anche impostata come chiave predefinita (carattere in grassetto) mentre la seconda è scaduta. Due delle chiavi pubbliche hanno fiducia piena mentre la fiducia per l'ultima è marginale. L'ultima chiave è espansa e mostra la sua sottochiave ElGamal, un id utente aggiuntivo, entrambi con fiducia marginale e alcune firme.</para>
 <para
->Le firme permettono la navigazione attraverso il mazzo di chiavi. Facendo doppio clic su una firma o una chiave mostrata come componente di un gruppo, verrai posizionato direttamente sulla chiave primaria corrispondente.</para>
+>Le firme permettono la navigazione attraverso il portachiavi. Facendo doppio clic su una firma o una chiave mostrata come componente di un gruppo, verrai posizionato direttamente sulla chiave primaria corrispondente.</para>
 </sect2>
 
 <sect2 id="keyproperties">
@@ -527,7 +541,7 @@
 <para
 >Per prima cosa puoi scegliere la chiave da usare per firmare. Poi puoi impostare con quanta cura hai verificato che lei sia davvero la persona che sostiene di essere. Queste informazioni verranno memorizzate assieme alla firma, in modo che serva a tutti gli altri che potrebbero averne bisogno (maggiori dettagli più avanti). Viene quindi l'opzione utile se non puoi incontrare Alice di persona: <guilabel
 >Firma locale (non può essere esportata)</guilabel
->. Quando la attivi, verrà creato un tipo speciale di firma che non potrà mai, neanche per sbaglio, lasciare il tuo mazzo.</para>
+>. Quando la attivi, verrà creato un tipo speciale di firma che non potrà mai, neanche per sbaglio, lasciare il tuo portachiavi.</para>
 
 <para
 >Perché è importante aver cura nel controllare l'identità di Alice? A chi importa? C'è un altro modo di risolvere il problema dell'identità di Alice. Se non puoi andare a trovare Alice entro poco tempo, pensa a Trent. Sai che anche Trent ha un paio di chiavi. Trent è inoltre un giramondo, su un continente diverso due volte al mese. Se sei fortunato passerà presto da Alice. Vai quindi da Trent per firmare le chiavi. Mandi quindi un messaggio ad Alice per informarla che Trent passerà da lei a breve e chiederle se può incontrarsi con lui per firmare le chiavi. Alla fine di tutto ciò, sai che la chiave di Trent è affidabile e Trent sa che anche la chiave di Alice lo è. Se credi che Trent abbia correttamente controllato l'identità di Alice, puoi anche fidarti della sua chiave.</para>
@@ -557,7 +571,7 @@
 <para
 >Invece, se scegli <guimenuitem
 >Firma e invia per posta identificativo utente</guimenuitem
-> dal menu puoi chiudere questa falla. L'idea è che firmerai la chiave come al solito, e poi la dividerai in più parti. Ogni parte conterrà solo un'identità della chiave di Trent e la tua rispettiva firma. Questa sarà cifrata con la chiave di Trent e inviata solo all'indirizzo di posta specificato nell'identità. Trent potrà importare la firma nel suo mazzo solo se può ricevere e decifrare il messaggio. Non sta a te caricare le tue firme, è compito suo. Se la tua firma compare su un server di chiavi puoi essere sicuro che Trent controlla davvero sia le sue chiavi che gli indirizzi che hai firmato. Le firme che fai in questo processo non faranno parte del tuo mazzo. Una volta che Trent avrà ricevuto il tuo messaggio e importato la tua firma nel suo mazzo, li potrà caricare su un server di chiavi. Quando aggiorni la sua chiave da un server otterrai le nuove firme. Anche se questo inizialmente può sembrare scomodo, è garanzia che non darai fiducia a delle sue identità che lui non controlla. Solo le firme che compaiono su un server di chiavi sono quelle che garantiscono a tutti, te compreso, che lui controlla davvero gli indirizzi corrispondenti.</para>
+> dal menu puoi chiudere questa falla. L'idea è che firmerai la chiave come al solito, e poi la dividerai in più parti. Ogni parte conterrà solo un'identità della chiave di Trent e la tua rispettiva firma. Questa sarà cifrata con la chiave di Trent e inviata solo all'indirizzo di posta specificato nell'identità. Trent potrà importare la firma nel suo portachiavi solo se può ricevere e decifrare il messaggio. Non sta a te caricare le tue firme, è compito suo. Se la tua firma compare su un server di chiavi puoi essere sicuro che Trent controlla davvero sia le sue chiavi che gli indirizzi che hai firmato. Le firme che fai in questo processo non faranno parte del tuo portachiavi. Una volta che Trent avrà ricevuto il tuo messaggio e importato la tua firma nel suo portachiavi, li potrà caricare su un server di chiavi. Quando aggiorni la sua chiave da un server otterrai le nuove firme. Anche se questo inizialmente può sembrare scomodo, è garanzia che non darai fiducia a delle sue identità che lui non controlla. Solo le firme che compaiono su un server di chiavi sono quelle che garantiscono a tutti, te compreso, che lui controlla davvero gli indirizzi corrispondenti.</para>
 
 </sect2>
 
@@ -611,7 +625,7 @@
 >Chiavi da importare</guilabel
 > in fondo alla finestra. Quando fai clic su <guibutton
 >Importa</guibutton
-> il server delle chiavi viene contattato nuovamente e le chiavi vengono scaricate nel tuo mazzo di chiavi.</para>
+> il server delle chiavi viene contattato nuovamente e le chiavi vengono scaricate nel tuo portachiavi.</para>
 
 </sect2>
 
