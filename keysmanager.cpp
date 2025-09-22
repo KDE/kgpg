@@ -2256,8 +2256,13 @@ void KeysManager::slotedit()
 
 void KeysManager::slotEditDone(int exitcode)
 {
-	if (exitcode == 0)
+	if (exitcode == 0) {
+		KGpgNode *nd = iview->selectedNode();
 		imodel->refreshKey(terminalkey);
+
+		// restore the selected key after refresh
+		iview->selectNode(nd);
+	}
 
 	terminalkey = nullptr;
 	editKey->setEnabled(true);
