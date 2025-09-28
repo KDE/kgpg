@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-11 00:43+0000\n"
+"POT-Creation-Date: 2025-09-28 00:47+0000\n"
 "PO-Revision-Date: 2024-02-09 23:41+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -1990,7 +1990,7 @@ msgstr "새 키 쌍 생성 중"
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "전문가 모드용 \"konsole\" 앱을 시작할 수 없습니다."
 
-#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
+#: keysmanager.cpp:562 keysmanager.cpp:2589 keysmanager.cpp:2591
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
@@ -2266,7 +2266,7 @@ msgstr "생성하지 않음"
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>그룹 <b>%1</b>을(를) 삭제하시겠습니까?</qt>"
 
-#: keysmanager.cpp:1665 keysmanager.cpp:2335
+#: keysmanager.cpp:1665 keysmanager.cpp:2340
 #, kde-format
 msgid "Delete"
 msgstr "삭제"
@@ -2460,7 +2460,7 @@ msgstr ""
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "요청한 작업이 실패했습니다. 키를 수동으로 편집하십시오."
 
-#: keysmanager.cpp:2291
+#: keysmanager.cpp:2296
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2472,14 +2472,14 @@ msgstr[0] ""
 "<qt>삭제하려고 하는 키는 다음 키 그룹에 속해 있습니다. 그룹에서 키를 삭제하시"
 "겠습니까?</qt>"
 
-#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
-#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
-#: keysmanager.cpp:2387 keysmanager.cpp:2428
+#: keysmanager.cpp:2300 keysmanager.cpp:2314 keysmanager.cpp:2349
+#: keysmanager.cpp:2364 keysmanager.cpp:2367 keysmanager.cpp:2378
+#: keysmanager.cpp:2392 keysmanager.cpp:2433
 #, kde-format
 msgid "Delete key"
 msgstr "키 삭제"
 
-#: keysmanager.cpp:2308
+#: keysmanager.cpp:2313
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
@@ -2487,7 +2487,7 @@ msgid ""
 msgstr ""
 "키 그룹 %1의 마지막 키를 삭제하려고 합니다.<br/>키 그룹도 삭제하시겠습니까?"
 
-#: keysmanager.cpp:2332
+#: keysmanager.cpp:2337
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2496,7 +2496,7 @@ msgstr ""
 "<p><b>비밀 키</b> 쌍 <b>%1</b>을(를) 삭제하시겠습니까?</p>이 키 쌍을 삭제하"
 "면 이 키로 암호화한 파일을 복호화할 수 없습니다."
 
-#: keysmanager.cpp:2343 keysmanager.cpp:2372
+#: keysmanager.cpp:2348 keysmanager.cpp:2377
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2505,29 +2505,29 @@ msgstr ""
 "다른 키 삭제 작업이 진행 중입니다.\n"
 "작업이 끝날 때까지 기다려 주십시오."
 
-#: keysmanager.cpp:2359
+#: keysmanager.cpp:2364
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "키 <b>%1</b>이(가) 삭제되었습니다."
 
-#: keysmanager.cpp:2362
+#: keysmanager.cpp:2367
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "키 <b>%1</b>을(를) 삭제하는 데 실패했습니다."
 
-#: keysmanager.cpp:2386
+#: keysmanager.cpp:2391
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr "키 <b>%1</b>이(가) 터미널에서 편집되고 있는 동안 삭제할 수 없습니다."
 
-#: keysmanager.cpp:2427
+#: keysmanager.cpp:2432
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr "키가 아닌 항목을 선택했습니다. 이 메뉴 항목으로 삭제할 수 없습니다."
 
-#: keysmanager.cpp:2452
+#: keysmanager.cpp:2457
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2535,23 +2535,23 @@ msgid ""
 msgstr ""
 "<qt>다음은 비밀 키 쌍입니다:<br /><b>%1</b><br/>삭제되지 않습니다.</qt>"
 
-#: keysmanager.cpp:2462
+#: keysmanager.cpp:2467
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>다음 공개 키 %1개를 삭제하시겠습니까?</b></qt>"
 
-#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
+#: keysmanager.cpp:2498 keysmanager.cpp:2574 keysmanager.cpp:2585
 #, kde-format
 msgid "Key Import"
 msgstr "키 가져오기"
 
-#: keysmanager.cpp:2501
+#: keysmanager.cpp:2506
 #, kde-format
 msgid "Open File"
 msgstr "파일 열기"
 
-#: keysmanager.cpp:2534
+#: keysmanager.cpp:2539
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2560,54 +2560,54 @@ msgstr ""
 "<qt>클립보드에 있는 텍스트는 키가 아닌 암호화된 텍스트 같습니다.<br /> 먼저 "
 "복호화한 다음 가져오시겠습니까?</qt>"
 
-#: keysmanager.cpp:2536
+#: keysmanager.cpp:2541
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "클립보드에서 가져오기"
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2561
 #, kde-format
 msgid "Importing..."
 msgstr "가져오는 중..."
 
-#: keysmanager.cpp:2568
+#: keysmanager.cpp:2573
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr ""
 "키를 가져오는 데 실패했습니다. 더 많은 정보를 보려면 자세한 로그를 참조하십시"
 "오."
 
-#: keysmanager.cpp:2621
+#: keysmanager.cpp:2626
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - 암호화 도구"
 
-#: keysmanager.cpp:2644
+#: keysmanager.cpp:2649
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "키 관리자(&Y)"
 
-#: keysmanager.cpp:2647
+#: keysmanager.cpp:2652
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "클립보드 암호화(&E)"
 
-#: keysmanager.cpp:2650
+#: keysmanager.cpp:2655
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "클립보드 복호화(&D)"
 
-#: keysmanager.cpp:2653
+#: keysmanager.cpp:2658
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "클립보드 서명/검증(&S)"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
+#: keysmanager.cpp:2695 keysmanager.cpp:2794 keysmanager.cpp:2812
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "클립보드가 비었습니다."
 
-#: keysmanager.cpp:2735
+#: keysmanager.cpp:2740
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "텍스트를 암호화했습니다."

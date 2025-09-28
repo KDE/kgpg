@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-11 00:43+0000\n"
+"POT-Creation-Date: 2025-09-28 00:47+0000\n"
 "PO-Revision-Date: 2024-01-10 22:00+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -2071,7 +2071,7 @@ msgstr "Выполняется создание новой пары ключей
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "Невозможно запустить приложение konsole в экспертном режиме."
 
-#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
+#: keysmanager.cpp:562 keysmanager.cpp:2589 keysmanager.cpp:2591
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
@@ -2385,7 +2385,7 @@ msgstr "Не создавать"
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Действительно удалить группу «<b>%1</b>»?</qt>"
 
-#: keysmanager.cpp:1665 keysmanager.cpp:2335
+#: keysmanager.cpp:1665 keysmanager.cpp:2340
 #, kde-format
 msgid "Delete"
 msgstr "Удалить"
@@ -2594,7 +2594,7 @@ msgstr ""
 "Попытка выполнения запрошенной операции оказалась неудачной, отредактируйте "
 "ключ вручную."
 
-#: keysmanager.cpp:2291
+#: keysmanager.cpp:2296
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2612,14 +2612,14 @@ msgstr[3] ""
 "<qt> Удаляемый ключ входит в указанную группу. Удалить его из этой группы?</"
 "qt>"
 
-#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
-#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
-#: keysmanager.cpp:2387 keysmanager.cpp:2428
+#: keysmanager.cpp:2300 keysmanager.cpp:2314 keysmanager.cpp:2349
+#: keysmanager.cpp:2364 keysmanager.cpp:2367 keysmanager.cpp:2378
+#: keysmanager.cpp:2392 keysmanager.cpp:2433
 #, kde-format
 msgid "Delete key"
 msgstr "Удалить ключ"
 
-#: keysmanager.cpp:2308
+#: keysmanager.cpp:2313
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
@@ -2627,7 +2627,7 @@ msgid ""
 msgstr ""
 "Вы удаляете последний ключ из группы %1.<br/>Удалить также саму группу?"
 
-#: keysmanager.cpp:2332
+#: keysmanager.cpp:2337
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2637,7 +2637,7 @@ msgstr ""
 "ключей приведёт к тому, что расшифровка файлов, зашифрованных этим ключом, "
 "станет невозможной."
 
-#: keysmanager.cpp:2343 keysmanager.cpp:2372
+#: keysmanager.cpp:2348 keysmanager.cpp:2377
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2646,23 +2646,23 @@ msgstr ""
 "Выполняется другая операция удаления ключей.\n"
 "Дождитесь её завершения."
 
-#: keysmanager.cpp:2359
+#: keysmanager.cpp:2364
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "Ключ <b>%1</b> удалён."
 
-#: keysmanager.cpp:2362
+#: keysmanager.cpp:2367
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "Ошибка удаления ключа <b>%1</b>."
 
-#: keysmanager.cpp:2386
+#: keysmanager.cpp:2391
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 "Невозможно удалить ключ <b>%1</b> во время его редактирования в терминале."
 
-#: keysmanager.cpp:2427
+#: keysmanager.cpp:2432
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
@@ -2671,7 +2671,7 @@ msgstr ""
 "Выбранные элементы не являются ключами и не могут быть удалены при помощи "
 "этого пункта меню."
 
-#: keysmanager.cpp:2452
+#: keysmanager.cpp:2457
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2680,7 +2680,7 @@ msgstr ""
 "<qt>Следующие пары ключей — закрытые:<br/><b>%1</b><br/>. Они не будут "
 "удалены.</qt>"
 
-#: keysmanager.cpp:2462
+#: keysmanager.cpp:2467
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
@@ -2689,17 +2689,17 @@ msgstr[1] "<qt><b>Удалить %1 открытых ключа?</b></qt>"
 msgstr[2] "<qt><b>Удалить %1 открытых ключей?</b></qt>"
 msgstr[3] "<qt><b>Удалить этот открытый ключ?</b></qt>"
 
-#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
+#: keysmanager.cpp:2498 keysmanager.cpp:2574 keysmanager.cpp:2585
 #, kde-format
 msgid "Key Import"
 msgstr "Выбор источника для импорта ключа"
 
-#: keysmanager.cpp:2501
+#: keysmanager.cpp:2506
 #, kde-format
 msgid "Open File"
 msgstr "Открыть файл"
 
-#: keysmanager.cpp:2534
+#: keysmanager.cpp:2539
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2708,52 +2708,52 @@ msgstr ""
 "<qt>Текст в буфере обмена похож не на ключ, а на зашифрованный текст. <br /"
 ">Расшифровать его и затем попытаться импортировать?</qt>"
 
-#: keysmanager.cpp:2536
+#: keysmanager.cpp:2541
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "Импортировать из буфера обмена"
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2561
 #, kde-format
 msgid "Importing..."
 msgstr "Импорт..."
 
-#: keysmanager.cpp:2568
+#: keysmanager.cpp:2573
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr "Ошибка импорта ключа. Подробное описание ошибки приведено в журнале."
 
-#: keysmanager.cpp:2621
+#: keysmanager.cpp:2626
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg — приложение для шифрования"
 
-#: keysmanager.cpp:2644
+#: keysmanager.cpp:2649
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "&Менеджер ключей"
 
-#: keysmanager.cpp:2647
+#: keysmanager.cpp:2652
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "&Зашифровать данные из буфера обмена"
 
-#: keysmanager.cpp:2650
+#: keysmanager.cpp:2655
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&Расшифровать данные из буфера обмена"
 
-#: keysmanager.cpp:2653
+#: keysmanager.cpp:2658
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&Подписать/подтвердить данные в буфере обмена"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
+#: keysmanager.cpp:2695 keysmanager.cpp:2794 keysmanager.cpp:2812
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Буфер обмена пуст."
 
-#: keysmanager.cpp:2735
+#: keysmanager.cpp:2740
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "Текст успешно зашифрован."

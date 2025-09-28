@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-11 00:43+0000\n"
+"POT-Creation-Date: 2025-09-28 00:47+0000\n"
 "PO-Revision-Date: 2025-09-22 04:37+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -1982,7 +1982,7 @@ msgstr "產生金鑰對中"
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "無法啟動專家模式需要的應用程式 konsole。"
 
-#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
+#: keysmanager.cpp:562 keysmanager.cpp:2589 keysmanager.cpp:2591
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
@@ -2256,7 +2256,7 @@ msgstr "不要產生"
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>您確定要刪除群組 <b>%1</b>？</qt>"
 
-#: keysmanager.cpp:1665 keysmanager.cpp:2335
+#: keysmanager.cpp:1665 keysmanager.cpp:2340
 #, kde-format
 msgid "Delete"
 msgstr "刪除"
@@ -2445,7 +2445,7 @@ msgstr ""
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "要求的操作不成功，請手動編輯這個金鑰。"
 
-#: keysmanager.cpp:2291
+#: keysmanager.cpp:2296
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2455,21 +2455,21 @@ msgid_plural ""
 "want to remove it from these groups?</qt>"
 msgstr[0] "<qt>您要刪除的金鑰屬於以下的金鑰群組。您也要從群組中移除嗎？</qt>"
 
-#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
-#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
-#: keysmanager.cpp:2387 keysmanager.cpp:2428
+#: keysmanager.cpp:2300 keysmanager.cpp:2314 keysmanager.cpp:2349
+#: keysmanager.cpp:2364 keysmanager.cpp:2367 keysmanager.cpp:2378
+#: keysmanager.cpp:2392 keysmanager.cpp:2433
 #, kde-format
 msgid "Delete key"
 msgstr "刪除金鑰"
 
-#: keysmanager.cpp:2308
+#: keysmanager.cpp:2313
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr "您正在從金鑰群組 %1 移除最後的一個金鑰。<br/>您也要同時刪除此群組嗎？"
 
-#: keysmanager.cpp:2332
+#: keysmanager.cpp:2337
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2478,59 +2478,59 @@ msgstr ""
 "<p>要刪除<b>私密金鑰</b>配對 <b>%1</b> 嗎？</p>刪除這個金鑰對代表您將再也不能"
 "解密以這個金鑰加密的檔案。"
 
-#: keysmanager.cpp:2343 keysmanager.cpp:2372
+#: keysmanager.cpp:2348 keysmanager.cpp:2377
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr "正在刪除另一個金鑰。請稍候。"
 
-#: keysmanager.cpp:2359
+#: keysmanager.cpp:2364
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "金鑰 <b>%1</b> 已刪除。"
 
-#: keysmanager.cpp:2362
+#: keysmanager.cpp:2367
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "刪除金鑰 <b>%1</b> 失敗。"
 
-#: keysmanager.cpp:2386
+#: keysmanager.cpp:2391
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr "無法刪除金鑰 <b>%1</b> 因為是由終端機編輯。"
 
-#: keysmanager.cpp:2427
+#: keysmanager.cpp:2432
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr "您選擇了沒有金鑰的項目。它們無法在此選單中刪除。"
 
-#: keysmanager.cpp:2452
+#: keysmanager.cpp:2457
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
 "deleted.</qt>"
 msgstr "<qt>下面是私密金鑰對：<br /><b>%1</b><br/>它們將不會被刪除。</qt>"
 
-#: keysmanager.cpp:2462
+#: keysmanager.cpp:2467
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>刪除下面的 %1 個公開金鑰？</b></qt>"
 
-#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
+#: keysmanager.cpp:2498 keysmanager.cpp:2574 keysmanager.cpp:2585
 #, kde-format
 msgid "Key Import"
 msgstr "金鑰匯入"
 
-#: keysmanager.cpp:2501
+#: keysmanager.cpp:2506
 #, kde-format
 msgid "Open File"
 msgstr "開啟檔案"
 
-#: keysmanager.cpp:2534
+#: keysmanager.cpp:2539
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2539,52 +2539,52 @@ msgstr ""
 "<qt>剪貼簿中的文字似乎不像是個金鑰，比較像是加密過的文字。<br />您要試著先將"
 "它解密再匯入嗎？</qt>"
 
-#: keysmanager.cpp:2536
+#: keysmanager.cpp:2541
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "從剪貼簿匯入"
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2561
 #, kde-format
 msgid "Importing..."
 msgstr "匯入..."
 
-#: keysmanager.cpp:2568
+#: keysmanager.cpp:2573
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr "金鑰匯入失敗。請檢查詳細的紀錄檔以獲取更多資訊。"
 
-#: keysmanager.cpp:2621
+#: keysmanager.cpp:2626
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - 解密工具"
 
-#: keysmanager.cpp:2644
+#: keysmanager.cpp:2649
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "金鑰管理員(&Y)"
 
-#: keysmanager.cpp:2647
+#: keysmanager.cpp:2652
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "加密剪貼簿(&E)"
 
-#: keysmanager.cpp:2650
+#: keysmanager.cpp:2655
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "解密剪貼簿(&D)"
 
-#: keysmanager.cpp:2653
+#: keysmanager.cpp:2658
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "簽署/驗證剪貼簿(&S)"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
+#: keysmanager.cpp:2695 keysmanager.cpp:2794 keysmanager.cpp:2812
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "剪貼簿是空的。"
 
-#: keysmanager.cpp:2735
+#: keysmanager.cpp:2740
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "文字已成功加密。"

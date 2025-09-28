@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-11 00:43+0000\n"
+"POT-Creation-Date: 2025-09-28 00:47+0000\n"
 "PO-Revision-Date: 2021-01-18 19:22+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -2154,7 +2154,7 @@ msgstr "புதிய விசையின் இணை உருவாக்
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr ""
 
-#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
+#: keysmanager.cpp:562 keysmanager.cpp:2589 keysmanager.cpp:2591
 #, fuzzy, kde-format
 #| msgid "Ready"
 msgctxt "Application ready for user input"
@@ -2471,7 +2471,7 @@ msgstr ""
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>நீங்கள் நிச்சயமாக இந்த குழுவை நீக்க வேண்டுமா<b>%1</b> ?</qt>"
 
-#: keysmanager.cpp:1665 keysmanager.cpp:2335
+#: keysmanager.cpp:1665 keysmanager.cpp:2340
 #, fuzzy, kde-format
 msgid "Delete"
 msgstr "&விசைகளை நீக்கு"
@@ -2707,7 +2707,7 @@ msgstr ""
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "விரும்பிய இயக்கங்கள் வெற்றியடையவில்லை,தயவி செய்து விசையை கையேட்டால் திருத்தவும்."
 
-#: keysmanager.cpp:2291
+#: keysmanager.cpp:2296
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2718,22 +2718,22 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
-#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
-#: keysmanager.cpp:2387 keysmanager.cpp:2428
+#: keysmanager.cpp:2300 keysmanager.cpp:2314 keysmanager.cpp:2349
+#: keysmanager.cpp:2364 keysmanager.cpp:2367 keysmanager.cpp:2378
+#: keysmanager.cpp:2392 keysmanager.cpp:2433
 #, fuzzy, kde-format
 #| msgid "&Delete Keys"
 msgid "Delete key"
 msgstr "&விசைகளை நீக்கு"
 
-#: keysmanager.cpp:2308
+#: keysmanager.cpp:2313
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
 
-#: keysmanager.cpp:2332
+#: keysmanager.cpp:2337
 #, fuzzy, kde-format
 #| msgid ""
 #| "<p>Delete <b>SECRET KEY</b> pair <b>%1</b>?</p>Deleting this key pair "
@@ -2746,36 +2746,36 @@ msgstr ""
 "<p>நீக்கு<b>SECRET KEY</b>ஜோடி<b>%1</b> ?</p>இந்த விசை ஜோடியை அழித்தால் உங்களால் "
 "மறையாக்கப்பட்ட கோப்புகள் மறைவிலக்கு செய்ய முடியாது."
 
-#: keysmanager.cpp:2343 keysmanager.cpp:2372
+#: keysmanager.cpp:2348 keysmanager.cpp:2377
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:2359
+#: keysmanager.cpp:2364
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr ""
 
-#: keysmanager.cpp:2362
+#: keysmanager.cpp:2367
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr ""
 
-#: keysmanager.cpp:2386
+#: keysmanager.cpp:2391
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 
-#: keysmanager.cpp:2427
+#: keysmanager.cpp:2432
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr ""
 
-#: keysmanager.cpp:2452
+#: keysmanager.cpp:2457
 #, fuzzy, kde-format
 #| msgid ""
 #| "<qt>The following are secret key pairs:<br><b>%1</b>They will not be "
@@ -2787,42 +2787,42 @@ msgstr ""
 "<qt>கீழ் உள்ள விசை ஜோடிகள் ரகசியாமானவை:<br><b>%1</b>.இவைகளை அழிக்க முடியாது.<br></"
 "qt>"
 
-#: keysmanager.cpp:2462
+#: keysmanager.cpp:2467
 #, fuzzy, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b> பின்வரும் பொது விசைகளை நீக்கு?</b></qt>"
 msgstr[1] ""
 
-#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
+#: keysmanager.cpp:2498 keysmanager.cpp:2574 keysmanager.cpp:2585
 #, kde-format
 msgid "Key Import"
 msgstr "இறக்குமதி விசை"
 
-#: keysmanager.cpp:2501
+#: keysmanager.cpp:2506
 #, kde-format
 msgid "Open File"
 msgstr "கோப்பை திற"
 
-#: keysmanager.cpp:2534
+#: keysmanager.cpp:2539
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
 
-#: keysmanager.cpp:2536
+#: keysmanager.cpp:2541
 #, fuzzy, kde-format
 #| msgid "&Encrypt Clipboard"
 msgid "Import from Clipboard"
 msgstr " &மறையாக்கப்பட்ட கிளிப் போர்டு"
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2561
 #, kde-format
 msgid "Importing..."
 msgstr "இறக்குமதி..."
 
-#: keysmanager.cpp:2568
+#: keysmanager.cpp:2573
 #, fuzzy, kde-format
 #| msgid ""
 #| "No key imported... \n"
@@ -2832,38 +2832,38 @@ msgstr ""
 "எந்த விசையும் இறக்கப்படவில்லை...\n"
 "அதிக தகவல்களுக்கு விவரமான பதிவை சரிப்பார்க்கவும்."
 
-#: keysmanager.cpp:2621
+#: keysmanager.cpp:2626
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGபிஜி-"
 
-#: keysmanager.cpp:2644
+#: keysmanager.cpp:2649
 #, fuzzy, kde-format
 #| msgid "Key Manager"
 msgid "Ke&y Manager"
 msgstr "விசை மேளாளர்"
 
-#: keysmanager.cpp:2647
+#: keysmanager.cpp:2652
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr " &மறையாக்கப்பட்ட கிளிப் போர்டு"
 
-#: keysmanager.cpp:2650
+#: keysmanager.cpp:2655
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&கிளிப்போர்டை மறைவிலக்கு"
 
-#: keysmanager.cpp:2653
+#: keysmanager.cpp:2658
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&கையொப்பம்/சித்திரப் பலகையை சரிபார்"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
+#: keysmanager.cpp:2695 keysmanager.cpp:2794 keysmanager.cpp:2812
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "சித்திரப்பலகை காலி"
 
-#: keysmanager.cpp:2735
+#: keysmanager.cpp:2740
 #, fuzzy, kde-format
 #| msgid "The signature file %1 was successfully created."
 msgid "Text successfully encrypted."

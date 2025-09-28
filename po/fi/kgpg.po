@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-11 00:43+0000\n"
+"POT-Creation-Date: 2025-09-28 00:47+0000\n"
 "PO-Revision-Date: 2025-05-29 15:11+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -2033,7 +2033,7 @@ msgstr "Luodaan uutta avainparia."
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "Ei voitu käynnistää ”konsole”-sovellusta asiantuntijatilassa."
 
-#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
+#: keysmanager.cpp:562 keysmanager.cpp:2589 keysmanager.cpp:2591
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
@@ -2323,7 +2323,7 @@ msgstr "Älä luo"
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Haluatko varmasti poistaa ryhmän <b>%1</b>?</qt>"
 
-#: keysmanager.cpp:1665 keysmanager.cpp:2335
+#: keysmanager.cpp:1665 keysmanager.cpp:2340
 #, kde-format
 msgid "Delete"
 msgstr "Poista"
@@ -2529,7 +2529,7 @@ msgstr ""
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "Pyydettyä toimenpidettä ei voitu suorittaa. Muokkaa avainta käsin."
 
-#: keysmanager.cpp:2291
+#: keysmanager.cpp:2296
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2544,14 +2544,14 @@ msgstr[1] ""
 "<qt>Avain, jota olet poistamassa, kuuluu seuraaviin avainryhmiin. Haluatko "
 "positaa sen näistä ryhmistä?</qt>"
 
-#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
-#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
-#: keysmanager.cpp:2387 keysmanager.cpp:2428
+#: keysmanager.cpp:2300 keysmanager.cpp:2314 keysmanager.cpp:2349
+#: keysmanager.cpp:2364 keysmanager.cpp:2367 keysmanager.cpp:2378
+#: keysmanager.cpp:2392 keysmanager.cpp:2433
 #, kde-format
 msgid "Delete key"
 msgstr "Poista avain"
 
-#: keysmanager.cpp:2308
+#: keysmanager.cpp:2313
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
@@ -2560,7 +2560,7 @@ msgstr ""
 "Olet poistamassa ryhmäh %1 viimeistä avainta.<br/>Haluatko poistaa myös "
 "ryhmän?"
 
-#: keysmanager.cpp:2332
+#: keysmanager.cpp:2337
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2569,7 +2569,7 @@ msgstr ""
 "<p>Poistetaanko <b>salainen</b> avainpari <b>%1</b>?</p>Jos poistat tämän "
 "avainparin, et voi enää avata tällä avaimella salattuja tiedostoja."
 
-#: keysmanager.cpp:2343 keysmanager.cpp:2372
+#: keysmanager.cpp:2348 keysmanager.cpp:2377
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2578,22 +2578,22 @@ msgstr ""
 "Toinen avaimenpoistotoiminto on yhä käynnissä.\n"
 "Odota, kunnes se valmistuu."
 
-#: keysmanager.cpp:2359
+#: keysmanager.cpp:2364
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "Avain <b>%1</b> poistettu."
 
-#: keysmanager.cpp:2362
+#: keysmanager.cpp:2367
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "Avaimen <b>%1</b> poistaminen epäonnistui."
 
-#: keysmanager.cpp:2386
+#: keysmanager.cpp:2391
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr "Avainta <b>%1</b> ei voida poistaa, sillä sitä muokataan päätteessä."
 
-#: keysmanager.cpp:2427
+#: keysmanager.cpp:2432
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
@@ -2602,7 +2602,7 @@ msgstr ""
 "Olet valinnut tietueita, jotka eivät ole avaimia. Niitä ei voi poistaa tästä "
 "valikon kohdasta."
 
-#: keysmanager.cpp:2452
+#: keysmanager.cpp:2457
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2611,24 +2611,24 @@ msgstr ""
 "<qt>Seuraavat ovat salaisia avainpareja:<br /><b>%1</b><br />Niitä ei "
 "poisteta.</qt>"
 
-#: keysmanager.cpp:2462
+#: keysmanager.cpp:2467
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>Poistetaanko seuraava julkinen avain?</b></qt>"
 msgstr[1] "<qt><b>Poistetaanko seuraavat %1 julkista avainta?</b></qt>"
 
-#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
+#: keysmanager.cpp:2498 keysmanager.cpp:2574 keysmanager.cpp:2585
 #, kde-format
 msgid "Key Import"
 msgstr "Avaimen tuonti"
 
-#: keysmanager.cpp:2501
+#: keysmanager.cpp:2506
 #, kde-format
 msgid "Open File"
 msgstr "Avaa tiedosto"
 
-#: keysmanager.cpp:2534
+#: keysmanager.cpp:2539
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2637,52 +2637,52 @@ msgstr ""
 "<qt>Leikepöydän sisältö ei vaikuta avaimelta vaan salatulta tekstiltä.<br /> "
 "Haluatko purkaa sen ensin ja yrittää sitten tuoda sen?</qt>"
 
-#: keysmanager.cpp:2536
+#: keysmanager.cpp:2541
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "Tuo leikepöydältä"
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2561
 #, kde-format
 msgid "Importing..."
 msgstr "Tuodaan…"
 
-#: keysmanager.cpp:2568
+#: keysmanager.cpp:2573
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr "Avaimen tuonti epäonnistui. Katso lokista yksityiskohtaisemmat tiedot."
 
-#: keysmanager.cpp:2621
+#: keysmanager.cpp:2626
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg – salaustyökalu"
 
-#: keysmanager.cpp:2644
+#: keysmanager.cpp:2649
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "A&vainten hallinta"
 
-#: keysmanager.cpp:2647
+#: keysmanager.cpp:2652
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "&Salaa leikepöydän sisältö"
 
-#: keysmanager.cpp:2650
+#: keysmanager.cpp:2655
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&Pura leikepöydän sisällön salaus"
 
-#: keysmanager.cpp:2653
+#: keysmanager.cpp:2658
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&Allekirjoita/tarkista leikepöytä"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
+#: keysmanager.cpp:2695 keysmanager.cpp:2794 keysmanager.cpp:2812
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Leikepöytä on tyhjä."
 
-#: keysmanager.cpp:2735
+#: keysmanager.cpp:2740
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "Teksti salattiin onnistuneesti."

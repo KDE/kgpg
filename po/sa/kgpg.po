@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-11 00:43+0000\n"
+"POT-Creation-Date: 2025-09-28 00:47+0000\n"
 "PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -1992,7 +1992,7 @@ msgstr "नूतनं कीलयुग्मं जनयति"
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "विशेषज्ञविधानाय \"konsole\" अनुप्रयोगं आरभुं न शक्यते ।"
 
-#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
+#: keysmanager.cpp:562 keysmanager.cpp:2589 keysmanager.cpp:2591
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
@@ -2280,7 +2280,7 @@ msgstr "न जनयतु"
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>किं भवान् निश्चितः यत् भवान् <b>%1</b> समूहं विलोपयितुम् इच्छति ?</qt>"
 
-#: keysmanager.cpp:1665 keysmanager.cpp:2335
+#: keysmanager.cpp:1665 keysmanager.cpp:2340
 #, kde-format
 msgid "Delete"
 msgstr "लुप्"
@@ -2483,7 +2483,7 @@ msgstr ""
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "अनुरोधितं कार्यं असफलम् अभवत्, कृपया कुञ्जीम् मैन्युअल् रूपेण सम्पादयन्तु ।"
 
-#: keysmanager.cpp:2291
+#: keysmanager.cpp:2296
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2498,14 +2498,14 @@ msgstr[1] ""
 "<qt>भवन्तः यत् कुञ्जी विलोपयन्ति तत् निम्नलिखितकुञ्जीसमूहानां सदस्यः अस्ति । एतेभ्यः समूहेभ्यः "
 "अपसारयितुम् इच्छसि वा ?</qt>"
 
-#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
-#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
-#: keysmanager.cpp:2387 keysmanager.cpp:2428
+#: keysmanager.cpp:2300 keysmanager.cpp:2314 keysmanager.cpp:2349
+#: keysmanager.cpp:2364 keysmanager.cpp:2367 keysmanager.cpp:2378
+#: keysmanager.cpp:2392 keysmanager.cpp:2433
 #, kde-format
 msgid "Delete key"
 msgstr "कुञ्जी विलोपयतु"
 
-#: keysmanager.cpp:2308
+#: keysmanager.cpp:2313
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
@@ -2513,7 +2513,7 @@ msgid ""
 msgstr ""
 "भवान् %1 कीलसमूहात् अन्तिमं कीलं निष्कासयति ।<br/> भवान् अपि समूहं विलोपयितुम् इच्छति वा ?"
 
-#: keysmanager.cpp:2332
+#: keysmanager.cpp:2337
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2522,7 +2522,7 @@ msgstr ""
 "<p><b>गुप्तकुंजीयुगलं</b> विलोपयन्तु <b>%1</b> ?</p> एतत् कीलयुगलं विलोपयितुं भवन्तः पुनः "
 "कदापि एतेन कीलेन गुप्तसञ्चिकाः विगुप्तं कर्तुं न शक्नुवन्ति इति अर्थः ।"
 
-#: keysmanager.cpp:2343 keysmanager.cpp:2372
+#: keysmanager.cpp:2348 keysmanager.cpp:2377
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2531,22 +2531,22 @@ msgstr ""
 "अन्यत् कीलविलोपनक्रिया अद्यापि प्रचलति ।\n"
 "कृपया क्षणं प्रतीक्ष्यतां यावत् एतत् शल्यक्रिया समाप्तं न भवति।"
 
-#: keysmanager.cpp:2359
+#: keysmanager.cpp:2364
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "कुञ्जी <b>%1</b> विलोपितम् ।"
 
-#: keysmanager.cpp:2362
+#: keysmanager.cpp:2367
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "<b>%1</b> कुञ्जी विलोपनं विफलम् ।"
 
-#: keysmanager.cpp:2386
+#: keysmanager.cpp:2391
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr "टर्मिनल् मध्ये सम्पादितं भवति चेत् <b>%1</b> कीलं विलोपयितुं न शक्यते ।"
 
-#: keysmanager.cpp:2427
+#: keysmanager.cpp:2432
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
@@ -2554,7 +2554,7 @@ msgid ""
 msgstr ""
 "भवता तानि वस्तूनि चिनोति ये कीलानि न सन्ति । एतेन मेनूप्रविष्ट्या ते लोपयितुं न शक्यन्ते ।"
 
-#: keysmanager.cpp:2452
+#: keysmanager.cpp:2457
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2563,24 +2563,24 @@ msgstr ""
 "<qt>निम्नलिखित गुप्तकुंजीयुग्मानि सन्ति :<br/> <b>%1</b><br/> तेषां लोपः न भविष्यति।</"
 "qt>"
 
-#: keysmanager.cpp:2462
+#: keysmanager.cpp:2467
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>निम्नलिखित सार्वजनिककुंजी विलोपयन्तु?</b></qt>"
 msgstr[1] "<qt><b>निम्नलिखित %1 सार्वजनिककुंजीः विलोपयन्तु?</b></qt>"
 
-#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
+#: keysmanager.cpp:2498 keysmanager.cpp:2574 keysmanager.cpp:2585
 #, kde-format
 msgid "Key Import"
 msgstr "कील आयात"
 
-#: keysmanager.cpp:2501
+#: keysmanager.cpp:2506
 #, kde-format
 msgid "Open File"
 msgstr "सञ्चिकां उद्घाटयन्तु"
 
-#: keysmanager.cpp:2534
+#: keysmanager.cpp:2539
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2589,52 +2589,52 @@ msgstr ""
 "<qt>क्लिप्बोर्ड् मध्ये पाठः कील इव न दृश्यते, अपितु एन्क्रिप्टेड् पाठ इव दृश्यते ।<br /> किं "
 "भवन्तः प्रथमं तस्य विगुप्तीकरणं कर्तुम् इच्छन्ति ततः आयातं कर्तुं प्रयतन्ते?</qt>"
 
-#: keysmanager.cpp:2536
+#: keysmanager.cpp:2541
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "क्लिप्बोर्डतः आयातम्"
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2561
 #, kde-format
 msgid "Importing..."
 msgstr "आयाति..."
 
-#: keysmanager.cpp:2568
+#: keysmanager.cpp:2573
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr "कुञ्जी आयातं विफलम् अभवत् । अधिकविवरणार्थं विस्तृतं लॉगं पश्यन्तु ।"
 
-#: keysmanager.cpp:2621
+#: keysmanager.cpp:2626
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - एन्क्रिप्शन साधन"
 
-#: keysmanager.cpp:2644
+#: keysmanager.cpp:2649
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "के&य प्रबन्धक"
 
-#: keysmanager.cpp:2647
+#: keysmanager.cpp:2652
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "&क्लिपबोर्ड एन्क्रिप्ट करें"
 
-#: keysmanager.cpp:2650
+#: keysmanager.cpp:2655
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "&डिक्रिप्ट क्लिपबोर्ड"
 
-#: keysmanager.cpp:2653
+#: keysmanager.cpp:2658
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&क्लिपबोर्ड पर हस्ताक्षर/सत्यापन"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
+#: keysmanager.cpp:2695 keysmanager.cpp:2794 keysmanager.cpp:2812
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "क्लिप्बोर्ड् रिक्तम् अस्ति।"
 
-#: keysmanager.cpp:2735
+#: keysmanager.cpp:2740
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "पाठः सफलतया एन्क्रिप्ट् कृतः ।"

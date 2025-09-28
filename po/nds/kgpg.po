@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-08-11 00:43+0000\n"
+"POT-Creation-Date: 2025-09-28 00:47+0000\n"
 "PO-Revision-Date: 2014-04-02 22:46+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -2039,7 +2039,7 @@ msgstr "Nieg Slötelpoor warrt opstellt"
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "Programm \"konsole\" för den Fachlüüdbedrief lett sik nich opropen."
 
-#: keysmanager.cpp:562 keysmanager.cpp:2584 keysmanager.cpp:2586
+#: keysmanager.cpp:562 keysmanager.cpp:2589 keysmanager.cpp:2591
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
@@ -2327,7 +2327,7 @@ msgstr "Nich opstellen"
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Büst Du seker, wat Du den Koppel <b>%1</b> wegdoon wullt?</qt>"
 
-#: keysmanager.cpp:1665 keysmanager.cpp:2335
+#: keysmanager.cpp:1665 keysmanager.cpp:2340
 #, kde-format
 msgid "Delete"
 msgstr "Wegdoon"
@@ -2538,7 +2538,7 @@ msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr ""
 "Disse Akschoon lett sik nich utföhren, bewerk den Slötel bitte per Hand."
 
-#: keysmanager.cpp:2291
+#: keysmanager.cpp:2296
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2553,14 +2553,14 @@ msgstr[1] ""
 "<qt>De Slötel, den Du wegdoon wullt, höört een vun de nakamen Slötelkoppeln "
 "to. Wullt Du em ut disse Koppeln wegdoon?</qt>"
 
-#: keysmanager.cpp:2295 keysmanager.cpp:2309 keysmanager.cpp:2344
-#: keysmanager.cpp:2359 keysmanager.cpp:2362 keysmanager.cpp:2373
-#: keysmanager.cpp:2387 keysmanager.cpp:2428
+#: keysmanager.cpp:2300 keysmanager.cpp:2314 keysmanager.cpp:2349
+#: keysmanager.cpp:2364 keysmanager.cpp:2367 keysmanager.cpp:2378
+#: keysmanager.cpp:2392 keysmanager.cpp:2433
 #, kde-format
 msgid "Delete key"
 msgstr "Slötel wegdoon"
 
-#: keysmanager.cpp:2308
+#: keysmanager.cpp:2313
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
@@ -2569,7 +2569,7 @@ msgstr ""
 "Du deist den lesten Slötel ut den Koppel %1 weg.<br/>Wullt Du den Koppel ok "
 "wegmaken?"
 
-#: keysmanager.cpp:2332
+#: keysmanager.cpp:2337
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2579,7 +2579,7 @@ msgstr ""
 "wegdeist, kannst Du Dateien, de mit dissen Slötel verslötet wöörn, nienich "
 "wedder opslöteln."
 
-#: keysmanager.cpp:2343 keysmanager.cpp:2372
+#: keysmanager.cpp:2348 keysmanager.cpp:2377
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2588,24 +2588,24 @@ msgstr ""
 "Opstunns warrt noch en anner Slötel wegdaan.\n"
 "Tööv bitte en Momang, bet dat afslaten is."
 
-#: keysmanager.cpp:2359
+#: keysmanager.cpp:2364
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "Slötel <b>%1</b> wegdaan."
 
-#: keysmanager.cpp:2362
+#: keysmanager.cpp:2367
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "Slötel <b>%1</b> lett sik nich wegdoon."
 
-#: keysmanager.cpp:2386
+#: keysmanager.cpp:2391
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 "De Slötel <b>%1</b> lett sik nich wegdoon, bides Du em op de Konsool "
 "bewerken deist."
 
-#: keysmanager.cpp:2427
+#: keysmanager.cpp:2432
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
@@ -2614,7 +2614,7 @@ msgstr ""
 "Du hest Indrääg utsöcht, de keen Slötels sünd. Se laat sik mit dissen Menü-"
 "Indrag nich wegdoon."
 
-#: keysmanager.cpp:2452
+#: keysmanager.cpp:2457
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2623,24 +2623,24 @@ msgstr ""
 "<qt>Dit sünd private Slötelporen:<br/><b>%1</b><br/>Se warrt nich wegdaan.</"
 "qt>"
 
-#: keysmanager.cpp:2462
+#: keysmanager.cpp:2467
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>Dissen apen Slötel wegdoon?</b></qt>"
 msgstr[1] "<qt><b>Disse %1 apen Slötels wegdoon?</b></qt>"
 
-#: keysmanager.cpp:2493 keysmanager.cpp:2569 keysmanager.cpp:2580
+#: keysmanager.cpp:2498 keysmanager.cpp:2574 keysmanager.cpp:2585
 #, kde-format
 msgid "Key Import"
 msgstr "Slötel importeren"
 
-#: keysmanager.cpp:2501
+#: keysmanager.cpp:2506
 #, kde-format
 msgid "Open File"
 msgstr "Datei opmaken"
 
-#: keysmanager.cpp:2534
+#: keysmanager.cpp:2539
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2649,54 +2649,54 @@ msgstr ""
 "<qt>As't lett bargt de Twischenaflaag keen Slötel, man en verslötelt Text."
 "<br />Wullt Du em toeerst opslöteln un achteran importeren?</qt>"
 
-#: keysmanager.cpp:2536
+#: keysmanager.cpp:2541
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "Ut Twischenaflaag importeren"
 
-#: keysmanager.cpp:2556
+#: keysmanager.cpp:2561
 #, kde-format
 msgid "Importing..."
 msgstr "An't importeren..."
 
-#: keysmanager.cpp:2568
+#: keysmanager.cpp:2573
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr ""
 "Slötel importeren fehlslaan. Mehr Informatschonen gifft dat binnen dat "
 "Logbook."
 
-#: keysmanager.cpp:2621
+#: keysmanager.cpp:2626
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - Verslötelwarktüüch"
 
-#: keysmanager.cpp:2644
+#: keysmanager.cpp:2649
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "Slötel&pleger"
 
-#: keysmanager.cpp:2647
+#: keysmanager.cpp:2652
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "Twischenaflaag &verslöteln"
 
-#: keysmanager.cpp:2650
+#: keysmanager.cpp:2655
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "Twischenaflaag &opslöteln"
 
-#: keysmanager.cpp:2653
+#: keysmanager.cpp:2658
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "Twischenaflaag ünner&schrieven/pröven"
 
-#: keysmanager.cpp:2690 keysmanager.cpp:2789 keysmanager.cpp:2807
+#: keysmanager.cpp:2695 keysmanager.cpp:2794 keysmanager.cpp:2812
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Twischenaflaag is leddig."
 
-#: keysmanager.cpp:2735
+#: keysmanager.cpp:2740
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "Text mit Spood verslötelt."
