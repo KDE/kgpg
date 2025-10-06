@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-28 00:47+0000\n"
-"PO-Revision-Date: 2025-09-17 14:45+0300\n"
+"PO-Revision-Date: 2025-10-05 12:23+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.08.0\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1589,7 +1589,7 @@ msgstr ""
 "בתוכו מפתחות PGP/GnuPG וניתן לגשת אליו בנוחות כדי לקבל או להפקיד מפתחות. יש "
 "לבחור מרשימת הבחירה הנפתחת כדי לציין באיזה שרת מפתחות להשתמש.</p> <p>המפתחות "
 "האלו בדרך כלל בבעלות אנשים שהמשתמש מעולם לא פגש וככאלה המהימנות היא מפוקפקת "
-"במקרה הטוב. ניתן לעיין במדריך של  GnuPG בכל הנוגע ליחסי \"רשת מהימנות\" כדי "
+"במקרה הטוב. ניתן לעיין במדריך של GnuPG בכל הנוגע ליחסי \"רשת מהימנות\" כדי "
 "למצוא איך GnuPG מתגבר על בעיית אימות האמינות.</p> </qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
@@ -2836,7 +2836,7 @@ msgstr ""
 "לאחרים, נא להעלות אותה בעצמך. עם GnuPG אפשר לבצע את זה עם הפקודה gpg --"
 "keyserver subkeys.pgp.net --send-key %KEYID%.\n"
 "\n"
-"עם KGpg אפשר ללחוץ עם כפתור ימני על המפתח לאחר ייבוא כל משהי המשתמשיםולבחור "
+"עם KGpg אפשר ללחוץ עם כפתור ימני על המפתח לאחר ייבוא כל משהי המשתמשים ולבחור "
 "ב־‚ייצוא מפתח ציבורי…’.\n"
 "\n"
 "במקרה שיש שאלות, לא להסס לשאול אותנו.\n"
@@ -3033,7 +3033,7 @@ msgstr "הצגת סמל מגש המערכת"
 #: kgpg.kcfg:180
 #, kde-format
 msgid "The number of recently opened files shown in the editor menu."
-msgstr "מספר הקבצים האחרונים שנפתחו שיופיעו בתפריט העורך.מ"
+msgstr "מספר הקבצים האחרונים שנפתחו שיופיעו בתפריט העורך."
 
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
 #: kgpg.kcfg:187
