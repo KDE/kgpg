@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-09-28 00:47+0000\n"
-"PO-Revision-Date: 2025-08-14 11:42+0400\n"
+"PO-Revision-Date: 2025-10-15 20:18+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -442,7 +442,7 @@ msgstr ""
 "<b>استخدم وكيل GnuPG</b><p>يخزن وكيل GnuPG كلمات السر الخاصة بمفاتيحك السرية "
 "في الذاكرة لفترة زمنية محدودة. إذا كنت تستخدم مفتاحك السري مرة أخرى أثناء "
 "تخزينه مؤقتًا فلن تضطر إلى إدخاله مرة أخرى. هذا أقل أمانًا من كتابته في كل "
-"مرة. </p>></p>"
+"مرة. </p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, use_agent)
 #: conf_gpg.ui:160
