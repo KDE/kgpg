@@ -614,7 +614,7 @@ msgstr "Activer pour les fichiers chiffrés"
 #: conf_misc.ui:201
 #, kde-format
 msgid "System Tray Applet"
-msgstr "Composant graphique de la boîte à miniatures"
+msgstr "Composant graphique de la boite à miniatures"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_ShowSystray)
 #: conf_misc.ui:208
@@ -623,15 +623,15 @@ msgid ""
 "<qt><b>Show system tray icon:</b><br />\n"
 "<p>If checked KGpg will minimize to an icon in the system tray.</p></qt>"
 msgstr ""
-"<qt><b>Afficher une icône dans la boîte à miniatures : </b><br />\n"
+"<qt><b>Afficher une icône dans la boite à miniatures : </b><br />\n"
 "<p>Si cette option est sélectionnée, KGpg se réduit en une icône dans la "
-"boîte à miniatures.</p></qt>"
+"boite à miniatures.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSystray)
 #: conf_misc.ui:211
 #, kde-format
 msgid "Show system tray icon"
-msgstr "Afficher une icône dans la boîte à miniatures"
+msgstr "Afficher une icône dans la boite à miniatures"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_2)
 #: conf_misc.ui:223
@@ -1692,7 +1692,7 @@ msgstr ""
 "<p>Il y a plusieurs façons de rechercher une clé. Vous pouvez procéder à une "
 "recherche par texte ou texte partiel (exemple : la saisie de « Phil » ou de "
 "« Zimmerman » retournera toutes les clés contenant ces mots) ou par "
-"identifiant de clé. Un identifiant de clé est une chaîne de lettres et de "
+"identifiant de clé. Un identifiant de clé est une chaine de lettres et de "
 "nombres identifiant de manière unique une clé (exemple : la recherche de "
 "« 0x ED7585F4 » retournera la clé associée à cet identifiant).</p></qt>"
 
@@ -3138,7 +3138,7 @@ msgstr "Afficher « Déchiffrer le fichier » dans le menu contextuel."
 #: kgpg.kcfg:176
 #, kde-format
 msgid "Show the systray icon"
-msgstr "Afficher une icône dans la boîte à miniatures"
+msgstr "Afficher une icône dans la boite à miniatures"
 
 #. i18n: ectx: label, entry (RecentFiles), group (User Interface)
 #: kgpg.kcfg:180
@@ -4419,7 +4419,7 @@ msgid ""
 "The import result string has an unsupported format in line %1.<nl/>Please "
 "see the detailed log for more information."
 msgstr ""
-"La chaîne du résultat d'importation a un format non pris en charge à la "
+"La chaine du résultat d'importation a un format non pris en charge à la "
 "ligne %1.<nl/>Pour plus d'informations, veuillez consulter les journaux "
 "détaillés."
 
