@@ -132,7 +132,7 @@
 </screenshot>
 
 <para
->Quand vous démarrez &kgpg;, une icône apparaît dans la barre des tâches. Un clic avec le &BGS; ouvre la fenêtre de gestion des clés, alors qu'un clic avec le &BDS; affiche un menu permettant un accès rapide aux fonctions importantes. Vous pouvez aussi glisser-déposer des fichiers ou du texte sur l'icône de l'applet pour les chiffrer ou les déchiffrer. </para>
+>Quand vous démarrez &kgpg;, une icône apparait dans la barre des tâches. Un clic avec le &BGS; ouvre la fenêtre de gestion des clés, alors qu'un clic avec le &BDS; affiche un menu permettant un accès rapide aux fonctions importantes. Vous pouvez aussi glisser-déposer des fichiers ou du texte sur l'icône de l'applet pour les chiffrer ou les déchiffrer. </para>
 <para
 >Veuillez noter que l'icône dans la barre de tâches est indiquée comme &quot;inactive&quot; comme la plupart du temps. Puisque l'applet de la barre de tâches cachera généralement les icônes inactives, &kgpg; ne sera affiché que si vous le demandez explicitement. Pour plus de détails, veuillez regarder la documentation de &plasma;. </para>
 </listitem>
@@ -332,7 +332,7 @@
 >Chiffrer</guibutton
 >. La fenêtre de sélection de clés s'affichera pour sélectionner la clé publique. Choisissez une clé et cliquez sur <guibutton
 >Ok</guibutton
->. Le message chiffré apparaît alors dans la fenêtre de l'éditeur.</para>
+>. Le message chiffré apparait alors dans la fenêtre de l'éditeur.</para>
 
 <para
 >Généralement, vous ne pouvez chiffrer des fichiers qu'avec des clés dans lesquelles vous avez confiance. Quelquefois, quand vous ne voulez qu'envoyer une note confidentielle à une personne au hasard mais que vous savez posséder une clé GPG, vous pouvez utiliser l'option <guilabel
@@ -388,7 +388,7 @@
 <para
 >Vous pouvez aussi déchiffrer les contenus du presse-papier avec l'entrée de menu <guimenuitem
 >Déchiffrer le presse-papier</guimenuitem
-> du composant graphique de &kgpg;. Le texte déchiffré apparaîtra dans une <link linkend="editor"
+> du composant graphique de &kgpg;. Le texte déchiffré apparaitra dans une <link linkend="editor"
 >fenêtre d'édition</link
 >.</para>
 
@@ -416,7 +416,7 @@
 > sur la clé. Pour importer / exporter des clés publiques, vous pouvez utiliser le glisser-déposer ou les raccourcis clavier du copier-coller.</para>
 
 <para
->Vous pouvez exporter une clé publique par courriel vers le presse-papier, vers un serveur de clés ou un fichier local. Utiliser les options dans une boîte de dialogue d'exportation pour tout exporter, exporter sans attributs (photo d'identité) ou exporter une nouvelle clé, c'est-à-dire, la clé elle-même, y compris les sous-clés mais sans toutes les signatures. </para>
+>Vous pouvez exporter une clé publique par courriel vers le presse-papier, vers un serveur de clés ou un fichier local. Utiliser les options dans une boite de dialogue d'exportation pour tout exporter, exporter sans attributs (photo d'identité) ou exporter une nouvelle clé, c'est-à-dire, la clé elle-même, y compris les sous-clés mais sans toutes les signatures. </para>
 
 <sect2 id="keymanager">
 <title
@@ -473,7 +473,7 @@
 <para
 >Quand vous sélectionnez sa clé puis ensuite vous choisissez <guimenuitem
 >Signer la clé... </guimenuitem
->, vous verrez apparaître une boîte de dialogue. Celle-ci vous permettra de choisir les options sur comment vous aimeriez signer cette clé.</para>
+>, vous verrez apparaitre une boite de dialogue. Celle-ci vous permettra de choisir les options sur comment vous aimeriez signer cette clé.</para>
 
 <screenshot>
 <screeninfo
@@ -517,7 +517,7 @@
 <para
 >Si vous sélectionnez <guimenuitem
 >Signer et envoyer l'identifiant utilisateur... </guimenuitem
-> dans le menu à la place, vous pouvez combler ce manque. L'idée est que vous signerez la clé classiquement et après, elle sera scindée en 2 morceaux. Chaque morceau ne contiendra qu'une identité d'utilisateur de la clé de Martin et sa signature. Celui-ci sera chiffré avec la clé de Martin et envoyé uniquement à l'adresse de courriel donnée dans cette identité. Seulement si Martin peut recevoir ce courriel et déchiffrer le message, alors, Martin pourra importer cette signature dans son trousseau de clés. Vous ne téléchargerez pas vos signatures, cela est entièrement à la discrétion de Martin. Si votre signature s'affiche sur un serveur de clés, vous pouvez être sûr que Martin contrôle réellement à la fois sa clé aussi bien que l'adresse de courriel que vous avez signée. Les signatures que vous avez faites dans ce processus ne feront pas partie de votre trousseau de clé. Ainsi, juste après avoir signé la clé de Martin, elle ne sera toujours pas affichée comme digne de confiance dans votre trousseau de clés. Une fois que Martin aura reçu votre courriel et importé votre signature dans son trousseau de clés, il pourra les télécharger sur un serveur de clés. Quand vous mettez à jour sa clé à partir d'un serveur de clés, vous réceptionnez les nouvelles signatures. Même si cela peut paraître peu pratique, d'abord, cela permet d'être sûr que vous ne pourrez pas voir par accident une des ses identités considérée comme de confiance mais qu'il ne contrôle pas. Seules les signatures qui sont affichées sur le serveur de clés sont celles où chacun, y compris vous, peut être sûr qu'il contrôle réellement les courriels correspondants.</para>
+> dans le menu à la place, vous pouvez combler ce manque. L'idée est que vous signerez la clé classiquement et après, elle sera scindée en 2 morceaux. Chaque morceau ne contiendra qu'une identité d'utilisateur de la clé de Martin et sa signature. Celui-ci sera chiffré avec la clé de Martin et envoyé uniquement à l'adresse de courriel donnée dans cette identité. Seulement si Martin peut recevoir ce courriel et déchiffrer le message, alors, Martin pourra importer cette signature dans son trousseau de clés. Vous ne téléchargerez pas vos signatures, cela est entièrement à la discrétion de Martin. Si votre signature s'affiche sur un serveur de clés, vous pouvez être sûr que Martin contrôle réellement à la fois sa clé aussi bien que l'adresse de courriel que vous avez signée. Les signatures que vous avez faites dans ce processus ne feront pas partie de votre trousseau de clé. Ainsi, juste après avoir signé la clé de Martin, elle ne sera toujours pas affichée comme digne de confiance dans votre trousseau de clés. Une fois que Martin aura reçu votre courriel et importé votre signature dans son trousseau de clés, il pourra les télécharger sur un serveur de clés. Quand vous mettez à jour sa clé à partir d'un serveur de clés, vous réceptionnez les nouvelles signatures. Même si cela peut paraitre peu pratique, d'abord, cela permet d'être sûr que vous ne pourrez pas voir par accident une des ses identités considérée comme de confiance mais qu'il ne contrôle pas. Seules les signatures qui sont affichées sur le serveur de clés sont celles où chacun, y compris vous, peut être sûr qu'il contrôle réellement les courriels correspondants.</para>
 
 </sect2>
 
@@ -544,9 +544,9 @@
 </screenshot>
 
 <para
->Cette boîte de dialogue vous donne accès aux serveurs de clés. Vous pouvez chercher et importer des clés d'un serveur de clés aussi bien que exporter des clés vers un serveur. Par exemple, la recherche et l'importation se font quand vous voulez écrire un courriel vers un nouveau destinataire. Si vous vouliez chiffrer votre courriel à votre contact, vous pouvez rechercher si elle ou lui a une clé publique sur les serveurs de clés. Si vous avez créé une nouvelle paire de clés ou si vous avez signé une clé de quelqu'un d'autre, vous pourriez vouloir exporter la clé publique (potentiellement avec de nouvelles signatures) vers un serveur de clés.</para>
+>Cette boite de dialogue vous donne accès aux serveurs de clés. Vous pouvez chercher et importer des clés d'un serveur de clés aussi bien que exporter des clés vers un serveur. Par exemple, la recherche et l'importation se font quand vous voulez écrire un courriel vers un nouveau destinataire. Si vous vouliez chiffrer votre courriel à votre contact, vous pouvez rechercher si elle ou lui a une clé publique sur les serveurs de clés. Si vous avez créé une nouvelle paire de clés ou si vous avez signé une clé de quelqu'un d'autre, vous pourriez vouloir exporter la clé publique (potentiellement avec de nouvelles signatures) vers un serveur de clés.</para>
 <para
->La plupart des serveurs de clés synchronisent leurs données entre eux. Ainsi, vous obtiendrez des résultats de recherche similaires, indépendamment du serveur utilisé. Depuis qu'il y a des exceptions à cette règle, vous pouvez choisir dans cette boîte de dialogue, le serveur de clés à utiliser. En général, la bonne solution est de choisir un serveur de clé par défaut qui est proche de vous (par exemple, dans votre pays ou dans votre continent) parce qu'il répond plus rapidement à vos requêtes.</para>
+>La plupart des serveurs de clés synchronisent leurs données entre eux. Ainsi, vous obtiendrez des résultats de recherche similaires, indépendamment du serveur utilisé. Depuis qu'il y a des exceptions à cette règle, vous pouvez choisir dans cette boite de dialogue, le serveur de clés à utiliser. En général, la bonne solution est de choisir un serveur de clé par défaut qui est proche de vous (par exemple, dans votre pays ou dans votre continent) parce qu'il répond plus rapidement à vos requêtes.</para>
 <para
 >Veuillez noter que toute chose que vous chargez dans un serveur de clé, y reste en général de façon permanente. C'est ma raison pour laquelle vous devriez généralement limiter la durée de vie de vos clés. Notez aussi que les serveurs de clés sont quelquefois analysés par des spammeurs à la recherche d'adresses de courriels.</para>
 </sect2>
@@ -564,7 +564,7 @@
 </screenshot>
 
 <para
->Tous les résultats d'une recherche sont affichés dans cette fenêtre. Cette figure montre une recherche pour les adresses &quot;@kde.org&quot;, ce qui donne jusqu'à 244 résultats. En utilisant le champ de recherche, la liste affichée se réduit à une unique clé. Ce clé a deux correspondances : l'identifiant utilisateur primaire correspond à la chaîne de recherche aussi bien que l'un des autres identifiants d'utilisateur.</para>
+>Tous les résultats d'une recherche sont affichés dans cette fenêtre. Cette figure montre une recherche pour les adresses &quot;@kde.org&quot;, ce qui donne jusqu'à 244 résultats. En utilisant le champ de recherche, la liste affichée se réduit à une unique clé. Ce clé a deux correspondances : l'identifiant utilisateur primaire correspond à la chaine de recherche aussi bien que l'un des autres identifiants d'utilisateur.</para>
 
 <para
 >Vous pouvez sélectionner une ou plusieurs clés à importer. Les identifiants de ces clés sont montrés dans le champ <guilabel
@@ -597,7 +597,7 @@
 >Chiffrement</title>
 <screenshot>
 <screeninfo
->Voici une capture d'écran de la boîte de dialogue pour les options avec l'onglet « Chiffrement » ouvert</screeninfo>
+>Voici une capture d'écran de la boite de dialogue pour les options avec l'onglet « Chiffrement » ouvert</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="options.png" format="PNG"/></imageobject>
@@ -700,7 +700,7 @@
 >Serveurs de clés</title>
 <para
 >Vous pouvez créer ici une liste de serveurs de clés qui vous sont affichés quand vous ouvrez la <link linkend="keyserver"
->boîte de dialogue pour les serveurs de clés</link
+>boite de dialogue pour les serveurs de clés</link
 >. Si vous exécutez GnuPG à partir de la ligne de commande, seul le serveur de clés défini par défaut sera utilisé.</para>
 <para
 >Le protocole utilisé pour la communication avec les serveurs de clé est fondé sur &HTTP;. Ainsi, cela a du sens que dans certains environnements de <guilabel
@@ -718,7 +718,7 @@
 >Utiliser la sélection avec la souris au lieu de la sélection avec le presse-papier</guilabel
 > change si la sélection se fait par la souris et en collant avec le bouton central de la souris ou si toutes les opérations sont faites par des raccourcis clavier.</para>
 <para
->Vous pouvez aussi indiquer si l'icône de la boîte à miniature de &kgpg; doit être montrée ou pas et quelle action doit être réalisée sur un clic sur l'icône avec le &BGS;. Si l'icône de la boîte à miniature est affichée, la fermeture de la fenêtre de &kgpg; fera passer l'application en miniature. Si elle n'est pas affichée, &kgpg; sera fermé quand toutes les fenêtres seront fermées.</para>
+>Vous pouvez aussi indiquer si l'icône de la boite à miniature de &kgpg; doit être montrée ou pas et quelle action doit être réalisée sur un clic sur l'icône avec le &BGS;. Si l'icône de la boite à miniature est affichée, la fermeture de la fenêtre de &kgpg; fera passer l'application en miniature. Si elle n'est pas affichée, &kgpg; sera fermé quand toutes les fenêtres seront fermées.</para>
 </sect2>
 
 </sect1>
