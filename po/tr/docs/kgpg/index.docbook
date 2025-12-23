@@ -89,7 +89,7 @@
 >&FDLNotice;</legalnotice>
 
 <date
->2016-10-10</date>
+>2016‒10-10</date>
 <releaseinfo
 >Uygulamalar 16.12</releaseinfo>
 
@@ -160,11 +160,11 @@
 </screenshot>
 
 <para
->&kgpg;'yi başlattığınızda, bir sistem tepsisi simgesi belirir. &LMB; ile tıklamak Anahtar Yöneticisi penceresini açar, &RMB; ile tıklamak bazı önemli seçeneklere tez erişim sağlayan bir menü açar. Başka seçenekleri tercih ederseniz &LMB; ile tıklama eylemini düzenleyiciyi gösterecek şekilde değiştirebilir veya sistem tepsisi simgesini <link linkend="conf-misc"
+>&kgpg;’yi başlattığınızda, bir sistem tepsisi simgesi belirir. &LMB; ile tıklamak Anahtar Yöneticisi penceresini açar, &RMB; ile tıklamak bazı önemli seçeneklere tez erişim sağlayan bir menü açar. Başka seçenekleri tercih ederseniz &LMB; ile tıklama eylemini düzenleyiciyi gösterecek şekilde değiştirebilir veya sistem tepsisi simgesini <link linkend="conf-misc"
 >ayarlar iletişim kutusunu</link
 > kullanarak toptan kapatabilirsiniz. </para>
 <para
->Lütfen &kgpg; sistem tepsisi simgesinin temelde her zaman &quot;pasif&quot; olarak imlendiğine dikkat edin. Sistem tepsisi uygulamacığı genellikle &kgpg; simgesi gibi pasif simgeleri gizlediğinden, siz özellikle istemeden görüntülemeyecektir. Ayrıntılar için &plasma; belgelendirmesine göz atın. </para>
+>Lütfen &kgpg; sistem tepsisi simgesinin temelde her zaman “pasif” olarak imlendiğine dikkat edin. Sistem tepsisi uygulamacığı genellikle &kgpg; simgesi gibi pasif simgeleri gizlediğinden, siz özellikle istemeden görüntülemeyecektir. Ayrıntılar için &plasma; belgelendirmesine göz atın. </para>
 </listitem>
 </varlistentry>
 
@@ -207,7 +207,7 @@
 <para
 >Bu şifreleme/şifre çözmek için metin yazabileceğiniz veya yapıştırabileceğiniz basit bir metin düzenleyicisidir. <link linkend="editor"
 >Düzenleyici</link
->'yi açmak için &kgpg; uygulama parçacığına &RMB; ile tıklayın. </para>
+>’yi açmak için &kgpg; uygulama parçacığına &RMB; ile tıklayın. </para>
 </listitem>
 </varlistentry>
 
@@ -276,11 +276,11 @@
 <para
 >Yalnızca adınızı, e-posta adresinizi girin ve <guibutton
 >Tamam</guibutton
->'a tıklayın. Bu, standart bir gpg anahtarı üretir. Daha fazla seçenek istiyorsanız <guibutton
+>’a tıklayın. Bu, standart bir gpg anahtarı üretir. Daha fazla seçenek istiyorsanız <guibutton
 >Uzman Kipi</guibutton
 > düğmesine tıklayabilirsiniz. Bu, bir &konsole; penceresi açıp tüm gpg özelliklerini getirir.</para>
 <para
->Birçok kişi ilk anahtarlarıyla oynar, kötü kullanıcı kimlikleri oluşturur, sonradan pişman olacakları açıklamalar yazar veya parolalarını unutur. Bu tür anahtarların sonsuza kadar geçerli kalmasını önlemek için, kullanım ömrünü yaklaşık 12 ay ile sınırlamak genellikle iyi bir fikirdir. Gizli anahtarlarınızın ömrünü daha sonra <link linkend="keyproperties"
+>Birçok kişi ilk anahtarlarıyla oynar, kötü kullanıcı kimlikleri oluşturur, sonradan pişman olacakları açıklamalar yazar veya parolalarını unutur. Bu tür anahtarların sonsuza kadar geçerli kalmasını önlemek için kullanım ömrünü yaklaşık 12 ay ile sınırlamak genellikle iyi bir fikirdir. Gizli anahtarlarınızın ömrünü daha sonra <link linkend="keyproperties"
 >anahtar özellikleri penceresini</link
 > kullanarak değiştirebilirsiniz.</para>
 
@@ -301,7 +301,7 @@
 ><guimenu
 >Anahtarlar</guimenu
 > <guimenuitem
->Anahtarı Yürürlükten Kaldır...</guimenuitem
+>Anahtarı Yürürlükten Kaldır…</guimenuitem
 ></menuchoice
 > ögesini seçerek bir yürürlükten kaldırma imzası oluşturabilirsiniz. İsteğe bağlı olarak bunu anahtar zincirinize içe aktarabilirsiniz.</para>
 
@@ -346,7 +346,7 @@
 
 <sect2 id="drop">
 <title
->Bir metni &kgpg;'nin uygulamacığıyla şifrelemek</title>
+>Bir metni &kgpg;’nin uygulamacığıyla şifrelemek</title>
 
 <para
 >Uygulamacık menüsünde <guimenuitem
@@ -361,7 +361,7 @@
 
 <sect2 id="editor">
 <title
->&kgpg;'nin düzenleyicisinden metin şifrelemek</title>
+>&kgpg;’nin düzenleyicisinden metin şifrelemek</title>
 
 <para
 >Bu, <guibutton
@@ -409,7 +409,7 @@
 <para
 >Şifresini açmak istediğiniz dosyaya <mousebutton
 >sol</mousebutton
-> fare düğmesi ile tıklayın. Parolanızı girdiğinizde şifre çözülür. Ayrıca şifrelenmiş bir metin dosyasını &kgpg;'nin düzenleyici penceresine sürükleyip bırakabilirsiniz. Parolanız sorulur ve şifresi çözülmüş metin &kgpg;'nin düzenleyicisinde belirir. Uzak konumlardaki dosyaları bile bırakabilirsiniz! Ayrıca <menuchoice
+> fare düğmesi ile tıklayın. Parolanızı girdiğinizde şifre çözülür. Ayrıca şifrelenmiş bir metin dosyasını &kgpg;’nin düzenleyici penceresine sürükleyip bırakabilirsiniz. Parolanız sorulur ve şifresi çözülmüş metin &kgpg;’nin düzenleyicisinde belirir. Uzak konumlardaki dosyaları bile bırakabilirsiniz! Ayrıca <menuchoice
 ><guimenu
 >Dosya</guimenu
 ><guimenuitem
@@ -421,7 +421,7 @@
 
 <sect2 id="applet-dec">
 <title
->&kgpg;'nin uygulamacığıyla metin şifresi çözmek</title>
+>&kgpg;’nin uygulamacığıyla metin şifresi çözmek</title>
 
 <para
 >Pano içeriğinin şifresini ayrıca &kgpg; uygulama programının <guimenuitem
@@ -510,7 +510,7 @@
 
 <para
 >Bir anahtar seçip <guimenuitem
->Anahtarı İmzala...</guimenuitem
+>Anahtarı İmzala…</guimenuitem
 > ögesine tıkladığınızda, anahtarı nasıl imzalamak istediğinizle ilgili seçeneklerin olduğu iletişim kutusu açılır.</para>
 
 <screenshot>
@@ -554,7 +554,7 @@
 
 <para
 >Menüden <guimenuitem
->Kullanıcı Kimliğini İmzala ve Postala...</guimenuitem
+>Kullanıcı Kimliğini İmzala ve Postala…</guimenuitem
 > ögesini seçerseniz bu açığı kapatabilirsiniz. Buradaki amaç, anahtarı normal bir biçimde imzalamanızın ardından parçalara bölmek üzerinedir. Her parça Bilge’nin anahtarının yalnızca bir kullanıcı kimliğini ve sizin ona imzanızı içerecektir. Bu, Bilge’nin anahtarıyla şifrelenecek ve yalnızca bu kimliğe verilen e-posta adresine gönderilecektir. Bilge, yalnızca bu postayı alıp iletinin şifresini açabilirse bu imzayı anahtar halkasına ekleyebilecektir. Siz imzalarınızı yüklemeyeceksiniz, bu tümüyle ona bağlıdır. Eğer imzanız bir anahtar sunucusunda görünürse Bilge’nin hem anahtarını hem de imzaladığınız e-posta adresini gerçekten denetlediğinden emin olabilirsiniz. Bu süreçte yaptığınız imzalar da anahtar halkanızın bir parçası olmayacaktır. Yani Bilge’nin anahtarını imzaladıktan sonra sizin anahtar halkanızda güvenilmez olarak görünmeyi sürdürecektir. Bilge postanızı aldıktan ve imzanızı kendi anahtar halkasına içe aktardıktan sonra onları bir anahtar sunucusuna yükleyebilir. Onun anahtarını bir anahtar sunucusundan güncellediğinizde yeni imzaları alırsınız. Yalnızca bir anahtar sunucusundaki imzalar herkesin, siz de dahil, gerçekten e-posta adreslerini denetlediğini anlamasını sağlar.</para>
 
 </sect2>
@@ -602,7 +602,7 @@
 </screenshot>
 
 <para
->Bir aramanın tüm sonuçları bu pencerede görüntülenir. Bu resim 244 sonuç görüntüleyen bir &quot;@kde.org&quot; adresi araması gösteriyor. Arama alanını kullanarak görüntülenen liste tek bir anahtara indirilmiş. Bu anahtarın iki eşleşmesi var: Birincil kullanıcı kimliği arama karakter dizisiyle ve diğer kullanıcı kimliklerinden biriyle eşleşiyor.</para>
+>Bir aramanın tüm sonuçları bu pencerede görüntülenir. Bu resim 244 sonuç görüntüleyen bir “@kde.org” adresi araması gösteriyor. Arama alanını kullanarak görüntülenen liste tek bir anahtara indirilmiş. Bu anahtarın iki eşleşmesi var: Birincil kullanıcı kimliği arama karakter dizisiyle ve diğer kullanıcı kimliklerinden biriyle eşleşiyor.</para>
 
 <para
 >İçe aktarmak için bir veya daha çok anahtar seçebilirsiniz. Bu anahtarların kimlikleri pencerenin altındaki <guilabel
@@ -642,7 +642,7 @@
 </mediaobject>
 </screenshot>
 <para
->Burda şifreleme davranışını değiştirmek için GnuPG’ye verilecek özel seçenekleri yapılandırabilirsiniz. Ayrıntılı açıklamalar için lütfen GnuPG kılavuzuna göz atın.</para>
+>Burada şifreleme davranışını değiştirmek için GnuPG’ye verilecek özel seçenekleri yapılandırabilirsiniz. Ayrıntılı açıklamalar için lütfen GnuPG kılavuzuna göz atın.</para>
 <itemizedlist>
 <listitem
 ><para
@@ -713,7 +713,7 @@
 <title
 >Görünüş</title>
 <para
->Burda &kgpg;'nin görünüşünü yapılandırabilirsiniz. Olası ayarlar <link linkend="keymanager"
+>Burada &kgpg;’nin görünüşünü yapılandırabilirsiniz. Olası ayarlar <link linkend="keymanager"
 >anahtar yöneticisinde</link
 > değişik anahtar güven düzeylerini gösteren renkler ve <link linkend="editor"
 >düzenleyici</link
@@ -724,7 +724,7 @@
 <title
 >GnuPG Ayarları</title>
 <para
->Burda hangi gpg ikilisinin ve hangi <guilabel
+>Burada hangi gpg ikilisinin ve hangi <guilabel
 >yapılandırma dosyasının</guilabel
 > ve ana klasörün kullanıldığını yapılandırabilirsiniz. Bu değerler ilk açılışta kendiliğinden algılandıklarından halihazırda çalışıyor olmalıdırlar.</para>
 <para
@@ -756,7 +756,7 @@
 >Pano yerine fare seçimini kullan</guilabel
 > seçeneği, seçimin fare ile yapılması ve orta fare düğmesi ile yapıştırma veya tüm işlemlerin klavye kısayollarıyla yapılmasını açar/kapatır.</para>
 <para
->Ayrıca &kgpg;'nin sistem tepsisi simgesinin gösterilip gösterilmeyeceğini ve &LMB; ile tıklanınca ne yapacağını da değiştirebilirsiniz. Sistem tepsisi simgesi gösteriliyorsa &kgpg; penceresini kapatmak uygulamayı tepsiye küçültür. Sistem tepsisi simgesi gösterilmiyorsa &kgpg; tüm pencereler kapatıldığında çıkılır.</para>
+>Ayrıca &kgpg;’nin sistem tepsisi simgesinin gösterilip gösterilmeyeceğini ve &LMB; ile tıklanınca ne yapacağını da değiştirebilirsiniz. Sistem tepsisi simgesi gösteriliyorsa &kgpg; penceresini kapatmak uygulamayı tepsiye küçültür. Sistem tepsisi simgesi gösterilmiyorsa &kgpg; tüm pencereler kapatıldığında çıkılır.</para>
 </sect2>
 
 </sect1>
@@ -773,12 +773,12 @@
 >&kgpg; </para>
 
 <para
->Program telif hakkı &copy; 2002-2003 Jean-Baptiste Mardelle <email
+>Program telif hakkı &copy; 2002–2003 Jean-Baptiste Mardelle <email
 >bj@altern.org</email
 >.</para>
 
 <para
->&copy; 2006-2007 Jimmy Gilles <email
+>&copy; 2006–2007 Jimmy Gilles <email
 >jimmygilles@gmail.com</email
 ></para>
 
