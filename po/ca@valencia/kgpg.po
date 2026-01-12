@@ -2753,8 +2753,8 @@ msgid ""
 msgstr ""
 "<qt>L'ús de l'<b>Agent GnuPG</b> està activat en el fitxer de configuració "
 "de GnuPG (%1).<br />Però, pareix que l'agent no està funcionant. Açò podria "
-"donar problemes en signar/desencriptar.<br />Per favor, desactiveu l'agent "
-"GnuPG en la configuració de KGpg o esmeneu l'agent.</qt>"
+"donar problemes mentre se signa i desencripta.<br />Per favor, desactiveu "
+"l'agent GnuPG en la configuració de KGpg o esmeneu l'agent.</qt>"
 
 #: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
