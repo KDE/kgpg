@@ -2735,8 +2735,8 @@ msgid ""
 "GnuPG failed to start.<br />You must fix the GnuPG error first before "
 "running KGpg."
 msgstr ""
-"No s'ha pogut iniciar GnuPG.<br />Primer cal solucionar l'error de GnuPG "
-"abans d'executar KGpg."
+"Ha fallat mentre s'iniciava GnuPG.<br />Primer cal solucionar l'error de "
+"GnuPG abans d'executar KGpg."
 
 #: kgpg.cpp:63
 #, kde-format
@@ -2753,8 +2753,8 @@ msgid ""
 msgstr ""
 "<qt>L'ús de l'<b>Agent GnuPG</b> està activat en el fitxer de configuració "
 "de GnuPG (%1).<br />Però, pareix que l'agent no està funcionant. Açò podria "
-"donar problemes en signar/desencriptar.<br />Per favor, desactiveu l'agent "
-"GnuPG en la configuració de KGpg o esmeneu l'agent.</qt>"
+"donar problemes mentre se signa i desencripta.<br />Per favor, desactiveu "
+"l'agent GnuPG en la configuració de KGpg o esmeneu l'agent.</qt>"
 
 #: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
@@ -3344,7 +3344,7 @@ msgstr ""
 #: kgpginterface.cpp:269
 #, kde-format
 msgid "An error occurred while scanning your keyring"
-msgstr "S'ha produït un error en escanejar l'anell de claus"
+msgstr "S'ha produït un error mentre s'escanejava l'anell de claus"
 
 #: kgpgkeygenerate.cpp:48
 #, kde-format
