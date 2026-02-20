@@ -55,22 +55,18 @@ msgid ""
 msgstr ""
 
 #: caff.cpp:155 caff.cpp:173
-#, fuzzy, kde-format
-#| msgctxt "Name: ID"
-#| msgid "%1: %2"
+#, kde-format
 msgctxt "%1 is the key id, %2 is the name and comment of the key or uid"
 msgid "%1: %2"
-msgstr "%1: %2"
+msgstr ""
 
 #: caff.cpp:158 caff.cpp:176
-#, fuzzy, kde-format
-#| msgctxt "ID: Name <Email>"
-#| msgid "%1: %2 &lt;%3&gt;"
+#, kde-format
 msgctxt ""
 "%1 is the key id, %2 is the name and comment of the key or uid, %3 is the "
 "email address of the uid"
 msgid "%1: %2 &lt;%3&gt;"
-msgstr "%1: %2 &lt;%3&gt;"
+msgstr ""
 
 #: caff.cpp:161
 #, kde-format
@@ -82,9 +78,6 @@ msgid_plural ""
 "without encryption capability:"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
 
 #: caff.cpp:179
 #, kde-format
@@ -94,9 +87,6 @@ msgid_plural ""
 "No mail was sent for the following user ids because they were already signed:"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
 
 #: caff.cpp:312
 #, kde-format
@@ -111,11 +101,10 @@ msgid "UIDNAME"
 msgstr ""
 
 #: caff.cpp:346
-#, fuzzy, kde-format
-#| msgid "Your default key is: %1"
+#, kde-format
 msgctxt "%1 is 64 bit key id (in hex), text is used as email subject"
 msgid "Your key %1"
-msgstr "Seo é d'eochair réamhshocraithe: %1"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel1_4_2)
 #: conf_decryption.ui:52
@@ -129,10 +118,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4_2)
 #: conf_decryption.ui:55
-#, fuzzy, kde-format
-#| msgid "Custom decryption command."
+#, kde-format
 msgid "Custom decryption command:"
-msgstr "Ordú saincheaptha díchriptithe."
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Encryption)
 #. i18n: ectx: property (text), widget (QCheckBox, capEncrypt)
@@ -185,10 +173,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowCustomEncryptionOptions)
 #: conf_encryption.ui:72
-#, fuzzy, kde-format
-#| msgid "Custom decryption command."
+#, kde-format
 msgid "Custom encryption command:"
-msgstr "Ordú saincheaptha díchriptithe."
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, encrypt_to_always)
 #: conf_encryption.ui:113
@@ -218,10 +205,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EncryptFilesTo)
 #: conf_encryption.ui:127
-#, fuzzy, kde-format
-#| msgid "Encrypt files"
+#, kde-format
 msgid "Encrypt files with:"
-msgstr "Criptigh comhaid"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowUntrustedKeys)
 #: conf_encryption.ui:135
@@ -287,10 +273,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PgpCompatibility)
 #: conf_encryption.ui:170
-#, fuzzy, kde-format
-#| msgid "Enable PGP 6 compatibility."
+#, kde-format
 msgid "PGP 6 compatibility"
-msgstr "Cumasaigh comhoiriúnacht PGP 6"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QWidget, GPGConf)
 #: conf_gpg.ui:16
@@ -422,18 +407,11 @@ msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_RemoteFileWarn)
 #: conf_misc.ui:70
-#, fuzzy, kde-format
-#| msgid ""
-#| "<qt><b>Global Settings:</b><br />\n"
-#| "<p></p>\n"
-#| "</qt>"
+#, kde-format
 msgid ""
 "<qt><b>Display warning before creating temporary files:</b><br />\n"
 "<p></p></qt>"
 msgstr ""
-"<qt><b>Socruithe Comhchoiteannab></b><br />\n"
-"<p></p>\n"
-"</qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_RemoteFileWarn)
 #: conf_misc.ui:74
@@ -457,19 +435,12 @@ msgstr "Roghchláir Seirbhísí Konqueror"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel1)
 #: conf_misc.ui:119
-#, fuzzy, kde-format
-#| msgid ""
-#| "<qt><b>Global Settings:</b><br />\n"
-#| "<p></p>\n"
-#| "</qt>"
+#, kde-format
 msgid ""
 "<qt><b>Sign file service menu:</b><br />\n"
 "<p></p>\n"
 "</qt>"
 msgstr ""
-"<qt><b>Socruithe Comhchoiteannab></b><br />\n"
-"<p></p>\n"
-"</qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: conf_misc.ui:122
@@ -493,19 +464,12 @@ msgstr "Cumasaigh le Gach Comhad"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel1_3)
 #: conf_misc.ui:164
-#, fuzzy, kde-format
-#| msgid ""
-#| "<qt><b>Global Settings:</b><br />\n"
-#| "<p></p>\n"
-#| "</qt>"
+#, kde-format
 msgid ""
 "<qt><b>Decrypt file service menu:</b><br />\n"
 "<p></p>\n"
 "</qt>"
 msgstr ""
-"<qt><b>Socruithe Comhchoiteannab></b><br />\n"
-"<p></p>\n"
-"</qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_3)
 #: conf_misc.ui:167
@@ -515,10 +479,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
 #: conf_misc.ui:188
-#, fuzzy, kde-format
-#| msgid "Enable with All Files"
+#, kde-format
 msgid "Enable with Encrypted Files"
-msgstr "Cumasaigh le Gach Comhad"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: conf_misc.ui:201
@@ -632,10 +595,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseProxy)
 #: conf_servers.ui:35
-#, fuzzy, kde-format
-#| msgid "Use HTTP proxy when available."
+#, kde-format
 msgid "Honor HTTP proxy when available"
-msgstr "Úsáid seachfhreastalaí HTTP más féidir."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, server_default)
 #: conf_servers.ui:49
@@ -681,10 +643,9 @@ msgstr "Eochracha iontaofa:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustMarginally)
 #: conf_ui2.ui:62
-#, fuzzy, kde-format
-#| msgid "Ultimately trusted keys:"
+#, kde-format
 msgid "Marginally trusted keys:"
-msgstr "Eochracha a bhfuil sraith teastais iontaofa acu:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustExpired)
 #: conf_ui2.ui:72
@@ -694,10 +655,9 @@ msgstr "Eochracha as dáta:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustRevoked)
 #: conf_ui2.ui:82
-#, fuzzy, kde-format
-#| msgid "Revoked"
+#, kde-format
 msgid "Revoked keys:"
-msgstr "Cúlghairthe"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustUnknown)
 #: conf_ui2.ui:92
@@ -719,10 +679,9 @@ msgstr "Cló an Eagarthóra"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabKeyList)
 #: conf_ui2.ui:230
-#, fuzzy, kde-format
-#| msgid "Private Key List"
+#, kde-format
 msgid "Key List"
-msgstr "Liosta Eochracha Príobháideacha"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBoxSorting)
 #: conf_ui2.ui:236
@@ -905,18 +864,16 @@ msgid "Unknown"
 msgstr "Anaithnid"
 
 #: core/convert.cpp:119
-#, fuzzy, kde-format
-#| msgid "Signature"
+#, kde-format
 msgctxt "key capability"
 msgid "Signature"
-msgstr "Síniú"
+msgstr ""
 
 #: core/convert.cpp:121
-#, fuzzy, kde-format
-#| msgid "Encryption"
+#, kde-format
 msgctxt "key capability"
 msgid "Encryption"
-msgstr "Criptiú"
+msgstr ""
 
 #: core/convert.cpp:123
 #, kde-format
@@ -925,11 +882,10 @@ msgid "Authentication"
 msgstr ""
 
 #: core/convert.cpp:125
-#, fuzzy, kde-format
-#| msgid "Creation"
+#, kde-format
 msgctxt "key capability"
 msgid "Certification"
-msgstr "Cruthú"
+msgstr ""
 
 #: core/convert.cpp:127
 #, kde-format
@@ -1224,19 +1180,16 @@ msgid "Key file dropped on Editor"
 msgstr ""
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "Years"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr "Bliain"
+msgstr ""
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgctxt "No trust in key"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "Gan iontaoibh"
+msgstr ""
 
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
@@ -1381,19 +1334,16 @@ msgstr "Easpórtáil Eochrach Poiblí"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkMail)
 #: keyexport.ui:41
-#, fuzzy, kde-format
-#| msgctxt "Email address of key owner"
-#| msgid "E&mail:"
+#, kde-format
 msgctxt "Export a key via email"
 msgid "E&mail"
-msgstr "Río&mhphost:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkClipboard)
 #: keyexport.ui:48 sourceselect.ui:35
-#, fuzzy, kde-format
-#| msgid "Clipboard"
+#, kde-format
 msgid "C&lipboard"
-msgstr "Gearrthaisce"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, checkServer)
 #: keyexport.ui:58
@@ -1405,10 +1355,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkServer)
 #: keyexport.ui:61
-#, fuzzy, kde-format
-#| msgid "Key server:"
+#, kde-format
 msgid "&Key server:"
-msgstr "Freastalaí eochrach:"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkFile)
 #: keyexport.ui:75 sourceselect.ui:44
@@ -1425,17 +1374,15 @@ msgstr "Socruithe Easpórtála"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkAttrAll)
 #: keyexport.ui:101
-#, fuzzy, kde-format
-#| msgid "Export everything"
+#, kde-format
 msgid "E&xport everything"
-msgstr "Easpórtáil gach rud"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkAttrPhoto)
 #: keyexport.ui:111
-#, fuzzy, kde-format
-#| msgid "Export attributes (photo id)"
+#, kde-format
 msgid "Do &not export attributes (photo ids)"
-msgstr "Easpórtáil tréithe (aitheantas grianghraif)"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkAttrClean)
 #: keyexport.ui:118
@@ -1664,12 +1611,10 @@ msgid "Upload to keyserver failed"
 msgstr "Theip ar uasluchtú go dtí an freastalaí eochrach"
 
 #: keyservers.cpp:195
-#, fuzzy, kde-format
-#| msgid "Import Key From Keyserver"
-#| msgid_plural "Import Keys From Keyserver"
+#, kde-format
 msgctxt "Window title"
 msgid "Import Key From Keyserver"
-msgstr "Iompórtáil Eochair ó Fhreastalaí Eochrach"
+msgstr ""
 
 #: keyservers.cpp:206
 #, kde-format
@@ -1697,18 +1642,14 @@ msgstr[3] "Aimsíodh %1 n-eochair chomhoiriúnach"
 msgstr[4] "Aimsíodh %1 eochair chomhoiriúnach"
 
 #: keyservers.cpp:378
-#, fuzzy, kde-format
-#| msgid "Found 1 matching key"
-#| msgid_plural "Found %1 matching keys"
+#, kde-format
 msgid "Found 1 matching key (not shown)"
-msgstr "Aimsíodh eochair chomhoiriúnach amháin"
+msgstr ""
 
 #: keyservers.cpp:380
-#, fuzzy, kde-format
-#| msgid "Found 1 matching key"
-#| msgid_plural "Found %1 matching keys"
+#, kde-format
 msgid "Found %1 matching keys (%2 shown)"
-msgstr "Aimsíodh eochair chomhoiriúnach amháin"
+msgstr ""
 
 #: keysmanager.cpp:125
 #, kde-format
@@ -2447,11 +2388,10 @@ msgid ""
 msgstr ""
 
 #: keysmanager.cpp:1978
-#, fuzzy, kde-format
-#| msgid "Sign"
+#, kde-format
 msgctxt "@action:button"
 msgid "Sign"
-msgstr "Sínigh"
+msgstr ""
 
 #: keysmanager.cpp:2094
 #, kde-format
@@ -2788,17 +2728,15 @@ msgstr "Ordú saincheaptha díchriptithe."
 
 #. i18n: ectx: label, entry (CustomEncryptionOptions), group (Encryption)
 #: kgpg.kcfg:19
-#, fuzzy, kde-format
-#| msgid "Custom decryption command."
+#, kde-format
 msgid "Custom encryption options"
-msgstr "Ordú saincheaptha díchriptithe."
+msgstr ""
 
 #. i18n: ectx: label, entry (AllowCustomEncryptionOptions), group (Encryption)
 #: kgpg.kcfg:22
-#, fuzzy, kde-format
-#| msgid "Custom decryption command."
+#, kde-format
 msgid "Allow custom encryption options"
-msgstr "Ordú saincheaptha díchriptithe."
+msgstr ""
 
 #. i18n: ectx: label, entry (FileEncryptionKey), group (Encryption)
 #: kgpg.kcfg:26
@@ -2820,10 +2758,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (AllowUntrustedKeys), group (Encryption)
 #: kgpg.kcfg:37
-#, fuzzy, kde-format
-#| msgid "Allow encryption with untrusted keys"
+#, kde-format
 msgid "Allow encryption with untrusted keys."
-msgstr "Ceadaigh criptiú le heochracha neamhiontaofa"
+msgstr ""
 
 #. i18n: ectx: label, entry (AllowUntrustedGroupMembers), group (Encryption)
 #: kgpg.kcfg:41
@@ -2851,10 +2788,9 @@ msgstr ""
 
 #. i18n: ectx: label, entry (GpgConfigPath), group (GPG Settings)
 #: kgpg.kcfg:60
-#, fuzzy, kde-format
-#| msgid "Path to your GnuPG configuration file:"
+#, kde-format
 msgid "The path of the gpg configuration file."
-msgstr "Conair an chomhaid cumraíochta GnuPG:"
+msgstr ""
 
 #. i18n: ectx: label, entry (GpgBinaryPath), group (GPG Settings)
 #: kgpg.kcfg:63
@@ -2876,31 +2812,27 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ShowTrust), group (General Options)
 #: kgpg.kcfg:86
-#, fuzzy, kde-format
-#| msgid "Show only secret keys in key manager."
+#, kde-format
 msgid "Show the trust value in key manager."
-msgstr "Ná taispeáin ach eochracha rúnda i mbainisteoir na n-eochrachra."
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowExpi), group (General Options)
 #: kgpg.kcfg:90
-#, fuzzy, kde-format
-#| msgid "Show only secret keys in key manager."
+#, kde-format
 msgid "Show the expiration value in key manager."
-msgstr "Ná taispeáin ach eochracha rúnda i mbainisteoir na n-eochrachra."
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowSize), group (General Options)
 #: kgpg.kcfg:94
-#, fuzzy, kde-format
-#| msgid "Show only secret keys in key manager."
+#, kde-format
 msgid "Show the size value in key manager."
-msgstr "Ná taispeáin ach eochracha rúnda i mbainisteoir na n-eochrachra."
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowCreat), group (General Options)
 #: kgpg.kcfg:98
-#, fuzzy, kde-format
-#| msgid "Show only secret keys in key manager."
+#, kde-format
 msgid "Show the creation value in key manager."
-msgstr "Ná taispeáin ach eochracha rúnda i mbainisteoir na n-eochrachra."
+msgstr ""
 
 #. i18n: ectx: label, entry (ShowSecret), group (General Options)
 #: kgpg.kcfg:102
@@ -2986,31 +2918,27 @@ msgstr ""
 
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
 #: kgpg.kcfg:187
-#, fuzzy, kde-format
-#| msgid "Color used for ultimately trusted keys."
+#, kde-format
 msgid "Color used for trusted keys."
-msgstr "Dath d'eochracha a bhfuil sraith teastais iontaofa acu."
+msgstr ""
 
 #. i18n: ectx: label, entry (ColorRev), group (Key Colors)
 #: kgpg.kcfg:191
-#, fuzzy, kde-format
-#| msgid "Color used for ultimately trusted keys."
+#, kde-format
 msgid "Color used for revoked keys."
-msgstr "Dath d'eochracha a bhfuil sraith teastais iontaofa acu."
+msgstr ""
 
 #. i18n: ectx: label, entry (ColorUnknown), group (Key Colors)
 #: kgpg.kcfg:195
-#, fuzzy, kde-format
-#| msgid "Color used for ultimately trusted keys."
+#, kde-format
 msgid "Color used for unknown keys."
-msgstr "Dath d'eochracha a bhfuil sraith teastais iontaofa acu."
+msgstr ""
 
 #. i18n: ectx: label, entry (ColorBad), group (Key Colors)
 #: kgpg.kcfg:199
-#, fuzzy, kde-format
-#| msgid "Color used for ultimately trusted keys."
+#, kde-format
 msgid "Color used for untrusted keys."
-msgstr "Dath d'eochracha a bhfuil sraith teastais iontaofa acu."
+msgstr ""
 
 #. i18n: ectx: label, entry (ColorUltimate), group (Key Colors)
 #: kgpg.kcfg:203
@@ -3020,17 +2948,15 @@ msgstr "Dath d'eochracha a bhfuil sraith teastais iontaofa acu."
 
 #. i18n: ectx: label, entry (ColorMarginal), group (Key Colors)
 #: kgpg.kcfg:207
-#, fuzzy, kde-format
-#| msgid "Color used for ultimately trusted keys."
+#, kde-format
 msgid "Color used for marginally trusted keys."
-msgstr "Dath d'eochracha a bhfuil sraith teastais iontaofa acu."
+msgstr ""
 
 #. i18n: ectx: label, entry (ColorExpired), group (Key Colors)
 #: kgpg.kcfg:211
-#, fuzzy, kde-format
-#| msgid "Color used for ultimately trusted keys."
+#, kde-format
 msgid "Color used for expired keys."
-msgstr "Dath d'eochracha a bhfuil sraith teastais iontaofa acu."
+msgstr ""
 
 #. i18n: ectx: label, entry (Font), group (Text Font)
 #: kgpg.kcfg:218
@@ -3148,17 +3074,15 @@ msgid ""
 msgstr ""
 
 #: kgpgfirstassistant.cpp:102
-#, fuzzy, kde-format
-#| msgid "GnuPG binary"
+#, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
-msgstr "Clár inrite GnuPG"
+msgstr ""
 
 #: kgpgfirstassistant.cpp:103
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "All files"
-msgstr "*|Gach Comhad"
+msgstr ""
 
 #: kgpgfirstassistant.cpp:134
 #, kde-format
@@ -3317,11 +3241,9 @@ msgstr "Gin Péire Eochracha"
 #. i18n: Name of key owner
 #. i18n: ectx: property (text), widget (QLabel, nameLabel)
 #: kgpgkeygenerate.ui:32
-#, fuzzy, kde-format
-#| msgctxt "Name of key owner"
-#| msgid "&Name:"
+#, kde-format
 msgid "&Name:"
-msgstr "Ai&nm:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, m_kname)
 #: kgpgkeygenerate.ui:42
@@ -3340,10 +3262,9 @@ msgstr ""
 #. i18n: Email address of key owner
 #. i18n: ectx: property (text), widget (QLabel, emailLabel)
 #: kgpgkeygenerate.ui:52
-#, fuzzy, kde-format
-#| msgid "Comment (optional):"
+#, kde-format
 msgid "E&mail (optional):"
-msgstr "Ainm (roghnach):"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: kgpgkeygenerate.ui:65
@@ -3416,17 +3337,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, capCert)
 #: kgpgkeygenerate.ui:175
-#, fuzzy, kde-format
-#| msgid "Creation"
+#, kde-format
 msgid "Certification"
-msgstr "Cruthú"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, capAuth)
 #: kgpgkeygenerate.ui:195
-#, fuzzy, kde-format
-#| msgid "Creation"
+#, kde-format
 msgid "Authentication"
-msgstr "Cruthú"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, kgpgKeyInfo)
 #: kgpgKeyInfo.ui:14
@@ -3622,10 +3541,9 @@ msgstr "Cruthaigh Teastas Cúlghairthe"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: kgpgrevokewidget.ui:18
-#, fuzzy, kde-format
-#| msgid "Create Revocation Certificate"
+#, kde-format
 msgid "Create revocation certificate for"
-msgstr "Cruthaigh Teastas Cúlghairthe"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, keyID)
 #: kgpgrevokewidget.ui:28
@@ -3659,11 +3577,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, comboBox1)
 #: kgpgrevokewidget.ui:71
-#, fuzzy, kde-format
-#| msgid "Key with new User Id"
-#| msgid_plural "Keys with new User Ids"
+#, kde-format
 msgid "Key is No Longer Used"
-msgstr "Eochair le hAitheantas Nua Úsáideora"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: kgpgrevokewidget.ui:81
@@ -3708,39 +3624,34 @@ msgid "&copy; 2003-2016, The KGpg Developers"
 msgstr ""
 
 #: main.cpp:32
-#, fuzzy, kde-kuit-format
-#| msgid "Rolf Eike Beer"
+#, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Rolf Eike Beer"
-msgstr "Rolf Eike Beer"
+msgstr ""
 
 #: main.cpp:32
-#, fuzzy, kde-format
-#| msgid "Maintainer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer"
-msgstr "Cothaitheoir"
+msgstr ""
 
 #: main.cpp:33
-#, fuzzy, kde-kuit-format
-#| msgid "Jean-Baptiste Mardelle"
+#, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jean-Baptiste Mardelle"
-msgstr "Jean-Baptiste Mardelle"
+msgstr ""
 
 #: main.cpp:33
-#, fuzzy, kde-format
-#| msgid "Author and former maintainer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Author and former maintainer"
-msgstr "Údar agus iarchothaitheoir"
+msgstr ""
 
 #: main.cpp:34
-#, fuzzy, kde-kuit-format
-#| msgid "Jimmy Gilles"
+#, kde-kuit-format
 msgctxt "@info:credit"
 msgid "Jimmy Gilles"
-msgstr "Jimmy Gilles"
+msgstr ""
 
 #: main.cpp:35
 #, kde-kuit-format
@@ -3749,11 +3660,10 @@ msgid "Andrius Štikonas"
 msgstr ""
 
 #: main.cpp:35
-#, fuzzy, kde-format
-#| msgid "Key Import"
+#, kde-format
 msgctxt "@info:credit"
 msgid "KF5 port"
-msgstr "Iompórtáil Eochrach"
+msgstr ""
 
 #: model/gpgservermodel.cpp:73
 #, kde-format
@@ -3768,20 +3678,16 @@ msgid "%1: %2"
 msgstr "%1: %2"
 
 #: model/keylistproxymodel.cpp:178
-#, fuzzy, kde-format
-#| msgctxt "Name: ID"
-#| msgid "%1: %2"
+#, kde-format
 msgctxt "ID: Name <Email>"
 msgid "%1: %2 <%3>"
-msgstr "%1: %2"
+msgstr ""
 
 #: model/keylistproxymodel.cpp:183
-#, fuzzy, kde-format
-#| msgctxt "Name (Email): ID"
-#| msgid "%1 (%2): %3"
+#, kde-format
 msgctxt "Name <Email>: ID"
 msgid "%1 <%2>: %3"
-msgstr "%1 (%2): %3"
+msgstr ""
 
 #: model/kgpgitemmodel.cpp:179
 #, kde-format
@@ -3789,10 +3695,9 @@ msgid "Trust: %1<br>Owner Trust: %2"
 msgstr ""
 
 #: model/kgpgitemmodel.cpp:183
-#, fuzzy, kde-format
-#| msgid "Trust:"
+#, kde-format
 msgid "Trust: %1"
-msgstr "Iontaoibh:"
+msgstr ""
 
 #: model/kgpgitemmodel.cpp:280 model/kgpgitemmodel.cpp:283
 #, kde-format
@@ -3893,17 +3798,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, CBdefault)
 #: newkey.ui:140
-#, fuzzy, kde-format
-#| msgid "Set as De&fault Key"
+#, kde-format
 msgid "Set as your default key"
-msgstr "Socraigh mar Eochair &Réamhshocraithe"
+msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: newkey.ui:152
-#, fuzzy, kde-format
-#| msgid "Create Revocation Certificate"
+#, kde-format
 msgid "Revocation Certificate"
-msgstr "Cruthaigh Teastas Cúlghairthe"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: newkey.ui:158
@@ -3927,10 +3830,9 @@ msgstr "Priontáil"
 
 #. i18n: ectx: property (text), widget (QCheckBox, validFilterCheckbox)
 #: searchres.ui:48
-#, fuzzy, kde-format
-#| msgid "&Show Only Secret Keys"
+#, kde-format
 msgid "Show only valid keys"
-msgstr "Ná Tai&speáin ach Eochracha Rúnda"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: searchres.ui:73
@@ -3950,10 +3852,9 @@ msgid "Unlimited"
 msgstr "Gan Teorainn"
 
 #: selectpublickeydialog.cpp:48 selectpublickeydialog.cpp:266
-#, fuzzy, kde-format
-#| msgid "O&ptions"
+#, kde-format
 msgid "&Options"
-msgstr "R&oghanna"
+msgstr ""
 
 #: selectpublickeydialog.cpp:61
 #, kde-format
@@ -4101,10 +4002,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkServer)
 #: sourceselect.ui:68
-#, fuzzy, kde-format
-#| msgid "Keyserver:"
+#, kde-format
 msgid "&Keyserver:"
-msgstr "Freastalaí eochrach:"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QLineEdit, keyIds)
 #: sourceselect.ui:81
@@ -4216,16 +4116,12 @@ msgid "Generating Revocation Certificate for key %1"
 msgstr "Teastas Cúlghairthe le haghaidh eochair %1 á ghiniúint"
 
 #: transactions/kgpgimport.cpp:117
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "Key importing failed. Please see the detailed log for more information."
+#, kde-kuit-format
 msgctxt "@info"
 msgid ""
 "The import result string has an unsupported format in line %1.<nl/>Please "
 "see the detailed log for more information."
 msgstr ""
-"Theip ar iompórtáil na heochrach. Féach ar an logchomhad mionsonraithe chun "
-"tuilleadh eolais a fháil."
 
 #: transactions/kgpgimport.cpp:121
 #, kde-format
@@ -4235,30 +4131,20 @@ msgstr ""
 "chun tuilleadh eolais a fháil."
 
 #: transactions/kgpgimport.cpp:123
-#, fuzzy, kde-kuit-format
-#| msgid "<qt>%1 key processed.</qt>"
-#| msgid_plural "<qt>%1 keys processed.</qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>%1 key processed.</para>"
 msgid_plural "<para>%1 keys processed.</para>"
-msgstr[0] "<qt>Próiseáladh %1 eochair.</qt>"
-msgstr[1] "<qt>Próiseáladh %1 eochair.</qt>"
-msgstr[2] "<qt>Próiseáladh %1 eochair.</qt>"
-msgstr[3] "<qt>Próiseáladh %1 n-eochair.</qt>"
-msgstr[4] "<qt>Próiseáladh %1 eochair.</qt>"
+msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:126
-#, fuzzy, kde-kuit-format
-#| msgid "<qt><br />One key without ID.</qt>"
-#| msgid_plural "<qt><br />%1 keys without ID.</qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key without ID.</para>"
 msgid_plural "<para>%1 keys without ID.</para>"
-msgstr[0] "<qt><br />Eochair amháin gan aitheantas.</qt>"
-msgstr[1] "<qt><br />Dhá eochair gan aitheantas.</qt>"
-msgstr[2] "<qt><br />%1 eochair gan aitheantas.</qt>"
-msgstr[3] "<qt><br />%1 n-eochair gan aitheantas.</qt>"
-msgstr[4] "<qt><br />%1 eochair gan aitheantas.</qt>"
+msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:128
 #, kde-kuit-format
@@ -4268,100 +4154,62 @@ msgid_plural ""
 "<para><emphasis strong='true'>%1 keys imported:</emphasis></para>"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
 
 #: transactions/kgpgimport.cpp:130
-#, fuzzy, kde-kuit-format
-#| msgid "<qt><br />One RSA key imported.</qt>"
-#| msgid_plural "<qt><br />%1 RSA keys imported.</qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One RSA key imported.</para>"
 msgid_plural "<para>%1 RSA keys imported.</para>"
-msgstr[0] "<qt><br />Iompórtáladh eochair amháin RSA.</qt>"
-msgstr[1] "<qt><br />Iompórtáladh %1 eochair RSA.</qt>"
-msgstr[2] "<qt><br />Iompórtáladh %1 eochair RSA.</qt>"
-msgstr[3] "<qt><br />Iompórtáladh %1 n-eochair RSA.</qt>"
-msgstr[4] "<qt><br />Iompórtáladh %1 eochair RSA.</qt>"
+msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:132
-#, fuzzy, kde-kuit-format
-#| msgid "<qt><br />One key unchanged.</qt>"
-#| msgid_plural "<qt><br />%1 keys unchanged.</qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key unchanged.</para>"
 msgid_plural "<para>%1 keys unchanged.</para>"
-msgstr[0] "<qt><br />Eochair amháin gan athrú.</qt>"
-msgstr[1] "<qt><br />%1 eochair gan athrú.</qt>"
-msgstr[2] "<qt><br />%1 eochair gan athrú.</qt>"
-msgstr[3] "<qt><br />%1 n-eochair gan athrú.</qt>"
-msgstr[4] "<qt><br />%1 eochair gan athrú.</qt>"
+msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:134
-#, fuzzy, kde-kuit-format
-#| msgid "<qt><br />One user ID imported.</qt>"
-#| msgid_plural "<qt><br />%1 user IDs imported.</qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One user ID imported.</para>"
 msgid_plural "<para>%1 user IDs imported.</para>"
-msgstr[0] "<qt><br />Iompórtáladh aitheantas úsáideora amháin.</qt>"
-msgstr[1] "<qt><br />Iompórtáladh dhá aitheantas úsáideora.</qt>"
-msgstr[2] "<qt><br />Iompórtáladh %1 aitheantas úsáideora.</qt>"
-msgstr[3] "<qt><br />Iompórtáladh %1 n-aitheantas úsáideora.</qt>"
-msgstr[4] "<qt><br />Iompórtáladh %1 aitheantas úsáideora.</qt>"
+msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:136
-#, fuzzy, kde-kuit-format
-#| msgid "<qt><br />One subkey imported.</qt>"
-#| msgid_plural "<qt><br />%1 subkeys imported.</qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One subkey imported.</para>"
 msgid_plural "<para>%1 subkeys imported.</para>"
-msgstr[0] "<qt><br />Iompórtáladh fo-eochair amháin.</qt>"
-msgstr[1] "<qt><br />Iompórtáladh %1 fho-eochair.</qt>"
-msgstr[2] "<qt><br />Iompórtáladh %1 fho-eochair.</qt>"
-msgstr[3] "<qt><br />Iompórtáladh %1 bhfo-eochair.</qt>"
-msgstr[4] "<qt><br />Iompórtáladh %1 fo-eochair.</qt>"
+msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:138
-#, fuzzy, kde-kuit-format
-#| msgid "<qt><br />One signature imported.</qt>"
-#| msgid_plural "<qt><br />%1 signatures imported.</qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One signature imported.</para>"
 msgid_plural "<para>%1 signatures imported.</para>"
-msgstr[0] "<qt><br />Iompórtáladh síniú amháin.</qt>"
-msgstr[1] "<qt><br />Iompórtáladh dhá shíniú.</qt>"
-msgstr[2] "<qt><br />Iompórtáladh %1 shíniú.</qt>"
-msgstr[3] "<qt><br />Iompórtáladh %1 síniú.</qt>"
-msgstr[4] "<qt><br />Iompórtáladh %1 síniú.</qt>"
+msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:140
-#, fuzzy, kde-kuit-format
-#| msgid "<qt>%1 revocation certificate imported.<br/></qt>"
-#| msgid_plural "<qt>%1 revocation certificates imported.<br/></qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One revocation certificate imported.</para>"
 msgid_plural "<para>%1 revocation certificates imported.</para>"
-msgstr[0] "<qt>Aon eochair rúnda gan iompórtáil.<br/></qt>"
-msgstr[1] "<qt>Dhá eochair rúnda gan iompórtáil.<br/></qt>"
-msgstr[2] "<qt>%1 eochair rúnda gan iompórtáil.<br/></qt>"
-msgstr[3] "<qt>%1 n-eochair rúnda gan iompórtáil.<br/></qt>"
-msgstr[4] "<qt>%1 eochair rúnda gan iompórtáil.<br/></qt>"
+msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:142
-#, fuzzy, kde-kuit-format
-#| msgid "<qt><br />One secret key processed.</qt>"
-#| msgid_plural "<qt><br />%1 secret keys processed.</qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key processed.</para>"
 msgid_plural "<para>%1 secret keys processed.</para>"
-msgstr[0] "<qt><br />Próiseáladh eochair rúnda amháin.</qt>"
-msgstr[1] "<qt><br />Próiseáladh %1 eochair rúnda.</qt>"
-msgstr[2] "<qt><br />Próiseáladh %1 eochair rúnda.</qt>"
-msgstr[3] "<qt><br />Próiseáladh %1 n-eochair rúnda.</qt>"
-msgstr[4] "<qt><br />Próiseáladh %1 eochair rúnda.</qt>"
+msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:144
 #, kde-kuit-format
@@ -4372,35 +4220,22 @@ msgid_plural ""
 "<para><emphasis strong='true'>%1 secret keys imported.</emphasis></para>"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
 
 #: transactions/kgpgimport.cpp:146
-#, fuzzy, kde-kuit-format
-#| msgid "<qt><br />One secret key unchanged.</qt>"
-#| msgid_plural "<qt><br />%1 secret keys unchanged.</qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key unchanged.</para>"
 msgid_plural "<para>%1 secret keys unchanged.</para>"
-msgstr[0] "<qt><br />Eochair rúnda amháin gan athrú.</qt>"
-msgstr[1] "<qt><br />Dhá eochair rúnda gan athrú.</qt>"
-msgstr[2] "<qt><br />%1 eochair rúnda gan athrú.</qt>"
-msgstr[3] "<qt><br />%1 n-eochair rúnda gan athrú.</qt>"
-msgstr[4] "<qt><br />%1 eochair rúnda gan athrú.</qt>"
+msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:148
-#, fuzzy, kde-kuit-format
-#| msgid "<qt><br />One secret key not imported.</qt>"
-#| msgid_plural "<qt><br />%1 secret keys not imported.</qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One secret key not imported.</para>"
 msgid_plural "<para>%1 secret keys not imported.</para>"
-msgstr[0] "<qt><br />Eochair rúnda amháin gan iompórtáil.</qt>"
-msgstr[1] "<qt><br />Dhá eochair rúnda gan iompórtáil.</qt>"
-msgstr[2] "<qt><br />%1 eochair rúnda gan iompórtáil.</qt>"
-msgstr[3] "<qt><br />%1 n-eochair rúnda gan iompórtáil.</qt>"
-msgstr[4] "<qt><br />%1 eochair rúnda gan iompórtáil.</qt>"
+msgstr[0] ""
+msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:151
 #, kde-kuit-format
@@ -4413,12 +4248,10 @@ msgid ""
 msgstr ""
 
 #: transactions/kgpgimport.cpp:175
-#, fuzzy, kde-kuit-format
-#| msgctxt "Name: ID"
-#| msgid "%1: %2"
+#, kde-kuit-format
 msgctxt "@item ID: Name"
 msgid "%1: %2"
-msgstr "%1: %2"
+msgstr ""
 
 #: transactions/kgpgimport.cpp:177
 #, kde-kuit-format
@@ -4555,11 +4388,10 @@ msgid ""
 msgstr ""
 
 #: transactions/kgpgverify.cpp:139
-#, fuzzy, kde-kuit-format
-#| msgid "No signature found."
+#, kde-kuit-format
 msgctxt "@info"
 msgid "No signature found."
-msgstr "Níor aimsíodh aon síniú."
+msgstr ""
 
 #: transactions/kgpgverify.cpp:156
 #, kde-kuit-format
@@ -4587,504 +4419,13 @@ msgid ""
 msgstr ""
 
 #: transactions/kgpgverify.cpp:175
-#, fuzzy, kde-kuit-format
-#| msgid "<qt>The signature is valid, but the key is untrusted<br /></qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>The signature is valid, but the key is untrusted</para>"
-msgstr "<qt>Tá an síniú bailí, ach níl an eochair iontaofa<br /></qt>"
+msgstr ""
 
 #: transactions/kgpgverify.cpp:177
-#, fuzzy, kde-kuit-format
-#| msgid ""
-#| "<qt>The signature is valid, and the key is ultimately trusted<br /></qt>"
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr ""
-"<qt>Tá an síniú bailí, agus tá sraith teastas iontaofa ag an eochair<br /></"
-"qt>"
-
-#~ msgid "Tip of the &Day"
-#~ msgstr "Leid an &Lae"
-
-#~ msgid "Show tip of the day."
-#~ msgstr "Taispeáin leid an lae."
-
-#~ msgctxt "search filter for gpg binary"
-#~ msgid ""
-#~ "gpg|GnuPG binary\n"
-#~ "*|All files"
-#~ msgstr ""
-#~ "gpg|Clár inrite GnuPG\n"
-#~ "*|Gach comhad"
-
-#~ msgid ""
-#~ "<qt>A viewer for JPEG images is not specified.<br/>Please check your "
-#~ "installation.</qt>"
-#~ msgstr ""
-#~ "<qt>Níor sonraíodh amharcán le haghaidh íomhánna JPEG.<br/>Déan seiceáil "
-#~ "ar do chóras.</qt>"
-
-#~ msgid "Show photo"
-#~ msgstr "Taispeáin grianghraf"
-
-#~ msgid "Passphrase for the key was changed"
-#~ msgstr "Athraíodh frása faire na heochrach"
-
-#~ msgid "Do not Know"
-#~ msgstr "Níl Fhios Agam"
-
-#~ msgid "Do NOT Trust"
-#~ msgstr "GAN iontaoibh"
-
-#~ msgid "Id"
-#~ msgstr "Aitheantas"
-
-#~ msgctxt "Export a key via email"
-#~ msgid "Email"
-#~ msgstr "Ríomhphost"
-
-#~ msgctxt ""
-#~ "Name of the action that is a search line, shown for example in the "
-#~ "toolbar configuration dialog"
-#~ msgid "Search Line"
-#~ msgstr "Líne Chuardaigh"
-
-#~ msgid "KGpg"
-#~ msgstr "KGpg"
-
-#~ msgid "(C) 2003 Jean-Baptiste Mardelle"
-#~ msgstr "© 2003 Jean-Baptiste Mardelle"
-
-#~ msgctxt "ID: Name <Email>"
-#~ msgid "%1: %2 &lt;%3&gt;"
-#~ msgstr "%1: %2 &lt;%3&gt;"
-
-#~ msgctxt "Name <Email>: ID"
-#~ msgid "%1 &lt;%2&gt;: %3"
-#~ msgstr "%1 &lt;%2&gt;: %3"
-
-#~ msgid "Keys"
-#~ msgstr "Eochracha"
-
-#~ msgid "<qt><br /><b>One key imported:</b></qt>"
-#~ msgid_plural "<qt><br /><b>%1 keys imported:</b></qt>"
-#~ msgstr[0] "<qt><br /><b>Iompórtáladh eochair amháin:</b></qt>"
-#~ msgstr[1] "<qt><br /><b>Iompórtáladh %1 eochair:</b></qt>"
-#~ msgstr[2] "<qt><br /><b>Iompórtáladh %1 eochair:</b></qt>"
-#~ msgstr[3] "<qt><br /><b>Iompórtáladh %1 n-eochair:</b></qt>"
-#~ msgstr[4] "<qt><br /><b>Iompórtáladh %1 eochair:</b></qt>"
-
-#~ msgid "<qt><br /><b>One secret key imported.</b></qt>"
-#~ msgid_plural "<qt><br /><b>%1 secret keys imported.</b></qt>"
-#~ msgstr[0] "<qt><br /><b>Iompórtáladh eochair rúnda amháin.</b></qt>"
-#~ msgstr[1] "<qt><br /><b>Iompórtáladh %1 eochair rúnda.</b></qt>"
-#~ msgstr[2] "<qt><br /><b>Iompórtáladh %1 eochair rúnda.</b></qt>"
-#~ msgstr[3] "<qt><br /><b>Iompórtáladh %1 n-eochair rúnda.</b></qt>"
-#~ msgstr[4] "<qt><br /><b>Iompórtáladh %1 eochair rúnda.</b></qt>"
-
-#~ msgid "Edit Key Server"
-#~ msgstr "Cuir Freastalaí Eochrach in Eagar"
-
-#~ msgctxt "Mark default keyserver in GUI"
-#~ msgid "(Default)"
-#~ msgstr "(Réamhshocrú)"
-
-#~ msgctxt "Remove default marker from GUI if it is there"
-#~ msgid "(Default)"
-#~ msgstr "(Réamhshocrú)"
-
-#~ msgid "768"
-#~ msgstr "768"
-
-#~ msgctxt "no key comment"
-#~ msgid "none"
-#~ msgstr "gan nóta"
-
-#~ msgid "Unable to contact the address book. Please check your installation."
-#~ msgstr ""
-#~ "Ní féidir dul i dteagmháil leis an leabhar seoltaí. Déan seiceáil ar do "
-#~ "chóras."
-
-#~ msgid ""
-#~ "KGpg was unable to change the passphrase.<br />Please see the detailed "
-#~ "log for more information."
-#~ msgstr ""
-#~ "Níorbh fhéidir le KGpg an frása faire a athrú.<br />Féach ar an "
-#~ "logchomhad mionsonraithe chun tuilleadh eolais a fháil."
-
-#~ msgid "Enter passphrase (symmetrical encryption)"
-#~ msgstr "Iontráil focal faire (criptiú siméadrach)"
-
-#~ msgid "GPG groups"
-#~ msgstr "Grúpaí GPG"
-
-#~ msgid "You have not chosen an encryption key."
-#~ msgstr "Níl eochair chriptithe roghnaithe agat."
-
-#~ msgid "<p><b>Encrypting </b>%2</p>"
-#~ msgid_plural "<p><b>%1 Files left.</b><br /><b>Encrypting </b>%2</p>"
-#~ msgstr[0] "<p>%2 <b>á chriptiú</b></p>"
-#~ msgstr[1] "<p><b>%1 Chomhad fágtha.</b><br />%2 <b>á chriptiú</b></p>"
-#~ msgstr[2] "<p><b>%1 Chomhad fágtha.</b><br />%2 <b>á chriptiú</b></p>"
-#~ msgstr[3] "<p><b>%1 gComhad fágtha.</b><br />%2 <b>á chriptiú</b></p>"
-#~ msgstr[4] "<p><b>%1 Comhad fágtha.</b><br />%2 <b>á chriptiú</b></p>"
-
-#~ msgid "Please wait..."
-#~ msgstr "Fan go fóill, le do thoil..."
-
-#~ msgid "<qt>Search string '<b>%1</b>' not found.</qt>"
-#~ msgstr "<qt>Ní bhfuarthas teagrán cuardaigh '<b>%1</b>'.</qt>"
-
-#~ msgid "Decrypting %1"
-#~ msgstr "%1 á dhíchriptiú"
-
-#~ msgid "Processing decryption"
-#~ msgstr "Díchriptiú á phróiseáil"
-
-#~ msgid "&Settings"
-#~ msgstr "&Socruithe"
-
-#~ msgid "00000 Keys, 000 Groups"
-#~ msgstr "00000 Eochracha, 000 Grúpaí"
-
-#~ msgid "Sign file"
-#~ msgstr "Sínigh comhad"
-
-#~ msgctxt "see kdeui/dialogs/kmessagebox.cpp"
-#~ msgid "Sorry"
-#~ msgstr "Tá brón orm"
-
-#~ msgid "Details"
-#~ msgstr "Mionsonraí"
-
-#~ msgid "Unable to read file."
-#~ msgstr "Ní féidir an comhad a léamh."
-
-#~ msgid "<qt>Cannot open file <b>%1</b> for printing...</qt>"
-#~ msgstr ""
-#~ "<qt>Ní féidir comhad <b>%1</b> a oscailt chun é a phriontáil...</qt>"
-
-#~ msgid "<qt>Enter passphrase for <b>%1</b>:</qt>"
-#~ msgstr "<qt>Iontráil frása faire le haghaidh <b>%1</b>:</qt>"
-
-#~ msgid "textLabel7"
-#~ msgstr "Lipéad7"
-
-#~ msgid "textLabel8"
-#~ msgstr "Lipéad8"
-
-#~ msgid "textLabel10"
-#~ msgstr "Lipéad10"
-
-#~ msgid "Generating new key pair."
-#~ msgstr "Péire nua eochracha á ghiniúint."
-
-#~ msgid ""
-#~ "\n"
-#~ "Please wait..."
-#~ msgstr ""
-#~ "\n"
-#~ "Fan go fóill, le do thoil..."
-
-#~ msgid "Import key(s) from keyserver"
-#~ msgstr "Iompórtáil eochair nó eochracha ó fhreastalaí eochrach"
-
-#~ msgid "<qt>%1 key processed.<br/></qt>"
-#~ msgid_plural "<qt>%1 keys processed.<br/></qt>"
-#~ msgstr[0] "<qt>Próiseáladh %1 eochair.<br/></qt>"
-#~ msgstr[1] "<qt>Próiseáladh %1 eochair.<br/></qt>"
-#~ msgstr[2] "<qt>Próiseáladh %1 eochair.<br/></qt>"
-#~ msgstr[3] "<qt>Próiseáladh %1 n-eochair.<br/></qt>"
-#~ msgstr[4] "<qt>Próiseáladh %1 eochair.<br/></qt>"
-
-#~ msgid "<qt>%1 key unchanged.<br/></qt>"
-#~ msgid_plural "<qt>%1 keys unchanged.<br/></qt>"
-#~ msgstr[0] "<qt>Aon eochair rúnda gan athrú.<br/></qt>"
-#~ msgstr[1] "<qt>Dhá eochair rúnda gan athrú.<br/></qt>"
-#~ msgstr[2] "<qt>%1 eochair rúnda gan athrú.<br/></qt>"
-#~ msgstr[3] "<qt>%1 n-eochair rúnda gan athrú.<br/></qt>"
-#~ msgstr[4] "<qt>%1 eochair rúnda gan athrú.<br/></qt>"
-
-#~ msgid "<qt>%1 signature imported.<br/></qt>"
-#~ msgid_plural "<qt>%1 signatures imported.<br/></qt>"
-#~ msgstr[0] "<qt>Iompórtáladh aon fho-eochair.<br/></qt>"
-#~ msgstr[1] "<qt>Iompórtáladh dhá fho-eochair.<br/></qt>"
-#~ msgstr[2] "<qt>Iompórtáladh %1 fho-eochair.<br/></qt>"
-#~ msgstr[3] "<qt>Iompórtáladh %1 bhfo-eochair.<br/></qt>"
-#~ msgstr[4] "<qt>Iompórtáladh %1 fo-eochair.<br/></qt>"
-
-#~ msgid "<qt>%1 key without ID.<br/></qt>"
-#~ msgid_plural "<qt>%1 keys without ID.<br/></qt>"
-#~ msgstr[0] "<qt>Aon eochair gan aitheantas.<br/></qt>"
-#~ msgstr[1] "<qt>Dhá eochair gan aitheantas.<br/></qt>"
-#~ msgstr[2] "<qt>%1 eochair gan aitheantas.<br/></qt>"
-#~ msgstr[3] "<qt>%1 n-eochair gan aitheantas.<br/></qt>"
-#~ msgstr[4] "<qt>%1 eochair gan aitheantas.<br/></qt>"
-
-#~ msgid "<qt>%1 RSA key imported.<br/></qt>"
-#~ msgid_plural "<qt>%1 RSA keys imported.<br/></qt>"
-#~ msgstr[0] "<qt>Iompórtáladh aon eochair RSA.<br/></qt>"
-#~ msgstr[1] "<qt>Iompórtáladh dhá eochair RSA.<br/></qt>"
-#~ msgstr[2] "<qt>Iompórtáladh %1 eochair RSA.<br/></qt>"
-#~ msgstr[3] "<qt>Iompórtáladh %1 n-eochair RSA.<br/></qt>"
-#~ msgstr[4] "<qt>Iompórtáladh %1 eochair RSA.<br/></qt>"
-
-#~ msgid "<qt>%1 user ID imported.<br/></qt>"
-#~ msgid_plural "<qt>%1 user IDs imported.<br/></qt>"
-#~ msgstr[0] "<qt>Iompórtáladh aon fho-eochair.<br/></qt>"
-#~ msgstr[1] "<qt>Iompórtáladh dhá fho-eochair.<br/></qt>"
-#~ msgstr[2] "<qt>Iompórtáladh %1 fho-eochair.<br/></qt>"
-#~ msgstr[3] "<qt>Iompórtáladh %1 bhfo-eochair.<br/></qt>"
-#~ msgstr[4] "<qt>Iompórtáladh %1 fo-eochair.<br/></qt>"
-
-#~ msgid "<qt>%1 subkey imported.<br/></qt>"
-#~ msgid_plural "<qt>%1 subkeys imported.<br/></qt>"
-#~ msgstr[0] "<qt>Iompórtáladh aon fho-eochair.<br/></qt>"
-#~ msgstr[1] "<qt>Iompórtáladh dhá fho-eochair.<br/></qt>"
-#~ msgstr[2] "<qt>Iompórtáladh %1 fho-eochair.<br/></qt>"
-#~ msgstr[3] "<qt>Iompórtáladh %1 bhfo-eochair.<br/></qt>"
-#~ msgstr[4] "<qt>Iompórtáladh %1 fo-eochair.<br/></qt>"
-
-#~ msgid "<qt>%1 secret key processed.<br/></qt>"
-#~ msgid_plural "<qt>%1 secret keys processed.<br/></qt>"
-#~ msgstr[0] "<qt>Próiseáladh %1 eochair rúnda.<br/></qt>"
-#~ msgstr[1] "<qt>Próiseáladh %1 eochair rúnda.<br/></qt>"
-#~ msgstr[2] "<qt>Próiseáladh %1 eochair rúnda.<br/></qt>"
-#~ msgstr[3] "<qt>Próiseáladh %1 n-eochair rúnda.<br/></qt>"
-#~ msgstr[4] "<qt>Próiseáladh %1 eochair rúnda.<br/></qt>"
-
-#~ msgid "<qt><b>%1 secret key imported.</b><br/></qt>"
-#~ msgid_plural "<qt><b>%1 secret keys imported.</b><br/></qt>"
-#~ msgstr[0] "<qt><b>Iompórtáladh %1 eochair rúnda.</b><br/></qt>"
-#~ msgstr[1] "<qt><b>Iompórtáladh %1 eochair rúnda.</b><br/></qt>"
-#~ msgstr[2] "<qt><b>Iompórtáladh %1 eochair rúnda.</b><br/></qt>"
-#~ msgstr[3] "<qt><b>Iompórtáladh %1 n-eochair rúnda.</b><br/></qt>"
-#~ msgstr[4] "<qt><b>Iompórtáladh %1 eochair rúnda.</b><br/></qt>"
-
-#~ msgid "<qt>%1 secret key unchanged.<br/></qt>"
-#~ msgid_plural "<qt>%1 secret keys unchanged.<br/></qt>"
-#~ msgstr[0] "<qt>Aon eochair rúnda gan athrú.<br/></qt>"
-#~ msgstr[1] "<qt>Dhá eochair rúnda gan athrú.<br/></qt>"
-#~ msgstr[2] "<qt>%1 eochair rúnda gan athrú.<br/></qt>"
-#~ msgstr[3] "<qt>%1 n-eochair rúnda gan athrú.<br/></qt>"
-#~ msgstr[4] "<qt>%1 eochair rúnda gan athrú.<br/></qt>"
-
-#~ msgid "<qt>%1 secret key not imported.<br/></qt>"
-#~ msgid_plural "<qt>%1 secret keys not imported.<br/></qt>"
-#~ msgstr[0] "<qt>Aon eochair rúnda gan iompórtáil.<br/></qt>"
-#~ msgstr[1] "<qt>Dhá eochair rúnda gan iompórtáil.<br/></qt>"
-#~ msgstr[2] "<qt>%1 eochair rúnda gan iompórtáil.<br/></qt>"
-#~ msgstr[3] "<qt>%1 n-eochair rúnda gan iompórtáil.<br/></qt>"
-#~ msgstr[4] "<qt>%1 eochair rúnda gan iompórtáil.<br/></qt>"
-
-#~ msgid "<qt><b>%1 key imported:</b><br/></qt>"
-#~ msgid_plural "<qt><b>%1 keys imported:</b><br/></qt>"
-#~ msgstr[0] "<qt><b>Iompórtáladh %1 eochair:</b><br/></qt>"
-#~ msgstr[1] "<qt><b>Iompórtáladh %1 eochair:</b><br/></qt>"
-#~ msgstr[2] "<qt><b>Iompórtáladh %1 eochair:</b><br/></qt>"
-#~ msgstr[3] "<qt><b>Iompórtáladh %1 n-eochair:</b><br/></qt>"
-#~ msgstr[4] "<qt><b>Iompórtáladh %1 eochair:</b><br/></qt>"
-
-#~ msgid ""
-#~ "No key imported... \n"
-#~ "Check detailed log for more infos"
-#~ msgstr ""
-#~ "Níor iompórtáladh aon eochair... \n"
-#~ "Féach ar an logchomhad chun tuilleadh eolais a fháil"
-
-#~ msgid "Key server"
-#~ msgstr "Freastalaí eochrach"
-
-#~ msgid "Processing encryption (%1)"
-#~ msgstr "Criptiú á phróiseáil (%1)"
-
-#~ msgid "&Decrypt && Save File"
-#~ msgstr "&Dícriptigh agus Sábháil Comhad"
-
-#~ msgid "&Show Decrypted File"
-#~ msgstr "&Taispeáin Comhad Díchriptithe"
-
-#~ msgid "&Encrypt File"
-#~ msgstr "&Criptigh Comhad"
-
-#~ msgid "&Sign File"
-#~ msgstr "&Sínigh Comhad"
-
-#~ msgid "No encrypted text found."
-#~ msgstr "Níor aimsíodh aon téacs criptithe."
-
-#~ msgid "Encrypted following text:"
-#~ msgstr "Criptíodh an téacs seo:"
-
-#~ msgid "E&ditor"
-#~ msgstr "Ea&garthóir"
-
-#~ msgid "RSA"
-#~ msgstr "RSA"
-
-#~ msgctxt "Encryption algorithm"
-#~ msgid "DSA - ElGamal"
-#~ msgstr "DSA - ElGamal"
-
-#~ msgid "Start Wizard"
-#~ msgstr "Tosaigh an Treoraí"
-
-#~ msgid "KGpg Wizard"
-#~ msgstr "Treoraí KGpg"
-
-#~ msgid "Welcome"
-#~ msgstr "Fáilte"
-
-#~ msgid "Unable to read temporary archive file"
-#~ msgstr "Ní féidir an comhad sealadach cartlainne a léamh"
-
-#~ msgid "Extract to: "
-#~ msgstr "Bain amach go: "
-
-#~ msgid "Could not change expiration"
-#~ msgstr "Níorbh fhéidir an dáta éaga a athrú"
-
-#~ msgid "Shred file"
-#~ msgstr "Léirscrios comhad"
-
-#~ msgid "Encrypt"
-#~ msgstr "Criptigh"
-
-#~ msgid "Ask"
-#~ msgstr "Fiafraigh díom"
-
-#~ msgid "Decrypt & Save"
-#~ msgstr "Díchriptigh agus Sábháil"
-
-#~ msgid "&Abort"
-#~ msgstr "&Tobscoir"
-
-#~ msgid "&Hide Expired/Disabled Keys"
-#~ msgstr "&Folaigh Eochracha atá As Dáta/Díchumasaithe"
-
-#~ msgctxt "Name (Comment)"
-#~ msgid "%1 (%2)"
-#~ msgstr "%1 (%2)"
-
-#~ msgid " [Revocation signature]"
-#~ msgstr " [Síniú cúlghairme]"
-
-#~ msgctxt "Name of key owner"
-#~ msgid "Name"
-#~ msgstr "Ainm"
-
-#~ msgctxt "Email address of key owner"
-#~ msgid "Email"
-#~ msgstr "Ríomhphost"
-
-#~ msgctxt "No operation in progress"
-#~ msgid "Ready"
-#~ msgstr "Réidh"
-
-#~ msgid "Loading Keys..."
-#~ msgstr "Eochracha á Luchtú..."
-
-#~ msgid "Shred Files"
-#~ msgstr "Léirscrios Comhaid"
-
-#~ msgid ""
-#~ "Do you really want to <a href=\"whatsthis:%1\">shred</a> these files?"
-#~ msgstr ""
-#~ "An bhfuil tú cinnte gur mian leat na comhaid seo a <a href=\"whatsthis:"
-#~ "%1\">léirscriosadh</a>?"
-
-# stiallaire is for paper
-#~ msgid "Shredder"
-#~ msgstr "Léirscriostóir"
-
-#~ msgid "Cannot shred folder."
-#~ msgstr "Ní féidir an fillteán a léirscriosadh."
-
-#~ msgid "Shredding %1 file"
-#~ msgid_plural "Shredding %1 files"
-#~ msgstr[0] "%1 chomhad á léirscriosadh"
-#~ msgstr[1] "%1 chomhad á léirscriosadh"
-#~ msgstr[2] "%1 chomhad á léirscriosadh"
-#~ msgstr[3] "%1 gcomhad á léirscriosadh"
-#~ msgstr[4] "%1 comhad á léirscriosadh"
-
-#~ msgid "KGpg Error"
-#~ msgstr "Earráid KGpg"
-
-#~ msgid "Shred source file"
-#~ msgstr "Léirscrios an comhad foinseach"
-
-#~ msgid "shredInfo"
-#~ msgstr "Eolas faoi léirscriosadh"
-
-#~ msgid "Install Shredder"
-#~ msgstr "Suiteáil Léirscriostóir"
-
-#~ msgid "Shred the source file after encryption."
-#~ msgstr "Léirscrios an comhad foinseach i ndiaidh é a chriptiú."
-
-#~ msgid "Install shredder on my desktop"
-#~ msgstr "Suiteáil léirscriostóir ar mo dheasc"
-
-#~ msgid "Key"
-#~ msgstr "Eochair"
-
-#~ msgid "Warning"
-#~ msgstr "Rabhadh"
-
-#~ msgid "Do Not Export"
-#~ msgstr "Ná hEaspórtáil"
-
-#~ msgid " ("
-#~ msgstr " ("
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid "Keys server"
-#~ msgstr "Freastalaí eochracha"
-
-#~ msgid "Edit key manually to delete this signature."
-#~ msgstr "Cuir an eochair in eagar de láimh chun an síniú a scriosadh."
-
-#~ msgid "<p><qt>Enter passphrase for <b>%1</b>:</qt></p>"
-#~ msgstr "<p><qt>Iontráil frása faire do <b>%1</b>:</qt></p>"
-
-#~ msgid "&Edit Key"
-#~ msgstr "Cuir Eochair in &Eagar"
-
-#~ msgid "Utlimately"
-#~ msgstr "Gan Teorainn"
-
-#~ msgid "Step One: Communication with GnuPG"
-#~ msgstr "Céim a hAon: Cumarsáid le GnuPG"
-
-#~ msgid "Step Two: Install a Shredder on your Desktop"
-#~ msgstr "Céim a Dó: Suiteáil Léirscriostóir ar do Dheasc"
-
-#~ msgid "Clear Search"
-#~ msgstr "Glan an Cuardach"
-
-#~ msgid "?"
-#~ msgstr "?"
-
-#~ msgid "<qt>%1 Enter passphrase for <b>%2</b></qt>"
-#~ msgstr "<qt>%1 Iontrál focal faire do <b>%2</b></qt>"
-
-#~ msgid "Alt+6"
-#~ msgstr "Alt+6"
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "Additional Keyring"
-#~ msgstr "Fáinne Eochracha sa Bhreis"
-
-#~ msgid "Pu&blic:"
-#~ msgstr "Poi&blí:"
-
-#~ msgid "Use only this keyring"
-#~ msgstr "Úsáid an fáinne eochracha seo amháin"
-
-#~ msgid "Overwrite"
-#~ msgstr "Forscríobh"
