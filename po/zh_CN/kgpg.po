@@ -643,7 +643,7 @@ msgid ""
 "The placeholders surrounded by the percent signs (like %KEYID%) will be "
 "replaced with the corresponding text for every single mail."
 msgstr ""
-"这是在执行“签名并发送用户编号”操作时，要发送邮件的文字内容。\n"
+"这是在执行“签名并发送用户编号”操作时，要发送邮件的文本内容。\n"
 "\n"
 "用百分号括起来的符号(如 %KEYID%)会在每封邮件中被相应的内容替换。"
 
@@ -1580,8 +1580,8 @@ msgid ""
 "a key (example: searching for 0xED7585F4 would bring up the key associated "
 "with that ID).</p></qt>"
 msgstr ""
-"<qt><b>要查找的文字或者要导入的密钥 ID：</b><br />\n"
-"<p>有多种搜索密钥的方式，您可以使用部分文字来搜索(例如：输入张三或李四可以得"
+"<qt><b>要查找的文本或者要导入的密钥 ID：</b><br />\n"
+"<p>有多种搜索密钥的方式，您可以使用部分文本来搜索(例如：输入张三或李四可以得"
 "出所有包含这关键词的密钥)，或者根据密钥 ID 号搜索，密钥 ID 是一个由字母和数字"
 "组成的密钥唯一辨识字符串(例如：搜索 0xED7585F4 可以取得关联到此 ID 的密钥)。"
 "</p></qt>"
@@ -1590,7 +1590,7 @@ msgstr ""
 #: keyserver.ui:70
 #, kde-format
 msgid "Text to search or ID of the key to import:"
-msgstr "要查找的文字或者要导入的密钥 ID："
+msgstr "要查找的文本或者要导入的密钥 ID："
 
 #. i18n: ectx: property (text), widget (QCheckBox, cBproxyI)
 #. i18n: ectx: property (text), widget (QCheckBox, cBproxyE)
@@ -2529,7 +2529,7 @@ msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
-"<qt>剪贴板中的文本不像是一个密钥，而像一段加密文字。<br />您想先将其解密再尝"
+"<qt>剪贴板中的文本不像是一个密钥，而像一段加密文本。<br />您想先将其解密再尝"
 "试导入它吗？</qt>"
 
 #: keysmanager.cpp:2541
@@ -3006,7 +3006,7 @@ msgstr "可用时使用 HTTP 代理。"
 #, kde-format
 msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
-msgstr "这是在执行“签名并发送用户编号”操作时，要发送邮件的文字内容。"
+msgstr "这是在执行“签名并发送用户编号”操作时，要发送邮件的文本内容。"
 
 #: kgpgexternalactions.cpp:127
 #, kde-format
@@ -4074,7 +4074,7 @@ msgid ""
 "non alphanumeric characters and random sequences.</p>"
 msgstr ""
 "<p><b>输入 %1 &lt;%2&gt; 的密码句</b>：<br />密码句中应该包含字母和数字以外的"
-"字符，以及随机文字序列</p>"
+"字符，以及随机文本序列</p>"
 
 #: transactions/kgpggeneratekey.cpp:128
 #, kde-format
@@ -4083,7 +4083,7 @@ msgid ""
 "alphanumeric characters and random sequences.</p>"
 msgstr ""
 "<p><b>输入 %1 的密码句</b>：<br />密码句中应该包含字母和数字以外的字符，以及"
-"随机文字序列</p>"
+"随机文本序列</p>"
 
 #: transactions/kgpggeneratekey.cpp:139
 #, kde-format
