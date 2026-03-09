@@ -112,8 +112,8 @@ msgid ""
 "No mail was sent for the following user id because it was already signed:"
 msgid_plural ""
 "No mail was sent for the following user ids because they were already signed:"
-msgstr[0] "لم يُرسل أي بريد لمعرف المستخدم التالي لأنه موقّع مسبقًا:"
-msgstr[1] "لم يُرسل أي بريد لمعرف المستخدم التالي لأنه موقّع مسبقًا:"
+msgstr[0] "لم يُرسل أي بريد لمعرف المستخدم التالي لأنه موقع مسبقًا:"
+msgstr[1] "لم يُرسل أي بريد لمعرف المستخدم التالي لأنه موقع مسبقًا:"
 msgstr[2] "لم يُرسل أي بريد لمعرفي المستخدمي التاليين لأنها موقعة مسبقاً:"
 msgstr[3] "لم يُرسل أي بريد لمعرفات المستخدمين التالية لأنها موقعة مسبقاً:"
 msgstr[4] "لم يُرسل أي بريد لمعرفات المستخدمين التالية لأنها موقعة مسبقاً:"
@@ -2524,12 +2524,12 @@ msgstr ""
 #: keysmanager.cpp:1967
 #, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
-msgstr "<qt>عبارة مرور سيئة، المفتاح <b>%1 (%2)</b> غير موقّع.</qt>"
+msgstr "<qt>عبارة مرور سيئة، المفتاح <b>%1 (%2)</b> غير موقع.</qt>"
 
 #: keysmanager.cpp:1971
 #, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
-msgstr "<qt>المفتاح <b>%1 (%2)</b> موقّع مسبقًا.</qt>"
+msgstr "<qt>المفتاح <b>%1 (%2)</b> موقع مسبقًا.</qt>"
 
 #: keysmanager.cpp:1976
 #, kde-format
@@ -3651,7 +3651,7 @@ msgstr "بصمة الإصبع"
 #: kgpgoptions.cpp:107
 #, kde-format
 msgid "Decryption"
-msgstr "فك التعميةّ"
+msgstr "فك التعمية"
 
 #: kgpgoptions.cpp:108
 #, kde-format
