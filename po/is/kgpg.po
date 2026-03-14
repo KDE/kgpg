@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:55+0000\n"
-"PO-Revision-Date: 2026-03-12 17:38+0000\n"
+"PO-Revision-Date: 2026-03-13 15:50+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -429,10 +429,9 @@ msgstr "Breyta..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
-#, fuzzy, kde-format
-#| msgid "GnuPG Settings"
+#, kde-format
 msgid "GnuPG Binary"
-msgstr "GnuPG stillingar"
+msgstr "GnuPG-tvíundaskrá"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel1_6_2)
 #: conf_gpg.ui:114
@@ -444,7 +443,7 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6_2)
 #: conf_gpg.ui:117
-#, fuzzy, kde-format
+#, kde-format
 msgid "Program path:"
 msgstr "Slóð að forriti:"
 
@@ -641,7 +640,7 @@ msgstr "Sýna táknmynd í kerfisbakka"
 #: conf_misc.ui:223
 #, kde-format
 msgid "Left mouse click opens:"
-msgstr ""
+msgstr "Vinstri músarsmellur opnar:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_LeftClick)
 #: conf_misc.ui:240
@@ -666,7 +665,7 @@ msgstr "Nýlegar skrár"
 #: conf_misc.ui:306
 #, kde-format
 msgid "Key Signing"
-msgstr ""
+msgstr "Undirritun lykils"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_2)
 #: conf_misc.ui:314
@@ -706,7 +705,7 @@ msgstr "Ekki senda"
 #: conf_misc.ui:345
 #, kde-format
 msgid "Email template"
-msgstr ""
+msgstr "Sniðmát tölvupósts"
 
 #. i18n: ectx: property (whatsThis), widget (KTextEdit, EmailTemplateEdit)
 #: conf_misc.ui:353
@@ -868,18 +867,16 @@ msgid "DSA"
 msgstr "DSA"
 
 #: core/convert.cpp:49
-#, fuzzy, kde-format
-#| msgid "ElGamal"
+#, kde-format
 msgctxt "Encryption algorithm"
 msgid "ElGamal"
 msgstr "ElGamal"
 
 #: core/convert.cpp:51
-#, fuzzy, kde-format
-#| msgid "ElGamal"
+#, kde-format
 msgctxt "Encryption algorithm"
 msgid "DSA & ElGamal"
-msgstr "ElGamal"
+msgstr "DSA og ElGamal"
 
 #: core/convert.cpp:53
 #, kde-format
@@ -912,21 +909,18 @@ msgid "EdDSA"
 msgstr "EdDSA"
 
 #: core/convert.cpp:64
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgctxt "Unknown algorithm"
 msgid "Unknown"
 msgstr "Óþekkt"
 
 #: core/convert.cpp:72
-#, fuzzy, kde-format
-#| msgid "Don't Know"
+#, kde-format
 msgid "I do not know"
 msgstr "Veit ekki"
 
 #: core/convert.cpp:74
-#, fuzzy, kde-format
-#| msgid "Do NOT Trust"
+#, kde-format
 msgid "I do NOT trust"
 msgstr "EKKI treysta"
 
@@ -946,8 +940,7 @@ msgid "Ultimately"
 msgstr "Algjörlega"
 
 #: core/convert.cpp:83
-#, fuzzy, kde-format
-#| msgid "Unknown"
+#, kde-format
 msgctxt "Unknown trust in key owner"
 msgid "Unknown"
 msgstr "Óþekkt"
@@ -1036,7 +1029,7 @@ msgstr "Dulritun"
 #, kde-format
 msgctxt "key capability"
 msgid "Authentication"
-msgstr ""
+msgstr "Auðkenning"
 
 #: core/convert.cpp:125
 #, kde-format
@@ -1048,7 +1041,7 @@ msgstr "Vottun"
 #, kde-format
 msgctxt "used to join a list of key types, e.g. 'encryption, signature'"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: core/KGpgGroupNode.cpp:154
 #, kde-format
@@ -1247,18 +1240,18 @@ msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
 #: editor/kgpgeditor.cpp:698 keyserver.ui:33 keytreeview.cpp:158
-#, fuzzy, kde-format
+#, kde-format
 msgid "Import"
-msgstr "&Flytja inn"
+msgstr "Flytja inn"
 
 #: editor/kgpgeditor.cpp:698 keytreeview.cpp:159
-#, fuzzy, kde-format
+#, kde-format
 msgid "Do Not Import"
-msgstr "Lykilinnflutningur"
+msgstr "Ekki flytja inn"
 
 #. i18n: ectx: Menu (view)
 #: editor/kgpgeditor.rc:13 keysmanager.rc:25
-#, fuzzy, kde-format
+#, kde-format
 msgid "&View"
 msgstr "S&koða"
 
@@ -1347,18 +1340,16 @@ msgid "Key file dropped on Editor"
 msgstr ""
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "Years"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr "Ár"
+msgstr "Já"
 
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "Ekkert"
+msgstr "Nei"
 
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
@@ -1398,9 +1389,9 @@ msgid "Import key in your list"
 msgstr "Flytja inn í lyklakippu"
 
 #: editor/kgpgtextedit.cpp:337
-#, fuzzy, kde-format
+#, kde-format
 msgid "Do &Not Import"
-msgstr "Lykilinnflutningur"
+msgstr "Ekki flytja i&nn"
 
 #: editor/kgpgtextedit.cpp:339
 #, kde-format
@@ -1419,17 +1410,16 @@ msgstr "Þjappa og dulkóða möppu"
 
 #: foldercompressjob.cpp:63 foldercompressjob.cpp:114 foldercompressjob.cpp:133
 #: foldercompressjob.cpp:135 transactions/kgpgtransactionjob.cpp:59
-#, fuzzy, kde-format
-#| msgid "Ultimate"
+#, kde-format
 msgctxt "State of operation as in status"
 msgid "State"
-msgstr "Hámarks"
+msgstr "Staða"
 
 #: foldercompressjob.cpp:63 transactions/kgpgtransactionjob.cpp:32
 #, kde-format
 msgctxt "Job is started up"
 msgid "Startup"
-msgstr ""
+msgstr "Ræsing"
 
 #: foldercompressjob.cpp:96
 #, kde-format
@@ -1437,18 +1427,16 @@ msgid "Unable to create temporary file"
 msgstr "Gat ekki búið til tímabundna skrá"
 
 #: foldercompressjob.cpp:115 transactions/kgpgencrypt.cpp:92
-#, fuzzy, kde-format
-#| msgid "Decrypting %1"
+#, kde-format
 msgctxt "Status message 'Encrypting <filename>' (operation starts)"
 msgid "Encrypting %1"
-msgstr "Afkóða %1"
+msgstr "Dulrita %1"
 
 #: foldercompressjob.cpp:136 transactions/kgpgencrypt.cpp:95
-#, fuzzy, kde-format
-#| msgid "Decrypting %1"
+#, kde-format
 msgctxt "Status message 'Encrypted <filename>' (operation was completed)"
 msgid "Encrypted %1"
-msgstr "Afkóða %1"
+msgstr "Dulritaði %1"
 
 #: foldercompressjob.cpp:167
 #, kde-format
@@ -1456,32 +1444,29 @@ msgid "Zip"
 msgstr "Zip"
 
 #: foldercompressjob.cpp:168
-#, fuzzy, kde-format
-#| msgid "Gzip"
+#, kde-format
 msgid "Tar/Gzip"
-msgstr "Gzip"
+msgstr "Tar/Gzip"
 
 #: foldercompressjob.cpp:169
-#, fuzzy, kde-format
-#| msgid "Bzip2"
+#, kde-format
 msgid "Tar/Bzip2"
-msgstr "Bzip2"
+msgstr "Tar/Bzip2"
 
 #: foldercompressjob.cpp:170
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tar"
 msgstr "Tar"
 
 #: foldercompressjob.cpp:171
-#, fuzzy, kde-format
+#, kde-format
 msgid "Tar/XZ"
-msgstr "Tar"
+msgstr "Tar/XZ"
 
 #: groupedit.cpp:30
-#, fuzzy, kde-format
-#| msgid "Available Trusted Keys"
+#, kde-format
 msgid "Available Keys"
-msgstr "Tiltækir traustir lyklar"
+msgstr "Tiltækir lyklar"
 
 #: groupedit.cpp:33
 #, kde-format
@@ -1491,10 +1476,9 @@ msgstr "Tiltækir traustir lyklar"
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: groupedit.ui:38 keysmanager.cpp:418 searchres.ui:29
-#, fuzzy, kde-format
-#| msgid "Search: "
+#, kde-format
 msgid "Search:"
-msgstr "Leita: "
+msgstr "Leita:"
 
 #. i18n: ectx: property (text), widget (QLabel, kActiveLabel1)
 #: groupedit.ui:84
@@ -1510,17 +1494,16 @@ msgstr "Útflutningur dreifilykils"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkMail)
 #: keyexport.ui:41
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Export a key via email"
 msgid "E&mail"
-msgstr "Netfang:"
+msgstr "Tölvupóst&fang"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkClipboard)
 #: keyexport.ui:48 sourceselect.ui:35
-#, fuzzy, kde-format
-#| msgid "Clipboard"
+#, kde-format
 msgid "C&lipboard"
-msgstr "Klippispjald"
+msgstr "K&lippispjald"
 
 #. i18n: ectx: property (toolTip), widget (QRadioButton, checkServer)
 #: keyexport.ui:58
@@ -1532,10 +1515,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkServer)
 #: keyexport.ui:61
-#, fuzzy, kde-format
-#| msgid "Key server:"
+#, kde-format
 msgid "&Key server:"
-msgstr "Lyklamiðlari:"
+msgstr "Ly&klaþjónn:"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkFile)
 #: keyexport.ui:75 sourceselect.ui:44
@@ -1545,10 +1527,9 @@ msgstr "Skrá:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, buttonGroup3)
 #: keyexport.ui:95
-#, fuzzy, kde-format
-#| msgid "Global Settings"
+#, kde-format
 msgid "Export Settings"
-msgstr "Víðværar stillingar"
+msgstr "Flytja út stillingar"
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkAttrAll)
 #: keyexport.ui:101
@@ -2378,7 +2359,7 @@ msgstr "Flytja út LEYNILYKIL sem"
 #: keysmanager.cpp:1367
 #, kde-format
 msgid "*.asc|*.asc Files"
-msgstr ""
+msgstr "*.asc|*.asc skrár"
 
 #: keysmanager.cpp:1385
 #, fuzzy, kde-format
@@ -3290,7 +3271,7 @@ msgstr ""
 #: kgpgexternalactions.cpp:427
 #, kde-format
 msgid "Start Assistant"
-msgstr ""
+msgstr "Leiðarvísir í byrjun"
 
 #: kgpgexternalactions.cpp:427
 #, fuzzy, kde-format
@@ -3300,7 +3281,7 @@ msgstr "EKKI treysta"
 #: kgpgfirstassistant.cpp:35
 #, kde-format
 msgid "KGpg Assistant"
-msgstr ""
+msgstr "KGpg-hjálparforritið"
 
 #: kgpgfirstassistant.cpp:59
 #, fuzzy, kde-format
@@ -3323,7 +3304,7 @@ msgstr ""
 #: kgpgfirstassistant.cpp:67
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
-msgstr ""
+msgstr "Velkomin(n) í KGpg-hjálparforritið"
 
 #: kgpgfirstassistant.cpp:79
 #, fuzzy, kde-format
@@ -3364,10 +3345,9 @@ msgid "Path to your GnuPG configuration file:"
 msgstr "<br>Slóð að GnuPG stillingaskrám:"
 
 #: kgpgfirstassistant.cpp:163
-#, fuzzy, kde-format
-#| msgid "Configuration file:"
+#, kde-format
 msgid "Configuration File"
-msgstr "Stillingaskrá:"
+msgstr "Stillingaskrá"
 
 #: kgpgfirstassistant.cpp:173
 #, kde-format
@@ -3402,14 +3382,14 @@ msgstr ""
 "að GnuPG sé innsett. Á KGpg að reyna að búa til stillingaskránna ?</qt>"
 
 #: kgpgfirstassistant.cpp:241
-#, fuzzy, kde-format
+#, kde-format
 msgid "Create Config"
-msgstr "Búin til"
+msgstr "Búa til stillingaskrá"
 
 #: kgpgfirstassistant.cpp:241
-#, fuzzy, kde-format
+#, kde-format
 msgid "Do Not Create"
-msgstr "Búa til"
+msgstr "Ekki búa til"
 
 #: kgpgfirstassistant.cpp:249
 #, kde-format
@@ -3602,7 +3582,7 @@ msgstr "&Reiknirit:"
 #: kgpgkeygenerate.ui:160 kgpgKeyInfo.ui:223
 #, kde-format
 msgid "Capabilities"
-msgstr ""
+msgstr "Getuupplýsingar"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, capCert)
 #: kgpgkeygenerate.ui:172
@@ -4104,7 +4084,7 @@ msgstr "Vista sem:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CBprint)
 #: newkey.ui:186
-#, fuzzy, kde-format
+#, kde-format
 msgid "Print"
 msgstr "Prenta"
 
@@ -4127,14 +4107,13 @@ msgid "Choose New Expiration"
 msgstr "Velja nýjan lokadag"
 
 #: selectexpirydate.cpp:37
-#, fuzzy, kde-format
-#| msgid "Unlimited"
+#, kde-format
 msgctxt "Key has unlimited lifetime"
 msgid "Unlimited"
 msgstr "Ótakmarkað"
 
 #: selectpublickeydialog.cpp:48 selectpublickeydialog.cpp:266
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Options"
 msgstr "Valk&ostir"
 
@@ -4157,9 +4136,9 @@ msgstr[0] "Veldu dreifilykil fyrir %1"
 msgstr[1] "Veldu dreifilykil fyrir %1"
 
 #: selectpublickeydialog.cpp:75
-#, fuzzy, kde-format
+#, kde-format
 msgid "&Search: "
-msgstr "Leita: "
+msgstr "&Leita: "
 
 #: selectpublickeydialog.cpp:92
 #, kde-format
@@ -4301,14 +4280,14 @@ msgid "This image is very large. Use it anyway?"
 msgstr "Myndin er mjög stór. Nota hana samt?"
 
 #: transactions/kgpgaddphoto.cpp:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "Use Anyway"
 msgstr "Nota samt"
 
 #: transactions/kgpgaddphoto.cpp:38
-#, fuzzy, kde-format
+#, kde-format
 msgid "Do Not Use"
-msgstr "Búa til"
+msgstr "Ekki nota"
 
 #: transactions/kgpgchangepass.cpp:55
 #, fuzzy, kde-format
@@ -4389,7 +4368,7 @@ msgstr "Bý til lyklapar."
 #: transactions/kgpggeneratekey.cpp:158
 #, kde-format
 msgid "Waiting for entropy"
-msgstr ""
+msgstr "Bíð eftir óreiðu"
 
 #: transactions/kgpggeneratekey.cpp:163
 #, kde-format
@@ -4595,12 +4574,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: transactions/kgpgimport.cpp:233
-#, fuzzy, kde-format
-#| msgid "Private Key List"
+#, kde-format
 msgid "New Private Key"
 msgid_plural "New Private Keys"
-msgstr[0] "Einkalyklalisti"
-msgstr[1] "Einkalyklalisti"
+msgstr[0] "Nýr einkalykill"
+msgstr[1] "Nýir einkalyklar"
 
 #: transactions/kgpgimport.cpp:249
 #, kde-format
