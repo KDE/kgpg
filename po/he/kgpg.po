@@ -4,13 +4,13 @@
 # Chen Levy <mailist@chenlevy.com>, 2006.
 # Diego Iastrubni <elcuco@kde.org>, 2012.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
-# SPDX-FileCopyrightText: 2023, 2024, 2025 Yaron Shahrabani <sh.yaron@gmail.com>
+# SPDX-FileCopyrightText: 2023, 2024, 2025, 2026 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:55+0000\n"
-"PO-Revision-Date: 2025-10-05 12:23+0300\n"
+"PO-Revision-Date: 2026-03-20 08:13+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.08.1\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -136,15 +136,15 @@ msgid ""
 "GPG when decryption occurs. (This is recommended for advanced users only).</"
 "p></qt>"
 msgstr ""
-"<qt><b>פקודת פענוח בהתאמה אישית:</b><br />\n"
+"<qt><b>פקודת פיענוח בהתאמה אישית:</b><br />\n"
 "<p>האפשרות הזאת מאפשרת למשתמש לציין פקודה משלו להפעלה על ידי GPG לביצוע "
-"פענוח. (מומלץ למשתמשים מתקדמים בלבד).</p></qt>"
+"פיענוח. (מומלץ למשתמשים מתקדמים בלבד).</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4_2)
 #: conf_decryption.ui:55
 #, kde-format
 msgid "Custom decryption command:"
-msgstr "פקודת פענוח מותאמת אישית:"
+msgstr "פקודת פיענוח מותאמת אישית:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Encryption)
 #. i18n: ectx: property (text), widget (QCheckBox, capEncrypt)
@@ -554,7 +554,7 @@ msgid ""
 "<p></p>\n"
 "</qt>"
 msgstr ""
-"<qt><b>תפריט שירות פענוח קבצים:</b><br />\n"
+"<qt><b>תפריט שירות פיענוח קבצים:</b><br />\n"
 "<p></p>\n"
 "</qt>"
 
@@ -562,7 +562,7 @@ msgstr ""
 #: conf_misc.ui:167
 #, kde-format
 msgid "Decrypt file service menu:"
-msgstr "תפריט שירות פענוח קבצים:"
+msgstr "תפריט שירות פיענוח קבצים:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
 #: conf_misc.ui:188
@@ -1060,7 +1060,7 @@ msgstr "ה&צפנת קובץ…"
 #: editor/kgpgeditor.cpp:191
 #, kde-format
 msgid "&Decrypt File..."
-msgstr "&פענוח קובץ…"
+msgstr "&פיענוח קובץ…"
 
 #: editor/kgpgeditor.cpp:195
 #, kde-format
@@ -1095,7 +1095,7 @@ msgstr "ה&צפנה"
 #: editor/kgpgeditor.cpp:218
 #, kde-format
 msgid "&Decrypt"
-msgstr "&פענוח"
+msgstr "&פיענוח"
 
 #: editor/kgpgeditor.cpp:222
 #, kde-format
@@ -1149,12 +1149,12 @@ msgstr "*|כל הקבצים"
 #: editor/kgpgeditor.cpp:477
 #, kde-format
 msgid "Open File to Decode"
-msgstr "פתיחת קובץ לפענוח"
+msgstr "פתיחת קובץ לפיענוח"
 
 #: editor/kgpgeditor.cpp:491
 #, kde-format
 msgid "Decrypt File To"
-msgstr "פענוח קובץ ל־"
+msgstr "פיענוח קובץ ל־"
 
 #: editor/kgpgeditor.cpp:502 keyexport.cpp:20
 #, kde-format
@@ -1298,7 +1298,7 @@ msgstr "לא"
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
 msgid "Decryption failed."
-msgstr "הפענוח נכשל."
+msgstr "הפיענוח נכשל."
 
 #: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:132
 #, kde-format
@@ -2665,7 +2665,7 @@ msgstr "ה&צפנת לוח הגזירים"
 #: keysmanager.cpp:2655
 #, kde-format
 msgid "&Decrypt Clipboard"
-msgstr "&פענוח לוח הגזירים"
+msgstr "&פיענוח לוח הגזירים"
 
 #: keysmanager.cpp:2658
 #, kde-format
@@ -2726,7 +2726,7 @@ msgid ""
 "KGpg settings, or fix the agent.</qt>"
 msgstr ""
 "<qt>השימוש ב־<b>סוכן GnuPG</b> פעיל בקובץ ההגדרות של GnuPG (%1).<br />עם "
-"זאת, לא נראה שהסוכן פעיל. זה יכול לגרום לבעיות בחתימה/פענוח.<br />נא להשבית "
+"זאת, לא נראה שהסוכן פעיל. זה יכול לגרום לבעיות בחתימה/פיענוח.<br />נא להשבית "
 "את GnuPG מההגדרות של KGpg או לתקן את הסוכן.</qt>"
 
 #: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
@@ -2845,7 +2845,7 @@ msgstr ""
 #: kgpg.kcfg:13
 #, kde-format
 msgid "Custom decryption command."
-msgstr "פקודת פענוח מותאמת אישית."
+msgstr "פקודת פיענוח מותאמת אישית."
 
 #. i18n: ectx: label, entry (CustomEncryptionOptions), group (Encryption)
 #: kgpg.kcfg:19
@@ -3021,7 +3021,7 @@ msgstr "הצגת תפריט השירות „חתימה על קובץ”."
 #: kgpg.kcfg:167
 #, kde-format
 msgid "Show the \"decrypt file\" service menu."
-msgstr "הצגת תפריט השירות „פענוח קובץ”."
+msgstr "הצגת תפריט השירות „פיענוח קובץ”."
 
 #. i18n: ectx: label, entry (ShowSystray), group (User Interface)
 #: kgpg.kcfg:176
@@ -3142,10 +3142,10 @@ msgstr "שיטת דחיסה לארכיון:"
 #, kde-format
 msgid "Decryption of this file failed:"
 msgid_plural "Decryption of these files failed:"
-msgstr[0] "פענוח הקובץ נכשל:"
-msgstr[1] "פענוח הקבצים האלה נכשלו:"
-msgstr[2] "פענוח הקבצים האלה נכשלו:"
-msgstr[3] "פענוח הקבצים האלה נכשלו:"
+msgstr[0] "פיענוח הקובץ נכשל:"
+msgstr[1] "פיענוח הקבצים האלה נכשלו:"
+msgstr[2] "פיענוח הקבצים האלה נכשלו:"
+msgstr[3] "פיענוח הקבצים האלה נכשלו:"
 
 #: kgpgexternalactions.cpp:425
 #, kde-format
@@ -3577,7 +3577,7 @@ msgstr "טביעת אצבע"
 #: kgpgoptions.cpp:107
 #, kde-format
 msgid "Decryption"
-msgstr "פענוח"
+msgstr "פיענוח"
 
 #: kgpgoptions.cpp:108
 #, kde-format
@@ -3670,7 +3670,7 @@ msgstr "אין"
 #: kgpgoptions.cpp:488
 #, kde-format
 msgid "Decrypt File"
-msgstr "פענוח קובץ"
+msgstr "פיענוח קובץ"
 
 #: kgpgrevokewidget.cpp:38
 #, kde-format
@@ -4053,7 +4053,7 @@ msgid ""
 msgstr ""
 "<b> הסתרת מזהה משתמש</b>: לא לצרף את מזהה המפתח לתוך מנות נתונים מוצפנות. "
 "האפשרות הזאת מסתירה את נמען ההודעה והיא אמצעי מנע כנגד ניתוח תעבורת הרשת. זה "
-"עלול להאט את תהליך הפענוח מכיוון שמנסים את כל המפתחות הסודיים האפשריים."
+"עלול להאט את תהליך הפיענוח מכיוון שמנסים את כל המפתחות הסודיים האפשריים."
 
 #: selectpublickeydialog.cpp:126
 #, kde-format
@@ -4067,7 +4067,7 @@ msgid ""
 "to give a password to encrypt/decrypt the file"
 msgstr ""
 "<b> הצפנה סימטרית</b>: ההצפנה אינה משתמשת במפתחות. כל שיש לעשות זה לתת את "
-"הסיסמה להצפנת/פענוח הקובץ"
+"הסיסמה להצפנת/פיענוח הקובץ"
 
 #: selectpublickeydialog.cpp:142
 #, kde-format
