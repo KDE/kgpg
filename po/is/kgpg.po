@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:55+0000\n"
-"PO-Revision-Date: 2026-03-13 15:50+0000\n"
+"PO-Revision-Date: 2026-03-24 15:21+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -342,7 +342,7 @@ msgstr ""
 #: conf_encryption.ui:159 selectpublickeydialog.cpp:119
 #, kde-format
 msgid "Hide user id"
-msgstr "Fela notendanafn"
+msgstr "Fela auðkenni notanda"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_PgpCompatibility)
 #: conf_encryption.ui:167
@@ -1958,10 +1958,9 @@ msgid "&Add Photo..."
 msgstr "Bæt&a við ljósmynd"
 
 #: keysmanager.cpp:226
-#, fuzzy, kde-format
-#| msgid "&Add User Id"
+#, kde-format
 msgid "&Add User Id..."
-msgstr "Bæt&a við notendanafni"
+msgstr "Bæt&a við notendaauðkenni (ID)..."
 
 #: keysmanager.cpp:229
 #, kde-format
@@ -2176,7 +2175,7 @@ msgstr ""
 #: keysmanager.cpp:861 keysmanager.cpp:866
 #, kde-format
 msgid "Add New User Id"
-msgstr "Bæta við nýju notendanafni"
+msgstr "Bæta við nýju notandaauðkenni"
 
 #: keysmanager.cpp:906
 #, fuzzy, kde-format
@@ -2233,7 +2232,7 @@ msgstr "Undirskrift"
 #: keysmanager.cpp:1091
 #, kde-format
 msgid "User ID"
-msgstr "Notendanafn"
+msgstr "Auðkenni notanda"
 
 #: keysmanager.cpp:1094
 #, kde-format
@@ -2299,12 +2298,11 @@ msgstr[0] "&Undirrita lykla(il)..."
 msgstr[1] "&Undirrita lykla(il)..."
 
 #: keysmanager.cpp:1214
-#, fuzzy, kde-format
-#| msgid "&Delete User Id"
+#, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
-msgstr[0] "Eyða noten&danafni"
-msgstr[1] "Eyða noten&danafni"
+msgstr[0] "E&yða auðkenni notanda"
+msgstr[1] "E&yða auðkennum notenda"
 
 #: keysmanager.cpp:1215
 #, fuzzy, kde-format
@@ -2726,11 +2724,11 @@ msgstr ""
 "qt>"
 
 #: keysmanager.cpp:2467
-#, fuzzy, kde-format
+#, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
-msgstr[0] "<qt><b>Eyða eftirfarandi dreifilykli(um)  ?</b></qt>"
-msgstr[1] ""
+msgstr[0] "<qt><b>Eyða eftirfarandi dreifilykli?</b></qt>"
+msgstr[1] "<qt><b>Eyða %1 eftirfarandi dreifilyklum?</b></qt>"
 
 #: keysmanager.cpp:2498 keysmanager.cpp:2574 keysmanager.cpp:2585
 #, kde-format
@@ -2999,7 +2997,7 @@ msgstr ""
 #: kgpg.kcfg:45
 #, kde-format
 msgid "Hide the user ID."
-msgstr "Fela notendanafnið."
+msgstr "Fela auðkenni notandans."
 
 #. i18n: ectx: label, entry (PgpCompatibility), group (Encryption)
 #: kgpg.kcfg:49
@@ -4176,10 +4174,10 @@ msgid ""
 "traffic analysis. It may slow down the decryption process because all "
 "available secret keys are tried."
 msgstr ""
-"<b> Fela notendanafn</b>: Ekki setja lykilauðkenni í dulritaða pakka. Þessi "
+"<b> Fela notandanafn</b>: Ekki setja lykilauðkenni í dulritaða pakka. Þessi "
 "kostur felur móttakanda skeytisins og er mótvægi við umferðargreiningu "
 "(traffic analysis). Þetta getur hægt á afkóðunarferlinu vegna þess að allir "
-"tiltækir dreifilyklar eru reyndir."
+"tiltækir dreifilyklar eru prófaðir."
 
 #: selectpublickeydialog.cpp:126
 #, kde-format
@@ -4415,20 +4413,20 @@ msgstr ""
 "Athugaðu annál til að fá meiri upplýsingar."
 
 #: transactions/kgpgimport.cpp:123
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>%1 key processed.</para>"
 msgid_plural "<para>%1 keys processed.</para>"
-msgstr[0] "<qt>%2 leynilykill búin til.<br></qt>"
-msgstr[1] ""
+msgstr[0] "<para>%1 lykill meðhöndlaður.</para>"
+msgstr[1] "<para>%1 lyklar meðhöndlaðir.</para>"
 
 #: transactions/kgpgimport.cpp:126
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key without ID.</para>"
 msgid_plural "<para>%1 keys without ID.</para>"
-msgstr[0] "<qt>%2 lykill án auðkennis.<br></qt>"
-msgstr[1] ""
+msgstr[0] "<para>Einn lykill án auðkennis.</para>"
+msgstr[1] "<para>%1 lyklar án auðkennis.</para>"
 
 #: transactions/kgpgimport.cpp:128
 #, kde-kuit-format
@@ -4437,23 +4435,25 @@ msgid "<para><emphasis strong='true'>One key imported:</emphasis></para>"
 msgid_plural ""
 "<para><emphasis strong='true'>%1 keys imported:</emphasis></para>"
 msgstr[0] ""
+"<para><emphasis strong='true'>Einn lykill fluttur inn:</emphasis></para>"
 msgstr[1] ""
+"<para><emphasis strong='true'>%1 lyklar fluttir inn:</emphasis></para>"
 
 #: transactions/kgpgimport.cpp:130
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One RSA key imported.</para>"
 msgid_plural "<para>%1 RSA keys imported.</para>"
-msgstr[0] "<qt>%2 RSA lykill fluttur inn.<br></qt>"
-msgstr[1] ""
+msgstr[0] "<para>Einn RSA-lykill fluttur inn:</para>"
+msgstr[1] "<para>%1 RSA-lyklar fluttir inn.</para>"
 
 #: transactions/kgpgimport.cpp:132
-#, fuzzy, kde-kuit-format
+#, kde-kuit-format
 msgctxt "@info"
 msgid "<para>One key unchanged.</para>"
 msgid_plural "<para>%1 keys unchanged.</para>"
-msgstr[0] "<qt>%2 leynilykill óbreyttur.<br></qt>"
-msgstr[1] ""
+msgstr[0] "<para>Einn lykill óbreyttur.</para>"
+msgstr[1] "<para>%1 lyklar óbreyttir.</para>"
 
 #: transactions/kgpgimport.cpp:134
 #, fuzzy, kde-kuit-format
