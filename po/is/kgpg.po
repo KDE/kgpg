@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:55+0000\n"
-"PO-Revision-Date: 2026-03-26 23:03+0000\n"
+"PO-Revision-Date: 2026-03-27 16:39+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -276,7 +276,7 @@ msgstr ""
 #: conf_encryption.ui:148
 #, kde-format
 msgid "Allow untrusted keys as members of key groups"
-msgstr ""
+msgstr "Leyfa ótreystum lyklum að tilheyra lyklahópum"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_HideUserID)
 #: conf_encryption.ui:156
@@ -1680,7 +1680,7 @@ msgstr "Þú verður að gefa upp leitarstreng."
 #: keyservers.cpp:104
 #, kde-format
 msgid "You need to configure keyservers before trying to download keys."
-msgstr ""
+msgstr "Þú þarft að grunnstilla lyklamiðlara áður en þú reynir að sækja lykla."
 
 #: keyservers.cpp:105
 #, kde-format
@@ -2522,6 +2522,8 @@ msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
+"Önnur aðgerð við að eyða lykli er enn í gangi.\n"
+"Hinkraðu við þar til þeirri aðgerð er lokið."
 
 #: keysmanager.cpp:2364
 #, kde-format
@@ -2658,6 +2660,8 @@ msgid ""
 "GnuPG failed to start.<br />You must fix the GnuPG error first before "
 "running KGpg."
 msgstr ""
+"GnuPG tókst ekki að ræsast.<br />Þú verður fyrst að laga villuna í GnuPG "
+"áður en KGpg er gangsett."
 
 #: kgpg.cpp:63
 #, kde-format
@@ -2815,7 +2819,7 @@ msgstr "Leyfa dulritun með vantreystum lyklum"
 #: kgpg.kcfg:41
 #, kde-format
 msgid "Allow untrusted keys to become members of key groups."
-msgstr ""
+msgstr "Leyfa vantreystum lyklum að tilheyra lyklahópum."
 
 #. i18n: ectx: label, entry (HideUserID), group (Encryption)
 #: kgpg.kcfg:45
@@ -2964,7 +2968,7 @@ msgstr "Birta táknmynd í kerfisbakka"
 #: kgpg.kcfg:180
 #, kde-format
 msgid "The number of recently opened files shown in the editor menu."
-msgstr ""
+msgstr " Fjöldi nýlega opnaðra skráa sem birtast í valmynd ritilsins."
 
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
 #: kgpg.kcfg:187
@@ -3020,6 +3024,7 @@ msgstr "Letur"
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
 msgstr ""
+"Lyklamiðlarar sem KGpg notar. Fyrsti miðlarinn á listanum er sá sjálfgefni."
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
 #: kgpg.kcfg:245
@@ -3041,11 +3046,13 @@ msgstr "Nota HTTP milliþjón þegar slíkur finnst."
 msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
 msgstr ""
+"Þetta er textinn í tölvupóstinum sem sendur er með \"Undirrita og senda "
+"auðkenni notanda\" aðgerðinni."
 
 #: kgpgexternalactions.cpp:127
 #, kde-format
 msgid "Cannot create temporary file for folder compression."
-msgstr ""
+msgstr "Ekki tókst að búa til bráðabirgðaskrá fyrir þjöppun á möppu."
 
 #: kgpgexternalactions.cpp:127 kgpgexternalactions.cpp:134
 #, kde-format
@@ -3195,7 +3202,7 @@ msgstr "Ekki búa til"
 #: kgpgfirstassistant.cpp:249
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
-msgstr ""
+msgstr "<qt><b>GnuPG-stillingaskráin fannst ekki</b>.</qt>"
 
 #: kgpgfirstassistant.cpp:291
 #, kde-format
@@ -3218,6 +3225,8 @@ msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
 "versions before 1.4.0 is no longer guaranteed."
 msgstr ""
+"Útgáfa þín af GnuPG version (%1) lítur út fyrir að vera of gömul.<br />Ekki "
+"er hægt að tryggja samhæfni við útgáfur eldri en1.4.0 ."
 
 #: kgpginterface.cpp:269
 #, kde-format
@@ -3265,7 +3274,7 @@ msgstr "Þú verður að gefa upp nafn."
 #: kgpgkeygenerate.cpp:96
 #, kde-format
 msgid "The name must have at least 5 characters"
-msgstr ""
+msgstr "Nafnið þarf að vera minnst 5 stafir"
 
 #: kgpgkeygenerate.cpp:102
 #, kde-format
@@ -3307,7 +3316,7 @@ msgstr "&Nafn:"
 msgid ""
 "The name must have a length of at least 5 characters and must not begin with "
 "a digit."
-msgstr ""
+msgstr "Nafnið þarf að vera minnst 5 stafir og má ekki byrja á tölustaf."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, m_kname)
 #: kgpgkeygenerate.ui:45
@@ -3561,6 +3570,8 @@ msgid ""
 "Cannot create configuration file. Please check if destination media is "
 "mounted and if you have write access."
 msgstr ""
+"Ekki tókst að útbúa stillingarskrá. Athugaðu hvort móttökustaður sé tengdur "
+"í skráakerfið og að þú hafir skrifheimild þar."
 
 #: kgpgoptions.cpp:199
 #, kde-format
