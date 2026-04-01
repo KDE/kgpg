@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:55+0000\n"
-"PO-Revision-Date: 2026-03-27 16:39+0000\n"
+"PO-Revision-Date: 2026-03-31 19:29+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -630,7 +630,7 @@ msgstr ""
 #: conf_misc.ui:317
 #, kde-format
 msgid "Mailing of User Ids without Email Addresses"
-msgstr ""
+msgstr "Póstsendingar til notendaauðkenna án tölvupóstfanga"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MailUats)
 #: conf_misc.ui:325
@@ -665,6 +665,11 @@ msgid ""
 "The placeholders surrounded by the percent signs (like %KEYID%) will be "
 "replaced with the corresponding text for every single mail."
 msgstr ""
+"Þetta er textinn í tölvupóstinum sem sendur er með \"Undirrita og senda "
+"auðkenni notanda\" aðgerðinni.\n"
+"\n"
+"Frátökutáknunum sem umlukin eru prósentumerkjum (eins og %KEYID%) verður "
+"skipt út fyrir viðkomandi texta í hverjum og einum póstskilaboðum."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
 #: conf_servers.ui:25
@@ -1106,6 +1111,8 @@ msgid ""
 "The document \"%1\" has changed.\n"
 "Do you want to save it?"
 msgstr ""
+"Skjalinu \"%1\" hefur verið breytt.\n"
+"Viltu vista það?"
 
 #: editor/kgpgeditor.cpp:246
 #, kde-format
@@ -2168,7 +2175,7 @@ msgstr[1] "&Undirrita auðkenni notanda..."
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "Un&dirrita og senda auðkenni notanda ..."
-msgstr[1] "Un&dirrita og senda auðkenni notanda ..."
+msgstr[1] "Un&dirrita og senda auðkenni notenda ..."
 
 #: keysmanager.cpp:1210
 #, kde-format
@@ -2573,6 +2580,8 @@ msgstr "Eyðing lykilsins <b>%1</b> mistókst."
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
+"Ekki er hægt að eyða lyklinum <b>%1</b> á meðan verið er að breyta honum í "
+"skjáhermi."
 
 #: keysmanager.cpp:2432
 #, kde-format
@@ -2580,6 +2589,8 @@ msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr ""
+"Þú hefur valið atriði sem ekki eru lyklar. Ekki er hægt að eyða þeim með "
+"þessari valmyndarfærslu."
 
 #: keysmanager.cpp:2457
 #, kde-format
@@ -4114,6 +4125,8 @@ msgstr "Ly&klamiðlari:"
 msgid ""
 "Enter the ids or fingerprints of the keys to import as space separated list."
 msgstr ""
+"Settu inn auðkenni eða fingraför lyklanna sem á að flytja inn, sem lista "
+"aðgreindan með bilum."
 
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
