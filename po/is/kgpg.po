@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:55+0000\n"
-"PO-Revision-Date: 2026-03-31 19:29+0000\n"
+"PO-Revision-Date: 2026-04-08 14:39+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -61,6 +61,8 @@ msgid ""
 "This function is not available on this system. The symbolic link to the "
 "private GnuPG keys cannot be created."
 msgstr ""
+"Þessi aðgerð er ekki tiltæk á þessu kerfi. Ekki var hægt að útbúa tákntengið "
+"sem vísar í einka-GnuPG-lyklana."
 
 #: caff.cpp:155 caff.cpp:173
 #, kde-format
@@ -1285,7 +1287,7 @@ msgstr ""
 #: editor/kgpgtextedit.cpp:138
 #, kde-format
 msgid "Key file dropped on Editor"
-msgstr ""
+msgstr "Lykilskrá sleppt ofan á ritilinn"
 
 #: editor/kgpgtextedit.cpp:138
 #, kde-format
@@ -1460,6 +1462,8 @@ msgid ""
 "You must define at least one keyserver in settings before you can export to "
 "one."
 msgstr ""
+"Þú verður að skilgreina a.m.k. einn lyklamiðlara í stillingunum áður en þú "
+"getur flutt út á slíkan miðlara."
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkServer)
 #: keyexport.ui:61
@@ -1507,6 +1511,8 @@ msgid ""
 "<qt>The requested key is not present in the keyring anymore.<br />Perhaps it "
 "was deleted by another application</qt>"
 msgstr ""
+"<qt>Umbeðinn lykill er ekki lengur til staðar á lyklakippunni.<br />Kannski "
+"honum hafi verið eytt af öðru forriti?</qt>"
 
 #: keyinfodialog.cpp:175
 #, kde-format
@@ -2300,6 +2306,9 @@ msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
 "currently not usable.</p><p>Would you like to regenerate the public key?</p>"
 msgstr ""
+"<p>Þessi lykill er munaðarlaus leynilykill (leynilykill án dreifilykils.) "
+"Ekki er hægt að svo stöddu að nota hann.</p><p>Myndirðu vilja endurgera "
+"dreifilykilinn?</p>"
 
 #: keysmanager.cpp:1634
 #, kde-format
@@ -2531,7 +2540,11 @@ msgid_plural ""
 "<qt>The key you are deleting is a member of the following key groups. Do you "
 "want to remove it from these groups?</qt>"
 msgstr[0] ""
+"<qt>Lykillinn sem þú ert að eyða er meðlimur í eftirfarandi lyklahópi. Viltu "
+"fjarlægja hann úr þessum lyklahópi?</qt>"
 msgstr[1] ""
+"<qt>Lykillinn sem þú ert að eyða er meðlimur í eftirfarandi lyklahópum. "
+"Viltu fjarlægja hann úr þessum lyklahópum?</qt>"
 
 #: keysmanager.cpp:2300 keysmanager.cpp:2314 keysmanager.cpp:2349
 #: keysmanager.cpp:2364 keysmanager.cpp:2367 keysmanager.cpp:2378
@@ -2546,6 +2559,8 @@ msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
+"Þú ert að fjarlægja síðasta lykilinn úr lyklahópunm %1.<br/>Viltu kannski "
+"líka eyða lyklahópnum?"
 
 #: keysmanager.cpp:2337
 #, kde-format
@@ -2623,6 +2638,9 @@ msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
+"<qt>Textinn á klippispjaldinu lítur ekki út fyrir að vera lykill, en frekar "
+"eins og dulritaður texti.<br />Viltu afkóða hann fyrst og síðan reyna að "
+"flytja hann inn?</qt>"
 
 #: keysmanager.cpp:2541
 #, kde-format
@@ -3078,6 +3096,8 @@ msgid ""
 "List of URLs that show details and analysis of the given key. The first "
 "server in the list is the default server."
 msgstr ""
+"Listi yfir slóðir sem sýna ítarupplýsingar og greiningu á uppgefnum lykli. "
+"Fyrsti miðlarinn á listanum er sá sjálfgefni."
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
 #: kgpg.kcfg:252
@@ -3133,6 +3153,9 @@ msgid ""
 "some surprising results in KGpg's execution.<br />Would you like to start "
 "KGpg's assistant to fix this problem?</qt>"
 msgstr ""
+"<qt>Þú hefur ekki stillt slóðina á GnuPG-stillingaskrána þína.<br />Þetta "
+"gæti valdið ýmsum undarlegum verkunum í keyrslu KGpg.<br />Viltu ræsa KGpg-"
+"leiðarvísinn til að lagfæra þetta?</qt>"
 
 #: kgpgexternalactions.cpp:427
 #, kde-format
