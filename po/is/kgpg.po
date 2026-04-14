@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:55+0000\n"
-"PO-Revision-Date: 2026-04-08 14:39+0000\n"
+"PO-Revision-Date: 2026-04-13 17:26+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -87,7 +87,11 @@ msgid_plural ""
 "No mail was sent for the following user ids because they belong to keys "
 "without encryption capability:"
 msgstr[0] ""
+"Enginn tölvupóstur var sendur fyrir eftirfarandi notandaauðkenni því það "
+"tilheyrir lykli sem ekki er hægt að dulrita:"
 msgstr[1] ""
+"Enginn tölvupóstur var sendur fyrir eftirfarandi notendaauðkenni því þau "
+"tilheyra lyklum sem ekki er hægt að dulrita:"
 
 #: caff.cpp:179
 #, kde-format
@@ -96,7 +100,11 @@ msgid ""
 msgid_plural ""
 "No mail was sent for the following user ids because they were already signed:"
 msgstr[0] ""
+"Enginn tölvupóstur var sendur fyrir eftirfarandi notandaauðkenni því það var "
+"þegar undirritað:"
 msgstr[1] ""
+"Enginn tölvupóstur var sendur fyrir eftirfarandi notendaauðkenni því þau "
+"voru þegar undirrituð:"
 
 #: caff.cpp:312
 #, kde-format
@@ -261,7 +269,7 @@ msgid ""
 "it 'trusted'). Checking this box enables any key to be used even if it is "
 "untrusted.</p></qt>"
 msgstr ""
-"<qt><b>Leyfa dulkóðun með vantreystum lyklum:</b> <br />\n"
+"<qt><b>Leyfa dulritun með vantreystum lyklum:</b> <br />\n"
 "<p>Þegar dreifilyklar eru fluttir inn, er þeir vanalega merktir sem 'ekki "
 "treyst' og því ónothæfir sem slíkir nema þeir séu undirritaðir með "
 "sjálfgefna lyklinum (og öðlast þannig traust). Með því að velja þennan kost, "
@@ -282,6 +290,10 @@ msgid ""
 "the <em>Allow encryption with untrusted keys</em> option this allows "
 "untrusted keys to become member of a key group.</p></qt>"
 msgstr ""
+"<qt><b>Leyfa ótreystum lyklum að tilheyra lyklahópum:</b><br /><p>Lyklahópur "
+"gerir kleift að einfalda dulritun til margra viðtakenda í einu. Líkt og það "
+"að <em>Leyfa dulritun með vantreystum lyklum</em> þá leyfir þetta ótreystum "
+"lyklum að tilheyra lyklahópi.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowUntrustedGroupMembers)
 #: conf_encryption.ui:148
@@ -365,6 +377,9 @@ msgid ""
 "configuration and the keyrings. If you have not changed it this is usually "
 "<em>~/.gnupg/</em></p>"
 msgstr ""
+"<b>Heimastaðsetning</b><p>Þetta er mappan þar sem GnuPG geymir stillingaskrá "
+"sína og lyklakippuna. Ef þú hefur ekki breytt staðsetningunni þá er þetta "
+"venjulega <em>~/.gnupg/</em></p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5_2)
 #: conf_gpg.ui:33
@@ -380,6 +395,9 @@ msgid ""
 "the directory specified above. The default is <em>gnupg.conf</em> while "
 "older versions of GnuPG used <em>options</em>.</p>"
 msgstr ""
+"<b>Stillingaskrá</b><p>Þetta er heitið á stillingaskránni í möppunni sem "
+"tilgreind er hér að ofan. Sjálfgefið heiti er <em>gnupg.conf</em> á meðan "
+"eldri útgáfur GnuPG notuðu <em>options</em>.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5_2_2)
 #: conf_gpg.ui:46
@@ -406,6 +424,9 @@ msgid ""
 "<b>Program path</b><p>This is the program that will be called for all GnuPG "
 "operations. The default of <em>gpg</em> will work on most systems.</p>"
 msgstr ""
+"<b>Slóð að forriti</b><p>Þetta er forritið sem verður kvatt til að meðhöndla "
+"allar GnuPG-aðgerðir. Sjálfgefna skipunin <em>gpg</em> mun virka á flestum "
+"kerfum.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6_2)
 #: conf_gpg.ui:117
@@ -422,12 +443,16 @@ msgid ""
 "key again while it is cached you do not have to enter it again. This is less "
 "secure than typing it every time.</p>"
 msgstr ""
+"<b>Nota GnuPG agent</b><p>Forritið GnuPG Agent geymir lykilorðin fyrir "
+"leynilyklana þína í minni í takmarkaðan tíma. Ef þú notar leynilykil aftur á "
+"meðan hann er í biðminninu, þá þarftu ekki að setja lykilorðið inn aftur. "
+"Þetta er ekki eins öruggt og að skrifa lykilorð í hvert skipti.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, use_agent)
 #: conf_gpg.ui:160
 #, kde-format
 msgid "Use GnuPG agent"
-msgstr "Nota GnuPG-agent"
+msgstr "Nota GnuPG Agent"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabGlobal)
 #: conf_misc.ui:24
@@ -888,7 +913,7 @@ msgstr "Á mörkunum"
 #: core/convert.cpp:78
 #, kde-format
 msgid "Fully"
-msgstr "Fyllilega"
+msgstr "Fullt"
 
 #: core/convert.cpp:80
 #, kde-format
@@ -2876,7 +2901,7 @@ msgstr "Nota ASCII brynjaða dulritun."
 #: kgpg.kcfg:37
 #, kde-format
 msgid "Allow encryption with untrusted keys."
-msgstr "Leyfa dulritun með vantreystum lyklum"
+msgstr "Leyfa dulritun með vantreystum lyklum."
 
 #. i18n: ectx: label, entry (AllowUntrustedGroupMembers), group (Encryption)
 #: kgpg.kcfg:41
@@ -3616,6 +3641,10 @@ msgid ""
 "\n"
 "Without a configuration file, neither KGpg nor GnuPG will work properly."
 msgstr ""
+"Engin stillingaskrá fannst á valinni staðsetningu.\n"
+"Viltu útbúa hana núna?\n"
+"\n"
+"Án stillingaskrár munu hvorki KGpg né GnuPG virka eðlilega."
 
 #: kgpgoptions.cpp:160
 #, kde-format
@@ -4395,6 +4424,11 @@ msgid ""
 "fully use this secret key for signing and encryption, you must edit the key "
 "(double click on it) and set its trust to Full or Ultimate.</para>"
 msgstr ""
+"<para><emphasis strong='true'>Þú hefur flutt inn leynilykil.</emphasis><nl/"
+">Athugaðu að innfluttum leynilyklum er ekki treyst sjálfkrafa.<nl/>Til að "
+"geta notað að fullu þennan leynilykil við undirritanir og dulritun, þá "
+"þarftu að breyta lyklinum (tvísmella á hann) og setja traust hans á Fullt "
+"eða Hámarks.</para>"
 
 #: transactions/kgpgimport.cpp:175
 #, kde-kuit-format
