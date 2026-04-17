@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:55+0000\n"
-"PO-Revision-Date: 2026-04-13 17:26+0000\n"
+"PO-Revision-Date: 2026-04-16 12:09+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -652,6 +652,11 @@ msgid ""
 "with every other User Id you signed, only with the first Id you signed or to "
 "not send them at all."
 msgstr ""
+"Hér geturðu skilgreint hvernig notendaauðkenni sem ekki innihalda "
+"tölvupóstfang (eins og t.d. myndaauðkenni) eru send til eiganda lykils. Þú "
+"getur valið að senda þau með einhverju öðru notandaauðkenni sem þú hefur "
+"undirritað, einungis með því fyrsta sem þú undirritaðir, eða að sena þau "
+"alls ekki."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: conf_misc.ui:317
@@ -4278,6 +4283,10 @@ msgid ""
 "or typing at the keyboard. The easiest way is by using another application "
 "until the key generation continues."
 msgstr ""
+"Óreiðuúrtakið tæmdist. Gerð lykilsins hefur stöðvast þar til næg óreiða "
+"verður til staðar. Þú getur framkallað óreiðu t.d. með því að hreyfa músina "
+"eða skrifa á lyklaborðið. Auðveldast er að vinna í einhverju öðru forriti "
+"þar til gerð lykilsins heldur áfram."
 
 #: transactions/kgpggeneratekey.cpp:206
 #, kde-format
