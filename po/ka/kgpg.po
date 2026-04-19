@@ -3098,7 +3098,7 @@ msgstr "ვადაგასული გასაღებების ფე�
 #: kgpg.kcfg:218
 #, kde-format
 msgid "Font"
-msgstr "შრიფტი"
+msgstr "ფონტი"
 
 #. i18n: ectx: label, entry (KeyServers), group (Servers)
 #: kgpg.kcfg:241
