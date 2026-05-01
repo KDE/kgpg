@@ -1,30 +1,31 @@
-# SPDX-FileCopyrightText: 2010, 2024 Johannes Obermayr <johannesobermayr@gmx.de>
-# SPDX-FileCopyrightText: 2002, 2003 Christoph Thielecke <crissi99@gmx.de>
-# SPDX-FileCopyrightText: 2003, 2004, 2005 Gregor Zumstein <zumstein@ssd.ethz.ch>
-# SPDX-FileCopyrightText: 2003, 2004 Thomas Diehl <thd@kde.org>
+# SPDX-FileCopyrightText: 2002-2003 Christoph Thielecke <crissi99@gmx.de>
+# SPDX-FileCopyrightText: 2003-2004 Thomas Diehl <thd@kde.org>
+# SPDX-FileCopyrightText: 2003-2005 Gregor Zumstein <zumstein@ssd.ethz.ch>
 # SPDX-FileCopyrightText: 2004 Sebastian Stein <seb.stein@hpfsc.de>
 # SPDX-FileCopyrightText: 2005 Stephan Johach <hunsum@gmx.de>
-# SPDX-FileCopyrightText: 2005, 2006, 2007, 2009 Thomas Reitelbach <tr@erdfunkstelle.de>
-# SPDX-FileCopyrightText: 2007, 2008, 2009, 2010, 2011, 2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+# SPDX-FileCopyrightText: 2005-2007, 2009 Thomas Reitelbach <tr@erdfunkstelle.de>
 # SPDX-FileCopyrightText: 2007, 2009 Gregor Zumstein <gz@orchester-bremgarten.ch>
-# SPDX-FileCopyrightText: 2009, 2011, 2013, 2014, 2015, 2016, 2017, 2019, 2021 Burkhard Lück <lueck@hube-lueck.de>
-# SPDX-FileCopyrightText: 2009, 2010, 2011, 2013, 2023 Frederik Schwarzer <schwarzer@kde.org>
+# SPDX-FileCopyrightText: 2007-2012 Rolf Eike Beer <kde@opensource.sf-tec.de>
+# SPDX-FileCopyrightText: 2009, 2011, 2013-2017, 2019, 2021 Burkhard Lück <lueck@hube-lueck.de>
+# SPDX-FileCopyrightText: 2009-2011, 2013, 2023 Frederik Schwarzer <schwarzer@kde.org>
+# SPDX-FileCopyrightText: 2010, 2024 Johannes Obermayr <johannesobermayr@gmx.de>
 # SPDX-FileCopyrightText: 2011 Jonathan Raphael Joachim Kolberg <bulldog98@freenet.de>
 # SPDX-FileCopyrightText: 2022 Frank Steinmetzger <dev-kde@felsenfleischer.de>
+# SPDX-FileCopyrightText: 2026 Philipp Kiemle <l10n.daphipz@fastmail.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:55+0000\n"
-"PO-Revision-Date: 2024-03-20 21:07+0100\n"
-"Last-Translator: Johannes Obermayr <johannesobermayr@gmx.de>\n"
+"PO-Revision-Date: 2026-04-27 20:53+0200\n"
+"Last-Translator: Philipp Kiemle <l10n.daphipz@fastmail.de>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.02.0\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -183,7 +184,7 @@ msgid ""
 "instead of a .gpg extension. This option will maintain compatibility with "
 "users of PGP (Pretty Good Privacy) software.</p></qt>"
 msgstr ""
-"<qt><b>*.pgp-Erweiterung für verschlüsselte Dateien benutzen:</b><br />\n"
+"<qt><b>*.pgp-Erweiterung für verschlüsselte Dateien verwenden:</b><br />\n"
 "<p>Das Aktivieren dieser Einstellung hängt .pgp statt .gpg als Erweiterung "
 "an alle verschlüsselten Dateien. Diese Einstellung dient der Wahrung der "
 "Kompatibilität mit PGP-Benutzern (Pretty Good Privacy).</p></qt>"
@@ -192,7 +193,7 @@ msgstr ""
 #: conf_encryption.ui:45
 #, kde-format
 msgid "Use *.pgp extension for encrypted files"
-msgstr "*.pgp-Erweiterung für verschlüsselte Dateien benutzen"
+msgstr "*.pgp-Erweiterung für verschlüsselte Dateien verwenden"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_AllowCustomEncryptionOptions)
 #: conf_encryption.ui:69
@@ -248,7 +249,7 @@ msgstr ""
 "<p>Ist diese Einstellung und gleichzeitig ein Schlüssel ausgewählt, hat dies "
 "zur Folge, dass jede Dateiverschlüsselung mit dem gewählten Schlüssel "
 "durchgeführt wird. KGpg fragt keinen Empfänger ab, und der Standardschlüssel "
-"wird nicht benutzt.</p></qt>"
+"wird nicht verwendet.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EncryptFilesTo)
 #: conf_encryption.ui:127
@@ -269,7 +270,7 @@ msgstr ""
 "<qt><b>Verschlüsselung mit nicht vertrauenswürdigen Schlüsseln erlauben</b>:"
 "<br />\n"
 "<p>Wird ein öffentlicher Schlüssel importiert, ist dieser üblicherweise als "
-"nicht vertrauenswürdig markiert und er kann nicht benutzt werden, bis er "
+"nicht vertrauenswürdig markiert und er kann nicht verwendet werden, bis er "
 "signiert wurde. Erst danach ist er &quot;vertrauenswürdig&quot;. Ist diese "
 "Einstellung ausgewählt, erlauben Sie auch die Verwendung von nicht "
 "signierten Schlüsseln.</p></qt>"
@@ -405,7 +406,7 @@ msgstr "Einrichtungsdatei:"
 #: conf_gpg.ui:96
 #, kde-format
 msgid "Change..."
-msgstr "Ändern ..."
+msgstr "Ändern …"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
@@ -439,17 +440,17 @@ msgid ""
 "key again while it is cached you do not have to enter it again. This is less "
 "secure than typing it every time.</p>"
 msgstr ""
-"<b>GnuPG-Agenten benutzen</b><p>Der GnuPG-Agent speichert die Kennsätze für "
-"Ihre geheimen Schlüssel für eine begrenzte Zeit im Speicher. Wenn Sie Ihren "
-"geheimen Schlüssel während dieser Zeit erneut benutzen müssen Sie den "
-"Kennsatz nicht erneut eingeben. Dies ist etwas unsicherer als den Kennsatz "
-"jedes mal von Hand einzugeben.</p>"
+"<b>Den GnuPG-Agenten verwenden</b><p>Der GnuPG-Agent speichert die "
+"Passwörter für Ihre geheimen Schlüssel für eine begrenzte Zeit im Speicher. "
+"Wenn Sie Ihren geheimen Schlüssel während dieser Zeit erneut verwenden, "
+"müssen Sie das Passwort nicht erneut eingeben. Dies ist etwas unsicherer als "
+"das Passwort jedes mal erneut einzugeben.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, use_agent)
 #: conf_gpg.ui:160
 #, kde-format
 msgid "Use GnuPG agent"
-msgstr "GnuPG-Agenten benutzen"
+msgstr "GnuPG-Agenten verwenden"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabGlobal)
 #: conf_misc.ui:24
@@ -486,7 +487,7 @@ msgid ""
 "will work with Key shortcuts (Ctrl-c, Ctrl-v).</p></qt> "
 msgstr ""
 "<qt><b>Mit der Maus getroffene Auswahl anstelle des Inhalts der "
-"Zwischenablage benutzen:</b><br />\n"
+"Zwischenablage verwenden:</b><br />\n"
 "<p>Ist diese Einstellung markiert, verwenden Zwischenablageoperationen in "
 "KGpg die Auswahlzwischenablage. Dies bedeutet, dass ein Text zum Kopieren "
 "markiert und mit der mittleren Maustaste (oder linke und rechte Maustaste "
@@ -500,7 +501,7 @@ msgstr ""
 msgid "Use mouse selection instead of clipboard"
 msgstr ""
 "Mit der Maus getroffene Auswahl anstelle des Inhalts der Zwischenablage "
-"benutzen"
+"verwenden"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_RemoteFileWarn)
 #: conf_misc.ui:70
@@ -724,7 +725,7 @@ msgstr "Als &Standard verwenden"
 #: conf_servers.ui:56
 #, kde-format
 msgid "&Add..."
-msgstr "&Hinzufügen ..."
+msgstr "&Hinzufügen …"
 
 #. i18n: ectx: property (text), widget (QPushButton, server_del)
 #: conf_servers.ui:66
@@ -736,7 +737,7 @@ msgstr "&Löschen"
 #: conf_servers.ui:73
 #, kde-format
 msgid "&Edit..."
-msgstr "&Bearbeiten ..."
+msgstr "&Bearbeiten …"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
 #: conf_ui2.ui:32
@@ -772,7 +773,7 @@ msgstr "Abgelaufene Schlüssel:"
 #: conf_ui2.ui:82
 #, kde-format
 msgid "Revoked keys:"
-msgstr "Zurückgezogene Schlüssel:"
+msgstr "Widerrufene Schlüssel:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel_trustUnknown)
 #: conf_ui2.ui:92
@@ -934,7 +935,7 @@ msgstr "Deaktiviert"
 #: core/convert.cpp:95
 #, kde-format
 msgid "Revoked"
-msgstr "zurückgezogen"
+msgstr "Widerrufen"
 
 #: core/convert.cpp:97 model/groupeditproxymodel.cpp:95
 #, kde-format
@@ -1068,12 +1069,12 @@ msgstr "Unbenannt"
 #: editor/kgpgeditor.cpp:187
 #, kde-format
 msgid "&Encrypt File..."
-msgstr "Datei &verschlüsseln ..."
+msgstr "Datei &verschlüsseln …"
 
 #: editor/kgpgeditor.cpp:191
 #, kde-format
 msgid "&Decrypt File..."
-msgstr "Datei en&tschlüsseln ..."
+msgstr "Datei en&tschlüsseln …"
 
 #: editor/kgpgeditor.cpp:195
 #, kde-format
@@ -1083,17 +1084,17 @@ msgstr "Schlüsselverwaltung öff&nen"
 #: editor/kgpgeditor.cpp:198
 #, kde-format
 msgid "&Generate Signature..."
-msgstr "Signatur &erzeugen ..."
+msgstr "Signatur &erzeugen …"
 
 #: editor/kgpgeditor.cpp:202
 #, kde-format
 msgid "&Verify Signature..."
-msgstr "Signatur über&prüfen ..."
+msgstr "Signatur über&prüfen …"
 
 #: editor/kgpgeditor.cpp:205
 #, kde-format
 msgid "&Check MD5 Sum..."
-msgstr "MD5-Prüfsumme &prüfen ..."
+msgstr "MD5-Summe &prüfen …"
 
 #: editor/kgpgeditor.cpp:208
 #, kde-format
@@ -1633,7 +1634,7 @@ msgid ""
 msgstr ""
 "<b>Schlüsselserver-Aufklappdialog:</b>\n"
 "Erlaubt dem Benutzer die Auswahl des Schlüsselservers, der für den Import "
-"von PGP-/GnuPG-Schlüsseln in den lokalen Schlüsselbund benutzt wird."
+"von PGP-/GnuPG-Schlüsseln in den lokalen Schlüsselbund verwendet wird."
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, textLabel2)
 #: keyserver.ui:61
@@ -1736,7 +1737,7 @@ msgstr "Sie müssen die gesuchte Zeichenfolge eingeben."
 #, kde-format
 msgid "You need to configure keyservers before trying to download keys."
 msgstr ""
-"Sie müssen zunächst einen Schlüsselserver festlegen bevor Sie Schlüssel "
+"Sie müssen zunächst Schlüsselserver festlegen, bevor Sie Schlüssel "
 "herunterladen können."
 
 #: keyservers.cpp:105
@@ -1769,7 +1770,7 @@ msgstr "Schlüssel von Schlüsselserver importieren"
 #: keyservers.cpp:206
 #, kde-format
 msgid "Connecting to the server..."
-msgstr "Verbindung zum Server wird hergestellt ..."
+msgstr "Verbindung zum Server wird hergestellt …"
 
 #: keyservers.cpp:312
 #, kde-format
@@ -1851,7 +1852,7 @@ msgstr "Schlüssel in Konsole b&earbeiten"
 #: keysmanager.cpp:180
 #, kde-format
 msgid "&Generate Key Pair..."
-msgstr "Schlüsselpaar &generieren ..."
+msgstr "Schlüsselpaar &generieren …"
 
 #: keysmanager.cpp:189
 #, kde-format
@@ -1861,7 +1862,7 @@ msgstr "Schlüssel &importieren"
 #: keysmanager.cpp:194
 #, kde-format
 msgid "Send Ema&il"
-msgstr "Mit E-Mail versenden"
+msgstr "Mit E-&Mail versenden"
 
 #: keysmanager.cpp:198
 #, kde-format
@@ -1871,7 +1872,7 @@ msgstr "Neuen Kontakt im Adressbuch er&stellen"
 #: keysmanager.cpp:204
 #, kde-format
 msgid "&Edit Group..."
-msgstr "Gruppe &bearbeiten ..."
+msgstr "Gruppe &bearbeiten …"
 
 #: keysmanager.cpp:207
 #, kde-format
@@ -1891,17 +1892,17 @@ msgstr "&Als Standardschlüssel setzen"
 #: keysmanager.cpp:223
 #, kde-format
 msgid "&Add Photo..."
-msgstr "Foto &hinzufügen ..."
+msgstr "Foto &hinzufügen …"
 
 #: keysmanager.cpp:226
 #, kde-format
 msgid "&Add User Id..."
-msgstr "Benutzerkennung &hinzufügen ..."
+msgstr "Benutzerkennung &hinzufügen …"
 
 #: keysmanager.cpp:229
 #, kde-format
 msgid "Export Secret Key..."
-msgstr "Geheimen Schlüssel exportieren ..."
+msgstr "Geheimen Schlüssel exportieren …"
 
 #: keysmanager.cpp:232
 #, kde-format
@@ -1911,7 +1912,7 @@ msgstr "Schlüsselpaar löschen"
 #: keysmanager.cpp:236
 #, kde-format
 msgid "Revoke Key..."
-msgstr "Schlüssel sperren ..."
+msgstr "Schlüssel widerrufen …"
 
 #: keysmanager.cpp:239
 #, kde-format
@@ -2124,9 +2125,9 @@ msgid ""
 "240x288 is a good size to use."
 msgstr ""
 "Das Bild muss eine JPEG-Datei sein. Bitte beachten, dass das Bild im "
-"öffentlichen Schlüssel gespeichert wird. Wenn ein sehr großes Bild benutzt "
+"öffentlichen Schlüssel gespeichert wird. Wenn ein sehr großes Bild verwendet "
 "wird, wird auch der Schlüssel sehr groß. Die Größe sollte 6 KiB nicht "
-"überschreiten wobei eine Größe von etwa 240×288 Pixel ein guter Wert ist."
+"überschreiten, wobei eine Größe von etwa 240×288 Pixel ein guter Wert ist."
 
 #: keysmanager.cpp:938
 #, kde-format
@@ -2171,7 +2172,7 @@ msgstr "Benutzerkennung"
 #: keysmanager.cpp:1094
 #, kde-format
 msgid "Revocation Signature"
-msgstr "Sperrsignatur"
+msgstr "Widerrufssignatur"
 
 #: keysmanager.cpp:1097
 #, kde-format
@@ -2192,22 +2193,22 @@ msgstr "Gruppenmitglied"
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
-msgstr[0] "Ben&utzerkennung signieren ..."
-msgstr[1] "Ben&utzerkennungen signieren ..."
+msgstr[0] "Ben&utzerkennung signieren …"
+msgstr[1] "Ben&utzerkennungen signieren …"
 
 #: keysmanager.cpp:1209
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
-msgstr[0] "Benutzerkennung signieren und per E-&Mail versenden ..."
-msgstr[1] "Benutzerkennungen signieren und per E-&Mail versenden ..."
+msgstr[0] "Benutzerkennung signieren und per E-&Mail versenden …"
+msgstr[1] "Benutzerkennungen signieren und per E-&Mail versenden …"
 
 #: keysmanager.cpp:1210
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
-msgstr[0] "Öffentlichen Schlüssel e&xportieren ..."
-msgstr[1] "Öffentliche Schlüssel e&xportieren ..."
+msgstr[0] "Öffentlichen Schlüssel e&xportieren …"
+msgstr[1] "Öffentliche Schlüssel e&xportieren …"
 
 #: keysmanager.cpp:1211
 #, kde-format
@@ -2220,15 +2221,15 @@ msgstr[1] "Schlüssel &neu vom Schlüsselserver importieren"
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
-msgstr[0] "Gruppe mit ausgewähltem Schlüssel &erstellen ..."
-msgstr[1] "Gruppe mit ausgewählten Schlüsseln &erstellen ..."
+msgstr[0] "Gruppe mit ausgewähltem Schlüssel &erstellen …"
+msgstr[1] "Gruppe mit ausgewählten Schlüsseln &erstellen …"
 
 #: keysmanager.cpp:1213
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
-msgstr[0] "Schlüssel &signieren ..."
-msgstr[1] "Schlüssel &signieren ..."
+msgstr[0] "Schlüssel &signieren …"
+msgstr[1] "Schlüssel &signieren …"
 
 #: keysmanager.cpp:1214
 #, kde-format
@@ -2261,7 +2262,7 @@ msgstr[1] "Schlüssel &löschen"
 #: keysmanager.cpp:1340
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
-msgstr "Erstellung des Sperrzertifikats fehlgeschlagen ..."
+msgstr "Erstellung des Widerrufszertifikats fehlgeschlagen …"
 
 #: keysmanager.cpp:1355
 #, kde-format
@@ -2628,8 +2629,8 @@ msgstr "Löschen von Schlüssel <b>%1</b> fehlgeschlagen."
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
-"Der Schlüssel <b>%1</b> kann nicht gelöscht werden solange er in der Konsole "
-"bearbeitet wird."
+"Der Schlüssel <b>%1</b> kann nicht gelöscht werden, solange er in der "
+"Konsole bearbeitet wird."
 
 #: keysmanager.cpp:2432
 #, kde-format
@@ -2684,7 +2685,7 @@ msgstr "Aus der &Zwischenablage importieren"
 #: keysmanager.cpp:2561
 #, kde-format
 msgid "Importing..."
-msgstr "Importieren ..."
+msgstr "Import läuft …"
 
 #: keysmanager.cpp:2573
 #, kde-format
@@ -2884,17 +2885,18 @@ msgstr ""
 "diese an `gpg --import` übergeben, nachdem Sie sie mit `gpg --decrypt` "
 "entschlüsselt haben.\n"
 "\n"
-"Wenn Sie KGpg benutzen, können Sie die Anhänge der Mails einfach abspeichern "
-"und dann importieren. Wählen Sie dazu den Menüpunkt `Schlüssel importieren` "
-"aus dem Menü `Schlüssel` und wählen Sie die entsprechende Datei.\n"
+"Wenn Sie KGpg verwenden, können Sie die Anhänge der Mails einfach "
+"abspeichern und dann importieren. Wählen Sie dazu den Menüpunkt `Schlüssel "
+"importieren` aus dem Menü `Schlüssel` und wählen Sie die entsprechende "
+"Datei.\n"
 "\n"
 "Bitte beachten Sie, dass ich diese Signaturen nicht auf einen "
 "Schlüsselserver exportiert habe. Wenn Sie diese Signaturen anderen zur "
 "Verfügung stellen möchten, exportieren Sie sie bitte selbst auf einen "
-"Schlüsselserver. Wenn Sie GnuPG benutzen, lautet der Befehl dafür `gpg --"
+"Schlüsselserver. Wenn Sie GnuPG verwenden, lautet der Befehl dafür `gpg --"
 "keyserver subkeys.pgp.net --send-key %SCHLÜSSELKENNUNG%`.\n"
 "\n"
-"Wenn Sie KGpg benutzen, klicken Sie mit der rechten Maustaste auf den "
+"Wenn Sie KGpg verwenden, klicken Sie mit der rechten Maustaste auf den "
 "Schlüssel und wählen Sie `Öffentlichen Schlüssel exportieren ...` sobald Sie "
 "alle Signaturen importiert haben.\n"
 "\n"
@@ -2964,7 +2966,7 @@ msgstr "PGP-6-Kompatibilität aktivieren."
 #: kgpg.kcfg:53
 #, kde-format
 msgid "Use *.pgp extension for encrypted files."
-msgstr "*.pgp-Erweiterung für verschlüsselte Dateien benutzen."
+msgstr "*.pgp-Erweiterung für verschlüsselte Dateien verwenden."
 
 #. i18n: ectx: label, entry (GpgConfigPath), group (GPG Settings)
 #: kgpg.kcfg:60
@@ -3040,7 +3042,7 @@ msgstr ""
 msgid "Use the mouse selection instead of the clipboard."
 msgstr ""
 "Mit der Maus getroffene Auswahl anstelle des Inhalts der Zwischenablage "
-"benutzen."
+"verwenden."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
 #: kgpg.kcfg:128 kgpgfirstassistant.cpp:223
@@ -3112,7 +3114,7 @@ msgstr "Farbe für vertrauenswürdige Schlüssel."
 #: kgpg.kcfg:191
 #, kde-format
 msgid "Color used for revoked keys."
-msgstr "Farbe für gesperrte Schlüssel."
+msgstr "Farbe für widerrufene Schlüssel."
 
 #. i18n: ectx: label, entry (ColorUnknown), group (Key Colors)
 #: kgpg.kcfg:195
@@ -3156,7 +3158,7 @@ msgstr "Schriftart"
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
 msgstr ""
-"Die von KGpg benutzten Schlüsselserver. Der erste Server in der Liste ist "
+"Die von KGpg verwendeten Schlüsselserver. Der erste Server in der Liste ist "
 "der Standardserver."
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
@@ -3182,7 +3184,7 @@ msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
 msgstr ""
 "Dies ist der Text für die E-Mails, die mit der Funktion „Benutzerkennung "
-"signieren und per E-Mail versenden ...“ erzeugt werden."
+"signieren und per E-Mail versenden …“ erzeugt werden."
 
 #: kgpgexternalactions.cpp:127
 #, kde-format
@@ -3263,7 +3265,7 @@ msgstr "Willkommen beim KGpg-Assistenten"
 #: kgpgfirstassistant.cpp:79
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
-msgstr "KGpg muss wissen welche GnuPG-Programmdatei es benutzen soll."
+msgstr "KGpg muss wissen, welche GnuPG-Programmdatei es verwenden soll."
 
 #: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:127
 #, kde-format
@@ -3754,13 +3756,13 @@ msgstr "Datei entschlüsseln"
 #: kgpgrevokewidget.cpp:38
 #, kde-format
 msgid "Create Revocation Certificate"
-msgstr "Sperrzertifikat erstellen"
+msgstr "Widerrufszertifikat erstellen"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: kgpgrevokewidget.ui:18
 #, kde-format
 msgid "Create revocation certificate for"
-msgstr "Sperrzertifikat erstellen für"
+msgstr "Widerrufszertifikat erstellen für"
 
 #. i18n: ectx: property (text), widget (QLabel, keyID)
 #: kgpgrevokewidget.ui:28
@@ -3772,7 +3774,7 @@ msgstr "Schlüsselkennung"
 #: kgpgrevokewidget.ui:45
 #, kde-format
 msgid "Reason for revocation:"
-msgstr "Grund für die Sperrung:"
+msgstr "Grund des Widerrufs:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, comboBox1)
 #: kgpgrevokewidget.ui:56
@@ -3796,7 +3798,7 @@ msgstr "Schlüssel wurde ersetzt"
 #: kgpgrevokewidget.ui:71
 #, kde-format
 msgid "Key is No Longer Used"
-msgstr "Schlüssel wird nicht länger benutzt"
+msgstr "Schlüssel wird nicht mehr verwendet"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: kgpgrevokewidget.ui:81
@@ -3832,13 +3834,13 @@ msgstr "<application>KGpg</application>"
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
-msgstr "KGpg - eine einfache grafische Benutzeroberfläche für GnuPG"
+msgstr "KGpg – eine einfache grafische Benutzeroberfläche für GnuPG"
 
 #: main.cpp:30
 #, kde-kuit-format
 msgctxt "@info:credit"
 msgid "&copy; 2003-2016, The KGpg Developers"
-msgstr "&copy; 2003-2016, Die KGpg-Entwickler"
+msgstr "&copy; 2003–2016, Die KGpg-Entwickler"
 
 #: main.cpp:32
 #, kde-kuit-format
@@ -3956,7 +3958,7 @@ msgstr "Kennung"
 #, kde-format
 msgctxt "example: ID abc123xy, 1024-bit RSA key, created Jan 12 2009, revoked"
 msgid "ID %1, %2-bit %3 key, created %4, revoked"
-msgstr "Kennung %1, %2-Bit %3-Schlüssel, erstellt am %4, gesperrt"
+msgstr "Kennung %1, %2-Bit %3-Schlüssel, erstellt am %4, widerrufen"
 
 #: model/kgpgsearchresultmodel.cpp:151
 #, kde-format
@@ -4017,7 +4019,7 @@ msgstr "Als Standardschlüssel verwenden"
 #: newkey.ui:152
 #, kde-format
 msgid "Revocation Certificate"
-msgstr "Sperrzertifikat"
+msgstr "Widerrufszertifikat"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: newkey.ui:158
@@ -4026,8 +4028,8 @@ msgid ""
 "It is recommended to save or print a revocation certificate in case your key "
 "is compromised."
 msgstr ""
-"Es ist empfehlenswert, ein Sperrzertifikat zu speichern oder auszudrucken "
-"(für den Fall, dass der Schlüssel beschädigt wird)."
+"Es ist empfehlenswert, ein Widerrufszertifikat zu speichern oder "
+"auszudrucken (für den Fall, dass der Schlüssel beschädigt wird)."
 
 #. i18n: ectx: property (text), widget (QCheckBox, CBsave)
 #: newkey.ui:170
@@ -4117,9 +4119,10 @@ msgid ""
 msgstr ""
 "<b>Verschlüsselung mit nicht vertrauenswürdigen Schlüsseln erlauben</b>: "
 "Wenn ein öffentlicher Schlüssel importiert wird, ist dieser üblicherweise "
-"als nicht vertrauenswürdig markiert und er kann nicht benutzt werden, bis er "
-"signiert wurde. Erst danach ist er „vertrauenswürdig“. Ist diese Einstellung "
-"ausgewählt, erlauben Sie auch die Verwendung von nicht signierten Schlüsseln."
+"als nicht vertrauenswürdig markiert und er kann nicht verwendet werden, bis "
+"er signiert wurde. Erst danach ist er „vertrauenswürdig“. Ist diese "
+"Einstellung ausgewählt, erlauben Sie auch die Verwendung von nicht "
+"signierten Schlüsseln."
 
 #: selectpublickeydialog.cpp:122
 #, kde-format
@@ -4302,7 +4305,7 @@ msgstr ""
 #: transactions/kgpggeneratekey.cpp:139
 #, kde-format
 msgid "Generating Key"
-msgstr "Neuer Schlüssel wird erstellt ..."
+msgstr "Schlüssel wird erstellt"
 
 #: transactions/kgpggeneratekey.cpp:152
 #, kde-format
@@ -4333,10 +4336,10 @@ msgid ""
 "until the key generation continues."
 msgstr ""
 "Der Vorrat an Zufallsdaten ist aufgebraucht. Die Erstellung des Schlüssels "
-"wird so lange angehalten bis wieder ausreichend Zufallsdaten zur Verfügung "
+"wird so lange angehalten, bis wieder ausreichend Zufallsdaten zur Verfügung "
 "stehen. Sie können diese z.&nbsp;B. erzeugen, indem Sie die Maus bewegen "
 "oder auf der Tastatur tippen. Der einfachste Weg ist, so lange ein anderes "
-"Programm zu benutzen bis wieder genug Daten zur Verfügung stehen."
+"Programm zu verwenden bis wieder genug Daten zur Verfügung stehen."
 
 #: transactions/kgpggeneratekey.cpp:206
 #, kde-format
@@ -4346,7 +4349,7 @@ msgstr "Schlüssel %1 erstellt"
 #: transactions/kgpggeneraterevoke.cpp:38
 #, kde-format
 msgid "Generating Revocation Certificate for key %1"
-msgstr "Sperrzertifikat für %1 wird erstellt"
+msgstr "Widerrufszertifikat für %1 wird erstellt"
 
 #: transactions/kgpgimport.cpp:117
 #, kde-kuit-format
@@ -4438,8 +4441,8 @@ msgstr[1] "<para>%1 Signaturen importiert.</para>"
 msgctxt "@info"
 msgid "<para>One revocation certificate imported.</para>"
 msgid_plural "<para>%1 revocation certificates imported.</para>"
-msgstr[0] "<para>Ein Sperrzertifikat importiert.</para>"
-msgstr[1] "<para>%1 Sperrzertifikate importiert.</para>"
+msgstr[0] "<para>Ein Widerrufszertifikat importiert.</para>"
+msgstr[1] "<para>%1 Widerrufzertifikate importiert.</para>"
 
 #: transactions/kgpgimport.cpp:142
 #, kde-kuit-format
@@ -4552,7 +4555,7 @@ msgstr[1] "Unveränderte Schlüssel"
 #: transactions/kgpgkeyservertransaction.cpp:87
 #, kde-format
 msgid "<b>Connecting to the server...</b>"
-msgstr "<b>Verbindungsaufbau zum Server ...</b>"
+msgstr "<b>Verbindungsaufbau zum Server …</b>"
 
 #: transactions/kgpgkeyservertransaction.cpp:88
 #, kde-format
