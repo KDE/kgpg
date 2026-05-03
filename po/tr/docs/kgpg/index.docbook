@@ -726,7 +726,7 @@
 <para
 >Burada hangi gpg ikilisinin ve hangi <guilabel
 >yapılandırma dosyasının</guilabel
-> ve ana klasörün kullanıldığını yapılandırabilirsiniz. Bu değerler ilk açılışta kendiliğinden algılandıklarından halihazırda çalışıyor olmalıdırlar.</para>
+> ve ana klasörün kullanıldığını yapılandırabilirsiniz. Bu değerler ilk açılışta kendiliğinden algılandıklarından hâlihazırda çalışıyor olmalıdırlar.</para>
 <para
 ><ulink url="man:gpg-agent"
 >GnuPG aracısı</ulink
