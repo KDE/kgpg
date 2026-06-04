@@ -3,33 +3,35 @@
 # Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012, 2013.
 # Vit Pelcak <vit@pelcak.org>, 2015, 2021, 2023.
+# SPDX-FileCopyrightText: 2026 Libor Filípek <libor.filipek@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:55+0000\n"
-"PO-Revision-Date: 2023-08-07 11:45+0200\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"PO-Revision-Date: 2026-06-03 12:15+0200\n"
+"Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Poedit 3.9\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Klára Cihlářová,Ivo Jánský,Lukáš Tinkl,Jakub Friedl, Vít Pelčák"
+msgstr ""
+"Klára Cihlářová,Ivo Jánský,Lukáš Tinkl,Jakub Friedl,Vít Pelčák,Libor Filípek"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
 "koty@seznam.cz,Ivo.Jansky@seznam.cz,lukas@kde.org,jfriedl@suse.cz,vit@pelcak."
-"org"
+"org,libor.filipek@gmail.com"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: adduid.ui:17
@@ -83,8 +85,14 @@ msgid_plural ""
 "No mail was sent for the following user ids because they belong to keys "
 "without encryption capability:"
 msgstr[0] ""
+"Pro následující uživatelské jméno nebyl odeslán žádný e-mail, protože patří "
+"ke klíči bez možnosti šifrování:"
 msgstr[1] ""
+"Pro následující uživatelská jména nebyla odeslána žádná pošta, protože patří "
+"k klíčům bez možnosti šifrování:"
 msgstr[2] ""
+"Pro následující uživatelská jména nebyla odeslána žádná pošta, protože patří "
+"k klíčům bez možnosti šifrování:"
 
 #: caff.cpp:179
 #, kde-format
@@ -93,8 +101,14 @@ msgid ""
 msgid_plural ""
 "No mail was sent for the following user ids because they were already signed:"
 msgstr[0] ""
+"Pro následující uživatelské jméno nebyla odeslána žádná zpráva, protože již "
+"bylo podepsáno:"
 msgstr[1] ""
+"Pro následující uživatelská jména nebyla odeslána žádná pošta, protože již "
+"byla podepsána:"
 msgstr[2] ""
+"Pro následující uživatelská jména nebyla odeslána žádná pošta, protože již "
+"byla podepsána:"
 
 #: caff.cpp:312
 #, kde-format
@@ -123,6 +137,9 @@ msgid ""
 "GPG when decryption occurs. (This is recommended for advanced users only).</"
 "p></qt>"
 msgstr ""
+"<qt><b>Vlastní příkaz pro dešifrování:</b><br />\n"
+"<p>Tato volba umožňuje uživateli zadat vlastní příkaz, který má GPG provést "
+"při dešifrování. (Doporučeno pouze pro pokročilé uživatele).</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4_2)
 #: conf_decryption.ui:55
@@ -146,6 +163,10 @@ msgid ""
 "opened by a text editor and as such the output is suitable for placing in "
 "the body of an e-mail message.</p></qt>"
 msgstr ""
+"<qt><b>Zesílené ASCII šifrování:</b> <br /> \n"
+"<p>Zaškrtnutím této možnosti se všechny zašifrované soubory vygenerují ve "
+"formátu, který lze otevřít v textovém editoru, a výstup je tak vhodný pro "
+"vložení do těla e-mailové zprávy.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AsciiArmor)
 #: conf_encryption.ui:34 selectpublickeydialog.cpp:104
@@ -162,6 +183,10 @@ msgid ""
 "instead of a .gpg extension. This option will maintain compatibility with "
 "users of PGP (Pretty Good Privacy) software.</p></qt>"
 msgstr ""
+"<qt><b>Použít příponu *.pgp pro šifrované soubory:</b><br />\n"
+"<p>Zaškrtnutím této možnosti se ke všem šifrovaným souborům připojí přípona ."
+"pgp namísto přípony .gpg. Tato volba zajistí kompatibilitu s uživateli "
+"softwaru PGP (Pretty Good Privacy).</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PgpExtension)
 #: conf_encryption.ui:45
@@ -178,6 +203,10 @@ msgid ""
 "enabling you to enter a custom command for encryption. This option is "
 "recommended for experienced users only.</p></qt>"
 msgstr ""
+"<qt><b>Vlastní příkaz pro šifrování:</b><br />\n"
+"<p>Po aktivaci se v dialogovém okně pro výběr klíče zobrazí vstupní pole, do "
+"kterého můžete zadat vlastní příkaz pro šifrování. Tuto možnost doporučujeme "
+"pouze zkušeným uživatelům.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowCustomEncryptionOptions)
 #: conf_encryption.ui:72
@@ -194,6 +223,10 @@ msgid ""
 "key. However, if the \"Encrypt files with:\" option is selected that chosen "
 "key will override the \"Always encrypt with:\" selection.</p></qt>"
 msgstr ""
+"<qt><b>Vždy šifrovat pomocí:</b><br />\n"
+"<p>Tím zajistíte, že všechny soubory a zprávy budou šifrovány pomocí "
+"zvoleného klíče. Pokud je však zaškrtnuta možnost \"Šifrovat soubory pomocí:"
+"\", má tento klíč přednost před volbou \"Vždy šifrovat pomocí:\".</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, encrypt_to_always)
 #: conf_encryption.ui:116
@@ -210,6 +243,10 @@ msgid ""
 "operation to use the selected key. KGpg will not query for a recipient and "
 "the default key will be bypassed.</p></qt>"
 msgstr ""
+"<qt><b>Šifrovat soubory pomocí:</b><br />\n"
+"<p>Zaškrtnutím této možnosti a výběrem klíče vynutíte, aby se při jakékoli "
+"operaci šifrování souborů použil vybraný klíč. KGpg nebude dotazovat na "
+"příjemce a výchozí klíč bude obejit.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EncryptFilesTo)
 #: conf_encryption.ui:127
@@ -248,6 +285,11 @@ msgid ""
 "the <em>Allow encryption with untrusted keys</em> option this allows "
 "untrusted keys to become member of a key group.</p></qt>"
 msgstr ""
+"<qt><b>Povolit nedůvěryhodné klíče jako členy skupin klíčů:</b><br /"
+"><p>Skupina klíčů umožňuje snadné šifrování pro více příjemců najednou. "
+"Podobně jako u možnosti <em>Povolit šifrování pomocí nedůvěryhodných klíčů</"
+"em> umožňuje tato volba, aby se nedůvěryhodné klíče staly členy skupiny "
+"klíčů.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_AllowUntrustedGroupMembers)
 #: conf_encryption.ui:148
@@ -267,12 +309,19 @@ msgid ""
 "secret keys before being able to decrypt the packets. This can be a lengthy "
 "process depending on the number of secret keys the receiver holds.</p></qt>"
 msgstr ""
+"<qt><b>Skrýt ID uživatele:</b><br /> \n"
+"<p>Zaškrtnutím této možnosti odstraníte ID klíče příjemce ze všech "
+"šifrovaných paketů. Výhoda: analýza provozu šifrovaných paketů není tak "
+"snadná, protože příjemce není znám. Nevýhoda: příjemce šifrovaných paketů je "
+"nucen vyzkoušet všechny tajné klíče, než bude schopen pakety dešifrovat. V "
+"závislosti na počtu tajných klíčů, které příjemce má, to může být zdlouhavý "
+"proces.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_HideUserID)
 #: conf_encryption.ui:159 selectpublickeydialog.cpp:119
 #, kde-format
 msgid "Hide user id"
-msgstr "Skrýt uživatelské ID"
+msgstr "Skrýt ID uživatele"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_PgpCompatibility)
 #: conf_encryption.ui:167
@@ -283,6 +332,11 @@ msgid ""
 "compliant with PGP (Pretty Good Privacy) 6 standards as possible thus "
 "allowing GnuPG users to inter operate with PGP 6 users.</p></qt>"
 msgstr ""
+"<qt><b>Kompatibilita s PGP 6:</b><br /> \n"
+"<p>Zaškrtnutím této možnosti donutíte GnuPG, aby generovalo šifrované "
+"pakety, které jsou co nejvíce v souladu se standardy PGP (Pretty Good "
+"Privacy) 6, což uživatelům GnuPG umožní spolupracovat s uživateli PGP 6.</"
+"p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PgpCompatibility)
 #: conf_encryption.ui:170
@@ -316,6 +370,9 @@ msgid ""
 "configuration and the keyrings. If you have not changed it this is usually "
 "<em>~/.gnupg/</em></p>"
 msgstr ""
+"<b>Domovský adresář</b><p>Toto je adresář, do kterého GnuPG ukládá své "
+"nastavení a klíčenky. Pokud jste jej nezměnili, je to obvykle <em>~/.gnupg/</"
+"em></p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5_2)
 #: conf_gpg.ui:33
@@ -331,6 +388,9 @@ msgid ""
 "the directory specified above. The default is <em>gnupg.conf</em> while "
 "older versions of GnuPG used <em>options</em>.</p>"
 msgstr ""
+"<b>Konfigurační soubor</b><p>Toto je název konfiguračního souboru v výše "
+"uvedeném adresáři. Výchozí hodnotou je <em>gnupg.conf</em>, zatímco starší "
+"verze GnuPG používaly <em>options</em>.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5_2_2)
 #: conf_gpg.ui:46
@@ -357,6 +417,9 @@ msgid ""
 "<b>Program path</b><p>This is the program that will be called for all GnuPG "
 "operations. The default of <em>gpg</em> will work on most systems.</p>"
 msgstr ""
+"<b>Cesta k programu</b><p>Toto je program, který bude volán pro všechny "
+"operace GnuPG. Výchozí nastavení <em>gpg</em> bude fungovat na většině "
+"systémů.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6_2)
 #: conf_gpg.ui:117
@@ -373,6 +436,10 @@ msgid ""
 "key again while it is cached you do not have to enter it again. This is less "
 "secure than typing it every time.</p>"
 msgstr ""
+"<b>Použít agenta GnuPG</b><p>Agent GnuPG ukládá hesla k vašim tajným klíčům "
+"do paměti na omezenou dobu. Pokud svůj tajný klíč použijete znovu v době, "
+"kdy je uložen v mezipaměti, nemusíte jej zadávat znovu. Toto řešení je méně "
+"bezpečné než jeho zadávání při každém použití.</p>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, use_agent)
 #: conf_gpg.ui:160
@@ -414,6 +481,12 @@ msgid ""
 "right+left together) to paste. If this option is not checked, the clipboard "
 "will work with Key shortcuts (Ctrl-c, Ctrl-v).</p></qt> "
 msgstr ""
+"<qt><b>Použít výběr myší namísto schránky:</b><br />\n"
+"<p>Pokud je tato volba zaškrtnuta, budou operace se schránkou v KGpg "
+"používat schránku výběru, což znamená zvýraznění textu pro kopírování a "
+"středové tlačítko (nebo pravé a levé tlačítko současně) pro vložení. Pokud "
+"tato volba není zaškrtnuta, bude schránka fungovat pomocí klávesových "
+"zkratek (Ctrl-c, Ctrl-v).</p></qt> "
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseMouseSelection)
 #: conf_misc.ui:56
@@ -572,12 +645,17 @@ msgid ""
 "with every other User Id you signed, only with the first Id you signed or to "
 "not send them at all."
 msgstr ""
+"Zde můžete nastavit, jakým způsobem se majiteli klíče odesílají ID "
+"uživatelů, která neobsahují e-mailovou adresu (například identifikační čísla "
+"z fotografií). Můžete si vybrat, zda je chcete odesílat spolu s každým "
+"dalším ID uživatele, které jste podepsali, pouze s prvním podepsaným ID, "
+"nebo zda je nechcete odesílat vůbec."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: conf_misc.ui:317
 #, kde-format
 msgid "Mailing of User Ids without Email Addresses"
-msgstr ""
+msgstr "Zasílání uživatelských jmen bez e-mailových adres"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_MailUats)
 #: conf_misc.ui:325
@@ -612,6 +690,10 @@ msgid ""
 "The placeholders surrounded by the percent signs (like %KEYID%) will be "
 "replaced with the corresponding text for every single mail."
 msgstr ""
+"Toto je text e-mailu odeslaného akcí \"Podepsat a odeslat uživatelské ID\".\n"
+"\n"
+"Zástupné symboly ohraničené znaky procenta (např. %KEYID%) budou v každém "
+"jednotlivém e-mailu nahrazeny odpovídajícím textem."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_4)
 #: conf_servers.ui:25
@@ -1117,6 +1199,8 @@ msgid ""
 "<qt><b>Missing signature:</b><br />Key id: %1<br /><br />Do you want to "
 "import this key from a keyserver?</qt>"
 msgstr ""
+"<qt><b>Chybí podpis:</b><br />Id klíče: %1<br /><br />Chcete tento klíč "
+"importovat ze serveru klíčů?</qt>"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_import)
 #: editor/kgpgeditor.cpp:698 keyserver.ui:33 keytreeview.cpp:158
@@ -1183,6 +1267,9 @@ msgid ""
 "temporary file to process requested operation. This temporary file will be "
 "deleted after operation.</qt>"
 msgstr ""
+"<qt><b>Vložen vzdálený soubor</b>.<br />Vzdálený soubor bude nyní zkopírován "
+"do dočasného souboru za účelem provedení požadované operace. Tento dočasný "
+"soubor bude po dokončení operace smazán.</qt>"
 
 #: editor/kgpgtextedit.cpp:94
 #, kde-format
@@ -1195,6 +1282,8 @@ msgid ""
 "<qt>This file is a <b>public</b> key.<br />Do you want to import it instead "
 "of opening it in editor?</qt>"
 msgstr ""
+"<qt>Tento soubor je <b>veřejný</b> klíč.<br />Chcete jej importovat, místo "
+"abyste jej otevřeli v editoru?</qt>"
 
 #: editor/kgpgtextedit.cpp:133
 #, kde-format
@@ -1202,11 +1291,13 @@ msgid ""
 "<qt>This file is a <b>private</b> key.<br />Do you want to import it instead "
 "of opening it in editor?</qt>"
 msgstr ""
+"<qt>Tento soubor je <b>soukromý</b> klíč.<br />Chcete jej importovat, místo "
+"abyste jej otevřeli v editoru?</qt>"
 
 #: editor/kgpgtextedit.cpp:138
 #, kde-format
 msgid "Key file dropped on Editor"
-msgstr ""
+msgstr "Soubor klíče vložen do editoru"
 
 #: editor/kgpgtextedit.cpp:138
 #, kde-format
@@ -1228,7 +1319,7 @@ msgstr "Dešifrování selhalo."
 #: editor/kgpgtextedit.cpp:276 foldercompressjob.cpp:132
 #, kde-format
 msgid "The encryption failed with error code %1"
-msgstr ""
+msgstr "Šifrování selhalo s chybovým kódem %1"
 
 #: editor/kgpgtextedit.cpp:277 foldercompressjob.cpp:133
 #, kde-format
@@ -1265,7 +1356,7 @@ msgstr "&Neimportovat"
 #: editor/kgpgtextedit.cpp:339
 #, kde-format
 msgid "Will not import this key in your list"
-msgstr ""
+msgstr "Tento klíč nebude do vašeho seznamu importován"
 
 #: editor/kgpgtextedit.cpp:342
 #, kde-format
@@ -1347,7 +1438,7 @@ msgstr "Dostupné důvěryhodné klíče"
 #: groupedit.ui:38 keysmanager.cpp:418 searchres.ui:29
 #, kde-format
 msgid "Search:"
-msgstr "Hledat: "
+msgstr "Hledat:"
 
 #. i18n: ectx: property (text), widget (QLabel, kActiveLabel1)
 #: groupedit.ui:84
@@ -1381,6 +1472,8 @@ msgid ""
 "You must define at least one keyserver in settings before you can export to "
 "one."
 msgstr ""
+"Než budete moci data exportovat na server klíčů, musíte v nastavení "
+"definovat alespoň jeden server klíčů."
 
 #. i18n: ectx: property (text), widget (QRadioButton, checkServer)
 #: keyexport.ui:61
@@ -1427,6 +1520,8 @@ msgid ""
 "<qt>The requested key is not present in the keyring anymore.<br />Perhaps it "
 "was deleted by another application</qt>"
 msgstr ""
+"<qt>Požadovaný klíč již v klíčence není.<br />Možná jej smazala jiná "
+"aplikace</qt>"
 
 #: keyinfodialog.cpp:175
 #, kde-format
@@ -1445,6 +1540,9 @@ msgid ""
 "<qt>The left part is the algorithm used by the <b>signature</b> key. The "
 "right part is the algorithm used by the <b>encryption</b> key.</qt>"
 msgstr ""
+"<qt>Levá část představuje algoritmus používaný klíčem <b>pro podepisování</"
+"b>. Pravá část představuje algoritmus používaný klíčem <b>pro šifrování</b>."
+"</qt>"
 
 #: keyinfodialog.cpp:217
 #, kde-format
@@ -1458,12 +1556,14 @@ msgid ""
 "<qt>The left part is the size of the <b>signature</b> key. The right part is "
 "the size of the <b>encryption</b> key.</qt>"
 msgstr ""
+"<qt>Levá část udává velikost <b>podpisového</b> klíče. Pravá část udává "
+"velikost <b>šifrovacího</b> klíče.</qt>"
 
 #: keyinfodialog.cpp:228
 #, kde-format
 msgctxt "no key comment"
 msgid "<em>none</em>"
-msgstr ""
+msgstr "<em>žádný</em>"
 
 #: keyinfodialog.cpp:314
 #, kde-format
@@ -1483,7 +1583,7 @@ msgstr "KGpg nemohl změnit heslo."
 #: keyinfodialog.cpp:368
 #, kde-format
 msgid "Changing key properties failed."
-msgstr "Změna vlastností klíče selhala"
+msgstr "Změna vlastností klíče selhala."
 
 #. i18n: ectx: property (title), widget (QGroupBox, gr_properties)
 #: keyinfodialog.cpp:368 kgpgKeyInfo.ui:37
@@ -1543,6 +1643,13 @@ msgid ""
 "a key (example: searching for 0xED7585F4 would bring up the key associated "
 "with that ID).</p></qt>"
 msgstr ""
+"<qt><b>Hledaný text nebo ID klíče k importu:</b><br />\n"
+"<p>Klíč lze vyhledat několika způsoby: můžete použít vyhledávání podle "
+"celého textu nebo jeho části (příklad: zadáním \"Phil\" nebo \"Zimmerman\" "
+"se zobrazí všechny klíče, ve kterých se objevuje \"Phil\" nebo \"Zimmerman"
+"\") nebo můžete vyhledávat podle ID klíče. ID klíčů jsou řetězce písmen a "
+"čísel, které jednoznačně identifikují klíč (příklad: vyhledání 0xED7585F4 "
+"zobrazí klíč spojený s tímto ID).</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: keyserver.ui:70
@@ -1577,6 +1684,9 @@ msgid ""
 "<p>This allows the user to specify the key from the drop down list that will "
 "be exported to the key server selected.</p></qt>"
 msgstr ""
+"<qt><b>Klíč k exportu:</b><br />\n"
+"<p>Toto umožňuje uživateli vybrat z rozevíracího seznamu klíč, který bude "
+"exportován na vybraný server klíčů.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: keyserver.ui:194
@@ -1598,6 +1708,9 @@ msgid ""
 "<p>Pushing this button will export the specified key to the specified server."
 "</p></qt>"
 msgstr ""
+"<qt><b>Exportovat:</b><br />\n"
+"<p>Stisknutím tohoto tlačítka se zadaný klíč exportuje na zadaný server.</"
+"p></qt>"
 
 #. i18n: ectx: property (text), widget (QPushButton, Buttonexport)
 #: keyserver.ui:269
@@ -1623,7 +1736,7 @@ msgstr "Před pokusem o stáhnutí klíčů musíte nastavit servery klíčů."
 #: keyservers.cpp:105
 #, kde-format
 msgid "No keyservers defined"
-msgstr ""
+msgstr "Nebyly definovány žádné servery klíčů"
 
 #: keyservers.cpp:142
 #, kde-format
@@ -1660,7 +1773,7 @@ msgstr "Musíte vybrat klíč."
 #: keyservers.cpp:372
 #, kde-format
 msgid "No matching keys found"
-msgstr ""
+msgstr "Nebyly nalezeny žádné odpovídající klíče"
 
 #: keyservers.cpp:375
 #, kde-format
@@ -1838,7 +1951,7 @@ msgstr "Vytvoření"
 #: keysmanager.cpp:288 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
-msgstr "Vypršení"
+msgstr "Vypršení platnosti"
 
 #: keysmanager.cpp:292
 #, kde-format
@@ -1926,7 +2039,7 @@ msgstr "Generuje se nový pár klíčů"
 #: keysmanager.cpp:523
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
-msgstr ""
+msgstr "Nelze spustit aplikaci \"konsole\" v režimu pro pokročilé."
 
 #: keysmanager.cpp:562 keysmanager.cpp:2589 keysmanager.cpp:2591
 #, kde-format
@@ -1981,6 +2094,8 @@ msgid ""
 "Another operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
+"Právě probíhá jiná operace.\n"
+"Počkejte prosím chvíli, než bude tato operace dokončena."
 
 #: keysmanager.cpp:861 keysmanager.cpp:866
 #, kde-format
@@ -2135,9 +2250,9 @@ msgstr[2] "Importovat klíče ze serveru klíčů"
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
-msgstr[0] "&Smazat klíč..."
-msgstr[1] "&Smazat klíče..."
-msgstr[2] "&Smazat klíče..."
+msgstr[0] "&Smazat klíč"
+msgstr[1] "&Smazat klíče"
+msgstr[2] "&Smazat klíče"
 
 #: keysmanager.cpp:1340
 #, kde-format
@@ -2330,6 +2445,9 @@ msgid ""
 "not carefully checked all fingerprints, the security of your communications "
 "may be compromised.</b></qt>"
 msgstr ""
+"<qt>Chystáte se podepsat následující klíče v jediném kroku.<br/><b>Pokud "
+"jste pečlivě nezkontrolovali všechny otisky, může být ohrožena bezpečnost "
+"vaší komunikace.</b></qt>"
 
 #: keysmanager.cpp:1854 keysmanager.cpp:2001
 #, kde-format
@@ -2371,6 +2489,9 @@ msgid ""
 "have not carefully checked all fingerprints, the security of your "
 "communications may be compromised.</b></qt>"
 msgstr ""
+"<qt>Chystáte se podepsat následující uživatelská ID v jednom kroku.<br/"
+"><b>Pokud jste pečlivě nezkontrolovali všechny otisky, může být ohrožena "
+"bezpečnost vaší komunikace.</b></qt>"
 
 #: keysmanager.cpp:1967
 #, kde-format
@@ -2416,6 +2537,8 @@ msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
 "id <b>%2</b><br />of key: <b>%3</b>?</qt>"
 msgstr ""
+"<qt>Opravdu chcete odstranit podpis<br /><b>%1</b><br />uživatele s ID <b>"
+"%2</b><br />klíče: <b>%3</b>?</qt>"
 
 #: keysmanager.cpp:2207
 #, kde-format
@@ -2431,8 +2554,14 @@ msgid_plural ""
 "<qt>The key you are deleting is a member of the following key groups. Do you "
 "want to remove it from these groups?</qt>"
 msgstr[0] ""
+"<qt>Klíč, který odstraňujete, patří do následující skupiny klíčů. Chcete jej "
+"z této skupiny odstranit?</qt>"
 msgstr[1] ""
+"<qt>Klíč, který odstraňujete, patří do následujících skupin klíčů. Chcete "
+"jej z těchto skupin odstranit?</qt>"
 msgstr[2] ""
+"<qt>Klíč, který odstraňujete, patří do následujících skupin klíčů. Chcete "
+"jej z těchto skupin odstranit?</qt>"
 
 #: keysmanager.cpp:2300 keysmanager.cpp:2314 keysmanager.cpp:2349
 #: keysmanager.cpp:2364 keysmanager.cpp:2367 keysmanager.cpp:2378
@@ -2447,6 +2576,8 @@ msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
+"Odstraňujete poslední klíč ze skupiny klíčů %1.<br/>Chcete odstranit i celou "
+"skupinu?"
 
 #: keysmanager.cpp:2337
 #, kde-format
@@ -2464,6 +2595,8 @@ msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
+"Právě probíhá operace odstraňování jiného klíče.\n"
+"Počkejte prosím chvíli, než bude tato operace dokončena."
 
 #: keysmanager.cpp:2364
 #, kde-format
@@ -2473,7 +2606,7 @@ msgstr "Klíč <b>%1</b> smazán."
 #: keysmanager.cpp:2367
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
-msgstr ""
+msgstr "Odstranění klíče <b>%1</b> se nezdařilo."
 
 #: keysmanager.cpp:2391
 #, kde-format
@@ -2486,6 +2619,8 @@ msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr ""
+"Vybrali jste položky, které nejsou klíči. Tyto položky nelze pomocí této "
+"položky nabídky odstranit."
 
 #: keysmanager.cpp:2457
 #, kde-format
@@ -2520,6 +2655,8 @@ msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
+"<qt>Text ve schránce nevypadá jako klíč, ale jako zašifrovaný text.<br /"
+">Chcete jej nejprve dešifrovat a teprve poté zkusit importovat?</qt>"
 
 #: keysmanager.cpp:2541
 #, kde-format
@@ -2570,7 +2707,7 @@ msgstr "Schránka je prázdná."
 #: keysmanager.cpp:2740
 #, kde-format
 msgid "Text successfully encrypted."
-msgstr "Text byl úspěšně zašifrován"
+msgstr "Text byl úspěšně zašifrován."
 
 #. i18n: ectx: Menu (managekeys)
 #: keysmanager.rc:6
@@ -2601,6 +2738,8 @@ msgid ""
 "GnuPG failed to start.<br />You must fix the GnuPG error first before "
 "running KGpg."
 msgstr ""
+"Spuštění programu GnuPG se nezdařilo.<br />Před spuštěním programu KGpg je "
+"nutné nejprve odstranit chybu v programu GnuPG."
 
 #: kgpg.cpp:63
 #, kde-format
@@ -2623,7 +2762,7 @@ msgstr ""
 #: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
 #, kde-format
 msgid "No files given."
-msgstr ""
+msgstr "Žádné soubory."
 
 #: kgpg.cpp:132
 #, kde-format
@@ -2711,6 +2850,17 @@ msgid ""
 "\n"
 "If you have any questions, don't hesitate to ask.\n"
 msgstr ""
+"Dobrý den,\n"
+"\n"
+"v příloze naleznete uživatelské ID '%UIDNAME%' vašeho klíče %KEYID%, které "
+"jsem podepsal. Tento e-mail je zašifrován tímto klíčem, abychom se ujistili, "
+"že máte pod kontrolou jak e-mailovou adresu, tak i klíč.\n"
+"\n"
+"Pokud máte více uživatelských ID, poslal jsem podpis pro každé uživatelské "
+"ID samostatně na e-mailovou adresu přiřazenou k danému uživatelskému ID. "
+"Podpisy můžete importovat spuštěním příkazu `gpg --import` po jejich "
+"dešifrování příkazem `gpg --decrypt`.\n"
+"\n"
 
 #. i18n: ectx: label, entry (CustomDecrypt), group (Decryption)
 #: kgpg.kcfg:13
@@ -2812,7 +2962,7 @@ msgstr "Zobrazit důvěryhodnost ve správci klíčů."
 #: kgpg.kcfg:90
 #, kde-format
 msgid "Show the expiration value in key manager."
-msgstr "Zobrazit datum vypršení ve správci klíčů."
+msgstr "Zobrazit datum vypršení platnosti ve správci klíčů."
 
 #. i18n: ectx: label, entry (ShowSize), group (General Options)
 #: kgpg.kcfg:94
@@ -2908,7 +3058,7 @@ msgstr "Zobrazit ikonu v systémové části panelu"
 #: kgpg.kcfg:180
 #, kde-format
 msgid "The number of recently opened files shown in the editor menu."
-msgstr ""
+msgstr "Počet naposledy otevřených souborů zobrazený v nabídce editoru."
 
 #. i18n: ectx: label, entry (ColorGood), group (Key Colors)
 #: kgpg.kcfg:187
@@ -2964,6 +3114,8 @@ msgstr "Písmo"
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
 msgstr ""
+"Servery klíčů používané programem KGpg. První server v seznamu je výchozí "
+"server."
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
 #: kgpg.kcfg:245
@@ -2972,6 +3124,8 @@ msgid ""
 "List of URLs that show details and analysis of the given key. The first "
 "server in the list is the default server."
 msgstr ""
+"Seznam adres URL, které obsahují podrobnosti a analýzu daného klíče. První "
+"server v seznamu je výchozí server."
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
 #: kgpg.kcfg:252
@@ -2985,11 +3139,13 @@ msgstr "Používat HTTP proxy, je-li dostupná."
 msgid ""
 "This is the text of the email sent by the \"Sign and Mail User ID\" action."
 msgstr ""
+"Toto je text e-mailu odeslaného v rámci akce \"Podepsat a odeslat ID "
+"uživatele\"."
 
 #: kgpgexternalactions.cpp:127
 #, kde-format
 msgid "Cannot create temporary file for folder compression."
-msgstr ""
+msgstr "Nelze vytvořit dočasný soubor pro kompresi složky."
 
 #: kgpgexternalactions.cpp:127 kgpgexternalactions.cpp:134
 #, kde-format
@@ -3166,11 +3322,13 @@ msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
 "versions before 1.4.0 is no longer guaranteed."
 msgstr ""
+"Vaše verze GnuPG (%1) se zdá být příliš stará.<br />Kompatibilita s verzemi "
+"staršími než 1.4.0 již není zaručena."
 
 #: kgpginterface.cpp:269
 #, kde-format
 msgid "An error occurred while scanning your keyring"
-msgstr ""
+msgstr "Při skenování vaší klíčenky došlo k chybě"
 
 #: kgpgkeygenerate.cpp:48
 #, kde-format
@@ -3187,6 +3345,8 @@ msgstr "Přejít do expertního režimu"
 msgid ""
 "If you go to expert mode, you will use the command line to create your key."
 msgstr ""
+"Pokud přepnete do expertního režimu, budete k vytvoření klíče používat "
+"příkazový řádek."
 
 #: kgpgkeygenerate.cpp:57
 #, kde-format
@@ -3279,7 +3439,7 @@ msgstr "Komen&tář (volitelný):"
 #: kgpgkeygenerate.ui:78 kgpgKeyInfo.ui:139
 #, kde-format
 msgid "Expiration:"
-msgstr "Vypršení:"
+msgstr "Vypršení platnosti:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, m_keyexp)
 #: kgpgkeygenerate.ui:98
@@ -3335,7 +3495,7 @@ msgstr "Schopnosti"
 #: kgpgkeygenerate.ui:172
 #, kde-format
 msgid "Certification is automatically enabled for all keys"
-msgstr ""
+msgstr "Certifikace se automaticky aktivuje pro všechny klíče"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capCert)
 #: kgpgkeygenerate.ui:175
@@ -3402,7 +3562,7 @@ msgstr "Délka:"
 #: kgpgKeyInfo.ui:284
 #, kde-format
 msgid "Photo"
-msgstr "Fotka"
+msgstr "Fotografie"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, m_photo)
 #: kgpgKeyInfo.ui:304
@@ -3413,12 +3573,15 @@ msgid ""
 "the key. However, it should not be relied upon as the only form of "
 "authentication.</p></qt>"
 msgstr ""
+"<qt><b>Fotografie:</b><p>Pro větší bezpečnost lze k veřejnému klíči připojit "
+"fotografii. Fotografie může sloužit jako doplňkový způsob ověření klíče. "
+"Neměla by však být považována za jediný způsob ověření.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QLabel, m_photo)
 #: kgpgKeyInfo.ui:313
 #, kde-format
 msgid "No Photo"
-msgstr "Žádná fotka"
+msgstr "Žádná fotografie"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_disable)
 #: kgpgKeyInfo.ui:350
@@ -3430,7 +3593,7 @@ msgstr "Zakázat klíč"
 #: kgpgKeyInfo.ui:357
 #, kde-format
 msgid "Change Expiration"
-msgstr ""
+msgstr "Změnit datum vypršení platnosti"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_password)
 #: kgpgKeyInfo.ui:364
@@ -3482,6 +3645,10 @@ msgid ""
 "\n"
 "Without a configuration file, neither KGpg nor GnuPG will work properly."
 msgstr ""
+"Ve vybraném umístění nebyl nalezen žádný konfigurační soubor.\n"
+"Chcete jej nyní vytvořit?\n"
+"\n"
+"Bez konfiguračního souboru nebude správně fungovat ani KGpg, ani GnuPG."
 
 #: kgpgoptions.cpp:160
 #, kde-format
@@ -3515,7 +3682,7 @@ msgstr "URL serverů klíčů nesmí obsahovat mezery."
 #: kgpgoptions.cpp:204
 #, kde-format
 msgid "Key server already in the list."
-msgstr ""
+msgstr "Server klíčů je již v seznamu."
 
 #: kgpgoptions.cpp:213
 #, kde-format
@@ -3619,7 +3786,7 @@ msgstr "<application>KGpg</application>"
 #, kde-kuit-format
 msgctxt "@title"
 msgid "KGpg - simple gui for GnuPG"
-msgstr ""
+msgstr "KGpg – jednoduché grafické rozhraní pro GnuPG"
 
 #: main.cpp:30
 #, kde-kuit-format
@@ -3696,7 +3863,7 @@ msgstr "%1 <%2>: %3"
 #: model/kgpgitemmodel.cpp:179
 #, kde-format
 msgid "Trust: %1<br>Owner Trust: %2"
-msgstr ""
+msgstr "Důvěryhodnost: %1<br>Důvěryhodnost vlastníka: %2"
 
 #: model/kgpgitemmodel.cpp:183
 #, kde-format
@@ -3757,9 +3924,9 @@ msgstr "ID %1, %2-bit %3 klíč, vytvořen %4"
 #, kde-format
 msgid "One Photo ID"
 msgid_plural "%1 Photo IDs"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "1 fotografie"
+msgstr[1] "%1 fotografie"
+msgstr[2] "%1 fotografií"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox2)
 #: newkey.ui:20
@@ -3846,7 +4013,7 @@ msgstr "Klíč pro import:"
 #: selectexpirydate.cpp:23
 #, kde-format
 msgid "Choose New Expiration"
-msgstr "Vyberte nové vypršení"
+msgstr "Vyberte nové vypršení platnosti"
 
 #: selectexpirydate.cpp:37
 #, kde-format
@@ -4021,6 +4188,8 @@ msgstr "Server &klíčů:"
 msgid ""
 "Enter the ids or fingerprints of the keys to import as space separated list."
 msgstr ""
+"Zadejte ID nebo otisky klíčů, které chcete importovat, jako seznam oddělený "
+"mezerami."
 
 #: transactions/kgpgaddphoto.cpp:38
 #, kde-format
@@ -4094,7 +4263,7 @@ msgstr "Vytváření klíče"
 #: transactions/kgpggeneratekey.cpp:152
 #, kde-format
 msgid "Generating prime numbers"
-msgstr ""
+msgstr "Generují se prvočísla"
 
 #: transactions/kgpggeneratekey.cpp:154
 #, kde-format
@@ -4119,6 +4288,10 @@ msgid ""
 "or typing at the keyboard. The easiest way is by using another application "
 "until the key generation continues."
 msgstr ""
+"Zásoba entropie se vyčerpala. Proces generování klíče je pozastaven, dokud "
+"nebude k dispozici dostatek entropie. Entropii můžete vygenerovat například "
+"pohybem myši nebo psaním na klávesnici. Nejjednodušší je spustit jinou "
+"aplikaci, dokud se generování klíče znovu nerozběhne."
 
 #: transactions/kgpggeneratekey.cpp:206
 #, kde-format
@@ -4393,7 +4566,7 @@ msgstr "Získáno heslo"
 msgctxt ""
 "@info first argument is formatted date, second argument is formatted time"
 msgid "<para>The signature was created at %1 %2</para>"
-msgstr ""
+msgstr "<para>Podpis byl vytvořen v %1 %2</para>"
 
 #: transactions/kgpgverify.cpp:122
 #, kde-kuit-format
@@ -4412,6 +4585,8 @@ msgid ""
 "<para>Good signature from:<nl/><emphasis strong='true'>%1 <email>%2</email></"
 "emphasis><nl/>Key ID: %3</para>"
 msgstr ""
+"<para>Dobrý podpis od:<nl/><emphasis strong='true'>%1 <email>%2</email></"
+"emphasis><nl/>ID klíče: %3</para>"
 
 #: transactions/kgpgverify.cpp:139
 #, kde-kuit-format
@@ -4436,6 +4611,8 @@ msgid ""
 "<para>Good signature from:<nl/><emphasis strong='true'>%1 <email>%2</email></"
 "emphasis><nl/>Key ID: %3<nl/></para>"
 msgstr ""
+"<para>Dobrý podpis od:<nl/><emphasis strong='true'>%1 <email>%2</email></"
+"emphasis><nl/>ID klíče: %3<nl/></para>"
 
 #: transactions/kgpgverify.cpp:172
 #, kde-kuit-format
@@ -4445,6 +4622,9 @@ msgid ""
 "ID: %2<nl/><nl/><emphasis strong='true'>The file is corrupted</emphasis></"
 "para>"
 msgstr ""
+"<para><emphasis strong='true'>ŠPATNÝ podpis</emphasis> od:<nl/> %1<nl/>ID "
+"klíče: %2<nl/><nl/><emphasis strong='true'>Soubor je poškozen</emphasis></"
+"para>"
 
 #: transactions/kgpgverify.cpp:175
 #, kde-kuit-format
