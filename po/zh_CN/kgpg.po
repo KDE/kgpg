@@ -3486,7 +3486,7 @@ msgstr "密钥服务器"
 #: kgpgoptions.cpp:111
 #, kde-format
 msgid "Misc"
-msgstr "杂项"
+msgstr "其他"
 
 #: kgpgoptions.cpp:146
 #, kde-format
