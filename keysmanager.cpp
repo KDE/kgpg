@@ -59,12 +59,10 @@
 #include <KContacts/AddresseeList>
 // #include <KContacts/Key> TODO
 #include <kmessagebox.h>
-#include <kwidgetsaddons_version.h>
 #include <KIO/Global>
 #include <KIO/ApplicationLauncherJob>
 #include <KIO/OpenUrlJob>
 #include <KIO/JobTracker>
-#include <kio_version.h>
 #include <KIO/JobUiDelegateFactory>
 #include <KJobTrackerInterface>
 #include <KLocalizedString>

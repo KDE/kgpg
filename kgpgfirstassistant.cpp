@@ -13,7 +13,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlRequester>
-#include <kio_version.h>
 
 #include <QCheckBox>
 #include <QComboBox>

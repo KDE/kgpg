@@ -16,7 +16,6 @@
 #include "model/kgpgitemmodel.h"
 
 #include <kmessagebox.h>
-#include <kwidgetsaddons_version.h>
 #include <KConfig>
 #include <KConfigGroup>
 #include <KDesktopFile>
