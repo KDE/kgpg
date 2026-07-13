@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:55+0000\n"
+"POT-Creation-Date: 2026-07-13 00:47+0000\n"
 "PO-Revision-Date: 2024-06-18 00:26+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -143,7 +143,7 @@ msgstr "Eget avkodningskommando:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Encryption)
 #. i18n: ectx: property (text), widget (QCheckBox, capEncrypt)
-#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:106
+#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:105
 #, kde-format
 msgid "Encryption"
 msgstr "Kryptering"
@@ -399,7 +399,7 @@ msgid "Change..."
 msgstr "Ändra..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:116
 #, kde-format
 msgid "GnuPG Binary"
 msgstr "GnuPG-binärfil"
@@ -537,7 +537,7 @@ msgstr "Tjänstmeny för signera fil:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:296
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:294
 #, kde-format
 msgid "Disable"
 msgstr "Inaktivera"
@@ -794,25 +794,25 @@ msgid "Sort Order"
 msgstr "Sorteringsordning"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:253 kgpgoptions.cpp:100
+#: conf_ui2.ui:253 kgpgoptions.cpp:99
 #, kde-format
 msgid "Left to right, account first"
 msgstr "Vänster till höger, konto först"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:258 kgpgoptions.cpp:101
+#: conf_ui2.ui:258 kgpgoptions.cpp:100
 #, kde-format
 msgid "Right to left, TLD first"
 msgstr "Höger till vänster, TLD först"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:263 kgpgoptions.cpp:102
+#: conf_ui2.ui:263 kgpgoptions.cpp:101
 #, kde-format
 msgid "Right to left, domain first"
 msgstr "Höger till vänster, domän först"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:268 kgpgoptions.cpp:103
+#: conf_ui2.ui:268 kgpgoptions.cpp:102
 #, kde-format
 msgid "Right to left, FQDN first"
 msgstr "Höger till vänster, FQDN först"
@@ -1422,7 +1422,7 @@ msgstr "Tillgängliga pålitliga nycklar"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:418 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:416 searchres.ui:29
 #, kde-format
 msgid "Search:"
 msgstr "Sök:"
@@ -1778,236 +1778,236 @@ msgstr "Hittade 1 nyckel som matchar (visas inte)"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "Hittade %1 nycklar som matchar (%2 visas)"
 
-#: keysmanager.cpp:125
+#: keysmanager.cpp:123
 #, kde-format
 msgid "Key Management"
 msgstr "Nyckelhantering"
 
-#: keysmanager.cpp:132
+#: keysmanager.cpp:130
 #, kde-format
 msgid "&Open Editor"
 msgstr "Ö&ppna editor"
 
-#: keysmanager.cpp:135
+#: keysmanager.cpp:133
 #, kde-format
 msgid "&Key Server Dialog"
 msgstr "Dialogruta för nyc&kelserver"
 
-#: keysmanager.cpp:140 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:138 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
 msgstr "&Gå till standardnyckel"
 
-#: keysmanager.cpp:153
+#: keysmanager.cpp:151
 #, kde-format
 msgid "View GnuPG Manual"
 msgstr "Visa GnuPG-handbok"
 
-#: keysmanager.cpp:158
+#: keysmanager.cpp:156
 #, kde-format
 msgid "&Refresh List"
 msgstr "&Uppdatera lista"
 
-#: keysmanager.cpp:162
+#: keysmanager.cpp:160
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr "Visa &lång nyckel-id"
 
-#: keysmanager.cpp:167
+#: keysmanager.cpp:165
 #, kde-format
 msgid "K&ey Properties"
 msgstr "Nyckel&egenskaper"
 
-#: keysmanager.cpp:171
+#: keysmanager.cpp:169
 #, kde-format
 msgid "&Open Key URL"
 msgstr "Ö&ppna nyckelwebbadress"
 
-#: keysmanager.cpp:175
+#: keysmanager.cpp:173
 #, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "R&edigera nyckel i terminal"
 
-#: keysmanager.cpp:180
+#: keysmanager.cpp:178
 #, kde-format
 msgid "&Generate Key Pair..."
 msgstr "&Skapa nyckelpar..."
 
-#: keysmanager.cpp:189
+#: keysmanager.cpp:187
 #, kde-format
 msgid "&Import Key..."
 msgstr "&Importera nyckel..."
 
-#: keysmanager.cpp:194
+#: keysmanager.cpp:192
 #, kde-format
 msgid "Send Ema&il"
 msgstr "Skicka e-&post"
 
-#: keysmanager.cpp:198
+#: keysmanager.cpp:196
 #, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "S&kapa ny kontakt i adressboken"
 
-#: keysmanager.cpp:204
+#: keysmanager.cpp:202
 #, kde-format
 msgid "&Edit Group..."
 msgstr "R&edigera grupp..."
 
-#: keysmanager.cpp:207
+#: keysmanager.cpp:205
 #, kde-format
 msgid "&Delete Group"
 msgstr "&Ta bort grupp"
 
-#: keysmanager.cpp:211
+#: keysmanager.cpp:209
 #, kde-format
 msgid "&Rename Group"
 msgstr "B&yt namn på grupp"
 
-#: keysmanager.cpp:220
+#: keysmanager.cpp:218
 #, kde-format
 msgid "Set as De&fault Key"
 msgstr "Använd som stan&dardnyckel"
 
-#: keysmanager.cpp:223
+#: keysmanager.cpp:221
 #, kde-format
 msgid "&Add Photo..."
 msgstr "&Lägg till foto..."
 
-#: keysmanager.cpp:226
+#: keysmanager.cpp:224
 #, kde-format
 msgid "&Add User Id..."
 msgstr "&Lägg till användar-id..."
 
-#: keysmanager.cpp:229
+#: keysmanager.cpp:227
 #, kde-format
 msgid "Export Secret Key..."
 msgstr "Exportera hemlig nyckel..."
 
-#: keysmanager.cpp:232
+#: keysmanager.cpp:230
 #, kde-format
 msgid "Delete Key Pair"
 msgstr "Ta bort nyckelpar"
 
-#: keysmanager.cpp:236
+#: keysmanager.cpp:234
 #, kde-format
 msgid "Revoke Key..."
 msgstr "Återkalla nyckel..."
 
-#: keysmanager.cpp:239
+#: keysmanager.cpp:237
 #, kde-format
 msgid "&Regenerate Public Key"
 msgstr "&Skapa om öppen nyckel"
 
-#: keysmanager.cpp:245
+#: keysmanager.cpp:243
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr "Använd användar-id som &primärt"
 
-#: keysmanager.cpp:249
+#: keysmanager.cpp:247
 #, kde-format
 msgid "&Open Photo"
 msgstr "Öppna f&oto"
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:251
 #, kde-format
 msgid "&Delete Photo"
 msgstr "&Ta bort foto"
 
-#: keysmanager.cpp:261
+#: keysmanager.cpp:259
 #, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "I&mportera saknade signaturer från nyckelserver"
 
-#: keysmanager.cpp:279 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:277 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "Pålitlighet"
 
-#: keysmanager.cpp:282 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:280 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "Storlek"
 
-#: keysmanager.cpp:285 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:283 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "Skapa"
 
-#: keysmanager.cpp:288 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:286 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "Utgångstid"
 
-#: keysmanager.cpp:292
+#: keysmanager.cpp:290
 #, kde-format
 msgid "&Photo ID's"
 msgstr "&Foto-id"
 
-#: keysmanager.cpp:297
+#: keysmanager.cpp:295
 #, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "Liten"
 
-#: keysmanager.cpp:298
+#: keysmanager.cpp:296
 #, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "Medium"
 
-#: keysmanager.cpp:299
+#: keysmanager.cpp:297
 #, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "Stor"
 
-#: keysmanager.cpp:303
+#: keysmanager.cpp:301
 #, kde-format
 msgid "Minimum &Trust"
 msgstr "Minimalt påli&tliga"
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:304
 #, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "I&nga"
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:305
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr "&Aktiva"
 
-#: keysmanager.cpp:308
+#: keysmanager.cpp:306
 #, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "&Begränsat pålitliga"
 
-#: keysmanager.cpp:309
+#: keysmanager.cpp:307
 #, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "&Pålitliga"
 
-#: keysmanager.cpp:310
+#: keysmanager.cpp:308
 #, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "&Fullständigt pålitliga"
 
-#: keysmanager.cpp:335
+#: keysmanager.cpp:333
 #, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "Vi&sa endast hemliga nycklar"
 
-#: keysmanager.cpp:435
+#: keysmanager.cpp:433
 #, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "Fokusera sökrad"
 
-#: keysmanager.cpp:483
+#: keysmanager.cpp:481
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
@@ -2016,64 +2016,64 @@ msgstr ""
 "En annan nyckelskapande åtgärd pågår fortfarande.\n"
 "Vänta ett ögonblick till åtgärden är färdig."
 
-#: keysmanager.cpp:484 keysmanager.cpp:522 keysmanager.cpp:570
+#: keysmanager.cpp:482 keysmanager.cpp:520 keysmanager.cpp:568
 #, kde-format
 msgid "Generating new key pair"
 msgstr "Skapar nytt nyckelpar"
 
-#: keysmanager.cpp:523
+#: keysmanager.cpp:521
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr "Kan inte starta programmet \"konsole\" för expertläge."
 
-#: keysmanager.cpp:562 keysmanager.cpp:2589 keysmanager.cpp:2591
+#: keysmanager.cpp:560 keysmanager.cpp:2587 keysmanager.cpp:2589
 #, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "Klar"
 
-#: keysmanager.cpp:574 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:572 transactions/kgpggeneratekey.cpp:194
 #, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "Felaktig lösenordsfras. Kan inte skapa ett nytt nyckelpar."
 
-#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:575 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr "Avbruten av användaren. Kan inte skapa ett nytt nyckelpar."
 
-#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:578 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr "E-postadressen är inte giltig. Kan inte skapa ett nytt nyckelpar."
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:581 transactions/kgpggeneratekey.cpp:203
 #, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "Namnet accepteras inte av gpg. Kan inte skapa ett nytt nyckelpar."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:589 newkey.ui:14
+#: keysmanager.cpp:587 newkey.ui:14
 #, kde-format
 msgid "New Key Pair Created"
 msgstr "Nytt nyckelpar skapat"
 
-#: keysmanager.cpp:628
+#: keysmanager.cpp:626
 #, kde-format
 msgid "backup copy"
 msgstr "säkerhetskopia"
 
-#: keysmanager.cpp:642 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:640 transactions/kgpggeneratekey.cpp:215
 #, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "Processen gpg avslutades inte. Kan inte skapa ett nytt nyckelpar."
 
-#: keysmanager.cpp:736
+#: keysmanager.cpp:734
 #, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr "Du kan bara uppdatera primära nycklar. Kontrollera din markering."
 
-#: keysmanager.cpp:860
+#: keysmanager.cpp:858
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
@@ -2082,12 +2082,12 @@ msgstr ""
 "En annan åtgärd pågår fortfarande.\n"
 "Vänta ett ögonblick till åtgärden är färdig."
 
-#: keysmanager.cpp:861 keysmanager.cpp:866
+#: keysmanager.cpp:859 keysmanager.cpp:864
 #, kde-format
 msgid "Add New User Id"
 msgstr "Lägg till nytt användar-id"
 
-#: keysmanager.cpp:906
+#: keysmanager.cpp:904
 #, kde-format
 msgid ""
 "The image must be a JPEG file. Remember that the image is stored within your "
@@ -2100,7 +2100,7 @@ msgstr ""
 "stor. Storleken bör inte överskrida 6 KiB. En bildstorlek av omkring 240x288 "
 "är lämplig att använda."
 
-#: keysmanager.cpp:938
+#: keysmanager.cpp:936
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2109,133 +2109,133 @@ msgstr ""
 "<qt>Är du säker på att du vill ta bort foto-id <b>%1</b><br/>från nyckeln <b>"
 "%2 &lt;%3&gt;</b>?</qt>"
 
-#: keysmanager.cpp:1076
+#: keysmanager.cpp:1074
 #, kde-format
 msgid "Public Key"
 msgstr "Öppen nyckel"
 
-#: keysmanager.cpp:1079
+#: keysmanager.cpp:1077
 #, kde-format
 msgid "Sub Key"
 msgstr "Delnyckel"
 
-#: keysmanager.cpp:1082
+#: keysmanager.cpp:1080
 #, kde-format
 msgid "Secret Key Pair"
 msgstr "Hemligt nyckelpar"
 
-#: keysmanager.cpp:1085
+#: keysmanager.cpp:1083
 #, kde-format
 msgid "Key Group"
 msgstr "Nyckelgrupp"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1088 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1086 kgpgkeygenerate.ui:185
 #, kde-format
 msgid "Signature"
 msgstr "Signatur"
 
-#: keysmanager.cpp:1091
+#: keysmanager.cpp:1089
 #, kde-format
 msgid "User ID"
 msgstr "Användar-id"
 
-#: keysmanager.cpp:1094
+#: keysmanager.cpp:1092
 #, kde-format
 msgid "Revocation Signature"
 msgstr "Återkallningssignatur"
 
-#: keysmanager.cpp:1097
+#: keysmanager.cpp:1095
 #, kde-format
 msgid "Photo ID"
 msgstr "Foto-id"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1098
 #, kde-format
 msgid "Orphaned Secret Key"
 msgstr "Övergiven hemlig nyckel"
 
-#: keysmanager.cpp:1105
+#: keysmanager.cpp:1103
 #, kde-format
 msgid "Group member"
 msgstr "Gruppmedlem"
 
-#: keysmanager.cpp:1208
+#: keysmanager.cpp:1206
 #, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
 msgstr[0] "&Signera användar-id..."
 msgstr[1] "&Signera användar-id..."
 
-#: keysmanager.cpp:1209
+#: keysmanager.cpp:1207
 #, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "Signera och &skicka användaridentitet med e-post..."
 msgstr[1] "Signera och &skicka användaridentiteter med e-post..."
 
-#: keysmanager.cpp:1210
+#: keysmanager.cpp:1208
 #, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
 msgstr[0] "E&xportera öppen nyckel..."
 msgstr[1] "E&xportera öppna nycklar..."
 
-#: keysmanager.cpp:1211
+#: keysmanager.cpp:1209
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "&Uppdatera nyckel från nyckelserver"
 msgstr[1] "&Uppdatera nycklar från nyckelserver"
 
-#: keysmanager.cpp:1212
+#: keysmanager.cpp:1210
 #, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "&Skapa grupp med vald nyckel..."
 msgstr[1] "&Skapa grupp med valda nycklar..."
 
-#: keysmanager.cpp:1213
+#: keysmanager.cpp:1211
 #, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
 msgstr[0] "&Signera nyckel..."
 msgstr[1] "&Signera nycklar..."
 
-#: keysmanager.cpp:1214
+#: keysmanager.cpp:1212
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
 msgstr[0] "&Ta bort användar-id"
 msgstr[1] "&Ta bort användar-id"
 
-#: keysmanager.cpp:1215
+#: keysmanager.cpp:1213
 #, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
 msgstr[0] "Ta bort sig&natur"
 msgstr[1] "Ta bort sig&naturer"
 
-#: keysmanager.cpp:1216
+#: keysmanager.cpp:1214
 #, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
 msgstr[0] "Importera nyckel från nyckelserver"
 msgstr[1] "Importera nycklar från nyckelserver"
 
-#: keysmanager.cpp:1217
+#: keysmanager.cpp:1215
 #, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
 msgstr[0] "Ta &bort nyckel"
 msgstr[1] "Ta &bort nycklar"
 
-#: keysmanager.cpp:1340
+#: keysmanager.cpp:1338
 #, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "Misslyckades med att skapa återkallningscertifikatet."
 
-#: keysmanager.cpp:1355
+#: keysmanager.cpp:1353
 #, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2246,17 +2246,17 @@ msgstr ""
 "någon annan kan komma åt filen, så är kryptering med den här nyckeln inte "
 "längre säker.<br/>Fortsätt export av nyckel?</qt>"
 
-#: keysmanager.cpp:1367
+#: keysmanager.cpp:1365
 #, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "Exportera PRIVAT NYCKEL som"
 
-#: keysmanager.cpp:1367
+#: keysmanager.cpp:1365
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr "*.asc|*.asc-filer"
 
-#: keysmanager.cpp:1385
+#: keysmanager.cpp:1383
 #, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
@@ -2265,7 +2265,7 @@ msgstr ""
 "<qt>Din <b>privata</b> nyckel \"%1\" exporterades utan problem till<br/>%2."
 "<br/>Lämna den <b>inte</b> på ett osäkert ställe.</qt>"
 
-#: keysmanager.cpp:1388
+#: keysmanager.cpp:1386
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2274,7 +2274,7 @@ msgstr ""
 "Din hemliga nyckel kunde inte exporteras.\n"
 "Kontrollera nyckeln."
 
-#: keysmanager.cpp:1490
+#: keysmanager.cpp:1488
 #, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
@@ -2282,7 +2282,7 @@ msgstr[0] "<qt>Den öppna nyckeln exporterades utan problem till<br/>%2</qt>"
 msgstr[1] ""
 "<qt>De %1 öppna nycklarna exporterades utan problem till<br/>%2</qt>"
 
-#: keysmanager.cpp:1494 keysmanager.cpp:1509 keysmanager.cpp:1523
+#: keysmanager.cpp:1492 keysmanager.cpp:1507 keysmanager.cpp:1521
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2291,7 +2291,7 @@ msgstr ""
 "Din öppna nyckel kunde inte exporteras.\n"
 "Kontrollera nyckeln."
 
-#: keysmanager.cpp:1632
+#: keysmanager.cpp:1630
 #, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
@@ -2301,27 +2301,27 @@ msgstr ""
 "öppen nyckel). Den är för närvarande inte möjlig att använda.</p><p>Vill du "
 "skapa om den öppna nyckeln?</p>"
 
-#: keysmanager.cpp:1634
+#: keysmanager.cpp:1632
 #, kde-format
 msgid "Generate"
 msgstr "Skapa"
 
-#: keysmanager.cpp:1634
+#: keysmanager.cpp:1632
 #, kde-format
 msgid "Do Not Generate"
 msgstr "Skapa inte"
 
-#: keysmanager.cpp:1664
+#: keysmanager.cpp:1662
 #, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Är du säker på att du vill ta bort gruppen <b>%1</b>?</qt>"
 
-#: keysmanager.cpp:1665 keysmanager.cpp:2340
+#: keysmanager.cpp:1663 keysmanager.cpp:2338
 #, kde-format
 msgid "Delete"
 msgstr "Ta bort"
 
-#: keysmanager.cpp:1695
+#: keysmanager.cpp:1693
 #, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2330,24 +2330,24 @@ msgstr ""
 "<qt>Du kan inte skapa en grupp som innehåller signaturer, delnycklar eller "
 "andra grupper.</qt>"
 
-#: keysmanager.cpp:1710 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1708 kgpgrevokewidget.cpp:52
 #, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr "%1 (%2) Id: %3"
 
-#: keysmanager.cpp:1715
+#: keysmanager.cpp:1713
 #, kde-format
 msgid "Create New Group"
 msgstr "Skapa ny grupp"
 
-#: keysmanager.cpp:1716
+#: keysmanager.cpp:1714
 #, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "Ange nytt gruppnamn:"
 
-#: keysmanager.cpp:1721
+#: keysmanager.cpp:1719
 #, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
@@ -2356,7 +2356,7 @@ msgstr ""
 "Följande nycklar är inte giltiga eller inte pålitliga, och kommer inte att "
 "läggas till i gruppen:"
 
-#: keysmanager.cpp:1727
+#: keysmanager.cpp:1725
 #, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2365,17 +2365,17 @@ msgstr ""
 "<qt>Inga giltiga eller pålitliga nycklar markerade. Gruppen <b>%1</b> kommer "
 "inte att skapas.</qt>"
 
-#: keysmanager.cpp:1739
+#: keysmanager.cpp:1737
 #, kde-format
 msgid "Group Properties"
 msgstr "Gruppegenskaper"
 
-#: keysmanager.cpp:1775
+#: keysmanager.cpp:1773
 #, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "Du kan bara signera primära nycklar. Kontrollera din markering."
 
-#: keysmanager.cpp:1784
+#: keysmanager.cpp:1782
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2388,7 +2388,7 @@ msgstr ""
 "fingeravtryck genom att telefonera eller träffa nyckelägaren för att vara "
 "säker på att ingen försöker avlyssna din kommunikation.</qt>"
 
-#: keysmanager.cpp:1789
+#: keysmanager.cpp:1787
 #, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2401,20 +2401,20 @@ msgstr ""
 "fingeravtryck genom att telefonera eller träffa nyckelägaren för att vara "
 "säker på att ingen försöker avlyssna din kommunikation.</qt>"
 
-#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:276
+#: keysmanager.cpp:1802 keysmanager.cpp:1886 kgpgfirstassistant.cpp:275
 #: model/keylistproxymodel.cpp:181
 #, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1: %2"
 
-#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:278
+#: keysmanager.cpp:1804 keysmanager.cpp:1889 kgpgfirstassistant.cpp:277
 #, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr "%1 (%2): %3"
 
-#: keysmanager.cpp:1812
+#: keysmanager.cpp:1810
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2425,12 +2425,12 @@ msgstr ""
 "har kontrollerat alla fingeravtryck noggrant, kanske överföringar inte "
 "längre kommer att vara säkra.</b></qt>"
 
-#: keysmanager.cpp:1854 keysmanager.cpp:2001
+#: keysmanager.cpp:1852 keysmanager.cpp:1999
 #, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr "Du kan bara signera användar-id och foto-id. Kontrollera ditt val."
 
-#: keysmanager.cpp:1868
+#: keysmanager.cpp:1866
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2443,7 +2443,7 @@ msgstr ""
 "fingeravtryck genom att telefonera eller träffa nyckelägaren för att vara "
 "säker på att ingen försöker avlyssna din kommunikation.</qt>"
 
-#: keysmanager.cpp:1872
+#: keysmanager.cpp:1870
 #, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2456,7 +2456,7 @@ msgstr ""
 "fingeravtryck genom att telefonera eller träffa nyckelägaren för att vara "
 "säker på att ingen försöker avlyssna din kommunikation.</qt>"
 
-#: keysmanager.cpp:1898
+#: keysmanager.cpp:1896
 #, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2467,17 +2467,17 @@ msgstr ""
 "inte har kontrollerat alla fingeravtryck noggrant, kanske överföringar inte "
 "längre kommer att vara säkra.</b></qt>"
 
-#: keysmanager.cpp:1967
+#: keysmanager.cpp:1965
 #, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>Felaktig lösenordsfras, nyckel <b>%1 (%2)</b> inte signerad.</qt>"
 
-#: keysmanager.cpp:1971
+#: keysmanager.cpp:1969
 #, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>Nyckeln <b>%1 (%2)</b> är redan signerad.</qt>"
 
-#: keysmanager.cpp:1976
+#: keysmanager.cpp:1974
 #, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
@@ -2486,25 +2486,25 @@ msgstr ""
 "<qt>Signering av nyckeln <b>%1</b> med nyckeln <b>%2</b> misslyckades.<br /"
 ">Vill du försöka signera nyckeln i terminalläge?</qt>"
 
-#: keysmanager.cpp:1978
+#: keysmanager.cpp:1976
 #, kde-format
 msgctxt "@action:button"
 msgid "Sign"
 msgstr "Signera"
 
-#: keysmanager.cpp:2094
+#: keysmanager.cpp:2092
 #, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "Alla signaturer för den här nyckeln finns redan i din nyckelring"
 msgstr[1] "Alla signaturer för dessa nycklar finns redan i din nyckelring"
 
-#: keysmanager.cpp:2181
+#: keysmanager.cpp:2179
 #, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "Redigera nyckeln manuellt för att ta bort en egen signatur"
 
-#: keysmanager.cpp:2185
+#: keysmanager.cpp:2183
 #, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
@@ -2513,12 +2513,12 @@ msgstr ""
 "<qt>Är du säker på att du vill ta bort signaturen<br /><b>%1</b><br />från "
 "användaridentiteten <b>%2</b><br /> för nyckeln: <b>%3</b>?</qt>"
 
-#: keysmanager.cpp:2207
+#: keysmanager.cpp:2205
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "Åtgärden som begärdes lyckades inte. Redigera nyckeln manuellt."
 
-#: keysmanager.cpp:2296
+#: keysmanager.cpp:2294
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2533,14 +2533,14 @@ msgstr[1] ""
 "<qt>Nyckeln du håller på att ta bort är medlem i följande nyckelgrupper. "
 "Vill du att den ska tas bort från dessa grupper?</qt>"
 
-#: keysmanager.cpp:2300 keysmanager.cpp:2314 keysmanager.cpp:2349
-#: keysmanager.cpp:2364 keysmanager.cpp:2367 keysmanager.cpp:2378
-#: keysmanager.cpp:2392 keysmanager.cpp:2433
+#: keysmanager.cpp:2298 keysmanager.cpp:2312 keysmanager.cpp:2347
+#: keysmanager.cpp:2362 keysmanager.cpp:2365 keysmanager.cpp:2376
+#: keysmanager.cpp:2390 keysmanager.cpp:2431
 #, kde-format
 msgid "Delete key"
 msgstr "Ta bort nyckel"
 
-#: keysmanager.cpp:2313
+#: keysmanager.cpp:2311
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
@@ -2549,7 +2549,7 @@ msgstr ""
 "Du ska just ta bort den sista nyckeln från nyckelgruppen %1.<br/>Vill du "
 "också ta bort gruppen?"
 
-#: keysmanager.cpp:2337
+#: keysmanager.cpp:2335
 #, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2559,7 +2559,7 @@ msgstr ""
 "bort kommer du aldrig att kunna avkoda filer som krypterats med den här "
 "nyckeln igen."
 
-#: keysmanager.cpp:2348 keysmanager.cpp:2377
+#: keysmanager.cpp:2346 keysmanager.cpp:2375
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
@@ -2568,22 +2568,22 @@ msgstr ""
 "En annan nyckelborttagningsåtgärd pågår fortfarande.\n"
 "Vänta ett ögonblick till åtgärden är färdig."
 
-#: keysmanager.cpp:2364
+#: keysmanager.cpp:2362
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr "Nyckeln <b>%1</b> borttagen."
 
-#: keysmanager.cpp:2367
+#: keysmanager.cpp:2365
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr "Borttagning av nyckeln <b>%1</b> misslyckades."
 
-#: keysmanager.cpp:2391
+#: keysmanager.cpp:2389
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr "Kan inte ta bort nyckeln <b>%1</b> medan den redigeras i en terminal."
 
-#: keysmanager.cpp:2432
+#: keysmanager.cpp:2430
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
@@ -2592,7 +2592,7 @@ msgstr ""
 "Du har markerat objekt som inte är nycklar. De kan inte tas bort med det här "
 "menyalternativet."
 
-#: keysmanager.cpp:2457
+#: keysmanager.cpp:2455
 #, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2601,24 +2601,24 @@ msgstr ""
 "<qt>Följande är hemliga nyckelpar:<br/><b>%1</b><br/>De kommer inte att tas "
 "bort.</qt>"
 
-#: keysmanager.cpp:2467
+#: keysmanager.cpp:2465
 #, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b>Ta bort följande öppna nyckel?</b></qt>"
 msgstr[1] "<qt><b>Ta bort följande %1 öppna nycklar?</b></qt>"
 
-#: keysmanager.cpp:2498 keysmanager.cpp:2574 keysmanager.cpp:2585
+#: keysmanager.cpp:2496 keysmanager.cpp:2572 keysmanager.cpp:2583
 #, kde-format
 msgid "Key Import"
 msgstr "Nyckelimport"
 
-#: keysmanager.cpp:2506
+#: keysmanager.cpp:2504
 #, kde-format
 msgid "Open File"
 msgstr "Öppna fil"
 
-#: keysmanager.cpp:2539
+#: keysmanager.cpp:2537
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
@@ -2627,53 +2627,53 @@ msgstr ""
 "<qt>Texten på klippbordet ser inte ut som en nyckel, utan som en krypterad "
 "text.<br />Vill du avkoda den först, och därefter försöka importera den?</qt>"
 
-#: keysmanager.cpp:2541
+#: keysmanager.cpp:2539
 #, kde-format
 msgid "Import from Clipboard"
 msgstr "Importera från klippbordet"
 
-#: keysmanager.cpp:2561
+#: keysmanager.cpp:2559
 #, kde-format
 msgid "Importing..."
 msgstr "Importerar..."
 
-#: keysmanager.cpp:2573
+#: keysmanager.cpp:2571
 #, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr ""
 "Nyckelimport misslyckades.Se den detaljerade loggen för mer information."
 
-#: keysmanager.cpp:2626
+#: keysmanager.cpp:2624
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "Kgpg - krypteringsverktyg"
 
-#: keysmanager.cpp:2649
+#: keysmanager.cpp:2647
 #, kde-format
 msgid "Ke&y Manager"
 msgstr "N&yckelhantering"
 
-#: keysmanager.cpp:2652
+#: keysmanager.cpp:2650
 #, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "&Kryptera klippbord"
 
-#: keysmanager.cpp:2655
+#: keysmanager.cpp:2653
 #, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "A&vkoda klippbord"
 
-#: keysmanager.cpp:2658
+#: keysmanager.cpp:2656
 #, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "&Signera/verifiera klippbord"
 
-#: keysmanager.cpp:2695 keysmanager.cpp:2794 keysmanager.cpp:2812
+#: keysmanager.cpp:2693 keysmanager.cpp:2792 keysmanager.cpp:2810
 #, kde-format
 msgid "Clipboard is empty."
 msgstr "Klippbordet är tomt."
 
-#: keysmanager.cpp:2740
+#: keysmanager.cpp:2738
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr "Text krypterad med lyckat resultat."
@@ -2778,7 +2778,7 @@ msgstr "Öppna editor"
 msgid "Show encrypted file"
 msgstr "Visa krypterad fil"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:505
+#: kgpg.cpp:191 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Signera fil"
@@ -2982,7 +2982,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Använd musmarkering istället för klippbordet."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:223
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:222
 #, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Starta Kgpg automatiskt när KDE startas."
@@ -3173,12 +3173,12 @@ msgstr "Starta guide"
 msgid "Do Not Start"
 msgstr "Starta inte"
 
-#: kgpgfirstassistant.cpp:35
+#: kgpgfirstassistant.cpp:34
 #, kde-format
 msgid "KGpg Assistant"
 msgstr "Kgpg:s guide"
 
-#: kgpgfirstassistant.cpp:59
+#: kgpgfirstassistant.cpp:58
 #, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3190,17 +3190,17 @@ msgstr ""
 "ditt eget nyckelpar som gör det möjligt för dig att kryptera dina filer och "
 "e-post."
 
-#: kgpgfirstassistant.cpp:67
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr "Välkommen till Kgpg:s guide"
 
-#: kgpgfirstassistant.cpp:79
+#: kgpgfirstassistant.cpp:78
 #, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "Kgpg måste veta vilket GnuPG-binärfil som ska användas."
 
-#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:127
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:126
 #, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3209,53 +3209,53 @@ msgstr ""
 "Om du inte vill försöka med några ovanliga inställningar, klicka bara på "
 "knappen \"Nästa\"."
 
-#: kgpgfirstassistant.cpp:102
+#: kgpgfirstassistant.cpp:101
 #, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "GnuPG-binärfil"
 
-#: kgpgfirstassistant.cpp:103
+#: kgpgfirstassistant.cpp:102
 #, kde-format
 msgid "All files"
 msgstr "Alla filer"
 
-#: kgpgfirstassistant.cpp:134
+#: kgpgfirstassistant.cpp:133
 #, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "Kgpg måste veta var GnuPG-inställningsfilen är lagrad."
 
-#: kgpgfirstassistant.cpp:149
+#: kgpgfirstassistant.cpp:148
 #, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "Sökväg till din GnuPG-inställningsfil:"
 
-#: kgpgfirstassistant.cpp:163
+#: kgpgfirstassistant.cpp:162
 #, kde-format
 msgid "Configuration File"
 msgstr "Inställningsfil"
 
-#: kgpgfirstassistant.cpp:173
+#: kgpgfirstassistant.cpp:172
 #, kde-format
 msgid "Your default key:"
 msgstr "Din standardnyckel:"
 
-#: kgpgfirstassistant.cpp:192
+#: kgpgfirstassistant.cpp:191
 #, kde-format
 msgid "Default Key"
 msgstr "Standardnyckel"
 
-#: kgpgfirstassistant.cpp:213
+#: kgpgfirstassistant.cpp:212
 #, kde-format
 msgid "Generate new key"
 msgstr "Skapa ny nyckel"
 
-#: kgpgfirstassistant.cpp:227
+#: kgpgfirstassistant.cpp:226
 #, kde-format
 msgid "Done"
 msgstr "Klar"
 
-#: kgpgfirstassistant.cpp:241
+#: kgpgfirstassistant.cpp:240
 #, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3264,37 +3264,37 @@ msgstr ""
 "<qt><b>GnuPG-inställningsfilen hittades inte</b>. Ska Kgpg försöka skapa en "
 "inställningsfil?</qt>"
 
-#: kgpgfirstassistant.cpp:241
+#: kgpgfirstassistant.cpp:240
 #, kde-format
 msgid "Create Config"
 msgstr "Skapa inställning"
 
-#: kgpgfirstassistant.cpp:241
+#: kgpgfirstassistant.cpp:240
 #, kde-format
 msgid "Do Not Create"
 msgstr "Skapa inte"
 
-#: kgpgfirstassistant.cpp:249
+#: kgpgfirstassistant.cpp:248
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr "<qt><b>Inställningsfilen för GnuPG hittades inge</b>.</qt>"
 
-#: kgpgfirstassistant.cpp:291
+#: kgpgfirstassistant.cpp:290
 #, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "Din GnuPG-binärfil är: %1"
 
-#: kgpgfirstassistant.cpp:306 kgpgfirstassistant.cpp:362
+#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
 #, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "Du har GnuPG-version: %1"
 
-#: kgpgfirstassistant.cpp:309
+#: kgpgfirstassistant.cpp:308
 #, kde-format
 msgid "Your default key is: %1"
 msgstr "Din standardnyckel är: %1"
 
-#: kgpgfirstassistant.cpp:360
+#: kgpgfirstassistant.cpp:359
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3587,37 +3587,37 @@ msgstr "Ändra lösenordsfras..."
 msgid "Fingerprint"
 msgstr "Fingeravtryck"
 
-#: kgpgoptions.cpp:107
+#: kgpgoptions.cpp:106
 #, kde-format
 msgid "Decryption"
 msgstr "Avkodning"
 
-#: kgpgoptions.cpp:108
+#: kgpgoptions.cpp:107
 #, kde-format
 msgid "Appearance"
 msgstr "Utseende"
 
-#: kgpgoptions.cpp:109
+#: kgpgoptions.cpp:108
 #, kde-format
 msgid "GnuPG Settings"
 msgstr "GnuPG-inställningar"
 
-#: kgpgoptions.cpp:110
+#: kgpgoptions.cpp:109
 #, kde-format
 msgid "Key Servers"
 msgstr "Nyckelservrar"
 
-#: kgpgoptions.cpp:111
+#: kgpgoptions.cpp:110
 #, kde-format
 msgid "Misc"
 msgstr "Diverse"
 
-#: kgpgoptions.cpp:146
+#: kgpgoptions.cpp:145
 #, kde-format
 msgid "New GnuPG Home Location"
 msgstr "Ny GnuPG-hemplats"
 
-#: kgpgoptions.cpp:159
+#: kgpgoptions.cpp:158
 #, kde-format
 msgid ""
 "No configuration file was found in the selected location.\n"
@@ -3630,22 +3630,22 @@ msgstr ""
 "\n"
 "Utan inställningsfil fungerar varken Kgpg eller GnuPG riktigt."
 
-#: kgpgoptions.cpp:160
+#: kgpgoptions.cpp:159
 #, kde-format
 msgid "No Configuration File Found"
 msgstr "Någon inställningsfil hittades inte"
 
-#: kgpgoptions.cpp:161
+#: kgpgoptions.cpp:160
 #, kde-format
 msgid "Create"
 msgstr "Skapa"
 
-#: kgpgoptions.cpp:162
+#: kgpgoptions.cpp:161
 #, kde-format
 msgid "Ignore"
 msgstr "Ignorera"
 
-#: kgpgoptions.cpp:176
+#: kgpgoptions.cpp:175
 #, kde-format
 msgid ""
 "Cannot create configuration file. Please check if destination media is "
@@ -3654,33 +3654,33 @@ msgstr ""
 "Kan inte skapa inställningsfil. Kontrollera om målmedia är monterat, och att "
 "du har skrivrättighet."
 
-#: kgpgoptions.cpp:199
+#: kgpgoptions.cpp:198
 #, kde-format
 msgid "Key server URLs may not contain whitespace."
 msgstr "Webbadresser för nyckelservrar får inte innehålla blanktecken."
 
-#: kgpgoptions.cpp:204
+#: kgpgoptions.cpp:203
 #, kde-format
 msgid "Key server already in the list."
 msgstr "Nyckelservern finns redan i listan."
 
-#: kgpgoptions.cpp:213
+#: kgpgoptions.cpp:212
 #, kde-format
 msgid "Add New Key Server"
 msgstr "Lägg till ny nyckelserver"
 
-#: kgpgoptions.cpp:213
+#: kgpgoptions.cpp:212
 #, kde-format
 msgid "Server URL:"
 msgstr "Serverwebbadress:"
 
-#: kgpgoptions.cpp:466 kgpgoptions.cpp:468
+#: kgpgoptions.cpp:465 kgpgoptions.cpp:467
 #, kde-format
 msgctxt "no key available"
 msgid "none"
 msgstr "ingen"
 
-#: kgpgoptions.cpp:488
+#: kgpgoptions.cpp:487
 #, kde-format
 msgid "Decrypt File"
 msgstr "Avkoda fil"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:55+0000\n"
+"POT-Creation-Date: 2026-07-13 00:47+0000\n"
 "PO-Revision-Date: 2008-05-02 13:34+0200\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -137,7 +137,7 @@ msgstr "Удакладненая каманда расшыфроўкі:"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, Encryption)
 #. i18n: ectx: property (text), widget (QCheckBox, capEncrypt)
-#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:106
+#: conf_encryption.ui:15 kgpgkeygenerate.ui:205 kgpgoptions.cpp:105
 #, fuzzy, kde-format
 msgid "Encryption"
 msgstr "Шыфраванне"
@@ -383,7 +383,7 @@ msgid "Change..."
 msgstr "Змяніць..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
-#: conf_gpg.ui:108 kgpgfirstassistant.cpp:117
+#: conf_gpg.ui:108 kgpgfirstassistant.cpp:116
 #, fuzzy, kde-format
 msgid "GnuPG Binary"
 msgstr "Параметры GnuPG"
@@ -516,7 +516,7 @@ msgstr "\"Падпісаць файл\" у меню \"Дзеянні\":"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:296
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:294
 #, fuzzy, kde-format
 msgid "Disable"
 msgstr "Выключыць"
@@ -767,25 +767,25 @@ msgid "Sort Order"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:253 kgpgoptions.cpp:100
+#: conf_ui2.ui:253 kgpgoptions.cpp:99
 #, kde-format
 msgid "Left to right, account first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:258 kgpgoptions.cpp:101
+#: conf_ui2.ui:258 kgpgoptions.cpp:100
 #, kde-format
 msgid "Right to left, TLD first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:263 kgpgoptions.cpp:102
+#: conf_ui2.ui:263 kgpgoptions.cpp:101
 #, kde-format
 msgid "Right to left, domain first"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
-#: conf_ui2.ui:268 kgpgoptions.cpp:103
+#: conf_ui2.ui:268 kgpgoptions.cpp:102
 #, kde-format
 msgid "Right to left, FQDN first"
 msgstr ""
@@ -1412,7 +1412,7 @@ msgstr "Даступныя правераныя ключы"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:418 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:416 searchres.ui:29
 #, fuzzy, kde-format
 msgid "Search:"
 msgstr "Шукаць: "
@@ -1766,195 +1766,195 @@ msgstr "Знойдзена %1 прыдатных ключоў"
 msgid "Found %1 matching keys (%2 shown)"
 msgstr "Знойдзена %1 прыдатных ключоў"
 
-#: keysmanager.cpp:125
+#: keysmanager.cpp:123
 #, fuzzy, kde-format
 msgid "Key Management"
 msgstr "Кіраванне ключамі"
 
-#: keysmanager.cpp:132
+#: keysmanager.cpp:130
 #, fuzzy, kde-format
 msgid "&Open Editor"
 msgstr "Адкрыць рэдактар"
 
-#: keysmanager.cpp:135
+#: keysmanager.cpp:133
 #, fuzzy, kde-format
 msgid "&Key Server Dialog"
 msgstr "Дыялог сервера ключоў"
 
-#: keysmanager.cpp:140 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:138 selectpublickeydialog.cpp:154
 #, fuzzy, kde-format
 msgid "&Go to Default Key"
 msgstr "Перайсці да ключа па змаўчанні"
 
-#: keysmanager.cpp:153
+#: keysmanager.cpp:151
 #, fuzzy, kde-format
 msgid "View GnuPG Manual"
 msgstr "Кіраўніцтва па GnuPG"
 
-#: keysmanager.cpp:158
+#: keysmanager.cpp:156
 #, fuzzy, kde-format
 msgid "&Refresh List"
 msgstr "&Абнавіць сьпіс"
 
-#: keysmanager.cpp:162
+#: keysmanager.cpp:160
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr ""
 
-#: keysmanager.cpp:167
+#: keysmanager.cpp:165
 #, fuzzy, kde-format
 msgid "K&ey Properties"
 msgstr "Уласцівасці ключа"
 
-#: keysmanager.cpp:171
+#: keysmanager.cpp:169
 #, fuzzy, kde-format
 msgid "&Open Key URL"
 msgstr "Адкрыць мэнэджэр ключоў"
 
-#: keysmanager.cpp:175
+#: keysmanager.cpp:173
 #, fuzzy, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "Змяніць ключ у тэрмінале"
 
-#: keysmanager.cpp:180
+#: keysmanager.cpp:178
 #, fuzzy, kde-format
 msgid "&Generate Key Pair..."
 msgstr "Стварыць пару ключоў..."
 
-#: keysmanager.cpp:189
+#: keysmanager.cpp:187
 #, fuzzy, kde-format
 msgid "&Import Key..."
 msgstr "Імпарт ключа ..."
 
-#: keysmanager.cpp:194
+#: keysmanager.cpp:192
 #, kde-format
 msgid "Send Ema&il"
 msgstr ""
 
-#: keysmanager.cpp:198
+#: keysmanager.cpp:196
 #, fuzzy, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "Стварыць новы запіс у адраснай кнізе"
 
-#: keysmanager.cpp:204
+#: keysmanager.cpp:202
 #, fuzzy, kde-format
 msgid "&Edit Group..."
 msgstr "Змяніць групу"
 
-#: keysmanager.cpp:207
+#: keysmanager.cpp:205
 #, fuzzy, kde-format
 msgid "&Delete Group"
 msgstr "Выдаліць групу"
 
-#: keysmanager.cpp:211
+#: keysmanager.cpp:209
 #, fuzzy, kde-format
 msgid "&Rename Group"
 msgstr "Выдаліць групу"
 
-#: keysmanager.cpp:220
+#: keysmanager.cpp:218
 #, fuzzy, kde-format
 msgid "Set as De&fault Key"
 msgstr "Усталяваць як ключ па змаўчанні"
 
-#: keysmanager.cpp:223
+#: keysmanager.cpp:221
 #, fuzzy, kde-format
 msgid "&Add Photo..."
 msgstr "Дадаць фота"
 
-#: keysmanager.cpp:226
+#: keysmanager.cpp:224
 #, fuzzy, kde-format
 msgid "&Add User Id..."
 msgstr "Дадаць ідэнтыфікатар карыстача"
 
-#: keysmanager.cpp:229
+#: keysmanager.cpp:227
 #, fuzzy, kde-format
 msgid "Export Secret Key..."
 msgstr "Экспарт зачыненага ключа..."
 
-#: keysmanager.cpp:232
+#: keysmanager.cpp:230
 #, fuzzy, kde-format
 msgid "Delete Key Pair"
 msgstr "Выдаліць пару ключоў"
 
-#: keysmanager.cpp:236
+#: keysmanager.cpp:234
 #, fuzzy, kde-format
 msgid "Revoke Key..."
 msgstr "Адклікаць ключ..."
 
-#: keysmanager.cpp:239
+#: keysmanager.cpp:237
 #, fuzzy, kde-format
 msgid "&Regenerate Public Key"
 msgstr "Перастварыць адчынены ключ"
 
-#: keysmanager.cpp:245
+#: keysmanager.cpp:243
 #, kde-format
 msgid "Set User Id as &Primary"
 msgstr ""
 
-#: keysmanager.cpp:249
+#: keysmanager.cpp:247
 #, fuzzy, kde-format
 msgid "&Open Photo"
 msgstr "Адкрыць фота"
 
-#: keysmanager.cpp:253
+#: keysmanager.cpp:251
 #, fuzzy, kde-format
 msgid "&Delete Photo"
 msgstr "Выдаліць фота"
 
-#: keysmanager.cpp:261
+#: keysmanager.cpp:259
 #, fuzzy, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "Імпартаваць адсутныя подпісы з сервера ключоў"
 
-#: keysmanager.cpp:279 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:277 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr "Давер"
 
-#: keysmanager.cpp:282 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:280 model/kgpgitemmodel.cpp:385
 #, kde-format
 msgid "Size"
 msgstr "Памер"
 
-#: keysmanager.cpp:285 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:283 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr "Створаны"
 
-#: keysmanager.cpp:288 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:286 model/kgpgitemmodel.cpp:386
 #, kde-format
 msgid "Expiration"
 msgstr "Тэрмін дзеяння"
 
-#: keysmanager.cpp:292
+#: keysmanager.cpp:290
 #, fuzzy, kde-format
 msgid "&Photo ID's"
 msgstr "Фота ID"
 
-#: keysmanager.cpp:297
+#: keysmanager.cpp:295
 #, fuzzy, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "Маленькі"
 
-#: keysmanager.cpp:298
+#: keysmanager.cpp:296
 #, fuzzy, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "Сярэдні"
 
-#: keysmanager.cpp:299
+#: keysmanager.cpp:297
 #, fuzzy, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "Вялікі"
 
-#: keysmanager.cpp:303
+#: keysmanager.cpp:301
 #, kde-format
 msgid "Minimum &Trust"
 msgstr ""
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:304
 #, fuzzy, kde-format
 #| msgctxt "no email address"
 #| msgid "none"
@@ -1962,121 +1962,121 @@ msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "няма"
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:305
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr ""
 
-#: keysmanager.cpp:308
+#: keysmanager.cpp:306
 #, fuzzy, kde-format
 #| msgid "Marginally"
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr "Абмежавана"
 
-#: keysmanager.cpp:309
+#: keysmanager.cpp:307
 #, fuzzy, kde-format
 #| msgid "Fully"
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr "Цалкам"
 
-#: keysmanager.cpp:310
+#: keysmanager.cpp:308
 #, fuzzy, kde-format
 #| msgid "Ultimately"
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "Абсалютна"
 
-#: keysmanager.cpp:335
+#: keysmanager.cpp:333
 #, fuzzy, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "Паказаць толькі зачыненыя ключы"
 
-#: keysmanager.cpp:435
+#: keysmanager.cpp:433
 #, fuzzy, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "Пошук: "
 
-#: keysmanager.cpp:483
+#: keysmanager.cpp:481
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:484 keysmanager.cpp:522 keysmanager.cpp:570
+#: keysmanager.cpp:482 keysmanager.cpp:520 keysmanager.cpp:568
 #, fuzzy, kde-format
 msgid "Generating new key pair"
 msgstr "Ствараецца новая пара ключоў."
 
-#: keysmanager.cpp:523
+#: keysmanager.cpp:521
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr ""
 
-#: keysmanager.cpp:562 keysmanager.cpp:2589 keysmanager.cpp:2591
+#: keysmanager.cpp:560 keysmanager.cpp:2587 keysmanager.cpp:2589
 #, fuzzy, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "Гатовы"
 
-#: keysmanager.cpp:574 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:572 transactions/kgpggeneratekey.cpp:194
 #, fuzzy, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "Няслушны пароль, подпіс не створаная."
 
-#: keysmanager.cpp:577 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:575 transactions/kgpggeneratekey.cpp:197
 #, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr ""
 
-#: keysmanager.cpp:580 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:578 transactions/kgpggeneratekey.cpp:200
 #, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr ""
 
-#: keysmanager.cpp:583 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:581 transactions/kgpggeneratekey.cpp:203
 #, fuzzy, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "Няслушны пароль, подпіс не створаная."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:589 newkey.ui:14
+#: keysmanager.cpp:587 newkey.ui:14
 #, fuzzy, kde-format
 msgid "New Key Pair Created"
 msgstr "Створаная новая пара ключоў"
 
-#: keysmanager.cpp:628
+#: keysmanager.cpp:626
 #, fuzzy, kde-format
 msgid "backup copy"
 msgstr "рэзервовая копія"
 
-#: keysmanager.cpp:642 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:640 transactions/kgpggeneratekey.cpp:215
 #, fuzzy, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "Няслушны пароль, подпіс не створаная."
 
-#: keysmanager.cpp:736
+#: keysmanager.cpp:734
 #, fuzzy, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr "Вы можаце падпісаць толькі першасны ключ. Праверце ваш выбар."
 
-#: keysmanager.cpp:860
+#: keysmanager.cpp:858
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:861 keysmanager.cpp:866
+#: keysmanager.cpp:859 keysmanager.cpp:864
 #, fuzzy, kde-format
 msgid "Add New User Id"
 msgstr "Дадаць новы ідэнтыфікатар карыстача"
 
-#: keysmanager.cpp:906
+#: keysmanager.cpp:904
 #, fuzzy, kde-format
 msgid ""
 "The image must be a JPEG file. Remember that the image is stored within your "
@@ -2088,7 +2088,7 @@ msgstr ""
 "ключ, пры ёй вялікім памеры памер вашага ключа будзе неапраўдана завышаным! "
 "Рэкамендуемы памер фатаграфіі - 240x288 кропак."
 
-#: keysmanager.cpp:938
+#: keysmanager.cpp:936
 #, fuzzy, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
@@ -2097,58 +2097,58 @@ msgstr ""
 "<qt>Вы сапраўды жадаеце выдаліць фота ідэнтыфікатар<b>%1</b><br>з ключа <b>"
 "%2 lt;%3gt;</b>?</qt>"
 
-#: keysmanager.cpp:1076
+#: keysmanager.cpp:1074
 #, fuzzy, kde-format
 msgid "Public Key"
 msgstr "Публічны ключ"
 
-#: keysmanager.cpp:1079
+#: keysmanager.cpp:1077
 #, fuzzy, kde-format
 msgid "Sub Key"
 msgstr "Подключ"
 
-#: keysmanager.cpp:1082
+#: keysmanager.cpp:1080
 #, fuzzy, kde-format
 msgid "Secret Key Pair"
 msgstr "Пару зачыненых ключоў"
 
-#: keysmanager.cpp:1085
+#: keysmanager.cpp:1083
 #, fuzzy, kde-format
 msgid "Key Group"
 msgstr "Група ключоў"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1088 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1086 kgpgkeygenerate.ui:185
 #, fuzzy, kde-format
 msgid "Signature"
 msgstr "Подпіс"
 
-#: keysmanager.cpp:1091
+#: keysmanager.cpp:1089
 #, fuzzy, kde-format
 msgid "User ID"
 msgstr "ID карыстальніка"
 
-#: keysmanager.cpp:1094
+#: keysmanager.cpp:1092
 #, fuzzy, kde-format
 msgid "Revocation Signature"
 msgstr "Адзываючы подпіс"
 
-#: keysmanager.cpp:1097
+#: keysmanager.cpp:1095
 #, fuzzy, kde-format
 msgid "Photo ID"
 msgstr "Фота-ідэнтыфікатар"
 
-#: keysmanager.cpp:1100
+#: keysmanager.cpp:1098
 #, fuzzy, kde-format
 msgid "Orphaned Secret Key"
 msgstr "Некомплектный зачынены ключ"
 
-#: keysmanager.cpp:1105
+#: keysmanager.cpp:1103
 #, kde-format
 msgid "Group member"
 msgstr ""
 
-#: keysmanager.cpp:1208
+#: keysmanager.cpp:1206
 #, fuzzy, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
@@ -2156,7 +2156,7 @@ msgstr[0] "Падпісаць ключы..."
 msgstr[1] "Падпісаць ключы..."
 msgstr[2] "Падпісаць ключы..."
 
-#: keysmanager.cpp:1209
+#: keysmanager.cpp:1207
 #, fuzzy, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
@@ -2164,7 +2164,7 @@ msgstr[0] "Падпісаць ключы..."
 msgstr[1] "Падпісаць ключы..."
 msgstr[2] "Падпісаць ключы..."
 
-#: keysmanager.cpp:1210
+#: keysmanager.cpp:1208
 #, fuzzy, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
@@ -2172,7 +2172,7 @@ msgstr[0] "Экспарт адчыненых ключоў..."
 msgstr[1] "Экспарт адчыненых ключоў..."
 msgstr[2] "Экспарт адчыненых ключоў..."
 
-#: keysmanager.cpp:1211
+#: keysmanager.cpp:1209
 #, fuzzy, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
@@ -2180,7 +2180,7 @@ msgstr[0] "Абнавіць ключы з сервера"
 msgstr[1] "Абнавіць ключы з сервера"
 msgstr[2] "Абнавіць ключы з сервера"
 
-#: keysmanager.cpp:1212
+#: keysmanager.cpp:1210
 #, fuzzy, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
@@ -2188,7 +2188,7 @@ msgstr[0] "Стварыць групу з вылучанымі ключамі...
 msgstr[1] "Стварыць групу з вылучанымі ключамі..."
 msgstr[2] "Стварыць групу з вылучанымі ключамі..."
 
-#: keysmanager.cpp:1213
+#: keysmanager.cpp:1211
 #, fuzzy, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
@@ -2196,7 +2196,7 @@ msgstr[0] "Падпісаць ключы..."
 msgstr[1] "Падпісаць ключы..."
 msgstr[2] "Падпісаць ключы..."
 
-#: keysmanager.cpp:1214
+#: keysmanager.cpp:1212
 #, fuzzy, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
@@ -2204,7 +2204,7 @@ msgstr[0] "Выдаліць ідэнтыфікатар карыстача"
 msgstr[1] "Выдаліць ідэнтыфікатар карыстача"
 msgstr[2] "Выдаліць ідэнтыфікатар карыстача"
 
-#: keysmanager.cpp:1215
+#: keysmanager.cpp:1213
 #, fuzzy, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
@@ -2212,7 +2212,7 @@ msgstr[0] "Выдаліць подпіс"
 msgstr[1] "Выдаліць подпіс"
 msgstr[2] "Выдаліць подпіс"
 
-#: keysmanager.cpp:1216
+#: keysmanager.cpp:1214
 #, fuzzy, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
@@ -2220,7 +2220,7 @@ msgstr[0] "Імпарт ключа з сервера"
 msgstr[1] "Імпарт ключа з сервера"
 msgstr[2] "Імпарт ключа з сервера"
 
-#: keysmanager.cpp:1217
+#: keysmanager.cpp:1215
 #, fuzzy, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
@@ -2228,12 +2228,12 @@ msgstr[0] "Выдаліць ключы"
 msgstr[1] "Выдаліць ключы"
 msgstr[2] "Выдаліць ключы"
 
-#: keysmanager.cpp:1340
+#: keysmanager.cpp:1338
 #, fuzzy, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "Не атрымалася стварыць сертыфікат водгуку..."
 
-#: keysmanager.cpp:1355
+#: keysmanager.cpp:1353
 #, fuzzy, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2245,17 +2245,17 @@ msgstr ""
 "зашыфраваныя гэтым ключом, будуць скампраметаваныя!\n"
 "Працягнуць экспарт ключа?"
 
-#: keysmanager.cpp:1367
+#: keysmanager.cpp:1365
 #, fuzzy, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "Экспарт ЗАЧЫНЕНАГА КЛЮЧА як "
 
-#: keysmanager.cpp:1367
+#: keysmanager.cpp:1365
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr ""
 
-#: keysmanager.cpp:1385
+#: keysmanager.cpp:1383
 #, fuzzy, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
@@ -2264,7 +2264,7 @@ msgstr ""
 "Ваш ЗАЧЫНЕНЫ ключ \"%1\" паспяхова экспартаваны.\n"
 "Захоўваеце яго ў БЯСПЕЧНЫМ месцы."
 
-#: keysmanager.cpp:1388
+#: keysmanager.cpp:1386
 #, fuzzy, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
@@ -2273,7 +2273,7 @@ msgstr ""
 "Ваш зачынены ключ не можа быць экспартаваны.\n"
 "Праверце ключ."
 
-#: keysmanager.cpp:1490
+#: keysmanager.cpp:1488
 #, fuzzy, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
@@ -2281,7 +2281,7 @@ msgstr[0] "<qt>Ваш адчынены ключ экспартаваны да<br
 msgstr[1] "<qt>Вашых %1 адчыненых ключоў экспартаваны да<br/>%2</qt>"
 msgstr[2] "<qt>Вашых %1 адчыненых ключоў экспартаваны да<br/>%2</qt>"
 
-#: keysmanager.cpp:1494 keysmanager.cpp:1509 keysmanager.cpp:1523
+#: keysmanager.cpp:1492 keysmanager.cpp:1507 keysmanager.cpp:1521
 #, fuzzy, kde-format
 msgid ""
 "Your public key could not be exported\n"
@@ -2290,7 +2290,7 @@ msgstr ""
 "Ваш адчынены ключ не можа быць экспартаваны.\n"
 "Праверце ключ."
 
-#: keysmanager.cpp:1632
+#: keysmanager.cpp:1630
 #, fuzzy, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
@@ -2301,27 +2301,27 @@ msgstr ""
 "\n"
 "Стварыць для яго адчынены ключ?"
 
-#: keysmanager.cpp:1634
+#: keysmanager.cpp:1632
 #, fuzzy, kde-format
 msgid "Generate"
 msgstr "Стварыць"
 
-#: keysmanager.cpp:1634
+#: keysmanager.cpp:1632
 #, fuzzy, kde-format
 msgid "Do Not Generate"
 msgstr "Не ствараць"
 
-#: keysmanager.cpp:1664
+#: keysmanager.cpp:1662
 #, fuzzy, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt>Вы сапраўды жадаеце выдаліць групу<b>%1</b>?</qt>"
 
-#: keysmanager.cpp:1665 keysmanager.cpp:2340
+#: keysmanager.cpp:1663 keysmanager.cpp:2338
 #, fuzzy, kde-format
 msgid "Delete"
 msgstr "Выдаліць"
 
-#: keysmanager.cpp:1695
+#: keysmanager.cpp:1693
 #, fuzzy, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
@@ -2330,7 +2330,7 @@ msgstr ""
 "<qt>Вы не можаце стварыць групу, якая змяшчае подпісу, падлучы альбо іншыя "
 "групы.</qt>"
 
-#: keysmanager.cpp:1710 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1708 kgpgrevokewidget.cpp:52
 #, fuzzy, kde-format
 #| msgctxt "Name (Comment)"
 #| msgid "%1 (%2)"
@@ -2338,18 +2338,18 @@ msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr "%1 (%2)"
 
-#: keysmanager.cpp:1715
+#: keysmanager.cpp:1713
 #, fuzzy, kde-format
 msgid "Create New Group"
 msgstr "Стварыць новую групу"
 
-#: keysmanager.cpp:1716
+#: keysmanager.cpp:1714
 #, fuzzy, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "Увядзіце новае імя групы:"
 
-#: keysmanager.cpp:1721
+#: keysmanager.cpp:1719
 #, fuzzy, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
@@ -2358,7 +2358,7 @@ msgstr ""
 "Наступныя ключы непрыдатныя, альбо не з'яўляюцца праверанымі і таму не "
 "могуць быць дададзеныя ў групу:"
 
-#: keysmanager.cpp:1727
+#: keysmanager.cpp:1725
 #, fuzzy, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
@@ -2367,17 +2367,17 @@ msgstr ""
 "<qt>Не вылучаныя прыдатныя альбо правераныя ключы. Група <b>%1</b> не можа "
 "быць створаная.</qt>"
 
-#: keysmanager.cpp:1739
+#: keysmanager.cpp:1737
 #, fuzzy, kde-format
 msgid "Group Properties"
 msgstr "Уласцівасці групы"
 
-#: keysmanager.cpp:1775
+#: keysmanager.cpp:1773
 #, fuzzy, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "Вы можаце падпісаць толькі першы ключ. Праверце ваш выбар."
 
-#: keysmanager.cpp:1784
+#: keysmanager.cpp:1782
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2390,7 +2390,7 @@ msgstr ""
 "кантрольную суму ў уладальніка ключа па тэлефоне альбо пры асабістай "
 "сустрэчы, каб упэўніцца што ніхто не падрабіў гэты ключ</qt>"
 
-#: keysmanager.cpp:1789
+#: keysmanager.cpp:1787
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2403,7 +2403,7 @@ msgstr ""
 "кантрольную суму ў уладальніка ключа па тэлефоне альбо пры асабістай "
 "сустрэчы, каб упэўніцца што ніхто не падрабіў гэты ключ</qt>"
 
-#: keysmanager.cpp:1804 keysmanager.cpp:1888 kgpgfirstassistant.cpp:276
+#: keysmanager.cpp:1802 keysmanager.cpp:1886 kgpgfirstassistant.cpp:275
 #: model/keylistproxymodel.cpp:181
 #, fuzzy, kde-format
 #| msgctxt "Name (Comment)"
@@ -2412,7 +2412,7 @@ msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1 (%2)"
 
-#: keysmanager.cpp:1806 keysmanager.cpp:1891 kgpgfirstassistant.cpp:278
+#: keysmanager.cpp:1804 keysmanager.cpp:1889 kgpgfirstassistant.cpp:277
 #, fuzzy, kde-format
 #| msgctxt "Name (Comment)"
 #| msgid "%1 (%2)"
@@ -2420,7 +2420,7 @@ msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr "%1 (%2)"
 
-#: keysmanager.cpp:1812
+#: keysmanager.cpp:1810
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2431,12 +2431,12 @@ msgstr ""
 "дбайна не праверылі ўсе кантрольныя сумы, вашы паведамленні могуць быць "
 "скампраметаваныя.</b></qt>"
 
-#: keysmanager.cpp:1854 keysmanager.cpp:2001
+#: keysmanager.cpp:1852 keysmanager.cpp:1999
 #, fuzzy, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr "Вы можаце падпісаць толькі першы ключ. Праверце ваш выбар."
 
-#: keysmanager.cpp:1868
+#: keysmanager.cpp:1866
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2449,7 +2449,7 @@ msgstr ""
 "кантрольную суму ў уладальніка ключа па тэлефоне альбо пры асабістай "
 "сустрэчы, каб упэўніцца што ніхто не падрабіў гэты ключ</qt>"
 
-#: keysmanager.cpp:1872
+#: keysmanager.cpp:1870
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2462,7 +2462,7 @@ msgstr ""
 "кантрольную суму ў уладальніка ключа па тэлефоне альбо пры асабістай "
 "сустрэчы, каб упэўніцца што ніхто не падрабіў гэты ключ</qt>"
 
-#: keysmanager.cpp:1898
+#: keysmanager.cpp:1896
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2473,17 +2473,17 @@ msgstr ""
 "дбайна не праверылі ўсе кантрольныя сумы, вашы паведамленні могуць быць "
 "скампраметаваныя.</b></qt>"
 
-#: keysmanager.cpp:1967
+#: keysmanager.cpp:1965
 #, fuzzy, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt>Няслушны пароль, ключ <b>%1</b> не падпісаны.</qt>"
 
-#: keysmanager.cpp:1971
+#: keysmanager.cpp:1969
 #, fuzzy, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt>Няслушны пароль, ключ <b>%1</b> не падпісаны.</qt>"
 
-#: keysmanager.cpp:1976
+#: keysmanager.cpp:1974
 #, fuzzy, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
@@ -2492,13 +2492,13 @@ msgstr ""
 "<qt>Ключ не быў падпісаны <b>%1</b>ключом <b>%2</b>.<br>Жадаеце паспрабаваць "
 "падпісаць гэты ключ у кансольным рэжыме?</qt>"
 
-#: keysmanager.cpp:1978
+#: keysmanager.cpp:1976
 #, fuzzy, kde-format
 msgctxt "@action:button"
 msgid "Sign"
 msgstr "Падпісаць"
 
-#: keysmanager.cpp:2094
+#: keysmanager.cpp:2092
 #, fuzzy, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
@@ -2506,24 +2506,24 @@ msgstr[0] "Усе подпісы для гэтага ключа ўжо ўтры�
 msgstr[1] "Усе подпісы для гэтага ключа ўжо ўтрымоўваюцца ў вашым спісе ключоў"
 msgstr[2] "Усе подпісы для гэтага ключа ўжо ўтрымоўваюцца ў вашым спісе ключоў"
 
-#: keysmanager.cpp:2181
+#: keysmanager.cpp:2179
 #, fuzzy, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "Зменіце ключ уручную для выдалення ўласнага подпісу."
 
-#: keysmanager.cpp:2185
+#: keysmanager.cpp:2183
 #, fuzzy, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
 "id <b>%2</b><br />of key: <b>%3</b>?</qt>"
 msgstr "<qt>Выдаліць подпіс <br><b>%1</b> з ключа <br><b>%2</b>?</qt>"
 
-#: keysmanager.cpp:2207
+#: keysmanager.cpp:2205
 #, fuzzy, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr "Запытаная аперацыя не завершаная, адрэдагуйце ключ уручную."
 
-#: keysmanager.cpp:2296
+#: keysmanager.cpp:2294
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2535,21 +2535,21 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: keysmanager.cpp:2300 keysmanager.cpp:2314 keysmanager.cpp:2349
-#: keysmanager.cpp:2364 keysmanager.cpp:2367 keysmanager.cpp:2378
-#: keysmanager.cpp:2392 keysmanager.cpp:2433
+#: keysmanager.cpp:2298 keysmanager.cpp:2312 keysmanager.cpp:2347
+#: keysmanager.cpp:2362 keysmanager.cpp:2365 keysmanager.cpp:2376
+#: keysmanager.cpp:2390 keysmanager.cpp:2431
 #, fuzzy, kde-format
 msgid "Delete key"
 msgstr "Выдаліць ключы"
 
-#: keysmanager.cpp:2313
+#: keysmanager.cpp:2311
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
 
-#: keysmanager.cpp:2337
+#: keysmanager.cpp:2335
 #, fuzzy, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
@@ -2559,36 +2559,36 @@ msgstr ""
 "ніколі не зможаце расшыфраваць файлы, зашыфраваныя пры дапамозе гэтай пары "
 "ключоў."
 
-#: keysmanager.cpp:2348 keysmanager.cpp:2377
+#: keysmanager.cpp:2346 keysmanager.cpp:2375
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:2364
+#: keysmanager.cpp:2362
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr ""
 
-#: keysmanager.cpp:2367
+#: keysmanager.cpp:2365
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr ""
 
-#: keysmanager.cpp:2391
+#: keysmanager.cpp:2389
 #, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr ""
 
-#: keysmanager.cpp:2432
+#: keysmanager.cpp:2430
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr ""
 
-#: keysmanager.cpp:2457
+#: keysmanager.cpp:2455
 #, fuzzy, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
@@ -2597,7 +2597,7 @@ msgstr ""
 "<qt>Наступныя пары ключоў - зачыненыя:<br><b>%1</b>. Яны не могуць быць "
 "выдаленыя.<br></qt>"
 
-#: keysmanager.cpp:2467
+#: keysmanager.cpp:2465
 #, fuzzy, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
@@ -2614,71 +2614,71 @@ msgstr[2] ""
 "<qt><b>Выдаліць %n адчыненых ключа?</b></qt>\n"
 "<qt><b>Выдаліць %n адчыненых ключоў?</b></qt>"
 
-#: keysmanager.cpp:2498 keysmanager.cpp:2574 keysmanager.cpp:2585
+#: keysmanager.cpp:2496 keysmanager.cpp:2572 keysmanager.cpp:2583
 #, fuzzy, kde-format
 msgid "Key Import"
 msgstr "Імпарт ключа"
 
-#: keysmanager.cpp:2506
+#: keysmanager.cpp:2504
 #, fuzzy, kde-format
 msgid "Open File"
 msgstr "Адкрыць файл"
 
-#: keysmanager.cpp:2539
+#: keysmanager.cpp:2537
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
 
-#: keysmanager.cpp:2541
+#: keysmanager.cpp:2539
 #, fuzzy, kde-format
 msgid "Import from Clipboard"
 msgstr "Шыфраваць з буфера абмену"
 
-#: keysmanager.cpp:2561
+#: keysmanager.cpp:2559
 #, fuzzy, kde-format
 msgid "Importing..."
 msgstr "Імпарт..."
 
-#: keysmanager.cpp:2573
+#: keysmanager.cpp:2571
 #, fuzzy, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr ""
 "Ключы не імпартаваныя...\n"
 "Праверце паведамленні аб памылках у часопісе"
 
-#: keysmanager.cpp:2626
+#: keysmanager.cpp:2624
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr "KGpg - утыліта шыфравання"
 
-#: keysmanager.cpp:2649
+#: keysmanager.cpp:2647
 #, fuzzy, kde-format
 msgid "Ke&y Manager"
 msgstr "Мэнэджэр ключоў"
 
-#: keysmanager.cpp:2652
+#: keysmanager.cpp:2650
 #, fuzzy, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "Шыфраваць з буфера абмену"
 
-#: keysmanager.cpp:2655
+#: keysmanager.cpp:2653
 #, fuzzy, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "Расшыфраваць з буфера абмену"
 
-#: keysmanager.cpp:2658
+#: keysmanager.cpp:2656
 #, fuzzy, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "Падпісаць/праверыць подпіс у буферы абмену"
 
-#: keysmanager.cpp:2695 keysmanager.cpp:2794 keysmanager.cpp:2812
+#: keysmanager.cpp:2693 keysmanager.cpp:2792 keysmanager.cpp:2810
 #, fuzzy, kde-format
 msgid "Clipboard is empty."
 msgstr "Буфер абмену пусты."
 
-#: keysmanager.cpp:2740
+#: keysmanager.cpp:2738
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr ""
@@ -2782,7 +2782,7 @@ msgstr "Адкрыць рэдактар"
 msgid "Show encrypted file"
 msgstr "Паказаць зашыфраваны файл"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:505
+#: kgpg.cpp:191 kgpgoptions.cpp:504
 #, fuzzy, kde-format
 msgid "Sign File"
 msgstr "Падпісаць файл"
@@ -2962,7 +2962,7 @@ msgid "Use the mouse selection instead of the clipboard."
 msgstr "Выкарыстаць вылучэнне мышшу для аперацый з буферам абмену."
 
 #. i18n: ectx: label, entry (AutoStart), group (User Interface)
-#: kgpg.kcfg:128 kgpgfirstassistant.cpp:223
+#: kgpg.kcfg:128 kgpgfirstassistant.cpp:222
 #, fuzzy, kde-format
 msgid "Start KGpg automatically at KDE startup."
 msgstr "Запускаць KGpg пры запуску KDE."
@@ -3149,12 +3149,12 @@ msgstr ""
 msgid "Do Not Start"
 msgstr "Не запускаць"
 
-#: kgpgfirstassistant.cpp:35
+#: kgpgfirstassistant.cpp:34
 #, kde-format
 msgid "KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:59
+#: kgpgfirstassistant.cpp:58
 #, fuzzy, kde-format
 msgid ""
 "This assistant will first setup some basic configuration options required "
@@ -3166,17 +3166,17 @@ msgstr ""
 "пару ключоў, якія дазваляюць вам шыфраваць файлы, электронную пошту і іншую "
 "інфармацыю."
 
-#: kgpgfirstassistant.cpp:67
+#: kgpgfirstassistant.cpp:66
 #, kde-format
 msgid "Welcome to the KGpg Assistant"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:79
+#: kgpgfirstassistant.cpp:78
 #, fuzzy, kde-format
 msgid "KGpg needs to know which GnuPG binary to use."
 msgstr "Для KGpg неабходна паказаць размяшчэнне файла канфігурацыі GnuPG."
 
-#: kgpgfirstassistant.cpp:87 kgpgfirstassistant.cpp:127
+#: kgpgfirstassistant.cpp:86 kgpgfirstassistant.cpp:126
 #, fuzzy, kde-format
 msgid ""
 "Unless you want to try some unusual settings, just click on the \"next\" "
@@ -3185,55 +3185,55 @@ msgstr ""
 "Калі вы не жадаеце задзейнічаць рэдка выкарыстоўваныя налады, націсніце "
 "кнопку \"Далей\"."
 
-#: kgpgfirstassistant.cpp:102
+#: kgpgfirstassistant.cpp:101
 #, fuzzy, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
 msgstr "Параметры GnuPG"
 
-#: kgpgfirstassistant.cpp:103
+#: kgpgfirstassistant.cpp:102
 #, fuzzy, kde-format
 msgid "All files"
 msgstr "*|Усе файлы"
 
-#: kgpgfirstassistant.cpp:134
+#: kgpgfirstassistant.cpp:133
 #, fuzzy, kde-format
 msgid "KGpg needs to know where your GnuPG configuration file is stored."
 msgstr "Для KGpg неабходна паказаць размяшчэнне файла канфігурацыі GnuPG."
 
-#: kgpgfirstassistant.cpp:149
+#: kgpgfirstassistant.cpp:148
 #, fuzzy, kde-format
 msgid "Path to your GnuPG configuration file:"
 msgstr "<br>Шлях да файла канфігурацыі GnuPG:"
 
-#: kgpgfirstassistant.cpp:163
+#: kgpgfirstassistant.cpp:162
 #, fuzzy, kde-format
 msgid "Configuration File"
 msgstr "Файл канфігурацыі:"
 
-#: kgpgfirstassistant.cpp:173
+#: kgpgfirstassistant.cpp:172
 #, fuzzy, kde-format
 msgid "Your default key:"
 msgstr "Ваш ключ па змаўчанні:"
 
-#: kgpgfirstassistant.cpp:192
+#: kgpgfirstassistant.cpp:191
 #, fuzzy, kde-format
 msgid "Default Key"
 msgstr "Выдаліць ключы"
 
-#: kgpgfirstassistant.cpp:213
+#: kgpgfirstassistant.cpp:212
 #, fuzzy, kde-format
 msgid "Generate new key"
 msgstr "Ствараецца новая пара ключоў."
 
-#: kgpgfirstassistant.cpp:227
+#: kgpgfirstassistant.cpp:226
 #, fuzzy, kde-format
 #| msgctxt "no email address"
 #| msgid "none"
 msgid "Done"
 msgstr "няма"
 
-#: kgpgfirstassistant.cpp:241
+#: kgpgfirstassistant.cpp:240
 #, fuzzy, kde-format
 msgid ""
 "<qt><b>The GnuPG configuration file was not found</b>. Should KGpg try to "
@@ -3243,37 +3243,37 @@ msgstr ""
 "усталяваная карэктна. Выкарыстаць Kgpg для стварэння гэтага канфігурацыйнага "
 "файла?</qt>"
 
-#: kgpgfirstassistant.cpp:241
+#: kgpgfirstassistant.cpp:240
 #, fuzzy, kde-format
 msgid "Create Config"
 msgstr "Стварыць файл налад"
 
-#: kgpgfirstassistant.cpp:241
+#: kgpgfirstassistant.cpp:240
 #, fuzzy, kde-format
 msgid "Do Not Create"
 msgstr "Не ствараць"
 
-#: kgpgfirstassistant.cpp:249
+#: kgpgfirstassistant.cpp:248
 #, kde-format
 msgid "<qt><b>The GnuPG configuration file was not found</b>.</qt>"
 msgstr ""
 
-#: kgpgfirstassistant.cpp:291
+#: kgpgfirstassistant.cpp:290
 #, fuzzy, kde-format
 msgid "Your GnuPG binary is: %1"
 msgstr "Параметры GnuPG"
 
-#: kgpgfirstassistant.cpp:306 kgpgfirstassistant.cpp:362
+#: kgpgfirstassistant.cpp:305 kgpgfirstassistant.cpp:361
 #, fuzzy, kde-format
 msgid "You have GnuPG version: %1"
 msgstr "Вы выкарыстаеце GnuPG версіі:"
 
-#: kgpgfirstassistant.cpp:309
+#: kgpgfirstassistant.cpp:308
 #, fuzzy, kde-format
 msgid "Your default key is: %1"
 msgstr "Ваш ключ па змаўчанні:"
 
-#: kgpgfirstassistant.cpp:360
+#: kgpgfirstassistant.cpp:359
 #, kde-format
 msgid ""
 "Your GnuPG version (%1) seems to be too old.<br />Compatibility with "
@@ -3561,37 +3561,37 @@ msgstr "Змена пароля..."
 msgid "Fingerprint"
 msgstr "Адбітак ключа"
 
-#: kgpgoptions.cpp:107
+#: kgpgoptions.cpp:106
 #, fuzzy, kde-format
 msgid "Decryption"
 msgstr "Расшыфроўка"
 
-#: kgpgoptions.cpp:108
+#: kgpgoptions.cpp:107
 #, fuzzy, kde-format
 msgid "Appearance"
 msgstr "Вонкавы выгляд"
 
-#: kgpgoptions.cpp:109
+#: kgpgoptions.cpp:108
 #, fuzzy, kde-format
 msgid "GnuPG Settings"
 msgstr "Параметры GnuPG"
 
-#: kgpgoptions.cpp:110
+#: kgpgoptions.cpp:109
 #, fuzzy, kde-format
 msgid "Key Servers"
 msgstr "Серверы ключоў"
 
-#: kgpgoptions.cpp:111
+#: kgpgoptions.cpp:110
 #, fuzzy, kde-format
 msgid "Misc"
 msgstr "Рознае"
 
-#: kgpgoptions.cpp:146
+#: kgpgoptions.cpp:145
 #, fuzzy, kde-format
 msgid "New GnuPG Home Location"
 msgstr "Новае размяшчэнне хатняга каталога GnuPG"
 
-#: kgpgoptions.cpp:159
+#: kgpgoptions.cpp:158
 #, fuzzy, kde-format
 msgid ""
 "No configuration file was found in the selected location.\n"
@@ -3604,22 +3604,22 @@ msgstr ""
 "\n"
 "Без файла канфігурацыі ні KGpg, ні GnuPG не будуць працаваць карэктна."
 
-#: kgpgoptions.cpp:160
+#: kgpgoptions.cpp:159
 #, fuzzy, kde-format
 msgid "No Configuration File Found"
 msgstr "Не знойдзены файл канфігурацыі"
 
-#: kgpgoptions.cpp:161
+#: kgpgoptions.cpp:160
 #, fuzzy, kde-format
 msgid "Create"
 msgstr "Стварыць"
 
-#: kgpgoptions.cpp:162
+#: kgpgoptions.cpp:161
 #, fuzzy, kde-format
 msgid "Ignore"
 msgstr "Ігнараваць"
 
-#: kgpgoptions.cpp:176
+#: kgpgoptions.cpp:175
 #, fuzzy, kde-format
 msgid ""
 "Cannot create configuration file. Please check if destination media is "
@@ -3628,33 +3628,33 @@ msgstr ""
 "Немагчыма стварыць файл канфігурацыі. Праверце што паказаная прылада "
 "змантавана, і вы маеце права запісы на яго"
 
-#: kgpgoptions.cpp:199
+#: kgpgoptions.cpp:198
 #, kde-format
 msgid "Key server URLs may not contain whitespace."
 msgstr ""
 
-#: kgpgoptions.cpp:204
+#: kgpgoptions.cpp:203
 #, kde-format
 msgid "Key server already in the list."
 msgstr ""
 
-#: kgpgoptions.cpp:213
+#: kgpgoptions.cpp:212
 #, fuzzy, kde-format
 msgid "Add New Key Server"
 msgstr "Дадаць новы сервер ключоў"
 
-#: kgpgoptions.cpp:213
+#: kgpgoptions.cpp:212
 #, fuzzy, kde-format
 msgid "Server URL:"
 msgstr "URL сэрвэра:"
 
-#: kgpgoptions.cpp:466 kgpgoptions.cpp:468
+#: kgpgoptions.cpp:465 kgpgoptions.cpp:467
 #, fuzzy, kde-format
 msgctxt "no key available"
 msgid "none"
 msgstr "няма"
 
-#: kgpgoptions.cpp:488
+#: kgpgoptions.cpp:487
 #, fuzzy, kde-format
 msgid "Decrypt File"
 msgstr "Расшыфраваць файл"
