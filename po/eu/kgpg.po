@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2024-01-04 10:17+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -2755,27 +2755,27 @@ msgstr ""
 "arazoak sor ditzake sinadurarekin/deszifratzearekin.<br />Desgaitu GnuPG "
 "agentea KGpg ezarpenetan, edo konpondu agentea.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "Ez da fitxategirik eman."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Ezin da karpeta deszifratu eta erakutsi."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Ezin da karpeta sinatu."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Ezin da karpeta egiaztatu."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2786,37 +2786,38 @@ msgstr ""
 "Hautatu karpeta bakar bat edo hainbat fitxategi, baina ez nahasi fitxategiak "
 "eta karpetak."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Zifratu fitxategia"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Ireki gako-kudeatzailea"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "Erakutsi ikonoa sistemaren erretiluan"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "Ireki editorea"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Erkutsi zifratutako fitxategia"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Fitxategia sinatu"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Egiaztatu sinadura"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Ireki beharreko fitxategia"
@@ -4621,6 +4622,9 @@ msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr ""
 "<para>Sinadura baliozkoa da, eta gakoaren fidantzia erabatekoa da</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "Ireki gako-kudeatzailea"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

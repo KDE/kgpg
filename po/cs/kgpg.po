@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2026-06-03 12:15+0200\n"
 "Last-Translator: Libor Filípek <libor.filipek@gmail.com>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -2759,27 +2759,27 @@ msgstr ""
 "způsobit problémy při podepisování a dešifrování.<br />Prosím zakažte "
 "používání GnuPG Agent v konfiguraci KGpg nebo agenta opravte.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "Žádné soubory."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Nelze dešifrovat a zobrazit složku."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Nelze podepsat složku."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Nelze ověřit složku."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2790,37 +2790,38 @@ msgstr ""
 "Vyberte prosím pouze jednu složku nebo několik souborů, ale nemíchejte "
 "soubory a složky."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Zašifrovat soubor"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Otevřít správce klíčů"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "Zobrazovat ikonu v systémovém panelu"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "Otevřít editor"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Zobrazit šifrovaný soubor"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Podepsat soubor"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Ověřit podpis"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Soubor k otevření"
@@ -4637,3 +4638,6 @@ msgstr "<para>Podpis je platný, ale klíč není důvěryhodný</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Podpis je platný a klíč je maximálně důvěryhodný</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "Otevřít správce klíčů"

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2026-06-11 20:41+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -2749,27 +2749,27 @@ msgstr ""
 "ayarlarında GnuPG aracısını devre dışı bırakın veya çalışmasını sağlayın.</"
 "qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "Dosya belirtilmemiş."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Dizinin şifresi çözülemediğinden içeriği gösterilemiyor."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Dizin imzalanamıyor."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Dizin doğrulanamıyor."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2780,37 +2780,38 @@ msgstr ""
 "Lütfen, yalnızca bir klasör veya birden fazla dosya seçin, klasörleri ve "
 "dosyaları birlikte seçmeyin."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Dosyayı şifrele"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Anahtar yöneticisini aç"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "Sistem tepsisi simgesini göster"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "Düzenleyiciyi aç"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Şifrelenmiş dosyayı göster"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Dosyayı İmzala"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "İmzayı doğrula"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Açılacak dosya"
@@ -4612,6 +4613,9 @@ msgstr "<para>İmza geçerli ama anahtar güvenilir değil</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Bu imza geçerli ve anahtar tam olarak güvenilir</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "Anahtar yöneticisini aç"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

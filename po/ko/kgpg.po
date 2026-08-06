@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2024-02-09 23:41+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -2661,27 +2661,27 @@ msgstr ""
 "<br />그러나 실행 중이지 않은 것 같습니다. 서명/복호화에 문제가 생길 수도 있"
 "습니다.<br />설정에서 GnuPG를 비활성화하거나 에이전트를 고치십시오.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "파일을 지정하지 않았습니다."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "폴더를 복호화 및 표시할 수 없습니다."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "폴더에 서명할 수 없습니다."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "폴더는 검증할 수 없습니다."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2692,37 +2692,38 @@ msgstr ""
 "폴더 하나만 선택하거나 여러 파일을 선택하십시오. 파일이나 폴더를 섞어서 선택"
 "하지 마십시오."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "파일 암호화"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "키 관리자 열기"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "시스템 트레이 아이콘 표시"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "편집기 열기"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "암호화된 파일 표시"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "파일 서명"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "서명 검증"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "열 파일"
@@ -4469,6 +4470,9 @@ msgstr "<para>서명이 올바르지만 키를 신뢰할 수 없습니다</para>
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>서명이 올바르고 키를 완전히 신뢰합니다</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "키 관리자 열기"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

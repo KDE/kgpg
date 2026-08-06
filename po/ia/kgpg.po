@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2026-03-11 18:45+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
@@ -2766,27 +2766,27 @@ msgstr ""
 "favor dishabilita Agente de GnuPG ab le preferentias de KGpg, o fixa le "
 "agente.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "Necun file date."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Il non pote decryptar e monstrar dossier. "
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Il non pote signar dossier."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Il non pote verificar dossier."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2797,37 +2797,38 @@ msgstr ""
 "Pro favor, selige un sol dossier, o plure files, ma non misce files e "
 "dossieres."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Crypta file"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Aperi gerente de clave"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "Monstra icone de tabuliero de systema"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "Aperi editor"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Monstra file cryptate"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Signa file"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Verifica signatura"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "File de aperir"
@@ -4636,6 +4637,9 @@ msgstr "<para>Le signatura es valide, ma le clave non es credibile</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Le signatura es valide e le clave es in fin credibile</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "Aperi gerente de clave"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

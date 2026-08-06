@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2024-02-04 10:27-0600\n"
 "Last-Translator: A S Alam <aalam@punlinux.org>\n"
 "Language-Team: Punjabi <kde-i18n-doc@kde.org>\n"
@@ -2599,27 +2599,27 @@ msgid ""
 "KGpg settings, or fix the agent.</qt>"
 msgstr ""
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "ਫੋਲਡਰ ਨੂੰ ਡਿਸਕ੍ਰਿਪਟ ਅਤੇ ਵਿਖਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "ਫੋਲਡਰ ਦਸਤਖਤ ਨਹੀਂ ਹੋ ਸਕਦੇ ਹਨ।"
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "ਫੋਲਡਰ ਜਾਂਚ ਨਹੀਂ ਹੋ ਸਕਦੀ ਹੈ।"
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2627,37 +2627,38 @@ msgid ""
 "folders."
 msgstr ""
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "ਇੰਕ੍ਰਿਪਟ ਫਾਇਲ"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "ਕੁੰਜੀ ਮੈਨੇਜਰ ਖੋਲ੍ਹੋ"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "ਸਿਸਟਮ ਟਰੇ ਆਈਕਾਨ ਵੇਖੋ"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "ਐਡੀਟਰ ਖੋਲ੍ਹੋ"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "ਇੰਕ੍ਰਿਪਟ ਫਾਇਲ ਖੋਲ੍ਹੋ"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "ਫਾਇਲ ਸਾਈਨ"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "ਦਸਤਖਤ ਜਾਂਚ"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "ਖੋਲ੍ਹਣ ਲਈ ਫਾਇਲ"
@@ -4468,6 +4469,9 @@ msgstr "ਦਸਤਖਤ ਸਹੀਂ ਹਨ, ਪਰ ਕੁੰਜੀ ਭਰੋਸ
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "ਦਸਤਖਤ ਠੀਕ ਹਨ ਅਤੇ ਕੁੰਜੀ ਵੀ ਪੂਰੀ ਤਰਾਂ ਭਰੋਸੇਯੋਗ ਹੈ"
+
+#~ msgid "Open key manager"
+#~ msgstr "ਕੁੰਜੀ ਮੈਨੇਜਰ ਖੋਲ੍ਹੋ"
 
 #~ msgid "Tip of the &Day"
 #~ msgstr "ਅੱਜ ਦਾ ਇਸ਼ਾਰਾ(&D)"

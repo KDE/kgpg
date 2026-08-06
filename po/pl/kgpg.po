@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2026-04-11 09:11+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -2772,27 +2772,27 @@ msgstr ""
 "podpisywaniem/odszyfrowywaniem.<br />Wyłącz usługę GnuPG w ustawieniach KGpg "
 "albo ją popraw.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "Nie podano plików."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Nie można odszyfrować i pokazać katalogu."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Nie można podpisać katalogu."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Nie można sprawdzić katalogu."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2803,37 +2803,38 @@ msgstr ""
 "Proszę zaznaczyć tylko jeden katalog lub kilka plików, proszę nie zaznaczać "
 "jednocześnie plików i katalogów."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Zaszyfruj plik"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Przejdź do zarządzania kluczami"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "Pokaż ikonę na tacce systemowej"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "Otwórz edytor"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Pokaż zaszyfrowany plik"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Podpisz plik"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Sprawdź podpis"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Plik do otwarcia"
@@ -4670,6 +4671,9 @@ msgstr "<para>Podpis jest poprawny, ale klucz nie jest bezpieczny.</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Podpis jest poprawny, a klucz bezpieczny.</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "Przejdź do zarządzania kluczami"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

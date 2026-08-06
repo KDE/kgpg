@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2024-12-25 19:45+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -2689,27 +2689,27 @@ msgstr ""
 "भवितुम् अर्हन्ति ।<br /> कृपया KGpg सेटिङ्ग्स् तः GnuPG Agent निष्क्रियं कुर्वन्तु, अथवा "
 "एजेण्ट् निश्चययन्तु ।</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "न सञ्चिकाः दत्ताः।"
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "विगुप्तीकरणं कृत्वा पुटं दर्शयितुं न शक्यते ।"
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "पुटे हस्ताक्षरं कर्तुं न शक्यते।"
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "पुटस्य सत्यापनं कर्तुं न शक्यते।"
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2719,37 +2719,38 @@ msgstr ""
 "अनुरोधितं कार्यं कर्तुं असमर्थः।\n"
 "कृपया केवलम् एकं पुटं, अथवा अनेकाः सञ्चिकाः चिनोतु, परन्तु सञ्चिकाः, पुटं च न मिश्रयन्तु ।"
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "सञ्चिकां एन्क्रिप्ट् कुर्वन्तु"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "कुञ्जीप्रबन्धकं उद्घाटयन्तु"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "सिस्टम् ट्रे चिह्नं दर्शयतु"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "सम्पादकं उद्घाटयतु"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "एन्क्रिप्टेड् सञ्चिकां दर्शयतु"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "हस्ताक्षर सञ्चिका"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "हस्ताक्षरस्य सत्यापनम्"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "सञ्चिकां उद्घाटयितुं"
@@ -4524,3 +4525,6 @@ msgstr "<para>हस्ताक्षरं वैधं, किन्तु �
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>हस्ताक्षरं वैधं, कुञ्जी च अन्ते विश्वसिति</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "कुञ्जीप्रबन्धकं उद्घाटयन्तु"

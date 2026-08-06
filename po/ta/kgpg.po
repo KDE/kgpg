@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2021-01-18 19:22+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -2924,27 +2924,27 @@ msgstr ""
 "உண்டாக்கும்மறைவிலக்கம்<br>தயவு செய்து கே ஜி பி ஜி அமைப்பிலிருந்து ஜி என் யு பி ஜி  "
 "செயல்படுத்துபவரை முடக்கு, அல்லது செயல்படுத்துபவரை அமை.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "முறைவிலக்க ÁüÚõ அடைவை காண்பிக்க இயலாது."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "அடைவை பதிவுசெய்ய இயலவில்லை"
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "அடைவை சரிபார்க்க இயலவில்லை"
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2955,38 +2955,38 @@ msgstr ""
 "தயவு செய்து ஒரே ஒரு ஆவணம், அல்லது நிறைய கோப்புகளை தேர்ந்தெடுக்கவும்,ஆனால் கோப்புகளையும் "
 "ஆவணங்களையும் இணைக்க வேண்டாம்."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "கோப்பின் மறையாக்கம்"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "மேலாளர் விசையை திற"
-
 #: kgpg.cpp:189
+#, kde-format
+msgid "Start program in system tray only"
+msgstr ""
+
+#: kgpg.cpp:190
 #, fuzzy, kde-format
 #| msgid "&Open Editor"
 msgid "Open editor"
 msgstr "&திருத்துவோரை திற"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "பதிவேடு கோப்பை காட்டு"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "கோப்பு குறி"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "கையெழுத்தை சரிபார்"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "திறக்க வேண்டிய கோப்புகள்"
@@ -4828,6 +4828,9 @@ msgstr "கையெழுத்து சரியானது, ஆனால்
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "கையெழுத்து சரியானது,மற்றும் விசை நம்பபட்டது"
+
+#~ msgid "Open key manager"
+#~ msgstr "மேலாளர் விசையை திற"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

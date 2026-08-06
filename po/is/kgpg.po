@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2026-04-16 12:09+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
@@ -2740,27 +2740,27 @@ msgstr ""
 "með undirritun/afkóðun.<br>Þú ættir að gera GnuPG Agent óvirkt í stillingum "
 "KGpg, eða lagfæra forritið.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "Engar skrár gefnar upp."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Get ekki afkóðað og sýnt möppu."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Get ekki undirritað möppu."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Get ekki staðfest möppu."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2771,37 +2771,38 @@ msgstr ""
 "Veldu aðeins eina möppu eða nokkrar skrár en ekki blanda saman skrám og "
 "möppum."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Dulrita skrá"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Opna lyklastjóra"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "Sýna táknmynd í kerfisbakka"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "Opna ritil"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Sýna dulkóðaða skrá"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Dulrita skrá"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Staðfesta undirritun"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Opna skrá"
@@ -4574,6 +4575,9 @@ msgstr "<para>Undirritunin er gild, en lyklinum er ekki treyst</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Undirritunin er gild og lyklinum er treyst fullkomlega</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "Opna lyklastjóra"
 
 #, fuzzy
 #~ msgid ""

@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2025-05-29 15:11+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -2737,27 +2737,27 @@ msgstr ""
 "ongelmiin allekirjoitettaessa tai salausta purettaessa.<br />Poista GnuPG-"
 "asiakas käytöstä KGpg:n asetuksista tai korjaa sen ongelmat.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "Tiedostoja ei annettu."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Kansiota ei voitu purkaa ja näyttää."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Hakemistoa ei voida allekirjoittaa."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Hakemiston eheyttä ei voitu tarkistaa."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2768,37 +2768,38 @@ msgstr ""
 "Valitse yksi kansio tai useita tiedostoja, mutta älä valitse sekä "
 "hakemistoja että tiedostoja."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Salaa tiedosto"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Avaa avaimien hallinta"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "Näytä ilmoitusaluekuvake"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "Avaa muokkain"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Näytä salattu tiedosto"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Allekirjoita tiedosto"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Tarkista allekirjoituksen oikeellisuus"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Avattava tiedosto"
@@ -4611,6 +4612,9 @@ msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr ""
 "<para>Allekirjoitus on kelvollinen ja avain äärettömän luotettava.</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "Avaa avaimien hallinta"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

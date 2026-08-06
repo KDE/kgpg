@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2017-12-03 23:08+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -2819,27 +2819,27 @@ msgstr ""
 "problema sa potpisivanjem i dešifrovanjem.</p><p>Ili u postavkama KGPG‑a "
 "isključite agent GnuPG‑a, ili ga popravite.</p></qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "Nije dat nijedan fajl."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Ne mogu da dešifrujem i prikažem fasciklu."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Ne mogu da potpišem fasciklu."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Ne mogu da ovjerim fasciklu."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2849,37 +2849,38 @@ msgstr ""
 "<p>Ne mogu da izvršim zahtijevani postupak.</p><p>Izaberite ili jednu "
 "fasciklu ili nekoliko fajlova, ali nemojte miješati fajlove i fascikle.</p>"
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Šifruj fajl"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Otvori menadžer ključeva"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "Ikonica u sistemskoj kaseti"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "Otvori uređivač"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Prikaži šifrovani fajl"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Potpiši fajl"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Proveri potpis"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Fajl za otvaranje"
@@ -4758,6 +4759,9 @@ msgstr "<para>Potpis je valjan, ali je ključ nepouzdan.</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Potpis je valjan i ključ je bezuslovno pouzdan.</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "Otvori menadžer ključeva"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

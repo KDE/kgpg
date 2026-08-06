@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2012-12-22 11:15+0200\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -2639,27 +2639,27 @@ msgid ""
 "KGpg settings, or fix the agent.</qt>"
 msgstr ""
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Nu pot decripta și afișa dosarul."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Nu pot semna dosarul."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Nu pot verifica dosarul."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2667,38 +2667,39 @@ msgid ""
 "folders."
 msgstr ""
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Criptează fișier"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Deschide managerul de chei"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show the systray icon"
+msgid "Start program in system tray only"
+msgstr "Arată pictograma în tava de sistem"
+
+#: kgpg.cpp:190
 #, fuzzy, kde-format
 #| msgid "&Open Editor"
 msgid "Open editor"
 msgstr "&Deschide editorul"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Afișează fișierul criptat"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Semnează fișierul"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Verifică semnătura"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Fișier de deschis"
@@ -4499,6 +4500,9 @@ msgstr "Semnătura este validă, dar cheia nu este de încredere"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "Semnătura este validă, dar cheia nu este de încredere"
+
+#~ msgid "Open key manager"
+#~ msgstr "Deschide managerul de chei"
 
 #~ msgid "Tip of the &Day"
 #~ msgstr "&Sfatul zilei"

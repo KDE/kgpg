@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2024-02-21 14:03+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -2782,27 +2782,27 @@ msgstr ""
 "pri podpisovanju ali šifriranju.<br />Onemogočite posrednik GnuPG iz "
 "nastavitev KGpg ali pa ga popravite.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "Ni podanih datotek."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Ni mogoče dešifrirati in prikazati mape."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Ni mogoče podpisati mape."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Ni mogoče preveriti mape."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2812,37 +2812,38 @@ msgstr ""
 "Žal ni mogoče izvesti zahtevanega opravila.\n"
 "Izberite le eno mapo ali pa več datotek, vendar ne mešajte datotek in map."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Šifriraj datoteko"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Odpri upravljalnik ključev"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "Pokaži ikono v sistemski vrstici"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "Odpri urejevalnik"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Prikaži šifrirano datoteko"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Podpiši datoteko"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Preveri podpis"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Datoteka za odprtje"
@@ -4697,6 +4698,9 @@ msgstr "<para>Podpis je veljaven, ključu pa ni zaupano</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Podpis je veljaven, ključu pa je popolnoma zaupano</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "Odpri upravljalnik ključev"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

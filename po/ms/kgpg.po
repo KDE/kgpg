@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Mimos\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2005-11-17 23:25+0800\n"
 "Last-Translator: MIMOS Open Source <opensource@mimos.my>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -2928,27 +2928,27 @@ msgstr ""
 "masalah dalam tandatangan/penyahsulitan.<br>Sila nyahaktifkan Ejen GnuPG "
 "daripada seting KGpg, atau tetapkan ejen.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Tidak dapat nyahsulitkan dan papar folder."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Tidak dapat tandatangan folder."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Tidak dapat sahkan folder."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2959,38 +2959,38 @@ msgstr ""
 "Pilih hanya satu folder, atau beberapa fail, tetapi jangan campurkan fail "
 "dengan folder."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Sulitkan fail"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Buka pengurus kunci"
-
 #: kgpg.cpp:189
+#, kde-format
+msgid "Start program in system tray only"
+msgstr ""
+
+#: kgpg.cpp:190
 #, fuzzy, kde-format
 #| msgid "&Open Editor"
 msgid "Open editor"
 msgstr "&Buka Editor"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Papar fail yang disulitkan"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Tandatangan Fail"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Sahkan tandatangan"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Fail hendak dibuka"
@@ -4841,6 +4841,9 @@ msgstr "Tandatangan ini sah, tetapi kunci tak dipercayai"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "Tandatangan adalah sah, dan kunci dipercayai secara mutlak"
+
+#~ msgid "Open key manager"
+#~ msgstr "Buka pengurus kunci"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

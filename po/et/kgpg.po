@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2019-11-10 23:05+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -2732,27 +2732,27 @@ msgstr ""
 "allkirjastamisel ja lahtikrüptimisel probleeme tekitada.<br />Palun lülita "
 "KGpg seadistustes GnuPG agent välja või paranda see ära.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "Faili pole määratud."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Kataloogi ei saa lahti krüptida ja näidata."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Kataloogi ei saa allkirjastada."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Kataloogi ei saa kontrollida."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2763,37 +2763,38 @@ msgstr ""
 "Palun vali ainult üks kataloog või mitu faili, mitte aga faile ja katalooge "
 "segiläbi."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Krüptib faili"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Avab võtmehalduri"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "Paneeli ikooni näitamine"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "Avab redaktori"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Näitab krüptitud faili"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Faili allkirjastamine"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Kontrollib allkirja"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Avatav fail"
@@ -4587,6 +4588,9 @@ msgstr "<para>Allkiri on kehtiv, kuid võti ei ole usaldusväärne</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Allkiri on kehtiv ja võti äärmiselt usaldusväärne</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "Avab võtmehalduri"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2014-09-21 00:43-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -2703,27 +2703,27 @@ msgstr ""
 "生する可能性があります。<br/>KGpg の設定で GnuPG エージェントを無効にするか、"
 "エージェントの問題を解決してください。</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "フォルダを復号して表示することはできません。"
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "フォルダに署名することはできません。"
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "フォルダを検証することはできません。"
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2735,42 +2735,42 @@ msgstr ""
 "フォルダとファイルを同時に選択することはできません。"
 
 # KCmdLineOptions
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "ファイルを暗号化"
 
-# KCmdLineOptions
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "鍵マネージャを開く"
+#: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "システムトレイにアイコンを表示する"
 
 # KCmdLineOptions
-#: kgpg.cpp:189
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "エディタを開く"
 
 # KCmdLineOptions
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "暗号化されたファイルを表示"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "ファイルに署名"
 
 # KCmdLineOptions
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "署名を検証"
 
 # KCmdLineOptions
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "開くファイル"
@@ -4549,3 +4549,7 @@ msgstr "<qt>署名は有効ですが、鍵は信頼されていません。<br/>
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<qt>署名は有効で、鍵は絶対的に信頼されています。<br/></qt>"
+
+# KCmdLineOptions
+#~ msgid "Open key manager"
+#~ msgstr "鍵マネージャを開く"

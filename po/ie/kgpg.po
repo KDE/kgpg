@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2022-11-02 08:58+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <kde-i18n-doc@kde.org>\n"
@@ -2507,27 +2507,27 @@ msgid ""
 "KGpg settings, or fix the agent.</qt>"
 msgstr ""
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, fuzzy, kde-format
 msgid "No files given."
 msgstr "Null argumentes providet."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, fuzzy, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Deciffrar e verificar omni files il li fólder"
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, fuzzy, kde-format
 msgid "Cannot sign folder."
 msgstr "Archivar, signar e ciffrar un fólder"
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, fuzzy, kde-format
 msgid "Cannot verify folder."
 msgstr "It es ínpossibil mover un fólder a se self"
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2535,37 +2535,37 @@ msgid ""
 "folders."
 msgstr ""
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Ciffrar un file"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Aperter li gerente de claves"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+msgid "Start program in system tray only"
+msgstr "Monstrar icone in li area de notificationes"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "Aperter un redactor"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, fuzzy, kde-format
 msgid "Show encrypted file"
 msgstr "Deciffrar un ciffrat file"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Signar un file"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Verificar un signature"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, fuzzy, kde-format
 msgid "File to open"
 msgstr "Ples selecter li file Dar a aperter"
@@ -4247,6 +4247,9 @@ msgstr ""
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr ""
+
+#~ msgid "Open key manager"
+#~ msgstr "Aperter li gerente de claves"
 
 #, fuzzy
 #~ msgid "Tip of the &Day"

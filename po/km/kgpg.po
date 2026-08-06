@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2008-12-19 10:25+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -2545,27 +2545,27 @@ msgstr ""
 "<qt> នៃ​<b> ភ្នាក់ងារ</b> ជា បាន​ជ្រើស អ៊ិន្ឈ៍ s<br /> ដល់ អ៊ិន្ឈ៍ ជាមួយ<br /> បិទ ភ្នាក់ងារ ពី "
 "ឬ</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, fuzzy, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "និង."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr ""
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr ""
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, fuzzy, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2573,37 +2573,37 @@ msgid ""
 "folders."
 msgstr "ដល់ មួយ ឬ និង."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, fuzzy, kde-format
 msgid "Encrypt file"
 msgstr "​អ៊ិនគ្រីប"
 
-#: kgpg.cpp:188
-#, fuzzy, kde-format
-msgid "Open key manager"
-msgstr "បើក"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+msgid "Start program in system tray only"
+msgstr "បង្ហាញ​រូបតំណាង​ថាស​របស់​ប្រព័ន្ធ"
+
+#: kgpg.cpp:190
 #, fuzzy, kde-format
 msgid "Open editor"
 msgstr "បើក"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, fuzzy, kde-format
 msgid "Show encrypted file"
 msgstr "បង្ហាញ​"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, fuzzy, kde-format
 msgid "Sign File"
 msgstr "ចុះ​ហត្ថលេខា ឯកសារ"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr ""
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, fuzzy, kde-format
 msgid "File to open"
 msgstr "ឯកសារ​ដែល​ត្រូវ​បើក"
@@ -4285,6 +4285,10 @@ msgstr "ជា ជា"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "ជា និង ជា"
+
+#, fuzzy
+#~ msgid "Open key manager"
+#~ msgstr "បើក"
 
 #, fuzzy
 #~ msgid ""

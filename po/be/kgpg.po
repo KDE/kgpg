@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2008-05-02 13:34+0200\n"
 "Last-Translator: Siarhei Liantsevich <serzh.by@gmail.com>\n"
 "Language-Team: Belarusian\n"
@@ -2731,27 +2731,27 @@ msgstr ""
 "падпісванні/расшыфроўцы. <br>Адключыце Агент GnuPG у наладах KGpg альбо "
 "выправіце яго налады.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, fuzzy, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Немагчыма расшыфраваць і паказаць тэчку."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, fuzzy, kde-format
 msgid "Cannot sign folder."
 msgstr "Немагчыма падпісаць тэчку."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, fuzzy, kde-format
 msgid "Cannot verify folder."
 msgstr "Немагчыма праверыць тэчку."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, fuzzy, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2762,37 +2762,37 @@ msgstr ""
 "Вылучыце або толькі тэчку або некалькі файлаў, але не змешвайце тэчкі і "
 "файлы."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, fuzzy, kde-format
 msgid "Encrypt file"
 msgstr "Шыфраваць файл"
 
-#: kgpg.cpp:188
-#, fuzzy, kde-format
-msgid "Open key manager"
-msgstr "Адкрыць мэнэджэр ключоў"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+msgid "Start program in system tray only"
+msgstr "Паказваць значку ў сістэмным трэі"
+
+#: kgpg.cpp:190
 #, fuzzy, kde-format
 msgid "Open editor"
 msgstr "Адкрыць рэдактар"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, fuzzy, kde-format
 msgid "Show encrypted file"
 msgstr "Паказаць зашыфраваны файл"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, fuzzy, kde-format
 msgid "Sign File"
 msgstr "Падпісаць файл"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, fuzzy, kde-format
 msgid "Verify signature"
 msgstr "Праверыць подпіс"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, fuzzy, kde-format
 msgid "File to open"
 msgstr "Адкрыць файл"
@@ -4674,6 +4674,10 @@ msgstr "Подпіс дакладная, але ключ не правераны
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "Подпіс дакладная і давер ключу абсалютнае"
+
+#, fuzzy
+#~ msgid "Open key manager"
+#~ msgstr "Адкрыць мэнэджэр ключоў"
 
 #, fuzzy
 #~ msgid ""

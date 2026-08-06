@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2019-09-29 12:28+0500\n"
 "Last-Translator: Victor Ibragimov <victor.ibragimov@gmail.com>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -2935,27 +2935,27 @@ msgstr ""
 "мушкилотҳо ҳангоми имзокунӣ/рамзкушоӣ оварда мерасонад.<br>Марҳамат карда "
 "Иҷрогари GnuPG-ро аз гузоришҳои KGpg хомӯш кунед ё онро ислоҳ кунед.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr ""
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Рамзкушодан нишон додани феҳрист нишуда истодааст."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Имзокунии феҳрист ғайри имкон аст."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Бозбинӣ намудани феҳрист ғайри имкон аст."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2966,38 +2966,38 @@ msgstr ""
 "Марҳамат карда як феҳрист ё якчанд файлҳоро интихоб кунед, лекин файлҳо ва "
 "феҳристҳоро омехта кунед."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Рамзкунонии файл"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Кушодани мудири калид"
-
 #: kgpg.cpp:189
+#, kde-format
+msgid "Start program in system tray only"
+msgstr ""
+
+#: kgpg.cpp:190
 #, fuzzy, kde-format
 #| msgid "&Open Editor"
 msgid "Open editor"
 msgstr "&Кушодани Муҳаррир"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Файли рамзкунонидашударо нишон диҳед"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Имзокунии Файл"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Санҷидани имзо"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Кушодани файл"
@@ -4850,6 +4850,9 @@ msgstr "Имзо дастрас аст аммо калид нодуруст ас
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "Имзо дастрас аст ва калид қатъӣ дуруст аст"
+
+#~ msgid "Open key manager"
+#~ msgstr "Кушодани мудири калид"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

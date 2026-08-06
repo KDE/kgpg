@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2021-06-14 16:48+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -2798,27 +2798,27 @@ msgstr ""
 "υπογραφή/κρυπτογράφηση.<br />Παρακαλώ απενεργοποιήστε την υπηρεσία από τις "
 "ρυθμίσεις του KGpg, ή διορθώστε την υπηρεσία.</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "Δε δόθηκαν αρχεία."
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "Αδύνατη η αποκρυπτογράφηση και η εμφάνιση του φακέλου."
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "Αδύνατη η υπογραφή του φακέλου."
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "Αδύνατη η επαλήθευση του φακέλου."
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2829,37 +2829,38 @@ msgstr ""
 "Παρακαλώ επιλέξτε ένα φάκελο, ή μια σειρά αρχείων, αλλά όχι αρχεία και "
 "φακέλους μαζί."
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "Κρυπτογράφηση αρχείου"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "Άνοιγμα διαχειριστή κλειδιών"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "Εμφάνιση εικονιδίου πλαισίου συστήματος"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "Άνοιγμα επεξεργαστή"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "Εμφάνιση κρυπτογραφημένου αρχείου"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "Υπογράψτε το αρχείο"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "Επαλήθευση υπογραφής"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "Αρχείο για άνοιγμα"
@@ -4677,6 +4678,9 @@ msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr ""
 "<para>Η υπογραφή είναι έγκυρη και το κλειδί είναι απολύτως έμπιστο</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "Άνοιγμα διαχειριστή κλειδιών"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "

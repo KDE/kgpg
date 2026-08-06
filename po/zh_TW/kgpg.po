@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-07-13 00:47+0000\n"
+"POT-Creation-Date: 2026-08-06 00:48+0000\n"
 "PO-Revision-Date: 2025-09-22 04:37+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -2636,27 +2636,27 @@ msgstr ""
 "此代理程式似乎並未執行。這樣可能會造成簽署/解密的問題。<br />請從 KGpg 設定之"
 "中停用 GnuPG Agent，或修正此代理程式。</qt>"
 
-#: kgpg.cpp:121 kgpg.cpp:128 kgpg.cpp:135 kgpg.cpp:142
+#: kgpg.cpp:122 kgpg.cpp:129 kgpg.cpp:136 kgpg.cpp:143
 #, kde-format
 msgid "No files given."
 msgstr "未指定檔案。"
 
-#: kgpg.cpp:132
+#: kgpg.cpp:133
 #, kde-format
 msgid "Cannot decrypt and show folder."
 msgstr "不能解密與顯示資料夾。"
 
-#: kgpg.cpp:139
+#: kgpg.cpp:140
 #, kde-format
 msgid "Cannot sign folder."
 msgstr "不能簽署資料夾。"
 
-#: kgpg.cpp:146
+#: kgpg.cpp:147
 #, kde-format
 msgid "Cannot verify folder."
 msgstr "不能驗證資料夾。"
 
-#: kgpg.cpp:149
+#: kgpg.cpp:150
 #, kde-format
 msgid ""
 "Unable to perform requested operation.\n"
@@ -2666,37 +2666,38 @@ msgstr ""
 "無法進行所要求的操作。\n"
 "請只選擇一個資料夾，或許多檔案，但是不要混合檔案與資料夾。"
 
-#: kgpg.cpp:187
+#: kgpg.cpp:188
 #, kde-format
 msgid "Encrypt file"
 msgstr "加密檔案"
 
-#: kgpg.cpp:188
-#, kde-format
-msgid "Open key manager"
-msgstr "開啟金鑰管理員"
-
 #: kgpg.cpp:189
+#, fuzzy, kde-format
+#| msgid "Show system tray icon"
+msgid "Start program in system tray only"
+msgstr "顯示系統匣圖示"
+
+#: kgpg.cpp:190
 #, kde-format
 msgid "Open editor"
 msgstr "開啟編輯器"
 
-#: kgpg.cpp:190
+#: kgpg.cpp:191
 #, kde-format
 msgid "Show encrypted file"
 msgstr "顯示加密的檔案"
 
-#: kgpg.cpp:191 kgpgoptions.cpp:504
+#: kgpg.cpp:192 kgpgoptions.cpp:504
 #, kde-format
 msgid "Sign File"
 msgstr "簽署檔案"
 
-#: kgpg.cpp:192
+#: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
 msgstr "驗證簽章"
 
-#: kgpg.cpp:193
+#: kgpg.cpp:194
 #, kde-format
 msgid "File to open"
 msgstr "要開啟的檔案"
@@ -4418,6 +4419,9 @@ msgstr "<para>該簽章是有效的，但是金鑰不被信任。</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>該簽章是有效的，而這個金鑰是被絕對信任的。</para>"
+
+#~ msgid "Open key manager"
+#~ msgstr "開啟金鑰管理員"
 
 #~ msgid ""
 #~ "The document could not been saved, as the selected encoding cannot encode "
