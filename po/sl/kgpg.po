@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-06 00:48+0000\n"
-"PO-Revision-Date: 2024-02-21 14:03+0100\n"
+"PO-Revision-Date: 2026-08-06 07:13+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Poedit 3.9\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2818,10 +2818,9 @@ msgid "Encrypt file"
 msgstr "Šifriraj datoteko"
 
 #: kgpg.cpp:189
-#, fuzzy, kde-format
-#| msgid "Show system tray icon"
+#, kde-format
 msgid "Start program in system tray only"
-msgstr "Pokaži ikono v sistemski vrstici"
+msgstr "Zaženi program samo na sistemskem pladnju"
 
 #: kgpg.cpp:190
 #, kde-format
@@ -2875,9 +2874,9 @@ msgid ""
 msgstr ""
 "Pozdravljeni\n"
 "\n"
-"Priložen je uporabniški ID »%IMEUID%« vašega ključa %IDKLJUČA%, ki je "
-"podpisan z moje strani. Ta pošta je šifrirana s tem ključem, da se prepričam "
-"v vaš nadzor nad e-poštnim naslovom in ključem.\n"
+"Priložen je uporabniški ID »%UIDNAME%« vašega ključa %KEYID%, ki je podpisan "
+"z moje strani. Ta pošta je šifrirana s tem ključem, da se prepričam v vaš "
+"nadzor nad e-poštnim naslovom in ključem.\n"
 "\n"
 "Če imate več uporabniških ID-jev, sem podpis za vsakega od njih ločeno "
 "poslal na e-poštni naslov, ki je povezan z njim. Podpise lahko uvozite, tako "
@@ -2892,7 +2891,7 @@ msgstr ""
 "%KEYID%«.\n"
 "\n"
 "S KGpg lahko po uvozu vseh uporabniških ID-jev kliknete z desno tipko miške "
-"na ključ in iz menija izberete »Izvozi javni ključ ...«.\n"
+"na ključ in iz menija izberete »Izvozi javni ključ...«.\n"
 "\n"
 "Če imate nadaljnja vprašanja, me kar pogumno vprašajte.\n"
 

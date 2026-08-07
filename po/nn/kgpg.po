@@ -4589,6 +4589,3 @@ msgstr "<para>Signaturen er gyldig, men nøkkelen er ikkje tiltrudd.</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Signaturen er gyldig og nøkkelen er ultimat tiltrudd.</para>"
-
-#~ msgid "Open key manager"
-#~ msgstr "Opna nøkkelhandsamar"
