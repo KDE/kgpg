@@ -6,14 +6,14 @@
 # خالد حسنى <khaledhosny@eglug.org>, 2006.
 # Fahad Al-Saidi <fahad.alsaidi@gmail.com>, 2007.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
-# SPDX-FileCopyrightText: 2010, 2022, 2024, 2025 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
+# SPDX-FileCopyrightText: 2010, 2022, 2024, 2025, 2026 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 # Abdalrahim Fakhouri <abdilra7eem@yahoo.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-06 00:48+0000\n"
-"PO-Revision-Date: 2025-10-15 20:18+0400\n"
+"PO-Revision-Date: 2026-08-10 17:52+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1147,7 +1147,7 @@ msgstr "لم يستطع حفظ المستند، لأن الترميز المخت
 msgid ""
 "The document could not be saved, please check your permissions and disk "
 "space."
-msgstr "لا يمكن حفظ المستند، فضلا تحقق من صلاحياتك و مساحة القرص."
+msgstr "لا يمكن حفظ المستند، فضلا تحقق من أذونك و مساحة القرص."
 
 #: editor/kgpgeditor.cpp:343 editor/kgpgeditor.cpp:354 keyexport.cpp:37
 #, kde-format
@@ -2830,10 +2830,9 @@ msgid "Encrypt file"
 msgstr "عمِّ ملف"
 
 #: kgpg.cpp:189
-#, fuzzy, kde-format
-#| msgid "Show system tray icon"
+#, kde-format
 msgid "Start program in system tray only"
-msgstr "أظهر أيقونة صينيّة النّظام"
+msgstr "ابدأ البرنامَج في صينيّة النّظام فقط"
 
 #: kgpg.cpp:190
 #, kde-format
