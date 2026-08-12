@@ -114,10 +114,10 @@ msgid_plural ""
 "No mail was sent for the following user ids because they were already signed:"
 msgstr[0] "لم يُرسل أي بريد لمعرف المستخدم التالي لأنه موقع مسبقًا:"
 msgstr[1] "لم يُرسل أي بريد لمعرف المستخدم التالي لأنه موقع مسبقًا:"
-msgstr[2] "لم يُرسل أي بريد لمعرفي المستخدمي التاليين لأنها موقعة مسبقاً:"
-msgstr[3] "لم يُرسل أي بريد لمعرفات المستخدمين التالية لأنها موقعة مسبقاً:"
-msgstr[4] "لم يُرسل أي بريد لمعرفات المستخدمين التالية لأنها موقعة مسبقاً:"
-msgstr[5] "لم يُرسل أي بريد لمعرفات المستخدمين التالية لأنها موقعة مسبقاً:"
+msgstr[2] "لم يُرسل أي بريد لمعرفي المستخدمي التاليين لأنها موقعة مسبقًا:"
+msgstr[3] "لم يُرسل أي بريد لمعرفات المستخدمين التالية لأنها موقعة مسبقًا:"
+msgstr[4] "لم يُرسل أي بريد لمعرفات المستخدمين التالية لأنها موقعة مسبقًا:"
+msgstr[5] "لم يُرسل أي بريد لمعرفات المستخدمين التالية لأنها موقعة مسبقًا:"
 
 #: caff.cpp:312
 #, kde-format
@@ -194,7 +194,7 @@ msgid ""
 msgstr ""
 "<qt><b>استخدم امتداد *.pgp للملفات المعماة:</b><br />\n"
 "<p>سيؤدي تحديد هذا الخيار إلى إضافة امتداد .pgp إلى جميع الملفات المعماة "
-"بدلاً من امتداد .gpg. سيحافظ هذا الخيار على التوافق مع مستخدمي برنامج PGP "
+"بدلًا من امتداد .gpg. سيحافظ هذا الخيار على التوافق مع مستخدمي برنامج PGP "
 "(Pretty Good Privacy).</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_PgpExtension)
@@ -483,7 +483,7 @@ msgid ""
 "right+left together) to paste. If this option is not checked, the clipboard "
 "will work with Key shortcuts (Ctrl-c, Ctrl-v).</p></qt> "
 msgstr ""
-"<qt><b>استخدم تحديد الفأرة بدلاً من الحافظة:</b><br />\n"
+"<qt><b>استخدم تحديد الفأرة بدلًا من الحافظة:</b><br />\n"
 "<p>إذا تُحدد هذا الخيار، فإن عمليات الحافظة في «مفتاح» ستستخدم حافظة التحديد،"
 "وهذا يعني تحديد نص لنسخه، والزر الأوسط (أو الزر الأيمن والأيسر معًا) للصق. "
 "إذا لم تُحدد هذا الخيار، فسوف تعمل الحافظة مع اختصارات المفاتيح (Ctrl-c، Ctrl-"
@@ -807,25 +807,25 @@ msgstr "ترتيب الفرز"
 #: conf_ui2.ui:253 kgpgoptions.cpp:100
 #, kde-format
 msgid "Left to right, account first"
-msgstr "من اليسار إلى اليمين، الحساب أولاً"
+msgstr "من اليسار إلى اليمين، الحساب أولًا"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:258 kgpgoptions.cpp:101
 #, kde-format
 msgid "Right to left, TLD first"
-msgstr "من اليمين إلى اليسار، TLD أولاً"
+msgstr "من اليمين إلى اليسار، TLD أولًا"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:263 kgpgoptions.cpp:102
 #, kde-format
 msgid "Right to left, domain first"
-msgstr "من اليمين إلى اليسار، المجال أولاً"
+msgstr "من اليمين إلى اليسار، المجال أولًا"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:268 kgpgoptions.cpp:103
 #, kde-format
 msgid "Right to left, FQDN first"
-msgstr "من اليمين إلى اليسار، FQDN أولاً"
+msgstr "من اليمين إلى اليسار، FQDN أولًا"
 
 #: core/convert.cpp:45
 #, kde-format
@@ -1285,7 +1285,7 @@ msgid ""
 "<qt>This file is a <b>public</b> key.<br />Do you want to import it instead "
 "of opening it in editor?</qt>"
 msgstr ""
-"<qt>هذا الملف هو مفتاح عام.<br />هل تريد استيراده بدلاً من فتحه في المحرر؟</"
+"<qt>هذا الملف هو مفتاح عام.<br />هل تريد استيراده بدلًا من فتحه في المحرر؟</"
 "qt>"
 
 #: editor/kgpgtextedit.cpp:133
@@ -1294,7 +1294,7 @@ msgid ""
 "<qt>This file is a <b>private</b> key.<br />Do you want to import it instead "
 "of opening it in editor?</qt>"
 msgstr ""
-"<qt>هذا الملف هو مفتاح <b>خاص</b>.<br />هل تريد استيراده بدلاً من فتحه في "
+"<qt>هذا الملف هو مفتاح <b>خاص</b>.<br />هل تريد استيراده بدلًا من فتحه في "
 "المحرر؟</qt>"
 
 #: editor/kgpgtextedit.cpp:138
@@ -1609,7 +1609,7 @@ msgstr ""
 "<qt><b>خادم المفاتيح:</b><br /> <p>خادم المفاتيح هو مستودع مركزي لمفاتيح PGP/"
 "GnuPG ومتصل بالإنترنت مما يسهل الوصول ألية للحصول على أو إرسال المفاتيح "
 "إليه. اختر من القائمة المنسدلة خادم المفاتيح الواجب استخدامه.</p> <p>كثير من "
-"هذه المفاتيح تخص أناساً لم يلتق المستخدم  بهم قط ولذا فإن التوثيق يكون مشكوكاً "
+"هذه المفاتيح تخص أناسًا لم يلتق المستخدم  بهم قط ولذا فإن التوثيق يكون مشكوكًا "
 "فيه على الأفضل. ارجع لدليل GnuPG حيث يغطى علاقات \"شبكة الثقة\" لتعرف كيف "
 "يتعامل GnuPG مع مشكلة التحقق من الوثوقية.</p> </qt>"
 
@@ -2032,7 +2032,7 @@ msgid ""
 "Please wait a moment until this operation is complete."
 msgstr ""
 "لا تزال عملية إنشاء مفتاح آخر جارية.\n"
-"الرجاء الانتظار قليلاً حتى تكتمل هذه العملية."
+"الرجاء الانتظار قليلًا حتى تكتمل هذه العملية."
 
 #: keysmanager.cpp:484 keysmanager.cpp:522 keysmanager.cpp:570
 #, kde-format
@@ -2477,7 +2477,7 @@ msgid ""
 "may be compromised.</b></qt>"
 msgstr ""
 "<qt>أنت مقبل على توقيع المفاتيح التالية في ترخيص واحد.<br/><b>إذا لم تتحقق "
-"بحذر من كل بصمات الأصبع, ربما يكون أمن اتصالاتك معرضاً للخطر.</b></qt>"
+"بحذر من كل بصمات الأصبع, ربما يكون أمن اتصالاتك معرضًا للخطر.</b></qt>"
 
 #: keysmanager.cpp:1854 keysmanager.cpp:2001
 #, kde-format
@@ -2617,7 +2617,7 @@ msgid ""
 "the group, too?"
 msgstr ""
 "أنت تحذف المفتاح الأخير من مجموعة المفاتيح %1.<br />هل تريد حذف المجموعة "
-"أيضاً؟"
+"أيضًا؟"
 
 #: keysmanager.cpp:2337
 #, kde-format
@@ -2675,7 +2675,7 @@ msgstr[0] "<qt><b> لا تحذف أي مفتاح عام؟</b></qt>"
 msgstr[1] "<qt><b>حذف المفتاح العام التالي?</b></qt>"
 msgstr[2] "<qt><b>حذف المفتاحين العامين التاليين?</b></qt>"
 msgstr[3] "<qt><b>حذف %1 مفاتيح العامة التالية?</b></qt>"
-msgstr[4] "<qt><b>حذف %1 مفتاحاً عاما التالية?</b></qt>"
+msgstr[4] "<qt><b>حذف %1 مفتاحًا عاما التالية?</b></qt>"
 msgstr[5] "<qt><b>حذف %1 مفتاح  عام التالية?</b></qt>"
 
 #: keysmanager.cpp:2498 keysmanager.cpp:2574 keysmanager.cpp:2585
@@ -2695,7 +2695,7 @@ msgid ""
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
 "<qt> النص الموجود في الحافظة لا يبدو كمفتاح، بل كنص معمّي.<br />هل ترغب في فك "
-"تعميته أولاً ثم محاولة استيراده؟</qt>"
+"تعميته أولًا ثم محاولة استيراده؟</qt>"
 
 #: keysmanager.cpp:2541
 #, kde-format
@@ -2775,7 +2775,7 @@ msgstr "<p>هل تريد استيراد الملف <b>%1</b>إلى حلقة مف
 msgid ""
 "GnuPG failed to start.<br />You must fix the GnuPG error first before "
 "running KGpg."
-msgstr "فشل تشغيل GnuPG.<br />يجب عليك إصلاح خطأ GnuPG أولاً قبل تشغيل «مفتاح»."
+msgstr "فشل تشغيل GnuPG.<br />يجب عليك إصلاح خطأ GnuPG أولًا قبل تشغيل «مفتاح»."
 
 #: kgpg.cpp:63
 #, kde-format
@@ -3252,7 +3252,7 @@ msgid ""
 "for KGpg to work properly. Next, it will allow you to create your own key "
 "pair, enabling you to encrypt your files and emails."
 msgstr ""
-"سيعد هذا المساعد أولاً بعض خيارات الضبط الأساسية المطلوبة لكي يعمل «مفتاح» "
+"سيعد هذا المساعد أولًا بعض خيارات الضبط الأساسية المطلوبة لكي يعمل «مفتاح» "
 "بشكل صحيح. بعد ذلك، سيسمح لك بإنشاء زوج المفاتيح الخاص بك، مما يتيح لك "
 "بتعمية ملفاتك ورسائل البريد الإلكتروني الخاصة بك."
 
@@ -3536,7 +3536,7 @@ msgstr "الإمكانيات"
 #: kgpgkeygenerate.ui:172
 #, kde-format
 msgid "Certification is automatically enabled for all keys"
-msgstr "تُمكّن الشهادة آليّاً لجميع المفاتيح"
+msgstr "تُمكّن الشهادة آليًّا لجميع المفاتيح"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capCert)
 #: kgpgkeygenerate.ui:175
@@ -3723,7 +3723,7 @@ msgstr "عناوين خادم المفاتيح لا يمكن أن تحوي مس�
 #: kgpgoptions.cpp:204
 #, kde-format
 msgid "Key server already in the list."
-msgstr "الخادم الرئيسي موجود مسبقاً في القائمة."
+msgstr "الخادم الرئيسي موجود مسبقًا في القائمة."
 
 #: kgpgoptions.cpp:213
 #, kde-format
@@ -4090,8 +4090,8 @@ msgstr "حدد مفتاحًا عامًا لـ %1"
 #, kde-format
 msgid "Select Public Key for %2 and one more file"
 msgid_plural "Select Public Key for %2 and %1 more files"
-msgstr[0] "حدد مفتاحًا عامًا لـ %1 وملفاً أخراً"
-msgstr[1] "حدد مفتاحًا عامًا لـ %1 وملفاً آخرًا"
+msgstr[0] "حدد مفتاحًا عامًا لـ %1 وملفًا أخرًا"
+msgstr[1] "حدد مفتاحًا عامًا لـ %1 وملفًا آخرًا"
 msgstr[2] "حدد مفتاحًا عامًا لـ %1 وملفين آخرين"
 msgstr[3] "حدد مفتاحًا عامًا لـ %1 و %2 ملفات أخر"
 msgstr[4] "حدد مفتاحًا عامًا لـ %1 و %2 ملفًا آخرًا"
@@ -4137,7 +4137,7 @@ msgid ""
 "available secret keys are tried."
 msgstr ""
 "<b>إخفاء هوية المستخدم</b>: لا تضع رقم هوية المفتاح في الحزم المعماة. هذا "
-"الخيار يخفي مستقبل الرسالة ويعد إجراءا مضاداً ضد تحليل الحركة. ربما يبطئ "
+"الخيار يخفي مستقبل الرسالة ويعد إجراءا مضادًا ضد تحليل الحركة. ربما يبطئ "
 "بعملية التعمية لأن كل المفاتيح السرية المتاحة ستُجرب."
 
 #: selectpublickeydialog.cpp:126
