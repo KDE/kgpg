@@ -2782,10 +2782,9 @@ msgid "Encrypt file"
 msgstr "Zašifrovať súbor"
 
 #: kgpg.cpp:189
-#, fuzzy, kde-format
-#| msgid "Show system tray icon"
+#, kde-format
 msgid "Start program in system tray only"
-msgstr "Zobraziť ikonu v systémovej lište"
+msgstr "Spustiť program len v systémovej lište"
 
 #: kgpg.cpp:190
 #, kde-format
