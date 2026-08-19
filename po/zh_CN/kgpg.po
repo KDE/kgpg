@@ -2665,10 +2665,9 @@ msgid "Encrypt file"
 msgstr "加密文件"
 
 #: kgpg.cpp:189
-#, fuzzy, kde-format
-#| msgid "Show system tray icon"
+#, kde-format
 msgid "Start program in system tray only"
-msgstr "显示系统托盘图标"
+msgstr "仅在系统托盘中启动程序"
 
 #: kgpg.cpp:190
 #, kde-format
@@ -4414,6 +4413,3 @@ msgstr "<para>签名有效，但密钥不受信任</para>"
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>签名有效，且密钥是绝对可信的</para>"
-
-#~ msgid "Open key manager"
-#~ msgstr "打开密钥管理器"
