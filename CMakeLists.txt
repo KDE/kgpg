@@ -77,7 +77,7 @@ ecm_set_disabled_deprecation_versions(
 configure_file (config-kgpg.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kgpg.h)
 
 add_subdirectory( icons )
-include_directories(  ${KDEPIMLIBS_INCLUDE_DIR} ${GPGME_INCLUDES} )
+include_directories( ${GPGME_INCLUDES} )
 
 option(KGPG_DEBUG_TRANSACTIONS "show commands and results of gpg calls in debug log" Off)
 
