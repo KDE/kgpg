@@ -52,11 +52,13 @@
 #include "transactions/customstyleditemdelegate.h"
 
 #include <algorithm>
+#if KGPG_WITH_ADDRESSBOOK
 #include <Akonadi/ContactEditor>
 #include <Akonadi/ContactEditorDialog>
 #include <Akonadi/ContactSearchJob>
-#include <KActionCollection>
 #include <KContacts/AddresseeList>
+#endif
+#include <KActionCollection>
 // #include <KContacts/Key> TODO
 #include <kmessagebox.h>
 #include <KIO/Global>
@@ -191,9 +193,11 @@ KeysManager::KeysManager(QWidget *parent)
 	m_sendEmail->setIcon(QIcon::fromTheme(QLatin1String("mail-send")));
 	m_sendEmail->setText(i18n("Send Ema&il"));
 
+#if KGPG_WITH_ADDRESSBOOK
 	QAction *newContact = actionCollection()->addAction(QLatin1String("add_kab"), this, &KeysManager::addToKAB);
 	newContact->setIcon(QIcon::fromTheme( QLatin1String( "contact-new" )));
 	newContact->setText(i18n("&Create New Contact in Address Book"));
+#endif
 
 	createGroup = actionCollection()->addAction(QLatin1String("create_group"), this, &KeysManager::createNewGroup);
 	createGroup->setIcon(Images::group());
@@ -981,6 +985,7 @@ void KeysManager::slotSetPhotoSize(int size)
 	}
 }
 
+#if KGPG_WITH_ADDRESSBOOK
 void KeysManager::addToKAB()
 {
 	KGpgNode *nd = iview->selectedNode();
@@ -1024,6 +1029,7 @@ void KeysManager::slotAddressbookSearchResult(KJob *job)
 	connect(dlg, &Akonadi::ContactEditorDialog::finished, dlg, &Akonadi::ContactEditorDialog::deleteLater);
 	dlg->show();
 }
+#endif
 
 void KeysManager::slotManpage()
 {

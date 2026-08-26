@@ -1,0 +1,1 @@
+#cmakedefine01 KGPG_WITH_ADDRESSBOOK
