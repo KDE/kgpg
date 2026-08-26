@@ -51,11 +51,15 @@ find_package(KF6 ${KF_MIN_VERSION} REQUIRED
   XmlGui
   WidgetsAddons
   WindowSystem
-  Contacts
   StatusNotifierItem
 )
 
-find_package(KPim6AkonadiContactWidgets 5.24.40 REQUIRED)
+option(ENABLE_AKONADICONTACTSUPPORT "Support addressbook integration (uses akonadi)" ON)
+
+if(ENABLE_AKONADICONTACTSUPPORT)
+  find_package(KF6Contacts ${KF_MIN_VERSION} REQUIRED)
+  find_package(KPim6AkonadiContactWidgets 5.24.40 REQUIRED)
+endif()
 
 find_package(KF6DocTools ${KF_MIN_VERSION})
 set_package_properties(KF6DocTools PROPERTIES
@@ -69,6 +73,8 @@ find_package(Gpgme REQUIRED)
 ecm_set_disabled_deprecation_versions(
      KF 5.80.0
     )
+
+configure_file (config-kgpg.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kgpg.h)
 
 add_subdirectory( icons )
 include_directories( ${GPGME_INCLUDES} )
@@ -253,7 +259,6 @@ set_property(SOURCE main.cpp APPEND PROPERTY COMPILE_DEFINITIONS "KGPG_VERSION=\
 target_link_libraries(kgpg_lib
     KF6::Archive
     KF6::Codecs
-    KF6::Contacts
     KF6::CoreAddons
     KF6::Crash
     KF6::DBusAddons
@@ -269,9 +274,14 @@ target_link_libraries(kgpg_lib
     KF6::WidgetsAddons
     KF6::WindowSystem
     KF6::StatusNotifierItem
-    KPim6::AkonadiContactWidgets
     Qt6::PrintSupport
 )
+if(ENABLE_AKONADICONTACTSUPPORT)
+    target_link_libraries(kgpg_lib
+        KF6::Contacts
+        KPim6::AkonadiContactWidgets
+    )
+endif()
 
 if(BUILD_TESTING)
   add_subdirectory(tests)
