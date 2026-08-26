@@ -7,6 +7,8 @@
 #ifndef KEYSMANAGER_H
 #define KEYSMANAGER_H
 
+#include "config-kgpg.h"
+
 #include "ui_adduid.h"
 
 #include "core/kgpgkey.h"
@@ -180,6 +182,7 @@ private Q_SLOTS:
     void slotSendEmail();
     void slotedit();
 
+#if KGPG_WITH_ADDRESSBOOK
     /**
      * @brief start an "add to addressbook" operation
      *
@@ -195,6 +198,7 @@ private Q_SLOTS:
      * This handles the result of the search started in addToKAB().
      */
     void slotAddressbookSearchResult(KJob *job);
+#endif
 
     void editGroup();
     void createNewGroup();
