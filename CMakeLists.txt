@@ -71,7 +71,7 @@ ecm_set_disabled_deprecation_versions(
     )
 
 add_subdirectory( icons )
-include_directories(  ${KDEPIMLIBS_INCLUDE_DIR} ${GPGME_INCLUDES} )
+include_directories( ${GPGME_INCLUDES} )
 
 option(KGPG_DEBUG_TRANSACTIONS "show commands and results of gpg calls in debug log" Off)
 
