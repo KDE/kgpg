@@ -5,14 +5,14 @@
 # Krzysztof Lichota <lichota@mimuw.edu.pl>, 2005, 2006.
 # Marta Rybczyńska <kde-i18n@rybczynska.net>, 2008, 2009, 2010, 2013.
 # Michał Smoczyk <msmoczyk@wp.pl>, 2008, 2009, 2010, 2011.
-# SPDX-FileCopyrightText: 2012, 2013, 2014, 2015, 2016, 2017, 2020, 2021, 2022, 2023, 2024, 2026 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
+# SPDX-FileCopyrightText: 2012-2017, 2020-2024, 2026 Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-17 11:55+0000\n"
-"PO-Revision-Date: 2026-04-11 09:11+0200\n"
+"PO-Revision-Date: 2026-09-06 10:41+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
 "Language: pl\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 25.08.2\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1769,7 +1769,7 @@ msgstr "Zaimportuj klucz z serwera kluczy"
 #: keyservers.cpp:206
 #, kde-format
 msgid "Connecting to the server..."
-msgstr "Łączenie z serwerem..."
+msgstr "Łączenie z serwerem…"
 
 #: keyservers.cpp:312
 #, kde-format
@@ -2234,9 +2234,9 @@ msgstr[2] "&Podpisz klucze..."
 #, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
-msgstr[0] "&Usuń identyfikator użytkownika"
-msgstr[1] "&Usuń identyfikatory użytkownika"
-msgstr[2] "&Usuń identyfikatory użytkownika"
+msgstr[0] "Usuń i&dentyfikator użytkownika"
+msgstr[1] "Usuń i&dentyfikatory użytkownika"
+msgstr[2] "Usuń i&dentyfikatory użytkownika"
 
 #: keysmanager.cpp:1215
 #, kde-format
@@ -3195,7 +3195,7 @@ msgstr ""
 #: kgpgexternalactions.cpp:148
 #, kde-format
 msgid "Compression method for archive:"
-msgstr "Metoda kompresji archiwum:"
+msgstr "Algorytm pakowania archiwum:"
 
 #: kgpgexternalactions.cpp:401
 #, kde-format
@@ -4240,7 +4240,7 @@ msgstr "Nie używaj"
 #: transactions/kgpgchangepass.cpp:55
 #, kde-format
 msgid "Enter old passphrase for <b>%1</b>"
-msgstr "Wprowadź stare hasło dla <b>%1</b>"
+msgstr "Wpisz stare hasło dla <b>%1</b>"
 
 #: transactions/kgpgchangepass.cpp:57
 #, kde-format
@@ -4559,7 +4559,7 @@ msgstr[2] "Niezmienione klucze"
 #: transactions/kgpgkeyservertransaction.cpp:87
 #, kde-format
 msgid "<b>Connecting to the server...</b>"
-msgstr "<b>Łączenie z serwerem...</b>"
+msgstr "<b>Łączenie z serwerem…</b>"
 
 #: transactions/kgpgkeyservertransaction.cpp:88
 #, kde-format
