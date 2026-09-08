@@ -1852,7 +1852,7 @@ msgstr "&Ouvrir l'éditeur"
 #: keysmanager.cpp:133
 #, kde-format
 msgid "&Key Server Dialog"
-msgstr "Boîte de dialogue pour le &serveur de clés"
+msgstr "Boite de dialogue pour le &serveur de clés"
 
 #: keysmanager.cpp:138 selectpublickeydialog.cpp:154
 #, kde-format
