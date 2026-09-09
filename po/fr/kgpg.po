@@ -1867,7 +1867,7 @@ msgstr "Afficher le manuel de GnuPG"
 #: keysmanager.cpp:158
 #, kde-format
 msgid "&Refresh List"
-msgstr "&Rafraîchir la liste"
+msgstr "&Rafraichir la liste"
 
 #: keysmanager.cpp:162
 #, kde-format
@@ -2265,8 +2265,8 @@ msgstr[1] "E&xporter des clés publiques..."
 #, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
-msgstr[0] "&Rafraîchir une clé depuis le serveur de clés"
-msgstr[1] "&Rafraîchir des clés depuis le serveur de clés"
+msgstr[0] "&Rafraichir une clé depuis le serveur de clés"
+msgstr[1] "&Rafraichir des clés depuis le serveur de clés"
 
 #: keysmanager.cpp:1212
 #, kde-format
