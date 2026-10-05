@@ -3,13 +3,14 @@
 # Toplica Tanaskovic <toptan@kde.org.yu>, 2003.
 # Slobodan Simic <slsimic@gmail.com>, 2005, 2010.
 # Dalibor Djuric <daliborddjuric@gmail.com>, 2010, 2011.
+# Nemanja Hiršl <nemhirsl@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-08-06 00:48+0000\n"
-"PO-Revision-Date: 2017-12-03 23:08+0100\n"
-"Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
+"PO-Revision-Date: 2026-10-04 23:13+0200\n"
+"Last-Translator: Nemanja Hiršl <nemhirsl@gmail.com>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
 "Language: sr@ijekavian\n"
 "MIME-Version: 1.0\n"
@@ -19,19 +20,19 @@ msgstr ""
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Associated-UI-Catalogs: kwidgetsaddons5_qt kdelibs4support\n"
+"X-Associated-UI-Catalogs: kwidgetsaddons6_qt kdelibs4support\n"
 "X-Environment: kde\n"
 "X-Generator: Lokalize 1.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Часлав Илић"
+msgstr "Часлав Илић,Немања Хиршл"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "caslav.ilic@gmx.net"
+msgstr "caslav.ilic@gmx.net,nemhirsl@gmail.com"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: adduid.ui:17
@@ -85,16 +86,16 @@ msgid_plural ""
 "No mail was sent for the following user ids because they belong to keys "
 "without encryption capability:"
 msgstr[0] ""
-"Порука није послата следећим корисничким ИД‑овима зато што припадају "
+"Порука није послата сљедећим корисничким ИД‑овима зато што припадају "
 "кључевима без способности шифровања:"
 msgstr[1] ""
-"Порука није послата следећим корисничким ИД‑овима зато што припадају "
+"Порука није послата сљедећим корисничким ИД‑овима зато што припадају "
 "кључевима без способности шифровања:"
 msgstr[2] ""
-"Порука није послата следећим корисничким ИД‑овима зато што припадају "
+"Порука није послата сљедећим корисничким ИД‑овима зато што припадају "
 "кључевима без способности шифровања:"
 msgstr[3] ""
-"Порука није послата следећем корисничком ИД‑у зато што припада кључу без "
+"Порука није послата сљедећем корисничком ИД‑у зато што припада кључу без "
 "способности шифровања:"
 
 #: caff.cpp:179
@@ -104,13 +105,13 @@ msgid ""
 msgid_plural ""
 "No mail was sent for the following user ids because they were already signed:"
 msgstr[0] ""
-"Порука није послата следећим корисничким ИД‑овима зато што су већ потписани:"
+"Порука није послата сљедећим корисничким ИД‑овима зато што су већ потписани:"
 msgstr[1] ""
-"Порука није послата следећим корисничким ИД‑овима зато што су већ потписани:"
+"Порука није послата сљедећим корисничким ИД‑овима зато што су већ потписани:"
 msgstr[2] ""
-"Порука није послата следећим корисничким ИД‑овима зато што су већ потписани:"
+"Порука није послата сљедећим корисничким ИД‑овима зато што су већ потписани:"
 msgstr[3] ""
-"Порука није послата следећем корисничком ИД‑у зато што је већ потписан:"
+"Порука није послата сљедећем корисничком ИД‑у зато што је већ потписан:"
 
 # |, no-check-spell
 #: caff.cpp:312
@@ -790,31 +791,31 @@ msgstr "Списак кључева"
 #: conf_ui2.ui:236
 #, kde-format
 msgid "Sort Order"
-msgstr "Редослед ређања"
+msgstr "Редослијед ређања"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:253 kgpgoptions.cpp:99
 #, kde-format
 msgid "Left to right, account first"
-msgstr "слева удесно, прво налози"
+msgstr "слијева удесно, прво налози"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:258 kgpgoptions.cpp:100
 #, kde-format
 msgid "Right to left, TLD first"
-msgstr "здесна улево, прво ТЛД"
+msgstr "здесна улијево, прво ТЛД"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:263 kgpgoptions.cpp:101
 #, kde-format
 msgid "Right to left, domain first"
-msgstr "здесна улево, прво домен"
+msgstr "здесна улијево, прво домен"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_EmailSorting)
 #: conf_ui2.ui:268 kgpgoptions.cpp:102
 #, kde-format
 msgid "Right to left, FQDN first"
-msgstr "здесна улево, прво ФКуДН"
+msgstr "здесна улијево, прво ФКуДН"
 
 #: core/convert.cpp:45
 #, kde-format
@@ -1312,20 +1313,17 @@ msgstr "Фајл кључа испуштен на уређивач"
 
 # >> @item:inlistbox Key expiration time suffix
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgid "Years"
+#, kde-format
 msgctxt "@action:button"
 msgid "Yes"
-msgstr "година"
+msgstr "Да"
 
 # >> @item Key state/trust
 #: editor/kgpgtextedit.cpp:138
-#, fuzzy, kde-format
-#| msgctxt "No trust in key"
-#| msgid "None"
+#, kde-format
 msgctxt "@action:button"
 msgid "No"
-msgstr "никаква"
+msgstr "Не"
 
 #: editor/kgpgtextedit.cpp:261 kgpgexternalactions.cpp:403
 #, kde-format
@@ -1770,9 +1768,7 @@ msgstr "Отпремање на сервер кључева није успје�
 
 # >> @title:window
 #: keyservers.cpp:195
-#, fuzzy, kde-format
-#| msgid "Import Key From Keyserver"
-#| msgid_plural "Import Keys From Keyserver"
+#, kde-format
 msgctxt "Window title"
 msgid "Import Key From Keyserver"
 msgstr "Увоз кључева са сервера кључева"
@@ -2560,11 +2556,10 @@ msgstr ""
 "да покушате потписивање кључа у конзолном режиму?</qt>"
 
 #: keysmanager.cpp:1976
-#, fuzzy, kde-format
-#| msgid "Signature"
+#, kde-format
 msgctxt "@action:button"
 msgid "Sign"
-msgstr "Потпис"
+msgstr "Потпиши"
 
 #: keysmanager.cpp:2092
 #, kde-format
@@ -2628,7 +2623,7 @@ msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
-"<html>Уклањате последњи кључ из групе кључева %1.<br/>Желите ли и да "
+"<html>Уклањате посљедњи кључ из групе кључева %1.<br/>Желите ли и да "
 "обришете групу?</html>"
 
 #: keysmanager.cpp:2335
@@ -2792,8 +2787,8 @@ msgid ""
 "GnuPG failed to start.<br />You must fix the GnuPG error first before "
 "running KGpg."
 msgstr ""
-"<html>ГнуПГ не може да се покрене.<br />Морате поправити грешку ГнуПГ‑а пре "
-"покретања КГПГ‑а.</html>"
+"<html>ГнуПГ не може да се покрене.<br />Морате поправити грешку ГнуПГ‑а "
+"прије покретања КГПГ‑а.</html>"
 
 #: kgpg.cpp:63
 #, kde-format
@@ -2849,10 +2844,9 @@ msgid "Encrypt file"
 msgstr "Шифруј фајл"
 
 #: kgpg.cpp:189
-#, fuzzy, kde-format
-#| msgid "Show system tray icon"
+#, kde-format
 msgid "Start program in system tray only"
-msgstr "Иконица у системској касети"
+msgstr "Покрени програм само у системској касети"
 
 #: kgpg.cpp:190
 #, kde-format
@@ -2872,7 +2866,7 @@ msgstr "Потпиши фајл"
 #: kgpg.cpp:193
 #, kde-format
 msgid "Verify signature"
-msgstr "Провери потпис"
+msgstr "Провјери потпис"
 
 #: kgpg.cpp:194
 #, kde-format
@@ -3294,20 +3288,18 @@ msgid ""
 "button."
 msgstr ""
 "<html>Осим ако не желите да испробате неке необичне поставке, само кликните "
-"на дугме <i>Напријед</i>.</html>"
+"на дугме <i>Сљедеће</i>.</html>"
 
 #: kgpgfirstassistant.cpp:101
-#, fuzzy, kde-format
-#| msgid "GnuPG Binary"
+#, kde-format
 msgctxt "search filter name for gpg binary"
 msgid "GnuPG binary"
-msgstr "Извршавање ГнуПГ‑а"
+msgstr "извршни фајл ГнуПГ‑а"
 
 #: kgpgfirstassistant.cpp:102
-#, fuzzy, kde-format
-#| msgid "*|All Files"
+#, kde-format
 msgid "All files"
-msgstr "*|сви фајлови"
+msgstr "сви фајлови"
 
 #: kgpgfirstassistant.cpp:133
 #, kde-format
@@ -3405,14 +3397,14 @@ msgstr "&Зналачки режим"
 #: kgpgkeygenerate.cpp:49
 #, kde-format
 msgid "Go to Expert Mode"
-msgstr "Пређи у зналачки режим"
+msgstr "Пријеђи у зналачки режим"
 
 #: kgpgkeygenerate.cpp:50
 #, kde-format
 msgid ""
 "If you go to expert mode, you will use the command line to create your key."
 msgstr ""
-"Ако пређете у зналачки режим, кључеве ћете стварати кроз командну линију."
+"Ако пријеђете у зналачки режим, кључеве ћете стварати кроз командну линију."
 
 #: kgpgkeygenerate.cpp:57
 #, kde-format
@@ -3442,7 +3434,7 @@ msgstr "Име мора садржати бар 5 знакова."
 #: kgpgkeygenerate.cpp:102
 #, kde-format
 msgid "The name must not start with a digit"
-msgstr "Име не сме почињати цифром."
+msgstr "Име не смије почињати цифром."
 
 #: kgpgkeygenerate.cpp:109
 #, kde-format
@@ -3480,7 +3472,7 @@ msgstr "&Име:"
 msgid ""
 "The name must have a length of at least 5 characters and must not begin with "
 "a digit."
-msgstr "Име мора имати дужину од бар 5 знакова и не сме почињати цифром."
+msgstr "Име мора имати дужину од бар 5 знакова и не смије почињати цифром."
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, m_kname)
 #: kgpgkeygenerate.ui:45
@@ -3938,7 +3930,7 @@ msgstr "%1 <%2>: %3"
 #: model/kgpgitemmodel.cpp:179
 #, kde-format
 msgid "Trust: %1<br>Owner Trust: %2"
-msgstr "Поверење: %1<br>Поузданост власника: %2"
+msgstr "Повјерење: %1<br>Поузданост власника: %2"
 
 #: model/kgpgitemmodel.cpp:183
 #, kde-format
@@ -4749,139 +4741,3 @@ msgstr "<para>Потпис је ваљан, али је кључ непоузд�
 msgctxt "@info"
 msgid "<para>The signature is valid, and the key is ultimately trusted</para>"
 msgstr "<para>Потпис је ваљан и кључ је безусловно поуздан.</para>"
-
-#~ msgid "Open key manager"
-#~ msgstr "Отвори менаџер кључева"
-
-#~ msgid ""
-#~ "The document could not been saved, as the selected encoding cannot encode "
-#~ "every unicode character in it."
-#~ msgstr ""
-#~ "Не могу да сачувам документ зато што изабрано кодирање не може да кодира "
-#~ "сваки уникодски знак у њему."
-
-#~ msgid "Tip of the &Day"
-#~ msgstr "Савјет &дана"
-
-#~ msgid ""
-#~ "<qt>A viewer for JPEG images is not specified.<br/>Please check your "
-#~ "installation.</qt>"
-#~ msgstr "<qt>Није задат приказивач ЈПЕГ слика. Провјерите инсталацију.</qt>"
-
-# >> @title:window
-#~ msgid "Show photo"
-#~ msgstr "Приказивање фотографије"
-
-#~ msgid "Show tip of the day."
-#~ msgstr "Савјети дана."
-
-#~ msgctxt "search filter for gpg binary"
-#~ msgid ""
-#~ "gpg|GnuPG binary\n"
-#~ "*|All files"
-#~ msgstr ""
-#~ "gpg|извршни ГнуПГ‑а\n"
-#~ "*|сви фајлови"
-
-#~ msgid ""
-#~ "<p>If you want to decrypt a text file, simply drag and drop it into the "
-#~ "editor window. KGpg will do the rest. Even remote files can be dropped.</"
-#~ "p>\n"
-#~ "<p>Drag a public key into the editor window and kgpg will automatically "
-#~ "import it if you want.</p>\n"
-#~ msgstr ""
-#~ "<p>Текстуални фајл дешифрујете једноставно га превукавши у прозор "
-#~ "уређивача, а КГПГ ће одрадити остало. Чак и удаљени фајлови могу да се "
-#~ "превуку.</p><p>Превучете ли јавни кључ у прозор уређивача, КГПГ ће га "
-#~ "аутоматски увести ако желите.</p>\n"
-
-#~ msgid ""
-#~ "<p>The easiest way to encrypt a file: simply right click on the file, and "
-#~ "you have an encrypt option in the contextual menu.\n"
-#~ "This works in <strong>konqueror</strong> or on your Desktop!</p>\n"
-#~ msgstr ""
-#~ "<p>Најлакши начин да се фајл шифрује: једноставно кликните десним на "
-#~ "фајл, и добићете опцију за шифровање у контекстном менију. Ово ради како "
-#~ "у К‑освајачу, тако и на површи!</p>\n"
-
-#~ msgid ""
-#~ "<p>If you want to encrypt a message for several persons, just select "
-#~ "several encryption keys by pressing the &quot;Ctrl&quot; key.</p>\n"
-#~ msgstr ""
-#~ "<p>Ако желите да шифрујете поруку за више особа, само изаберите неколико "
-#~ "кључева за шифровање држећи притиснут тастер Ctrl.</p>\n"
-
-#~ msgid ""
-#~ "<p><strong>You do not have to be an expert in encryption to use this tool?"
-#~ "</strong><br>\n"
-#~ "Simply create yourself a key pair in the key management window. Then, "
-#~ "export your public key and mail it to your friends.<br>\n"
-#~ "Ask them to do the same and import their public keys. Finally, to send an "
-#~ "encrypted message, type it in the KGpg editor, then click &quot;"
-#~ "encrypt&quot;. Choose\n"
-#~ "your friend's key and click &quot;encrypt&quot; again. The message will "
-#~ "be encrypted, ready to be sent by email.</p>\n"
-#~ msgstr ""
-#~ "<p><strong>Не морате бити стручњак за шифровање да бисте користили ову "
-#~ "алатку.</strong></p><p>Једноставно направите себи пар кључева у прозору "
-#~ "за управљање кључевима. Затим, извезите свој јавни кључ и пошаљите га "
-#~ "пријатељима. Њима тражите да ураде исто и увезите њихове јавне кључеве. "
-#~ "Коначно, да бисте послали шифровану поруку, напишите је у КГПГ‑овом "
-#~ "уређивачу, па кликните на <i>Шифруј</i>. Изаберите пријатеља и кликните "
-#~ "поново на <i>Шифруј</i>. Порука ће бити шифрована и спремна за слање "
-#~ "е‑поштом.</p>\n"
-
-#~ msgid ""
-#~ "<p>To perform an operation on a key, open the key management window and "
-#~ "right click on the key. A popup menu with all available options will "
-#~ "appear.</p>\n"
-#~ msgstr ""
-#~ "<p>Да бисте нешто урадили с кључем, отворите прозор за управљање "
-#~ "кључевима и кликните десним на кључ. Искочиће мени са свим доступним "
-#~ "опцијама.</p>\n"
-
-#~ msgid ""
-#~ "<p>Decrypt a file with a single mouse click on it. You will then be "
-#~ "prompted for password, and then that is it!</p>\n"
-#~ msgstr ""
-#~ "<p>Дешифрујте фајл једним кликом миша на њега. Затим ћете бити упитани за "
-#~ "лозинку и то је све!</p>\n"
-
-#~ msgid ""
-#~ "<p>If you only want to open the key manager, type this in the command "
-#~ "line prompt: <pre>kgpg -k</pre>\n"
-#~ "The editor can be reached by: <pre>kgpg -d</pre></p>\n"
-#~ msgstr ""
-#~ "<p>Ако само желите да отворите менаџер кључева, упишите сљедеће у "
-#~ "командну линију: <pre>kgpg -k</pre>\n"
-#~ "До уређивача се може доћи овако: <pre>kgpg -d</pre></p>\n"
-
-#~ msgid ""
-#~ "<p>To open a file in the KGpg's editor and immediately decrypt it type: "
-#~ "<pre>kgpg -s filename</pre></p>\n"
-#~ msgstr ""
-#~ "<p>Да бисте отворили фајл у КГПГ‑овом уређивачу и одмах га дешифровали, "
-#~ "упишите: <pre>kgpg -s име‑фајла</pre></p>\n"
-
-#~ msgid ""
-#~ "<p>If you want to change the password or expiration of a secret key "
-#~ "simply double click on it to get the key properties dialog.</p>\n"
-#~ msgstr ""
-#~ "<p>Ако желите да измијените лозинку или истицање тајног кључа, "
-#~ "једноставно двокликните на њега да дозовете дијалог са својствима кључа.</"
-#~ "p>\n"
-
-#~ msgid ""
-#~ "<p>You can reach your default key by pressing &quot;Ctrl+Home&quot; in "
-#~ "the key manager.</p>\n"
-#~ msgstr ""
-#~ "<p>До подразумијеваног кључа можете доћи притиском <b>Ctrl+Home</b> у "
-#~ "менаџеру кључева.</p>\n"
-
-#~ msgid ""
-#~ "<p>The number of signatures is shown as a tooltip if you hover the mouse "
-#~ "on the size column in key manager. A key has to be expanded once for this "
-#~ "to work.</p>\n"
-#~ msgstr ""
-#~ "<p>Број потписа дат је у облачићу када лебдите мишем над колоном величине "
-#~ "у менаџеру кључева. Кључ мора бити једном проширен да би ово радило.</p>\n"
