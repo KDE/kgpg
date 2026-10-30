@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kgpg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-08-06 00:48+0000\n"
+"POT-Creation-Date: 2026-10-30 00:57+0000\n"
 "PO-Revision-Date: 2008-12-19 10:25+0700\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -481,7 +481,7 @@ msgstr "ចុះ​ហត្ថលេខា:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SignMenu)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_DecryptMenu)
-#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:294
+#: conf_misc.ui:139 conf_misc.ui:178 keysmanager.cpp:298
 #, fuzzy, kde-format
 msgid "Disable"
 msgstr "មិន​អនុញ្ញាត"
@@ -1341,7 +1341,7 @@ msgstr "មាន​ គ្រាប់​ចុច"
 
 #. i18n: ectx: property (text), widget (QLabel, filterEditLabel)
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: groupedit.ui:38 keysmanager.cpp:416 searchres.ui:29
+#: groupedit.ui:38 keysmanager.cpp:420 searchres.ui:29
 #, fuzzy, kde-format
 msgid "Search:"
 msgstr "ស្វែងរក ៖"
@@ -1675,312 +1675,312 @@ msgstr ""
 msgid "Found %1 matching keys (%2 shown)"
 msgstr ""
 
-#: keysmanager.cpp:123
+#: keysmanager.cpp:125
 #, fuzzy, kde-format
 msgid "Key Management"
 msgstr "គ្រាប់​ចុច"
 
-#: keysmanager.cpp:130
+#: keysmanager.cpp:132
 #, fuzzy, kde-format
 msgid "&Open Editor"
 msgstr "បើក អ្នក​​​កែ​​សម្រួល​​"
 
-#: keysmanager.cpp:133
+#: keysmanager.cpp:135
 #, fuzzy, kde-format
 msgid "&Key Server Dialog"
 msgstr "គ្រាប់​ចុច ម៉ាស៊ីន​បម្រើ ប្រអប់"
 
-#: keysmanager.cpp:138 selectpublickeydialog.cpp:154
+#: keysmanager.cpp:140 selectpublickeydialog.cpp:154
 #, fuzzy, kde-format
 msgid "&Go to Default Key"
 msgstr "ទៅ​កូនសោ​លំនាំដើម"
 
-#: keysmanager.cpp:151
+#: keysmanager.cpp:153
 #, fuzzy, kde-format
 msgid "View GnuPG Manual"
 msgstr "ទិដ្ឋភាព ដោយ​ដៃ"
 
-#: keysmanager.cpp:156
+#: keysmanager.cpp:158
 #, fuzzy, kde-format
 msgid "&Refresh List"
 msgstr "ធ្វើ​ឲ្យ​ស្រស់ បញ្ជី"
 
-#: keysmanager.cpp:160
+#: keysmanager.cpp:162
 #, kde-format
 msgid "Show &Long Key Id"
 msgstr ""
 
-#: keysmanager.cpp:165
+#: keysmanager.cpp:167
 #, fuzzy, kde-format
 msgid "K&ey Properties"
 msgstr "គ្រាប់​ចុច"
 
-#: keysmanager.cpp:169
+#: keysmanager.cpp:171
 #, fuzzy, kde-format
 msgid "&Open Key URL"
 msgstr "បើក គ្រាប់​ចុច កម្មវិធី​គ្រប់​គ្រង"
 
-#: keysmanager.cpp:173
+#: keysmanager.cpp:175
 #, fuzzy, kde-format
 msgid "Edit Key in &Terminal"
 msgstr "កែ​សម្រួល គ្រាប់​ចុច អ៊ិន្ឈ៍ ស្ថានីយ"
 
-#: keysmanager.cpp:178
+#: keysmanager.cpp:180
 #, fuzzy, kde-format
 msgid "&Generate Key Pair..."
 msgstr "បង្កើត គ្រាប់​ចុច គូ."
 
-#: keysmanager.cpp:187
+#: keysmanager.cpp:189
 #, fuzzy, kde-format
 msgid "&Import Key..."
 msgstr "នាំចូល គ្រាប់​ចុច."
 
-#: keysmanager.cpp:192
+#: keysmanager.cpp:194
 #, kde-format
 msgid "Send Ema&il"
 msgstr ""
 
-#: keysmanager.cpp:196
+#: keysmanager.cpp:199
 #, fuzzy, kde-format
 msgid "&Create New Contact in Address Book"
 msgstr "បង្កើត ថ្មី ទំនាក់ទំនង​ អ៊ិន្ឈ៍ អាសយដ្ឋាន សៀវភៅ​"
 
-#: keysmanager.cpp:202
+#: keysmanager.cpp:206
 #, fuzzy, kde-format
 msgid "&Edit Group..."
 msgstr "កែ​សម្រួល ក្រុម"
 
-#: keysmanager.cpp:205
+#: keysmanager.cpp:209
 #, fuzzy, kde-format
 msgid "&Delete Group"
 msgstr "លុប ក្រុម"
 
-#: keysmanager.cpp:209
+#: keysmanager.cpp:213
 #, fuzzy, kde-format
 msgid "&Rename Group"
 msgstr "លុប ក្រុម"
 
-#: keysmanager.cpp:218
+#: keysmanager.cpp:222
 #, fuzzy, kde-format
 msgid "Set as De&fault Key"
 msgstr "កំណត់ លំនាំដើម គ្រាប់​ចុច"
 
-#: keysmanager.cpp:221
+#: keysmanager.cpp:225
 #, fuzzy, kde-format
 msgid "&Add Photo..."
 msgstr "បន្ថែម រូបថត"
 
-#: keysmanager.cpp:224
+#: keysmanager.cpp:228
 #, fuzzy, kde-format
 msgid "&Add User Id..."
 msgstr "បន្ថែម អ្នក​ប្រើ លេខ​សម្គាល់"
 
-#: keysmanager.cpp:227
+#: keysmanager.cpp:231
 #, fuzzy, kde-format
 msgid "Export Secret Key..."
 msgstr "នាំចេញ​កូនសោ​សម្ងាត់..."
 
-#: keysmanager.cpp:230
+#: keysmanager.cpp:234
 #, fuzzy, kde-format
 msgid "Delete Key Pair"
 msgstr "លុប គ្រាប់​ចុច គូ"
 
-#: keysmanager.cpp:234
+#: keysmanager.cpp:238
 #, fuzzy, kde-format
 msgid "Revoke Key..."
 msgstr "ដក​ហូត​វិញ គ្រាប់​ចុច."
 
-#: keysmanager.cpp:237
+#: keysmanager.cpp:241
 #, fuzzy, kde-format
 msgid "&Regenerate Public Key"
 msgstr "សាធារណៈ គ្រាប់​ចុច"
 
-#: keysmanager.cpp:243
+#: keysmanager.cpp:247
 #, fuzzy, kde-format
 msgid "Set User Id as &Primary"
 msgstr "កំណត់ អ្នក​ប្រើ លេខ​សម្គាល់"
 
-#: keysmanager.cpp:247
+#: keysmanager.cpp:251
 #, fuzzy, kde-format
 msgid "&Open Photo"
 msgstr "បើក រូបថត"
 
-#: keysmanager.cpp:251
+#: keysmanager.cpp:255
 #, fuzzy, kde-format
 msgid "&Delete Photo"
 msgstr "លុប រូបថត"
 
-#: keysmanager.cpp:259
+#: keysmanager.cpp:263
 #, fuzzy, kde-format
 msgid "Import &Missing Signatures From Keyserver"
 msgstr "នាំចូល បាត់ ​ហត្ថលេខា ពី"
 
-#: keysmanager.cpp:277 model/kgpgitemmodel.cpp:384
+#: keysmanager.cpp:281 model/kgpgitemmodel.cpp:384
 #, kde-format
 msgid "Trust"
 msgstr ""
 
-#: keysmanager.cpp:280 model/kgpgitemmodel.cpp:385
+#: keysmanager.cpp:284 model/kgpgitemmodel.cpp:385
 #, fuzzy, kde-format
 msgid "Size"
 msgstr "ទំហំ"
 
-#: keysmanager.cpp:283 model/kgpgitemmodel.cpp:387
+#: keysmanager.cpp:287 model/kgpgitemmodel.cpp:387
 #, kde-format
 msgid "Creation"
 msgstr ""
 
-#: keysmanager.cpp:286 model/kgpgitemmodel.cpp:386
+#: keysmanager.cpp:290 model/kgpgitemmodel.cpp:386
 #, fuzzy, kde-format
 msgid "Expiration"
 msgstr "​ផុត​កំណត់"
 
-#: keysmanager.cpp:290
+#: keysmanager.cpp:294
 #, fuzzy, kde-format
 msgid "&Photo ID's"
 msgstr "រូបថត លេខ​សម្គាល់ s"
 
-#: keysmanager.cpp:295
+#: keysmanager.cpp:299
 #, fuzzy, kde-format
 msgctxt "small picture"
 msgid "Small"
 msgstr "តូច"
 
-#: keysmanager.cpp:296
+#: keysmanager.cpp:300
 #, fuzzy, kde-format
 msgctxt "medium picture"
 msgid "Medium"
 msgstr "មធ្យម"
 
-#: keysmanager.cpp:297
+#: keysmanager.cpp:301
 #, fuzzy, kde-format
 msgctxt "large picture"
 msgid "Large"
 msgstr "ធំ"
 
-#: keysmanager.cpp:301
+#: keysmanager.cpp:305
 #, kde-format
 msgid "Minimum &Trust"
 msgstr ""
 
-#: keysmanager.cpp:304
+#: keysmanager.cpp:308
 #, fuzzy, kde-format
 msgctxt "no filter: show all keys"
 msgid "&None"
 msgstr "គ្មាន"
 
-#: keysmanager.cpp:305
+#: keysmanager.cpp:309
 #, kde-format
 msgctxt "show only active keys"
 msgid "&Active"
 msgstr ""
 
-#: keysmanager.cpp:306
+#: keysmanager.cpp:310
 #, kde-format
 msgctxt "show only keys with at least marginal trust"
 msgid "&Marginal"
 msgstr ""
 
-#: keysmanager.cpp:307
+#: keysmanager.cpp:311
 #, kde-format
 msgctxt "show only keys with at least full trust"
 msgid "&Full"
 msgstr ""
 
-#: keysmanager.cpp:308
+#: keysmanager.cpp:312
 #, fuzzy, kde-format
 msgctxt "show only ultimately trusted keys"
 msgid "&Ultimate"
 msgstr "មិន​កំណត់"
 
-#: keysmanager.cpp:333
+#: keysmanager.cpp:337
 #, fuzzy, kde-format
 msgid "&Show Only Secret Keys"
 msgstr "បង្ហាញ​ សម្ងាត់ គ្រាប់​ចុច"
 
-#: keysmanager.cpp:433
+#: keysmanager.cpp:437
 #, fuzzy, kde-format
 msgctxt "Name of the action that gives the focus to the search line"
 msgid "Focus Search Line"
 msgstr "ស្វែងរក បន្ទាត់"
 
-#: keysmanager.cpp:481
+#: keysmanager.cpp:485
 #, kde-format
 msgid ""
 "Another key generation operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:482 keysmanager.cpp:520 keysmanager.cpp:568
+#: keysmanager.cpp:486 keysmanager.cpp:524 keysmanager.cpp:572
 #, kde-format
 msgid "Generating new key pair"
 msgstr ""
 
-#: keysmanager.cpp:521
+#: keysmanager.cpp:525
 #, kde-format
 msgid "Can not start \"konsole\" application for expert mode."
 msgstr ""
 
-#: keysmanager.cpp:560 keysmanager.cpp:2587 keysmanager.cpp:2589
+#: keysmanager.cpp:564 keysmanager.cpp:2593 keysmanager.cpp:2595
 #, fuzzy, kde-format
 msgctxt "Application ready for user input"
 msgid "Ready"
 msgstr "រួចរាល់"
 
-#: keysmanager.cpp:572 transactions/kgpggeneratekey.cpp:194
+#: keysmanager.cpp:576 transactions/kgpggeneratekey.cpp:194
 #, fuzzy, kde-format
 msgid "Bad passphrase. Cannot generate a new key pair."
 msgstr "មិន​ល្អ a."
 
-#: keysmanager.cpp:575 transactions/kgpggeneratekey.cpp:197
+#: keysmanager.cpp:579 transactions/kgpggeneratekey.cpp:197
 #, fuzzy, kde-format
 msgid "Aborted by the user. Cannot generate a new key pair."
 msgstr "បាន​បញ្ឈប់ ដោយ a."
 
-#: keysmanager.cpp:578 transactions/kgpggeneratekey.cpp:200
+#: keysmanager.cpp:582 transactions/kgpggeneratekey.cpp:200
 #, fuzzy, kde-format
 msgid "The email address is not valid. Cannot generate a new key pair."
 msgstr "ជា a."
 
-#: keysmanager.cpp:581 transactions/kgpggeneratekey.cpp:203
+#: keysmanager.cpp:585 transactions/kgpggeneratekey.cpp:203
 #, fuzzy, kde-format
 msgid "The name is not accepted by gpg. Cannot generate a new key pair."
 msgstr "ឈ្មោះ ជា ដោយ a."
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, newKey)
-#: keysmanager.cpp:587 newkey.ui:14
+#: keysmanager.cpp:591 newkey.ui:14
 #, fuzzy, kde-format
 msgid "New Key Pair Created"
 msgstr "ថ្មី គ្រាប់​ចុច គូ បាន​បង្កើត​"
 
-#: keysmanager.cpp:626
+#: keysmanager.cpp:630
 #, fuzzy, kde-format
 msgid "backup copy"
 msgstr "ច្បាប់ចម្លង"
 
-#: keysmanager.cpp:640 transactions/kgpggeneratekey.cpp:215
+#: keysmanager.cpp:644 transactions/kgpggeneratekey.cpp:215
 #, fuzzy, kde-format
 msgid "gpg process did not finish. Cannot generate a new key pair."
 msgstr "a."
 
-#: keysmanager.cpp:734
+#: keysmanager.cpp:738
 #, fuzzy, kde-format
 msgid "You can only refresh primary keys. Please check your selection."
 msgstr "អ្នក."
 
-#: keysmanager.cpp:858
+#: keysmanager.cpp:862
 #, kde-format
 msgid ""
 "Another operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:859 keysmanager.cpp:864
+#: keysmanager.cpp:863 keysmanager.cpp:868
 #, fuzzy, kde-format
 msgid "Add New User Id"
 msgstr "បន្ថែម ថ្មី អ្នក​ប្រើ លេខ​សម្គាល់"
 
-#: keysmanager.cpp:904
+#: keysmanager.cpp:908
 #, fuzzy, kde-format
 msgid ""
 "The image must be a JPEG file. Remember that the image is stored within your "
@@ -1989,130 +1989,130 @@ msgid ""
 "240x288 is a good size to use."
 msgstr "a JPEG ចងចាំ ជា a រូបភាព ដល់ ជា a ទំហំ ដល់."
 
-#: keysmanager.cpp:936
+#: keysmanager.cpp:940
 #, fuzzy, kde-format
 msgid ""
 "<qt>Are you sure you want to delete Photo id <b>%1</b><br/>from key <b>%2 "
 "&lt;%3&gt;</b>?</qt>"
 msgstr "<qt> ដល់ រូបថត<b></b><br/> ពី<b>&lt;&gt;</b></qt>"
 
-#: keysmanager.cpp:1074
+#: keysmanager.cpp:1080
 #, fuzzy, kde-format
 msgid "Public Key"
 msgstr "កូនសោ​សាធារណៈ"
 
-#: keysmanager.cpp:1077
+#: keysmanager.cpp:1083
 #, fuzzy, kde-format
 msgid "Sub Key"
 msgstr "គ្រាប់​ចុច"
 
-#: keysmanager.cpp:1080
+#: keysmanager.cpp:1086
 #, fuzzy, kde-format
 msgid "Secret Key Pair"
 msgstr "សម្ងាត់ គ្រាប់​ចុច គូ"
 
-#: keysmanager.cpp:1083
+#: keysmanager.cpp:1089
 #, fuzzy, kde-format
 msgid "Key Group"
 msgstr "គ្រាប់​ចុច ក្រុម"
 
 #. i18n: ectx: property (text), widget (QCheckBox, capSign)
-#: keysmanager.cpp:1086 kgpgkeygenerate.ui:185
+#: keysmanager.cpp:1092 kgpgkeygenerate.ui:185
 #, fuzzy, kde-format
 msgid "Signature"
 msgstr "ហត្ថលេខា"
 
-#: keysmanager.cpp:1089
+#: keysmanager.cpp:1095
 #, fuzzy, kde-format
 msgid "User ID"
 msgstr "លេខ​សម្គាល់​អ្នក​ប្រើ"
 
-#: keysmanager.cpp:1092
+#: keysmanager.cpp:1098
 #, fuzzy, kde-format
 msgid "Revocation Signature"
 msgstr "ហត្ថលេខា"
 
-#: keysmanager.cpp:1095
+#: keysmanager.cpp:1101
 #, fuzzy, kde-format
 msgid "Photo ID"
 msgstr "រូបថត លេខ​សម្គាល់"
 
-#: keysmanager.cpp:1098
+#: keysmanager.cpp:1104
 #, fuzzy, kde-format
 msgid "Orphaned Secret Key"
 msgstr "កំព្រា សម្ងាត់ គ្រាប់​ចុច"
 
-#: keysmanager.cpp:1103
+#: keysmanager.cpp:1109
 #, fuzzy, kde-format
 msgid "Group member"
 msgstr "ក្រុម"
 
-#: keysmanager.cpp:1206
+#: keysmanager.cpp:1212
 #, fuzzy, kde-format
 msgid "&Sign User ID ..."
 msgid_plural "&Sign User IDs ..."
 msgstr[0] "ចុះ​ហត្ថលេខា គ្រាប់​ចុច."
 
-#: keysmanager.cpp:1207
+#: keysmanager.cpp:1213
 #, fuzzy, kde-format
 msgid "Sign and &Mail User ID ..."
 msgid_plural "Sign and &Mail User IDs ..."
 msgstr[0] "ចុះ​ហត្ថលេខា គ្រាប់​ចុច."
 
-#: keysmanager.cpp:1208
+#: keysmanager.cpp:1214
 #, fuzzy, kde-format
 msgid "E&xport Public Key..."
 msgid_plural "E&xport Public Keys..."
 msgstr[0] "នាំចេញ សាធារណៈ គ្រាប់​ចុច."
 
-#: keysmanager.cpp:1209
+#: keysmanager.cpp:1215
 #, fuzzy, kde-format
 msgid "&Refresh Key From Keyserver"
 msgid_plural "&Refresh Keys From Keyserver"
 msgstr[0] "ធ្វើ​ឲ្យ​ស្រស់ គ្រាប់​ចុច ពី"
 
-#: keysmanager.cpp:1210
+#: keysmanager.cpp:1216
 #, fuzzy, kde-format
 msgid "&Create Group with Selected Key..."
 msgid_plural "&Create Group with Selected Keys..."
 msgstr[0] "បង្កើត ក្រុម ជាមួយ បាន​ជ្រើស គ្រាប់​ចុច."
 
-#: keysmanager.cpp:1211
+#: keysmanager.cpp:1217
 #, fuzzy, kde-format
 msgid "&Sign Key..."
 msgid_plural "&Sign Keys..."
 msgstr[0] "ចុះ​ហត្ថលេខា គ្រាប់​ចុច."
 
-#: keysmanager.cpp:1212
+#: keysmanager.cpp:1218
 #, fuzzy, kde-format
 msgid "&Delete User ID"
 msgid_plural "&Delete User IDs"
 msgstr[0] "លុប អ្នក​ប្រើ លេខ​សម្គាល់"
 
-#: keysmanager.cpp:1213
+#: keysmanager.cpp:1219
 #, fuzzy, kde-format
 msgid "Delete Sign&ature"
 msgid_plural "Delete Sign&atures"
 msgstr[0] "លុប s"
 
-#: keysmanager.cpp:1214
+#: keysmanager.cpp:1220
 #, fuzzy, kde-format
 msgid "Import Key From Keyserver"
 msgid_plural "Import Keys From Keyserver"
 msgstr[0] "នាំចូល គ្រាប់​ចុច ពី"
 
-#: keysmanager.cpp:1215
+#: keysmanager.cpp:1221
 #, fuzzy, kde-format
 msgid "&Delete Key"
 msgid_plural "&Delete Keys"
 msgstr[0] "លុប គ្រាប់​ចុច"
 
-#: keysmanager.cpp:1338
+#: keysmanager.cpp:1344
 #, fuzzy, kde-format
 msgid "Creation of the revocation certificate failed..."
 msgstr "នៃ​ បរាជ័យ​."
 
-#: keysmanager.cpp:1353
+#: keysmanager.cpp:1359
 #, fuzzy, kde-format
 msgid ""
 "<qt>Secret keys <b>should not</b> be saved in an unsafe place.<br/>If "
@@ -2120,120 +2120,120 @@ msgid ""
 "compromised.<br/>Continue key export?</qt>"
 msgstr "<qt> សម្ងាត់<b></b> អ៊ិន្ឈ៍<br/> else ជាមួយ<br/> បន្ត</qt>"
 
-#: keysmanager.cpp:1365
+#: keysmanager.cpp:1371
 #, fuzzy, kde-format
 msgid "Export PRIVATE KEY As"
 msgstr "នាំចេញ ជា"
 
-#: keysmanager.cpp:1365
+#: keysmanager.cpp:1371
 #, kde-format
 msgid "*.asc|*.asc Files"
 msgstr ""
 
-#: keysmanager.cpp:1383
+#: keysmanager.cpp:1389
 #, fuzzy, kde-format
 msgid ""
 "<qt>Your <b>private</b> key \"%1\" was successfully exported to<br/>%2.<br/"
 "><b>Do not</b> leave it in an insecure place.</qt>"
 msgstr "<qt><b></b> ដល់<br/><br/><b></b> អ៊ិន្ឈ៍</qt>"
 
-#: keysmanager.cpp:1386
+#: keysmanager.cpp:1392
 #, kde-format
 msgid ""
 "Your secret key could not be exported.\n"
 "Check the key."
 msgstr ""
 
-#: keysmanager.cpp:1488
+#: keysmanager.cpp:1494
 #, fuzzy, kde-format
 msgid "<qt>The public key was successfully exported to<br/>%2</qt>"
 msgid_plural "<qt>The %1 public keys were successfully exported to<br/>%2</qt>"
 msgstr[0] "<qt> ដល់<br/></qt>"
 msgstr[1] ""
 
-#: keysmanager.cpp:1492 keysmanager.cpp:1507 keysmanager.cpp:1521
+#: keysmanager.cpp:1498 keysmanager.cpp:1513 keysmanager.cpp:1527
 #, kde-format
 msgid ""
 "Your public key could not be exported\n"
 "Check the key."
 msgstr ""
 
-#: keysmanager.cpp:1630
+#: keysmanager.cpp:1636
 #, fuzzy, kde-format
 msgid ""
 "<p>This key is an orphaned secret key (secret key without public key.) It is "
 "currently not usable.</p><p>Would you like to regenerate the public key?</p>"
 msgstr "ជា ជា n ដូច ដល់?"
 
-#: keysmanager.cpp:1632
+#: keysmanager.cpp:1638
 #, fuzzy, kde-format
 msgid "Generate"
 msgstr "បង្កើត"
 
-#: keysmanager.cpp:1632
+#: keysmanager.cpp:1638
 #, fuzzy, kde-format
 msgid "Do Not Generate"
 msgstr "កុំ​បង្កើត"
 
-#: keysmanager.cpp:1662
+#: keysmanager.cpp:1668
 #, fuzzy, kde-format
 msgid "<qt>Are you sure you want to delete group <b>%1</b> ?</qt>"
 msgstr "<qt> ដល់ ក្រុម<b></b></qt>"
 
-#: keysmanager.cpp:1663 keysmanager.cpp:2338
+#: keysmanager.cpp:1669 keysmanager.cpp:2344
 #, fuzzy, kde-format
 msgid "Delete"
 msgstr "លុប"
 
-#: keysmanager.cpp:1693
+#: keysmanager.cpp:1699
 #, fuzzy, kde-format
 msgid ""
 "<qt>You cannot create a group containing signatures, subkeys or other groups."
 "</qt>"
 msgstr "<qt> អ្នក a ក្រុម ឬ</qt>"
 
-#: keysmanager.cpp:1708 kgpgrevokewidget.cpp:52
+#: keysmanager.cpp:1714 kgpgrevokewidget.cpp:52
 #, fuzzy, kde-format
 msgctxt "<Name> (<Email>) ID: <KeyId>"
 msgid "%1 (%2) ID: %3"
 msgstr "%1 (%2)"
 
-#: keysmanager.cpp:1713
+#: keysmanager.cpp:1719
 #, fuzzy, kde-format
 msgid "Create New Group"
 msgstr "បង្កើត ថ្មី ក្រុម"
 
-#: keysmanager.cpp:1714
+#: keysmanager.cpp:1720
 #, fuzzy, kde-format
 msgctxt "Enter the name of the group you are creating now"
 msgid "Enter new group name:"
 msgstr "បញ្ចូល (Enter) ក្រុម ឈ្មោះ:"
 
-#: keysmanager.cpp:1719
+#: keysmanager.cpp:1725
 #, fuzzy, kde-format
 msgid ""
 "Following keys are not valid or not trusted and will not be added to the "
 "group:"
 msgstr "ឬ និង ដល់ ក្រុម:"
 
-#: keysmanager.cpp:1725
+#: keysmanager.cpp:1731
 #, fuzzy, kde-format
 msgid ""
 "<qt>No valid or trusted key was selected. The group <b>%1</b> will not be "
 "created.</qt>"
 msgstr "<qt> ទេ ឬ ក្រុម<b></b></qt>"
 
-#: keysmanager.cpp:1737
+#: keysmanager.cpp:1743
 #, fuzzy, kde-format
 msgid "Group Properties"
 msgstr "ក្រុម លក្ខណៈ​សម្បត្តិ"
 
-#: keysmanager.cpp:1773
+#: keysmanager.cpp:1779
 #, fuzzy, kde-format
 msgid "You can only sign primary keys. Please check your selection."
 msgstr "អ្នក."
 
-#: keysmanager.cpp:1782
+#: keysmanager.cpp:1788
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1<br />ID: %2<br />Fingerprint: "
@@ -2244,7 +2244,7 @@ msgstr ""
 "<qt> អ្នក ដល់<br /><br /><br /> លេខ​សម្គាល់<br /> ស្នាម​ម្រាមដៃ​<br /><b></b><br /"
 "><br /> អ្នក ដោយ ឬ ដល់ ជា ដល់</qt>"
 
-#: keysmanager.cpp:1787
+#: keysmanager.cpp:1793
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign key:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2255,20 +2255,20 @@ msgstr ""
 "<qt> អ្នក ដល់<br /><br /><br /> លេខ​សម្គាល់<br /> ស្នាម​ម្រាមដៃ​<br /><b></b><br /"
 "><br /> អ្នក ដោយ ឬ ដល់ ជា ដល់</qt>"
 
-#: keysmanager.cpp:1802 keysmanager.cpp:1886 kgpgfirstassistant.cpp:275
+#: keysmanager.cpp:1808 keysmanager.cpp:1892 kgpgfirstassistant.cpp:275
 #: model/keylistproxymodel.cpp:181
 #, fuzzy, kde-format
 msgctxt "Name: ID"
 msgid "%1: %2"
 msgstr "%1 (%2)"
 
-#: keysmanager.cpp:1804 keysmanager.cpp:1889 kgpgfirstassistant.cpp:277
+#: keysmanager.cpp:1810 keysmanager.cpp:1895 kgpgfirstassistant.cpp:277
 #, fuzzy, kde-format
 msgctxt "Name (Email): ID"
 msgid "%1 (%2): %3"
 msgstr "%1 (%2)"
 
-#: keysmanager.cpp:1810
+#: keysmanager.cpp:1816
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign the following keys in one pass.<br/><b>If you have "
@@ -2276,12 +2276,12 @@ msgid ""
 "may be compromised.</b></qt>"
 msgstr "<qt> អ្នក ដល់ អ៊ិន្ឈ៍ មួយ<br/><b> ទាំងអស់ នៃ​</b></qt>"
 
-#: keysmanager.cpp:1852 keysmanager.cpp:1999
+#: keysmanager.cpp:1858 keysmanager.cpp:2005
 #, fuzzy, kde-format
 msgid "You can only sign user ids and photo ids. Please check your selection."
 msgstr "អ្នក."
 
-#: keysmanager.cpp:1866
+#: keysmanager.cpp:1872
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1<br />ID: %2<br /"
@@ -2292,7 +2292,7 @@ msgstr ""
 "<qt> អ្នក ដល់<br /><br /><br /> លេខ​សម្គាល់<br /> ស្នាម​ម្រាមដៃ​<br /><b></b><br /"
 "><br /> អ្នក ដោយ ឬ ដល់ ជា ដល់</qt>"
 
-#: keysmanager.cpp:1870
+#: keysmanager.cpp:1876
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign user id:<br /><br />%1 (%2)<br />ID: %3<br /"
@@ -2303,7 +2303,7 @@ msgstr ""
 "<qt> អ្នក ដល់<br /><br /><br /> លេខ​សម្គាល់<br /> ស្នាម​ម្រាមដៃ​<br /><b></b><br /"
 "><br /> អ្នក ដោយ ឬ ដល់ ជា ដល់</qt>"
 
-#: keysmanager.cpp:1896
+#: keysmanager.cpp:1902
 #, fuzzy, kde-format
 msgid ""
 "<qt>You are about to sign the following user ids in one pass.<br/><b>If you "
@@ -2311,54 +2311,54 @@ msgid ""
 "communications may be compromised.</b></qt>"
 msgstr "<qt> អ្នក ដល់ អ៊ិន្ឈ៍ មួយ<br/><b> ទាំងអស់ នៃ​</b></qt>"
 
-#: keysmanager.cpp:1965
+#: keysmanager.cpp:1971
 #, fuzzy, kde-format
 msgid "<qt>Bad passphrase, key <b>%1 (%2)</b> not signed.</qt>"
 msgstr "<qt> មិន​ល្អ<b></b></qt>"
 
-#: keysmanager.cpp:1969
+#: keysmanager.cpp:1975
 #, fuzzy, kde-format
 msgid "<qt>The key <b>%1 (%2)</b> is already signed.</qt>"
 msgstr "<qt><b></b> ជា</qt>"
 
-#: keysmanager.cpp:1974
+#: keysmanager.cpp:1980
 #, fuzzy, kde-format
 msgid ""
 "<qt>Signing key <b>%1</b> with key <b>%2</b> failed.<br />Do you want to try "
 "signing the key in console mode?</qt>"
 msgstr "<qt> ការចុះហត្ថលេខា<b></b> ជាមួយ<b></b> បរាជ័យ​<br /> ដល់ អ៊ិន្ឈ៍</qt>"
 
-#: keysmanager.cpp:1976
+#: keysmanager.cpp:1982
 #, fuzzy, kde-format
 msgctxt "@action:button"
 msgid "Sign"
 msgstr "ហត្ថលេខា"
 
-#: keysmanager.cpp:2092
+#: keysmanager.cpp:2098
 #, fuzzy, kde-format
 msgid "All signatures for this key are already in your keyring"
 msgid_plural "All signatures for this keys are already in your keyring"
 msgstr[0] "ទាំង​អស់ សម្រាប់ អ៊ិន្ឈ៍"
 msgstr[1] ""
 
-#: keysmanager.cpp:2179
+#: keysmanager.cpp:2185
 #, fuzzy, kde-format
 msgid "Edit key manually to delete a self-signature."
 msgstr "កែ​សម្រួល ដល់ a."
 
-#: keysmanager.cpp:2183
+#: keysmanager.cpp:2189
 #, fuzzy, kde-format
 msgid ""
 "<qt>Are you sure you want to delete signature<br /><b>%1</b><br />from user "
 "id <b>%2</b><br />of key: <b>%3</b>?</qt>"
 msgstr "<qt> ដល់<br /><b></b><br /> ពី<b></b><br /> នៃ​<b></b></qt>"
 
-#: keysmanager.cpp:2205
+#: keysmanager.cpp:2211
 #, kde-format
 msgid "Requested operation was unsuccessful, please edit the key manually."
 msgstr ""
 
-#: keysmanager.cpp:2294
+#: keysmanager.cpp:2300
 #, kde-format
 msgid ""
 "<qt>The key you are deleting is a member of the following key group. Do you "
@@ -2368,133 +2368,133 @@ msgid_plural ""
 "want to remove it from these groups?</qt>"
 msgstr[0] ""
 
-#: keysmanager.cpp:2298 keysmanager.cpp:2312 keysmanager.cpp:2347
-#: keysmanager.cpp:2362 keysmanager.cpp:2365 keysmanager.cpp:2376
-#: keysmanager.cpp:2390 keysmanager.cpp:2431
+#: keysmanager.cpp:2304 keysmanager.cpp:2318 keysmanager.cpp:2353
+#: keysmanager.cpp:2368 keysmanager.cpp:2371 keysmanager.cpp:2382
+#: keysmanager.cpp:2396 keysmanager.cpp:2437
 #, fuzzy, kde-format
 msgid "Delete key"
 msgstr "គ្រាប់​ចុច លុប (Delete)"
 
-#: keysmanager.cpp:2311
+#: keysmanager.cpp:2317
 #, kde-format
 msgid ""
 "You are removing the last key from key group %1.<br/>Do you want to delete "
 "the group, too?"
 msgstr ""
 
-#: keysmanager.cpp:2335
+#: keysmanager.cpp:2341
 #, fuzzy, kde-format
 msgid ""
 "<p>Delete <b>secret</b> key pair <b>%1</b>?</p>Deleting this key pair means "
 "you will never be able to decrypt files encrypted with this key again."
 msgstr "<p> លុប<b></b><b></b></p> កំពុង​លុប កុំ​ ដល់ ជាមួយ."
 
-#: keysmanager.cpp:2346 keysmanager.cpp:2375
+#: keysmanager.cpp:2352 keysmanager.cpp:2381
 #, kde-format
 msgid ""
 "Another key delete operation is still in progress.\n"
 "Please wait a moment until this operation is complete."
 msgstr ""
 
-#: keysmanager.cpp:2362
+#: keysmanager.cpp:2368
 #, kde-format
 msgid "Key <b>%1</b> deleted."
 msgstr ""
 
-#: keysmanager.cpp:2365
+#: keysmanager.cpp:2371
 #, kde-format
 msgid "Deleting key <b>%1</b> failed."
 msgstr ""
 
-#: keysmanager.cpp:2389
+#: keysmanager.cpp:2395
 #, fuzzy, kde-format
 msgid "Can not delete key <b>%1</b> while it is edited in terminal."
 msgstr "<b></b> ជា អ៊ិន្ឈ៍."
 
-#: keysmanager.cpp:2430
+#: keysmanager.cpp:2436
 #, kde-format
 msgid ""
 "You have selected items that are not keys. They can not be deleted with this "
 "menu entry."
 msgstr ""
 
-#: keysmanager.cpp:2455
+#: keysmanager.cpp:2461
 #, fuzzy, kde-format
 msgid ""
 "<qt>The following are secret key pairs:<br/><b>%1</b><br/>They will not be "
 "deleted.</qt>"
 msgstr "<qt><br/><b></b> បាន​លុប</qt>"
 
-#: keysmanager.cpp:2465
+#: keysmanager.cpp:2471
 #, fuzzy, kde-format
 msgid "<qt><b>Delete the following public key?</b></qt>"
 msgid_plural "<qt><b>Delete the following %1 public keys?</b></qt>"
 msgstr[0] "<qt><b> លុប</b></qt>"
 msgstr[1] ""
 
-#: keysmanager.cpp:2496 keysmanager.cpp:2572 keysmanager.cpp:2583
+#: keysmanager.cpp:2502 keysmanager.cpp:2578 keysmanager.cpp:2589
 #, fuzzy, kde-format
 msgid "Key Import"
 msgstr "គ្រាប់​ចុច នាំចូល"
 
-#: keysmanager.cpp:2504
+#: keysmanager.cpp:2510
 #, fuzzy, kde-format
 msgid "Open File"
 msgstr "បើក​ឯកសារ"
 
-#: keysmanager.cpp:2537
+#: keysmanager.cpp:2543
 #, kde-format
 msgid ""
 "<qt>The text in the clipboard does not look like a key, but like encrypted "
 "text.<br />Do you want to decrypt it first and then try importing it?</qt>"
 msgstr ""
 
-#: keysmanager.cpp:2539
+#: keysmanager.cpp:2545
 #, fuzzy, kde-format
 msgid "Import from Clipboard"
 msgstr "​អ៊ិនគ្រីប ក្ដារ​តម្បៀត​ខ្ទាស់"
 
-#: keysmanager.cpp:2559
+#: keysmanager.cpp:2565
 #, fuzzy, kde-format
 msgid "Importing..."
 msgstr "កំពុង​នាំចូល."
 
-#: keysmanager.cpp:2571
+#: keysmanager.cpp:2577
 #, fuzzy, kde-format
 msgid "Key importing failed. Please see the detailed log for more information."
 msgstr "ទេ សម្រាប់"
 
-#: keysmanager.cpp:2624
+#: keysmanager.cpp:2630
 #, kde-format
 msgid "KGpg - encryption tool"
 msgstr ""
 
-#: keysmanager.cpp:2647
+#: keysmanager.cpp:2653
 #, fuzzy, kde-format
 msgid "Ke&y Manager"
 msgstr "គ្រាប់​ចុច កម្មវិធី​គ្រប់​គ្រង"
 
-#: keysmanager.cpp:2650
+#: keysmanager.cpp:2656
 #, fuzzy, kde-format
 msgid "&Encrypt Clipboard"
 msgstr "​អ៊ិនគ្រីប ក្ដារ​តម្បៀត​ខ្ទាស់"
 
-#: keysmanager.cpp:2653
+#: keysmanager.cpp:2659
 #, fuzzy, kde-format
 msgid "&Decrypt Clipboard"
 msgstr "ក្ដារ​តម្បៀត​ខ្ទាស់"
 
-#: keysmanager.cpp:2656
+#: keysmanager.cpp:2662
 #, fuzzy, kde-format
 msgid "&Sign/Verify Clipboard"
 msgstr "ចុះ​ហត្ថលេខា ក្ដារ​តម្បៀត​ខ្ទាស់"
 
-#: keysmanager.cpp:2693 keysmanager.cpp:2792 keysmanager.cpp:2810
+#: keysmanager.cpp:2699 keysmanager.cpp:2798 keysmanager.cpp:2816
 #, fuzzy, kde-format
 msgid "Clipboard is empty."
 msgstr "ក្ដារ​តម្បៀត​ខ្ទាស់ ជា ទទេ."
 
-#: keysmanager.cpp:2738
+#: keysmanager.cpp:2744
 #, kde-format
 msgid "Text successfully encrypted."
 msgstr ""
