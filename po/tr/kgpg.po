@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-30 00:57+0000\n"
-"PO-Revision-Date: 2026-11-10 22:02+0300\n"
+"PO-Revision-Date: 2026-11-15 20:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -785,7 +785,7 @@ msgstr "Devre dışı anahtarlar:"
 #: conf_ui2.ui:225
 #, kde-format
 msgid "Editor Font"
-msgstr "Düzenleyici Yazıtipi"
+msgstr "Düzenleyici Yazı Tipi"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tabKeyList)
 #: conf_ui2.ui:230
@@ -3107,7 +3107,7 @@ msgstr "Süresi dolmuş anahtarlar için kullanılan renk."
 #: kgpg.kcfg:218
 #, kde-format
 msgid "Font"
-msgstr "Yazıtipi"
+msgstr "Yazı tipi"
 
 #. i18n: ectx: label, entry (KeyServers), group (Servers)
 #: kgpg.kcfg:241
