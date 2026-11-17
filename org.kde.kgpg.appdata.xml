@@ -2,7 +2,7 @@
 <component type="desktop-application">
   <id>org.kde.kgpg.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-2.0+</project_license>
+  <project_license>GPL-2.0-or-later</project_license>
   <name>KGpg</name>
   <name xml:lang="ar">مفتاح</name>
   <name xml:lang="ast">KGpg</name>
@@ -162,6 +162,8 @@
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kgpg</url>
   <url type="help">https://docs.kde.org/?application=kgpg</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kgpg&amp;source=appdata</url>
+  <url type="vcs-browser">https://invent.kde.org/utilities/kgpg</url>
+  <url type="contribute">https://community.kde.org/Get_Involved</url>
   <content_rating type="oars-1.1"/>
   <screenshots>
     <screenshot type="default">
