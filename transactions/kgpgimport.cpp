@@ -13,6 +13,8 @@
 
 #include <KLocalizedString>
 
+#include <QMap>
+
 KGpgImport::KGpgImport(QObject *parent, const QString &text)
 	: KGpgTextOrFileTransaction(parent, text, true)
 {
