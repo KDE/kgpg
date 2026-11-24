@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: kdeutils-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-30 00:57+0000\n"
-"PO-Revision-Date: 2026-11-19 19:38+0300\n"
+"PO-Revision-Date: 2026-11-23 18:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -244,7 +244,7 @@ msgstr ""
 "<qt><b>Dosyaları şununla şifrele:</b><br />\n"
 "<p> Bu seçenek işaretlenip bir anahtar seçildiğinde, bütün dosya şifreleme "
 "işlemlerinin seçili anahtarı kullanması zorunlu hale getirilir. KGpg, bir "
-"alıcı adı sormayacak ve öntanımlı anahtar yok sayılacaktır.</p></qt>"
+"alıcı adı sormayacak ve varsayılan anahtar yok sayılacaktır.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_EncryptFilesTo)
 #: conf_encryption.ui:127
@@ -264,7 +264,7 @@ msgid ""
 msgstr ""
 "<qt><b>Güvenilir olmayan anahtarlar ile şifrelemeye izin ver:</b> <br />\n"
 "<p>Genel anahtar alınırken, anahtar genellikle güvenilir olmayan olarak "
-"işaretlenir ve öntanımlı anahtar tarafından imzalanıp güvenilir hale "
+"işaretlenir ve varsayılan anahtar tarafından imzalanıp güvenilir hale "
 "getirilmedikçe kullanılamaz. Bu kutucuğu işaretlemek güvenilir olmasa bile "
 "herhangi bir anahtarın kullanılabilmesini sağlar.</p></qt>"
 
@@ -386,7 +386,7 @@ msgid ""
 "older versions of GnuPG used <em>options</em>.</p>"
 msgstr ""
 "<b>Yapılandırma Dosyası</b><p>Yukarıda belirtilen dizindeki yapılandırma "
-"dosyasının adıdır. Öntanımlı olarak <em>gnupg.conf</em> dosyasıdır ancak "
+"dosyasının adıdır. Varsayılan olarak <em>gnupg.conf</em> dosyasıdır ancak "
 "GnuPG’nin eski sürümlerinde <em>options</em> dosyası da kullanılmaktadır.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_5_2_2)
@@ -415,7 +415,7 @@ msgid ""
 "operations. The default of <em>gpg</em> will work on most systems.</p>"
 msgstr ""
 "<b>Program yolu</b><p>Tüm GnuPG işlemleri için çağrılacak programdır. Çoğu "
-"sistemde öntanımlı olarak <em>gpg</em> komutudur.</p>"
+"sistemde varsayılan olarak <em>gpg</em> komutudur.</p>"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6_2)
 #: conf_gpg.ui:117
@@ -700,7 +700,7 @@ msgid ""
 "all others will be stored for use by KGpg only."
 msgstr ""
 "<b>AÇIKLAMA</b>:\n"
-"Yalnızca öntanımlı sunucu GnuPG yapılandırma dosyasına kaydedilecektir,\n"
+"Yalnızca varsayılan sunucu GnuPG yapılandırma dosyasına kaydedilecektir,\n"
 "diğerleri KGpg kullanımı için saklanacaktır."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_UseProxy)
@@ -713,7 +713,7 @@ msgstr "Uygunsa HTTP vekili kullan"
 #: conf_servers.ui:49
 #, kde-format
 msgid "&Set as Default"
-msgstr "Ö&ntanımlı Olarak Ayarla"
+msgstr "&Varsayılan Olarak Ayarla"
 
 #. i18n: ectx: property (text), widget (QPushButton, server_add)
 #: conf_servers.ui:56
@@ -1806,7 +1806,7 @@ msgstr "Anahtar Sunucusu &Penceresi"
 #: keysmanager.cpp:140 selectpublickeydialog.cpp:154
 #, kde-format
 msgid "&Go to Default Key"
-msgstr "Öntanımlı Anahtara G&it"
+msgstr "Varsayılan Anahtara G&it"
 
 #: keysmanager.cpp:153
 #, kde-format
@@ -1876,7 +1876,7 @@ msgstr "&Grubu Yeniden Adlandır"
 #: keysmanager.cpp:222
 #, kde-format
 msgid "Set as De&fault Key"
-msgstr "Ö&ntanımlı Anahtar Olarak Ayarla"
+msgstr "&Varsayılan Anahtar Olarak Ayarla"
 
 #: keysmanager.cpp:225
 #, kde-format
@@ -3023,7 +3023,7 @@ msgstr ""
 #: kgpg.kcfg:136
 #, kde-format
 msgid "Choose default left-click behavior"
-msgstr "Öntanımlı sol tık davranışını seçin"
+msgstr "Varsayılan sol tık davranışını seçin"
 
 #. i18n: ectx: label, entry (EncryptedDropEvent), group (User Interface)
 #: kgpg.kcfg:143
@@ -3115,7 +3115,7 @@ msgstr "Yazı tipi"
 msgid ""
 "Key servers used by KGpg. The first server in the list is the default server."
 msgstr ""
-"KGpg tarafından kullanılan anahtar sunucusu. Listedeki ilk sunucu öntanımlı "
+"KGpg tarafından kullanılan anahtar sunucusu. Listedeki ilk sunucu varsayılan "
 "sunucudur."
 
 #. i18n: ectx: label, entry (InfoServers), group (Servers)
@@ -3126,7 +3126,7 @@ msgid ""
 "server in the list is the default server."
 msgstr ""
 "Belirtilen anahtarın analizini yapan ve ayrıntıları gösteren URL’lerin "
-"listesi. Listedeki ilk sunucu öntanımlı sunucudur."
+"listesi. Listedeki ilk sunucu varsayılan sunucudur."
 
 #. i18n: ectx: label, entry (UseProxy), group (Key Servers)
 #: kgpg.kcfg:252
@@ -3262,12 +3262,12 @@ msgstr "Yapılandırma Dosyası"
 #: kgpgfirstassistant.cpp:172
 #, kde-format
 msgid "Your default key:"
-msgstr "Öntanımlı Anahtarınız:"
+msgstr "Varsayılan Anahtarınız:"
 
 #: kgpgfirstassistant.cpp:191
 #, kde-format
 msgid "Default Key"
-msgstr "Öntanımlı Anahtar"
+msgstr "Varsayılan Anahtar"
 
 #: kgpgfirstassistant.cpp:212
 #, kde-format
@@ -3316,7 +3316,7 @@ msgstr "GnuPG sürümünüz: %1"
 #: kgpgfirstassistant.cpp:308
 #, kde-format
 msgid "Your default key is: %1"
-msgstr "Öntanımlı anahtarınız: %1"
+msgstr "Varsayılan anahtarınız: %1"
 
 #: kgpgfirstassistant.cpp:359
 #, kde-format
@@ -3842,7 +3842,7 @@ msgstr "KF5 geçişi"
 #, kde-format
 msgctxt "Mark default keyserver in GUI"
 msgid "%1 (Default)"
-msgstr "%1 (Öntanımlı)"
+msgstr "%1 (Varsayılan)"
 
 #: model/keylistproxymodel.cpp:176
 #, kde-format
@@ -3960,15 +3960,15 @@ msgid ""
 "<p>Checking this option sets the newly created key pair as the default key "
 "pair.</p></qt>"
 msgstr ""
-"<qt><b>Öntanımlı anahtarım yap:</b><br />\n"
-"<p>Bu seçenek işaretlenirse oluşturulan yeni anahtar çifti öntanımlı "
+"<qt><b>Varsayılan anahtarım yap:</b><br />\n"
+"<p>Bu seçenek işaretlenirse oluşturulan yeni anahtar çifti varsayılan "
 "olacaktır.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, CBdefault)
 #: newkey.ui:140
 #, kde-format
 msgid "Set as your default key"
-msgstr "Anahtarı öntanımlı olarak ayarla"
+msgstr "Anahtarı varsayılan olarak ayarla"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: newkey.ui:152

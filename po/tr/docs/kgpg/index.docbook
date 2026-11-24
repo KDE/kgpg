@@ -104,7 +104,7 @@
 <keyword
 >KDE</keyword>
 <keyword
->K GPG</keyword>
+>KGpg</keyword>
 <keyword
 >şifreleme</keyword>
 <keyword
@@ -470,7 +470,7 @@
 </screenshot>
 
 <para
->Bu örnekte iki anahtar, iki anahtar çifti ve üç genel anahtar içeren bir anahtar grubu görüyorsunuz. Üçüncü sütun anahtarlara olan güveninizi gösterir. İlk anahtar çiftine tamamen güveniliyor ve öntanımlı anahtar olarak ayarlanmış (koyu yazıtipi) ikincisinin süresi dolmuş. İki genel anahtara tamamen güveniliyor ve son anahtarın güveni uç düzeyde. Son anahtar genişletilmiş, ElGamal alt anahtarı görünüyor, ek bir kullanıcı kimliği, ikisine de uç noktalarda güven var, bazı imzaları da görünüyor.</para>
+>Bu örnekte iki anahtar, iki anahtar çifti ve üç genel anahtar içeren bir anahtar grubu görüyorsunuz. Üçüncü sütun anahtarlara olan güveninizi gösterir. İlk anahtar çiftine tamamen güveniliyor ve varsayılan anahtar olarak ayarlanmış (koyu yazı tipi) ikincisinin süresi dolmuş. İki genel anahtara tamamen güveniliyor ve son anahtarın güveni uç düzeyde. Son anahtar genişletilmiş, ElGamal alt anahtarı görünüyor, ek bir kullanıcı kimliği, ikisine de uç noktalarda güven var, bazı imzaları da görünüyor.</para>
 <para
 >İmzalar anahtar halkanız üzerinde dolaşmanızı sağlar. Bir grubun üyesi olarak görünen bir imzaya veya anahtara çift tıklamak ilişkili birincil anahtara atlayacaktır.</para>
 </sect2>
@@ -584,7 +584,7 @@
 <para
 >Bu iletişim kutusu, anahtar sunucularına erişim verir. Bir sunucuda anahtar araması yapıp anahtarları indirebileceğiniz gibi sunucuya dışa da aktarabilirsiniz. Arama ve içe aktrama örneğini yeni birine posta yazarken görebilirsiniz. Yazdığınız postayı iletişim kurduğunuz kişiye şifrelemek isterseniz anahtar sunucularında bir genel anahtarı olup olmadığını denetlersiniz. Yeni bir anahtar çifti oluşturduysanız veya başka birinin anahtarını imzaladıysanız genel anahtarı (büyük olasılıkla yeni imzalarla) anahtar sunucusuna dışa aktarabilirsiniz.</para>
 <para
->Çoğu anahtar sunucusu verisini birbiriyle eşler; böylece kullandığınız sunucudan bağımsız olarak benzer sonuçlar alırsınız. Bu kurala istisnalar olduğundan kullanılacak anahtar sunucusunu bu iletişim kutusundan seçebilirsiniz. Size yakın bir öntanımlı anahtar sunucusu seçmek genellikle iyi bir fikirdir (örneğin ülkenizde ya da kıtanızda); çünkü bunlar sorguları daha hızlı yanıtlar.</para>
+>Çoğu anahtar sunucusu verisini birbiriyle eşler; böylece kullandığınız sunucudan bağımsız olarak benzer sonuçlar alırsınız. Bu kurala istisnalar olduğundan kullanılacak anahtar sunucusunu bu iletişim kutusundan seçebilirsiniz. Size yakın bir varsayılan anahtar sunucusu seçmek genellikle iyi bir fikirdir (örneğin ülkenizde ya da kıtanızda); çünkü bunlar sorguları daha hızlı yanıtlar.</para>
 <para
 >Bir anahtar sunucusuna yüklediğiniz şeylerin genellikle hep orada kaldığını unutmayın. Bu da anahtarlarınız için bir yaşam süresi vermeniz için bir gerekçedir. Anahtar sunucularının bazen istenmeyen posta atanlar tarafından tarandığını da aklınızda bulundurun.</para>
 </sect2>
@@ -624,9 +624,9 @@
 ><guimenu
 >Ayarlar</guimenu
 ><guimenuitem
->K GPG Uygulamasını Yapılandır</guimenuitem
+>KGpg Uygulamasını Yapılandır</guimenuitem
 ></menuchoice
->) ögesinden ulaşılabilir. Şifreleme, şifre çözme, kullanıcı arayüzü ve uygulamacık için öntanımlı parametreler ayarlayabilirsiniz. Çoğu şifreleme seçeneği doğrudan gpg ile ilintilidir ve onun <ulink url="man:gpg"
+>) ögesinden ulaşılabilir. Şifreleme, şifre çözme, kullanıcı arayüzü ve uygulamacık için varsayılan parametreler ayarlayabilirsiniz. Çoğu şifreleme seçeneği doğrudan gpg ile ilintilidir ve onun <ulink url="man:gpg"
 >man sayfasında</ulink
 > belgelendirilmiştir.</para>
 
@@ -717,7 +717,7 @@
 >anahtar yöneticisinde</link
 > değişik anahtar güven düzeylerini gösteren renkler ve <link linkend="editor"
 >düzenleyici</link
-> için yazıtipi ayarlarıdır.</para>
+> için yazı tipi ayarlarıdır.</para>
 </sect2>
 
 <sect2 id="conf-gnupg">
@@ -730,7 +730,7 @@
 <para
 ><ulink url="man:gpg-agent"
 >GnuPG aracısı</ulink
-> ile çalışmak her eylem için parolanızı yazmanız gereksinimini kaldırdığından GnuPG ile çalışmayı daha rahat duruma getirir. Bir süre bellekte önbelleğe alınır böylece parola isteyen tüm işlemler anında yapılabilir. Bunun oturumunuzu açık bırakırsanız başkalarının özel anahtarlarınıza erişmesine sebep olabileceğini unutmayın.</para>
+> ile çalışmak her eylem için parolanızı yazmanız gereksinimini kaldırdığından GnuPG ile çalışmayı daha rahat duruma getirir. Bir süre bellekte ön belleğe alınır böylece parola isteyen tüm işlemler anında yapılabilir. Bunun oturumunuzu açık bırakırsanız başkalarının özel anahtarlarınıza erişmesine sebep olabileceğini unutmayın.</para>
 </sect2>
 
 <sect2 id="conf-keyservers">
@@ -739,7 +739,7 @@
 <para
 >Burada <link linkend="keyserver"
 >anahtar sunucusu iletişim kutusunu</link
-> açtığınızda size gösterilmesini istediğiniz anahtar sunucusu listesini oluşturabilirsiniz. GnuPG’yi komut satırından çalıştırırsanız burada öntanımlı olarak ayarladığınız anahtar sunucusu kullanılır.</para>
+> açtığınızda size gösterilmesini istediğiniz anahtar sunucusu listesini oluşturabilirsiniz. GnuPG’yi komut satırından çalıştırırsanız burada varsayılan olarak ayarladığınız anahtar sunucusu kullanılır.</para>
 <para
 >Anahtarlarla iletişimde kullanılan iletişim kuralı &HTTP; tabanlıdır, yani bazı ortamlarda <guilabel
 >&HTTP; vekiline uymak</guilabel
@@ -751,7 +751,7 @@
 >Çeşitli</title>
 <para
 >Bu kısım diğer kısımlara pek uymaya bazı değişik özelliklerin ayarlanmasını sağlar. Örneğin <guilabel
->girişte K GPG’nin kendiliğinden başlatılmasını</guilabel
+>girişte KGpg’nin kendiliğinden başlatılmasını</guilabel
 > yapılandırabilirsiniz. <guilabel
 >Pano yerine fare seçimini kullan</guilabel
 > seçeneği, seçimin fare ile yapılması ve orta fare düğmesi ile yapıştırma veya tüm işlemlerin klavye kısayollarıyla yapılmasını açar/kapatır.</para>
