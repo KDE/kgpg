@@ -9,6 +9,7 @@
 #include "core/KGpgKeyNode.h"
 #include "model/kgpgitemmodel.h"
 
+#include <QDebug>
 #include <QLocale>
 #include <QRegularExpression>
 
@@ -37,6 +38,7 @@ KGpgVerify::command() const
 bool
 KGpgVerify::nextLine(const QString &line)
 {
+	qWarning() << "KGpgVerify DEBUG line:" << line << "success before:" << getSuccess();
 	if (line.startsWith(QLatin1String("[GNUPG:] NO_PUBKEY "))) {
 		setSuccess(TS_MISSING_KEY);
 		m_missingId = line.mid(19).simplified();
@@ -57,6 +59,7 @@ KGpgVerify::nextLine(const QString &line)
 void
 KGpgVerify::finish()
 {
+	qWarning() << "KGpgVerify DEBUG finish: exitCode" << getProcess()->exitCode() << "success" << getSuccess();
 	// GnuPG will return error code 2 if it wasn't able to verify the file.
 	// If it complained about a missing signature before that is fine.
 	if (((getProcess()->exitCode() == 2) && (getSuccess() == TS_MISSING_KEY)) ||
