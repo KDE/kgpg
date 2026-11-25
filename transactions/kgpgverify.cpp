@@ -47,7 +47,8 @@ KGpgVerify::nextLine(const QString &line)
 			line.contains(QLatin1String("SIG"))) {
 		if (line.startsWith(QLatin1String("[GNUPG:] BADSIG")))
 			setSuccess(KGpgVerify::TS_BAD_SIGNATURE);
-		else
+		else if (getSuccess() != TS_BAD_SIGNATURE)
+			// some GnuPG versions send more SIG* lines (e.g. SIGINFO) after BADSIG
 			setSuccess(KGpgTransaction::TS_OK);
 	}
 
